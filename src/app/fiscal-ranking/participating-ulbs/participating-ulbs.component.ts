@@ -42,9 +42,9 @@ export class ParticipatingUlbsComponent implements OnInit {
   populationCategoryFilter: FrFilter[] = [];
   ulbParticipationFilter: FrFilter[]= [];
   ulbRankingStatusFilter: FrFilter[]= [];
-  populationCategory: string;
-  ulbParticipation: string;
-  ulbRankingStatus: string;
+  populationCategory: string = 'ALL';
+  ulbParticipation: string = 'ALL';
+  ulbRankingStatus: string = 'ALL';
   stateList = [];
   routerSubs: any;
   selectedStateId: string = '';
@@ -180,15 +180,15 @@ export class ParticipatingUlbsComponent implements OnInit {
   ngOnInit(): void {
     this.getFilters();
   }
-  populationCategoryChange(e) {
-
+  dropDownValueChanges(e) {
+    this.getTableData();
   }
-  ulbParticipationChange(e) {
-
-  }
-  ulbRankingStatusFilterChange(e) {
-
-  }
+  // ulbParticipationChange(e) {
+  //   this.getTableData();
+  // }
+  // ulbRankingStatusFilterChange(e) {
+  //   this.getTableData();
+  // }
 
   // get the state Id from routes
   checkRouterForApi() {
@@ -214,9 +214,9 @@ export class ParticipatingUlbsComponent implements OnInit {
     });
   }
   resetFilter() {
-    this.populationCategory = 'all';
-    this.ulbParticipation = 'all';
-    this.ulbRankingStatus = 'all';
+    this.populationCategory = this.populationCategoryFilter[0].value;
+    this.ulbParticipation = this.ulbParticipationFilter[0].value;
+    this.ulbRankingStatus = this.ulbRankingStatusFilter[0].value;
     this.getTableData();
   }
   ngOnDestroy() {
@@ -233,8 +233,8 @@ export class ParticipatingUlbsComponent implements OnInit {
 
     }
     this.fiscalRankingService.callGetMethod(`scoring-fr/ulbs/${this.selectedStateId}`, filterObj).subscribe((res: any) => {
-      //  console.log('participated-state table responces', res);
-      // this.table["response"] = res?.data;
+       console.log('participated-state table responces', res);
+      this.table["response"] = res?.data;
     },
       (error) => {
         console.log('participated-state table error', error);

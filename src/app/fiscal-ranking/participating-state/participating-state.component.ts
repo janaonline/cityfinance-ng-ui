@@ -98,9 +98,9 @@ export class ParticipatingStateComponent implements OnInit {
       value: 'nonRanked'
     },
   ];
-  stateType: string = 'all';
-  ulbParticipation: string = 'all';
-  ulbRankingStatus: string = 'all';
+  stateType: string = 'All';
+  ulbParticipation: string = 'All';
+  ulbRankingStatus: string = 'All';
   table = {
     response: {
       // "status": true,
@@ -254,16 +254,16 @@ export class ParticipatingStateComponent implements OnInit {
     //  this.getStateWiseForm();
     this.getTableData();
   }
-  stateTypeChange(e) {
+  dropDownValueChanges(e) {
     this.getTableData();
   }
-  ulbParticipationChange(e) {
-    this.getTableData();
+  // ulbParticipationChange(e) {
+  //   this.getTableData();
 
-  }
-  ulbRankingStatusFilterChange(e) {
-    this.getTableData();
-  }
+  // }
+  // ulbRankingStatusFilterChange(e) {
+  //   this.getTableData();
+  // }
   getTableData() {
     this.colorCoding = [];
     //  https://staging.cityfinance.in/api/v1/scoring-fr/participated-state?stateType=all&ulbParticipationFilter=all&ulbRankingStatusFilter=nonRanked
@@ -288,10 +288,11 @@ export class ParticipatingStateComponent implements OnInit {
   //     this.colorCoding = res?.data.heatMaps;
   //   });
   // }
+  // reset all filter
   resetFilter() {
-    this.stateType = 'all';
-    this.ulbParticipation = 'all';
-    this.ulbRankingStatus = 'all';
+    this.stateType = this.stateTypeFilter[0].value;
+    this.ulbParticipation = this.ulbParticipationFilter[0].value;
+    this.ulbRankingStatus = this.ulbRankingStatusFilter[0].value;
     this.getTableData();
   }
 
