@@ -37,7 +37,7 @@
                                     State type
                                 </div>
                                 <div class="filer">
-                                    <select class="form-select" aria-label="stateType" [(ngModel)]="stateType" (change)="stateTypeChange($event.target.value)">
+                                    <select class="form-select" aria-label="stateType" [(ngModel)]="stateType" (change)="dropDownValueChanges($event.target.value)">
                                         <option value="{{item?.value}}" selected *ngFor="let item of stateTypeFilter">{{item?.label}}</option>
                                     </select>  
                                 </div>
@@ -48,7 +48,7 @@
                                     ULB Participation
                                 </div>
                                 <div class="filer">
-                                    <select class="form-select" aria-label="ulbParticipation" [(ngModel)]="ulbParticipation" (change)="ulbParticipationChange($event.target.value)">
+                                    <select class="form-select" aria-label="ulbParticipation" [(ngModel)]="ulbParticipation" (change)="dropDownValueChanges($event.target.value)">
                                         <option value="{{item?.value}}" selected *ngFor="let item of ulbParticipationFilter">{{item?.label}}</option>
                                       </select>  
                                 </div>
@@ -60,7 +60,7 @@
                                     ULB Ranking Status
                                 </div>
                                 <div class="filer">
-                                    <select class="form-select" aria-label="ulbRankingStatusFilter" [(ngModel)]="ulbRankingStatus" (change)="ulbRankingStatusFilterChange($event.target.value)">
+                                    <select class="form-select" aria-label="ulbRankingStatusFilter" [(ngModel)]="ulbRankingStatus" (change)="dropDownValueChanges($event.target.value)">
                                         <option value="{{item?.value}}" selected *ngFor="let item of ulbRankingStatusFilter">{{item?.label}}</option>
                                       </select>  
                                 </div>
