@@ -101,8 +101,9 @@ export class ParticipatingStateComponent implements OnInit {
   stateType: string = 'All';
   ulbParticipation: string = 'All';
   ulbRankingStatus: string = 'All';
-  table = {
-    response: {
+  table:object | any = { response: null };
+  // table = {
+  //   response: {
       // "status": true,
       // "message": "Successfully saved data!",
       // "columns": [
@@ -238,8 +239,8 @@ export class ParticipatingStateComponent implements OnInit {
       //   "$sum",
       //   "$sum",
       // ],
-    }
-  };
+  //   }
+  // };
   colorCoding;
 
   colorDetails: ColorDetails[] = [

@@ -51,132 +51,133 @@ export class ParticipatingUlbsComponent implements OnInit {
   selectedStateName: string = '';
   allowedExtensions: string[] = ['pdf', 'excel'];
   targetExtension:string = 'pdf';
-  table = {
-    response: {
-      "status": true,
-      "message": "Successfully saved data!",
-      "columns": [
-        {
-          "label": "S.No",
-          "key": "sNo",
-          "class": "th-common-cls",
-          "width": "2"
-        },
-        {
-          "label": "ULB Name",
-          "key": "ulbName",
-          "sort": 1,
-          "sortable": true,
-          "class": "th-color-cls",
+  table:object | any = { response: null };
+  // table = {
+  //   response: {
+  //     "status": true,
+  //     "message": "Successfully saved data!",
+  //     "columns": [
+  //       {
+  //         "label": "S.No",
+  //         "key": "sNo",
+  //         "class": "th-common-cls",
+  //         "width": "2"
+  //       },
+  //       {
+  //         "label": "ULB Name",
+  //         "key": "ulbName",
+  //         "sort": 1,
+  //         "sortable": true,
+  //         "class": "th-color-cls",
 
-        },
-        {
-          "label": "Population Category",
-          "key": "populationCategory",
-          "sortable": true,
-          "sort": 1,
-          "class": "th-common-cls",
+  //       },
+  //       {
+  //         "label": "Population Category",
+  //         "key": "populationCategory",
+  //         "sortable": true,
+  //         "sort": 1,
+  //         "class": "th-common-cls",
 
-        },
-        {
-          "label": "ULB Participated",
-          "key": "participatedULBs",
-          "sortable": true,
-          "sort": 1,
-          "class": "th-common-cls",
+  //       },
+  //       {
+  //         "label": "ULB Participated",
+  //         "key": "participatedULBs",
+  //         "sortable": true,
+  //         "sort": 1,
+  //         "class": "th-common-cls",
 
-        },
-        {
-          "label": "CFR Ranked",
-          "key": "rankedULBs",
-          "sortable": true,
-          "sort": 1,
-          "class": "th-common-cls",
+  //       },
+  //       {
+  //         "label": "CFR Ranked",
+  //         "key": "rankedULBs",
+  //         "sortable": true,
+  //         "sort": 1,
+  //         "class": "th-common-cls",
 
-        },
-        {
-          "label": "Annual Financial Statement Available",
-          "key": "auditedAccounts1819",
-          "colspan": 4,
-          "class": "th-common-cls",
-        },
-        {
-          "label": "",
-          "key": "auditedAccounts1920",
-          "hidden": true
-        },
-        {
-          "label": "",
-          "key": "auditedAccounts2021",
-          "hidden": true
-        },
-        {
-          "label": "",
-          "key": "auditedAccounts2122",
-          "hidden": true
-        },
-        {
-          "label": "Annual Budget Available",
-          "key": "annualBudget2021",
-          "colspan": 4,
-          "class": "th-common-cls",
+  //       },
+  //       {
+  //         "label": "Annual Financial Statement Available",
+  //         "key": "auditedAccounts1819",
+  //         "colspan": 4,
+  //         "class": "th-common-cls",
+  //       },
+  //       {
+  //         "label": "",
+  //         "key": "auditedAccounts1920",
+  //         "hidden": true
+  //       },
+  //       {
+  //         "label": "",
+  //         "key": "auditedAccounts2021",
+  //         "hidden": true
+  //       },
+  //       {
+  //         "label": "",
+  //         "key": "auditedAccounts2122",
+  //         "hidden": true
+  //       },
+  //       {
+  //         "label": "Annual Budget Available",
+  //         "key": "annualBudget2021",
+  //         "colspan": 4,
+  //         "class": "th-common-cls",
 
-        },
-        {
-          "label": "",
-          "key": "annualBudget2122",
-          "hidden": true
-        },
-        {
-          "label": "",
-          "key": "annualBudget2223",
-          "hidden": true
-        },
-        {
-          "label": "",
-          "key": "annualBudget2324",
-          "hidden": true
-        },
+  //       },
+  //       {
+  //         "label": "",
+  //         "key": "annualBudget2122",
+  //         "hidden": true
+  //       },
+  //       {
+  //         "label": "",
+  //         "key": "annualBudget2223",
+  //         "hidden": true
+  //       },
+  //       {
+  //         "label": "",
+  //         "key": "annualBudget2324",
+  //         "hidden": true
+  //       },
 
-      ],
-      "subHeaders": [
-        "",
-        "",
-        "",
-        "",
-        "",
-        "2018-19",
-        "2019-20",
-        "2020-21",
-        "2021-22",
-        "2020-21",
-        "2021-22",
-        "2022-23",
-        "2023-24"
-      ],
-      "name": "",
-      "data": [
-        {
-          "_id": "5dcf9d7216a06aed41c748dc",
-          'sNo': 1,
-          "stateName": "Andaman and Nicobar Islands",
-          "ulbName": 'Abcd',
-          "populationCategory": '4M',
-          "participatedULBs": 23,
-          "rankedULBs": 56,
-          "annualBudget2021": 'werwr.pdf',
-          "annualBudget2122": 'efeqrg.pdf',
-          "annualBudget2223": 'vrftgwr.pdf',
-          "annualBudget2324": '',
-          "auditedAccounts1819": '',
-          "auditedAccounts1920": 'gegwe.pdf',
-          "auditedAccounts2021": '',
-          "auditedAccounts2122": 'vwegwer.pdf',
+  //     ],
+  //     "subHeaders": [
+  //       "",
+  //       "",
+  //       "",
+  //       "",
+  //       "",
+  //       "2018-19",
+  //       "2019-20",
+  //       "2020-21",
+  //       "2021-22",
+  //       "2020-21",
+  //       "2021-22",
+  //       "2022-23",
+  //       "2023-24"
+  //     ],
+  //     "name": "",
+  //     "data": [
+  //       {
+  //         "_id": "5dcf9d7216a06aed41c748dc",
+  //         'sNo': 1,
+  //         "stateName": "Andaman and Nicobar Islands",
+  //         "ulbName": 'Abcd',
+  //         "populationCategory": '4M',
+  //         "participatedULBs": 23,
+  //         "rankedULBs": 56,
+  //         "annualBudget2021": 'werwr.pdf',
+  //         "annualBudget2122": 'efeqrg.pdf',
+  //         "annualBudget2223": 'vrftgwr.pdf',
+  //         "annualBudget2324": '',
+  //         "auditedAccounts1819": '',
+  //         "auditedAccounts1920": 'gegwe.pdf',
+  //         "auditedAccounts2021": '',
+  //         "auditedAccounts2122": 'vwegwer.pdf',
 
-        },
-      ]
-    }
-  }
+  //       },
+  //     ]
+  //   }
+  // }
   ngOnInit(): void {
     this.getFilters();
   }
