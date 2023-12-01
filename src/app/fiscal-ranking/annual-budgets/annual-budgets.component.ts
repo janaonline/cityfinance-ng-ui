@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BreadcrumbLink } from '../breadcrumb/breadcrumb.component';
-import { FiscalRankingService } from '../fiscal-ranking.service';
+import { FiscalRankingService, Table } from '../fiscal-ranking.service';
 
 @Component({
   selector: 'app-annual-budgets',
@@ -21,20 +21,27 @@ export class AnnualBudgetsComponent implements OnInit {
     }
   ];
 
-  table = { response: null };
+
+  table: Table = {
+    endpoint: 'scoring-fr/states/annualBudgets',
+    response: null,
+  };
 
   constructor(
     private fiscalRankingService: FiscalRankingService
   ) { }
 
   ngOnInit(): void {
-    this.loadData();
+    this.loadData(this.table);
   }
 
-  loadData() {
-    this.fiscalRankingService.annualBudgets().subscribe((res: any) => {
+  onUpdate(table, event) {
+    this.loadData(table, event?.queryParams);
+  }
+
+  loadData(table: Table, queryParams: string = '') {
+    this.fiscalRankingService.getTableResponse(table.endpoint, queryParams, table?.response?.columns, 'data').subscribe(res => {
       this.table.response = res.data;
     })
   }
-
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BreadcrumbLink } from 'src/app/fiscal-ranking/breadcrumb/breadcrumb.component';
-import { FrFilter, Filter, FiscalRankingService } from 'src/app/fiscal-ranking/fiscal-ranking.service';
+import { FrFilter, Filter, FiscalRankingService, Table } from 'src/app/fiscal-ranking/fiscal-ranking.service';
 import { NavigationEnd, Router } from '@angular/router';
 
 import { SweetAlert } from "sweetalert/typings/core";
@@ -51,7 +51,7 @@ export class ParticipatingUlbsComponent implements OnInit {
   selectedStateName: string = '';
   allowedExtensions: string[] = ['pdf', 'excel'];
   targetExtension:string = 'pdf';
-  table:object | any = { response: null };
+  table: Table = { response: null };
   // table = {
   //   response: {
   //     "status": true,
@@ -182,7 +182,7 @@ export class ParticipatingUlbsComponent implements OnInit {
     this.getFilters();
   }
   dropDownValueChanges(e) {
-    this.getTableData();
+    this.getTableData(this.table, '');
   }
   // ulbParticipationChange(e) {
   //   this.getTableData();
@@ -210,7 +210,7 @@ export class ParticipatingUlbsComponent implements OnInit {
       const selectedState = this.stateList.find(({ _id }) => _id === this.selectedStateId);
       console.log('selectedState', selectedState);
       this.selectedStateName = selectedState?.name;
-      this.getTableData();
+      this.getTableData(this.table, '');
 
     });
   }
@@ -218,24 +218,23 @@ export class ParticipatingUlbsComponent implements OnInit {
     this.populationCategory = this.populationCategoryFilter[0]?.value;
     this.ulbParticipation = this.ulbParticipationFilter[0]?.value;
     this.ulbRankingStatus = this.ulbRankingStatusFilter[0]?.value;
-    this.getTableData();
+    this.getTableData(this.table, '');
   }
   ngOnDestroy() {
     this.routerSubs.unsubscribe();
   };
 
   // get the ulbs data 
-  getTableData() {
-    // https://staging.cityfinance.in/api/v1/scoring-fr/ulbs/5dcf9d7316a06aed41c748e7
+  getTableData(table: Table, queryParams: string = '') {
     const filterObj = {
       populationCategory: this.populationCategory,
       ulbParticipationFilter: this.ulbParticipation,
-      ulbRankingStatusFilter: this.ulbRankingStatus
-
+      ulbRankingStatusFilter: this.ulbRankingStatus,
     }
-    this.fiscalRankingService.callGetMethod(`scoring-fr/ulbs/${this.selectedStateId}`, filterObj).subscribe((res: any) => {
+    
+    this.fiscalRankingService.callGetMethod(`scoring-fr/ulbs/${this.selectedStateId}?${queryParams}`, filterObj).subscribe((res: any) => {
        console.log('participated-state table responces', res);
-      this.table["response"] = res?.data;
+       this.table["response"] = res?.data;
     },
       (error) => {
         console.log('participated-state table error', error);
@@ -244,7 +243,6 @@ export class ParticipatingUlbsComponent implements OnInit {
   }
 
   // for all filters
-
   getFilters() {
     this.fiscalRankingService.callGetMethod('scoring-fr/filters', null).subscribe((res: any) => {
       console.log('scoring-fr/participated-state-filter', res);
@@ -258,5 +256,9 @@ export class ParticipatingUlbsComponent implements OnInit {
         swal('Error', error?.message ?? 'Something went wrong', 'error');
       }
     )
+  }
+
+  onUpdate(table:Table,  event) {
+   this.getTableData(table, event?.queryParams);
   }
 }

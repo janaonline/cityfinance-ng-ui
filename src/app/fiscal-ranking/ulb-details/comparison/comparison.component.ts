@@ -105,8 +105,7 @@ export class ComparisonComponent implements OnInit, OnChanges {
 
   openFilter() {
     this.matDialog.open(ComparisionFiltersComponent, {
-      minWidth: '400px',
-      maxWidth: '500px',
+      width: '500px',
       data: {
         ulbs: this.ulbs,
         datasetsFilter: this.datasetsFilter
