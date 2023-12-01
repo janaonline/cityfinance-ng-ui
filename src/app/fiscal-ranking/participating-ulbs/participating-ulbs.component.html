@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid bg-img">
     <div class="row mb-3">
         <div class="col-sm-12">
             <app-breadcrumb [links]="breadcrumbLinks"></app-breadcrumb>
@@ -76,7 +76,8 @@
         <div class="col-12">
             <!-- <div class="card table-card mt-4 mx-auto" style="">
                 <div class="card-body"> -->
-                    <app-common-table theme="white" [response]="table?.response" [classLists]="'scroll'" [allowedExtensions]="allowedExtensions" [targetExtension]="targetExtension">
+                    <app-common-table theme="white" [response]="table?.response" [classLists]="'scroll'" [allowedExtensions]="allowedExtensions" 
+                    [targetExtension]="targetExtension" (update)="onUpdate(table, $event)" *ngIf="table?.response">
                     </app-common-table>
             <!-- </div>
         </div> -->

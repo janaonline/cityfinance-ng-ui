@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BreadcrumbLink } from 'src/app/fiscal-ranking/breadcrumb/breadcrumb.component';
 import { ColorDetails } from 'src/app/fiscal-ranking/india-map/india-map.component';
-import { FrFilter, Filter, FiscalRankingService } from 'src/app/fiscal-ranking/fiscal-ranking.service';
+import { FrFilter, Filter, FiscalRankingService, Table } from 'src/app/fiscal-ranking/fiscal-ranking.service';
 import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
 
@@ -102,6 +102,7 @@ export class ParticipatingStateComponent implements OnInit {
   ulbParticipation: string = 'All';
   ulbRankingStatus: string = 'All';
   table:object | any = { response: null };
+  isApiInProgress:boolean = true;
   // table = {
   //   response: {
       // "status": true,
@@ -253,10 +254,10 @@ export class ParticipatingStateComponent implements OnInit {
 
   ngOnInit(): void {
     //  this.getStateWiseForm();
-    this.getTableData();
+    this.getTableData(this.table, '');
   }
   dropDownValueChanges(e) {
-    this.getTableData();
+    this.getTableData(this.table, '');
   }
   // ulbParticipationChange(e) {
   //   this.getTableData();
@@ -265,8 +266,9 @@ export class ParticipatingStateComponent implements OnInit {
   // ulbRankingStatusFilterChange(e) {
   //   this.getTableData();
   // }
-  getTableData() {
+  getTableData(table:Table, queryParams:string) {
     this.colorCoding = [];
+    this.isApiInProgress = true;
     //  https://staging.cityfinance.in/api/v1/scoring-fr/participated-state?stateType=all&ulbParticipationFilter=all&ulbRankingStatusFilter=nonRanked
     const filterObj = {
       stateType: this.stateType,
@@ -274,13 +276,15 @@ export class ParticipatingStateComponent implements OnInit {
       ulbRankingStatusFilter: this.ulbRankingStatus
 
     }
-    this.fiscalRankingService.callGetMethod('scoring-fr/participated-state', filterObj).subscribe((res: any) => {
+    this.fiscalRankingService.callGetMethod(`scoring-fr/participated-state?${queryParams}`, filterObj).subscribe((res: any) => {
       console.log('participated-state table responces', res);
       this.table["response"] = res?.data?.tableData;
       this.colorCoding = res?.data?.mapData;
+      this.isApiInProgress = false;
     },
       (error) => {
         console.log('participated-state table error', error);
+        this.isApiInProgress = false;
       }
     )
   }
@@ -294,7 +298,7 @@ export class ParticipatingStateComponent implements OnInit {
     this.stateType = this.stateTypeFilter[0]?.value;
     this.ulbParticipation = this.ulbParticipationFilter[0]?.value;
     this.ulbRankingStatus = this.ulbRankingStatusFilter[0]?.value;
-    this.getTableData();
+    this.getTableData(this.table, '');
   }
 
   // for all filters
@@ -313,4 +317,8 @@ export class ParticipatingStateComponent implements OnInit {
       }
     )
   }
+
+  onUpdate(table:Table,  event) {
+    this.getTableData(table, event?.queryParams);
+   }
 }
