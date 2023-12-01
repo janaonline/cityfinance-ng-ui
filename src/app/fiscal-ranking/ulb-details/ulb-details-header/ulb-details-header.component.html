@@ -1,25 +1,25 @@
-<section class="container py-4">
+<section class="container py-5">
     <div class="row">
         <div class="col-5">
-            <h2 class="my-3">{{ ulb?.name }} (#{{ data?.populationBucketUlbCount }})</h2>
+            <h2 class="my-3 fw-bold">{{ ulb?.name }} (#{{ data?.populationBucketUlbCount }})</h2>
             <p>Exploring Financial Governance Excellence, Assessment Scores, and Population Category Comparisons.</p>
 
             <app-india-map [colorCoding]="colorCoding" [colorDetails]="colorDetails" [markers]="markers">
             </app-india-map>
         </div>
-        <div class="col-7 right-section">
+        <div class="col-6 offset-1 right-section">
             <div class="row">
                 <div class="col-6">
-                    <h2 class="my-3">{{ ulb?.population }}</h2>
+                    <h2 class="my-3 fw-bold">{{ ulb?.population }}</h2>
                     <p>Population (2011 Census)</p>
                 </div>
                 <div class="col-6">
-                    <h2 class="my-3">{{ populationCategory?.name }}</h2>
+                    <h2 class="my-3 fw-bold">{{ populationCategory?.name }}</h2>
                     <p>Population Category</p>
                 </div>
             </div>
 
-            <div class="card p-4 mt-3">
+            <div class="card p-4 mt-3 me-5">
                 <ng-container *ngFor="let category of categories">
                     <p><strong>{{ category.title }} :</strong></p>
                     <ol>

@@ -51,27 +51,27 @@ export class UlbDetailsHeaderComponent implements OnInit {
     }];
   };
 
-  get categories(): Category[] {
+  get categories(): Category[] { 
     return [
       {
         title: 'Service Handling',
         services: [
-          { name: 'Water Supply Services', key: 'waterSupply' },
-          { name: 'Sanitation Service Delivery', key: 'sanitationService' }
+          { name: '1. Water Supply Services', key: 'waterSupply' },
+          { name: '2. Sanitation Service Delivery', key: 'sanitationService' }
         ]
       },
       {
         title: 'Property Tax Details',
         services: [
-          { name: 'Property Tax Includes Water Tax', key: 'propertyWaterTax' },
-          { name: 'Property Tax Includes Sanitation/Sewerage Tax', key: 'sanitationService' },
-          { name: 'Property Tax Register GIS-based', key: 'registerGis' }
+          { name: '3. Property Tax Includes Water Tax', key: 'propertyWaterTax' },
+          { name: '4. Property Tax Includes Sanitation/Sewerage Tax', key: 'sanitationService' },
+          { name: '5. Property Tax Register GIS-based', key: 'registerGis' }
         ]
       },
       {
         title: 'Technology Usage',
         services: [
-          { name: 'Accounting Software Used', key: 'accountStwre' }
+          { name: '6. Accounting Software Used', key: 'accountStwre' }
         ]
       }
     ].map(section => ({

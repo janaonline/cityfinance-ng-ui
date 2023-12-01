@@ -1355,7 +1355,8 @@ input[type=number] {
     color: #fff;
     font-weight: bold;
     transition: background 0.3s ease, color 0.3s ease;
-    box-shadow: 0px 2px 20px #00000040;
+    box-shadow: 1px 11px 28px 2px #e67e1561;
+
     
     &.btn-outline {
         background: #fff;
@@ -1363,6 +1364,13 @@ input[type=number] {
         color: $orange;
         transition: background 0.3s ease, color 0.3s ease, border 0.3s ease;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    &.btn-text {
+        color: $orange;
+        background-color: inherit;
+        transition: background 0.3s ease, color 0.3s ease, border 0.3s ease;
+        box-shadow: none;
     }
 
     &:hover {
