@@ -258,9 +258,7 @@ export class ParticipatingUlbsComponent implements OnInit {
     )
   }
 
-  onUpdate(table,  event) {
-    console.log('table......', table);
-    console.log('123 event', event);
+  onUpdate(table:Table,  event) {
    this.getTableData(table, event?.queryParams);
   }
 }
