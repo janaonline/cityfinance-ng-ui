@@ -40,7 +40,7 @@ export class AnnualBudgetsComponent implements OnInit {
   }
 
   loadData(table: Table, queryParams: string = '') {
-    this.fiscalRankingService.getTableResponse(table.endpoint, queryParams, table?.response?.columns, 'data').subscribe(res => {
+    this.fiscalRankingService.getTableResponse(table.endpoint, queryParams, table?.response?.columns, 'data', {}).subscribe(res => {
       this.table.response = res.data;
     })
   }

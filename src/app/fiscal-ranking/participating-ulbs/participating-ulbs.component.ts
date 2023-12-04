@@ -51,7 +51,10 @@ export class ParticipatingUlbsComponent implements OnInit {
   selectedStateName: string = '';
   allowedExtensions: string[] = ['pdf', 'excel'];
   targetExtension:string = 'pdf';
-  table: Table = { response: null };
+  table: Table = {
+      endpoint: 'scoring-fr/ulbs',
+      response: null
+     };
   // table = {
   //   response: {
   //     "status": true,
@@ -231,15 +234,27 @@ export class ParticipatingUlbsComponent implements OnInit {
       ulbParticipationFilter: this.ulbParticipation,
       ulbRankingStatusFilter: this.ulbRankingStatus,
     }
-    
-    this.fiscalRankingService.callGetMethod(`scoring-fr/ulbs/${this.selectedStateId}?${queryParams}`, filterObj).subscribe((res: any) => {
-       console.log('participated-state table responces', res);
-       this.table["response"] = res?.data;
-    },
-      (error) => {
-        console.log('participated-state table error', error);
-      }
-    )
+
+    const endpoint = `${this.table.endpoint}/${this.selectedStateId}`;
+
+    this.fiscalRankingService.getTableResponse(endpoint, queryParams, table?.response?.columns, 'data', filterObj).subscribe((res: any) => {
+      console.log('participated-state table responces', res);
+      this.table["response"] = res?.data;
+   },
+     (error) => {
+       console.log('participated-state table error', error);
+     }
+   );
+
+
+    // this.fiscalRankingService.callGetMethod(`scoring-fr/ulbs/${this.selectedStateId}?${queryParams}`, filterObj).subscribe((res: any) => {
+    //    console.log('participated-state table responces', res);
+    //    this.table["response"] = res?.data;
+    // },
+    //   (error) => {
+    //     console.log('participated-state table error', error);
+    //   }
+    // )
   }
 
   // for all filters
