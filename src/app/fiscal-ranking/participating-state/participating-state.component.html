@@ -19,11 +19,11 @@
     <section style="">
         <div class="row">
             <div class="col-6 my-0" style="height: 35rem;">
-                <ng-template *ngIf="isApiInProgress; else map">
+                <ng-container *ngIf="isApiInProgress; else map">
                     <div class="loader">
                         <app-pre-loader-new></app-pre-loader-new>
                     </div>
-                </ng-template>
+                </ng-container>
                 <ng-template class="map-con" #map>
                     <app-india-map [colorCoding]="colorCoding" label="% of Participation" [colorDetails]="colorDetails" ></app-india-map>
                 </ng-template>
