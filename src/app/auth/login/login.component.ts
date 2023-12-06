@@ -122,7 +122,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       body["email"] = body["email"].trim();
       this.loginForm.disable();
       this.authService.signin(body).subscribe(
-        (res) => this.onSuccessfullLogin(res, body?.email),
+        (res) => this.onSuccessfullLogin(res),
         (error) => {
           this.onLoginError(error);
         }
@@ -132,10 +132,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
-  private onSuccessfullLogin(res, user_id) {
+  private onSuccessfullLogin(res) {
     const gData = { 
       user_role: res?.user?.role,
-      user_id, 
+      user_id: res?.user?._id, 
       ...res?.user 
     };
     this.gaService.set(gData);
@@ -279,7 +279,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     const body = { ...this.loginForm.value };
     this.otpCreads.otp = body["otp"];
     this.authService.otpVerify(this.otpCreads).subscribe(
-      (res) => this.onSuccessfullLogin(res, body?.email),
+      (res) => this.onSuccessfullLogin(res),
       (error) => this.onLoginError(error)
     );
   }

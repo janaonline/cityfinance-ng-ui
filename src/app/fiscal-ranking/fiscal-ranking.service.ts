@@ -170,8 +170,8 @@ export class FiscalRankingService {
     return url;
   }
 
-  getTableResponse(endpoint: string, queryParams: string, columns, tablePath: string = '') {
-    return this.http.get(`${environment.api.url}/${endpoint}?${queryParams}`).pipe(tableMapperPipe(columns, tablePath));
+  getTableResponse(endpoint: string, queryParams: string, columns, tablePath: string = '', params = {}) {
+    return this.http.get(`${environment.api.url}/${endpoint}?${queryParams}`,  { params }).pipe(tableMapperPipe(columns, tablePath));
   }
 
 

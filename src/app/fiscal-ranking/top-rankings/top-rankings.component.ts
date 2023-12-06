@@ -27,19 +27,19 @@ export class TopRankingsComponent implements OnInit {
   markers: Marker[] = [];
   types = [
     {
-      key: 'overAll',
+      key: 'overAllRank',
       label: 'All',
     },
     {
-      key: 'resourceMobilization',
+      key: 'resourceMobilizationRank',
       label: 'Resource Mobilization'
     },
     {
-      key: 'expenditurePerformance',
+      key: 'expenditurePerformanceRank',
       label: 'Expenditure Performance'
     },
     {
-      key: 'fiscalGovernance',
+      key: 'fiscalGovernanceRank',
       label: 'Fiscal Governance'
     },
   ]
@@ -86,11 +86,15 @@ export class TopRankingsComponent implements OnInit {
       populationBucket: '',
       stateData: [''],
       state: '',
-      category: 'overAll',
+      category: 'overAllRank',
     });
 
     this.filter.get('stateData')?.valueChanges.subscribe(value => {
+      this.table.response = null;
       this.filter.patchValue({ state: value?.[0]?._id || '' }, { emitEvent: false });
+    });
+    this.filter.get('category')?.valueChanges.subscribe(() => {
+      this.table.response = null;
     });
     this.filter.valueChanges.subscribe(() => this.loadData());
   }

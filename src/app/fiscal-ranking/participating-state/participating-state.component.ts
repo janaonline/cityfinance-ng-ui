@@ -276,7 +276,8 @@ export class ParticipatingStateComponent implements OnInit {
       ulbRankingStatusFilter: this.ulbRankingStatus
 
     }
-    this.fiscalRankingService.callGetMethod(`scoring-fr/participated-state?${queryParams}`, filterObj).subscribe((res: any) => {
+    const endpoint = `scoring-fr/participated-state`;
+    this.fiscalRankingService.getTableResponse(endpoint, queryParams, table?.response?.columns, 'data.tableData', filterObj).subscribe((res: any) => {
       console.log('participated-state table responces', res);
       this.table["response"] = res?.data?.tableData;
       this.colorCoding = res?.data?.mapData;
