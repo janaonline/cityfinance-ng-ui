@@ -370,7 +370,7 @@
         <div class="card-body" style="padding: 1%; margin-left: 0;">
             <!-- <p><b>State Review Status :</b> {{anFormStaus | titlecase}}</p> -->
             <p><b style="padding-right: 25px;">State Review Status :</b>
-                <label class="btn btn-success" [ngClass]="{'btn-a' : (anFormStaus == 'APPROVED'),
+                <label class="btn btn-success btn-label" [ngClass]="{'btn-a' : (anFormStaus == 'APPROVED'),
             'btn-r' : (anFormStaus == 'REJECTED'), 'btn-p' : (anFormStaus == 'PENDING' || anFormStaus == 'N/A'  )}">
                     {{anFormStaus | titlecase}}</label>
             </p>
@@ -379,7 +379,7 @@
 
             <p *ngIf="ulbFormStatusMoHUA && (finalSubmitUtiStatus == 'true')">
                 <b style="padding-right: 10px;"> MoHUA Review Status :</b>
-                <label class="btn btn-success" [ngClass]="{'btn-a' : (ulbFormStatusMoHUA == 'APPROVED'),
+                <label class="btn btn-success btn-label" [ngClass]="{'btn-a' : (ulbFormStatusMoHUA == 'APPROVED'),
                    'btn-r' : (ulbFormStatusMoHUA == 'REJECTED'), 'btn-p' : (ulbFormStatusMoHUA == 'PENDING' || ulbFormStatusMoHUA == 'N/A')}">
                     {{ulbFormStatusMoHUA | titlecase}}</label>
             </p>

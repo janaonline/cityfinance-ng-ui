@@ -56,7 +56,7 @@
               (form.controls[service.key].controls['baseline']?.touched &&
                ( form.controls[service.key].controls['baseline'].status == 'INVALID' ||
                form.controls[service.key].controls['baseline']?.invalid) )
-          }" />
+          }" appFourTwoDigitNumber />
                                     <span class="input-group-addon spanCustom"><em class="glyphicon">
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </em></span>
@@ -102,7 +102,7 @@
               (form.controls[service.key].controls['target'].controls[year.key].status  == 'INVALID'
               || form.controls[service.key].controls['target'].controls[year.key].errors?.required
               || form.controls[service.key].controls['target'].controls[year.key].errors?.pattern
-              || form.controls[service.key].controls['target'].controls[year.key]?.invalid) ) }" />
+              || form.controls[service.key].controls['target'].controls[year.key]?.invalid) ) }" appFourTwoDigitNumber />
                                     <span class="input-group-addon spanCustom"><em class="glyphicon">
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </em></span>
@@ -229,7 +229,7 @@
                 (form.controls[service.key].controls['baseline']?.touched &&
                 ( form.controls[service.key].controls['baseline'].status == 'INVALID' ||
                 form.controls[service.key].controls['baseline']?.invalid) )
-          }" />
+          }" appFourTwoDigitNumber />
                                     <span class="input-group-addon spanCustom"><em class="glyphicon">
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </em></span>
@@ -275,7 +275,7 @@
               (form.controls[service.key].controls['target'].controls[year.key].status  == 'INVALID'
               || form.controls[service.key].controls['target'].controls[year.key].errors?.required
               || form.controls[service.key].controls['target'].controls[year.key].errors?.pattern
-              || form.controls[service.key].controls['target'].controls[year.key]?.invalid) )}" />
+              || form.controls[service.key].controls['target'].controls[year.key]?.invalid) )}" appFourTwoDigitNumber />
                                     <span class="input-group-addon spanCustom"><em class="glyphicon">
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </em></span>
@@ -397,7 +397,7 @@
                 (form.controls[service.key].controls['baseline']?.touched &&
                 ( form.controls[service.key].controls['baseline'].status == 'INVALID' ||
                 form.controls[service.key].controls['baseline']?.invalid) )
-          }" />
+          }" appFourTwoDigitNumber/>
                                     <span class="input-group-addon spanCustom"><em class="glyphicon">
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </em></span>
@@ -444,7 +444,7 @@
               || form.controls[service.key].controls['target'].controls[year.key].errors?.required
               || form.controls[service.key].controls['target'].controls[year.key].errors?.pattern
               || form.controls[service.key].controls['target'].controls[year.key]?.invalid) )
-          }" />
+          }" appFourTwoDigitNumber/>
                                     <span class="input-group-addon spanCustom"><em class="glyphicon">
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </em></span>
@@ -566,7 +566,7 @@
                 (form.controls[service.key].controls['baseline']?.touched &&
                 ( form.controls[service.key].controls['baseline'].status == 'INVALID' ||
                 form.controls[service.key].controls['baseline']?.invalid) )
-          }" />
+          }" appFourTwoDigitNumber />
                                     <span class="input-group-addon spanCustom"><em class="glyphicon">
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </em></span>
@@ -613,7 +613,7 @@
               || form.controls[service.key].controls['target'].controls[year.key].errors?.required
               || form.controls[service.key].controls['target'].controls[year.key].errors?.pattern
               || form.controls[service.key].controls['target'].controls[year.key]?.invalid) )
-          }" />
+          }" appFourTwoDigitNumber/>
                                     <span class="input-group-addon  spanCustom"><em class="glyphicon">
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </em></span>
@@ -725,7 +725,7 @@
         <div class="card-body" style="padding-left: 6px; padding-top: 10px;">
             <!-- <p><b>State Review Status :</b> {{ulbFormStaus | titlecase}}</p> -->
             <p><b style="padding-right: 25px;">State Review Status :</b>
-                <label class="btn btn-success" [ngClass]="{'btn-a' : (ulbFormStaus == 'APPROVED'),
+                <label class="btn btn-success p-e-n" [ngClass]="{'btn-a' : (ulbFormStaus == 'APPROVED'),
         'btn-r' : (ulbFormStaus == 'REJECTED'), 'btn-p' : (ulbFormStaus == 'PENDING' )}">
         {{ulbFormStaus | titlecase}}</label>
             </p>
@@ -733,7 +733,7 @@
             :</b> {{ulbFormStatusMoHUA | titlecase}}</p> -->
             <p *ngIf="ulbFormStatusMoHUA && (finalSubmitStatus == 'true')">
                 <b style="padding-right: 10px;"> MoHUA Review Status :</b>
-                <label class="btn btn-success" [ngClass]="{'btn-a' : (ulbFormStatusMoHUA == 'APPROVED'),
+                <label class="btn btn-success p-e-n" [ngClass]="{'btn-a' : (ulbFormStatusMoHUA == 'APPROVED'),
              'btn-r' : (ulbFormStatusMoHUA == 'REJECTED'), 'btn-p' : (ulbFormStatusMoHUA == 'PENDING')}">
         {{ulbFormStatusMoHUA | titlecase}}</label>
             </p>
