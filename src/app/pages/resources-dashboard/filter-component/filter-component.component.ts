@@ -68,24 +68,12 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     // this.filterData("", "");
 
     const year = this.route.snapshot.queryParamMap.get('year') || this.selectedValue;
-    const ulbName = this.route.snapshot.queryParamMap.get('ulbName') || '';
+    const ulbName = this.route.snapshot.queryParamMap.get('ulbName') || this.route.snapshot.queryParamMap.get('ulb') || '';
     const ulbId = this.route.snapshot.queryParamMap.get('ulbId') || '';
-    this.filterForm = this.fb.group({
-      state: [""],
-      ulb: [""],
-      ulbId: [""],
-      contentType: [""],
-      sortBy: [""],
-      year: [""],
-      category: this.category,
-    });
+    const stateId = this.route.snapshot.queryParamMap.get('state') || '';
+    this.initializationFilterValue();
     this.selectedValue = year ? year : "";
-    this.filterForm.patchValue({
-      year: this.selectedValue,
-      ulb: ulbName,
-      ulbId,
-      contentType: this.selectedType,
-    });
+    this.patchFilterValues();
   }
 
   stateList;
@@ -291,5 +279,25 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   onStateChange(state) {
     this.filterForm.patchValue({ state: state._id })
     this.filterData('state', '')
+  }
+  initializationFilterValue() {
+    this.filterForm = this.fb.group({
+      state: [""],
+      ulb: [""],
+      ulbId: [""],
+      contentType: [""],
+      sortBy: [""],
+      year: [""],
+      category: this.category,
+    });
+  }
+  patchFilterValues() {
+    this.filterForm.patchValue({
+      year: this.selectedValue,
+      ulb: ulbName,
+      ulbId,
+      contentType: this.selectedType,
+      state: stateId
+    });
   }
 }
