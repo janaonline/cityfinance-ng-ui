@@ -737,8 +737,9 @@
              'btn-r' : (ulbFormStatusMoHUA == 'REJECTED'), 'btn-p' : (ulbFormStatusMoHUA == 'PENDING')}">
         {{ulbFormStatusMoHUA | titlecase}}</label>
             </p>
-            <p *ngIf="ulbFormStaus == 'REJECTED'">
-                <b style="font-weight: 600;">Reason for return :</b> {{ulbFormRejectR}}
+            <p *ngIf="actionStatus?.st == 'REJECTED'">
+                <b style="font-weight: 600;">Reason for return :</b> 
+                <span class="ps-3">{{ulbFormRejectR}}</span>
             </p>
         </div>
     </div>
