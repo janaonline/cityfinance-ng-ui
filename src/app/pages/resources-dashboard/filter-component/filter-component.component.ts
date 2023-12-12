@@ -201,7 +201,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
       }
     }
     if (changes && changes.category && changes.category.currentValue) {
-      //this.filterData("category", "");
+        this.filterData("category", "");
     }
 
     if (changes.data) {
