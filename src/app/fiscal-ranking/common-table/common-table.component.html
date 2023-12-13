@@ -20,7 +20,8 @@
                 <tr>
                     <ng-container *ngFor="let column of response.columns">
                         <th scope="col" *ngIf="!column?.hidden" [attr.colspan]="column?.colspan || 1"
-                            class="border-0 {{column?.class}}" [ngClass]="{'table-primary': !theme}">
+                            [style.width]="column?.width || null" class="border-0 {{column?.class}}"
+                            [ngClass]="{'table-primary': !theme}">
                             <div (click)="updateSorting(column)" class="d-flex " style="cursor: pointer;">
                                 <div>
                                     <p [innerHTML]="column.label" class="m-0 text-center"></p>
