@@ -17,7 +17,7 @@
         </div>
     </div>
     <div class="mt-3">
-        <input type="search" [(ngModel)]="query" name="query" (input)="debouncedSearch()" class="form-control"
+        <input type="search" [(ngModel)]="query" name="query" (blur)="menuTrigger.closeMenu()" (input)="debouncedSearch()" class="form-control"
             placeholder="Search ULB...">
         <div class="" #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu"></div>
         <div id="emailHelp" class="form-text">Maximum of 5 ULBs can be compared at once</div>
