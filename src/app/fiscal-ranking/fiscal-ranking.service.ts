@@ -79,6 +79,15 @@ export interface Filter {
   ulbRankingStatusFilter?: [];
   populationBucketFilter?: [];
 }
+
+export interface UlbData {
+  censusCode: string;
+  name: string;
+  populationBucket: number;
+  sbCode?: string;
+  ulb: string;
+}
+
 export const removeFalsy = obj => Object.entries(obj).reduce((a, [k, v]) => (v ? (a[k] = v, a) : a), {});
 
 const getValueByPath = (response, path) => {

@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import Chart from 'chart.js';
-import { FiscalRankingService } from '../../fiscal-ranking.service';
+import { FiscalRankingService, UlbData } from '../../fiscal-ranking.service';
 import { ComparisionFiltersComponent } from '../comparision-filters/comparision-filters.component';
 
 
@@ -12,7 +12,8 @@ import { ComparisionFiltersComponent } from '../comparision-filters/comparision-
 })
 export class ComparisonComponent implements OnInit, OnChanges {
   public chart: any;
-  @Input() ulb;
+  @Input() ulb: any;
+  @Input() topUlbs: UlbData[];
   allTypeGraphData = {};
   types = [
     { id: 'overAll', label: 'Over All' },
@@ -40,7 +41,7 @@ export class ComparisonComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.ulb?.currentValue && this.ulbs.length == 0) {
-      this.ulbs = [{ ...this.ulb, disabled: true }];
+      this.ulbs = [{ ...this.ulb, disabled: true }, ...this.topUlbs];
       this.getBarchartData();
     }
   }

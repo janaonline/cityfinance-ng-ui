@@ -57,6 +57,12 @@ export class ComparisionFiltersComponent implements OnInit {
     this.menuTrigger.closeMenu();
   }
 
+  closeMenu() {
+    setTimeout(() => {
+      this.menuTrigger.closeMenu();
+    }, 500);
+  }
+
   removeUlb(index) {
     this.ulbs.splice(index, 1);
   }
