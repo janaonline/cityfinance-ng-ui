@@ -1,0 +1,94 @@
+<app-loader [show]="isApiInProgress && isEmptyObject(currentPageData)"></app-loader>
+<div class="container-fluid common-pro-fm" *ngIf="!isApiInProgress && !isEmptyObject(currentPageData)">
+    <div class="row">
+        <div class="col-sm-9">
+              <app-breadcrumb [links]="breadcrumbLinks"></app-breadcrumb>
+        </div>
+        <div class="col-sm-3">
+            <div class="drp-down">
+                <select class="form-select" aria-label="assestParametersDropdown" [(ngModel)]="pageKey" (change)="setPageKey($event.target.value)">
+                    <option value="{{item?.key}}" selected *ngFor="let item of assestParameters?.data">{{item?.label}}</option>
+                  </select>  
+            </div>  
+        </div>
+    </div>
+    <div class="row px-5 mb-4 mt-4">
+        <div class="col-sm-12 text-center">
+           <span class="form-h-fr">{{currentPageData?.name}} : {{currentPageData?.subHeading}}</span> 
+        </div>
+        <div class="col-sm-12 w-80 mx-auto text-center mt-3">
+            <p class="sub-def-fr">{{currentPageData?.description}}</p>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-sm-5 ps-0 h-100">
+            <img src="{{currentPageData?.imgUrl}}" alt="" width="90%" height="90%">
+        </div>
+        <div class="col-sm-7 my-auto h-100">
+            <div class="row">
+                <div class="col-sm-12 mb-4" *ngFor="let item of currentPageData?.questions">
+                    <div class="qus">
+                        {{item?.question}}
+                    </div>
+                    <div class="ans mt-3">
+                        <ul>
+                            <li>{{item?.answer}}</li>
+                        </ul>
+                        
+                    </div>
+                </div>
+                <div class="col-sm-12 mb-4">
+                    <div class="qus-info">
+                        {{currentPageData?.scoringInfo?.header}}
+                    </div>
+                    <div class="scoring-section">
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" *ngFor="let elem of currentPageData?.scoringInfo?.items">
+                                <div class="ind-val">
+                                    {{elem?.value}}
+                                </div>
+                                <div class="ind">
+                                    {{elem?.title}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row px-5 mb-4 mt-5">
+        <div class="col-sm-12">
+           <span class="form-h-fr">{{currentPageData?.scoringMethodology?.header}} </span> 
+        </div>
+        <div class="col-sm-12 mt-3">
+            <div class="scor-met">{{currentPageData?.scoringMethodology?.description}}</div>
+        </div>
+        <div class="col-sm-12">
+            <div class="p-3">
+                <img src="{{currentPageData?.scoringMethodology?.imgUrl}}" alt="" width="100%">
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid" *ngIf="!isApiInProgress && isEmptyObject(currentPageData)">
+    <div class="row">
+        <div class="col text-danger p-5 fw-bolder text-center">
+            No data Found
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+

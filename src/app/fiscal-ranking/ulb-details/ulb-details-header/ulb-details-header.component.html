@@ -1,0 +1,40 @@
+<section class="container py-5">
+    <div class="row">
+        <div class="col-5">
+            <h2 class="my-3 fw-bold">{{ ulb?.name }} (#{{ data?.populationBucketUlbCount }})</h2>
+            <p>Exploring Financial Governance Excellence, Assessment Scores, and Population Category Comparisons.</p>
+
+            <app-india-map [colorCoding]="colorCoding" [colorDetails]="colorDetails" [markers]="markers">
+            </app-india-map>
+        </div>
+        <div class="col-6 offset-1 right-section">
+            <div class="row">
+                <div class="col-6">
+                    <h2 class="my-3 fw-bold">{{ ulb?.population }}</h2>
+                    <p>Population (2011 Census)</p>
+                </div>
+                <div class="col-6">
+                    <h2 class="my-3 fw-bold">{{ populationCategory?.name }}</h2>
+                    <p>Population Category</p>
+                </div>
+            </div>
+
+            <div class="card p-4 mt-3 me-5">
+                <ng-container *ngFor="let category of categories">
+                    <p><strong>{{ category.title }} :</strong></p>
+                    <ol>
+                        <li class="row" *ngFor="let service of category.services">
+                            <p class="col-10">{{ service.name }}</p>
+                            <div class="col-2 d-flex align-baseline gap-2">
+                                <mat-icon class="yes" *ngIf="service.isApproved">check_circle</mat-icon>
+                                <mat-icon class="no" *ngIf="!service.isApproved">cancel</mat-icon>
+                                <strong *ngIf="service.isApproved">Yes</strong>
+                                <strong *ngIf="!service.isApproved">No</strong>
+                            </div>
+                        </li>
+                    </ol>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ProjectsResponse } from 'src/app/credit-rating/municipal-bond/models/ulbsResponse';
 
@@ -7,10 +7,11 @@ export interface TableResponse {
   success?: boolean;
   message?: string;
   name: string;
-  headerLink: {
-    label: string;
-    link: string;
-  }
+  // headerLink: {
+  //   label: string;
+  //   link: string;
+  // }
+  headerLink: HeaderLink;
   getEndpoint?: string;
   postEndpoint?: string;
   data?: TableDataEntity[] | null;
@@ -19,7 +20,10 @@ export interface TableResponse {
   columns?: TableColumnsEntity[] | null;
   multipleSort?: boolean;
 }
-
+export interface HeaderLink {
+  label: string;
+  link: string;
+}
 export interface TableDataEntity {
   [key: string]: number | string | boolean;
 }
@@ -37,7 +41,7 @@ export interface TableColumnsEntity {
   templateUrl: './common-table.component.html',
   styleUrls: ['./common-table.component.scss']
 })
-export class CommonTableComponent implements OnInit {
+export class CommonTableComponent implements OnInit, OnChanges {
   @Input() theme?: 'white';
   @Input() response: TableResponse;
   @Input() isDialog: boolean;
@@ -45,10 +49,14 @@ export class CommonTableComponent implements OnInit {
   @Input() order: 1 | -1 = 1;
   @Input() page: number = 0;
   @Input() limit: number = 10;
-
+  @Input() classLists?:string;
+  @Input() allowedExtensions: string[] = [];
+  @Input() targetExtension:string = "";
   @Output() update: EventEmitter<any> = new EventEmitter<any>();
 
 
+  isSearchable: boolean = false;
+  
   constructor(
     private dialog: MatDialog
   ) { }
@@ -56,7 +64,12 @@ export class CommonTableComponent implements OnInit {
   ngOnInit(): void {
     // this.loadData();
   }
-
+  ngOnChanges(changes: SimpleChanges) {
+    const tableResponces = changes['response'];
+    if (tableResponces.currentValue?.data?.length > 0) {
+      this.isSearchable = this.response.columns?.some(column => column.hasOwnProperty('query'));
+    }
+  }
   closeDialog() {
     this.dialog.closeAll();
   }

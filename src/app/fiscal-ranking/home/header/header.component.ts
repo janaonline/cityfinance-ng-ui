@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { GuidelinesPopupComponent } from '../guidelines-popup/guidelines-popup.component';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -9,9 +7,10 @@ import { GuidelinesPopupComponent } from '../guidelines-popup/guidelines-popup.c
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(
-    private matDialog: MatDialog
-  ) { }
+  @Output() onGuidelinesPopup = new EventEmitter();
+  @Output() onVideosPopup = new EventEmitter();
+
+  constructor() { }
 
   ngOnInit(): void {
   }
@@ -19,12 +18,5 @@ export class HeaderComponent implements OnInit {
   scrollOnePageDown() {
     var viewportHeight = window.innerHeight;
     window.scrollBy(0, viewportHeight * 0.9);
-  }
-
-  guidelinesPopup() {
-    this.matDialog.open(GuidelinesPopupComponent, {
-      width: '450px',
-      maxHeight: '90vh'
-    });
   }
 }

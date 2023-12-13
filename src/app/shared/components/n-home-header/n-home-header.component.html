@@ -46,6 +46,33 @@
                         </a>
                     </li>
                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown-ranking" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Ranking
+                      </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdown-ranking">
+                            <li>
+                                <a class="dropdown-item" routerLink="/rankings/participated-states-ut">
+                                    Participation 
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" routerLink="/rankings/top-rankings">
+                                    Scores & Ranks 
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" routerLink="/rankings/annual-financial-statements">
+                                    Financial Statements 
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" routerLink="/rankings/home">
+                                    About CF Rankings 
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                           Dashboard
                       </a>
@@ -82,33 +109,38 @@
                         <a class="nav-link" [routerLinkActive]="'active'" routerLink="/fc-home-page">15<sup>th</sup> FC Grants</a>
                     </li>
                     <li class="nav-item" *ngIf="isLoggedIn">
-                        <a class="nav-link" routerLinkActive="active" [routerLink]="user?.role == 'ULB' ? '/rankings/ulb-form' : '/rankings/review-rankings-ulbform'">Rankings</a>
+                        <a class="nav-link" routerLinkActive="active" [routerLink]="user?.role == 'ULB' ? '/rankings/ulb-form' : '/rankings/review-rankings-ulbform'">{{user?.role == 'ULB' ? "Rankings'22 Form" : "Rankings'22 Dashboard"}}</a>
                     </li>
                     <li class="nav-item" *ngIf="user?.role !== 'PMU'">
                         <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/list/ULB']" *ngIf="isLoggedIn
                           &&
                           (canViewUserList || canViewULBSingUpListing)">Users</a>
                     </li>
-                    <li class="nav-item me-2 ms-2" *ngIf="isLoggedIn == false">
+                    <!-- <li class="nav-item me-2 ms-2" *ngIf="isLoggedIn == false">
                       <button type="button" class="btn btn-login fw-bold" (click)="loginLogout('ranking')">Login for Rankings 2022</button>
-                    </li>
-                    <li class="nav-item ms-1" *ngIf="isLoggedIn == false">
+                    </li> -->
+                    <!-- <li class="nav-item ms-1" *ngIf="isLoggedIn == false">
                       <button type="button" class="btn btn-login fw-bold btn-l-fc" (click)="loginLogout('15th_Fc')">Login for 15th FC Grant</button>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
             <div class="ms-auto">
                 <!-- <a *ngIf="isLoggedIn == false" routerLinkActive="active" (click)="loginLogout()" class="btn btn-login">{{ btnName }}</a> -->
-                <!-- <div class="dropdown" *ngIf="isLoggedIn == false">
+                <div class="dropdown" *ngIf="isLoggedIn == false">
                     <button class="btn btn-login dropdown-toggle fw-bold" type="button" id="loginDrp" data-bs-toggle="dropdown" aria-expanded="false">
                       Login
                   </button>
                     <ul class="dropdown-menu" aria-labelledby="loginDrp" style="left: -7px;">
-                        <li><a class="dropdown-item" (click)="loginLogout('15th_Fc')">15th FC Grant</a></li>
+                        <li><a class="dropdown-item" (click)="loginLogout('15th_Fc')">
+                         <img src="../../../../assets/fiscal-rankings/logout_FILL0_wght400_GRAD0_opsz24.png" alt=""> 15th FC Grant
+                        </a>
+                    </li>
                         <hr class="m-0">
-                        <li><a class="dropdown-item" (click)="loginLogout('ranking')">Rankings 2022</a></li>
+                        <li><a class="dropdown-item" (click)="loginLogout('ranking')">
+                            <img src="../../../../assets/fiscal-rankings/logout_FILL0_wght400_GRAD0_opsz24.png" alt=""> Rankings 2022
+                        </a></li>
                     </ul>
-                </div> -->
+                </div>
                 <div class="btn-group ms-2" dropdown *ngIf="isLoggedIn">
                     <button id="button-disabled-menu" dropdownToggle type="button" class="btn btn-login-icon dropdown-toggle" aria-controls="dropdown-disabled-menu">
                       <span class="material-icons">

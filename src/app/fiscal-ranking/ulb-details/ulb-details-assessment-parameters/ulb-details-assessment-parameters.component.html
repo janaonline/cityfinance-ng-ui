@@ -1,0 +1,24 @@
+<section class="align-center py-3">
+    <h2 class="my-4 text-center color-blue fw-bold">Assessment Parameters</h2>
+
+    <div class="btn-group custom-btn-group text-center d-block" role="group"
+        aria-label="Basic radio toggle button group">
+        <input type="radio" class="btn-check" name="filter" id="resourceMobilization" [(ngModel)]="activeFilter"
+            value="resourceMobilization" autocomplete="off" checked>
+        <label class="btn btn-outline-primary" for="resourceMobilization">Resource Mobilisation</label>
+
+        <input type="radio" class="btn-check" name="filter" id="expenditurePerformance" [(ngModel)]="activeFilter"
+            value="expenditurePerformance" autocomplete="off">
+        <label class="btn btn-outline-primary" for="expenditurePerformance">Expenditure Performance</label>
+
+        <input type="radio" class="btn-check" name="filter" id="fiscalGovernance" [(ngModel)]="activeFilter"
+            value="fiscalGovernance" autocomplete="off">
+        <label class="btn btn-outline-primary" for="fiscalGovernance">Fiscal Governance</label>
+    </div>
+
+
+    <div class="container mt-4" style="background-color: #fff;">
+        <app-common-table theme="white" [response]="table?.response">
+        </app-common-table>
+    </div>
+</section>

@@ -1,8 +1,9 @@
 <app-loader [show]="!response"></app-loader>
 
 
-<div class="common-table container px-0" *ngIf="response">
-    <div class="d-flex justify-content-between mt-4" style="background: white; position: sticky; top: 0;">
+<div class="common-table container-fluid px-0" *ngIf="response">
+    <div class="d-flex justify-content-between mt-4" *ngIf="response?.name"
+        style="background: white; position: sticky; top: 0;">
         <h4 class="my-3">{{ response?.name }} <a [href]="response?.headerLink?.link" target="_blank"
                 *ngIf="response?.headerLink"> - {{response?.headerLink?.label}}</a> </h4>
         <mat-paginator *ngIf="response?.total" [length]="response.total" [pageSize]="limit"
@@ -10,28 +11,41 @@
         </mat-paginator>
         <mat-icon *ngIf="isDialog" (click)="closeDialog()" role="button">clear</mat-icon>
     </div>
-    <div [class]="theme">
-        <table class="table p-2" [ngClass]="{'d-block': isDialog, 'table-striped': !theme}">
-            <thead *ngIf="response?.columns?.length > 0" style="position: sticky; top: 50px;">
+    <mat-paginator *ngIf="response?.total" [length]="response.total" [pageSize]="limit"
+        [pageSizeOptions]="pageSizeOptions" (page)="pageChange($event)" aria-label="Select page">
+    </mat-paginator>
+    <div class="{{theme}} {{classLists}}">
+        <table class="table" [ngClass]="{'d-block': isDialog, 'table-striped': !theme}">
+            <thead *ngIf="response?.columns?.length > 0">
                 <tr>
-                    <th scope="col" 
-                        *ngFor="let column of response.columns" 
-                        class="border-0 "
-                        [ngClass]="{'table-primary': !theme}"
-                    >
-                        <div (click)="updateSorting(column)" class="d-flex " style="cursor: pointer;">
-                            <p [innerHTML]="column.label" class="m-0 text-center"></p>
-                            <i *ngIf="column?.sortable" class="mt-1 ms-2 fa fa-sort" [ngClass]="{
-                                'fa-sort': column.sort == 0,
-                                'fa-sort-desc': column.sort == -1,
-                                'fa-sort-asc': column.sort == 1
-                            }" aria-hidden="true"></i>
-                        </div>
-                    </th>
+                    <ng-container *ngFor="let column of response.columns">
+                        <th scope="col" *ngIf="!column?.hidden" [attr.colspan]="column?.colspan || 1"
+                            class="border-0 {{column?.class}}" [ngClass]="{'table-primary': !theme}">
+                            <div (click)="updateSorting(column)" class="d-flex " style="cursor: pointer;">
+                                <div>
+                                    <p [innerHTML]="column.label" class="m-0 text-center"></p>
+                                    <div *ngIf="column?.info" class="fw-light text-muted"><small>{{ column?.info
+                                            }}</small>
+                                    </div>
+                                </div>
+                                <i *ngIf="column?.sortable" class="mt-1 ms-2 fa fa-sort" [ngClass]="{
+                                    'fa-sort': column.sort == 0,
+                                    'fa-sort-desc': column.sort == -1,
+                                    'fa-sort-asc': column.sort == 1
+                                }" aria-hidden="true"></i>
+                            </div>
+                        </th>
+                    </ng-container>
                 </tr>
-                <tr>
+                <tr *ngIf="response.subHeaders">
+                    <td class="text-muted fst-italic text-nowrap" scope="col"
+                        *ngFor="let subHeader of response.subHeaders" [ngClass]="{'table-primary': !theme}">
+                        {{ subHeader}}
+                    </td>
+                </tr>
+                <tr *ngIf="isSearchable">
                     <th scope="col" *ngFor="let column of response.columns" class="border-0"
-                    [ngClass]="{'table-secondary': !theme}">
+                        [ngClass]="{'table-secondary': !theme}">
                         <input type="text" *ngIf="column.hasOwnProperty('query')"
                             [placeholder]="'Search ' + column?.label" class="form-control p-1"
                             [(ngModel)]="column.query" (keyup.enter)="loadData()" (blur)="loadData()">
@@ -43,10 +57,23 @@
                     [ngClass]="{'table-secondary': row?.selected, 'border-0': !theme}">
                     <td *ngFor="let column of response.columns; let i = index;"
                         [ngClass]="{'text-center': i != 0, 'border-0': !theme}">
-                        <a [href]="row[column.key + 'Link']" target="_blank"
-                            *ngIf="row[column.key + 'Link']; else text;">{{
-                            row[column.key] }}</a>
-                        <ng-template #text>{{ row[column.key] }}</ng-template>
+                        <ng-container *ngIf="row[column.key + 'Link']; else fileValue;">
+                            <a *ngIf="isDialog" [href]="row[column.key + 'Link']" target="_blank">{{ row[column.key]
+                                }}</a>
+                            <a *ngIf="!isDialog" [routerLink]="row[column.key + 'Link']">{{ row[column.key] }}</a>
+                        </ng-container>
+                        <ng-template #fileValue>
+                            <ng-container
+                                *ngIf="(row[column.key] | fileUrlCheck: targetExtension : allowedExtensions); else simpleValue">
+                                <a href="{{row[column.key]}}" target="_blank" rel="fiscal-rankings">
+                                    <img [src]="'assets/fiscal-rankings/' + targetExtension + '.png'"
+                                        alt="{{column.key}}" srcset="">
+                                </a>
+                            </ng-container>
+                        </ng-template>
+                        <ng-template #simpleValue>
+                            {{ row[column.key] }}
+                        </ng-template>
                     </td>
                 </tr>
                 <tr *ngIf="response.lastRow">
