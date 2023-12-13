@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { getPopulationCategory } from 'src/app/util/common';
-import { ColorDetails,  Marker } from '../../india-map/india-map.component';
+import { getPopulationCategory, PopulationCategory } from 'src/app/util/common';
+import { ColorDetails, Marker } from '../../india-map/india-map.component';
 
 export interface Service {
   name: string;
@@ -25,10 +25,7 @@ export class UlbDetailsHeaderComponent implements OnInit, OnChanges {
   colorDetails: ColorDetails[] = [];
   markers: Marker[] = [];
   categories: Category[] = [];
-  populationCategory: {
-    name: string;
-    shortName: string;
-  };
+  populationCategory: PopulationCategory;
   fsData: any;
   ulb: any;
   colorCoding: any[] = [];
