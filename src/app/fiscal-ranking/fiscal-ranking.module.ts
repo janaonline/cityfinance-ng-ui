@@ -71,6 +71,7 @@ import { ParticipatingStateComponent } from './participating-state/participating
 import { ParticipatingUlbsComponent } from './participating-ulbs/participating-ulbs.component';
 import { IndiaMapComponent } from './india-map/india-map.component';
 import { FileUrlCheckPipe } from './pipes/file-url-check.pipe';
+import { VideosPopupComponent } from './home/videos-popup/videos-popup.component';
 
 @NgModule({
   declarations: [
@@ -120,7 +121,8 @@ import { FileUrlCheckPipe } from './pipes/file-url-check.pipe';
     ParticipatingStateComponent,
     ParticipatingUlbsComponent,
     IndiaMapComponent,
-    FileUrlCheckPipe
+    FileUrlCheckPipe,
+    VideosPopupComponent
   ],
   imports: [
     CommonModule,

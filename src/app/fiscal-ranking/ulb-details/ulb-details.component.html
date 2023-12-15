@@ -6,6 +6,6 @@
 <div class="container">
     <div class="yellow-divider"></div>
 </div>
-<app-comparison></app-comparison>
+<app-comparison [ulb]="data?.ulb" [topUlbs]="data.topUlbs"></app-comparison>
 <app-ulb-details-assessment-parameters [tables]="data?.assessmentParameter"></app-ulb-details-assessment-parameters>
 

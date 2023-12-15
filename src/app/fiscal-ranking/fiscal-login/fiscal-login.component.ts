@@ -173,7 +173,7 @@ export class FiscalLoginComponent implements OnInit {
   private onSuccessfullLogin(res) {
     const gData = { 
       user_role: res?.user?.role,
-      user_id: res._id, 
+      user_id: res?.user?._id, 
       ...res?.user 
     };
     this.gaService.set(gData);

@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid bg-img">
     <div class="row mb-3">
         <div class="col-sm-12">
             <app-breadcrumb [links]="breadcrumbLinks"></app-breadcrumb>
@@ -19,7 +19,14 @@
     <section style="">
         <div class="row">
             <div class="col-6 my-0" style="height: 35rem;">
-                <app-india-map [colorCoding]="colorCoding" label="% of Participation" [colorDetails]="colorDetails" ></app-india-map>
+                <ng-container *ngIf="isApiInProgress; else map">
+                    <div class="loader">
+                        <app-pre-loader-new></app-pre-loader-new>
+                    </div>
+                </ng-container>
+                <ng-template class="map-con" #map>
+                    <app-india-map [colorCoding]="colorCoding" label="% of Participation" [colorDetails]="colorDetails" ></app-india-map>
+                </ng-template>
             </div>
             <div class="col-6">
                 <div class="card fl-card">
@@ -37,7 +44,7 @@
                                     State type
                                 </div>
                                 <div class="filer">
-                                    <select class="form-select" aria-label="stateType" [(ngModel)]="stateType" (change)="stateTypeChange($event.target.value)">
+                                    <select class="form-select" aria-label="stateType" [(ngModel)]="stateType" (change)="dropDownValueChanges($event.target.value)">
                                         <option value="{{item?.value}}" selected *ngFor="let item of stateTypeFilter">{{item?.label}}</option>
                                     </select>  
                                 </div>
@@ -48,7 +55,7 @@
                                     ULB Participation
                                 </div>
                                 <div class="filer">
-                                    <select class="form-select" aria-label="ulbParticipation" [(ngModel)]="ulbParticipation" (change)="ulbParticipationChange($event.target.value)">
+                                    <select class="form-select" aria-label="ulbParticipation" [(ngModel)]="ulbParticipation" (change)="dropDownValueChanges($event.target.value)">
                                         <option value="{{item?.value}}" selected *ngFor="let item of ulbParticipationFilter">{{item?.label}}</option>
                                       </select>  
                                 </div>
@@ -60,7 +67,7 @@
                                     ULB Ranking Status
                                 </div>
                                 <div class="filer">
-                                    <select class="form-select" aria-label="ulbRankingStatusFilter" [(ngModel)]="ulbRankingStatus" (change)="ulbRankingStatusFilterChange($event.target.value)">
+                                    <select class="form-select" aria-label="ulbRankingStatusFilter" [(ngModel)]="ulbRankingStatus" (change)="dropDownValueChanges($event.target.value)">
                                         <option value="{{item?.value}}" selected *ngFor="let item of ulbRankingStatusFilter">{{item?.label}}</option>
                                       </select>  
                                 </div>
@@ -72,11 +79,9 @@
                     </div>
                 </div>
 
-                <div class="card table-card mt-4" style="">
-                    <div class="card-body">
-                        <app-common-table theme="white" [response]="table?.response" [classLists]="'scroll'">
-                        </app-common-table>
-                    </div>
+                <div class="table-card" style="">
+                 <app-common-table theme="white" [response]="table?.response" [classLists]="'scroll'" (update)="onUpdate(table, $event)">
+                 </app-common-table>
                 </div>
             </div>
         </div>

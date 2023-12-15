@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BreadcrumbLink } from 'src/app/fiscal-ranking/breadcrumb/breadcrumb.component';
 import { ColorDetails } from 'src/app/fiscal-ranking/india-map/india-map.component';
-import { FrFilter, Filter, FiscalRankingService } from 'src/app/fiscal-ranking/fiscal-ranking.service';
+import { FrFilter, Filter, FiscalRankingService, Table } from 'src/app/fiscal-ranking/fiscal-ranking.service';
 import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
 
@@ -98,11 +98,13 @@ export class ParticipatingStateComponent implements OnInit {
       value: 'nonRanked'
     },
   ];
-  stateType: string = 'all';
-  ulbParticipation: string = 'all';
-  ulbRankingStatus: string = 'all';
-  table = {
-    response: {
+  stateType: string = 'All';
+  ulbParticipation: string = 'All';
+  ulbRankingStatus: string = 'All';
+  table:object | any = { response: null };
+  isApiInProgress:boolean = true;
+  // table = {
+  //   response: {
       // "status": true,
       // "message": "Successfully saved data!",
       // "columns": [
@@ -238,8 +240,8 @@ export class ParticipatingStateComponent implements OnInit {
       //   "$sum",
       //   "$sum",
       // ],
-    }
-  };
+  //   }
+  // };
   colorCoding;
 
   colorDetails: ColorDetails[] = [
@@ -252,20 +254,21 @@ export class ParticipatingStateComponent implements OnInit {
 
   ngOnInit(): void {
     //  this.getStateWiseForm();
-    this.getTableData();
+    this.getTableData(this.table, '');
   }
-  stateTypeChange(e) {
-    this.getTableData();
+  dropDownValueChanges(e) {
+    this.getTableData(this.table, '');
   }
-  ulbParticipationChange(e) {
-    this.getTableData();
+  // ulbParticipationChange(e) {
+  //   this.getTableData();
 
-  }
-  ulbRankingStatusFilterChange(e) {
-    this.getTableData();
-  }
-  getTableData() {
+  // }
+  // ulbRankingStatusFilterChange(e) {
+  //   this.getTableData();
+  // }
+  getTableData(table:Table, queryParams:string) {
     this.colorCoding = [];
+    this.isApiInProgress = true;
     //  https://staging.cityfinance.in/api/v1/scoring-fr/participated-state?stateType=all&ulbParticipationFilter=all&ulbRankingStatusFilter=nonRanked
     const filterObj = {
       stateType: this.stateType,
@@ -273,13 +276,16 @@ export class ParticipatingStateComponent implements OnInit {
       ulbRankingStatusFilter: this.ulbRankingStatus
 
     }
-    this.fiscalRankingService.callGetMethod('scoring-fr/participated-state', filterObj).subscribe((res: any) => {
+    const endpoint = `scoring-fr/participated-state`;
+    this.fiscalRankingService.getTableResponse(endpoint, queryParams, table?.response?.columns, 'data.tableData', filterObj).subscribe((res: any) => {
       console.log('participated-state table responces', res);
       this.table["response"] = res?.data?.tableData;
       this.colorCoding = res?.data?.mapData;
+      this.isApiInProgress = false;
     },
       (error) => {
         console.log('participated-state table error', error);
+        this.isApiInProgress = false;
       }
     )
   }
@@ -288,17 +294,18 @@ export class ParticipatingStateComponent implements OnInit {
   //     this.colorCoding = res?.data.heatMaps;
   //   });
   // }
+  // reset all filter
   resetFilter() {
-    this.stateType = 'all';
-    this.ulbParticipation = 'all';
-    this.ulbRankingStatus = 'all';
-    this.getTableData();
+    this.stateType = this.stateTypeFilter[0]?.value;
+    this.ulbParticipation = this.ulbParticipationFilter[0]?.value;
+    this.ulbRankingStatus = this.ulbRankingStatusFilter[0]?.value;
+    this.getTableData(this.table, '');
   }
 
   // for all filters
 
   getFilters() {
-    this.fiscalRankingService.callGetMethod('scoring-fr/participated-state-filter', null).subscribe((res: any) => {
+    this.fiscalRankingService.callGetMethod('scoring-fr/filters', null).subscribe((res: any) => {
       console.log('scoring-fr/participated-state-filter', res);
       const filter: Filter = res?.data;
       this.stateTypeFilter = filter?.stateTypeFilter;
@@ -311,4 +318,8 @@ export class ParticipatingStateComponent implements OnInit {
       }
     )
   }
+
+  onUpdate(table:Table,  event) {
+    this.getTableData(table, event?.queryParams);
+   }
 }

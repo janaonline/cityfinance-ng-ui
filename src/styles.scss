@@ -64,8 +64,10 @@
 
 @import url('//fonts.googleapis.com/css2?family=Cabin:wght@400;700&display=swap');
 @import url('//fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap');
-@import url('//fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url('//fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
+/* for fiscal ranking new dashboard 2023*/
+@import url('//fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600;1,700&display=swap');
 
 .ag-theme-alpine {
     @include ag-theme-alpine((cell-horizontal-border: solid ag-derived(secondary-border-color), ));
@@ -1353,7 +1355,8 @@ input[type=number] {
     color: #fff;
     font-weight: bold;
     transition: background 0.3s ease, color 0.3s ease;
-    box-shadow: 0px 2px 20px #00000040;
+    box-shadow: 1px 11px 28px 2px #e67e1561;
+
     
     &.btn-outline {
         background: #fff;
@@ -1361,6 +1364,13 @@ input[type=number] {
         color: $orange;
         transition: background 0.3s ease, color 0.3s ease, border 0.3s ease;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    &.btn-text {
+        color: $orange;
+        background-color: inherit;
+        transition: background 0.3s ease, color 0.3s ease, border 0.3s ease;
+        box-shadow: none;
     }
 
     &:hover {

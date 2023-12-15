@@ -21,12 +21,21 @@
 <section>
     <div class="row m-0">
         <div class="col-6 p-3">
-            <app-india-map *ngIf="selectedMap == 'topUlbs'" [markers]="markers">
-            </app-india-map>
-            <app-india-map *ngIf="selectedMap == 'rankHolders'" [colorCoding]="colorCoding"
-                [colorDetails]="colorDetails"
-                label="Rank holding ULBs in state">
-            </app-india-map>
+            <ng-container *ngIf="isShowingMap; else mapLoader;">
+                <app-india-map *ngIf="selectedMap == 'topUlbs'" [markers]="markers">
+                </app-india-map>
+                <app-india-map *ngIf="selectedMap == 'rankHolders'" [colorCoding]="colorCoding"
+                    [colorDetails]="colorDetails" label="Rank holding ULBs in state">
+                </app-india-map>
+            </ng-container>
+            <ng-template #mapLoader>
+                <div class="map-loader">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <p class="text-center">Loading map</p>
+                </div>
+            </ng-template>
             <div class="btn-group btn-group-sm btn-group-lg mt-3 text-center d-block" role="group"
                 aria-label="Basic radio toggle button group">
                 <input type="radio" class="btn-check" name="map-filter" id="topUlbs" autocomplete="off"
@@ -45,11 +54,11 @@
                     <button class="btn btn-outline btn-orange">Download</button>
                 </div>
                 <div class="row d-flex mt-3">
-                    <div class="form-group col-md-4" >
+                    <div class="form-group col-md-4">
                         <div class="input-group inp-grp">
                             <div class="w-100">
-                                <angular2-multiselect class="expo-drp-in"
-                                    [data]="stateList" formControlName="stateData" [settings]="dropdownSettings">
+                                <angular2-multiselect class="expo-drp-in" [data]="stateList" formControlName="stateData"
+                                    [settings]="dropdownSettings">
                                 </angular2-multiselect>
                             </div>
                         </div>
@@ -71,12 +80,12 @@
                 aria-label="Basic radio toggle button group">
 
                 <ng-container *ngFor="let type of types">
-                    <input type="radio" class="btn-check" formControlName="sortBy" [id]="type?.key" [value]="type?.key">
+                    <input type="radio" class="btn-check" formControlName="category" [id]="type?.key" [value]="type?.key">
                     <label class="btn btn-outline-primary" [for]="type?.key">{{ type?.label }}</label>
                 </ng-container>
             </div>
 
-            <app-common-table *ngIf="table?.response" theme="white" [response]="table?.response">
+            <app-common-table *ngIf="table?.response" theme="white" [response]="table?.response" (update)="onUpdate(table, $event)">
             </app-common-table>
         </form>
     </div>

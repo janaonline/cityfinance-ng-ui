@@ -51,7 +51,7 @@ export class CommonTableComponent implements OnInit, OnChanges {
   @Input() limit: number = 10;
   @Input() classLists?:string;
   @Input() allowedExtensions: string[] = [];
-  @Input() targetExtension = "";
+  @Input() targetExtension:string = "";
   @Output() update: EventEmitter<any> = new EventEmitter<any>();
 
 

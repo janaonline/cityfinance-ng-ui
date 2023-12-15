@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid bg-img">
     <div class="row mb-3">
         <div class="col-sm-12">
             <app-breadcrumb [links]="breadcrumbLinks"></app-breadcrumb>
@@ -34,7 +34,7 @@
                                     Population Category
                                 </div>
                                 <div class="filer">
-                                    <select class="form-select" aria-label="populationCategory" [(ngModel)]="populationCategory" (change)="populationCategoryChange($event.target.value)">
+                                    <select class="form-select" aria-label="populationCategory" [(ngModel)]="populationCategory" (change)="dropDownValueChanges($event.target.value)">
                                         <option value="{{item?.value}}" selected *ngFor="let item of populationCategoryFilter">{{item?.label}}</option>
                                     </select>  
                                 </div>
@@ -45,7 +45,7 @@
                                     ULB Participation
                                 </div>
                                 <div class="filer">
-                                    <select class="form-select" aria-label="ulbParticipation" [(ngModel)]="ulbParticipation" (change)="ulbParticipationChange($event.target.value)">
+                                    <select class="form-select" aria-label="ulbParticipation" [(ngModel)]="ulbParticipation" (change)="dropDownValueChanges($event.target.value)">
                                         <option value="{{item?.value}}" selected *ngFor="let item of ulbParticipationFilter">{{item?.label}}</option>
                                       </select>  
                                 </div>
@@ -57,7 +57,7 @@
                                     ULB Ranking Status
                                 </div>
                                 <div class="filer">
-                                    <select class="form-select" aria-label="ulbRankingStatusFilter" [(ngModel)]="ulbRankingStatus" (change)="ulbRankingStatusFilterChange($event.target.value)">
+                                    <select class="form-select" aria-label="ulbRankingStatusFilter" [(ngModel)]="ulbRankingStatus" (change)="dropDownValueChanges($event.target.value)">
                                         <option value="{{item?.value}}" selected *ngFor="let item of ulbRankingStatusFilter">{{item?.label}}</option>
                                       </select>  
                                 </div>
@@ -73,10 +73,11 @@
     </div>
 
     <div class="row mb-4">
-        <div class="col-12">
+        <div class="col-12 table-card">
             <!-- <div class="card table-card mt-4 mx-auto" style="">
                 <div class="card-body"> -->
-                    <app-common-table theme="white" [response]="table?.response" [classLists]="'scroll'" [allowedExtensions]="allowedExtensions" [targetExtension]="targetExtension">
+                    <app-common-table theme="white" [response]="table?.response" [classLists]="'scroll'" [allowedExtensions]="allowedExtensions" 
+                    [targetExtension]="targetExtension" (update)="onUpdate(table, $event)" *ngIf="table?.response">
                     </app-common-table>
             <!-- </div>
         </div> -->

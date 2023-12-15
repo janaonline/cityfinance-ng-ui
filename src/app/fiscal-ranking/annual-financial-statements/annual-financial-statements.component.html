@@ -1,10 +1,10 @@
 <app-breadcrumb [links]="breadcrumbLinks"></app-breadcrumb>
 
-<section>
+<section class="px-2">
     <h3>Annual Financial statements</h3>
     <p>Delve into the financial transparency of Urban Local Bodies (ULBs). Access audited annual accounts to understand
         how ULBs manage their finances effectively and ensure accountability.</p>
 
-    <app-common-table *ngIf="table?.response" theme="white" [response]="table?.response">
+    <app-common-table *ngIf="table?.response" theme="white" [response]="table?.response" (update)="onUpdate(table, $event)">
     </app-common-table>
 </section>

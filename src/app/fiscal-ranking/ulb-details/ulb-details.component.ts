@@ -1,7 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BreadcrumbLink } from '../breadcrumb/breadcrumb.component';
-import { FiscalRankingService } from '../fiscal-ranking.service';
+import { FiscalRankingService, UlbData } from '../fiscal-ranking.service';
+
+
+interface APIResponse {
+  assessmentParameter: any;
+  fsData: {
+    [key: string]: {
+      value: string | null;
+      status: 'APPROVED' | 'REJECTED' | 'PENDING';
+    }
+  },
+  topUlbs: UlbData[];
+  ulb: any;
+}
 
 @Component({
   selector: 'app-ulb-details',
@@ -22,10 +35,7 @@ export class UlbDetailsComponent implements OnInit {
     }
   ];
 
-  ulbData;
-  
-  data;
-
+  data: APIResponse;
 
   constructor(
     private activatedRoute: ActivatedRoute,

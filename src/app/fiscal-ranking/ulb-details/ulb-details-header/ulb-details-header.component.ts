@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { getPopulationCategory } from 'src/app/util/common';
-import { ColorDetails } from '../../india-map/india-map.component';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { getPopulationCategory, PopulationCategory } from 'src/app/util/common';
+import { ColorDetails, Marker } from '../../india-map/india-map.component';
 
 export interface Service {
   name: string;
@@ -19,71 +19,75 @@ export interface Category {
   templateUrl: './ulb-details-header.component.html',
   styleUrls: ['./ulb-details-header.component.scss']
 })
-export class UlbDetailsHeaderComponent implements OnInit {
+export class UlbDetailsHeaderComponent implements OnInit, OnChanges {
   @Input() data;
 
   colorDetails: ColorDetails[] = [];
+  markers: Marker[] = [];
+  categories: Category[] = [];
+  populationCategory: PopulationCategory;
+  fsData: any;
+  ulb: any;
+  colorCoding: any[] = [];
+
+  categoryMappersData = [
+    {
+      title: 'Service Handling',
+      services: [
+        { name: '1. Water Supply Services', key: 'waterSupply' },
+        { name: '2. Sanitation Service Delivery', key: 'sanitationService' }
+      ]
+    },
+    {
+      title: 'Property Tax Details',
+      services: [
+        { name: '3. Property Tax Includes Water Tax', key: 'propertyWaterTax' },
+        { name: '4. Property Tax Includes Sanitation/Sewerage Tax', key: 'sanitationService' },
+        { name: '5. Property Tax Register GIS-based', key: 'registerGis' }
+      ]
+    },
+    {
+      title: 'Technology Usage',
+      services: [
+        { name: '6. Accounting Software Used', key: 'accountStwre' }
+      ]
+    }
+  ];
+
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  get ulb() {
-    return this.data?.ulb;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['data']?.currentValue) this.updateInputDataDependencies();
   }
 
-  get fsData() {
-    return this.data?.fsData;
-  }
-
-  get markers() {
-    const { lat, lng } = this.ulb?.location;
-    return [{ lat, lng, name: this.ulb?.name }];
-  }
-
-  get colorCoding() {
-    return [{
+  private updateInputDataDependencies() {
+    console.log('data updated', this.data)
+    this.ulb = this.data?.ulb;
+    this.fsData = this.data?.fsData;
+    this.colorCoding = [{
       "_id": this.ulb?.stateName,
       "stateId": this.ulb.state,
       "code": this.ulb?.stateCode,
       "color": "#FFF0E0"
     }];
-  };
 
-  get categories(): Category[] {
-    return [
-      {
-        title: 'Service Handling',
-        services: [
-          { name: 'Water Supply Services', key: 'waterSupply' },
-          { name: 'Sanitation Service Delivery', key: 'sanitationService' }
-        ]
-      },
-      {
-        title: 'Property Tax Details',
-        services: [
-          { name: 'Property Tax Includes Water Tax', key: 'propertyWaterTax' },
-          { name: 'Property Tax Includes Sanitation/Sewerage Tax', key: 'sanitationService' },
-          { name: 'Property Tax Register GIS-based', key: 'registerGis' }
-        ]
-      },
-      {
-        title: 'Technology Usage',
-        services: [
-          { name: 'Accounting Software Used', key: 'accountStwre' }
-        ]
-      }
-    ].map(section => ({
+    const { lat, lng } = this.ulb?.location;
+    this.markers = [{ lat, lng, name: this.ulb?.name }];
+    this.populationCategory = getPopulationCategory(this.ulb?.population);
+    this.categories = this.getCategories();
+  }
+
+  private getCategories(): Category[] {
+    return this.categoryMappersData.map(section => ({
       ...section,
       services: section.services.map(service => ({
         ...service,
         isApproved: this.data?.fsData?.[service.key]?.value?.toLowerCase() == 'yes'
       }))
     }));
-  }
-
-  get populationCategory() {
-    return getPopulationCategory(this.ulb?.population)
   }
 }

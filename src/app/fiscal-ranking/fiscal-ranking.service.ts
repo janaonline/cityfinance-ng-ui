@@ -21,8 +21,8 @@ export enum StatusType {
   "ackByPMU" = 11
 }
 export interface Table {
-  id: string;
-  endpoint: string;
+  id?: string;
+  endpoint?: string;
   response: TableResponse;
 }
 
@@ -56,15 +56,15 @@ export interface FormWiseData {
 }
 
 export interface TrackingHistoryData {
-  srNo : number;
-  action : String;
-  Date : String;
+  srNo: number;
+  action: String;
+  Date: String;
 }
 
-export interface TrackingHistoryResponse{
-  success:Boolean;
-  data:TrackingHistoryData[],
-  message:String
+export interface TrackingHistoryResponse {
+  success: Boolean;
+  data: TrackingHistoryData[],
+  message: String
 }
 export interface FrFilter {
   label: string;
@@ -77,10 +77,34 @@ export interface Filter {
   stateTypeFilter?: [];
   ulbParticipationFilter?: [];
   ulbRankingStatusFilter?: [];
-  populationBucketFilter?:[];
+  populationBucketFilter?: [];
 }
-export const removeFalsy = obj => Object.entries(obj).reduce((a,[k,v]) => (v ? (a[k]=v, a) : a), {});
 
+export interface UlbData {
+  censusCode: string;
+  name: string;
+  populationBucket: number;
+  sbCode?: string;
+  ulb: string;
+}
+
+export const removeFalsy = obj => Object.entries(obj).reduce((a, [k, v]) => (v ? (a[k] = v, a) : a), {});
+
+const getValueByPath = (response, path) => {
+  return path.split('.').reduce((value, key) => (value && value[key] !== undefined ? value[key] : undefined), response);
+}
+
+export const tableMapperPipe = (columns, tablePath: string = '') => {
+  return map((response: any) => {
+    const mutable = tablePath ? getValueByPath(response, tablePath) : response;
+    console.log('mutable', mutable)
+    mutable.columns = columns || mutable.columns.map(column => ({
+      ...column,
+      sort: column.sort || 0,
+    }));
+    return response;
+  })
+}
 
 @Injectable({
   providedIn: 'root'
@@ -155,33 +179,26 @@ export class FiscalRankingService {
     return url;
   }
 
-  getTableResponse(endpoint: string, queryParams: string, columns) {
-    return this.http.get<TableResponse>(`${environment.api.url}/${endpoint}?${queryParams}`).pipe(
-      map((response) => {
-        response.columns = columns || response.columns.map(column => ({
-          ...column,
-          sort: column.sort || 0,
-        }));
-        return response;
-      })
-    );
+  getTableResponse(endpoint: string, queryParams: string, columns, tablePath: string = '', params = {}) {
+    return this.http.get(`${environment.api.url}/${endpoint}?${queryParams}`,  { params }).pipe(tableMapperPipe(columns, tablePath));
   }
+
 
   getStateWiseForm(params = {}) {
     if (this.userUtil.getUserType() == USER_TYPE.STATE) {
       params['state'] = this.userUtil.getLoggedInUserDetails()?.state;
     }
     const queryParams = new URLSearchParams(removeFalsy(params)).toString()
-    return this.http.get<{data: MapData}>(`${environment.api.url}/fiscal-ranking/getStateWiseForm?` + queryParams);
+    return this.http.get<{ data: MapData }>(`${environment.api.url}/fiscal-ranking/getStateWiseForm?` + queryParams);
   }
 
-  getTrackingHistory(params={}){
-    try{
+  getTrackingHistory(params = {}) {
+    try {
       const queryParams = new URLSearchParams(removeFalsy(params)).toString()
-      return this.http.get<TrackingHistoryResponse>(`${environment.api.url}/fiscal-ranking/tracking-history?`+queryParams);
+      return this.http.get<TrackingHistoryResponse>(`${environment.api.url}/fiscal-ranking/tracking-history?` + queryParams);
     }
-    catch(err){
-      console.log("error in getTrackingHistory :: ",err.message)
+    catch (err) {
+      console.log("error in getTrackingHistory :: ", err.message)
     }
   }
 
@@ -197,12 +214,12 @@ export class FiscalRankingService {
     return this.http.get(`${environment.api.url}scoring-fr/dashboard`)
   }
 
-  callGetMethod(endPoints:string, queryParam:any) {
+  callGetMethod(endPoints: string, queryParam: any) {
     return this.http.get(
       `${environment.api.url}${endPoints}`,
-       {
+      {
         params: queryParam
-       }
+      }
     );
   }
 
@@ -210,23 +227,17 @@ export class FiscalRankingService {
     return this.http.get(`${environment.api.url}scoring-fr/states`)
   }
 
-  auditedAccounts() {
-    return this.http.get(`${environment.api.url}scoring-fr/states/auditedAccounts`)
-  }
 
-  annualBudgets() {
-    return this.http.get(`${environment.api.url}scoring-fr/states/annualBudgets`)
-  }
-  
-  topRankedUlbs(params) {
-    return this.http.get(`${environment.api.url}scoring-fr/top-ranked-ulbs`, { params })
+
+  topRankedUlbs(queryParams: string, columns, params) {
+    return this.http.get(`${environment.api.url}scoring-fr/top-ranked-ulbs?${queryParams}`, { params }).pipe(tableMapperPipe(columns, 'tableData'))
   }
 
   topRankedStates(params) {
     return this.http.get(`${environment.api.url}scoring-fr/top-ranked-states`, { params })
   }
 
-  getBarchartData() {
-    return this.http.get(`${environment.api.url}scoring-fr/search-ulbs?ulb[]=5eb5844f76a3b61f40ba06fd&ulb[]=5dd24b8f91344e2300876cac&ulb[]=5eb5844f76a3b61f40ba069b`)
+  getBarchartData(ulbsString) {
+    return this.http.get(`${environment.api.url}scoring-fr/search-ulbs?${ulbsString}`)
   }
 }

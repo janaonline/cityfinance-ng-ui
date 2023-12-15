@@ -16,6 +16,9 @@ thead {
     thead {
         position: static;
         top: 5px;
+        tr {
+            border-bottom: 2px solid #e6e6e6;
+        }
     }
     table {
         text-align: left;
@@ -35,7 +38,7 @@ thead {
 }
 
 .scroll {
-    width: 100;
+    width: 100%;
     overflow: auto;
 }
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FiscalRankingService } from '../fiscal-ranking.service';
 import { GuidelinesPopupComponent } from './guidelines-popup/guidelines-popup.component';
+import { VideosPopupComponent } from './videos-popup/videos-popup.component';
 
 @Component({
   selector: 'app-home',
@@ -20,6 +21,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadData();
+    this.videosPopup();
   }
 
   loadData() {
@@ -54,13 +56,19 @@ export class HomeComponent implements OnInit {
           }), {})
         ))
       };
-    })
+    });
   }
 
   guidelinesPopup() {
     this.matDialog.open(GuidelinesPopupComponent, {
       width: '450px',
       maxHeight: '90vh'
+    });
+  }
+
+  videosPopup() {
+    this.matDialog.open(VideosPopupComponent, {
+      width: '800px'
     });
   }
 }
