@@ -112,6 +112,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     console.log("daaaaa", this.filterInputData);
+    this.getStatesList();
     this.addYearsTillCurrent();
   }
 
@@ -276,6 +277,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     this.filterForm.patchValue({ state: state._id })
     this.filterData('state', '')
   }
+
 
   /*initializationFilterValue method initialise the filter form */
   initializationFilterValue() {
