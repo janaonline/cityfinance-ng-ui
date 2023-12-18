@@ -81,7 +81,7 @@ export class DataEntryService {
   newGetURLForFileUpload(fileName: File["name"], fileType: File["type"], folderName?: string) {
     const headers = new HttpHeaders();
     return this.http.post<S3FileURLResponse>(
-      `${environment.api.url}/getS3Url`,
+      `${environment.api.url}/getBlobUrl`,
       JSON.stringify([
         {
           folder: folderName,

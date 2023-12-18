@@ -20,7 +20,7 @@
                 <tr>
                     <ng-container *ngFor="let column of response.columns">
                         <th scope="col" *ngIf="!column?.hidden" [attr.colspan]="column?.colspan || 1"
-                            [style.width]="column?.width || null" class="border-0 {{column?.class}}"
+                            [style.width]="column?.width || null" class="border-0 {{column?.class}} {{column?.key}} br-r"
                             [ngClass]="{'table-primary': !theme}">
                             <div (click)="updateSorting(column)" class="d-flex " style="cursor: pointer;">
                                 <div>
@@ -39,7 +39,7 @@
                     </ng-container>
                 </tr>
                 <tr *ngIf="response.subHeaders">
-                    <td class="text-muted fst-italic text-nowrap" scope="col"
+                    <td class="text-muted fst-italic text-nowrap br-r" scope="col"
                         *ngFor="let subHeader of response.subHeaders" [ngClass]="{'table-primary': !theme}">
                         {{ subHeader}}
                     </td>
@@ -57,7 +57,7 @@
                 <tr *ngFor="let row of response.data" class="py-1"
                     [ngClass]="{'table-secondary': row?.selected, 'border-0': !theme}">
                     <td *ngFor="let column of response.columns; let i = index;"
-                        [ngClass]="{'text-center': i != 0, 'border-0': !theme}">
+                        [ngClass]="{'text-center': i != 0, 'border-0': !theme}" class="br-r">
                         <ng-container *ngIf="row[column.key + 'Link']; else fileValue;">
                             <a *ngIf="isDialog" [href]="row[column.key + 'Link']" target="_blank">{{ row[column.key]
                                 }}</a>
