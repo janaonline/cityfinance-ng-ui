@@ -212,7 +212,7 @@ export class ParticipatingUlbsComponent implements OnInit {
       this.stateList = res?.data;
       const selectedState = this.stateList.find(({ _id }) => _id === this.selectedStateId);
       console.log('selectedState', selectedState);
-      this.selectedStateName = selectedState?.name;
+     // this.selectedStateName = selectedState?.name;
       this.getTableData(this.table, '');
 
     });
@@ -240,6 +240,7 @@ export class ParticipatingUlbsComponent implements OnInit {
     this.fiscalRankingService.getTableResponse(endpoint, queryParams, table?.response?.columns, 'data', filterObj).subscribe((res: any) => {
       console.log('participated-state table responces', res);
       this.table["response"] = res?.data;
+      this.selectedStateName = res?.data?.state?.name
    },
      (error) => {
        console.log('participated-state table error', error);

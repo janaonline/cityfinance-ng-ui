@@ -1,4 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { getPopulationCategory, PopulationCategory } from 'src/app/util/common';
+
+type ActiveFilter = 'overAll' | 'resourceMobilization' | 'expenditurePerformance' | 'fiscalGovernance';
 
 @Component({
   selector: 'app-performance-four-m',
@@ -9,18 +12,12 @@ export class PerformanceFourMComponent implements OnInit {
 
   @Input() data;
 
-  activeFilter = 'overAll';
+  activeFilter: ActiveFilter  = 'overAll';
+  populationCategory: PopulationCategory;
 
-  
-  constructor() { }
+  ulb: any;
+  selectedRank: string;
 
-  get ulb() {
-    return this.data?.ulb;
-  }
-
-  get selectedRank() {
-    return this.ulb?.[this.activeFilter]?.rank;
-  }
 
   get activeFilterName() {
     return {
@@ -32,8 +29,19 @@ export class PerformanceFourMComponent implements OnInit {
   }
 
 
+  constructor() { }
 
   ngOnInit(): void {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['data']?.currentValue) this.updateInputDataDependencies();
+  }
+
+  updateInputDataDependencies() {
+    this.ulb = this.data?.ulb;
+    this.selectedRank = this.ulb?.[this.activeFilter]?.rank;
+    this.populationCategory = getPopulationCategory(this.ulb?.population);
   }
 
 }
