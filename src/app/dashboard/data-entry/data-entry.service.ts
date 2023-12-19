@@ -120,17 +120,18 @@ export class DataEntryService {
   // }
   uploadFileToS3(file: File, s3URL: string, options = { reportProgress: true }): Observable<any> {
     // Create headers
+    // const token = JSON.parse(localStorage.getItem("id_token"));
+    // const sessionID = sessionStorage.getItem("sessionID");
     const headers = new HttpHeaders({
       'X-Ms-Blob-Type': 'BlockBlob',
+      // "Content-Type" : "application/json",
+      // "sessionId" : sessionID,
+      // "x-access-token" : token
       // Add more headers as needed
     });
 
-    // Create a FormData object to append the file
-    const formData = new FormData();
-    formData.append('file', file);
-
     // Make the PUT request with headers
-    return this.http.put(s3URL, formData, {
+    return this.http.put(s3URL, file, {
       reportProgress: options.reportProgress,
       observe: 'events',
       headers: headers, // Include the headers here
