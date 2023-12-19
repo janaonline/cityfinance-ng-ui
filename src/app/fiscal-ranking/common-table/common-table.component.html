@@ -61,7 +61,7 @@
                         <ng-container *ngIf="row[column.key + 'Link']; else fileValue;">
                             <a *ngIf="isDialog" [href]="row[column.key + 'Link']" target="_blank">{{ row[column.key]
                                 }}</a>
-                            <a *ngIf="!isDialog" [routerLink]="row[column.key + 'Link']">{{ row[column.key] }}</a>
+                            <a *ngIf="!isDialog" [href]="row[column.key + 'Link']">{{ row[column.key] }}</a>
                         </ng-container>
                         <ng-template #fileValue>
                             <ng-container
