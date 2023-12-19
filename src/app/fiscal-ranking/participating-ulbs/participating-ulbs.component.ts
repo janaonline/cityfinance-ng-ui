@@ -42,7 +42,7 @@ export class ParticipatingUlbsComponent implements OnInit {
   populationCategoryFilter: FrFilter[] = [];
   ulbParticipationFilter: FrFilter[]= [];
   ulbRankingStatusFilter: FrFilter[]= [];
-  populationCategory: string = 'All';
+  populationBucket: string = 'All';
   ulbParticipation: string = 'All';
   ulbRankingStatus: string = 'All';
   stateList = [];
@@ -218,7 +218,7 @@ export class ParticipatingUlbsComponent implements OnInit {
     });
   }
   resetFilter() {
-    this.populationCategory = this.populationCategoryFilter[0]?.value;
+    this.populationBucket = this.populationCategoryFilter[0]?.value;
     this.ulbParticipation = this.ulbParticipationFilter[0]?.value;
     this.ulbRankingStatus = this.ulbRankingStatusFilter[0]?.value;
     this.getTableData(this.table, '');
@@ -230,7 +230,7 @@ export class ParticipatingUlbsComponent implements OnInit {
   // get the ulbs data 
   getTableData(table: Table, queryParams: string = '') {
     const filterObj = {
-      populationCategory: this.populationCategory,
+      populationBucket: this.populationBucket,
       ulbParticipationFilter: this.ulbParticipation,
       ulbRankingStatusFilter: this.ulbRankingStatus,
     }
