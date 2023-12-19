@@ -108,16 +108,36 @@ export class DataEntryService {
     return formattedObj;
 
   }
-  uploadFileToS3(
-    file: File,
-    s3URL: string,
-    options = { reportProgress: true }
-  ) {
-    return this.http.put(s3URL, file, {
+  // uploadFileToS3(
+  //   file: File,
+  //   s3URL: string,
+  //   options = { reportProgress: true }
+  // ) {
+  //   return this.http.put(s3URL, file, {
+  //     reportProgress: options.reportProgress,
+  //     observe: "events",
+  //   });
+  // }
+  uploadFileToS3(file: File, s3URL: string, options = { reportProgress: true }): Observable<any> {
+    // Create headers
+    const headers = new HttpHeaders({
+      'X-Ms-Blob-Type': 'BlockBlob',
+      // Add more headers as needed
+    });
+
+    // Create a FormData object to append the file
+    const formData = new FormData();
+    formData.append('file', file);
+
+    // Make the PUT request with headers
+    return this.http.put(s3URL, formData, {
       reportProgress: options.reportProgress,
-      observe: "events",
+      observe: 'events',
+      headers: headers, // Include the headers here
     });
   }
+
+
 
 
   /**
