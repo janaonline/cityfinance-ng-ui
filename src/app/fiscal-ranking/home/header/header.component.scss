@@ -16,9 +16,9 @@ section {
     .main-content {
         display: flex;
         flex-direction: column;
-        gap: 120px;
+        gap: 60px;
         @media screen and (max-height: 800px) {
-            gap: 30px; /* Adjust this value for smaller height devices */
+            gap: 10px;
         }
     }
 
