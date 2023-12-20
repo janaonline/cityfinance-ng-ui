@@ -42,7 +42,7 @@ export class ParticipatingUlbsComponent implements OnInit {
   populationCategoryFilter: FrFilter[] = [];
   ulbParticipationFilter: FrFilter[]= [];
   ulbRankingStatusFilter: FrFilter[]= [];
-  populationCategory: string = 'All';
+  populationBucket: string = 'All';
   ulbParticipation: string = 'All';
   ulbRankingStatus: string = 'All';
   stateList = [];
@@ -212,13 +212,13 @@ export class ParticipatingUlbsComponent implements OnInit {
       this.stateList = res?.data;
       const selectedState = this.stateList.find(({ _id }) => _id === this.selectedStateId);
       console.log('selectedState', selectedState);
-      this.selectedStateName = selectedState?.name;
+     // this.selectedStateName = selectedState?.name;
       this.getTableData(this.table, '');
 
     });
   }
   resetFilter() {
-    this.populationCategory = this.populationCategoryFilter[0]?.value;
+    this.populationBucket = this.populationCategoryFilter[0]?.value;
     this.ulbParticipation = this.ulbParticipationFilter[0]?.value;
     this.ulbRankingStatus = this.ulbRankingStatusFilter[0]?.value;
     this.getTableData(this.table, '');
@@ -230,7 +230,7 @@ export class ParticipatingUlbsComponent implements OnInit {
   // get the ulbs data 
   getTableData(table: Table, queryParams: string = '') {
     const filterObj = {
-      populationCategory: this.populationCategory,
+      populationBucket: this.populationBucket,
       ulbParticipationFilter: this.ulbParticipation,
       ulbRankingStatusFilter: this.ulbRankingStatus,
     }
@@ -240,6 +240,7 @@ export class ParticipatingUlbsComponent implements OnInit {
     this.fiscalRankingService.getTableResponse(endpoint, queryParams, table?.response?.columns, 'data', filterObj).subscribe((res: any) => {
       console.log('participated-state table responces', res);
       this.table["response"] = res?.data;
+      this.selectedStateName = res?.data?.state?.name
    },
      (error) => {
        console.log('participated-state table error', error);

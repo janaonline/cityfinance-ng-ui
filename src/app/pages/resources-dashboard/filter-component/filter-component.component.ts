@@ -68,24 +68,14 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     // this.filterData("", "");
 
     const year = this.route.snapshot.queryParamMap.get('year') || this.selectedValue;
-    const ulbName = this.route.snapshot.queryParamMap.get('ulbName') || '';
+    const ulbName = this.route.snapshot.queryParamMap.get('ulbName') || this.route.snapshot.queryParamMap.get('ulb') || '';
     const ulbId = this.route.snapshot.queryParamMap.get('ulbId') || '';
-    this.filterForm = this.fb.group({
-      state: [""],
-      ulb: [""],
-      ulbId: [""],
-      contentType: [""],
-      sortBy: [""],
-      year: [""],
-      category: this.category,
-    });
+    this.stateId = this.route.snapshot.queryParamMap.get('state') || '';
+    const contentType = this.route.snapshot.queryParamMap.get('type') || this.selectedType;
+    this.initializationFilterValue();
     this.selectedValue = year ? year : "";
-    this.filterForm.patchValue({
-      year: this.selectedValue,
-      ulb: ulbName,
-      ulbId,
-      contentType: this.selectedType,
-    });
+    this.getStatesList();
+    this.patchFilterValues(this.stateId, ulbId, ulbName, this.selectedValue, contentType);
   }
 
   stateList;
@@ -100,12 +90,12 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     "2019-20",
     "2020-21",
     "2021-22",
-  ].reverse();
+  ];
   cType = ["Raw Data PDF", "Raw Data Excel", "Standardised Excel"];
   // "Standardised Excel",
   // "Standardised PDF",
   filteredOptions: Observable<any[]>;
-
+  stateId:string = "";
   getYearsList() {
     this._resourcesDashboardService.getYearsList().subscribe((res: any) => {
       console.log("years===>", res.data);
@@ -123,6 +113,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     console.log("daaaaa", this.filterInputData);
     this.getStatesList();
+    this.addYearsTillCurrent();
   }
 
   onChange(event) {
@@ -141,12 +132,13 @@ export class FilterComponentComponent implements OnInit, OnChanges {
       (res: any) => {
         console.log("res", res);
         this.stateList = this._commonServices.sortDataSource(res, "name");
-        if (stateCode) {
-          const state = this.stateList?.find(st => st?.code == stateCode);
+        if (stateCode || this.stateId) {
+          const state = stateCode ? this.stateList?.find(st => st?.code == stateCode) : this.stateList?.find(st => st?._id == this.stateId);
           this.state.patchValue([state]);
           this.onStateChange(state);
         }
         this.loadData();
+        console.log("this.state this.state 234", this.state);
       },
       (error) => {
         console.log(error);
@@ -210,7 +202,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
       }
     }
     if (changes && changes.category && changes.category.currentValue) {
-      this.filterData("category", "");
+        this.filterData("category", "");
     }
 
     if (changes.data) {
@@ -251,14 +243,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     this.filteredOptions = emptyArr;
     this.filterForm.reset();
 
-    this.filterForm.patchValue({
-      state: "",
-      ulb: "",
-      ulbId: "",
-      contentType: "Raw Data PDF",
-      sortBy: "",
-      year: this.selectedValue,
-    });
+    this.patchFilterValues("", "", "", this.selectedValue, "Raw Data PDF")
     this.filterFormData.emit(this.filterForm);
     this.loadData();
   }
@@ -291,5 +276,55 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   onStateChange(state) {
     this.filterForm.patchValue({ state: state._id })
     this.filterData('state', '')
+  }
+
+
+  /*initializationFilterValue method initialise the filter form */
+  initializationFilterValue() {
+    this.filterForm = this.fb.group({
+      state: [""],
+      ulb: [""],
+      ulbId: [""],
+      contentType: [""],
+      sortBy: [""],
+      year: [""],
+      category: this.category,
+    });
+  }
+
+  /*patchFilterValues method patch all values based on filter applied */
+  patchFilterValues(stateId, ulbId, ulbName, year, contentType) {
+    this.filterForm.patchValue({
+      year,
+      ulb: ulbName,
+      ulbId,
+      contentType,
+      state: stateId
+    });    
+  }
+
+  /*this method add calander year dynamic in yearList array, format- "2021-22" */
+  addYearsTillCurrent() {
+    // Get the current year
+    const currentYear = new Date().getFullYear();
+    // get the previous year which is presented in the year list
+    let lastYear = parseInt(this.yearList[this.yearList.length - 1]);
+
+    // Generate and add years until the current year
+    while (lastYear <= currentYear) {
+      const formattedYear = `${lastYear - 1}-${String(lastYear).slice(2)}`;
+
+      // Check if the year is not already in the array
+      if (!this.yearList.includes(formattedYear)) {
+        // Add the year to the array
+        this.yearList.push(formattedYear);
+      }
+
+      // Move to the next year
+      lastYear++;
+    }
+
+    // Reverse the array if needed
+    this.yearList.reverse();
   }
 }

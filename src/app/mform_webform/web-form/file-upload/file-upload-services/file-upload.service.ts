@@ -43,7 +43,7 @@ export class FileUploadService {
     let fileId = name+moment();
     return this.httpClient
         .post(
-          'environment.base_uri' + "getS3Url", // url part need to be changed
+          'environment.base_uri' + "getBlobUrl", // url part need to be changed
           JSON.stringify([
             {
               file_name: name,
