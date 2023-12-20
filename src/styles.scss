@@ -1357,7 +1357,7 @@ input[type=number] {
     transition: background 0.3s ease, color 0.3s ease;
     box-shadow: 1px 11px 28px 2px #e67e1561;
 
-    
+
     &.btn-outline {
         background: #fff;
         border: 1px solid $orange;
@@ -1406,4 +1406,9 @@ input[type=number] {
     letter-spacing: 0em;
     text-align: center;
 
+}
+
+.btn-check:focus + .btn-outline-primary, .btn-outline-primary:focus {
+    box-shadow: none !important;
+    outline: none !important;
 }
