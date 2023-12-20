@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-12" style="display: flex;">
         <!-- <div class="float-left"> -->
-        <span class="" [ngClass]="{'col-sm-4': (loggedInUserType != USER_TYPE.ULB && !FromLinkinPfms) ||
+        <span class="" [ngClass]="{'col': (loggedInUserType != USER_TYPE.ULB && !FromLinkinPfms) ||
       (loggedInUserType === USER_TYPE.ULB && (btnStyleA || btnStyleR)),
      'col-sm': !(loggedInUserType === USER_TYPE.STATE && !FromLinkinPfms) }"> <b *ngIf="FromLinkinPfms">(A) </b>
         <b>{{quesName}}</b><span style="color: red;">*</span></span>
@@ -27,11 +27,11 @@
         </div>
         <!-- && (finalSubmitUtiStatus == 'true') -->
         <div class="btn-group float-right" *ngIf="
-    (stateAction != 'PENDING') &&
+        stateAction && (stateAction != 'PENDING') &&
     finalSubmitStatus == 'true' &&
     lastRoleInMasterForm != USER_TYPE.ULB" btnRadioGroup style="margin-bottom: 1rem;" [style.margin-left]='(quesName =="Auditor Report")
     ? "23%": "5%"' [style.display]='(stateAction == "PENDING") ? "none" : ""'>
-            <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA, 'btn-r' : btnStyleR}">
+            <label class="btn btn-success btn-label" [ngClass]="{'btn-a' : btnStyleA, 'btn-r' : btnStyleR}">
             {{stateAction | titlecase}}</label>
         </div>
     </div>
