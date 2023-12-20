@@ -201,6 +201,7 @@ export class CommonService {
     }
     if (!isAllowed && isSize) {
      let apiEndPoint: string =  `${environment.api.url}getBlobUrl`
+     // let apiEndPoint: string = 'https://democityfinanceapi.dhwaniris.in/api/v1/getBlobUrl';
      // let apiEndPoint: string = 'https://democityfinanceapi.dhwaniris.in/api/v1//getS3Url';
       if (Object.keys(headerOptions).length) {
         apiEndPoint = headerOptions && headerOptions.baseUrl;
