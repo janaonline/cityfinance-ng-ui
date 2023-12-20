@@ -371,6 +371,7 @@ div.miniMap {
 ::ng-deep .leaflet-pane>svg path.leaflet-interactive {
     stroke: black !important;
     stroke-width: 1px;
+    outline: none;
 }
 
 ::ng-deep #districtMapId .leaflet-pane>svg path.leaflet-interactive {
