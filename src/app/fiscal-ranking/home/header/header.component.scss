@@ -17,6 +17,9 @@ section {
         display: flex;
         flex-direction: column;
         gap: 120px;
+        @media screen and (max-height: 800px) {
+            gap: 30px; /* Adjust this value for smaller height devices */
+        }
     }
 
     .dotted-card {
@@ -25,8 +28,10 @@ section {
         border: 1px dashed orange;
         border-radius: 10px;
         padding: 20px;
-        min-width: 350px;
         align-items: center;
+        @media screen and (min-width: 1200px) {
+            min-width: 350px;
+        }
         .content {
             text-align: left;
             .download-link {
