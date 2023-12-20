@@ -57,11 +57,13 @@ thead {
     color: #E67E15;
 
 }
-
-.br-r:nth-child(9) {
-    border-right: 2px solid darkgrey !important;
-}
-
-::ng-deep .auditedAccounts2018-19 {
-    border-right: 2px solid darkgrey !important;
+::ng-deep .p-ulb {
+    
+    .br-r:nth-child(9) {
+        border-right: 2px solid #dee2e6 !important;
+    }
+    
+     .auditedAccounts2018-19 {
+        border-right: 2px solid #dee2e6 !important;
+    }
 }
