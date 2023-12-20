@@ -35,7 +35,7 @@ export class GAservicesService {
     let url = environment.api.url + `grantDistribution/upload?url=${val}&&design_year=606aaf854dff55e6c075d219`
     return this.http.get(url, { responseType: 'blob' })
   }
-  downloadFile(): Observable<any> {
-    return this.http.get(environment.api.url + 'grantDistribution/template', { responseType: 'blob' });
+  downloadFile(year: string): Observable<any> {
+    return this.http.get( `${environment.api.url}grantDistribution/template?year=${year}`, { responseType: 'blob' });
   }
 }
