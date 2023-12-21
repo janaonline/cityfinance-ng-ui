@@ -172,7 +172,7 @@ export class GrantAllocationComponent implements OnInit {
     }
   }
   downloadSample() {
-    const YEAR2122 = "606aaf854dff55e6c075d219";
+    const YEAR2122 = this.years["2021-22"];
     this._gAservices.downloadFile(YEAR2122).subscribe((response) => {
       let blob: any = new Blob([response], {
         type: "text/json; charset=utf-8",
