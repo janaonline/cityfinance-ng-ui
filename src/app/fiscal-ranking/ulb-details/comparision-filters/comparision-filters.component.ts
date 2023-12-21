@@ -5,8 +5,11 @@ import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { UtilityService } from 'src/app/shared/services/utility.service';
+import { SweetAlert } from 'sweetalert/typings/core';
 
 import { FiscalRankingService } from '../../fiscal-ranking.service';
+
+const swal: SweetAlert = require("sweetalert");
 
 @Component({
   selector: 'app-comparision-filters',
@@ -50,12 +53,44 @@ export class ComparisionFiltersComponent implements OnInit {
 
   debouncedSearch = this.utilityService.debounce(this.search, 500);
 
-  addUlb(ulb) {
+  async addUlb(ulb) {
+
+    let isAgree = true;
+
+    if (this.data?.ulb.populationBucket != ulb.populationBucket) {
+      isAgree = await swal(
+        "Are you sure?",
+        `${ulb?.name} does not fall under ${this.data?.bucketShortName} if you still want to compare, please click on apply button.`,
+        "warning"
+        , {
+          buttons: {
+            Leave: {
+              text: "Cancel",
+              className: 'btn-danger',
+              value: false,
+            },
+            Stay: {
+              text: "Apply",
+              className: 'btn-success',
+              value: true,
+            },
+          },
+        }
+      );
+    }
+
+
+    console.log('isAgree', isAgree);
+
     this.query = '';
     this.searchResults = [];
-    this.ulbs.push(ulb);
-    this.menuTrigger.closeMenu();
+    if (isAgree) {
+      this.ulbs.push(ulb);
+      this.menuTrigger.closeMenu();
+    }
   }
+
+
 
   closeMenu() {
     setTimeout(() => {
@@ -77,7 +112,7 @@ export class ComparisionFiltersComponent implements OnInit {
   reset() {
     this.dialogRef.close('reset');
   }
-  
+
   close() {
     this.dialogRef.close();
   }

@@ -17,8 +17,20 @@
 
 .chip {
     background-color: #193369;
+    &.non-bucket {
+        background-color: #b50e0e;
+    }
     color: white;
     padding: 8px 14px;
     border-radius: 50px;
     display: flex;
+}
+
+::ng-deep {
+    .cdk-overlay-connected-position-bounding-box,
+    .cdk-overlay-pane,
+    .cdk-global-overlay-wrapper,
+    .cdk-overlay-container {
+        z-index: 1000 !important;
+    }
 }
