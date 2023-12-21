@@ -171,9 +171,13 @@ export class DataEntryService {
     s3URL: string,
     options = { reportProgress: true }
   ) {
+    const headers = new HttpHeaders({
+      'X-Ms-Blob-Type': 'BlockBlob',
+    });
     return this.http.put(s3URL, file, {
       reportProgress: options.reportProgress,
       observe: "events",
+      headers
     });
   }
   checkSpcialCharInFileName(files) {
