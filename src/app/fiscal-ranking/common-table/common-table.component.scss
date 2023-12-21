@@ -9,24 +9,29 @@ thead {
 
 .white {
     border: 1px solid #DBDBDB;
-    box-shadow: 0px 0px 10px 3px #afafaf;
+    box-shadow: 0 0 20px 0 #c7c7c754;
     border-radius: 5px;
     color: red !important;
     margin: 30px auto;
+
     thead {
         position: static;
         top: 5px;
+
         tr {
             border-bottom: 2px solid #e6e6e6;
         }
     }
+
     table {
         text-align: left;
 
-
-        td,
-        th {
-            padding: 10px 20px;
+        .data-item * {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
         }
 
         td.text-center,
@@ -34,7 +39,7 @@ thead {
             text-align: left !important;
         }
     }
-   
+    
 }
 
 .scroll {
@@ -51,4 +56,14 @@ thead {
     text-align: left;
     color: #E67E15;
 
+}
+::ng-deep .p-ulb {
+    
+    .br-r:nth-child(9) {
+        border-right: 2px solid #dee2e6 !important;
+    }
+    
+     .auditedAccounts2018-19 {
+        border-right: 2px solid #dee2e6 !important;
+    }
 }

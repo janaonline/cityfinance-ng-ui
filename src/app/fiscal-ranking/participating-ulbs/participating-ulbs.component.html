@@ -34,7 +34,7 @@
                                     Population Category
                                 </div>
                                 <div class="filer">
-                                    <select class="form-select" aria-label="populationCategory" [(ngModel)]="populationCategory" (change)="dropDownValueChanges($event.target.value)">
+                                    <select class="form-select" aria-label="populationBucket" [(ngModel)]="populationBucket" (change)="dropDownValueChanges($event.target.value)">
                                         <option value="{{item?.value}}" selected *ngFor="let item of populationCategoryFilter">{{item?.label}}</option>
                                     </select>  
                                 </div>
@@ -74,13 +74,11 @@
 
     <div class="row mb-4">
         <div class="col-12 table-card">
-            <!-- <div class="card table-card mt-4 mx-auto" style="">
-                <div class="card-body"> -->
-                    <app-common-table theme="white" [response]="table?.response" [classLists]="'scroll'" [allowedExtensions]="allowedExtensions" 
-                    [targetExtension]="targetExtension" (update)="onUpdate(table, $event)" *ngIf="table?.response">
-                    </app-common-table>
-            <!-- </div>
-        </div> -->
+            <div class="px-3">
+                <app-common-table theme="white" [response]="table?.response" [classLists]="'scroll p-ulb'" [allowedExtensions]="allowedExtensions" 
+                [targetExtension]="targetExtension" (update)="onUpdate(table, $event)" *ngIf="table?.response">
+                </app-common-table>
+            </div>
     </div>
   
     
