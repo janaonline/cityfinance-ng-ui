@@ -38,11 +38,12 @@
 }
 .section-3 {
     background-image: url('/assets/fiscal-rankings/ulbs-in-india-bg-3.png');
-    .child {
-        padding-left: 80px !important;
-        padding-right: 80px !important;
-    }
     background-size: 90%;
     background-position: center center;
     background-repeat: no-repeat;
+}
+
+.child {
+    padding-top: 80px !important;
+    padding-bottom: 80px !important;
 }
