@@ -177,7 +177,7 @@ export class DataEntryService {
     return this.http.put(s3URL, file, {
       reportProgress: options.reportProgress,
       observe: "events",
-      headers
+      headers : headers
     });
   }
   checkSpcialCharInFileName(files) {
