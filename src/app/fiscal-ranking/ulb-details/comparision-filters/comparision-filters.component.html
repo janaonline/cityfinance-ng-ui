@@ -31,7 +31,7 @@
 
 
     <div class="chip-container">
-        <span class="chip" *ngFor="let ulb of ulbs; let i = index;">
+        <span class="chip" [ngClass]="{'non-bucket': ulb?.populationBucket != data?.ulb?.populationBucket}" *ngFor="let ulb of ulbs; let i = index;">
             {{ ulb?.name }} <mat-icon *ngIf="!ulb?.disabled" class="cursor-pointer" (click)="removeUlb(i)">close
             </mat-icon>
         </span>

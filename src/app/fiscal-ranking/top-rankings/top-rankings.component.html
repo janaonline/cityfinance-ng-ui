@@ -24,7 +24,7 @@
             <ng-container *ngIf="isShowingMap; else mapLoader;">
                 <app-india-map *ngIf="selectedMap == 'topUlbs'" [markers]="markers">
                 </app-india-map>
-                <app-india-map *ngIf="selectedMap == 'rankHolders'" [colorCoding]="colorCoding"
+                <app-india-map *ngIf="selectedMap == 'rankHolders'" [colorCoding]="colorCoding" [identifier]="'top-ranking'"
                     [colorDetails]="colorDetails" label="Rank holding ULBs in state">
                 </app-india-map>
             </ng-container>
