@@ -69,7 +69,7 @@ export class FileUploadService {
     const headers = new HttpHeaders({
       'X-Ms-Blob-Type': 'BlockBlob',
     });
-    return this.httpClient.put(url, img, { reportProgress: true, observe: "events", headers })
+    return this.httpClient.put(url, img, { reportProgress: true, observe: "events", headers: headers })
       .pipe(
         map((event: any) => {
           if (event.type == HttpEventType.UploadProgress) {
