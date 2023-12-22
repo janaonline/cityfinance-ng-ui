@@ -58,6 +58,10 @@ section {
         color: orange;
         cursor: pointer;
         padding: 0;
+        position: absolute;
+        bottom: 50px;
+        left: 50%;
+        transform: translateX(-50%);
         .down {
             transform: scaleX(8.5);
             font-weight: 100;
