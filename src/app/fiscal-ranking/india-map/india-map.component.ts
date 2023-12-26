@@ -38,6 +38,7 @@ export interface Marker {
 export class IndiaMapComponent extends NationalHeatMapComponent implements OnInit, AfterViewInit {
   @Output() onStateChange = new EventEmitter();
   @Input() label: string = '';
+  @Input() identifier: string = '';
   @Input() mapData: MapData;
   @Input() markers: Marker[] = [];
   @Input() colorCoding: any = [];
@@ -253,6 +254,16 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
         mouseover: () => this.createTooltip(layer, this.stateLayers),
         click: (args: ILeafletStateClickEvent) => {
           this.selectedStateCode = args.sourceTarget.feature.properties.ST_CODE;
+
+          const state = this.colorCoding?.find(state => state?.code === this.selectedStateCode);
+          
+          if (this.identifier == 'top-ranking' && state) {
+            layer.closePopup();
+            layer.bindPopup(`<div class="text-center"><b class="fs-6">${state?.name}</b> <br/> 
+              Top number of rank holder: <b class="color-orange">${state?.percentage}<b></div>`);
+            layer.openPopup();
+          }
+
           this.onStateLayerClick(args, false, false);
         },
         mouseout: () => (this.mouseHoverOnState = null),
