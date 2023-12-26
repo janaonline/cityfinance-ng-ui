@@ -11,9 +11,14 @@
         </mat-paginator>
         <mat-icon *ngIf="isDialog" (click)="closeDialog()" role="button">clear</mat-icon>
     </div>
-    <mat-paginator *ngIf="response?.total" [length]="response.total" [pageSize]="limit"
+    <!-- <mat-paginator *ngIf="response?.total" [length]="response.total" [pageSize]="limit"
         [pageSizeOptions]="pageSizeOptions" (page)="pageChange($event)" aria-label="Select page">
-    </mat-paginator>
+    </mat-paginator> -->
+
+    <!---- pagination without no of item select dropdown -->
+
+    <mat-paginator *ngIf="response?.total" [length]="response.total" [pageSize]="limit"
+     aria-label="Select page of search results" (page)="pageChange($event)"></mat-paginator>
     <div class="scroll {{theme}} {{classLists}}">
         <table class="table" [ngClass]="{'d-block': isDialog, 'table-striped': !theme}">
             <thead *ngIf="response?.columns?.length > 0">
@@ -24,8 +29,8 @@
                             [ngClass]="{'table-primary': !theme}">
                             <div (click)="updateSorting(column)" class="d-flex " style="cursor: pointer;">
                                 <div>
-                                    <p [innerHTML]="column.label" class="m-0 text-center"></p>
-                                    <div *ngIf="column?.info" class="fw-light text-muted text-center"><small>{{ column?.info
+                                    <p [innerHTML]="column.label" class="m-0"></p>
+                                    <div *ngIf="column?.info" class="fw-light text-muted"><small>{{ column?.info
                                             }}</small>
                                     </div>
                                 </div>
@@ -85,5 +90,6 @@
             </tbody>
         </table>
     </div>
+    
     <h2 *ngIf="response?.data?.length == 0" class="text-center p-5">No data found</h2>
 </div>
