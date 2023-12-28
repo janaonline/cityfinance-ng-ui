@@ -1,3 +1,7 @@
+*:not(mat-icon) {
+    font-family: 'Montserrat';
+}
+
 section {
     text-align: center;
     background-image: url('/assets/fiscal-rankings/header-background.png');
@@ -16,9 +20,9 @@ section {
     .main-content {
         display: flex;
         flex-direction: column;
-        gap: 120px;
+        gap: 60px;
         @media screen and (max-height: 800px) {
-            gap: 30px; /* Adjust this value for smaller height devices */
+            gap: 10px;
         }
     }
 
@@ -58,6 +62,10 @@ section {
         color: orange;
         cursor: pointer;
         padding: 0;
+        position: absolute;
+        bottom: 50px;
+        left: 50%;
+        transform: translateX(-50%);
         .down {
             transform: scaleX(8.5);
             font-weight: 100;
