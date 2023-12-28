@@ -1,13 +1,24 @@
 import { Component, OnInit } from '@angular/core';
+import { staticFileKeys } from 'src/app/constants';
+import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
 @Component({
   selector: "app-faq-table",
   templateUrl: "./faq-table.component.html",
   styleUrls: ["./faq-table.component.scss"],
 })
 export class FaqTableComponent implements OnInit {
-  constructor() {}
+  standardizationDocLink = '';
+  constructor(
+    private newCommonService: NewCommonService
+  ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const key = staticFileKeys.STANDARDIZATION_PROCESS_OF_ANNUAL_FINANCIAL_STATEMENT_OF_ULBS;
+    this.newCommonService.getStaticFileUrl(key).subscribe((res: any) => {
+      console.log(res.data);
+      this.standardizationDocLink = res?.data?.url;
+    })
+  }
 
   AccountingTermsGlossary = [
     {
