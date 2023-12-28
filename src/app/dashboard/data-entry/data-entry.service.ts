@@ -184,4 +184,13 @@ export class DataEntryService {
     a.click();
     window.URL.revokeObjectURL(url);;
   }
+
+  getRequestMethod(endPoints:string, queryParam:any) {
+    return this.http.get(
+      `${environment.api.url}${endPoints}`,
+       {
+        params: queryParam
+       }
+    );
+  }
 }
