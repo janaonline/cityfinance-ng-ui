@@ -17,12 +17,14 @@
                 <tr>
                     <ng-container *ngFor="let column of response.columns">
                         <th scope="col" *ngIf="!column?.hidden" [attr.colspan]="column?.colspan || 1"
-                            [style.width]="column?.width || null" class="border-0 {{column?.class}} {{column?.key}} br-r"
+                            [style.width]="column?.width || null"
+                            class="border-0 {{column?.class}} {{column?.key}} br-r"
                             [ngClass]="{'table-primary': !theme}">
                             <div (click)="updateSorting(column)" class="d-flex " style="cursor: pointer;">
                                 <div>
                                     <p [innerHTML]="column.label" class="m-0 text-center"></p>
-                                    <div *ngIf="column?.info" class="fw-light text-muted text-center"><small>{{ column?.info
+                                    <div *ngIf="column?.info" class="fw-light text-muted text-center"><small>{{
+                                            column?.info
                                             }}</small>
                                     </div>
                                 </div>
@@ -53,7 +55,7 @@
             <tbody *ngIf="response?.data?.length > 0">
                 <tr *ngFor="let row of response.data" class="py-1"
                     [ngClass]="{'table-secondary': row?.selected, 'border-0': !theme}">
-                    <td  *ngFor="let column of response.columns; let i = index;" [title]="row[column.key]"
+                    <td *ngFor="let column of response.columns; let i = index;" [title]="row[column.key]"
                         [ngClass]="{'text-center': i != 0, 'border-0': !theme}" class="data-item br-r">
                         <ng-container *ngIf="row[column.key + 'Link']; else fileValue;">
                             <a *ngIf="isDialog" [href]="row[column.key + 'Link']" target="_blank">{{ row[column.key]
@@ -82,6 +84,7 @@
             </tbody>
         </table>
     </div>
+    <div *ngIf="info">{{ info }}</div>
     <mat-paginator *ngIf="response?.total" [length]="response.total" [pageSize]="limit"
         [pageSizeOptions]="pageSizeOptions" (page)="pageChange($event)" aria-label="Select page">
     </mat-paginator>

@@ -52,6 +52,7 @@ export class CommonTableComponent implements OnInit, OnChanges {
   @Input() classLists?:string;
   @Input() allowedExtensions: string[] = [];
   @Input() targetExtension:string = "";
+  @Input() info: string = '';
   @Output() update: EventEmitter<any> = new EventEmitter<any>();
 
 
