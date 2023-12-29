@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadData();
-    if(sessionStorage.getItem('homeVideoAutoOpen') != 'true') {
+    if (sessionStorage.getItem('homeVideoAutoOpen') != 'true') {
       this.videosPopup();
       sessionStorage.setItem('homeVideoAutoOpen', 'true');
     }
@@ -30,8 +30,7 @@ export class HomeComponent implements OnInit {
   loadData() {
     this.fiscalRankingService.dashboard().subscribe(({ data }: any) => {
       this.data = data;
-      const topCategoryUlbLength = Object.entries(this.data.bucketWiseUlb)
-        .reduce((max, item) => Math.max(max, item.length), 0)
+      const topCategoryUlbLength = Math.max(...Object.values(this.data.bucketWiseUlb).map((item: any[]) => item.length))
       const columns = [
         {
           "label": "4M+",
