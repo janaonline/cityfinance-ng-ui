@@ -1,0 +1,95 @@
+<section class="bg-img">
+    <div class="container">
+        <div class="row mb-3">
+            <div class="col-sm-12">
+                <app-breadcrumb [links]="breadcrumbLinks"></app-breadcrumb>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-sm-12 text-center">
+               <span class="form-h-fr">Participating States and Union Territories Overview</span> 
+            </div>
+            <div class="col-sm-12 w-80 mx-auto text-center mt-2">
+                <p class="sub-def-fr">Explore a comprehensive overview of states and Union Territories (UTs) across India that have actively participated.
+                     This page presents a detailed breakdown of each region's characteristics, including state type (large or small), the total number of ULBs,
+                      the number of ULBs participated, the number ranked, the number not ranked, and the total ULBs that received a ranking.
+                       Gain insights into engagements and achievements across different regions in India.
+                 </p>
+            </div>
+        </div>
+        </div>
+        <section class="map-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5 my-0" style="height: 35rem;">
+                        <ng-container *ngIf="isApiInProgress; else map">
+                            <div class="loader">
+                                <app-pre-loader-new></app-pre-loader-new>
+                            </div>
+                        </ng-container>
+                        <ng-template class="map-con" #map>
+                            <app-india-map [colorCoding]="colorCoding" label="% of Participation" [colorDetails]="colorDetails" ></app-india-map>
+                        </ng-template>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card fl-card">
+                            <div class="card-body">
+                                <div class="row mb-2">
+                                    <div class="col-6 text-start common-cls fl-label">Filter by :</div>
+                                    <div class="col-6 text-end ">
+                                       <button class="btn color-orange btn-outline" (click)="resetFilter()">Reset</button> 
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- State type filter -->
+                                    <div class="col-6 mb-3">
+                                        <div class="filter-heading common-cls">
+                                            State type
+                                        </div>
+                                        <div class="filer">
+                                            <select class="form-select" aria-label="stateType" [(ngModel)]="stateType" (change)="dropDownValueChanges($event.target.value)">
+                                                <option value="{{item?.value}}" selected *ngFor="let item of stateTypeFilter">{{item?.label}}</option>
+                                            </select>  
+                                        </div>
+                                    </div>
+                                    <!-- ULB Participation -->
+                                    <div class="col-6 mb-3">
+                                        <div class="filter-heading common-cls">
+                                            ULB Participation
+                                        </div>
+                                        <div class="filer">
+                                            <select class="form-select" aria-label="ulbParticipation" [(ngModel)]="ulbParticipation" (change)="dropDownValueChanges($event.target.value)">
+                                                <option value="{{item?.value}}" selected *ngFor="let item of ulbParticipationFilter">{{item?.label}}</option>
+                                              </select>  
+                                        </div>
+                                       
+                                    </div>
+                                    <!-- ULB Ranking Status -->
+                                    <div class="col-6">
+                                        <div class="filter-heading common-cls">
+                                            ULB Ranking Status
+                                        </div>
+                                        <div class="filer">
+                                            <select class="form-select" aria-label="ulbRankingStatusFilter" [(ngModel)]="ulbRankingStatus" (change)="dropDownValueChanges($event.target.value)">
+                                                <option value="{{item?.value}}" selected *ngFor="let item of ulbRankingStatusFilter">{{item?.label}}</option>
+                                              </select>  
+                                        </div>
+        
+                                       
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="table-card" style="">
+                         <app-common-table theme="white" [response]="table?.response" [classLists]="'scroll'" (update)="onUpdate(table, $event)">
+                         </app-common-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+    
+</section>

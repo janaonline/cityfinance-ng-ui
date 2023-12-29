@@ -1,11 +1,13 @@
-import { NgModule } from '@angular/core';
+import "@angular/common/locales/global/en-IN";
+
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatStepperModule } from '@angular/material/stepper';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FiscalRankingRoutingModule } from './fiscal-ranking-routing.module';
 import { FiscalHomeComponent } from './fiscal-home/fiscal-home.component';
 import { FiscalLoginComponent } from './fiscal-login/fiscal-login.component';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatListModule } from "@angular/material/list";
 import { MatMenuModule } from "@angular/material/menu";
@@ -17,11 +19,11 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 
 import { MatCardModule } from "@angular/material/card";
-import { UlbFiscalComponent } from './ulb-fiscal/ulb-fiscal.component';
+//import { UlbFiscalComponent } from './ulb-fiscal/ulb-fiscal.component';
 import { SharedModule } from '../shared/shared.module';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { LoaderComponent } from './loader/loader.component';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
 import { UlbFisPreviewComponent } from './ulb-fiscal-new/ulb-fis-preview/ulb-fis-preview.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RecaptchaModule } from 'ng-recaptcha';
@@ -55,15 +57,30 @@ import { AssessmentParametersComponent } from './home/assessment-parameters/asse
 import { FeaturesNBenefitsComponent } from './home/features-n-benefits/features-n-benefits.component';
 import { UlbsInIndiaComponent } from './home/ulbs-in-india/ulbs-in-india.component';
 import { GuidelinesPopupComponent } from './home/guidelines-popup/guidelines-popup.component';
+import { AssessmentParameterComponent } from './assessment-parameter/assessment-parameter.component';
 import { AnnualFinancialStatementsComponent } from './annual-financial-statements/annual-financial-statements.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { AnnualBudgetsComponent } from './annual-budgets/annual-budgets.component';
+import { TopRankingsComponent } from './top-rankings/top-rankings.component';
+import { UlbDetailsComponent } from './ulb-details/ulb-details.component';
+import { ComparisonComponent } from './ulb-details/comparison/comparison.component';
+import { PerformanceFourMComponent } from './ulb-details/performance-four-m/performance-four-m.component';
+import { UlbDetailsHeaderComponent } from './ulb-details/ulb-details-header/ulb-details-header.component';
+import { UlbDetailsAssessmentParametersComponent } from './ulb-details/ulb-details-assessment-parameters/ulb-details-assessment-parameters.component';
+import { ComparisionFiltersComponent } from './ulb-details/comparision-filters/comparision-filters.component';
+import { SearchPopupComponent } from './ulb-details/search-popup/search-popup.component';
+import { ParticipatingStateComponent } from './participating-state/participating-state.component';
+import { ParticipatingUlbsComponent } from './participating-ulbs/participating-ulbs.component';
+import { IndiaMapComponent } from './india-map/india-map.component';
+import { FileUrlCheckPipe } from './pipes/file-url-check.pipe';
+import { VideosPopupComponent } from './home/videos-popup/videos-popup.component';
+import { TypeofPipe } from './pipes/typeof.pipe';
 
 @NgModule({
   declarations: [
     FiscalHomeComponent,
     FiscalLoginComponent,
-    UlbFiscalComponent,
+    // UlbFiscalComponent,
     UlbFiscalNewComponent,
     LoaderComponent,
     UlbFisPreviewComponent,
@@ -91,9 +108,25 @@ import { AnnualBudgetsComponent } from './annual-budgets/annual-budgets.componen
     FeaturesNBenefitsComponent,
     UlbsInIndiaComponent,
     GuidelinesPopupComponent,
+    AssessmentParameterComponent,
     AnnualFinancialStatementsComponent,
     BreadcrumbComponent,
     AnnualBudgetsComponent,
+    TopRankingsComponent,
+    UlbDetailsComponent,
+    ComparisonComponent,
+    AssessmentParameterComponent,
+    PerformanceFourMComponent,
+    UlbDetailsHeaderComponent,
+    UlbDetailsAssessmentParametersComponent,
+    ComparisionFiltersComponent,
+    SearchPopupComponent,
+    ParticipatingStateComponent,
+    ParticipatingUlbsComponent,
+    IndiaMapComponent,
+    FileUrlCheckPipe,
+    VideosPopupComponent,
+    TypeofPipe
   ],
   imports: [
     CommonModule,
@@ -129,9 +162,12 @@ import { AnnualBudgetsComponent } from './annual-budgets/annual-budgets.componen
     AngularMultiSelectModule,
     MatProgressSpinnerModule
   ],
-  providers: [{
-    provide: STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false }
-  }],
+  providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false },
+    },
+    { provide: LOCALE_ID, useValue: "en-IN" }
+  ],
   exports: [LoaderComponent]
   // providers: [
   //   {

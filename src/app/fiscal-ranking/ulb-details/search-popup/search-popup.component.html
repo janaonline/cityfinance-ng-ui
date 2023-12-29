@@ -1,0 +1,23 @@
+<section>
+    <div class="d-flex justify-content-between">
+        <div></div>
+        <div>
+            <mat-icon class="cursor-pointer" (click)="close()">close</mat-icon>
+        </div>
+    </div>
+    <div class="container text-center">
+        <h2>Explore ULBs in India</h2>
+        <p>Discover and access detailed information about Urban Local Bodies (ULBs) across India. Begin your exploration
+            by selecting a ULB from the dropdown list below. Each ULB has a unique story, financial</p>
+        <form (submit)="search()" class="card flex-row w-50 p-2 gap-3 w-50 auto mt-5">
+            <input type="text" name="query" [(ngModel)]="query" class="w-100 px-2 py-1 border-0">
+            <button type="submit" class="btn btn-orange px-2 py-1">Search</button>
+        </form>
+        <ul class="list-group w-50 text-start search-result" *ngIf="ulbs?.length">
+            <a class="list-group-item" *ngFor="let ulb of ulbs" [routerLink]="['rankings', 'ulb', ulb?.ulb]"
+                (click)="close()">
+                {{ ulb?.name }}
+            </a>
+        </ul>
+    </div>
+</section>

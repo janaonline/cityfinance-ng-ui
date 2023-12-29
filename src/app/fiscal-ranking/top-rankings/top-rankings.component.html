@@ -1,0 +1,99 @@
+<div class="container">
+    <div class="row m-0">
+        <div class="col-10">
+            <app-breadcrumb [links]="breadcrumbLinks"></app-breadcrumb>
+        </div>
+        <div class="col-2 p-3">
+            <input type="text" readonly class="form-control cursor-pointer px-2 py-1" placeholder="Search ULB..."
+                (click)="openSearch()">
+        </div>
+    </div>
+</div>
+
+
+
+
+<section>
+    <div class="container">
+        <h3 class="mt-5">Top Ranked ULBs In India</h3>
+        <h6>Financial Excellence revealed</h6>
+        <p>Discover India's top Urban Local Bodies (ULBs) excelling in financial governance rankings. Explore their
+            performance scores and gain valuable insights</p>
+    </div>
+</section>
+
+
+<section class="map-bg">
+    <div class="container">
+        <div class="row m-0">
+            <div class="col-md-5 p-3">
+                <ng-container *ngIf="isShowingMap; else mapLoader;">
+                    <app-india-map *ngIf="selectedMap == 'topUlbs'" [markers]="markers">
+                    </app-india-map>
+                    <app-india-map *ngIf="selectedMap == 'rankHolders'" [colorCoding]="colorCoding" [identifier]="'top-ranking'"
+                        [colorDetails]="colorDetails" label="Rank holding ULBs in state">
+                    </app-india-map>
+                </ng-container>
+                <ng-template #mapLoader>
+                    <div class="map-loader">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <p class="text-center">Loading map</p>
+                    </div>
+                </ng-template>
+                <div class="btn-group btn-group-sm btn-group-lg mt-3 text-center d-block" role="group"
+                    aria-label="Basic radio toggle button group">
+                    <input type="radio" class="btn-check" name="map-filter" id="topUlbs" autocomplete="off"
+                        [(ngModel)]="selectedMap" [value]="'topUlbs'">
+                    <label class="btn btn-outline-primary" for="topUlbs">Top ULBs</label>
+    
+                    <input type="radio" class="btn-check" name="map-filter" id="rankHolders" autocomplete="off"
+                        [(ngModel)]="selectedMap" [value]="'rankHolders'">
+                    <label class="btn btn-outline-primary" for="rankHolders">ULB Rank Holders</label>
+                </div>
+            </div>
+            <form class="col-md-7" [formGroup]="filter">
+                <div class="card p-4 mt-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <h5>Top-ranked ULBs In</h5>
+                        <button class="btn btn-outline btn-orange">Download</button>
+                    </div>
+                    <div class="row d-flex mt-3">
+                        <div class="form-group col-md-4">
+                            <div class="input-group inp-grp">
+                                <div class="w-100">
+                                    <angular2-multiselect class="expo-drp-in" [data]="stateList" formControlName="stateData"
+                                        [settings]="dropdownSettings">
+                                    </angular2-multiselect>
+                                </div>
+                            </div>
+    
+                        </div>
+                        <div class="col-4 col-sm-4 col-md-4 ps-3">
+                            <select class="form-select" formControlName="populationBucket">
+                                <option value="">All Categories</option>
+                                <option *ngFor="let item of populationCategories" [value]="item._id">
+                                    {{ item.name }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+    
+    
+                <div class="btn-group btn-group-sm custom-btn-group btn-group-lg mt-3 text-center d-block" role="group"
+                    aria-label="Basic radio toggle button group">
+    
+                    <ng-container *ngFor="let type of types">
+                        <input type="radio" class="btn-check" formControlName="category" [id]="type?.key" [value]="type?.key">
+                        <label class="btn btn-outline-primary" [for]="type?.key">{{ type?.label }}</label>
+                    </ng-container>
+                </div>
+    
+                <app-common-table *ngIf="table?.response" theme="white" [response]="table?.response" (update)="onUpdate(table, $event)">
+                </app-common-table>
+            </form>
+        </div>
+    </div>
+</section>

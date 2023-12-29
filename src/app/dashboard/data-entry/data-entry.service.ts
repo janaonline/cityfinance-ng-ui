@@ -81,7 +81,7 @@ export class DataEntryService {
   newGetURLForFileUpload(fileName: File["name"], fileType: File["type"], folderName?: string) {
     const headers = new HttpHeaders();
     return this.http.post<S3FileURLResponse>(
-      `${environment.api.url}/getS3Url`,
+      `${environment.api.url}/getBlobUrl`,
       JSON.stringify([
         {
           folder: folderName,
@@ -108,16 +108,37 @@ export class DataEntryService {
     return formattedObj;
 
   }
-  uploadFileToS3(
-    file: File,
-    s3URL: string,
-    options = { reportProgress: true }
-  ) {
+  // uploadFileToS3(
+  //   file: File,
+  //   s3URL: string,
+  //   options = { reportProgress: true }
+  // ) {
+  //   return this.http.put(s3URL, file, {
+  //     reportProgress: options.reportProgress,
+  //     observe: "events",
+  //   });
+  // }
+  uploadFileToS3(file: File, s3URL: string, options = { reportProgress: true }): Observable<any> {
+    // Create headers
+    // const token = JSON.parse(localStorage.getItem("id_token"));
+    // const sessionID = sessionStorage.getItem("sessionID");
+    const headers = new HttpHeaders({
+      'X-Ms-Blob-Type': 'BlockBlob',
+      // "Content-Type" : "application/json",
+      // "sessionId" : sessionID,
+      // "x-access-token" : token
+      // Add more headers as needed
+    });
+
+    // Make the PUT request with headers
     return this.http.put(s3URL, file, {
       reportProgress: options.reportProgress,
-      observe: "events",
+      observe: 'events',
+      headers: headers, // Include the headers here
     });
   }
+
+
 
 
   /**
