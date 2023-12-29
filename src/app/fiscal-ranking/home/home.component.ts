@@ -21,7 +21,10 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadData();
-    this.videosPopup();
+    if(sessionStorage.getItem('homeVideoAutoOpen') != 'true') {
+      this.videosPopup();
+      sessionStorage.setItem('homeVideoAutoOpen', 'true');
+    }
   }
 
   loadData() {
