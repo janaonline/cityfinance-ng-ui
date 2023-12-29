@@ -1,70 +1,84 @@
-<div class="container-fluid bg-img">
-    <div class="row mb-3">
-        <div class="col-sm-12">
-            <app-breadcrumb [links]="breadcrumbLinks"></app-breadcrumb>
+<section class="bg-img">
+    <div class="container">
+        <div class="row mb-3">
+            <div class="col-sm-12">
+                <app-breadcrumb [links]="breadcrumbLinks"></app-breadcrumb>
+            </div>
         </div>
-    </div>
-    <div class="row mb-4">
-        <div class="col-sm-12 text-center">
-           <span class="form-h-fr">Urban Local Bodies (ULBs) in <span class="color-orange">{{selectedStateName}} </span></span> 
+        <div class="row mb-4">
+            <div class="col-sm-12 text-center">
+                <span class="form-h-fr">Urban Local Bodies (ULBs) in <span class="color-orange">{{selectedStateName}}
+                    </span></span>
+            </div>
+            <div class="col-sm-12 w-80 mx-auto text-center mt-2 px-5">
+                <p class="sub-def-fr">
+                    Explore a comprehensive list of Urban Local Bodies (ULBs) within <span
+                        class="color-orange">{{selectedStateName}}</span>. Gain insights into each ULB's
+                    characteristics,
+                    including their population category, participation in ranking assessments,
+                    ranking status, and the availability of annual financial statements and budgets from recent years.
+                </p>
+            </div>
         </div>
-        <div class="col-sm-12 w-80 mx-auto text-center mt-2 px-5">
-            <p class="sub-def-fr">
-                Explore a comprehensive list of Urban Local Bodies (ULBs) within <span class="color-orange">{{selectedStateName}}</span>. Gain insights into each ULB's characteristics, 
-                including their population category, participation in ranking assessments,
-                 ranking status, and the availability of annual financial statements and budgets from recent years.
-             </p>
-        </div>
-    </div>
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="w-75 mx-auto">
-                <div class="card fl-card">
-                    <div class="card-body">
-                        <div class="row mb-4">
-                            <div class="col-6 text-start common-cls fl-label">Filter by :</div>
-                            <div class="col-6 text-end">
-                                <button class="btn color-orange btn-outline" (click)="resetFilter()">Reset</button> 
-                            </div>
-                        </div>
-                        <div class="row">
-                            <!-- State type filter -->
-                            <div class="col-4 mb-4">
-                                <div class="filter-heading common-cls">
-                                    Population Category
-                                </div>
-                                <div class="filer">
-                                    <select class="form-select" aria-label="populationBucket" [(ngModel)]="populationBucket" (change)="dropDownValueChanges($event.target.value)">
-                                        <option value="{{item?.value}}" selected *ngFor="let item of populationCategoryFilter">{{item?.label}}</option>
-                                    </select>  
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-10">
+                <div class="mx-auto">
+                    <div class="card fl-card">
+                        <div class="card-body">
+                            <div class="row mb-4">
+                                <div class="col-6 text-start common-cls fl-label">Filter by :</div>
+                                <div class="col-6 text-end">
+                                    <button class="btn color-orange btn-outline" (click)="resetFilter()">Reset</button>
                                 </div>
                             </div>
-                            <!-- ULB Participation -->
-                            <div class="col-4 mb-4">
-                                <div class="filter-heading common-cls">
-                                    ULB Participation
+                            <div class="row">
+                                <!-- State type filter -->
+                                <div class="col-4 mb-4">
+                                    <div class="filter-heading common-cls">
+                                        Population Category
+                                    </div>
+                                    <div class="filer">
+                                        <select class="form-select" aria-label="populationBucket"
+                                            [(ngModel)]="populationBucket"
+                                            (change)="dropDownValueChanges($event.target.value)">
+                                            <option value="{{item?.value}}" selected
+                                                *ngFor="let item of populationCategoryFilter">{{item?.label}}</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="filer">
-                                    <select class="form-select" aria-label="ulbParticipation" [(ngModel)]="ulbParticipation" (change)="dropDownValueChanges($event.target.value)">
-                                        <option value="{{item?.value}}" selected *ngFor="let item of ulbParticipationFilter">{{item?.label}}</option>
-                                      </select>  
+                                <!-- ULB Participation -->
+                                <div class="col-4 mb-4">
+                                    <div class="filter-heading common-cls">
+                                        ULB Participation
+                                    </div>
+                                    <div class="filer">
+                                        <select class="form-select" aria-label="ulbParticipation"
+                                            [(ngModel)]="ulbParticipation"
+                                            (change)="dropDownValueChanges($event.target.value)">
+                                            <option value="{{item?.value}}" selected
+                                                *ngFor="let item of ulbParticipationFilter">{{item?.label}}</option>
+                                        </select>
+                                    </div>
+
                                 </div>
-                               
+                                <!-- ULB Ranking Status -->
+                                <div class="col-4">
+                                    <div class="filter-heading common-cls">
+                                        ULB Ranking Status
+                                    </div>
+                                    <div class="filer">
+                                        <select class="form-select" aria-label="ulbRankingStatusFilter"
+                                            [(ngModel)]="ulbRankingStatus"
+                                            (change)="dropDownValueChanges($event.target.value)">
+                                            <option value="{{item?.value}}" selected
+                                                *ngFor="let item of ulbRankingStatusFilter">{{item?.label}}</option>
+                                        </select>
+                                    </div>
+
+
+                                </div>
+
                             </div>
-                            <!-- ULB Ranking Status -->
-                            <div class="col-4">
-                                <div class="filter-heading common-cls">
-                                    ULB Ranking Status
-                                </div>
-                                <div class="filer">
-                                    <select class="form-select" aria-label="ulbRankingStatusFilter" [(ngModel)]="ulbRankingStatus" (change)="dropDownValueChanges($event.target.value)">
-                                        <option value="{{item?.value}}" selected *ngFor="let item of ulbRankingStatusFilter">{{item?.label}}</option>
-                                      </select>  
-                                </div>
-    
-                               
-                            </div>
-                            
                         </div>
                     </div>
                 </div>
@@ -75,11 +89,12 @@
     <div class="row mb-4">
         <div class="col-12 table-card">
             <div class="px-3">
-                <app-common-table theme="white" [response]="table?.response" [info]="table?.info" [classLists]="'scroll p-ulb'" [allowedExtensions]="allowedExtensions" 
-                [targetExtension]="targetExtension" (update)="onUpdate(table, $event)" *ngIf="table?.response">
+                <app-common-table theme="white" [response]="table?.response" [info]="table?.info"
+                    [classLists]="'scroll p-ulb'" [allowedExtensions]="allowedExtensions"
+                    [targetExtension]="targetExtension" (update)="onUpdate(table, $event)" *ngIf="table?.response">
                 </app-common-table>
             </div>
+        </div>
     </div>
-  
-    
-</div>
+
+</section>

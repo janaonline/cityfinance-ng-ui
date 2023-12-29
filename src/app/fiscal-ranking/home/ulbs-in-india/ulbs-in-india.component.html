@@ -14,7 +14,7 @@
 <section class="py-5">
     <div class="container">
         <div class="row">
-            <div class="col-6 p-5 section-1 d-flex flex-column justify-content-between align-items-start">
+            <div class="col-md-6 py-5 section-1 d-flex flex-column justify-content-between align-items-start">
                 <div>
                     <h2 class="fw-bold mb-4 color-blue"><span class="color-orange">{{ data?.participatedUlbCount |
                             number
@@ -36,7 +36,7 @@
                 </div>
                 <a class="btn btn-orange mt-4" routerLink="/rankings/participated-states-ut">View Participants</a>
             </div>
-            <div class="col-6 p-5 section-2 d-flex flex-column justify-content-between align-items-start">
+            <div class="col-md-6 py-5 ps-md-5 section-2 justify-content-between align-items-start">
                 <div>
                     <h2 class="fw-bold mb-4 color-blue">Top Performer ULBs</h2>
                     <p class="text-muted">Discover the top-performing ULBs in each category, showcasing exemplary
@@ -45,7 +45,7 @@
                         and
                         Fiscal Governance.</p>
                     <p class="text-muted">Top Ranked ULBs in Each Category :</p>
-                    <div class="table-border text-muted">
+                    <div class="table-border table-responsive text-muted">
                         <table>
                             <tr>
                                 <th *ngFor="let column of data?.topCategoryUlb?.columns">{{ column?.label }}</th>
@@ -61,16 +61,15 @@
                 <a class="btn btn-orange mt-4" routerLink="/rankings/top-rankings">View Ranked ULBs</a>
             </div>
         </div>
-        <div class="row">
-            <div
-                class="col-6 child px-5 text-center section-3 d-flex flex-column justify-content-between align-items-start align-items-center">
+        <div class="row justify-content-between">
+            <div class="col-md-5 child text-center section-3 d-flex flex-column justify-content-between align-items-start align-items-center">
                 <div>
                     <h2 class="fw-bold mb-4 color-blue"><span class="color-orange">{{ data.auditedUlbCount | number
                             }}</span>
                         Audited annual
                         accounts submitted.
                     </h2>
-                    <p class="text-muted m-auto px-5">Explore the financial transparency of {{
+                    <p class="text-muted m-auto">Explore the financial transparency of {{
                         data.auditedUlbCount | number }} ULBs
                         through their audited annual accounts.
                         Gain insights into their fiscal health and accountability. Access detailed financial reports and
@@ -81,14 +80,13 @@
                         Audited Accounts</a>
                 </div>
             </div>
-            <div
-                class="col-6 child px-5 text-center section-4 d-flex flex-column justify-content-between align-items-start align-items-center">
+            <div class="col-md-5 child text-center section-4 d-flex flex-column justify-content-between align-items-start align-items-center">
                 <div>
                     <h2 class="fw-bold  mb-4 color-blue"><span class="color-orange">{{ data.budgetUlbCount| number
                             }}</span>
                         Annual city
                         budgets submitted.</h2>
-                    <p class="text-muted m-auto px-5">Access {{ data.budgetUlbCount | number }} annual city
+                    <p class="text-muted m-auto">Access {{ data.budgetUlbCount | number }} annual city
                         budgets submitted by
                         ULBs.
                         Dive into the financial plans and

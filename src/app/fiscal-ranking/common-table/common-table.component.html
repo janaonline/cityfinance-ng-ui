@@ -12,7 +12,7 @@
         <mat-icon *ngIf="isDialog" (click)="closeDialog()" role="button">clear</mat-icon>
     </div>
     <div class="scroll {{theme}} {{classLists}}">
-        <table class="table" [ngClass]="{'d-block': isDialog, 'table-striped': !theme}">
+        <table class="table bg-white" [ngClass]="{'d-block': isDialog, 'table-striped': !theme}">
             <thead *ngIf="response?.columns?.length > 0">
                 <tr>
                     <ng-container *ngFor="let column of response.columns">

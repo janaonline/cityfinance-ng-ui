@@ -575,3 +575,9 @@ td {
 .miniMap {
     visibility: hidden;
 }
+
+@media (max-width: 767.98px){
+    .stateMap{
+        width: 100% !important;
+    }
+}
