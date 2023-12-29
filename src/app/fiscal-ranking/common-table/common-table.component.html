@@ -72,7 +72,7 @@
                             </ng-container>
                         </ng-template>
                         <ng-template #simpleValue>
-                            {{ row[column.key] }}
+                            {{ (row[column.key] | typeof) == 'number' ? (row[column.key] | number) : row[column.key]}}
                         </ng-template>
                     </td>
                 </tr>
