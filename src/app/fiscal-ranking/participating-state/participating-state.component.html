@@ -21,7 +21,7 @@
         <section class="map-bg">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-5 my-0" style="height: 35rem;">
+                    <div class="col-md-5 my-0 map-con" style="">
                         <ng-container *ngIf="isApiInProgress; else map">
                             <div class="loader">
                                 <app-pre-loader-new></app-pre-loader-new>
@@ -82,8 +82,9 @@
                             </div>
                         </div>
         
-                        <div class="table-card" style="">
-                         <app-common-table theme="white" [response]="table?.response" [classLists]="'scroll'" (update)="onUpdate(table, $event)">
+                        <div class="table-card mt-3" style="">
+                         <app-common-table theme="white" [response]="table?.response" 
+                         [classLists]="'scroll fixed-ui-tb'" (update)="onUpdate(table, $event)" [tableName]="'Participated State'">
                          </app-common-table>
                         </div>
                     </div>
