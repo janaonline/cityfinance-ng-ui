@@ -5,12 +5,16 @@
 section {
     text-align: center;
     background-image: url('/assets/fiscal-rankings/header-background.png');
+    background-repeat: no-repeat;
+    background-size: cover;
     color: white;
-    padding: 50px;
+    padding: 50px 0;
     display: flex;
     flex-direction: column;
     gap: 30px;
-    min-height: 90vh;
+    // height: calc(100vh - 116.75px);
+    // min-height: 90vh;
+    // min-height: calc(100vh - 116.75px);
 
     h1 {
         font-size: 50px;
@@ -34,7 +38,7 @@ section {
         padding: 20px;
         align-items: center;
         @media screen and (min-width: 1200px) {
-            min-width: 350px;
+            min-width: 275px;
         }
         .content {
             text-align: left;
@@ -62,13 +66,25 @@ section {
         color: orange;
         cursor: pointer;
         padding: 0;
-        position: absolute;
-        bottom: 50px;
-        left: 50%;
-        transform: translateX(-50%);
+        // position: absolute;
+        // bottom: 50px;
+        // left: 50%;
+        // transform: translateX(-50%);
         .down {
             transform: scaleX(8.5);
             font-weight: 100;
         }
     }
+}
+
+.subText{
+    margin-bottom: 75px;
+}
+
+.btn-orange{
+    margin-bottom: 75px !important;
+}
+
+.dotted_card_bottom{
+    margin-bottom: 30px;
 }

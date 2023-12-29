@@ -1,53 +1,55 @@
-<section>
-    <h1>City Finance Ranking 2022</h1>
-    <h3 class="fw-bold">Competitiveness amongst the Urban Local Bodies based on their financial health.</h3>
-    <p>Discover India's Urban Local Bodies (ULBs) through City Finance Rankings. Examine financial performance and
-        fiscal governance. Click 'Explore Rankings' for the financial performance of ULBs.</p>
-    <div class="container main-content">
-        <div class="btn btn-orange m-auto d-flex" style="width: fit-content;">
-            <mat-icon>download</mat-icon> Download Final Ranking Report
-        </div>
-        <div class="d-flex justify-content-around">
-
-            <div class="row dotted-card">
-                <div class="col-3 icon">
-                    <img src="assets/fiscal-rankings/guidelines-icon.svg">
+<section [ngStyle]="{'zoom': getRatio}">
+    <div class="container">
+        <h1 class="mb-4">City Finance Ranking 2022</h1>
+        <h3 class="fw-bold mb-4">Competitiveness amongst the Urban Local Bodies based on their financial health.</h3>
+        <p class="subText">Discover India's Urban Local Bodies (ULBs) through City Finance Rankings. Examine financial performance and
+            fiscal governance. Click 'Explore Rankings' for the financial performance of ULBs.</p>
+        <div class="container main-content">
+            <div class="btn btn-orange m-auto d-flex" style="width: fit-content;">
+                <mat-icon>download</mat-icon> Download Final Ranking Report
+            </div>
+            <div class="d-lg-flex justify-content-around dotted_card_bottom">
+    
+                <div class="row dotted-card mb-3">
+                    <div class="col-3 icon">
+                        <img src="assets/fiscal-rankings/guidelines-icon.svg">
+                    </div>
+                    <div class="col-9 content">
+                        <p>Guidelines</p>
+                        <div class="download-link cursor-pointer" (click)="onGuidelinesPopup.emit()">
+                            <mat-icon>download</mat-icon> Download
+                        </div>
+                    </div>
                 </div>
-                <div class="col-9 content">
-                    <p>Guidelines</p>
-                    <div class="download-link cursor-pointer" (click)="onGuidelinesPopup.emit()">
-                        <mat-icon>download</mat-icon> Download
+                <div class="row dotted-card mb-3">
+                    <div class="col-3 icon">
+                        <img src="assets/fiscal-rankings/brochure-icon.svg">
+                    </div>
+                    <div class="col-9 content">
+                        <p>Brochure</p>
+                        <a target="_blank"
+                            href="https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/FiscalRanking/City_Finance_Rankings_2022_Brochure_March_2023_3708f180-5be7-41ef-96c9-2d98db398575.pdf"
+                            class="download-link cursor-pointer">
+                            <mat-icon>download</mat-icon> Download
+                        </a>
+                    </div>
+                </div>
+                <div class="row dotted-card mb-3">
+                    <div class="col-3 icon">
+                        <img src="assets/fiscal-rankings/video-icon.svg">
+                    </div>
+                    <div class="col-9 content">
+                        <p>Videos</p>
+                        <div class="download-link cursor-pointer" (click)="onVideosPopup.emit()">
+                            <mat-icon>fast_forward</mat-icon> Play video
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="row dotted-card">
-                <div class="col-3 icon">
-                    <img src="assets/fiscal-rankings/brochure-icon.svg">
-                </div>
-                <div class="col-9 content">
-                    <p>Brochure</p>
-                    <a target="_blank"
-                        href="https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/FiscalRanking/City_Finance_Rankings_2022_Brochure_March_2023_3708f180-5be7-41ef-96c9-2d98db398575.pdf"
-                        class="download-link cursor-pointer">
-                        <mat-icon>download</mat-icon> Download
-                    </a>
-                </div>
+            <div class="explore-more" (click)="scrollOnePageDown()">
+                <p>Explore more</p>
+                <img width="100px" src="assets/fiscal-rankings/down-arrow.gif">
             </div>
-            <div class="row dotted-card">
-                <div class="col-3 icon">
-                    <img src="assets/fiscal-rankings/video-icon.svg">
-                </div>
-                <div class="col-9 content">
-                    <p>Videos</p>
-                    <div class="download-link cursor-pointer" (click)="onVideosPopup.emit()">
-                        <mat-icon>fast_forward</mat-icon> Play video
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="explore-more" (click)="scrollOnePageDown()">
-            <p>Explore more</p>
-            <img width="100px" src="assets/fiscal-rankings/down-arrow.gif">
         </div>
     </div>
 </section>

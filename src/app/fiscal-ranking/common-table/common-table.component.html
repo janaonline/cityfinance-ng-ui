@@ -15,7 +15,7 @@
         [pageSizeOptions]="pageSizeOptions" (page)="pageChange($event)" aria-label="Select page">
     </mat-paginator>
     <div class="scroll {{theme}} {{classLists}}">
-        <table class="table" [ngClass]="{'d-block': isDialog, 'table-striped': !theme}">
+        <table class="table bg-white" [ngClass]="{'d-block': isDialog, 'table-striped': !theme}">
             <thead *ngIf="response?.columns?.length > 0">
                 <tr>
                     <ng-container *ngFor="let column of response.columns">
