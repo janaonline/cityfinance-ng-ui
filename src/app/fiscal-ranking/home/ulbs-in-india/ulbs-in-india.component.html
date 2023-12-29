@@ -48,7 +48,9 @@
                                 <th *ngFor="let column of data?.topCategoryUlb?.columns">{{ column?.label }}</th>
                             </tr>
                             <tr *ngFor="let row of data?.topCategoryUlb?.data">
-                                <td *ngFor="let column of data?.topCategoryUlb?.columns">{{ row[column.key] }}</td>
+                                <td class="data-item" *ngFor="let column of data?.topCategoryUlb?.columns">
+                                    <div>{{ row[column.key] }}</div>
+                                </td>
                             </tr>
                         </table>
                     </div>
