@@ -187,15 +187,18 @@
 
 <br />
 
-<button (click)="download()" *ngIf="isProcessed && reportKeys.length > 0" class="btn btn-primary right mb-4" style="background-color: rgb(230,126,21) !important; height: 40px;">
-  <i
-    class="fa fa-file-excel-o me-2"
-    aria-hidden="true"
-    style="color: black; "
-  ></i>
+<div class="d-flex flex-column align-items-end pb-4">
+  <button (click)="download()" *ngIf="isProcessed && reportKeys.length > 0" class="btn btn-primary right mb-1"
+    style="background-color: rgb(230,126,21) !important; height: 40px;">
+    <i class="fa fa-file-excel-o me-2" aria-hidden="true" style="color: black; "></i>
 
-  XLS
-</button>
+    XLS
+  </button>
+  <a class="d-flex gap-2" *ngIf="standardizationDocLink" [href]="standardizationDocLink">
+    <mat-icon>picture_as_pdf</mat-icon>
+    How We Standardize Annual Financial Statements
+  </a>
+</div>
 
 <!-- <button
   class="btn btn-primary right source-file-download mr-2"

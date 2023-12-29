@@ -2,8 +2,10 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { staticFileKeys } from 'src/app/constants';
 import { IDetailedReportResponse } from 'src/app/models/detailedReport/detailedReportResponse';
 import { IReportType } from 'src/app/models/reportType';
+import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
 
 import { AuthService } from '../../../../app/auth/auth.service';
 import { DialogComponent } from '../../../../app/shared/components/dialog/dialog.component';
@@ -29,6 +31,7 @@ export class BasicComponent implements OnInit, OnDestroy {
   isProcessed = false;
   @Output()nameUlb: EventEmitter<string> = new EventEmitter();
   reportKeys: string[] = [];
+  standardizationDocLink = '';
 
   currencyConversionList = currencryConversionOptions;
 
@@ -81,7 +84,8 @@ export class BasicComponent implements OnInit, OnDestroy {
     private _dialog: MatDialog,
     private router: Router,
     private _authService: AuthService,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private newCommonService: NewCommonService
   ) {
     this.changeDetector.reattach();
   }
@@ -108,6 +112,10 @@ export class BasicComponent implements OnInit, OnDestroy {
     this.nameUlb.emit(value);
   }
   ngOnInit() {
+    const key = staticFileKeys.STANDARDIZATION_PROCESS_OF_ANNUAL_FINANCIAL_STATEMENT_OF_ULBS;
+    this.newCommonService.getStaticFileUrl(key).subscribe((res: any) => {
+      this.standardizationDocLink = res?.data?.url;
+    })
     this.loaderService.showLoader()
     this.reportService.getNewReportRequest().subscribe((reportCriteria) => {
       this.initializeCurrencyConversion(reportCriteria);
