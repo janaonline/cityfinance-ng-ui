@@ -21,7 +21,7 @@
         <section class="map-bg">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-5 my-0 map-con" style="">
+                    <div class="col-sm-12 col-md-5 my-0 map-con" style="">
                         <ng-container *ngIf="isApiInProgress; else map">
                             <div class="loader">
                                 <app-pre-loader-new></app-pre-loader-new>
@@ -31,7 +31,7 @@
                             <app-india-map [colorCoding]="colorCoding" label="% of Participation" [colorDetails]="colorDetails" ></app-india-map>
                         </ng-template>
                     </div>
-                    <div class="col-md-7">
+                    <div class="com-sm-12 col-md-7">
                         <div class="card fl-card">
                             <div class="card-body">
                                 <div class="row mb-2">
