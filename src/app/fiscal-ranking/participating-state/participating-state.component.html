@@ -83,7 +83,8 @@
                         </div>
         
                         <div class="table-card" style="">
-                         <app-common-table theme="white" [response]="table?.response" [classLists]="'scroll'" (update)="onUpdate(table, $event)">
+                         <app-common-table theme="white" [response]="table?.response" 
+                         [classLists]="'scroll fixed-ui-tb'" (update)="onUpdate(table, $event)" [tableName]="'Participated State'">
                          </app-common-table>
                         </div>
                     </div>
