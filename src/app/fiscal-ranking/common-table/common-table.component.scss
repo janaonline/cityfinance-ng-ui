@@ -12,7 +12,7 @@ thead {
     box-shadow: 0 0 20px 0 #c7c7c754;
     border-radius: 5px;
     color: red !important;
-    margin: 30px auto;
+    margin: 0.5rem auto 0.5rem;
 
     thead {
         position: static;
@@ -39,7 +39,7 @@ thead {
             text-align: left !important;
         }
     }
-    
+
 }
 
 .scroll {
@@ -57,13 +57,35 @@ thead {
     color: #E67E15;
 
 }
+
 ::ng-deep .p-ulb {
-    
+
     .br-r:nth-child(9) {
         border-right: 2px solid #dee2e6 !important;
     }
-    
-     .auditedAccounts2018-19 {
+
+    .auditedAccounts2018-19 {
         border-right: 2px solid #dee2e6 !important;
     }
+
+    .f-s {
+        font-family: Montserrat !important;
+        font-size: 16px !important;
+        font-weight: 400 !important;
+        line-height: 20px;
+        letter-spacing: 0em;
+        text-align: left;
+
+    }
+}
+
+tr:last-child {
+    th {
+        border-bottom: none !important;
+    }
+    
+}
+.table > thead > tr > th, 
+.table > tbody > tr > td { 
+    padding: 0.5rem 0.65rem;
 }

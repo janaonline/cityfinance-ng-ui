@@ -109,8 +109,11 @@ export class CommonService {
   getImageUrl(url: string, img: any) {
     const fd = new FormData();
     fd.append('image', img, img['name'].replaceAll(/–/g, ''));
+    const headers = new HttpHeaders({
+      'X-Ms-Blob-Type': 'BlockBlob',
+    });
     return this.httpClient
-      .put(url, img)
+      .put(url, img, { headers })
       .pipe(
         map((response: any) => response),
         catchError((error: any) => {
