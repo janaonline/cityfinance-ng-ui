@@ -86,9 +86,9 @@
         </div>
     </div>
 
-    <div class="row mb-4">
+    <div class="row mb-4 gx-0">
         <div class="col-12 table-card">
-            <div class="px-3">
+            <div class="px-5">
                 <app-common-table theme="white" [response]="table?.response" [info]="table?.info"
                     [classLists]="'scroll p-ulb'" [allowedExtensions]="allowedExtensions"
                     [targetExtension]="targetExtension" (update)="onUpdate(table, $event)" *ngIf="table?.response">

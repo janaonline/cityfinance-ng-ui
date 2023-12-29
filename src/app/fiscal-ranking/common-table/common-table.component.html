@@ -22,8 +22,8 @@
                             [ngClass]="{'table-primary': !theme}">
                             <div (click)="updateSorting(column)" class="d-flex " style="cursor: pointer;">
                                 <div>
-                                    <p [innerHTML]="column.label" class="m-0 text-center"></p>
-                                    <div *ngIf="column?.info" class="fw-light text-muted text-center"><small>{{
+                                    <p [innerHTML]="column.label" class="m-0 lb-cls"></p>
+                                    <div *ngIf="column?.info" class="fw-light text-muted lb-cls"><small>{{
                                             column?.info
                                             }}</small>
                                     </div>
@@ -76,7 +76,7 @@
                         </ng-template>
                     </td>
                 </tr>
-                <tr *ngIf="response.lastRow">
+                <tr *ngIf="response.lastRow" class="fixed-footer">
                     <th *ngFor="let item of response.lastRow; let i = index;" [ngClass]="{'text-center': i != 0}">{{
                         item |
                         tableRowCalculator : response?.columns[i]?.key : response.data }}</th>
@@ -85,8 +85,11 @@
         </table>
     </div>
     <div *ngIf="info">{{ info }}</div>
-    <mat-paginator *ngIf="response?.total" [length]="response.total" [pageSize]="limit"
+    <div *ngIf="tableName != 'Participated State'">
+        <mat-paginator *ngIf="response?.total" [length]="response.total" [pageSize]="limit"
         [pageSizeOptions]="pageSizeOptions" (page)="pageChange($event)" aria-label="Select page">
     </mat-paginator>
+    </div>
+   
     <h2 *ngIf="response?.data?.length == 0" class="text-center p-5">No data found</h2>
 </div>
