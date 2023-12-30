@@ -1,4 +1,4 @@
-<nav style="--bs-breadcrumb-divider: '>';" class="pd mt-2" aria-label="breadcrumb">
+<nav style="--bs-breadcrumb-divider: '>';" class="pd mt-2 ps-0" aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item" *ngFor="let link of links">
             <a [routerLink]="link.url" class=" color-blue {{link?.class}}">{{ link.label }}</a>

@@ -29,3 +29,9 @@ section {
     color: white;
     font-size: 24px;
 }
+
+@media (max-width: 767.98px){
+    .card{
+        max-width: 100%;
+    }
+}

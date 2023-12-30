@@ -34,6 +34,13 @@ section {
     align-items: center;
 }
 
+.map-bg{
+    background-image: url('../../../assets/fiscal-rankings/map-background.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 0 0 100px 0;
+}
+
 .custom-btn-group {
     $primary-color: #E67E15;
     
@@ -60,4 +67,10 @@ section {
         background-color: $primary-color;
         border-color: $primary-color;
     }
+}
+.pd-top {
+    padding-top: 2rem;
+}
+.min-h-60 {
+    min-height: 650px;
 }

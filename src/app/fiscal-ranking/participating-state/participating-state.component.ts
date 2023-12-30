@@ -273,8 +273,9 @@ export class ParticipatingStateComponent implements OnInit {
     const filterObj = {
       stateType: this.stateType,
       ulbParticipationFilter: this.ulbParticipation,
-      ulbRankingStatusFilter: this.ulbRankingStatus
-
+      ulbRankingStatusFilter: this.ulbRankingStatus,
+      skip: 0,
+      limit: 37
     }
     const endpoint = `scoring-fr/participated-state`;
     this.fiscalRankingService.getTableResponse(endpoint, queryParams, table?.response?.columns, 'data.tableData', filterObj).subscribe((res: any) => {
@@ -321,5 +322,9 @@ export class ParticipatingStateComponent implements OnInit {
 
   onUpdate(table:Table,  event) {
     this.getTableData(table, event?.queryParams);
+   }
+
+   updateSorting(){
+
    }
 }
