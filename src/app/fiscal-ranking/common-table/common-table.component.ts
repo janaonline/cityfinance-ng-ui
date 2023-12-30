@@ -52,6 +52,8 @@ export class CommonTableComponent implements OnInit, OnChanges {
   @Input() classLists?:string;
   @Input() allowedExtensions: string[] = [];
   @Input() targetExtension:string = "";
+  @Input() info: string = '';
+  @Input() tableName : string = '';
   @Output() update: EventEmitter<any> = new EventEmitter<any>();
 
 
@@ -75,13 +77,17 @@ export class CommonTableComponent implements OnInit, OnChanges {
   }
 
   get queryParams() {
+    
     const params = {
       skip: '' + this.page * this.limit,
       limit: '' + this.limit,
       ...this.response?.columns?.filter(column => column.hasOwnProperty('query') && column.query !== '')
         .reduce((result, item) => ({ ...result, [item.key]: item.query }), {})
     };
-
+    if(this.tableName == 'Participated State') {
+      delete params?.limit;
+      delete params?.skip;
+    }
     const sortQuery = this.response?.columns?.filter(column => column.sort !== 0)
       .reduce((result, item) => result + `&sortBy=${item.key}&order=${item.sort}`, '');
     return new URLSearchParams(params).toString() + (sortQuery);

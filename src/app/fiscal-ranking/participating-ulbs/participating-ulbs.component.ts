@@ -53,7 +53,8 @@ export class ParticipatingUlbsComponent implements OnInit {
   targetExtension:string = 'pdf';
   table: Table = {
       endpoint: 'scoring-fr/ulbs',
-      response: null
+      response: null,
+      info: "Note: The '-' sign denotes data that has not been submitted on the portal."
      };
   // table = {
   //   response: {

@@ -11,26 +11,20 @@
         </mat-paginator>
         <mat-icon *ngIf="isDialog" (click)="closeDialog()" role="button">clear</mat-icon>
     </div>
-    <!-- <mat-paginator *ngIf="response?.total" [length]="response.total" [pageSize]="limit"
-        [pageSizeOptions]="pageSizeOptions" (page)="pageChange($event)" aria-label="Select page">
-    </mat-paginator> -->
-
-    <!---- pagination without no of item select dropdown -->
-
-    <mat-paginator *ngIf="response?.total" [length]="response.total" [pageSize]="limit"
-     aria-label="Select page of search results" (page)="pageChange($event)"></mat-paginator>
     <div class="scroll {{theme}} {{classLists}}">
-        <table class="table" [ngClass]="{'d-block': isDialog, 'table-striped': !theme}">
+        <table class="table bg-white" [ngClass]="{'d-block': isDialog, 'table-striped': !theme}">
             <thead *ngIf="response?.columns?.length > 0">
                 <tr>
                     <ng-container *ngFor="let column of response.columns">
                         <th scope="col" *ngIf="!column?.hidden" [attr.colspan]="column?.colspan || 1"
-                            [style.width]="column?.width || null" class="border-0 {{column?.class}} {{column?.key}} br-r"
+                            [style.width]="column?.width || null"
+                            class="border-0 {{column?.class}} {{column?.key}} br-r"
                             [ngClass]="{'table-primary': !theme}">
-                            <div (click)="updateSorting(column)" class="d-flex " style="cursor: pointer;">
+                            <div (click)="updateSorting(column)" style="cursor: pointer;" [ngClass]="{'d-flex' : column?.key != 'sNo'}">
                                 <div>
-                                    <p [innerHTML]="column.label" class="m-0"></p>
-                                    <div *ngIf="column?.info" class="fw-light text-muted"><small>{{ column?.info
+                                    <p [innerHTML]="column.label" class="m-0" [ngClass]="{'lb-cls' : column?.key != 'sNo'}"></p>
+                                    <div *ngIf="column?.info" class="fw-light text-muted lb-cls"><small>{{
+                                            column?.info
                                             }}</small>
                                     </div>
                                 </div>
@@ -61,7 +55,7 @@
             <tbody *ngIf="response?.data?.length > 0">
                 <tr *ngFor="let row of response.data" class="py-1"
                     [ngClass]="{'table-secondary': row?.selected, 'border-0': !theme}">
-                    <td  *ngFor="let column of response.columns; let i = index;" [title]="row[column.key]"
+                    <td *ngFor="let column of response.columns; let i = index;" [title]="row[column.key]"
                         [ngClass]="{'text-center': i != 0, 'border-0': !theme}" class="data-item br-r">
                         <ng-container *ngIf="row[column.key + 'Link']; else fileValue;">
                             <a *ngIf="isDialog" [href]="row[column.key + 'Link']" target="_blank">{{ row[column.key]
@@ -78,11 +72,11 @@
                             </ng-container>
                         </ng-template>
                         <ng-template #simpleValue>
-                            {{ row[column.key] }}
+                            {{ (row[column.key] | typeof) == 'number' ? (row[column.key] | number) : row[column.key]}}
                         </ng-template>
                     </td>
                 </tr>
-                <tr *ngIf="response.lastRow">
+                <tr *ngIf="response.lastRow" class="fixed-footer">
                     <th *ngFor="let item of response.lastRow; let i = index;" [ngClass]="{'text-center': i != 0}">{{
                         item |
                         tableRowCalculator : response?.columns[i]?.key : response.data }}</th>
@@ -90,6 +84,12 @@
             </tbody>
         </table>
     </div>
-    
+    <div *ngIf="info">{{ info }}</div>
+    <div *ngIf="tableName != 'Participated State'">
+        <mat-paginator *ngIf="response?.total" [length]="response.total" [pageSize]="limit"
+        [pageSizeOptions]="pageSizeOptions" (page)="pageChange($event)" aria-label="Select page">
+    </mat-paginator>
+    </div>
+   
     <h2 *ngIf="response?.data?.length == 0" class="text-center p-5">No data found</h2>
 </div>

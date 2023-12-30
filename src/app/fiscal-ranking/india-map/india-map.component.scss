@@ -38,6 +38,7 @@
     @media (max-width: 600px) {
         min-height: 550px;
     }
+
     border-radius: 5px;
     padding-top: 1%;
     display: flex;
@@ -74,6 +75,7 @@ div.miniMap {
     top: 0%;
     border-radius: inherit;
     border-left: inherit;
+
     @media (max-width: 768px) {
         margin-top: 0%;
         height: 100%;
@@ -124,6 +126,7 @@ div.miniMap {
 .ulbDetails {
     transform: scale(0.8);
     margin-top: -10%;
+
     &>span {
         display: block;
     }
@@ -265,11 +268,23 @@ div.miniMap {
 ::ng-deep .analytics-map {
     .leaflet-bottom {
         transform: scale(0.55);
-        width: 155px;
+        width: 100%;
         font-size: 0.7vw;
     }
 
     .leaflet-control {
+        .indicator-items {
+            display: flex;
+            gap: 20px;
+
+            div {
+                display: flex;
+                align-items: center;
+                font-size: 12px;
+                text-wrap: nowrap;
+            }
+        }
+
         width: fit-content;
         transform: scale(1.6) translateY(-50%);
         position: absolute;
@@ -309,28 +324,34 @@ div.miniMap {
     .leaflet-control-attribution {
         display: none;
     }
+
     .cuppa-dropdown {
         position: relative;
         margin-top: -2px;
     }
+
     .map-click-guide {
         position: absolute;
         bottom: 3vh;
     }
+
     .national-map-click-guide {
         margin-left: 13%;
         width: fit-content;
         margin-top: 2%;
         bottom: 1px;
         font-size: 1vw;
+
         @media screen and (max-width: 1024px) and (min-width: 560px) {
             font-size: $font-size-base * 0.75;
         }
+
         @media screen and (max-width: 551px) {
             font-size: $font-size-base * 0.75;
             margin: auto;
         }
     }
+
     .state-map-click-guide {
         text-align: center;
         left: 18%;
@@ -574,4 +595,10 @@ td {
 
 .miniMap {
     visibility: hidden;
+}
+
+@media (max-width: 767.98px) {
+    .stateMap {
+        width: 100% !important;
+    }
 }

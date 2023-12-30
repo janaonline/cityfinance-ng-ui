@@ -15,8 +15,16 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  get getRatio(){
+    const ZOOM:number =  0.001152073732718894;
+    let zoomValue = window.innerHeight * ZOOM;
+    return window.innerWidth < 992 ? 1 : zoomValue;
+  }
+
   scrollOnePageDown() {
     var viewportHeight = window.innerHeight;
     window.scrollBy(0, viewportHeight * 0.9);
   }
+
+  
 }

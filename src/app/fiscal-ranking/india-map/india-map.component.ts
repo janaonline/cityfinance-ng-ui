@@ -125,21 +125,31 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
   }
 
   createLegends() {
-    const legend = new L.Control({ position: "bottomright" });
+    const legend = new L.Control({ position: 'bottomleft'});
     const labels = [
-      `<span style="width: 100%; display: block; font-size: 12px" class="text-center">${this.label}</span>`,
+      // `<span style="width: 100%; display: block; font-size: 12px" class="text-center">${this.label}</span>`,
     ];
     const colorDetails = this.colorDetails;
-    legend.onAdd = function (map) {
+    legend.onAdd =  map => {
       const div = L.DomUtil.create("div", "info legend");
       div.id = "legendContainer";
       div.style.width = "100%";
       colorDetails?.forEach((value) => {
         labels.push(
-          `<span style="display: flex; align-items: center; width: 75%;margin: 1% auto; font-size: 12px; "><i class="circle" style="background: ${value.color}; padding:6px; display: inline-block; margin-right: 12%; "> </i> ${value.text}</span>`
+          `<div>
+            <i class="circle" style="background: ${value.color}; padding:6px; display: inline-block; margin-right: 12%; "> </i> 
+            ${value.text}
+            </div>`
         );
       });
-      div.innerHTML = labels.join(``);
+
+      const labelString = labels.join(``);
+
+
+      div.innerHTML = `
+        ${this?.label ? `<div class="heading text-start mb-3">${this?.label}</div>` : ''}
+        <div class="indicator-items">${labelString}</div>
+      `;
       return div;
     };
     legend.addTo(this.nationalLevelMap);

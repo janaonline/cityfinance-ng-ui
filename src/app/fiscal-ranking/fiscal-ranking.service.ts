@@ -22,6 +22,7 @@ export enum StatusType {
 }
 export interface Table {
   id?: string;
+  info?: string;
   endpoint?: string;
   response: TableResponse;
 }

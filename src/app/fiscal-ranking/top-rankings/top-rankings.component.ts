@@ -83,7 +83,7 @@ export class TopRankingsComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.filter = this.fb.group({
-      populationBucket: '',
+      populationBucket: '1',
       stateData: [''],
       state: '',
       category: 'overAllRank',
