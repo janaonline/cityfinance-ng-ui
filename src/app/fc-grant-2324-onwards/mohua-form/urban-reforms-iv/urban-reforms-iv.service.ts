@@ -10,7 +10,7 @@ export class UrbanReformsIvService {
   constructor(private http: HttpClient) {}
 
   getStates() {
-    return this.http.get(environment.api.url + "state");
+    return this.http.get(environment.api.url + "urban-reforms-iv/stateList");
   }
 
   getDocumentsByState(params = {}) {
