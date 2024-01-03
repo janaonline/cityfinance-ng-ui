@@ -22,6 +22,7 @@ import { OdfFormPreviewComponent } from "./odf-form-preview/odf-form-preview.com
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { DatePipe } from "@angular/common";
 import { NavigationEnd, NavigationStart, Router } from "@angular/router";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-odf-form",
@@ -139,6 +140,9 @@ export class OdfFormComponent implements OnInit, OnDestroy {
   canTakeAction = false;
   formName = '';
   isApiInProgress = true;
+
+  storageUrl:string = environment?.STORAGE_URL;
+
   ngOnInit(): void {
     this.setRouter();
     this.fetchData();
@@ -663,7 +667,7 @@ export class OdfFormComponent implements OnInit, OnDestroy {
      let folderName = `${this.userData?.role}/2022-23/${this.formName}/${this.userData?.ulbCode}`
       this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
-          let fileAlias = s3Response["data"][0]["file_url"];
+          let fileAlias = s3Response["data"][0]["path"];
           this[progessType] = Math.floor(Math.random() * 90) + 10;
           const s3URL = s3Response["data"][0].url;
           this.uploadFileToS3(file, s3URL, fileAlias, fileIndex, progessType);
