@@ -1,9 +1,11 @@
-<div *ngFor = "let state of states" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-    <div class="col">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <p class="card-text">{{state.name}}</p>
+<div class="row">
+    <a *ngFor = "let state of states" class="col-3 g-3">
+        <div class="col" [routerLink] ="state._id" >
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <p class="card-text">{{state.name}}</p>
+                </div>
             </div>
         </div>
-    </div>
+    </a>
 </div>
