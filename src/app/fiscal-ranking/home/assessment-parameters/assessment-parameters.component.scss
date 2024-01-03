@@ -1,3 +1,7 @@
+*:not(mat-icon) {
+    font-family: 'Montserrat';
+}
+
 section {
     text-align: center;
     color: white;
@@ -9,9 +13,25 @@ section {
 .card {
     margin: 0;
     color: black;
+    border-radius: 20px;
     max-width: 350px;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     img {
         margin: 0 auto;
+    }
+}
+
+.guidelines-link {
+    img {
+        height: 34px;
+    }
+    text-decoration: underline;
+    color: white;
+    font-size: 24px;
+}
+
+@media (max-width: 767.98px){
+    .card{
+        max-width: 100%;
     }
 }

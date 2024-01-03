@@ -26,7 +26,7 @@ async function getS3UrlForFiles(files: any) {
         file_name: file?.name,
       })),
     };
-    let { data: response } = await api.post(`getS3Url`, requestBody);
+    let { data: response } = await api.post(`getBlobUrl`, requestBody);
     return response;
   } catch (e) {
     throw new Error("Unable To Upload");
@@ -56,8 +56,10 @@ const getFileAndUploadToGivenUrl = async (
     fileName,
     fileMimeType
   );
+  
   const headers = new Headers({
     "Content-Type": fileToUpload?.type,
+    "x-ms-blob-type":"BlockBlob"
   });
   return axiosInstanceWithoutDefaultConfig.put(url, fileToUpload, { headers });
 };

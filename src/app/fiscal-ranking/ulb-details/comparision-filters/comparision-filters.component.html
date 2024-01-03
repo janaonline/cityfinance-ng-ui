@@ -1,0 +1,42 @@
+<div class="d-flex justify-content-between">
+    <div><button class="btn btn-text btn-orange" (click)="reset()">Reset</button></div>
+    <h4 class="text-center">Filter</h4>
+    <div>
+        <mat-icon class="cursor-pointer" (click)="close()">close</mat-icon>
+    </div>
+</div>
+
+<form (submit)="apply()">
+    <div class="mt-4">
+        <div *ngFor="let key of filterKeys()" class="form-check">
+            <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}"
+                [id]="key + 'Checkbox'" [(ngModel)]="datasetsFilter[key]">
+            <label class="form-check-label" [for]="key + 'Checkbox'">
+                {{ key }}
+            </label>
+        </div>
+    </div>
+    <div class="mt-3">
+        <input type="search" [(ngModel)]="query" name="query" (blur)="closeMenu()" (input)="debouncedSearch()" class="form-control"
+            placeholder="Search ULB...">
+        <div class="" #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu"></div>
+        <div id="emailHelp" class="form-text">Maximum of 5 ULBs can be compared at once</div>
+    </div>
+
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item *ngFor="let result of searchResults" (click)="addUlb(result)">
+            {{ result.name }}
+        </button>
+    </mat-menu>
+
+
+    <div class="chip-container">
+        <span class="chip" [ngClass]="{'non-bucket': ulb?.populationBucket != data?.ulb?.populationBucket}" *ngFor="let ulb of ulbs; let i = index;">
+            {{ ulb?.name }} <mat-icon *ngIf="!ulb?.disabled" class="cursor-pointer" (click)="removeUlb(i)">close
+            </mat-icon>
+        </span>
+    </div>
+    <div class="mt-3 text-center">
+        <button type="submit" class="btn btn-orange">Apply</button>
+    </div>
+</form>

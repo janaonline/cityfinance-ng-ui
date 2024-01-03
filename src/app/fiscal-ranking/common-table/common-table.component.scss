@@ -2,22 +2,155 @@
     padding-top: 0;
 }
 
-.white  {
+thead {
+    position: sticky;
+    top: 50px;
+}
+
+.white {
     border: 1px solid #DBDBDB;
-    box-shadow: 0px 0px 10px 3px #afafaf;
+    box-shadow: 0 0 20px 0 #c7c7c754;
     border-radius: 5px;
     color: red !important;
-    margin: 30px auto;
+    margin: 0.5rem auto 0.5rem;
+
+    thead {
+        position: static;
+        top: 5px;
+
+        tr {
+            border-bottom: 3px solid #e6e6e6;
+        }
+    }
 
     table {
         text-align: left;
-    
 
-        td, th{
-            padding: 10px 20px;
+        .data-item * {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
         }
-        td.text-center, th.text-center {
+
+        td.text-center,
+        th.text-center {
             text-align: left !important;
         }
     }
+
 }
+
+.scroll {
+    width: 100%;
+    overflow: auto;
+}
+
+.th-color-cls {
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #E67E15;
+
+}
+
+::ng-deep .p-ulb {
+
+    .br-r:nth-child(9) {
+        border-right: 2px solid #dee2e6 !important;
+    }
+
+    .auditedAccounts2018-19 {
+        border-right: 2px solid #dee2e6 !important;
+    }
+
+    .f-s {
+        font-family: Montserrat !important;
+        font-size: 16px !important;
+        font-weight: 400 !important;
+        line-height: 20px;
+        letter-spacing: 0em;
+        text-align: left;
+
+    }
+}
+
+tr:last-child {
+    th {
+        border-bottom: none !important;
+    }
+
+}
+
+.table>thead>tr>th,
+.table>tbody>tr>td {
+    padding: 0.75rem .75rem;
+
+}
+
+// .lb-cls {
+//     text-align: center;
+// }
+.th-h {
+    display: flex !important;
+}
+.fixed-ui-tb {
+    height: 36rem;
+
+    .bg-white {
+        width: 60rem;
+    }
+    .th-h {
+        display: inline !important;
+    }
+    thead {
+        position: sticky !important;
+        top: 0px;
+        background-color: #FFFFFF !important;
+    }
+
+    table>thead>tr>th,
+    .table>tbody>tr>td,
+    .table>thead>tr>td,
+    .table>tbody>tr>th {
+        padding: 1rem 1.25rem !important;
+        // width: 25%;
+        vertical-align: middle;
+    }
+
+    .lb-cls {
+        text-align: left;
+    }
+
+    .fixed-footer {
+        position: sticky !important;
+        bottom: 0px;
+        background-color: #FFFFFF !important;
+
+    }
+
+      .name {
+        width: 10rem !important;
+      }
+      .stateType {
+        width: 8rem;
+      }
+}
+
+a {
+    text-decoration-thickness: from-font;
+}
+
+.table>thead>tr>th:first-child,
+.table>tbody>tr>td:first-child,
+.table>thead>tr>td:first-child {
+    width: 5rem !important;  
+    text-align: center !important;
+    
+  }
+
+

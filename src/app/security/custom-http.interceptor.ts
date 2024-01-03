@@ -25,7 +25,6 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     const token = JSON.parse(localStorage.getItem("id_token"));
     const sessionID = sessionStorage.getItem("sessionID");
     let headers = req.headers;
-
     if (!req.headers.has("Accept")) {
       headers = req.headers.set("Content-Type", "application/json");
     }
@@ -35,6 +34,7 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     if (token) {
       headers = headers.set("x-access-token", token);
     }
+    headers =  headers.set("x-ms-blob-type", "BlockBlob")
     const authReq = req.clone({ headers });
     return next.handle(authReq).pipe(
       // takeUntil(this.routerNavigationSuccess),

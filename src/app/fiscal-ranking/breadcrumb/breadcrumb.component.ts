@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export interface BreadcrumbLink {
   label: string;
   url: string;
+  class?: string;
 }
 
 @Component({

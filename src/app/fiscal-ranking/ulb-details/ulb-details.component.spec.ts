@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UlbFiscalComponent } from './ulb-fiscal.component';
+import { UlbDetailsComponent } from './ulb-details.component';
 
-describe('UlbFiscalComponent', () => {
-  let component: UlbFiscalComponent;
-  let fixture: ComponentFixture<UlbFiscalComponent>;
+describe('UlbDetailsComponent', () => {
+  let component: UlbDetailsComponent;
+  let fixture: ComponentFixture<UlbDetailsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UlbFiscalComponent ]
+      declarations: [ UlbDetailsComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UlbFiscalComponent);
+    fixture = TestBed.createComponent(UlbDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
