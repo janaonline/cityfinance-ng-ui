@@ -35,7 +35,7 @@ const routes: Routes = [
         component: UrbanReformsIvComponent,
       }, 
       {
-        path: 'urban-reforms-iv/:id',
+        path: 'urban-reforms-iv/:stateId',
         component: DocumentsComponent,
       }, 
     ],
