@@ -17,10 +17,11 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UrbanReformsIvComponent } from './urban-reforms-iv/urban-reforms-iv.component';
+import { DocumentsComponent } from './urban-reforms-iv/documents/documents.component';
 
 
 @NgModule({
-  declarations: [MohuaFormComponent, ReviewUlbTableComponent, DashbordComponent, ReviewStateFormComponent, StateResourceManagerComponent, AddResourceComponent, UrbanReformsIvComponent],
+  declarations: [MohuaFormComponent, ReviewUlbTableComponent, DashbordComponent, ReviewStateFormComponent, StateResourceManagerComponent, AddResourceComponent, UrbanReformsIvComponent, DocumentsComponent],
   imports: [
     CommonModule,
     MohuaFormRoutingModule,
