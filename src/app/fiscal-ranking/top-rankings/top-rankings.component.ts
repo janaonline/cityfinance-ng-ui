@@ -32,15 +32,15 @@ export class TopRankingsComponent implements OnInit {
     },
     {
       key: 'resourceMobilizationRank',
-      label: 'Resource Mobilization'
+      label: 'Resource Mobilization (RM)'
     },
     {
       key: 'expenditurePerformanceRank',
-      label: 'Expenditure Performance'
+      label: 'Expenditure Performance (EP)'
     },
     {
       key: 'fiscalGovernanceRank',
-      label: 'Fiscal Governance'
+      label: 'Fiscal Governance (FG)'
     },
   ]
 
