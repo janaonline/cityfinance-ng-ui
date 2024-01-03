@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UrbanReformsIvService } from '../urban-reforms-iv.service';
 
+interface fileEntry {
+  name: string,
+  url: string,
+  createAt: string
+}
+
 @Component({
   selector: 'app-documents',
   templateUrl: './documents.component.html',
@@ -9,7 +15,7 @@ import { UrbanReformsIvService } from '../urban-reforms-iv.service';
 })
 export class DocumentsComponent implements OnInit {
 
-  files = [];
+  files: fileEntry[] = [];
 
   constructor(
     private urbanReformsViService: UrbanReformsIvService,
@@ -20,28 +26,22 @@ export class DocumentsComponent implements OnInit {
     return this.activatedRoute.snapshot.params?.stateId;
   }
 
-  ngOnInit(): void {
-    this.urbanReformsViService.getDocumentsByState().subscribe(res => {
-      this.files = [
-        {
-            name: 'first',
-            url: 'https://jana-cityfinance-stg.s3.ap-south-1.amazonaws.com/mohua/2023-24/state-resources/property-tax-gsdp-document/12%20MB_45c5958a-563e-4a15-a50f-d6fd7c2b70ab.pdf',
-            createdAt: '2019-11-16T06:55:49.269Z'
-        },
-        {
-            name: 'second',
-            url: 'https://jana-cityfinance-stg.s3.ap-south-1.amazonaws.com/mohua/2023-24/state-resources/property-tax-gsdp-document/12%20MB_45c5958a-563e-4a15-a50f-d6fd7c2b70ab.pdf',
-            createdAt: '2019-11-16T06:55:49.269Z'
-        },
-        {
-            name: 'third',
-            url: 'https://jana-cityfinance-stg.s3.ap-south-1.amazonaws.com/mohua/2023-24/state-resources/property-tax-gsdp-document/12%20MB_45c5958a-563e-4a15-a50f-d6fd7c2b70ab.pdf',
-            createdAt: '2019-11-16T06:55:49.269Z'
-        },
-      ]
-    })
+  get stateName() {
+    return this.activatedRoute.snapshot.queryParams?.name;
   }
 
-
-
+  ngOnInit(): void {
+    const params = {
+      relatedIds: [this.stateId]
+    }
+    this.urbanReformsViService.getDocumentsByState(params).subscribe((res: any) => {
+      console.log(res);
+      this.files = res?.data?.map(item => ({
+        name: item?.file?.name,
+        url: item?.file?.url,
+        createdAt: item?.createdAt
+      }));
+    });
+    console.log('files', this.files);
+  }
 }
