@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UlbFisPreviewComponent } from './ulb-fis-preview.component';
+import { UlbDetailsHeaderComponent } from './ulb-details-header.component';
 
-describe('UlbFisPreviewComponent', () => {
-  let component: UlbFisPreviewComponent;
-  let fixture: ComponentFixture<UlbFisPreviewComponent>;
+describe('UlbDetailsHeaderComponent', () => {
+  let component: UlbDetailsHeaderComponent;
+  let fixture: ComponentFixture<UlbDetailsHeaderComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UlbFisPreviewComponent ]
+      declarations: [ UlbDetailsHeaderComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UlbFisPreviewComponent);
+    fixture = TestBed.createComponent(UlbDetailsHeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,3 +1,7 @@
+*:not(mat-icon) {
+    font-family: 'Montserrat';
+}
+
 .header {
     background-color: #C2D6FC1A;
 }
@@ -26,6 +30,7 @@
     background-repeat: no-repeat;
 }
 .section-2 {
+    border-left: 1px solid #d4d3d3;
     background-image: url('/assets/fiscal-rankings/ulbs-in-india-bg-2.png');
     background-color: #FFC2E71A;
     background-position: right top;
@@ -36,4 +41,23 @@
     background-size: 90%;
     background-position: center center;
     background-repeat: no-repeat;
+}
+
+.child {
+    padding-top: 80px !important;
+    padding-bottom: 80px !important;
+}
+
+.data-item * {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    font-size: 14px;
+}
+@media (max-width: 767.98px){
+    .section-2{
+        border-left: none !important;
+    }
 }

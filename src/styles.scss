@@ -64,8 +64,10 @@
 
 @import url('//fonts.googleapis.com/css2?family=Cabin:wght@400;700&display=swap');
 @import url('//fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap');
-@import url('//fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url('//fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
+/* for fiscal ranking new dashboard 2023*/
+@import url('//fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600;1,700&display=swap');
 
 .ag-theme-alpine {
     @include ag-theme-alpine((cell-horizontal-border: solid ag-derived(secondary-border-color), ));
@@ -74,6 +76,10 @@
         border-right: 1px solid ag-param(secondary-border-color);
     }
 }
+
+// .container{
+//     max-width: 1440px;
+// }
 
 :root {
     --multi-dropdown-color: #059b9a;
@@ -1276,11 +1282,11 @@ img.align-center {
 /* The above code is changing the color of the India map tooltip. */
 
 .leaflet-popup-content-wrapper {
-    background: #FEDA12 !important;
+    // background: #FEDA12 !important;
 }
 
 .leaflet-popup-tip {
-    background: #FEDA12 !important;
+    // background: #FEDA12 !important;
 }
 
 .btn-c-back {
@@ -1322,6 +1328,12 @@ img.align-center {
     border-radius: 10px !important;
 }
 
+.search-page {
+    .mat-dialog-container {
+        background-color: black;
+    }
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -1340,26 +1352,35 @@ input[type=number] {
 
 .btn-orange {
     $orange: #E67E15;
-    border-radius: 5px;
+    border-radius: 8px;
+    padding-right: 20px;
+    padding-left: 20px;
     background: $orange;
     color: #fff;
     font-weight: bold;
     transition: background 0.3s ease, color 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add box shadow */
-    
+    box-shadow: 1px 11px 28px 2px #e67e1561;
+
+
     &.btn-outline {
         background: #fff;
         border: 1px solid $orange;
         color: $orange;
         transition: background 0.3s ease, color 0.3s ease, border 0.3s ease;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add box shadow */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    &.btn-text {
+        color: $orange;
+        background-color: inherit;
+        transition: background 0.3s ease, color 0.3s ease, border 0.3s ease;
+        box-shadow: none;
     }
 
     &:hover {
         background: #cf7113;
         border-color: #cf7113;
         color: #fff;
-        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Adjusted box shadow on hover */
     }
 }
 
@@ -1368,4 +1389,30 @@ input[type=number] {
 }
 .color-blue {
     color: #00486F;
+}
+
+.form-h-fr {
+    font-family: Montserrat;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 34px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #000000;
+
+}
+
+.sub-def-fr {
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: center;
+
+}
+
+.btn-check:focus + .btn-outline-primary, .btn-outline-primary:focus {
+    box-shadow: none !important;
+    outline: none !important;
 }
