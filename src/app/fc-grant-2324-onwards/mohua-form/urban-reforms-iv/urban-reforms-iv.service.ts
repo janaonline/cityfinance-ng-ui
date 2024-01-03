@@ -7,12 +7,13 @@ import { environment } from 'src/environments/environment';
 })
 export class UrbanReformsIvService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient) {}
 
-   }
-
-
-   getStates(){
+  getStates() {
     return this.http.get(environment.api.url + "/state");
-   }
+  }
+
+  getDocumentsByState(params = {}) {
+    return this.http.get(`${environment.api.url}state-resources/getResourceList`, { params });
+  }
 }

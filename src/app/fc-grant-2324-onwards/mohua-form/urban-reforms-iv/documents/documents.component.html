@@ -1,1 +1,16 @@
-<p>documents works!</p>
+<div class="container py-4">
+    <div class="row">
+        <div class="file-entries">
+            <a [href]="file?.url" target="_blank" download class="file-entry" *ngFor="let file of files">
+                <div class="details">
+                    <img class="file-icon" *ngIf="file?.url | endsWith : ['.pdf']" src="assets/pdf.png">
+                    <img class="file-icon" *ngIf="file?.url | endsWith : ['.xls', '.xlsx']" src="assets/excel.png">
+                    <div>
+                        <div>{{ file.name }}</div>
+                        <p class="created-at">Created on {{ file.createdAt | date: 'dd/MM/yyyy' }}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
