@@ -8,6 +8,7 @@ import { QuestionnaireService } from "src/app/pages/questionnaires/service/quest
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { defaultDailogConfiuration } from "src/app/pages/questionnaires/ulb/configs/common.config";
 import { SweetAlert } from "sweetalert/typings/core";
+import { environment } from "src/environments/environment";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -108,6 +109,8 @@ export class PropertyTaxOperationalisationPreviewComponent implements OnInit {
     }
 
     </style>`
+    storageUrl:string = environment?.STORAGE_URL;
+
   ngOnInit(): void {
     let userData = JSON.parse(localStorage.getItem("userData"));
     console.log(this.data)

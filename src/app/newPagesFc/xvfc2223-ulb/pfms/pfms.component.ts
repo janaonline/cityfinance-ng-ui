@@ -8,6 +8,7 @@ import { NewCommonService } from 'src/app/shared2223/services/new-common.service
 import { PfmsPreviewComponent } from '../pfms-preview/pfms-preview.component';
 import { MatDialog,MatDialogConfig } from "@angular/material/dialog";
 import { NavigationStart, Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 const swal2 = require("sweetalert2");
 const swal: SweetAlert = require("sweetalert");
 @Component({
@@ -114,7 +115,7 @@ export class PfmsComponent implements OnInit, OnDestroy {
   disableInputs: boolean = false;
   greyInputs: boolean = false;
   back_router = "#";
-
+  storageUrl:string = environment?.STORAGE_URL;
   ngOnInit(): void {
     sessionStorage.setItem("changeInPFMS", "false");
     this.clickedSave = false;
@@ -705,7 +706,7 @@ export class PfmsComponent implements OnInit, OnDestroy {
       let folderName = `${this.ulbData?.role}/2022-23/pfms/${this.ulbData?.ulbCode}`
       this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
-          let fileAlias = s3Response["data"][0]["file_url"];
+          let fileAlias = s3Response["data"][0]["path"];
           this[progessType] = Math.floor(Math.random() * 90) + 10;
           if (progessType == "otherProgress") {
             this[progessType] = Math.floor(Math.random() * 90) + 10;
