@@ -1,6 +1,7 @@
 <div class="container">
-    <div class="row mb-3 mt-3">
-        <div class="col-sm-12 header2 text-center">Urban Reforms IV ({{ stateName }})</div>
+    <div class="row mb-3 mt-3 text-center">
+        <div class="col-sm-12 header2">Urban Reforms Part IV</div>
+        <h6 class="my-2">{{ stateName }}'s submission</h6>
     </div>
 
     <div class="container py-4">
@@ -12,7 +13,7 @@
                         <img class="file-icon" *ngIf="file?.url | endsWith : ['.xls', '.xlsx']" src="assets/excel.png">
                         <div>
                             <div>{{ file.name }}</div>
-                            <p class="created-at">Created on {{ file.createdAt | date: 'dd/MM/yyyy' }}</p>
+                            <!-- <p class="created-at">Created on {{ file.createdAt | date: 'dd/MM/yyyy' }}</p> -->
                         </div>
                     </div>
                 </a>
