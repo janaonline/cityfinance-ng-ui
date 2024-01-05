@@ -8,6 +8,7 @@ import { HttpEventType, HttpParams } from '@angular/common/http';
 import { MatDialog,MatDialogConfig } from "@angular/material/dialog";
 import { NavigationStart, Router } from '@angular/router';
 import { PropertyTaxOperationalisationPreviewComponent } from './property-tax-operationalisation-preview/property-tax-operationalisation-preview.component';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -77,6 +78,8 @@ export class PropertyTaxOperationalisationComponent implements OnInit, OnDestroy
   } = {};
   formId = "";
   taxCollectiondigit=1000000000000000;
+  storageUrl:string = environment?.STORAGE_URL;
+
   constructor(public _router: Router,
     public dialog: MatDialog,
     private formBuilder: FormBuilder,
@@ -668,7 +671,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit, OnDestroy
      let folderName = `${this.ulbData?.role}/2022-23/pto/${this.ulbData?.ulbCode}`
       this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
-          let fileAlias = s3Response["data"][0]["file_url"];
+          let fileAlias = s3Response["data"][0]["path"];
           this[progessType] = Math.floor(Math.random() * 90) + 10;
           if(progessType == 'rulesByLawsProgress'){
             this[progessType] = Math.floor(Math.random() * 90) + 10;

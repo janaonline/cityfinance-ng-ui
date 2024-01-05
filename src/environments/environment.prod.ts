@@ -5,6 +5,8 @@ let url;
 let GoogleTagID: string;
 let isProduction: boolean = false;
 let versionCheckURL = window.location.origin + "/version.json";
+let STORAGE_URL:string = 'https://janaagrahstorage.blob.core.windows.net/jana-cityfinance-stg';
+
 if (
   window.location.hostname.includes("demo") ||
   window.location.hostname.includes("localhost")
@@ -39,6 +41,7 @@ export const environment = {
   isProduction: isProduction,
   GoogleTagID,
   versionCheckURL,
+  STORAGE_URL
 };
 
 /*

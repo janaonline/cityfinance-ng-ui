@@ -20,7 +20,7 @@
                             [style.width]="column?.width || null"
                             class="border-0 {{column?.class}} {{column?.key}} br-r"
                             [ngClass]="{'table-primary': !theme}">
-                            <div (click)="updateSorting(column)" style="cursor: pointer;" [ngClass]="{'d-flex' : column?.key != 'sNo'}">
+                            <div (click)="updateSorting(column)" style="" [ngClass]="{'d-flex' : column?.key != 'sNo'}" class="cur">
                                 <div>
                                     <p [innerHTML]="column.label" class="m-0" [ngClass]="{'lb-cls' : column?.key != 'sNo'}"></p>
                                     <div *ngIf="column?.info" class="fw-light text-muted lb-cls"><small>{{
