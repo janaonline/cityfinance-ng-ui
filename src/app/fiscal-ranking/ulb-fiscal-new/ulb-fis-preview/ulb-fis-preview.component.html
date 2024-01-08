@@ -58,7 +58,7 @@
                                     <td class="td" width="15%"
                                         *ngFor="let elem of tabData?.value?.yearData; let y_i=index">
                                         <span *ngIf="elem?.date">{{ elem?.date | date: 'dd/MM/yyyy' }}</span>
-                                        <span *ngIf="elem?.file"><a href="{{elem?.file?.url}}"
+                                        <span *ngIf="elem?.file"><a href="{{elem?.file?.url  | toStorageUrl}}"
                                                 target="_blank">{{elem?.file?.name}}</a></span>
                                         <span>{{
                                             elem?.formFieldType == 'number'
@@ -93,7 +93,7 @@
                                     </div>
                                     <div class="col-sm-6 yr-ans" *ngIf="elem?.file">
                                         <div *ngIf="elem?.file?.url">
-                                            <a href="{{elem?.file?.url}}" target="_blank">{{elem?.file?.name}}</a>
+                                            <a href="{{elem?.file?.url  | toStorageUrl}}" target="_blank">{{elem?.file?.name}}</a>
                                         </div>
                                         <div *ngIf="!elem?.file?.url && elem?.readonly == true">
                                             Already uploaded on Cityfinance - <a target="_blank"
@@ -111,7 +111,7 @@
                                 us?</div>
                             <div class="col-sm-6 f-label yr-ans mb-2">
                                 <div *ngIf="data?.additionalData?.otherFile?.url">
-                                    <a href="{{data?.additionalData?.otherFile?.url}}"
+                                    <a href="{{data?.additionalData?.otherFile?.url | toStorageUrl}}"
                                         target="_blank">{{data?.additionalData?.otherFile?.name}}</a>
                                 </div>
                             </div>

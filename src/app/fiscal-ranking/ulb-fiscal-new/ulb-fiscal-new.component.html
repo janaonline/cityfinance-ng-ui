@@ -250,7 +250,7 @@
                                                             </div>
                                                             <div class="col-sm-12 com-style f-w mt-1"
                                                                 *ngIf="yearItem?.value?.file?.url">
-                                                                <a class="w-90" href="{{yearItem?.value?.file?.url}}"
+                                                                <a class="w-90" href="{{yearItem?.value?.file?.url | toStorageUrl }}"
                                                                     target="_blank">{{yearItem?.value?.file?.name}}
                                                                     <mat-icon>cloud_download</mat-icon>
                                                                 </a>
@@ -396,7 +396,7 @@
                                                                     <div class="col-sm-12 com-style f-w mt-1"
                                                                         *ngIf="yearItem?.value?.file?.url">
                                                                         <a class="w-90"
-                                                                            href="{{yearItem?.value?.file?.url}}"
+                                                                            href="{{yearItem?.value?.file?.url | toStorageUrl }}"
                                                                             target="_blank">{{yearItem?.value?.file?.name}}
                                                                             <mat-icon>cloud_download</mat-icon>
                                                                         </a>
@@ -468,7 +468,7 @@
                                                 [show]="otherUploadControl.controls?.uploading?.value">
                                             </app-loader>
                                             <div class="mt-2 px-3" *ngIf="otherUploadControl?.controls?.url?.value">
-                                                <a href="{{otherUploadControl?.controls?.url?.value}}"
+                                                <a href="{{otherUploadControl?.controls?.url?.value | toStorageUrl}}"
                                                     target="_blank">{{otherUploadControl?.controls?.name?.value}}
                                                     <mat-icon>
                                                         cloud_download</mat-icon></a>
@@ -510,7 +510,7 @@
                                             </app-loader>
                                             <div class="mt-2 px-3"
                                                 *ngIf="ulbSupportingDocControl?.controls?.url?.value">
-                                                <a href="{{ulbSupportingDocControl?.controls?.url?.value}}"
+                                                <a href="{{ulbSupportingDocControl?.controls?.url?.value | toStorageUrl}}"
                                                     target="_blank">{{ulbSupportingDocControl?.controls?.name?.value}}
                                                     <mat-icon>
                                                         cloud_download</mat-icon></a>
@@ -588,7 +588,7 @@
                                                 </div>
                                                 <div class="col-sm-12 com-style mt-3 text-center f-w"
                                                     *ngIf="tab?.value?.data?.signedCopyOfFile?.url">
-                                                    <a href="{{tab?.value?.data?.signedCopyOfFile?.url}}"
+                                                    <a href="{{tab?.value?.data?.signedCopyOfFile?.url | toStorageUrl}}"
                                                         target="_blank">{{tab?.value?.data?.signedCopyOfFile?.name}}
                                                         <mat-icon>cloud_download</mat-icon>
                                                     </a>
