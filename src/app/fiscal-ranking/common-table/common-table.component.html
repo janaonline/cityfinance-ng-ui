@@ -95,7 +95,7 @@
             </tbody>
         </table>
     </div>
-    <div *ngIf="info">{{ info }}</div>
+    <div *ngIf="info" class="text-start" [innerHtml]="info"></div>
     <div *ngIf="tableName != 'Participated State'">
         <mat-paginator *ngIf="response?.total" [length]="response.total" [pageSize]="limit"
         [pageSizeOptions]="pageSizeOptions" (page)="pageChange($event)" aria-label="Select page">

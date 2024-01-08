@@ -110,6 +110,12 @@ export class TopRankingsComponent implements OnInit {
     return params;
   }
 
+  get footnote() {
+    if(this.filter.value?.populationBucket == '1') {
+      return "Note: These are the ULBs that submitted their records to complete the ranking."
+    }
+  }
+
   loadData() {
     this.loadTopRankedStatesMap();
     this.loadTopRankedUlbs(this.table, '');
