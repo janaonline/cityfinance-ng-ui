@@ -18,6 +18,7 @@ import { defaultDailogConfiuration } from "src/app/pages/questionnaires/ulb/conf
 import { AnnualAccountsService } from "src/app/pages/ulbform/annual-accounts/annual-accounts.service";
 import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
+import { environment } from "src/environments/environment";
 import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
 @Component({
@@ -165,6 +166,9 @@ margin-bottom: 0 !important;
   font-size: 10px !important;
 }
   </style>`;
+
+  storageBaseUrl:string = environment?.STORAGE_BASEURL;
+
   ngOnInit(): void {
     console.log("pre data", this.preData);
 

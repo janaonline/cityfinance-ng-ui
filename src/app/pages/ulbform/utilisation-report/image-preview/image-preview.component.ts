@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-image-preview',
@@ -9,6 +10,8 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class ImagePreviewComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any ) { }
+
+  storageBaseUrl:string = environment?.STORAGE_BASEURL;
 
   ngOnInit(): void {
     console.log(this.data);

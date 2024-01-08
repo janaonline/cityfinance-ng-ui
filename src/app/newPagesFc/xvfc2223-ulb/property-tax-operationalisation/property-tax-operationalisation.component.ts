@@ -78,7 +78,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit, OnDestroy
   } = {};
   formId = "";
   taxCollectiondigit=1000000000000000;
-  storageUrl:string = environment?.STORAGE_URL;
+  storageBaseUrl:string = environment?.STORAGE_BASEURL;
 
   constructor(public _router: Router,
     public dialog: MatDialog,

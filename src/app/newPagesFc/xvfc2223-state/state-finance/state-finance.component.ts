@@ -8,6 +8,7 @@ import { NewCommonService } from 'src/app/shared2223/services/new-common.service
 import { StateFinancePreviewComponent } from './state-finance-preview/state-finance-preview.component';
 const swal: SweetAlert = require("sweetalert");
 import { SweetAlert } from "sweetalert/typings/core";
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-state-finance',
@@ -58,6 +59,8 @@ export class StateFinanceComponent implements OnInit {
   isApiInProgress = true;
   nextRouter= '';
   backRouter = '';
+  storageBaseUrl:string = environment?.STORAGE_BASEURL;
+
   constructor(
     public _router: Router,
     public dialog: MatDialog,
@@ -414,7 +417,7 @@ export class StateFinanceComponent implements OnInit {
       let folderName = `${this.userData?.role}/2022-23/sfc/${this.userData?.stateCode}`
       this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
-          let fileAlias = s3Response["data"][0]["file_url"];
+          let fileAlias = s3Response["data"][0]["path"];
           this[progessType] = Math.floor(Math.random() * 90) + 10;
           // if(progessType == 'rulesByLawsProgress'){
           //   this[progessType] = Math.floor(Math.random() * 90) + 10;

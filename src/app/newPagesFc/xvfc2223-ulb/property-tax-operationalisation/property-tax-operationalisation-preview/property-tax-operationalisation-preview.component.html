@@ -57,7 +57,7 @@
                             </span>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
-                            <a [ngClass]="{'hideUnderline': hideUnderline}" href="{{storageUrl + data?.dataPreview?.proof?.url}}" target="_blank">{{data?.dataPreview?.proof?.name ? data?.dataPreview?.proof?.name : 'N/A'}}</a>
+                            <a [ngClass]="{'hideUnderline': hideUnderline}" href="{{storageBaseUrl + data?.dataPreview?.proof?.url}}" target="_blank">{{data?.dataPreview?.proof?.name ? data?.dataPreview?.proof?.name : 'N/A'}}</a>
                         </div>
                     </div>
                     <div class="row" *ngIf="data?.dataPreview?.toCollect == 'Yes'">
@@ -84,7 +84,7 @@
                             </span>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
-                            <a [ngClass]="{'hideUnderline': hideUnderline}" href="{{storageUrl + data?.dataPreview?.rateCard?.url}}" target="_blank">{{data?.dataPreview?.rateCard?.name ? data?.dataPreview?.rateCard?.name: 'N/A'}}</a>
+                            <a [ngClass]="{'hideUnderline': hideUnderline}" href="{{storageBaseUrl + data?.dataPreview?.rateCard?.url}}" target="_blank">{{data?.dataPreview?.rateCard?.name ? data?.dataPreview?.rateCard?.name: 'N/A'}}</a>
                         </div>
                     </div>
                     <div class="row" *ngIf="data?.dataPreview?.toCollect == 'Yes'">
@@ -130,7 +130,7 @@
                             </span>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
-                            <a [ngClass]="{'hideUnderline': hideUnderline}" href="{{storageUrl + data?.dataPreview?.ptCollection?.url}}" target="_blank">{{data?.dataPreview?.ptCollection?.name ? data?.dataPreview?.ptCollection?.name : 'N/A'}}</a>
+                            <a [ngClass]="{'hideUnderline': hideUnderline}" href="{{storageBaseUrl + data?.dataPreview?.ptCollection?.url}}" target="_blank">{{data?.dataPreview?.ptCollection?.name ? data?.dataPreview?.ptCollection?.name : 'N/A'}}</a>
                         </div>
                     </div>             
                 </div>

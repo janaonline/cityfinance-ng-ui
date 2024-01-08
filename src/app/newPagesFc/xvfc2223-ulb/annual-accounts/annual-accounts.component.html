@@ -198,7 +198,7 @@
                                         State Supporting Document :
                                     </div>
                                     <div class="col-sm-8">
-                                        <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_state?.url" href="{{data?.unAudited?.responseFile_state?.url}}">
+                                        <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_state?.url" href="{{storageBaseUrl + data?.unAudited?.responseFile_state?.url}}">
                                 {{data?.unAudited?.responseFile_state?.name}}
                               </a>
                                         <span *ngIf="!data?.unAudited?.responseFile_state?.url">N/A</span>
@@ -209,7 +209,7 @@
                                         MoHUA Supporting Document :
                                     </div>
                                     <div class="col-sm-8">
-                                        <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_mohua?.url" href="{{data?.unAudited?.responseFile_mohua?.url}}">
+                                        <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_mohua?.url" href="{{storageBaseUrl + data?.unAudited?.responseFile_mohua?.url}}">
                               {{data?.unAudited?.responseFile_mohua?.name}}
                             </a>
                                         <span *ngIf="!data?.unAudited?.responseFile_mohua?.url">N/A</span>
@@ -291,7 +291,7 @@
                                             State Supporting Document :
                                         </div>
                                         <div class="col-sm-8">
-                                            <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_state?.url" href="{{data?.unAudited?.responseFile_state?.url}}">
+                                            <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_state?.url" href="{{storageBaseUrl + data?.unAudited?.responseFile_state?.url}}">
                                         {{data?.unAudited?.responseFile_state?.name}}
                                       </a>
                                             <span *ngIf="!data?.unAudited?.responseFile_state?.url">N/A</span>
@@ -302,7 +302,7 @@
                                             MoHUA Supporting Document :
                                         </div>
                                         <div class="col-sm-8">
-                                            <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_mohua?.url" href="{{data?.unAudited?.responseFile_mohua?.url}}">
+                                            <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_mohua?.url" href="{{storageBaseUrl + data?.unAudited?.responseFile_mohua?.url}}">
                                       {{data?.unAudited?.responseFile_mohua?.name}}
                                     </a>
                                             <span *ngIf="!data?.unAudited?.responseFile_mohua?.url">N/A</span>
@@ -420,7 +420,7 @@
                                 <div class="col-sm-2 col-lg-2 col-md-2">
                                     <ng-container>
                                         <div *ngIf="data.unAudited.standardized_data?.excel?.url">
-                                            <a href="{{ data.unAudited.standardized_data?.excel?.url }}" target="_blank">
+                                            <a href="{{ storageBaseUrl + data.unAudited.standardized_data?.excel?.url }}" target="_blank">
                                                 <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                                             </a>
@@ -677,7 +677,7 @@
                                             State Supporting Document :
                                         </div>
                                         <div class="col-sm-8">
-                                            <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_state?.url" href="{{data?.audited?.responseFile_state?.url}}">
+                                            <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_state?.url" href="{{storageBaseUrl + data?.audited?.responseFile_state?.url}}">
                                   {{data?.audited?.responseFile_state?.name}}
                                 </a>
                                             <span *ngIf="!data?.audited?.responseFile_state?.url">N/A</span>
@@ -688,7 +688,7 @@
                                             MoHUA Supporting Document :
                                         </div>
                                         <div class="col-sm-8">
-                                            <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_mohua?.url" href="{{data?.audited?.responseFile_mohua?.url}}">
+                                            <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_mohua?.url" href="{{storageBaseUrl + data?.audited?.responseFile_mohua?.url}}">
                                 {{data?.audited?.responseFile_mohua?.name}}
                               </a>
                                             <span *ngIf="!data?.audited?.responseFile_mohua?.url">N/A</span>
@@ -820,7 +820,7 @@
                                             State Supporting Document :
                                         </div>
                                         <div class="col-sm-8">
-                                            <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_state?.url" href="{{data?.audited?.responseFile_state?.url}}">
+                                            <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_state?.url" href="{{storageBaseUrl + data?.audited?.responseFile_state?.url}}">
                                       {{data?.audited?.responseFile_state?.name}}
                                     </a>
                                             <span *ngIf="!data?.audited?.responseFile_state?.url">N/A</span>
@@ -831,7 +831,7 @@
                                             MoHUA Supporting Document :
                                         </div>
                                         <div class="col-sm-8">
-                                            <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_mohua?.url" href="{{data?.audited?.responseFile_mohua?.url}}">
+                                            <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_mohua?.url" href="{{storageBaseUrl + data?.audited?.responseFile_mohua?.url}}">
                                     {{data?.audited?.responseFile_mohua?.name}}
                                   </a>
                                             <span *ngIf="!data?.audited?.responseFile_mohua?.url">N/A</span>
@@ -949,7 +949,7 @@
                                 <div class="col-sm-2 col-lg-2 col-md-2">
                                     <ng-container>
                                         <div *ngIf="data.audited.standardized_data?.excel?.url">
-                                            <a href="{{ data.audited.standardized_data?.excel?.url }}" target="_blank">
+                                            <a href="{{ storageBaseUrl + data.audited.standardized_data?.excel?.url }}" target="_blank">
                                                 <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                                             </a>

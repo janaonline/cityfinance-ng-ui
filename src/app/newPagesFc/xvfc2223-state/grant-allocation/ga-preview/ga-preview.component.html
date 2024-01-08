@@ -43,11 +43,11 @@
                                             {{qusItem?.question}}
                                         </div>
                                         <div class="col-sm-12 ms-4 mt-2 ans-h" *ngIf="data[0]?.yearCode == '2022-23'">
-                                            <span *ngIf="qusItem?.fileName"><a href="{{qusItem?.url}}">{{qusItem?.fileName}}</a></span>
+                                            <span *ngIf="qusItem?.fileName"><a href="{{storageBaseUrl + qusItem?.url}}">{{qusItem?.fileName}}</a></span>
                                             <span *ngIf="qusItem?.fileName == ''">N/A</span>
                                         </div>
                                         <div class="col-sm-12 ms-4 mt-2 ans-h" *ngIf="data[0]?.yearCode == '2023-24'">
-                                            <span *ngIf="qusItem?.file?.name"><a href="{{qusItem?.file?.url}}">{{qusItem?.file?.name}}</a></span>
+                                            <span *ngIf="qusItem?.file?.name"><a href="{{storageBaseUrl + qusItem?.file?.url}}">{{qusItem?.file?.name}}</a></span>
                                             <span *ngIf="qusItem?.file?.url == ''">N/A</span>
                                         </div>
                                     </div>
