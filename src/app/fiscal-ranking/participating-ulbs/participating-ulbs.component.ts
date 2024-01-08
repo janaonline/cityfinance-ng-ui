@@ -241,15 +241,6 @@ export class ParticipatingUlbsComponent implements OnInit {
     this.fiscalRankingService.getTableResponse(endpoint, queryParams, table?.response?.columns, 'data', filterObj).subscribe((res: any) => {
       console.log('participated-state table responces', res);
       this.table["response"] = res?.data;
-      for(let i = 0; i < this.table["response"]['data'].length; i++) {
-        const item = this.table["response"]['data'][i] as any;
-        delete item['auditedAccounts2019-20Link'];
-        item['auditedAccounts2019-20Config'] = {
-          title: 'nishant',
-          icon: 'pdf',
-          link: 'https://google.com'
-        };
-      }
       this.selectedStateName = res?.data?.state?.name
    },
      (error) => {

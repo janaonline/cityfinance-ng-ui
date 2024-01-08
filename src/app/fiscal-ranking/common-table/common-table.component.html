@@ -64,12 +64,14 @@
                             <a *ngIf="!isDialog" [href]="row[column.key + 'Link']">{{ row[column.key] }}</a>
                         </ng-container>
 
-                        <ng-container #iconValue *ngIf="row[column.key + 'Config']?.icon; else fileValue;">
-                            <a  href="{{row[column.key + 'Config'].link}}" target="_blank" rel="fiscal-rankings">
-                                <img [src]="'assets/fiscal-rankings/' +  row[column.key + 'Config']?.icon + '.png'"
-                                    alt="{{column.key}}" srcset="">
-                            </a>
-                        </ng-container>
+                        <ng-template #iconValue>
+                            <ng-container  *ngIf="row[column.key + 'Config']?.icon; else fileValue;">
+                                <a  href="{{row[column.key + 'Config'].link}}" target="_blank" rel="fiscal-rankings">
+                                    <img [src]="'assets/fiscal-rankings/' +  row[column.key + 'Config']?.icon + '.png'"
+                                        alt="{{column.key}}" srcset="">
+                                </a>
+                            </ng-container>
+                        </ng-template>
 
                         <ng-template #fileValue>
                             <ng-container
