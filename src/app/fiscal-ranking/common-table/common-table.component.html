@@ -58,11 +58,21 @@
                     <td *ngFor="let column of response.columns; let i = index;" 
                         [title]="row[column.key + 'Config'] == undefined ? row[column.key] : row[column.key + 'Config']?.title"
                         [ngClass]="{'text-center': i != 0, 'border-0': !theme}" class="data-item br-r">
-                        <ng-container *ngIf="row[column.key + 'Link']; else fileValue;">
+                        <ng-container *ngIf="row[column.key + 'Link']; else iconValue;">
                             <a *ngIf="isDialog" [href]="row[column.key + 'Link']" target="_blank">{{ row[column.key]
                                 }}</a>
                             <a *ngIf="!isDialog" [href]="row[column.key + 'Link']">{{ row[column.key] }}</a>
                         </ng-container>
+
+                        <ng-template #iconValue>
+                            <ng-container  *ngIf="row[column.key + 'Config']?.icon; else fileValue;">
+                                <a  href="{{row[column.key + 'Config'].link}}" target="_blank" rel="fiscal-rankings">
+                                    <img [src]="'assets/fiscal-rankings/' +  row[column.key + 'Config']?.icon + '.png'"
+                                        alt="{{column.key}}" srcset="">
+                                </a>
+                            </ng-container>
+                        </ng-template>
+
                         <ng-template #fileValue>
                             <ng-container
                                 *ngIf="(row[column.key] | fileUrlCheck: targetExtension : allowedExtensions); else simpleValue">
@@ -85,7 +95,7 @@
             </tbody>
         </table>
     </div>
-    <div *ngIf="info">{{ info }}</div>
+    <div *ngIf="info" class="text-start" [innerHtml]="info"></div>
     <div *ngIf="tableName != 'Participated State'">
         <mat-paginator *ngIf="response?.total" [length]="response.total" [pageSize]="limit"
         [pageSizeOptions]="pageSizeOptions" (page)="pageChange($event)" aria-label="Select page">

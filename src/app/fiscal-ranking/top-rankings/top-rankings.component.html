@@ -91,7 +91,7 @@
                     </ng-container>
                 </div>
     
-                <app-common-table *ngIf="table?.response" theme="white" [response]="table?.response" (update)="onUpdate(table, $event)">
+                <app-common-table *ngIf="table?.response" theme="white" [info]="footnote"  [response]="table?.response" (update)="onUpdate(table, $event)">
                 </app-common-table>
             </form>
         </div>
