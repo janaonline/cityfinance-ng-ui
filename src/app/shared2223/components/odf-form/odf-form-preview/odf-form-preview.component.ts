@@ -129,7 +129,7 @@ export class OdfFormPreviewComponent implements OnInit {
     </style>`;
   dialogRef;
   download;
-  storageUrl:string = environment?.STORAGE_URL;
+  storageBaseUrl:string = environment?.STORAGE_BASEURL;
   
   ngOnInit(): void {
     let userData = JSON.parse(localStorage.getItem("userData"));

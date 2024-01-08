@@ -104,7 +104,7 @@ export class PfmsPreviewComponent implements OnInit {
     }
 
     </style>`;
-  storageUrl:string = environment?.STORAGE_URL;
+  storageBaseUrl:string = environment?.STORAGE_BASEURL;
   ngOnInit(): void {
     let userData = JSON.parse(localStorage.getItem("userData"));
     console.log(this.data)

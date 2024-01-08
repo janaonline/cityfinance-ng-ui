@@ -7,6 +7,7 @@ import { QuestionnaireService } from "src/app/pages/questionnaires/service/quest
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { defaultDailogConfiuration } from "src/app/pages/questionnaires/ulb/configs/common.config";
 import { SweetAlert } from "sweetalert/typings/core";
+import { environment } from "src/environments/environment";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-property-tax-floor-rate-preview',
@@ -99,6 +100,9 @@ export class PropertyTaxFloorRatePreviewComponent implements OnInit {
     }
 
     </style>`
+
+    storageBaseUrl:string = environment?.STORAGE_BASEURL;
+
   ngOnInit(): void {
     let userData = JSON.parse(localStorage.getItem("userData"));
     console.log(this.data)

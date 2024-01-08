@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { State2223Service } from "../../xvfc2223-state/state-services/state2223.service";
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: "app-gtc2223",
@@ -26,6 +27,8 @@ export class Gtc2223Component implements OnInit {
   backRouter;
   nextRouter;
   isApiInProgress = true;
+  storageBaseUrl:string = environment?.STORAGE_BASEURL;
+
   ngOnInit(): void {
     this.getGtcData();
     this.setRouter();

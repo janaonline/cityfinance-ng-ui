@@ -9,6 +9,7 @@ import { NewCommonService } from "src/app/shared2223/services/new-common.service
 import { UserUtility } from "src/app/util/user/user";
 import { AnnualPreviewComponent } from "./annual-preview/annual-preview.component";
 import { SweetAlert } from "sweetalert/typings/core";
+import { environment } from "src/environments/environment";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-annual-accounts",
@@ -1054,6 +1055,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
   mohua_status_aud = '';
   state_status_unAud = '';
   mohua_status_unAud = '';
+  storageBaseUrl:string = environment?.STORAGE_BASEURL;
+
   ngOnInit(): void {
     sessionStorage.setItem("changeInAnnualAcc", "false");
     this.setRouter();
@@ -1488,7 +1491,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
           res["url"],
           res["file_url"],
           name,
-          fileType
+          fileType,
+          res["path"]
         );
       },
       (err) => {
@@ -1504,14 +1508,15 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     s3URL: string,
     fileAlias: string,
     name,
-    fileType
+    fileType,
+    filePath:string
   ) {
     this.dataEntryService.uploadFileToS3(file, s3URL).subscribe(
       (res) => {
         this.uploadErrors[fileType].standardized_data.progress = 60;
         if (res.type === HttpEventType.Response) {
           this.uploadErrors[fileType].standardized_data.progress = 80;
-          this.uploadExcel(file, fileAlias, name, fileType);
+          this.uploadExcel(file, fileAlias, name, fileType, filePath);
         }
       },
       (err) => {
@@ -1521,7 +1526,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     );
   }
 
-  async uploadExcel(file: File, fileAlias: string, name, fileType) {
+  async uploadExcel(file: File, fileAlias: string, name, fileType, filePath) {
     return new Promise((resolve, rej) => {
       let newObj = {
         alias: fileAlias,
@@ -1538,7 +1543,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
           try {
             await this.checkExcelStatus(res["data"]);
             this.uploadErrors[fileType].standardized_data.progress = 100;
-            this.data[fileType].standardized_data.excel.url = fileAlias;
+            this.data[fileType].standardized_data.excel.url = filePath;
 
             this.uploadErrors[fileType].standardized_data.file = null;
             this.uploadErrors[fileType].standardized_data.error = null;

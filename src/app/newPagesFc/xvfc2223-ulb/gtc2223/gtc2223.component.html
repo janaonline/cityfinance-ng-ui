@@ -13,18 +13,18 @@
                                     Installment {{item?.installment}} ({{(item?.key.split('_'))[2]}})
                                 </div>
                                 <div style="position: relative">
-                                    <pdf-viewer [src]="item?.file?.url" [render-text]="false" [show-all]="false" style="display: block; height: 250px" [page]="1" [zoom-scale]="'page-fit'" [original-size]="false">
+                                    <pdf-viewer [src]="storageBaseUrl + item?.file?.url" [render-text]="false" [show-all]="false" style="display: block; height: 250px" [page]="1" [zoom-scale]="'page-fit'" [original-size]="false">
                                     </pdf-viewer>
                                 </div>
                                 <div class="h-c">
-                                    <a href="{{ item?.file?.url }}" target="_blank">{{ item?.file?.name }}</a>
+                                    <a href="{{storageBaseUrl + item?.file?.url }}" target="_blank">{{ item?.file?.name }}</a>
                                 </div>
                                 <!-- <div class="info-c mt-2 mb-3">
                  {{ item?.info }}
                </div> -->
                                 <div class="row mt-2" style="align-items: center">
                                     <div class="col-sm-2 pe-0">
-                                        <a href="{{ item?.file?.url }}" target="_blank">
+                                        <a href="{{ storageBaseUrl + item?.file?.url }}" target="_blank">
                                             <span>
                               <img
                                  src="../../../../../assets/new_dashBord_ftr_hdr/pdf.png"
@@ -64,19 +64,19 @@
                                     Installment {{item?.installment}} ({{(item?.key.split('_'))[2]}})
                                 </div>
                                 <div style="position: relative">
-                                    <pdf-viewer [src]="item?.file?.url" [render-text]="false" [show-all]="false" style="display: block; height: 250px" [page]="1" [zoom-scale]="'page-fit'" [original-size]="false">
+                                    <pdf-viewer [src]="storageBaseUrl + item?.file?.url" [render-text]="false" [show-all]="false" style="display: block; height: 250px" [page]="1" [zoom-scale]="'page-fit'" [original-size]="false">
                                     </pdf-viewer>
                                 </div>
                                 <div class="h-c">
                                     <!-- {{ item?.file?.name }} -->
-                                    <a href="{{ item?.file?.url }}" target="_blank">{{ item?.file?.name }}</a>
+                                    <a href="{{storageBaseUrl + item?.file?.url }}" target="_blank">{{ item?.file?.name }}</a>
                                 </div>
                                 <!-- <div class="info-c mt-2 mb-3">
                        {{ item?.info }}
                      </div> -->
                                 <div class="row mt-2" style="align-items: center">
                                     <div class="col-sm-2 pe-0">
-                                        <a href="{{ item?.file?.url }}" target="_blank">
+                                        <a href="{{storageBaseUrl + item?.file?.url }}" target="_blank">
                                             <span>
                                     <img
                                        src="../../../../../assets/new_dashBord_ftr_hdr/pdf.png"
@@ -118,18 +118,18 @@
                                     Installment {{item?.installment}} ({{(item?.key.split('_'))[2]}})
                                 </div>
                                 <div style="position: relative">
-                                    <pdf-viewer [src]="item?.file?.url" [render-text]="false" [show-all]="false" style="display: block; height: 250px" [page]="1" [zoom-scale]="'page-fit'" [original-size]="false">
+                                    <pdf-viewer [src]="storageBaseUrl + item?.file?.url" [render-text]="false" [show-all]="false" style="display: block; height: 250px" [page]="1" [zoom-scale]="'page-fit'" [original-size]="false">
                                     </pdf-viewer>
                                 </div>
                                 <div class="h-c">
-                                    <a href="{{ item?.file?.url }}" target="_blank">{{ item?.file?.name }}</a>
+                                    <a href="{{storageBaseUrl + item?.file?.url }}" target="_blank">{{ item?.file?.name }}</a>
                                 </div>
                                 <!-- <div class="info-c mt-2 mb-3">
                        {{ item?.info }}
                      </div> -->
                                 <div class="row mt-2" style="align-items: center">
                                     <div class="col-sm-2 pe-0">
-                                        <a href="{{ item?.file?.url }}" target="_blank">
+                                        <a href="{{storageBaseUrl + item?.file?.url }}" target="_blank">
                                             <span>
                                     <img
                                        src="../../../../../assets/new_dashBord_ftr_hdr/pdf.png"

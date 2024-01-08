@@ -9,8 +9,9 @@ import { PfmsPreviewComponent } from '../pfms-preview/pfms-preview.component';
 import { MatDialog,MatDialogConfig } from "@angular/material/dialog";
 import { NavigationStart, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-const swal2 = require("sweetalert2");
+
 const swal: SweetAlert = require("sweetalert");
+
 @Component({
   selector: "app-pfms",
   templateUrl: "./pfms.component.html",
@@ -115,7 +116,7 @@ export class PfmsComponent implements OnInit, OnDestroy {
   disableInputs: boolean = false;
   greyInputs: boolean = false;
   back_router = "#";
-  storageUrl:string = environment?.STORAGE_URL;
+  storageBaseUrl:string = environment?.STORAGE_BASEURL;
   ngOnInit(): void {
     sessionStorage.setItem("changeInPFMS", "false");
     this.clickedSave = false;

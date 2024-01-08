@@ -141,7 +141,7 @@ export class OdfFormComponent implements OnInit, OnDestroy {
   formName = '';
   isApiInProgress = true;
 
-  storageUrl:string = environment?.STORAGE_URL;
+  storageBaseUrl:string = environment?.STORAGE_BASEURL;
 
   ngOnInit(): void {
     this.setRouter();

@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-resource",
@@ -53,6 +54,8 @@ export class ResourceComponent implements OnInit {
       icon: "",
     },
   ];
+  
+  storageBaseUrl:string = environment?.STORAGE_BASEURL;
 
   ngOnInit(): void {
     for (const key in this.sideMenuItem) {

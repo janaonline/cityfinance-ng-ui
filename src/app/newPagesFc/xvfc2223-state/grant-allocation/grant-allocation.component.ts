@@ -8,6 +8,7 @@ import { HttpEventType } from "@angular/common/http";
 import { GaPreviewComponent } from "./ga-preview/ga-preview.component";
 import * as fileSaver from "file-saver";
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
+import { environment } from "src/environments/environment";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-grant-allocation",
@@ -29,6 +30,8 @@ export class GrantAllocationComponent implements OnInit {
   @ViewChild("templateSave") template;
   backRouter = '';
   nextRouter = '';
+  storageBaseUrl:string = environment?.STORAGE_BASEURL;
+
   constructor(
     private dataEntryService: DataEntryService,
     private stateService: State2223Service,
@@ -398,7 +401,8 @@ export class GrantAllocationComponent implements OnInit {
           name,
           fileType,
           i,
-          j
+          j,
+          res["path"],
         );
       },
       (err) => {
@@ -416,7 +420,8 @@ export class GrantAllocationComponent implements OnInit {
     name,
     fileType,
     i,
-    j
+    j,
+    filePath
   ) {
     this.gtcFormData[i].quesArray[j]["file"]["progress"] = 60;
     this.dataEntryService.uploadFileToS3(file, s3URL).subscribe(
@@ -431,7 +436,7 @@ export class GrantAllocationComponent implements OnInit {
               console.log(response);
               this.gtcFormData[i].quesArray[j]["file"]["progress"] = 100;
 
-              this.gtcFormData[i].quesArray[j]["url"] = fileAlias;
+              this.gtcFormData[i].quesArray[j]["url"] = filePath;
               let ijData = {
                 i: i,
                 j: j,
