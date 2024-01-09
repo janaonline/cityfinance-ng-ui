@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToStorageUrlPipe } from 'src/app/shared/pipes/to-storage-url.pipe';
 import {CommonService} from 'src/app/shared/services/common.service'
 import { ResourcesDashboardService } from '../resources-dashboard.service';
 @Component({
@@ -73,8 +74,9 @@ export class ReportsPublicationComponent implements OnInit {
     console.log("cardData", this.cardData)
   }
 
-  openFile(url){
-    window.open(url, '_blank');
+  openFile(url: string){
+    const storageUrl = new ToStorageUrlPipe().transform(url);
+    window.open(storageUrl, '_blank');
   }
    filterComponent;
   ngOnInit(): void {

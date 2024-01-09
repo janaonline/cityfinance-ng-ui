@@ -103,12 +103,12 @@ export class GtcComponent implements OnInit {
     if (fileType === 'pdf' && fileExtension !== 'pdf') return swal("Error", "Only PDF File can be Uploaded.", "error");
     this.loaderService.showLoader();
     this.dataEntryService.newGetURLForFileUpload(file.name, file.type, this.uploadFolderName).subscribe(s3Response => {
-      const { url, file_url } = s3Response.data[0];
+      const { url, path } = s3Response.data[0];
       this.dataEntryService.newUploadFileToS3(file, url).subscribe(res => {
         if (res.type !== HttpEventType.Response) return;
         question[selectorKey] = {
           name: file.name,
-          url: file_url
+          url: path
         };
         console.log(question);
         this.loaderService.stopLoader();

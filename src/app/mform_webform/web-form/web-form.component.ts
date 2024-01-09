@@ -1600,14 +1600,14 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
       );
       console.log('file upload parent response', response);
       if (response && response['success']) {
-
+        const path = response['data']?.[0]?.['path'];
         if (question?.shortKey == 'audited.standardized_data.excel' || question?.shortKey == 'unAudited.standardized_data.excel') {
           let imageResponse = await this.commonService.getImageUrl(
             response['data'][0]['url'],
             imgObject[0].file[0]
           );
           console.log('img ressss', imageResponse)
-          this.verifyExcelSheet(event, response['data'][0]['file_url'], imgObject[0].label, imgObject[0].type, question);
+          this.verifyExcelSheet(event, path, imgObject[0].label, imgObject[0].type, question);
         }
         else {
           //  this.isImageUploading = true;
@@ -1616,17 +1616,17 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
               type: imgObject[0].type,
               label: imgObject[0].label,
               file: imgObject[0].file,
-              value: response['data'][0]['file_url'],
+              value: path,
             },
           ];
           console.log('questionValue', questionValue);
           let prepareImageObject = [{
             "label": imgObject[0]?.label ? imgObject[0]?.label : "",
             "textValue": imgObject[0]?.label ? imgObject[0]?.label : "",
-            "value": response['data'][0]['file_url']
+            "value": path
           }];
           question['selectedValue'] = prepareImageObject;
-          question['imgUrl'] = response['data'][0]['file_url'];
+          question['imgUrl'] = path;
           try {
             let imageResponse = await this.commonService.getImageUrl(
               response['data'][0]['url'],
@@ -1653,10 +1653,8 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
             question['value'] = questionValue;
             updatableQuestion['selectedValue'] =
               prepareImageObject;
-            updatableQuestion['imgUrl'] =
-              response['data'][0]['file_url'];
-            updatableQuestion['modelValue'] =
-              response['data'][0]['file_url'];
+            updatableQuestion['imgUrl'] = path;
+            updatableQuestion['modelValue'] = path;
             updatableQuestion['value'] = questionValue;
             updatableQuestion['imgLabel'] = imgObject[0].label;
             console.log('question', this.questionData);

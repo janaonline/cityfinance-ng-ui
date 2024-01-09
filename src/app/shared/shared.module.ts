@@ -106,6 +106,7 @@ import { MapcomponentComponent } from './components/municipality-budget/mapcompo
 import { CommonFilterComponent } from './components/common-filter/common-filter.component';
 import { EndsWithPipe } from './pipes/ends-with.pipe';
 import { IncludesPipe } from './pipes/includes.pipe';
+import { ToStorageUrlPipe } from './pipes/to-storage-url.pipe';
 @NgModule({
   imports: [
     ButtonsModule.forRoot(),
@@ -211,6 +212,7 @@ import { IncludesPipe } from './pipes/includes.pipe';
     CommonFilterComponent,
     EndsWithPipe,
     IncludesPipe,
+    ToStorageUrlPipe,
   ],
   exports: [
     JoinPipe,
@@ -262,6 +264,7 @@ import { IncludesPipe } from './pipes/includes.pipe';
     MunicipalityBondsComponent,
     AutoCompleteComponent,
     EndsWithPipe,
+    ToStorageUrlPipe,
   ],
   providers: [FinancialDataService],
   entryComponents: [BalanceTabledialogComponent],
