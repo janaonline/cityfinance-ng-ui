@@ -76,13 +76,14 @@
                     <tbody>
                         <tr *ngFor="let row of currentPageData?.table?.data">
                             <td [title]="row[column.key]" class="data-item border-primary" *ngFor="let column of currentPageData?.table?.columns">
-                                <div>{{ row[column.key] }}</div>
+                                <div [innerHTML]="row[column.key]"></div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>        
         </div>
+        <p class="footnote" *ngFor="let footnote of currentPageData?.table?.footnotes" >{{ footnote }}</p>
     </div>
 </div>
 
