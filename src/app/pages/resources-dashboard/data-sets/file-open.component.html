@@ -21,7 +21,7 @@
                                 <th scope="row">{{i + 1}}</th>
                                 <td>{{item?.fileName}}</td>
                                 <td>
-                                    <a href="{{item?.url}}" target="_blank" style="color: blue;">Click here!</a>
+                                    <a href="{{item?.url | toStorageUrl}}" target="_blank" style="color: blue;">Click here!</a>
                                 </td>
                             </tr>
                         </tbody>
