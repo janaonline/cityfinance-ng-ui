@@ -61,7 +61,7 @@
                       {{(question?.selectedValue && question?.selectedValue[0]?.textValue) ? question?.selectedValue[0]?.textValue : (question?.selectedValue && question?.selectedValue[0]?.label) ? question?.selectedValue[0]?.label : 'N/A'}}
                      </span>
                      <span *ngIf="question?.input_type == 11">
-                        <a *ngIf="question?.selectedValue && question?.selectedValue[0]?.value" href="{{question?.selectedValue[0]?.value}}">
+                        <a *ngIf="question?.selectedValue && question?.selectedValue[0]?.value" href="{{question?.selectedValue[0]?.value | toStorageUrl}}">
                             {{question?.selectedValue[0]?.label}}
                         </a>
                         <span *ngIf="!question?.selectedValue">

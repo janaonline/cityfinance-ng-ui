@@ -1848,7 +1848,7 @@
                     <span *ngFor="let file of question?.selectedValue" class="mb-3 ms-2">
                         <ng-container *ngIf="file?.value">
                             <a matTooltip="Click to view the file" class="f-name" target="_blank"
-                                href="{{file?.value}}">{{file?.label}}</a>
+                                href="{{file?.value | toStorageUrl}}">{{file?.label}}</a>
                             <span class="material-icons file-icon-cross pointer-hand"
                                 [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled ) }"
                                 matTooltip="Remove the upload file"
