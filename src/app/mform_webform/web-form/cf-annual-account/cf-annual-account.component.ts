@@ -322,13 +322,13 @@ ngAfterViewInit(){
     if (fileType === 'pdf' && fileExtension !== 'pdf') return swal("Error", "Only PDF File can be Uploaded.", "error");
     this.snackBar.open("Uploaing File...",'', {"duration": 10000});
     this.dataEntryService.newGetURLForFileUpload(file.name, file.type, this.actionfolderName).subscribe(s3Response => {
-      const { url, file_url } = s3Response.data[0];
+      const { url, path } = s3Response.data[0];
       console.log('url..', url)
       console.log('asdfgg', s3Response)
       this.dataEntryService.newUploadFileToS3(file, url).subscribe((res) => {
         if (res.type !== HttpEventType.Response) return;
       // this.activeTab.responseFile = { name: file.name, url: file_url };
-        this.setFileInAction(file.name, file_url)
+        this.setFileInAction(file.name, path)
         console.log('this.actionPayload 222', this.actionPayload);
         this.snackBar.dismiss();
        console.log('form activeTab', this.activeTab);
