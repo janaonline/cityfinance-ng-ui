@@ -11,8 +11,6 @@ export class ImagePreviewComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any ) { }
 
-  storageBaseUrl:string = environment?.STORAGE_BASEURL;
-
   ngOnInit(): void {
     console.log(this.data);
   }

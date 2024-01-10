@@ -498,7 +498,7 @@
                         <td>{{ i + 1 }}</td>
                         <td>{{ typeInHistory }}</td>
                         <td>{{ formatChange(yearInHistory) }}</td>
-                        <td><a target="_blank" href="{{getUrl(item)}}">{{getName(item)}}</a></td>
+                        <td><a target="_blank" href="{{getUrl(item) | toStorageUrl}}">{{getName(item)}}</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -544,7 +544,7 @@
 
 <div class="container dwn" #prev2>
     <div class="row">
-        <a><img style="float: right; width: 30%;" src="https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/resource/cityFinanceLogoPdf.png" alt="city-Finance-Logo-Pdf" border="0"></a>
+        <a><img style="float: right; width: 30%;" src="assets/cityFinanceLogo.png" alt="city-Finance-Logo-Pdf" border="0"></a>
     </div>
     <br>
     <br>
@@ -588,64 +588,64 @@
         <div class="row">
             1) Audited/Unaudited Annual Accounts for financial year 2015-16:- <br>
             <div style="margin-left: 1em;margin-bottom: 1em;margin-top: 1em;"><label>a)PDF: <a download="true" target="_blank"
-            href="{{documents.financial_year_2015_16.pdf[0]?.url}}">{{
+            href="{{documents.financial_year_2015_16.pdf[0]?.url | toStorageUrl}}">{{
             documents.financial_year_2015_16.pdf[0]?.name }}</a></label></div>
 
             <div style="margin-left: 1em;"><label>b)Excel: <a target="_blank"
-            href="{{documents.financial_year_2015_16.excel[0]?.url}}">{{
+            href="{{documents.financial_year_2015_16.excel[0]?.url | toStorageUrl}}">{{
             documents.financial_year_2015_16.excel[0]?.name }}</a></label></div>
         </div>
         <br>
         <div class="row">
             2) Audited/Unaudited Annual Accounts for financial year 2016-17:- <br>
             <div style="margin-left: 1em;margin-bottom: 1em;margin-top: 1em;"><label>a)PDF: <a target="_blank"
-            href="{{documents.financial_year_2016_17.pdf[0]?.url}}">{{
+            href="{{documents.financial_year_2016_17.pdf[0]?.url | toStorageUrl}}">{{
             documents.financial_year_2016_17.pdf[0]?.name }}</a></label></div>
 
             <div style="margin-left: 1em;"><label>b)Excel: <a target="_blank"
-            href="{{documents.financial_year_2016_17.excel[0]?.url}}">{{
+            href="{{documents.financial_year_2016_17.excel[0]?.url | toStorageUrl}}">{{
             documents.financial_year_2016_17.excel[0]?.name }}</a></label></div>
         </div>
         <br>
         <div class="row">
             3) Audited/Unaudited Annual Accounts for financial year 2017-18:- <br>
             <div style="margin-left: 1em;margin-bottom: 1em;margin-top: 1em;"><label>a)PDF: <a target="_blank"
-            href="{{documents.financial_year_2017_18.pdf[0]?.url}}">{{
+            href="{{documents.financial_year_2017_18.pdf[0]?.url | toStorageUrl}}">{{
             documents.financial_year_2017_18.pdf[0]?.name }}</a></label></div>
 
             <div style="margin-left: 1em;"><label>b)Excel: <a target="_blank"
-            href="{{documents.financial_year_2017_18.excel[0]?.url}}">{{
+            href="{{documents.financial_year_2017_18.excel[0]?.url | toStorageUrl}}">{{
             documents.financial_year_2017_18.excel[0]?.name }}</a></label></div>
         </div>
         <br>
         <div class="row">
             4) Audited/Unaudited Annual Accounts for financial year 2018-19:- <br>
             <div style="margin-left: 1em;margin-bottom: 1em;margin-top: 1em;"><label>a)PDF: <a target="_blank"
-            href="{{documents.financial_year_2018_19.pdf[0]?.url}}">{{
+            href="{{documents.financial_year_2018_19.pdf[0]?.url | toStorageUrl}}">{{
             documents.financial_year_2018_19.pdf[0]?.name }}</a></label></div>
 
             <div style="margin-left: 1em;"><label>b)Excel: <a target="_blank"
-            href="{{documents.financial_year_2018_19.excel[0]?.url}}">{{
+            href="{{documents.financial_year_2018_19.excel[0]?.url | toStorageUrl}}">{{
             documents.financial_year_2018_19.excel[0]?.name }}</a></label></div>
         </div>
         <div class="row">
             5) Audited/Unaudited Annual Accounts for financial year 2019-20:- <br>
             <div style="margin-left: 1em;margin-bottom: 1em;margin-top: 1em;"><label>a)PDF: <a target="_blank"
-            href="{{documents.financial_year_2019_20.pdf[0]?.url}}">{{
+            href="{{documents.financial_year_2019_20.pdf[0]?.url | toStorageUrl}}">{{
             documents.financial_year_2019_20.pdf[0]?.name }}</a></label></div>
 
             <div style="margin-left: 1em;"><label>b)Excel: <a target="_blank"
-            href="{{documents.financial_year_2019_20.excel[0]?.url}}">{{
+            href="{{documents.financial_year_2019_20.excel[0]?.url | toStorageUrl}}">{{
             documents.financial_year_2019_20.excel[0]?.name }}</a></label></div>
         </div>
         <div class="row">
           5) Audited/Unaudited Annual Accounts for financial year 2020-21:- <br>
           <div style="margin-left: 1em;margin-bottom: 1em;margin-top: 1em;"><label>a)PDF: <a target="_blank"
-          href="{{documents.financial_year_2020_21.pdf[0]?.url}}">{{
+          href="{{documents.financial_year_2020_21.pdf[0]?.url | toStorageUrl}}">{{
           documents.financial_year_2020_21.pdf[0]?.name }}</a></label></div>
 
           <div style="margin-left: 1em;"><label>b)Excel: <a target="_blank"
-          href="{{documents.financial_year_2020_21.excel[0]?.url}}">{{
+          href="{{documents.financial_year_2020_21.excel[0]?.url | toStorageUrl}}">{{
           documents.financial_year_2020_21.excel[0]?.name }}</a></label></div>
       </div>
     </div>

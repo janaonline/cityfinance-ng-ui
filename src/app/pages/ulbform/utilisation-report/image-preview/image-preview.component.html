@@ -9,7 +9,7 @@
     <div class="img-c">
         <div class="card m-2" *ngFor="let imgUrl of data">
             <div class="card-body ">
-                <img class="ml-2" [src]="storageBaseUrl + imgUrl.url" alt="" width="200px" height="180px">
+                <img class="ml-2" [src]="imgUrl.url | toStorageUrl" alt="" width="200px" height="180px">
             </div>
         </div>
     </div>

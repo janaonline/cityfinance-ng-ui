@@ -89,7 +89,7 @@
 
                                 <td>
                                     <div>
-                                        <img [src]="photo.url" width="40px" height="40px" *ngFor="let photo of waterBodies.photos">
+                                        <img [src]="photo.url | toStorageUrl" width="40px" height="40px" *ngFor="let photo of waterBodies.photos">
                                     </div>
                                 </td>
                                 <td style="text-align: center;">

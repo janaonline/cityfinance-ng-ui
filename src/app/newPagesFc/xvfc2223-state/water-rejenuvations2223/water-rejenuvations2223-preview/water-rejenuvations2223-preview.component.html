@@ -88,7 +88,7 @@
 
                                 <td>
                                     <div>
-                                        <img [src]="photo.url" width="40px" height="40px" *ngFor="let photo of waterBodies.photos">
+                                        <img [src]="photo.url | toStorageUrl" width="40px" height="40px" *ngFor="let photo of waterBodies.photos">
                                     </div>
                                 </td>
                                 <td style="text-align: center;">
@@ -262,7 +262,7 @@
             Declaration Upload :
         </div>
         <div class="col-sm-9 d-u u-a-a">
-            <a href="{{storageBaseUrl + data?.declaration?.url}}" target="_blank">{{data?.declaration?.name}}</a>
+            <a href="{{data?.declaration?.url | toStorageUrl}}" target="_blank">{{data?.declaration?.name}}</a>
         </div>
 
     </div>
