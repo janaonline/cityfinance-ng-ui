@@ -257,7 +257,7 @@
                     </div>
                     <div *ngFor="let file of question?.selectedValue" class="d-block mb-2 mt-2">
                       <ng-container *ngIf="file?.value">
-                        <a target="_blank" href="{{file?.value}}">
+                        <a target="_blank" href="{{file?.value | toStorageUrl}}">
                           <span class="file-icon position-relative pointer-hand material-icons {{ file?.value | fileIcon }}"
                           matTooltip="Click to view the file, Name: {{file?.label}}" matTooltipClass="tooltip-red">
                           cloud_download

@@ -325,7 +325,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
       this.updateFileProgress(i, j, 50);
       const res = s3Response.data[0];
       this.gtcFormData[i].quesArray[j]["file"].name = name;
-      await this.uploadFileToS3(file, res["url"], res["file_url"], name, fileType, i, j);
+      await this.uploadFileToS3(file, res["url"], res["file_url"], name, fileType, i, j, res["path"]);
     } catch (err) {
       console.log(err);
       this.gtcFormData[i].quesArray[j]["file"] = file;
@@ -333,7 +333,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
     }
   }
 
-  private async uploadFileToS3(file: File, s3URL: string, fileAlias: string, name, fileType, i, j) {
+  private async uploadFileToS3(file: File, s3URL: string, fileAlias: string, name, fileType, i, j, path) {
     this.updateFileProgress(i, j, 60);
 
     try {
@@ -342,7 +342,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
       if (res.type === HttpEventType.Response) {
         try {
           const params = {
-            url: fileAlias,
+            url: path,
             design_year: this.gtcFormData[i].quesArray[j]?.year,
             type: this.gtcFormData[i].quesArray[j]?.type,
             installment: this.gtcFormData[i].quesArray[j]?.installment
@@ -350,7 +350,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
           const response = await this.commonServices.formGetMethodAsBlob('grantDistribution/upload', params).toPromise();
           console.log(response);
           this.updateFileProgress(i, j, 100);
-          this.gtcFormData[i].quesArray[j]["file"]["url"] = fileAlias;
+          this.gtcFormData[i].quesArray[j]["file"]["url"] = path;
 
         } catch (error) {
           console.log(error);
