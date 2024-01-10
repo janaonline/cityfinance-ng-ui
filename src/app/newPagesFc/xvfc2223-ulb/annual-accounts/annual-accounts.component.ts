@@ -8,7 +8,6 @@ import { AnnualAccountsService } from "src/app/pages/ulbform/annual-accounts/ann
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 import { UserUtility } from "src/app/util/user/user";
 import { AnnualPreviewComponent } from "./annual-preview/annual-preview.component";
-import { StaticFileUrl } from "src/app/util/staticFileUrlDetails"
 import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
 @Component({
@@ -32,7 +31,6 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     if (!this.ulbId) {
       this.ulbId = localStorage.getItem("ulb_id");
     }
-    this.getTemplateFileUrl();
   }
   errorMsg =
     "One or more required fields are empty or contains invalid data. Please check your input.";
@@ -2799,19 +2797,4 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
 
     }
   }
-
-  getTemplateFileUrl() {
-    
-    const params = {
-      "key":  StaticFileUrl.ANNUAL_ACCOUNT_2022_23
-    }
-    this.dataEntryService.getRequestMethod('link-record', params).subscribe((res) => {
-      console.log('res 234', res)
-    },
-      (error) => {
-
-      }
-    )
-  }
-
 }
