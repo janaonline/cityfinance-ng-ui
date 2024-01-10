@@ -1107,7 +1107,7 @@
                             <ng-container *ngFor="let file of question?.selectedValue">
                                 <p class="col-8" *ngIf="file?.value">{{ file?.label }}</p>
                                 <div class="col-2" *ngIf="file?.value">
-                                    <a target="_blank" href="{{file?.value}}">
+                                    <a target="_blank" href="{{file?.value | toStorageUrl}}">
                                         <span
                                             class="file-icon position-relative pointer-hand material-icons {{ file?.label }}"
                                             matTooltip="Click to view the file, Name: {{file?.label}}"

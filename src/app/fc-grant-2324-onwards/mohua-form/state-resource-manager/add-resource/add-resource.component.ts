@@ -111,16 +111,15 @@ export class AddResourceComponent implements OnInit {
       this.isFileUploading = true;
       const fullFolderName = this.uploadFolderName + this.subCategory?.name?.replace(/[\/?<>\\:*|"\s]/g, '-')?.toLowerCase();
       this.dataEntryService.newGetURLForFileUpload(file.name, file.type, fullFolderName).subscribe(s3Response => {
-        const { url, file_url } = s3Response.data[0];
+        const { url, path } = s3Response.data[0];
         this.dataEntryService.newUploadFileToS3(file, url).subscribe(res => {
           if (res.type !== HttpEventType.Response) return;
-          console.log({ file, file_url })
           this.form.patchValue({
             files: [
               ...(this.form.value?.files || []),
               {
                 name: file.name,
-                url: file_url
+                url: path
               }
             ]
           });
