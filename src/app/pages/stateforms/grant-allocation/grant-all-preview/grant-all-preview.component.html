@@ -62,7 +62,7 @@
                         </ng-template>
 
                         <div class=" col-sm-5 a-h ans-h text-right" *ngIf="(data.fileName !='' || data.answer == 'no') ; else nadiv ">
-                            <a href="{{data.url}} " target="_blank ">{{ data.fileName}}</a>
+                            <a href="{{data.url | toStorageUrl}} " target="_blank ">{{ data.fileName}}</a>
                         </div>
 
 

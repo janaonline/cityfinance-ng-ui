@@ -193,7 +193,7 @@ export class CommFileUploadComponent implements OnInit, OnChanges {
         this.uploadFileToS3(
           file,
           res["url"],
-          res["file_url"],
+          res["path"],
           name,
           fileType
         );

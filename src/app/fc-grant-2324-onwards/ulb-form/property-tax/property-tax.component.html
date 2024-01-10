@@ -159,7 +159,7 @@
 
                                 <p *ngIf="item?.value?.controls?.downloadLink?.value">(Please download sample format)/<a
                                         class="mb-0 text-small fst-italic" style="word-break: break-all;"
-                                        [href]="item?.value?.controls?.downloadLink?.value" target="_blank">
+                                        [href]="item?.value?.controls?.downloadLink?.value | toStorageUrl" target="_blank">
                                         <mat-icon>cloud_download
                                         </mat-icon>
                                     </a></p>

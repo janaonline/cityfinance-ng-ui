@@ -82,7 +82,7 @@
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
                                     <ng-container *ngIf="gtFileUrl">
-                                        <a href="{{ gtFileUrl }}" target="_blank">
+                                        <a href="{{ gtFileUrl | toStorageUrl}}" target="_blank">
                                             <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                                         </a>
