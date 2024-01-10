@@ -1138,7 +1138,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
   alertClose() {
     this.stay();
   }
-  
+
   onLoad() {
     this.isApiInProgress = true;
     this.newCommonService
@@ -1237,7 +1237,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       this.tab1dis = true;
       this.tab2dis = true;
     }
- 
+
   }
   auditedActionResponse = {
     status: null,
@@ -1462,10 +1462,10 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     //  this.checkDiff();
   }
   async fileChangeEvent(event, fileType) {
-    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
-    if(isfileValid == false){
-      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
-       return;
+    let isfileValid = this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if (isfileValid == false) {
+      swal("Error", "File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+      return;
     }
     this.uploadErrors[fileType].standardized_data.progress = 10;
     let files;
@@ -2068,7 +2068,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     }
     this.data["isDraft"] = false;
     this.finalSubmitInit = true;
-    if(this.finalSubmitInit){
+    if (this.finalSubmitInit) {
       this.newCommonService.postAnnualData(this.data).subscribe(
         (res) => {
           this.clickedSave = false;
@@ -2098,8 +2098,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
 
   }
   getAmountFromCommon(e, fileType, qusName, qusType) {
-    let value:any = "";
-    if(e?.value || e?.value === '0'){
+    let value: any = "";
+    if (e?.value || e?.value === '0') {
       value = Number(e?.value);
     }
     console.log("emit", e, fileType, qusName, qusType);
@@ -2140,7 +2140,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     unAudited: null
 
   };
-  
+
   actionBtnClick(actType, fileType, item, quesIndex, value) {
     console.log('action parts', actType, fileType, item, quesIndex, value);
     let actRes = '';
@@ -2616,7 +2616,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     }
     console.log('data...', this.data);
   }
- 
+
   setTabWiseStatusInputs(type) {
     //audited status set........
     if (type == 'auditQues') {
@@ -2797,5 +2797,4 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
 
     }
   }
- 
 }
