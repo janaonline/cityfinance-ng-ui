@@ -40,7 +40,6 @@ import { ULBQuestionnaireComponent } from './ulb/questionnaire/questionnaire.com
     MatInputModule,
     MatIconModule,
     MatDialogModule,
-    SharedModule,
     MatDatepickerModule,
     MatNativeDateModule,
     NgxPaginationModule,
