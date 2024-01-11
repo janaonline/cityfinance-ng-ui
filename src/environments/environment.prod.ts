@@ -5,6 +5,8 @@ let url;
 let GoogleTagID: string;
 let isProduction: boolean = false;
 let versionCheckURL = window.location.origin + "/version.json";
+let STORAGE_BASEURL:string = 'https://janaagrahstorage.blob.core.windows.net/jana-cityfinance-stg';
+
 if (
   window.location.hostname.includes("demo") ||
   window.location.hostname.includes("localhost")
@@ -25,6 +27,7 @@ if (
   isProduction = true;
   url = "https://cityfinance.in/api/v1/";
   GoogleTagID = "G-MDPDTZFW0N";
+  STORAGE_BASEURL = 'https://janaagrahstorage.blob.core.windows.net/jana-cityfinance-live';
 }
 export const environment = {
   production: true,
@@ -39,6 +42,7 @@ export const environment = {
   isProduction: isProduction,
   GoogleTagID,
   versionCheckURL,
+  STORAGE_BASEURL
 };
 
 /*

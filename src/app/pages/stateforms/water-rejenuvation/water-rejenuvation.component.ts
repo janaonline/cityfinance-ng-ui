@@ -942,8 +942,8 @@ export class WaterRejenuvationComponent implements OnInit {
       this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
         async (s3Response) => {
           const res = s3Response.data[0];
-          await this.uploadFileToS3(file, res["url"], res["file_url"]);
-          this.photosArray.push({ url: res["file_url"], name });
+          await this.uploadFileToS3(file, res["url"], res["path"]);
+          this.photosArray.push({ url: res["path"], name });
           resolve();
         },
         (err) => {

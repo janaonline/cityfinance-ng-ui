@@ -32,15 +32,15 @@ export class TopRankingsComponent implements OnInit {
     },
     {
       key: 'resourceMobilizationRank',
-      label: 'Resource Mobilization'
+      label: 'Resource Mobilization (RM)'
     },
     {
       key: 'expenditurePerformanceRank',
-      label: 'Expenditure Performance'
+      label: 'Expenditure Performance (EP)'
     },
     {
       key: 'fiscalGovernanceRank',
-      label: 'Fiscal Governance'
+      label: 'Fiscal Governance (FG)'
     },
   ]
 
@@ -108,6 +108,12 @@ export class TopRankingsComponent implements OnInit {
     const params = this.filter.value;
     delete params.stateData;
     return params;
+  }
+
+  get footnote() {
+    if(this.filter.value?.populationBucket == '1') {
+      return "Note: These are the ULBs that submitted their records to complete the ranking."
+    }
   }
 
   loadData() {

@@ -23,6 +23,7 @@ import { UserUtility } from "src/app/util/user/user";
 import { StateformsService } from "src/app/pages/stateforms/stateforms.service";
 import { WaterRejenuvations2223ServiceService } from "../water-rejenuvations2223-service.service";
 import { defaultDailogConfiuration } from "src/app/pages/questionnaires/state/configs/common.config";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: 'app-water-rejenuvations2223-preview',
@@ -200,6 +201,9 @@ width: 25%
   subParentForModal;
   USER_TYPES = USER_TYPE;
   userDetails = new UserUtility().getLoggedInUserDetails();
+
+  storageBaseUrl:string = environment?.STORAGE_BASEURL;
+
   ngOnInit(): void {
     let userData = JSON.parse(localStorage.getItem("userData"));
     if(this.userDetails.role == USER_TYPE.STATE){

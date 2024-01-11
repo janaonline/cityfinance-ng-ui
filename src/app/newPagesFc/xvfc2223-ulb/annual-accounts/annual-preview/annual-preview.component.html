@@ -70,13 +70,13 @@
                                         <div class="pdf" *ngIf="unAuditItem?.data?.pdf?.name">
                                             <span style="font-weight: 500;">Pdf-</span>
                                             <span class="ms-2">
-                                             <a href="{{unAuditItem?.data?.pdf?.url}}" target="_blank">{{unAuditItem?.data?.pdf?.name}}</a>
+                                             <a href="{{storageBaseUrl + unAuditItem?.data?.pdf?.url}}" target="_blank">{{unAuditItem?.data?.pdf?.name}}</a>
                                             </span>
                                         </div>
                                         <div class="excel" *ngIf="unAuditItem?.data?.excel?.name">
                                             <span style="font-weight: 500;">Excel-</span>
                                             <span class="ms-2">
-                                              <a href="{{unAuditItem?.data?.excel?.url}}" target="_blank">{{unAuditItem?.data?.excel?.name}}</a>
+                                              <a href="{{storageBaseUrl + unAuditItem?.data?.excel?.url}}" target="_blank">{{unAuditItem?.data?.excel?.name}}</a>
                                            </span>
                                         </div>
                                     </div>
@@ -109,7 +109,7 @@
                                     <div class="f" *ngIf="preData?.body?.unAudited?.standardized_data">
                                         <div class="excel" *ngIf="preData?.body?.unAudited?.standardized_data?.excel?.name">
                                             <span class="">
-                                             <a href="{{preData?.body?.unAudited?.standardized_data?.excel?.url}}" target="_blank">
+                                             <a href="{{storageBaseUrl + preData?.body?.unAudited?.standardized_data?.excel?.url}}" target="_blank">
                                               {{preData?.body?.unAudited?.standardized_data?.excel?.name}}
                                              </a>
                                             </span>
@@ -175,14 +175,14 @@
                                         <div class="pdf" *ngIf="auditItem?.data?.pdf?.name">
                                             <span style="font-weight: 500;">Pdf-</span>
                                             <span class="ms-2">
-                                              <a href="{{auditItem?.data?.pdf?.url}}" target="_blank">{{auditItem?.data?.pdf?.name}}
+                                              <a href="{{storageBaseUrl + auditItem?.data?.pdf?.url}}" target="_blank">{{auditItem?.data?.pdf?.name}}
                                              </a>
                                             </span>
                                         </div>
                                         <div class="excel" *ngIf="auditItem?.data?.excel?.name">
                                             <span style="font-weight: 500;">Excel-</span>
                                             <span class="ms-2">
-                                              <a href="{{auditItem?.data?.excel?.url}}" target="_blank">
+                                              <a href="{{storageBaseUrl + auditItem?.data?.excel?.url}}" target="_blank">
                                               {{auditItem?.data?.excel?.name}}
                                              </a>
                                             </span>
@@ -217,7 +217,7 @@
                                     <div class="f" *ngIf="preData?.body?.audited?.standardized_data">
                                         <div class="excel" *ngIf="preData?.body?.audited?.standardized_data?.excel?.name">
                                             <span class="">
-                                             <a href="{{preData?.body?.audited?.standardized_data?.excel?.url}}" target="_blank">
+                                             <a href="{{storageBaseUrl + preData?.body?.audited?.standardized_data?.excel?.url}}" target="_blank">
                                               {{preData?.body?.audited?.standardized_data?.excel?.name}}
                                              </a>
                                             </span>

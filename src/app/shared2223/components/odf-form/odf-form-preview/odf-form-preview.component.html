@@ -59,7 +59,7 @@
                             </span>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
-                            <a href="{{fileUrl}}" *ngIf="fileName" target="_blank">{{fileName}}</a>
+                            <a [href]="storageBaseUrl + fileUrl" *ngIf="fileName" target="_blank">{{fileName}}</a>
                             <span *ngIf="!fileName">N/A</span>
                         </div>
                     </div>

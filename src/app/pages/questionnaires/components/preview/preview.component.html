@@ -738,7 +738,7 @@
                 let i = index;
                 last as isLast
               "
-              [href]="file.url"
+              [href]="file.url | toStorageUrl"
               target="_blank"
             >
               {{ file.name }} <span *ngIf="!isLast">,</span>
@@ -764,7 +764,7 @@
                 let i = index;
                 last as isLast
               "
-              [href]="file.url"
+              [href]="file.url | toStorageUrl"
               target="_blank"
             >
               {{ file.name }} <span *ngIf="!isLast">,</span>
@@ -790,7 +790,7 @@
                 let i = index;
                 last as isLast
               "
-              [href]="file.url"
+              [href]="file.url | toStorageUrl"
               target="_blank"
             >
               {{ file.name }} <span *ngIf="!isLast">,</span>
@@ -816,7 +816,7 @@
                 let i = index;
                 last as isLast
               "
-              [href]="file.url"
+              [href]="file.url | toStorageUrl"
               target="_blank"
             >
               {{ file.name }} <span *ngIf="!isLast">,</span>
@@ -842,7 +842,7 @@
                 let i = index;
                 last as isLast
               "
-              [href]="file.url"
+              [href]="file.url | toStorageUrl"
               target="_blank"
             >
               {{ file.name }} <span *ngIf="!isLast">,</span>

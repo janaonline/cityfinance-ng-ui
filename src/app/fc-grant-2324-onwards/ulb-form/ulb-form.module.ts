@@ -30,6 +30,7 @@ import { YearComparisionPipe } from './property-tax/year-comparision.pipe';
 import { AllowedFileTypesPipe } from './property-tax/allowed-file-types.pipe';
 import { FormErrorPipe } from './property-tax/form-error.pipe';
 import { VideoGallaryComponent } from './video-gallary/video-gallary.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 
@@ -58,6 +59,7 @@ import { VideoGallaryComponent } from './video-gallary/video-gallary.component';
     MatTooltipModule,
     MatIconModule,
     ReactiveFormsModule,
+    SharedModule,
   ]
 })
 export class UlbFormModule { }

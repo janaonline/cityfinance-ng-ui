@@ -335,10 +335,10 @@ export class PropertyTaxComponent implements OnInit {
 
     control.patchValue({ uploading: true });
     this.dataEntryService.newGetURLForFileUpload(file.name, file.type, this.uploadFolderName).subscribe((s3Response: any) => {
-      const { url, file_url } = s3Response.data[0];
+      const { url, path } = s3Response.data[0];
       this.dataEntryService.newUploadFileToS3(file, url).subscribe(res => {
         if (res.type !== HttpEventType.Response) return;
-        control.patchValue({ uploading: false, name: file.name, url: file_url });
+        control.patchValue({ uploading: false, name: file.name, url: path });
       });
     }, err => console.log(err));
   }

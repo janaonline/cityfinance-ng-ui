@@ -87,7 +87,7 @@
                       fileUploadTracker[question.key][file.name]
                         ?.url) as downloadurl
                   "
-                  [href]="downloadurl"
+                  [href]="downloadurl | toStorageUrl"
                   class="download-link-icon"
                   target="_blank"
                 >
@@ -136,7 +136,7 @@
                     invisible:
                       canUploadFile && form.controls[question.key].enabled
                   }"
-                  [href]="doc.url"
+                  [href]="doc.url | toStorageUrl"
                   class="download-link-icon"
                   target="_blank"
                 >

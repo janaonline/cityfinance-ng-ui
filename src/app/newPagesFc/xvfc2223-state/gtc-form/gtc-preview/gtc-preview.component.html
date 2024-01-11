@@ -43,7 +43,7 @@
                                             {{qusItem?.question}}
                                         </div>
                                         <div class="col-sm-12 ms-4 mt-2 ans-h">
-                                            <span *ngIf="qusItem?.file?.name"><a href="{{qusItem?.file?.url}}">{{qusItem?.file?.name}}</a></span>
+                                            <span *ngIf="qusItem?.file?.name"><a href="{{storageBaseUrl + qusItem?.file?.url}}" target="_blank">{{qusItem?.file?.name}}</a></span>
                                             <span *ngIf="qusItem?.file?.name == ''">N/A</span>
                                         </div>
                                     </div>

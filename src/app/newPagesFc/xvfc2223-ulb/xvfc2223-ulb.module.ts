@@ -30,7 +30,6 @@ import { PfmsPreviewComponent } from './pfms-preview/pfms-preview.component';
 import { PropertyTaxOperationalisationComponent } from "./property-tax-operationalisation/property-tax-operationalisation.component";
 import { PdfViewerModule } from "ng2-pdf-viewer";
 import { Slbs28FormComponent } from './slbs28-form/slbs28-form.component';
-import { CollectFdataComponent } from './collect-fdata/collect-fdata.component';
 import { Slbs28FormPreviewComponent } from './slbs28-form/slbs28-form-preview/slbs28-form-preview.component';
 import { PropertyTaxOperationalisationPreviewComponent } from './property-tax-operationalisation/property-tax-operationalisation-preview/property-tax-operationalisation-preview.component';
 import { Slbs2223PreviewComponent } from './slbs2223/slbs2223-preview/slbs2223-preview.component';
@@ -56,7 +55,6 @@ import { Slbs2223PreviewComponent } from './slbs2223/slbs2223-preview/slbs2223-p
     PfmsPreviewComponent,
     PropertyTaxOperationalisationComponent,
     Slbs28FormComponent,
-    CollectFdataComponent,
     Slbs28FormPreviewComponent,
     PropertyTaxOperationalisationPreviewComponent,
     Slbs2223PreviewComponent,

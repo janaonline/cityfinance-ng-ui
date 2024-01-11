@@ -1,10 +1,10 @@
 <div class="container">
     <div class="row m-0">
-        <div class="col-10">
+        <div class="col-9">
             <app-breadcrumb [links]="breadcrumbLinks"></app-breadcrumb>
         </div>
-        <div class="col-2 mt-2 pd-top">
-            <input type="text" readonly class="form-control cursor-pointer px-2 py-1" placeholder="Search ULB..."
+        <div class="col-3 mt-2 pd-top">
+            <input type="text" readonly class="form-control cursor-pointer px-4 py-3" placeholder="Search for any ULB"
                 (click)="openSearch()">
         </div>
     </div>
@@ -31,7 +31,7 @@
                     <app-india-map *ngIf="selectedMap == 'topUlbs'" [markers]="markers">
                     </app-india-map>
                     <app-india-map *ngIf="selectedMap == 'rankHolders'" [colorCoding]="colorCoding" [identifier]="'top-ranking'"
-                        [colorDetails]="colorDetails" label="Rank holding ULBs in state">
+                        [colorDetails]="colorDetails" label="Number of rank holding ULBs in each state">
                     </app-india-map>
                 </ng-container>
                 <ng-template #mapLoader>
@@ -91,7 +91,7 @@
                     </ng-container>
                 </div>
     
-                <app-common-table *ngIf="table?.response" theme="white" [response]="table?.response" (update)="onUpdate(table, $event)">
+                <app-common-table *ngIf="table?.response" theme="white" [info]="footnote"  [response]="table?.response" (update)="onUpdate(table, $event)">
                 </app-common-table>
             </form>
         </div>

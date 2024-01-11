@@ -15,6 +15,7 @@ import { IUserLoggedInDetails } from "src/app/models/login/userLoggedInDetails";
 import { USER_TYPE } from "src/app/models/user/userType";
 import { ProfileService } from "src/app/users/profile/service/profile.service";
 import { UserUtility } from "src/app/util/user/user";
+import { environment } from 'src/environments/environment';
 const swal: SweetAlert = require("sweetalert");
 import { SweetAlert } from "sweetalert/typings/core";
 @Component({
@@ -67,6 +68,8 @@ export class CommonActionComponent implements OnInit, OnChanges {
   sequentialAlert: string = `This ULB is not eligible for approval due to its previous year's unapproved status, 
   allowing only rejection`;
  // canTakeAction;
+ storageBaseUrl:string = environment?.STORAGE_BASEURL;
+
   constructor(
     private dataEntryService: DataEntryService,
     private formBuilder: FormBuilder,
@@ -323,7 +326,7 @@ export class CommonActionComponent implements OnInit, OnChanges {
      let folderName = `${this.userData?.role}/2022-23/supporting_douments/${formName}/${id}`
       this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
-          let fileAlias = s3Response["data"][0]["file_url"];
+          let fileAlias = s3Response["data"][0]["path"];
           this[progessType] = Math.floor(Math.random() * 90) + 10;
           // if(progessType == 'rulesByLawsProgress'){
           //   this[progessType] = Math.floor(Math.random() * 90) + 10;

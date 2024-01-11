@@ -265,7 +265,9 @@ export class GrantAllocationComponent implements OnInit {
             s3URL,
             fileAlias,
             fileIndex,
-            this.progessType
+            this.progessType,
+            s3Response["data"][0]["path"]
+
           );
           resolve("success");
           console.log("file url", fileAlias);
@@ -288,7 +290,8 @@ export class GrantAllocationComponent implements OnInit {
     s3URL: string,
     fileAlias: string,
     fileIndex: number,
-    progressType: string = ""
+    progressType: string = "",
+    filePath
   ) {
     this.dataEntryService
       .uploadFileToS3(file, s3URL)
@@ -307,7 +310,7 @@ export class GrantAllocationComponent implements OnInit {
               (response) => {
                 console.log(response);
                 this.progessType = 100;
-                this.gtFileUrl = fileAlias;
+                this.gtFileUrl = filePath;
                 this.checkDiff();
                 //  swal('Record Submitted Successfully!')
                 //  resolve(res)

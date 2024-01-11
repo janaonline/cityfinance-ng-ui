@@ -7,6 +7,7 @@ export interface S3FileURLResponse {
       mime_type: string;
       host: string;
       url: string;
+      path: string;
       file_url: string;
       file_alias: string;
     }

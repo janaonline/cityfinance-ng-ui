@@ -5,6 +5,8 @@ let url;
 let GoogleTagID: string;
 let isProduction:boolean =false;
 let versionCheckURL = window.location.origin + "/version.json";
+let STORAGE_BASEURL = 'https://janaagrahstorage.blob.core.windows.net/jana-cityfinance-stg';
+
 if (window.location.hostname.includes("new-cityfinance")) {
 
   url = "https://newcityfinanceapi.dhwaniris.in/api/v1/";
@@ -17,10 +19,7 @@ if (window.location.hostname.includes("new-cityfinance")) {
   window.location.hostname.includes("demo") ||
   window.location.hostname.includes("localhost")
 ) {
- // url = "https://uat.cityfinance.in/api/v1/"
-//  url = "https://democityfinanceapi.dhwaniris.in/api/v1/";
-url = "https://staging.cityfinance.in/api/v1/";
- // url = "http://localhost:8080/api/v1/";
+  url = "https://staging.cityfinance.in/api/v1/";
   GoogleTagID = "G-MDPDTZFW0N";
 } else {
   isProduction = true;
@@ -45,7 +44,8 @@ export const environment = {
   },
   isProduction: isProduction,
   GoogleTagID,
-  versionCheckURL
+  versionCheckURL,
+  STORAGE_BASEURL
 };
 
 /*
