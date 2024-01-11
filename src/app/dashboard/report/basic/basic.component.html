@@ -194,7 +194,7 @@
 
     XLS
   </button>
-  <a class="d-flex gap-2" *ngIf="standardizationDocLink" [href]="standardizationDocLink">
+  <a class="d-flex gap-2" *ngIf="standardizationDocLink" [href]="standardizationDocLink | toStorageUrl">
     <mat-icon>picture_as_pdf</mat-icon>
     How We Standardize Annual Financial Statements
   </a>
