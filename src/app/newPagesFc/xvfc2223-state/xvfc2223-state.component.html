@@ -28,11 +28,11 @@
                     <li *ngFor="let sideItem of menuItem?.value">
                         <a routerLinkActive="active" [routerLink]="sideItem?.url" class="nav-link link-light">
                             <mat-icon aria-hidden="false" class="svg-gt ml-2">
-                                <img class="upscale-icon" src="{{sideItem?.icon}}">
+                                <img class="upscale-icon" src="{{sideItem?.icon | toStorageUrl}}">
                             </mat-icon>
                             <span class="collapsable" style="margin-left: 10px;">{{sideItem?.name}}</span>
                             <mat-icon class="pull-right collapsable" aria-hidden="false" [tooltip]="sideItem?.tooltip">
-                                <img src="{{sideItem?.tick}}">
+                                <img src="{{sideItem?.tick | toStorageUrl}}">
                             </mat-icon>
                         </a>
                     </li>

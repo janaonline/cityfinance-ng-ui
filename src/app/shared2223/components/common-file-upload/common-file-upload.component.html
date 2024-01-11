@@ -70,7 +70,7 @@
             <div class="col-sm-2 ms-3" style="padding: 0;">
                 <ng-container>
                     <div *ngIf="data.pdf?.url">
-                        <a href="{{ storageBaseUrl + data.pdf?.url }}" target="_blank">
+                        <a href="{{data.pdf?.url | toStorageUrl}}" target="_blank">
                             <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                         </a>
@@ -104,7 +104,7 @@
             <div class="col-sm-2 ms-3" style="padding: 0;">
                 <ng-container>
                     <div *ngIf="data.excel?.url">
-                        <a href="{{storageBaseUrl + data.excel?.url }}" target="_blank">
+                        <a href="{{ data.excel?.url | toStorageUrl}}" target="_blank">
                             <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                         </a>

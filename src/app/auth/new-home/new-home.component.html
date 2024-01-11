@@ -102,7 +102,7 @@
                         <div style="height: 200px">
                             <img [src]="item.imageUrl" alt="" class="image" width="50%" height="100%" />
                         </div>
-                        <a class="card-text new-card-l" href="{{ item.downloadUrl }}" target="_blank">{{ item.name }}</a
+                        <a class="card-text new-card-l" href="{{ item.downloadUrl | toStorageUrl}}" target="_blank">{{ item.name }}</a
               >
             </div>
           </ngx-slick-carousel>
