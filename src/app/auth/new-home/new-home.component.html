@@ -100,7 +100,7 @@
                 <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig" (init)="slickInit($event)" (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)" (beforeChange)="beforeChange($event)">
                     <div ngxSlickItem *ngFor="let item of whatNewData" class="slide card-img">
                         <div style="height: 200px">
-                            <img [src]="item.imageUrl" alt="" class="image" width="50%" height="100%" />
+                            <img [src]="item.imageUrl | toStorageUrl" alt="" class="image" width="50%" height="100%" />
                         </div>
                         <a class="card-text new-card-l" href="{{ item.downloadUrl | toStorageUrl}}" target="_blank">{{ item.name }}</a
               >
