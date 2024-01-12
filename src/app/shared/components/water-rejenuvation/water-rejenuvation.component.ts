@@ -702,8 +702,8 @@ export class WaterRejenuvationComponent implements OnInit {
           resolve();
           console.log(s3Response.data[0]);
           const res = s3Response.data[0];
-          this.uploadFileToS3(file, res["url"], res["file_url"]);
-          this.photosArray.push({ url: res["file_url"], name });
+          this.uploadFileToS3(file, res["url"], res["path"]);
+          this.photosArray.push({ url: res["path"], name });
         },
         (err) => {
           console.log(err);

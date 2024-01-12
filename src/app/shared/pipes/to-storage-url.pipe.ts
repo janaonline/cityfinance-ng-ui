@@ -7,7 +7,11 @@ import { environment } from 'src/environments/environment';
 export class ToStorageUrlPipe implements PipeTransform {
 
   transform(value: string): string {
-    return environment.STORAGE_BASEURL + value;
+    if(value){
+      return environment.STORAGE_BASEURL + value;
+    }else{
+      return "";
+    }
   }
 
 }

@@ -812,7 +812,7 @@
             </div>
         </div>
         <p class="p-4" *ngIf="questionresponse?.data[0]?.formId == '6'">Click <a style="color: blue;"
-                href="{{slbFormURL}}">Here</a> to view your performance against the 4 SLBs</p>
+                href="{{slbFormUR | toStorageUrl}}">Here</a> to view your performance against the 4 SLBs</p>
         <div class="d-flex justify-content-end" *ngIf="showSubmitButton && isButtonDisplay">
             <div class="row w-100">
                 <!-- save, draft, pre and next button -->

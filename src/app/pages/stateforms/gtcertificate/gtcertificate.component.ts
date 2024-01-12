@@ -872,7 +872,7 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
       this.isFileUploadInProgress = true;
       this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
-          const fileAlias = s3Response["data"][0]["file_url"];
+          const fileAlias = s3Response["data"][0]["path"];
           this[progessType] = Math.floor(Math.random() * 90) + 10;
           const s3URL = s3Response["data"][0].url;
           this.uploadFileToS3(

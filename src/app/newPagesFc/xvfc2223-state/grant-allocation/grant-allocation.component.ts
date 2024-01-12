@@ -8,7 +8,6 @@ import { HttpEventType } from "@angular/common/http";
 import { GaPreviewComponent } from "./ga-preview/ga-preview.component";
 import * as fileSaver from "file-saver";
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
-import { environment } from "src/environments/environment";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-grant-allocation",
@@ -30,7 +29,6 @@ export class GrantAllocationComponent implements OnInit {
   @ViewChild("templateSave") template;
   backRouter = '';
   nextRouter = '';
-  storageBaseUrl:string = environment?.STORAGE_BASEURL;
 
   constructor(
     private dataEntryService: DataEntryService,
