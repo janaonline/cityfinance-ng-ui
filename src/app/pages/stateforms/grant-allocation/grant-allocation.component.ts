@@ -257,7 +257,7 @@ export class GrantAllocationComponent implements OnInit {
      let folderName = `${this.userData?.role}/2021-22/grant_allocation/${this.userData?.stateCode}`
       this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
-          const fileAlias = s3Response["data"][0]["file_url"];
+          const fileAlias = s3Response["data"][0]["path"];
           this.progessType = Math.floor(Math.random() * 90) + 10;
           const s3URL = s3Response["data"][0].url;
           this.uploadFileToS3(

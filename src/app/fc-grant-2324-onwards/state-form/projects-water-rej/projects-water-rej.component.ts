@@ -1091,13 +1091,13 @@ export class ProjectsWaterRejComponent implements OnInit {
   uploadOnS3(file, fileName, fileType, folderName, uploadType) {
     return new Promise<void>((resolve, reject) => {
       this.dataEntryService.newGetURLForFileUpload(fileName, fileType, folderName).subscribe(s3Response => {
-        const { url, file_url } = s3Response.data[0];
+        const { url, path } = s3Response.data[0];
         console.log('url..', url)
         console.log('asdfgg', s3Response)
         this.dataEntryService.newUploadFileToS3(file, url).subscribe((res) => {
           if (res.type !== HttpEventType.Response) return;
-          if (uploadType == 'img') this.photosArray.push({ url: file_url, name: fileName });
-          if (uploadType == 'pdf') this.waterRejenuvation.get('declaration').patchValue({ url: file_url, name: file.name })
+          if (uploadType == 'img') this.photosArray.push({ url: path, name: fileName });
+          if (uploadType == 'pdf') this.waterRejenuvation.get('declaration').patchValue({ url: path, name: file.name })
           this._snackBar.dismiss();
           this.isCompleteUploading = false;
           // console.log('form', this.formControl?.responseFile?.value?.name);
