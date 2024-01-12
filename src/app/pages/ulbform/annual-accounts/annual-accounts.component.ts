@@ -808,7 +808,7 @@ export class AnnualAccountsComponent implements OnInit {
         this.uploadFileToS3(
           file,
           res["url"],
-          res["file_url"],
+          res["path"],
           name,
           fileType
         );

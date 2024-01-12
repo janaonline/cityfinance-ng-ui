@@ -1013,9 +1013,9 @@ export class DataUploadComponent extends UploadDataUtility
                 .newGetURLForFileUpload(name, type, folderName)
                 .toPromise();
               if (urlResponse.success) {
-                let { url, file_url } = urlResponse.data[0];
+                let { url, path } = urlResponse.data[0];
                 urlObject[parentFormGroup][fileUrlKey] =
-                  urlResponse.data[0].file_url;
+                  urlResponse.data[0].path;
                 url = url.replace("admin/", "");
                 const fileUploadResponse = await this.dataUploadService
                   .uploadFileToS3(files[fileKey], url)
@@ -1254,8 +1254,8 @@ export class DataUploadComponent extends UploadDataUtility
                   .newGetURLForFileUpload(name, type, folderName)
                   .toPromise();
                 if (urlResponse.success) {
-                  let { url, file_url } = urlResponse.data[0];
-                  urlObject[parentFormGroup][fileUrlKey] = file_url;
+                  let { url, path } = urlResponse.data[0];
+                  urlObject[parentFormGroup][fileUrlKey] = path;
                   url = url.replace("admin/", "");
                   const fileUploadResponse = await this.dataUploadService
                     .uploadFileToS3(files[fileKey], url)
