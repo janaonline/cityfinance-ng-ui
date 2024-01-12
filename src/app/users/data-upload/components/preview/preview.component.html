@@ -685,7 +685,7 @@
               data?.solidWasteManagement?.documents[question.key] &&
               data?.solidWasteManagement?.documents[question.key][0]
             "
-            [href]="data?.solidWasteManagement?.documents[question.key][0]?.url"
+            [href]="data?.solidWasteManagement?.documents[question.key][0]?.url | toStorageUrl"
             target="_blank"
           >
             {{ data?.solidWasteManagement?.documents[question.key][0].name }}
@@ -839,7 +839,7 @@
                 data?.millionPlusCities?.documents[question.key] &&
                 data?.millionPlusCities?.documents[question.key][0]
               "
-              [href]="data?.millionPlusCities?.documents[question.key][0]?.url"
+              [href]="data?.millionPlusCities?.documents[question.key][0]?.url | toStorageUrl"
               target="_blank"
             >
               {{ data?.millionPlusCities?.documents[question.key][0].name }}
