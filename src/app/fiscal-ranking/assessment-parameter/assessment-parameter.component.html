@@ -65,12 +65,25 @@
         <div class="col-sm-12 mt-3">
             <div class="scor-met">{{currentPageData?.scoringMethodology?.description}}</div>
         </div>
-        <div class="col-sm-12">
-            <div class="p-3">
-                <img src="{{currentPageData?.scoringMethodology?.imgUrl}}" alt="" width="100%">
-            </div>
-            
+        <div class="col-sm-12 mt-3">
+            <div class="table-border table-responsive border-primary text-muted">
+                <table class="table table-bordered border-primary">
+                    <thead class="table-primary">
+                        <tr>
+                            <th *ngFor="let column of currentPageData?.table?.columns">{{ column?.label }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of currentPageData?.table?.data">
+                            <td [title]="row[column.key]" class="data-item border-primary" *ngFor="let column of currentPageData?.table?.columns">
+                                <div [innerHTML]="row[column.key]"></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>        
         </div>
+        <p class="footnote" *ngFor="let footnote of currentPageData?.table?.footnotes" >{{ footnote }}</p>
     </div>
 </div>
 
