@@ -75,6 +75,7 @@ import { IndiaMapComponent } from './india-map/india-map.component';
 import { FileUrlCheckPipe } from './pipes/file-url-check.pipe';
 import { VideosPopupComponent } from './home/videos-popup/videos-popup.component';
 import { TypeofPipe } from './pipes/typeof.pipe';
+import { GobalPartModule } from "../gobal-part/gobal-part.module";
 
 @NgModule({
   declarations: [
@@ -148,7 +149,6 @@ import { TypeofPipe } from './pipes/typeof.pipe';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule,
     MatTooltipModule,
     RecaptchaModule,
     MatFormFieldModule,
@@ -160,7 +160,8 @@ import { TypeofPipe } from './pipes/typeof.pipe';
     NgxPaginationModule,
     Shared2223Module,
     AngularMultiSelectModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    GobalPartModule
   ],
   providers: [
     {

@@ -43,6 +43,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { StateActionUlbComponent } from '../stateUlbAction/state-action/state-action-ulb/state-action-ulb.component';
 import { CommFileUploadComponent } from 'src/app/shared/components/comm-file-upload/comm-file-upload.component';
 import { UtiNewPreComponent } from './utilisation-report/uti-new-pre/uti-new-pre.component';
+import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
 
 @NgModule({
   entryComponents: [PreviewUtiFormComponent, ImagePreviewComponent],
@@ -83,12 +84,12 @@ import { UtiNewPreComponent } from './utilisation-report/uti-new-pre/uti-new-pre
     FormsModule,
     HttpClientModule,
     MatProgressSpinnerModule,
-
     SharedModule,
     MatTooltipModule,
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
     PdfViewerModule,
+    GobalPartModule
   ],
   // exports: [
   //   TwoDigitDecimaNumberDirective,

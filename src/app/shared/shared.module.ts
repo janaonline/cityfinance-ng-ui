@@ -106,7 +106,8 @@ import { MapcomponentComponent } from './components/municipality-budget/mapcompo
 import { CommonFilterComponent } from './components/common-filter/common-filter.component';
 import { EndsWithPipe } from './pipes/ends-with.pipe';
 import { IncludesPipe } from './pipes/includes.pipe';
-import { ToStorageUrlPipe } from './pipes/to-storage-url.pipe';
+import { GobalPartModule } from "../gobal-part/gobal-part.module";
+
 @NgModule({
   imports: [
     ButtonsModule.forRoot(),
@@ -142,6 +143,7 @@ import { ToStorageUrlPipe } from './pipes/to-storage-url.pipe';
     Shared2223Module,
     PdfViewerModule,
     MatPaginatorModule,
+    GobalPartModule
   ],
   declarations: [
     PreLoaderComponent,
@@ -212,7 +214,7 @@ import { ToStorageUrlPipe } from './pipes/to-storage-url.pipe';
     CommonFilterComponent,
     EndsWithPipe,
     IncludesPipe,
-    ToStorageUrlPipe,
+    
   ],
   exports: [
     JoinPipe,
@@ -264,7 +266,6 @@ import { ToStorageUrlPipe } from './pipes/to-storage-url.pipe';
     MunicipalityBondsComponent,
     AutoCompleteComponent,
     EndsWithPipe,
-    ToStorageUrlPipe,
   ],
   providers: [FinancialDataService],
   entryComponents: [BalanceTabledialogComponent],

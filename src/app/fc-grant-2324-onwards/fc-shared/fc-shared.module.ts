@@ -21,7 +21,7 @@ import { CustomTooltipComponent } from 'src/app/shared/components/ag-grid/custom
 import { FourSlbViewComponent } from './components/four-slb-view/four-slb-view.component';
 import { StateCommonReviewComponent } from './components/state-common-review/state-common-review.component';
 import { CommonStateDashboardComponent } from './components/common-state-dashboard/common-state-dashboard.component';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
 
 @NgModule({
   declarations: [
@@ -46,7 +46,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     FormsModule,
     MatSnackBarModule,
     AgGridModule.withComponents([ActionPlanSliComponent, AgGridComponent, CustomTooltipComponent]),
-    SharedModule
+    GobalPartModule
   ],
   exports: [
     AnnualAccountTemplateComponent,

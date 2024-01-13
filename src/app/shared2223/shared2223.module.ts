@@ -38,6 +38,7 @@ import { NoUpDownDirective } from "../fiscal-ranking/ulb-fiscal-new/no-up-down.d
 import { NumericInputDirective } from './directive/numeric-input.directive';
 import { PmuApprovalPopupComponent } from './components/pmu-approval-popup/pmu-approval-popup.component';
 import { ScrollToTopComponent } from './components/scroll-to-top/scroll-to-top.component';
+import { GobalPartModule } from "../gobal-part/gobal-part.module";
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import { ScrollToTopComponent } from './components/scroll-to-top/scroll-to-top.c
     MdePopoverModule,
     MatRadioModule,
     MatDatepickerModule,
+    GobalPartModule
   ],
   exports: [
     OdfFormComponent,
