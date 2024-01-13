@@ -16,6 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     FormsModule,
     PdfViewerModule,
     AngularMultiSelectModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    GobalPartModule
   ]
 })
 export class MohuaFormModule { }

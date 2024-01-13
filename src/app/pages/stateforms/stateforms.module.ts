@@ -56,6 +56,7 @@ import { GrantClaimsComponent } from './grant-claims/grant-claims.component';
 import {MatChipsModule} from '@angular/material/chips';
 import { GrantClaimsDialogComponent } from './grant-claims/grant-claims-dialog/grant-claims-dialog.component';
 import { DatePipe } from '@angular/common';
+import { GobalPartModule } from "src/app/gobal-part/gobal-part.module";
 @NgModule({
   entryComponents: [OverallListComponent],
   providers: [DatePipe],
@@ -121,8 +122,8 @@ import { DatePipe } from '@angular/common';
     // NgCircleProgressModule,
     MatCardModule,
     MatSelectModule,
-    MatChipsModule
-
+    MatChipsModule,
+    GobalPartModule
   ],
   // exports: [AgGridComponent]
 })

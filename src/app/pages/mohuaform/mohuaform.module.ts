@@ -29,6 +29,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { MatInputModule } from '@angular/material/input';
     // NgCircleProgressModule,
     MatAutocompleteModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    GobalPartModule
   ],
   exports: [
    // GrantTransferMohuaComponent

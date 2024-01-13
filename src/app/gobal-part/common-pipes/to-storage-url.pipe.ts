@@ -1,5 +1,9 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Injectable, Pipe, PipeTransform } from '@angular/core';
 import { environment } from 'src/environments/environment';
+
+@Injectable({
+  providedIn: "root"
+})
 
 @Pipe({
   name: 'toStorageUrl'
