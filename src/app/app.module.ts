@@ -44,8 +44,7 @@ import { NgxPaginationModule } from "ngx-pagination";
 import { GlobalErrorHandler } from "./global-error-handler.service";
 import { VersionCheckService } from "./version-check.service";
 import { environment } from "src/environments/environment";
-
-
+import { GobalPartModule } from "./gobal-part/gobal-part.module";
 
 
 @NgModule({
@@ -85,6 +84,7 @@ import { environment } from "src/environments/environment";
     MatFormFieldModule,
     NgxGoogleAnalyticsModule.forRoot(environment.GoogleTagID),
     NgxGoogleAnalyticsRouterModule,
+    GobalPartModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
@@ -112,12 +112,9 @@ import { environment } from "src/environments/environment";
     UlbNotRegisteredComponent,
     NewHomeComponent,
     ProfileUpdateComponent,
-
     // InrCurrencyPipe,
-  ],
-  exports: [
-
   ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
+

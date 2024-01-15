@@ -15,6 +15,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MohuaGtcComponent } from './mohua-gtc/mohua-gtc.component';
 import { GrantTransferMohuaComponent } from 'src/app/pages/mohuaform/grant-transfer-mohua/grant-transfer-mohua.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     CarouselModule.forRoot(),
     ReactiveFormsModule,
     FormsModule,
+    GobalPartModule
   //  GrantTransferMohuaComponent
   ],
 })

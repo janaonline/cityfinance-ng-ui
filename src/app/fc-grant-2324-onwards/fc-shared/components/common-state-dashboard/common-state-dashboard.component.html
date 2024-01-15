@@ -11,7 +11,7 @@
                             </div>
                         </div>
                         <div class="col-sm-3 text-end">
-                            <img src="{{item?.icon | toStorageUrl}}" alt="SVG" />
+                            <img src="{{item?.icon}}" alt="SVG" />
                         </div>
 
                     </div>
@@ -91,7 +91,7 @@
                 <div class="form-card mt-3" *ngFor="let item of form?.value?.formData" (click)="navigateToPage(item)">
                     <div class="row">
                         <div class="col-6">
-                            <img src='{{item?.icon}}' width="30" height="30" class="fl-i">
+                            <img src='{{item?.icon | toStorageUrl}}' width="30" height="30" class="fl-i">
                             <span class="formName ms-3">{{item?.formName}}</span>
                         </div>
                         <div class="col-6 text-end">

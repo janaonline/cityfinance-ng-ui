@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToStorageUrlPipe } from 'src/app/shared/pipes/to-storage-url.pipe';
+import { ToStorageUrlPipe } from 'src/app/gobal-part/common-pipes/to-storage-url.pipe';
 import {CommonService} from 'src/app/shared/services/common.service'
 import { ResourcesDashboardService } from '../resources-dashboard.service';
 @Component({

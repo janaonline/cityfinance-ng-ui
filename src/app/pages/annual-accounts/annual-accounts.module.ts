@@ -20,6 +20,7 @@ import { DateFormatPipe } from "./dateTimePipe"
 import { MatDialogModule } from '@angular/material/dialog'
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from "src/app/shared/shared.module";
+import { GobalPartModule } from "src/app/gobal-part/gobal-part.module";
 @NgModule({
   imports: [
     CommonModule,
@@ -38,7 +39,7 @@ import { SharedModule } from "src/app/shared/shared.module";
     MatDialogModule,
     MatTooltipModule,
     MatIconModule,
-    SharedModule
+    GobalPartModule
   ],
   declarations: [AnnualAccountsCreateComponent, DateFormatPipe],
   exports: [AnnualAccountsCreateComponent],

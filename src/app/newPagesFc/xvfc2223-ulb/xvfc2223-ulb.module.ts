@@ -33,6 +33,7 @@ import { Slbs28FormComponent } from './slbs28-form/slbs28-form.component';
 import { Slbs28FormPreviewComponent } from './slbs28-form/slbs28-form-preview/slbs28-form-preview.component';
 import { PropertyTaxOperationalisationPreviewComponent } from './property-tax-operationalisation/property-tax-operationalisation-preview/property-tax-operationalisation-preview.component';
 import { Slbs2223PreviewComponent } from './slbs2223/slbs2223-preview/slbs2223-preview.component';
+import { GobalPartModule } from "src/app/gobal-part/gobal-part.module";
 
 @NgModule({
   declarations: [
@@ -71,7 +72,7 @@ import { Slbs2223PreviewComponent } from './slbs2223/slbs2223-preview/slbs2223-p
     CarouselModule.forRoot(),
     SharedModule,
     PdfViewerModule,
-
+    GobalPartModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
