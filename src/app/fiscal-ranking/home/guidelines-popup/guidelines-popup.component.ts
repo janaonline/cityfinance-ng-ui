@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-guidelines-popup',
@@ -9,7 +9,9 @@ import { MatDialog } from '@angular/material/dialog';
 export class GuidelinesPopupComponent implements OnInit {
 
   constructor(
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) public guidelinesData: any,
+
   ) { }
 
   ngOnInit(): void {

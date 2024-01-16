@@ -200,4 +200,8 @@ export class DataEntryService {
     a.click();
     window.URL.revokeObjectURL(url);;
   }
+
+  getStaticFileUrl(key: number) {
+    return this.http.get(`${environment.api.url}link-record?key=${key}`)
+  }
 }
