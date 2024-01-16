@@ -17,14 +17,16 @@ import { ParticipatingStateComponent } from './participating-state/participating
 import { ParticipatingUlbsComponent } from './participating-ulbs/participating-ulbs.component';
 
 const routes: Routes = [
-  { path: "", component: HomeComponent },
-  { path: "home", component: HomeComponent },
+  { path: "", component: FiscalHomeComponent },
+  { path: "home", component: FiscalHomeComponent },
+  // { path: "", component: HomeComponent },
+  // { path: "home", component: HomeComponent },
   { path: "dashboard", component: DashboardComponent },
   { path: "login", component: FiscalLoginComponent },
-  { path: "annual-financial-statements", component: AnnualFinancialStatementsComponent },
-  { path: "annual-budgets", component: AnnualBudgetsComponent },
-  { path: "top-rankings", component: TopRankingsComponent },
-  { path: "ulb/:ulbId", component: UlbDetailsComponent },
+  // { path: "annual-financial-statements", component: AnnualFinancialStatementsComponent },
+  // { path: "annual-budgets", component: AnnualBudgetsComponent },
+  // { path: "top-rankings", component: TopRankingsComponent },
+  // { path: "ulb/:ulbId", component: UlbDetailsComponent },
   {
     path: "ulb-form/:ulbId",
     component: UlbFiscalNewComponent,
@@ -42,7 +44,7 @@ const routes: Routes = [
     },
   },
   { path: "review-rankings-ulbform", component: ReviewUlbTableComponent },
-  { path: 'test', component: MapcomponentComponent },
+  // { path: 'test', component: MapcomponentComponent },
   {
     path: "populationWise/:stateId",
     component: DashboardComponent,
@@ -65,15 +67,15 @@ const routes: Routes = [
       }
     }
   },
-  {
-    path: 'assesst-parameters/:id', component: AssessmentParameterComponent
-  },
-  {
-    path: 'participated-states-ut', component: ParticipatingStateComponent
-  },
-  {
-    path: 'participated-ulbs/:id', component: ParticipatingUlbsComponent
-  },
+  // {
+  //   path: 'assesst-parameters/:id', component: AssessmentParameterComponent
+  // },
+  // {
+  //   path: 'participated-states-ut', component: ParticipatingStateComponent
+  // },
+  // {
+  //   path: 'participated-ulbs/:id', component: ParticipatingUlbsComponent
+  // },
   
 ];
 
