@@ -76,7 +76,7 @@
                         <ng-template #fileValue>
                             <ng-container
                                 *ngIf="(row[column.key] | fileUrlCheck: targetExtension : allowedExtensions); else simpleValue">
-                                <a href="{{row[column.key]}}" target="_blank" rel="fiscal-rankings">
+                                <a href="{{row[column.key] | toStorageUrl}}" target="_blank" rel="fiscal-rankings">
                                     <img [src]="'assets/fiscal-rankings/' + targetExtension + '.png'"
                                         alt="{{column.key}}" srcset="">
                                 </a>
