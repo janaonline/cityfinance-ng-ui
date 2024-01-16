@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { staticFileKeys } from 'src/app/constants';
 import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
+import { staticFileKeys } from 'src/app/util/staticFileConstant';
 @Component({
   selector: "app-faq-table",
   templateUrl: "./faq-table.component.html",
