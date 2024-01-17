@@ -11,11 +11,18 @@ import { environment } from 'src/environments/environment';
 export class ToStorageUrlPipe implements PipeTransform {
 
   transform(value: string): string {
-    if(value){
+    if (value && value.toLowerCase().startsWith('https://')) {
+      return value;
+    } else if (value) {
       return environment.STORAGE_BASEURL + value;
-    }else{
-      return "";
+    } else {
+      return '';
     }
+    // if(value){
+    //   return environment.STORAGE_BASEURL + value;
+    // }else{
+    //   return "";
+    // }
   }
 
 }
