@@ -54,7 +54,7 @@ export class GtcComponent implements OnInit {
     if(this.userData?.role == "STATE"){
       return `${this.userData?.role}/2023-24/gtc/${this.userData?.stateCode}`
     }else{
-       let  code = sessionStorage.getItem('stateCode');
+       let code = sessionStorage.getItem('stateCode');
        return `${this.userData?.role}/2023-24/supporting_douments/gtc/${code}`;
     }
     
