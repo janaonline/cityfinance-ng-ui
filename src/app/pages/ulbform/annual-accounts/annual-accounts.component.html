@@ -120,7 +120,7 @@
                 </div>
                 <div class="col-sm-12" *ngIf="data.unAudited.submit_standardized_data">
                     <div class="col-sm-2 center" style="padding: 0;">
-                        <a class="btn btn22" href="https://democityfinanceapi.dhwaniris.in/assets/files/Standardized%20Data_Format.xlsx" target="_blank">
+                        <a class="btn btn22" href="{{standardized_dataFile | toStorageUrl}}" target="_blank">
                             Download Template
                         </a>
                     </div>
@@ -276,7 +276,9 @@
                 </div>
                 <div class="col-sm-12" *ngIf="data.audited.submit_standardized_data">
                     <div class="col-sm-2 center" style="padding: 0;">
-                        <a class="btn btn22" href="https://democityfinanceapi.dhwaniris.in/assets/files/Standardized%20Data_Format.xlsx" target="_blank">
+                        
+                        <!-- href="https://democityfinanceapi.dhwaniris.in/assets/files/Standardized%20Data_Format.xlsx" -->
+                        <a class="btn btn22" href="{{standardized_dataFile | toStorageUrl}}"  target="_blank">
                             Download Template
                         </a>
                     </div>
