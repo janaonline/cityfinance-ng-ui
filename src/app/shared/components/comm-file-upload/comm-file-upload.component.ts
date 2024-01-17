@@ -84,6 +84,7 @@ export class CommFileUploadComponent implements OnInit, OnChanges {
   };
   Years = JSON.parse(localStorage.getItem("Years"));
   userData = JSON.parse(localStorage.getItem("userData"));
+  @Input() formName = ''
   ngOnInit(): void {
     console.log("an res status", this.statusResponse);
     console.log("an data res status", this.dataFromParent);
@@ -177,14 +178,14 @@ export class CommFileUploadComponent implements OnInit, OnChanges {
   }
 
   uploadFile(file, name, type, fileType) {
-    let formName = 'annual_accounts'
-    if(this.FromLinkinPfms){
-      formName = 'pfms'
-    }else {
-      formName = 'annual_accounts'
-    }
+    //let formName = 'annual_accounts'
+    // if(this.FromLinkinPfms){
+    //   formName = 'pfms'
+    // }else {
+    //   formName = 'annual_accounts'
+    // }
     this.data[fileType].progress = 20;
-   let folderName = `${this.userData?.role}/2021-22/${formName}/${this.userData?.ulbCode}`
+   let folderName = `${this.userData?.role}/2021-22/${this.formName}/${this.userData?.ulbCode}`
     this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
       (s3Response) => {
         this.data[fileType].progress = 50;
