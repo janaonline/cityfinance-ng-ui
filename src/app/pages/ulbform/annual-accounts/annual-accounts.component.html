@@ -75,7 +75,7 @@
                     <div *ngFor="let item of unAuditQues ; let quesIndex=index">
                         <ng-container>
                             <app-comm-file-upload [isDisabled]="isDisabled && provisionDisable" [dataFromParent]="item.data" (getFileUploadResult)="getUploadFileData($event,'unAudited',item.name,quesIndex)" (actionValues)="checkStatusUnA($event, quesIndex)" [statusResponse]='actionResAn'
-                                [quesName]="item.name">
+                                [quesName]="item.name" [formName]="'annual_accounts'">
                             </app-comm-file-upload>
                         </ng-container>
                         <!-- <div class="row" style="margin-left: 2pc;">
