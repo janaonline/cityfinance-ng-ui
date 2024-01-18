@@ -269,6 +269,7 @@ export class AnnualAccountsComponent implements OnInit {
     this.clickedSave = false;
     this.onLoad();
     sessionStorage.setItem("changeInAnnual", "false");
+    this.getStaticFile()
   }
   navigationCheck() {
     if (!this.clickedSave) {
