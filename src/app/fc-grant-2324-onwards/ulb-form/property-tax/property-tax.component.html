@@ -74,7 +74,7 @@
                         type="file" [accept]="yearItem?.controls?.allowedFileTypes?.value | allowedFileTypes" #file>
                 </div>
                 <div class="col-sm-12 com-style f-w mt-1" *ngIf="yearItem?.value?.file?.url">
-                    <a class="w-90" style="word-break: break-all;" href="{{yearItem?.value?.file?.url}}"
+                    <a class="w-90" style="word-break: break-all;" href="{{yearItem?.value?.file?.url | toStorageUrl }}"
                         target="_blank">{{yearItem?.value?.file?.name}} <mat-icon>cloud_download
                         </mat-icon></a>
                     <a *ngIf="!yearItem?.controls?.readonly?.value"
@@ -159,7 +159,7 @@
 
                                 <p *ngIf="item?.value?.controls?.downloadLink?.value">(Please download sample format)/<a
                                         class="mb-0 text-small fst-italic" style="word-break: break-all;"
-                                        [href]="item?.value?.controls?.downloadLink?.value" target="_blank">
+                                        [href]="item?.value?.controls?.downloadLink?.value | toStorageUrl" target="_blank">
                                         <mat-icon>cloud_download
                                         </mat-icon>
                                     </a></p>

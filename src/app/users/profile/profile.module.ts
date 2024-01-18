@@ -14,6 +14,7 @@ import { StateProfileComponent } from './state-profile/state-profile.component';
 import { ProfileRequestComponent } from './ulb-profile/profile-request/profile-request.component';
 import { UlbProfileComponent } from './ulb-profile/ulb-profile.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     SharedModule,
     NgxPaginationModule,
     MatDialogModule,
+    GobalPartModule
   ],
   declarations: [
     UserProfileComponent,

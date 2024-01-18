@@ -56,11 +56,11 @@
                                             accept=".pdf" #file>
                                     </div>
                                     <div class="col-sm-12 com-style f-w mt-1" *ngIf="question?.file?.url">
-                                        <a class="w-90" href="{{question?.file?.url}}"
+                                        <a class="w-90" href="{{question?.file?.url | toStorageUrl}}"
                                             target="_blank">{{question?.file?.name}} <mat-icon>cloud_download
                                             </mat-icon></a>
                                         <a *ngIf="!question?.questionresponse?.data[0]?.language[0].isQuestionDisabled"
-                                            href="{{question?.file?.url}}" target="_blank"
+                                            href="{{question?.file?.url| toStorageUrl}}" target="_blank"
                                             (click)="uploadFile($event, 'pdf', question, true, 'file')" class="w-10">
                                             <img src="/assets/form-icon/close_black_24dp.svg">
                                         </a>
@@ -93,7 +93,7 @@
                                         Supporting Document :
                                     </div>
                                     <div class="col-sm-9">
-                                        <a href="{{question?.responseFile_mohua?.url}}" target="_blank">
+                                        <a href="{{question?.responseFile_mohua?.url | toStorageUrl}}" target="_blank">
                                             {{question?.responseFile_mohua?.name}}
                                         </a>
                                     </div>
@@ -143,11 +143,11 @@
                                             </div>
                                             <div class="col-sm-12 com-style f-w mt-1"
                                                 *ngIf="question?.responseFile_mohua?.url">
-                                                <a class="w-90" href="{{question?.responseFile_mohua?.url}}"
+                                                <a class="w-90" href="{{question?.responseFile_mohua?.url | toStorageUrl}}"
                                                     target="_blank">{{question?.responseFile_mohua?.name}} <mat-icon>
                                                         cloud_download
                                                     </mat-icon></a>
-                                                <a href="{{question?.responseFile_mohua?.url}}" target="_blank"
+                                                <a href="{{question?.responseFile_mohua?.url | toStorageUrl}}" target="_blank"
                                                     (click)="uploadFile($event, 'pdf', question, true, 'responseFile_mohua')"
                                                     class="w-10">
                                                     <img src="/assets/form-icon/close_black_24dp.svg">

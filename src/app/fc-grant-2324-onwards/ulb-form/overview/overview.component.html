@@ -47,7 +47,7 @@
         'linear-gradient(#F16831, #793419)': index == 3 ? 'linear-gradient(#FDCB2E, #7F6617)' :
         index == 4 ? 'linear-gradient(#549D5E, #2A4F2F)' : index == 5 ? 'linear-gradient(#E71368, #740A34)' : index == 6 ?
         'linear-gradient(#9D198B, #4F0D46)' : 'linear-gradient(#73C557, #3A632C)' }">
-                                                      <img [src]="slide.image" height="22" width="27" />
+                                                      <img [src]="slide?.image | toStorageUrl" height="22" width="27" />
                                                       <div>
                                                           <!-- class="card-body" -->
                                                           <h5 class="card-title"> {{slide['title']}} </h5>
@@ -89,7 +89,7 @@
         index == 4 ? 'linear-gradient(#549D5E, #2A4F2F)' : index == 5 ? 'linear-gradient(#E71368, #740A34)' : index == 6 ?
         'linear-gradient(#9D198B, #4F0D46)' : 'linear-gradient(#73C557, #3A632C)' }">
 
-                                                      <img [src]="slide.image" height="22" width="27" />
+                                                      <img [src]="slide?.image | toStorageUrl" height="22" width="27" />
                                                       <div>
                                                           <!-- class="card-body" -->
                                                           <h5 class="card-title"> {{slide['title']}} </h5>

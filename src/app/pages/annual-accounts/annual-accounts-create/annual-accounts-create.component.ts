@@ -336,7 +336,7 @@ ulbCode = '';
         this.dataEntryService.newGetURLForFileUpload(fileName, fileType, folderName).subscribe(
           (response: any) => {
             const s3Url = response["data"][0].url;
-            const finalUrl = response["data"][0].file_url;
+            const finalUrl = response["data"][0]?.path;
             this.dataEntryService
               .uploadFileToS3(event.target.files[0], s3Url)
               .subscribe(

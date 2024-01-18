@@ -10,12 +10,13 @@ import { SlbDashboardComponent } from './slb-dashboard/slb-dashboard.component';
 import { SlbDashboardRoutingModule } from "./slb-dashboard/slb-dashboard-routing.module";
 import { SlbDashboardModule } from "./slb-dashboard/slb-dashboard.module";
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { GobalPartModule } from "src/app/gobal-part/gobal-part.module";
 //import { NationalComponent } from './national/national.component';
 
 
 @NgModule({
   declarations: [CityComponent, StateComponent],
   imports: [CommonModule, NewDashbordsRoutingModule, MatAutocompleteModule,
- SharedModule, SlbDashboardRoutingModule, SlbDashboardModule ],
+ SharedModule, SlbDashboardRoutingModule, SlbDashboardModule,GobalPartModule ],
 })
 export class NewDashbordsModule {}

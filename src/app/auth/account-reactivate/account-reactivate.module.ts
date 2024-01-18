@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 
 import { PasswordRoutingModule } from './account-reactivate-routing.module';
 import { AccountReactivateComponent } from './account-reactivate.component';
+import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { AccountReactivateComponent } from './account-reactivate.component';
     MatFormFieldModule,
     MatInputModule,
     SharedModule,
+    GobalPartModule
   ],
   declarations: [AccountReactivateComponent],
 })

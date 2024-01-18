@@ -29,6 +29,7 @@ export class GrantAllocationComponent implements OnInit {
   @ViewChild("templateSave") template;
   backRouter = '';
   nextRouter = '';
+
   constructor(
     private dataEntryService: DataEntryService,
     private stateService: State2223Service,
@@ -398,7 +399,8 @@ export class GrantAllocationComponent implements OnInit {
           name,
           fileType,
           i,
-          j
+          j,
+          res["path"],
         );
       },
       (err) => {
@@ -416,7 +418,8 @@ export class GrantAllocationComponent implements OnInit {
     name,
     fileType,
     i,
-    j
+    j,
+    filePath
   ) {
     this.gtcFormData[i].quesArray[j]["file"]["progress"] = 60;
     this.dataEntryService.uploadFileToS3(file, s3URL).subscribe(
@@ -431,7 +434,7 @@ export class GrantAllocationComponent implements OnInit {
               console.log(response);
               this.gtcFormData[i].quesArray[j]["file"]["progress"] = 100;
 
-              this.gtcFormData[i].quesArray[j]["url"] = fileAlias;
+              this.gtcFormData[i].quesArray[j]["url"] = filePath;
               let ijData = {
                 i: i,
                 j: j,

@@ -23,7 +23,7 @@
     <div class="card-body">
       <div style="position: relative">
         <pdf-viewer
-          [src]="item?.downloadUrl"
+          [src]="item?.downloadUrl | toStorageUrl"
           [render-text]="false"
           [show-all]="false"
           style="display: block; height: 250px"
@@ -41,7 +41,7 @@
       </div> -->
       <div class="row mt-2" style="align-items: center">
         <div class="col-sm-2 pe-0">
-          <a href="{{ item.downloadUrl }}" target="_blank">
+          <a href="{{ item.downloadUrl | toStorageUrl }}" target="_blank">
             <span>
               <img
                 src="../../../../../assets/new_dashBord_ftr_hdr/pdf.png"

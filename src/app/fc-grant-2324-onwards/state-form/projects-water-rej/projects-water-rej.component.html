@@ -470,7 +470,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="mt-3" *ngIf="waterRejenuvation?.value?.declaration?.url">
-                                <a href="{{waterRejenuvation?.value?.declaration?.url}}" target="_blank">
+                                <a href="{{waterRejenuvation?.value?.declaration?.url | toStorageUrl}}" target="_blank">
                                     {{waterRejenuvation?.value?.declaration.name}}
                                 </a>
                                 <span class="ms-3" [ngClass]="{'disableInputs': isDisabled }">

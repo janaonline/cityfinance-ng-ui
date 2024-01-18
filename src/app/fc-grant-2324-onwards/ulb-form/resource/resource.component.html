@@ -13,7 +13,7 @@
                   <img [src]="item?.imgurl" class="card-img-top img-t" alt="...">
                   <div class="card-body mx-auto">
                       <span>
-                        <a [href]="item?.link" target="_blank" class="a-text">
+                        <a [href]="item?.link | toStorageUrl" target="_blank" class="a-text">
                           {{item?.fileName}}
                         </a>
                       </span>

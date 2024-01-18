@@ -56,6 +56,7 @@ const getFileAndUploadToGivenUrl = async (
     fileName,
     fileMimeType
   );
+  
   const headers = new Headers({
     "Content-Type": fileToUpload?.type,
     'X-Ms-Blob-Type': 'BlockBlob',

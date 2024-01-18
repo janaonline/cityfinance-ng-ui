@@ -476,10 +476,10 @@ export class UlbFiscalNewComponent implements OnInit {
     if (fileType === 'pdf' && fileExtension !== 'pdf') return swal("Error", "Only PDF File can be Uploaded.", "error");
     control.patchValue({ uploading: true });
     this.dataEntryService.newGetURLForFileUpload(file.name, file.type, this.uploadFolderName).subscribe(s3Response => {
-      const { url, file_url } = s3Response.data[0];
+      const { url, path } = s3Response.data[0];
       this.dataEntryService.newUploadFileToS3(file, url).subscribe(res => {
         if (res.type !== HttpEventType.Response) return;
-        control.patchValue({ uploading: false, name: file.name, url: file_url });
+        control.patchValue({ uploading: false, name: file.name, url: path });
       },
         (err) => {
           control.patchValue({ uploading: false });

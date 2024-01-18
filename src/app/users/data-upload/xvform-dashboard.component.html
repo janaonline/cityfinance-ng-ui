@@ -496,7 +496,7 @@
                           else nofile
                         "
                       >
-                        <a [href]="file.url" target="_blank">{{ file.name }}</a>
+                        <a [href]="file.url | toStorageUrl" target="_blank">{{ file.name }}</a>
                       </span>
                     </td>
                     <td>
@@ -507,7 +507,7 @@
                           else nofile
                         "
                       >
-                        <a [href]="file.url" target="_blank">{{ file.name }}</a>
+                        <a [href]="file.url | toStorageUrl" target="_blank">{{ file.name }}</a>
                       </span>
                     </td>
                     <td>
@@ -518,7 +518,7 @@
                           else nofile
                         "
                       >
-                        <a [href]="file.url" target="_blank">{{ file.name }}</a>
+                        <a [href]="file.url | toStorageUrl" target="_blank">{{ file.name }}</a>
                       </span>
                       <ng-template #nofile> N/A</ng-template>
                     </td>

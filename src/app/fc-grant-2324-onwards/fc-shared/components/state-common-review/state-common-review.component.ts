@@ -107,14 +107,14 @@ export class StateCommonReviewComponent implements OnInit {
     if (fileType === 'pdf' && fileExtension !== 'pdf') return swal("Error", "Only PDF File can be Uploaded.", "error");
     this._snackBar.open("Uploaing File...",'', {"duration": 10000});
     this.dataEntryService.newGetURLForFileUpload(file.name, file.type, this.uploadFolderName).subscribe(s3Response => {
-      const { url, file_url } = s3Response.data[0];
+      const { url, path } = s3Response.data[0];
       console.log('url..', url)
       console.log('asdfgg', s3Response)
       this.dataEntryService.newUploadFileToS3(file, url).subscribe((res) => {
         if (res.type !== HttpEventType.Response) return;
         const uaIndex = this.getUAIndex(question);
-        this.actionPayload.responses[uaIndex]["responseFile"] = { name: file.name, url: file_url };
-        question["responseFile"] = { name: file.name, url: file_url };
+        this.actionPayload.responses[uaIndex]["responseFile"] = { name: file.name, url: path };
+        question["responseFile"] = { name: file.name, url: path };
         this._snackBar.dismiss();
         console.log(this.actionPayload, 'this.actionPayload');
         this.formChangeEventEmit.emit(this.outputDataForPayload); 

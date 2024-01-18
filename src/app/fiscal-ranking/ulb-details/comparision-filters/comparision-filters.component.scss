@@ -1,0 +1,36 @@
+.form-check-label {
+    font-size: 20px;
+}
+
+.form-check-input {
+    margin-right: 24px;
+    margin-top: 8px;
+    transform: scale(1.5);
+}
+
+.chip-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.chip {
+    background-color: #193369;
+    &.non-bucket {
+        background-color: #b50e0e;
+    }
+    color: white;
+    padding: 8px 14px;
+    border-radius: 50px;
+    display: flex;
+}
+
+::ng-deep {
+    .cdk-overlay-connected-position-bounding-box,
+    .cdk-overlay-pane,
+    .cdk-global-overlay-wrapper,
+    .cdk-overlay-container {
+        z-index: 1000 !important;
+    }
+}

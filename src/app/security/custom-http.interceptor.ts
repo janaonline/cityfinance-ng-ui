@@ -25,7 +25,6 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     const token = JSON.parse(localStorage.getItem("id_token"));
     const sessionID = sessionStorage.getItem("sessionID");
     let headers = req.headers;
-
     if (!req.headers.has("Accept")) {
       headers = req.headers.set("Content-Type", "application/json");
     }
