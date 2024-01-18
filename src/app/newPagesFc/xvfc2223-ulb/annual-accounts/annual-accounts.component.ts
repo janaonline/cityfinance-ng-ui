@@ -10,6 +10,7 @@ import { UserUtility } from "src/app/util/user/user";
 import { AnnualPreviewComponent } from "./annual-preview/annual-preview.component";
 import { SweetAlert } from "sweetalert/typings/core";
 import { environment } from "src/environments/environment";
+import { staticFileKeys } from "src/app/util/staticFileConstant";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-annual-accounts",
@@ -32,6 +33,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     if (!this.ulbId) {
       this.ulbId = localStorage.getItem("ulb_id");
     }
+    this.getStaticFile();
   }
   errorMsg =
     "One or more required fields are empty or contains invalid data. Please check your input.";
@@ -1056,7 +1058,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
   state_status_unAud = '';
   mohua_status_unAud = '';
   storageBaseUrl:string = environment?.STORAGE_BASEURL;
-
+  standardized_dataFile : string = "";
   ngOnInit(): void {
     sessionStorage.setItem("changeInAnnualAcc", "false");
     this.setRouter();
@@ -2802,4 +2804,13 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
 
     }
   }
+
+  getStaticFile(){
+    const key = staticFileKeys.ANNUAL_ACCOUNT_2022_23;
+    this.newCommonService.getStaticFileUrl(key).subscribe((res: any) => {
+      console.log(res.data);
+      this.standardized_dataFile = res?.data?.url;
+    })
+  }
+ 
 }

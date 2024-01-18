@@ -16,6 +16,7 @@ import { CommonServicesService } from "src/app/fc-grant-2324-onwards/fc-shared/s
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
 import { HttpEventType } from "@angular/common/http";
 import { SweetAlert } from "sweetalert/typings/core";
+import { staticFileKeys } from "src/app/util/staticFileConstant";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -108,6 +109,7 @@ export class CfAnnualAccountComponent
   ulbId='';
   errorMsg = "One or more required fields are empty or contains invalid data. Please check your input.";
   @Input() actionResFile;
+  standardized_dataFile: string = "";
   ngOnInit() {
     if (
       this.isViewMode &&
@@ -159,6 +161,7 @@ export class CfAnnualAccountComponent
     console.log('action paylaodsss 123456', this.actionResFile);
   
    this.activeTab = this.tabs[0];
+   this.getStaticFile()
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -404,6 +407,14 @@ ngAfterViewInit(){
           break;
       }
     });
+  }
+
+  getStaticFile(){
+    const key = staticFileKeys.ANNUAL_ACCOUNT_2022_23;
+    this.dataEntryService.getStaticFileUrl(key).subscribe((res: any) => {
+      console.log(res.data);
+      this.standardized_dataFile = res?.data?.url;
+    })
   }
 }
 
