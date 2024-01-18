@@ -1,7 +1,7 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-let url;
+let url = window.location.origin + "/api/v1/";  
 let GoogleTagID: string;
 let isProduction:boolean =false;
 let versionCheckURL = window.location.origin + "/version.json";
@@ -21,7 +21,7 @@ if (window.location.hostname.includes("new-cityfinance")) {
 ) {
   url = "https://staging.cityfinance.in/api/v1/";
   GoogleTagID = "G-MDPDTZFW0N";
-} else {
+} else if (window.location.origin === "https://cityfinance.in") {
   isProduction = true;
   url = "https://cityfinance.in/api/v1/";
   GoogleTagID = "G-MDPDTZFW0N";
@@ -34,11 +34,13 @@ if (window.location.hostname.includes("new-cityfinance")) {
 // url = "https://staging.cityfinance.in/api/v1/";
 // url = "https://cityfinance.in/api/v1/";
 export const environment = {
-  production: false,
+  production: true,
   api: {
     url2: "https://cityfinance.in/",
-    url: url,
+    url1: "https://democityfinanceapi.dhwaniris.in/",
+    url,
   },
+
   reCaptcha: {
     siteKey: "6LcT9_gUAAAAANrZM5TNnE4OEEC46iFDfcAHZ8lD",
   },
