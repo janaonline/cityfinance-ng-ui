@@ -3,38 +3,41 @@
 // The list of file replacements can be found in `angular.json`.
 let url;
 let GoogleTagID: string;
-let isProduction: boolean = false;
+let isProduction:boolean =false;
 let versionCheckURL = window.location.origin + "/version.json";
-let STORAGE_BASEURL:string = 'https://janaagrahstorage.blob.core.windows.net/jana-cityfinance-stg';
+let STORAGE_BASEURL = 'https://janaagrahstorage.blob.core.windows.net/jana-cityfinance-stg';
 
-if (
+if (window.location.hostname.includes("new-cityfinance")) {
+
+  url = "https://newcityfinanceapi.dhwaniris.in/api/v1/";
+  ///url = "http://localhost:8080/api/v1/";
+  GoogleTagID = "G-MDPDTZFW0N";
+} else if (window.location.hostname.includes("staging")) {
+  url = "https://staging.cityfinance.in/api/v1/";
+  GoogleTagID = "G-MDPDTZFW0N";
+} else if (
   window.location.hostname.includes("demo") ||
   window.location.hostname.includes("localhost")
 ) {
-  url = "https://democityfinanceapi.dhwaniris.in/api/v1/";
-  GoogleTagID = "G-MDPDTZFW0N";
-} else if (window.location.hostname.includes("staging-jana")) {
-  url = "https://staging-jana.cityfinance.in/api/v1/";
-} else if (window.location.hostname.includes("uat")) {
-  url = "https://uat.cityfinance.in/api/v1/";
-} else if (window.location.hostname.includes("staging")) {
   url = "https://staging.cityfinance.in/api/v1/";
-} else if (window.location.hostname.includes("new-cityfinance")) {
-  url = "https://newcityfinanceapi.dhwaniris.in/api/v1/";
-  // url = "http://localhost:8080/api/v1/";
   GoogleTagID = "G-MDPDTZFW0N";
 } else {
   isProduction = true;
   url = "https://cityfinance.in/api/v1/";
   GoogleTagID = "G-MDPDTZFW0N";
-  STORAGE_BASEURL = 'https://janaagrahstorage.blob.core.windows.net/jana-cityfinance-live';
 }
+
+
+// url = "http://localhost:8080/api/v1/"
+// url = "http://192.168.200.148:8080/api/v1/"
+
+// url = "https://staging.cityfinance.in/api/v1/";
+// url = "https://cityfinance.in/api/v1/";
 export const environment = {
-  production: true,
+  production: false,
   api: {
     url2: "https://cityfinance.in/",
-    url1: "https://democityfinanceapi.dhwaniris.in/",
-    url,
+    url: url,
   },
   reCaptcha: {
     siteKey: "6LcT9_gUAAAAANrZM5TNnE4OEEC46iFDfcAHZ8lD",

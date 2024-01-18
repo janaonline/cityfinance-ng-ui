@@ -59,7 +59,7 @@ const getFileAndUploadToGivenUrl = async (
   
   const headers = new Headers({
     "Content-Type": fileToUpload?.type,
-    "x-ms-blob-type":"BlockBlob"
+    'X-Ms-Blob-Type': 'BlockBlob',
   });
   return axiosInstanceWithoutDefaultConfig.put(url, fileToUpload, { headers });
 };
