@@ -21,10 +21,14 @@ if (window.location.hostname.includes("new-cityfinance")) {
 ) {
   url = "https://staging.cityfinance.in/api/v1/";
   GoogleTagID = "G-MDPDTZFW0N";
+} else if (window.location.origin === "https://prod.cityfinance.in") {
+  GoogleTagID = "G-MDPDTZFW0N";
+  STORAGE_BASEURL = 'https://janaagrahstorage.blob.core.windows.net/jana-cityfinance-live';
 } else if (window.location.origin === "https://cityfinance.in") {
   isProduction = true;
   url = "https://cityfinance.in/api/v1/";
   GoogleTagID = "G-MDPDTZFW0N";
+  STORAGE_BASEURL = 'https://janaagrahstorage.blob.core.windows.net/jana-cityfinance-live';
 }
 
 
