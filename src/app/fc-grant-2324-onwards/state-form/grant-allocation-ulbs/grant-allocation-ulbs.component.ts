@@ -378,7 +378,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
     const fileName = this.gtcFormData[i]?.quesArray[j]?.file?.name;
     const url = this.gtcFormData[i]?.quesArray[j]?.file?.url;
 
-    if (fileName === "" && url === "") {
+    if (fileName == "" || url == "") {
       swal("Error", "Please upload a file.", "error");
       return;
     }
