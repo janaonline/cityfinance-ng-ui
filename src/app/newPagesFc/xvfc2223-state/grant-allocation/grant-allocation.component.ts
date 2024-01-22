@@ -395,7 +395,7 @@ export class GrantAllocationComponent implements OnInit {
         this.uploadFileToS3(
           file,
           res["url"],
-          res["path"],
+          res["file_url"],
           name,
           fileType,
           i,
@@ -429,7 +429,7 @@ export class GrantAllocationComponent implements OnInit {
           let instl = this.gtcFormData[i].quesArray[j]?.installment;
           let year = this.gtcFormData[i].quesArray[j]?.year;
           let type = this.gtcFormData[i].quesArray[j]?.type;
-          this.stateService.checkFile(fileAlias, instl, year, type).subscribe(
+          this.stateService.checkFile(filePath, instl, year, type).subscribe(
             (response) => {
               console.log(response);
               this.gtcFormData[i].quesArray[j]["file"]["progress"] = 100;
