@@ -342,7 +342,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
       if (res.type === HttpEventType.Response) {
         try {
           const params = {
-            url: fileAlias,
+            url: path,
             design_year: this.gtcFormData[i].quesArray[j]?.year,
             type: this.gtcFormData[i].quesArray[j]?.type,
             installment: this.gtcFormData[i].quesArray[j]?.installment
