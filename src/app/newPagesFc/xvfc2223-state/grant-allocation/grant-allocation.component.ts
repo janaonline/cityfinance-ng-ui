@@ -291,9 +291,12 @@ export class GrantAllocationComponent implements OnInit {
   saveFile(i, j) {
     const fileName = this.gtcFormData[i]?.quesArray[j]?.fileName;
     const url = this.gtcFormData[i]?.quesArray[j]?.url;
-    
-    if (fileName == "" || url == "") {
+    if (fileName == "") {
       swal("Error", "Please upload a file.", "error");
+      return;
+    }
+    if (url == "") {
+      swal("Error", "Please wait! The file is not yet uploaded.", "error");
       return;
     }
     // if (
