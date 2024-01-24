@@ -288,10 +288,20 @@ export class GrantAllocationComponent implements OnInit {
   }
   postBody;
   saveFile(i, j) {
-    if (
-      this.gtcFormData[i].quesArray[j].fileName != "" ||
-      this.gtcFormData[i].quesArray[j].url != ""
-    ) {
+    const fileName = this.gtcFormData[i]?.quesArray[j]?.fileName;
+    const url = this.gtcFormData[i]?.quesArray[j]?.url;
+    if (fileName == "") {
+      swal("Error", "Please upload a file.", "error");
+      return;
+    }
+    if (url == "") {
+      swal("Error", "Please wait! The file is not yet uploaded.", "error");
+      return;
+    }
+    // if (
+    //   this.gtcFormData[i].quesArray[j].fileName != "" ||
+    //   this.gtcFormData[i].quesArray[j].url != ""
+    // ) {
       this.postBody = {
         design_year: this.years["2022-23"],
         year: this.gtcFormData[i].quesArray[j]?.year,
@@ -322,9 +332,7 @@ export class GrantAllocationComponent implements OnInit {
           swal("Error", `${error?.message}`, "error");
         }
       );
-    } else {
-      swal("Error", "Please upload file", "error");
-    }
+   // }
   }
   /* for upload excel file */
   async fileChangeEvent(event, fileType, cIndex, qIndex) {

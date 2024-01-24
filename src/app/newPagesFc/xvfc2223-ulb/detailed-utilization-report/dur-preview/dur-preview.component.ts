@@ -324,8 +324,10 @@ tr {
 
     this._questionnaireService.downloadPDF({ html }).subscribe(
       (res) => {
-        console.log("vishu", res);
-        this.downloadFile(res.slice(0), "pdf", "utilization-report.pdf");
+        // StateName_ULBName_FyYear_FormStatus 
+        let fileName = `${this.state}_${this.ulb}_2022-23_${this.data?.status}`;
+        fileName = fileName.replace(/\s/g, "");
+        this.downloadFile(res.slice(0), "pdf", `${fileName}.pdf`);
         this.showLoader = false;
       },
       (err) => {
