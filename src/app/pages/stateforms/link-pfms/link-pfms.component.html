@@ -14,7 +14,7 @@
     <div class="card-body" style="margin-top: 1rem;">
         <ng-container>
             <br>
-            <app-comm-file-upload [dataFromParent]="excelDataOnLoad" [quesName]="quesName" [requiredBtn]="requiredBtn" [FromLinkinPfms]="true" (getFileUploadResult)="uploadedFile($event)" [isDisabled]="formDisable">
+            <app-comm-file-upload [dataFromParent]="excelDataOnLoad" [quesName]="quesName" [requiredBtn]="requiredBtn" [FromLinkinPfms]="true" (getFileUploadResult)="uploadedFile($event)" [isDisabled]="formDisable" [formName]="'pfms'">
             </app-comm-file-upload>
             <br>
         </ng-container>

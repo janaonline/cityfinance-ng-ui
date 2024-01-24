@@ -5,6 +5,9 @@ import { GuidelinesPopupComponent } from './guidelines-popup/guidelines-popup.co
 import { VideosPopupComponent } from './videos-popup/videos-popup.component';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { staticFileKeys } from 'src/app/util/staticFileConstant';
+import { forkJoin } from 'rxjs';
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 
 @Component({
   selector: 'app-home',
@@ -57,10 +60,10 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.getStaticFile();
     this.loadData();
-    if (sessionStorage.getItem('homeVideoAutoOpen') != 'true') {
-      this.videosPopup();
-      sessionStorage.setItem('homeVideoAutoOpen', 'true');
-    }
+    // if (sessionStorage.getItem('homeVideoAutoOpen') != 'true') {
+    //   this.videosPopup();
+    //   sessionStorage.setItem('homeVideoAutoOpen', 'true');
+    // }
   }
 
   loadData() {
@@ -117,15 +120,40 @@ export class HomeComponent implements OnInit {
       }
     });
   }
-  getStaticFile(){
-    let staticLength = this.staticFileArray?.length;
-    for(let i=0; i < staticLength; i++){
-      let key = staticFileKeys[`${this.staticFileArray[i].key}`]
-      this.dataEntryService.getStaticFileUrl(key).subscribe((res: any) => {
-        this.staticFileArray[i].url = res?.data?.url;
-      })
-    }
+  // getStaticFile(){
+  //   let staticLength = this.staticFileArray?.length;
+  //   for(let i=0; i < staticLength; i++){
+  //     let key = staticFileKeys[`${this.staticFileArray[i].key}`]
+  //     this.dataEntryService.getStaticFileUrl(key).subscribe((res: any) => {
+  //       this.staticFileArray[i].url = res?.data?.url;
+  //     })
+  //   }
    
+  // }
+  getStaticFile() {
+    let staticFileObservables = this.staticFileArray?.map(staticFile => {
+      let key = staticFileKeys[`${staticFile.key}`];
+      return this.dataEntryService.getStaticFileUrl(key);
+    });
+  
+    if (staticFileObservables && staticFileObservables.length > 0) {
+      forkJoin(staticFileObservables).subscribe(
+        (responses: any[]) => {
+          responses.forEach((res, i) => {
+            this.staticFileArray[i].url = res?.data?.url;
+          });
+  
+          // Call videosPopup here after all API calls are successful
+          if (sessionStorage.getItem('homeVideoAutoOpen') !== 'true') {
+            this.videosPopup();
+            sessionStorage.setItem('homeVideoAutoOpen', 'true');
+          }
+        },
+        (error) => {
+          swal("Error", "Something went wrong!", "error")
+        }
+      );
+    }
   }
   
 
