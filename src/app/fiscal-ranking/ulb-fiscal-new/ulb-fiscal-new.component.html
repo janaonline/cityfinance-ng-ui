@@ -2,9 +2,23 @@
 <div class="container-fluid" style="min-height: 60vh;">
     <div class="row mt-3">
         <div class="col-sm-12 heading com-style">
-            City Finance Rankings 2022
+    City Finance Rankings 2022    
         </div>
     </div>
+    
+    <ng-container *ngIf="currentFormStatus == 11">
+        <div class="container">
+            <div class="financial-tab-notice">
+                <p><b>Check your rank & share your thoughts</b></p>
+                <p>Hello <b>{{ ulbName }}</b></p>
+                <p>Your opinion matters! Before we make your rank public, we want to give you a sneak peek. Take a moment to preview your rank and share your feedback on the process. Your feedback can impact improvements. If your suggestions are verified by the QCI team, you'll have the chance to resubmit data to enhance your ranking.</p>
+                <div class="ulb-feedback">
+                    <a href="/rankings/ulb/{{ ulbId }}" class="btn btn-d-org">Preview Your Ranking</a>
+                    <a target="_blank" href="https://forms.gle/7eyGWNmt5ZR21yQe9" class="btn btn-d-org">Provide Feedback</a>
+                </div>
+            </div>
+        </div>
+    </ng-container>
 
     <h4 *ngIf="hideForm" class="container text-center h-100 my-5 border p-5 rounded">{{ notice }}</h4>
     <div class="row" *ngIf="!formSubmitted && !hideForm">
