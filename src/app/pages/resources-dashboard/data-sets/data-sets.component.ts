@@ -370,6 +370,7 @@ export class DataSetsComponent implements OnInit {
     this.checkIsDisabled(this.selectedUsersList);
   }
   openDialog(data): void {
+    data =  data.filter(entity => entity);
     const dialogRef = this.dialog.open(FileOpenComponent, {
       width: "60vw",
       maxHeight: "95vh",
