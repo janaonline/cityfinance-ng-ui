@@ -6,4 +6,11 @@
 </ng-container>
 <ng-template class="map-con" #map>
     <div class="stateMap analytics-map" [id]="'mapidd' + randomNumber"></div>
+    <div class="" id="districtMapContainer"
+    [ngStyle]="{ visibility: currentStateInView ? 'visible' : 'hidden' }" style="height: 100%">
+
+    <!-- <p class="text-center" *ngIf="currentStateInView">
+  Click on any ULB to view their data or Click on INDIA map to go back.
+</p> -->
+  </div>
 </ng-template>
