@@ -174,6 +174,9 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
   }
 
   getColor(value: any) {
+    if(this.identifier == 'participatedState') {
+      return this.colorDetails.find((item) => value >= item.min && value < item.max)?.color || "#F3FAFF"; 
+    }
     return this.colorDetails?.find(item => value >= item.min && value <= item.max)?.color || "#F3FAFF";
   }
 

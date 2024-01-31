@@ -51,7 +51,7 @@ export class ComparisionFiltersComponent implements OnInit {
       console.log('this.searchResults', this.searchResults);
       if(!this.searchResults.length){
         this.searchResults.push({
-          name : `Search result not found in ${this.query} category`
+          name : `Search result for ${this.query} was not found in ${this.data?.bucketShortName} category`
         });
         this.noResultFound = true;
       }
