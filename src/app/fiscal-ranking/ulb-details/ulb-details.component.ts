@@ -27,11 +27,13 @@ export class UlbDetailsComponent implements OnInit {
   breadcrumbLinks: BreadcrumbLink[] = [
     {
       label: 'City Finance Ranking - Home',
-      url: '/rankings/home'
+      // url: '/rankings/home',
+     url: '/rankings/fr-home-page'
     },
     {
       label: 'Top rankings',
-      url: '/rankings/top-rankings'
+      url: '/rankings/fr-home-page'
+      // url: '/rankings/top-rankings'
     }
   ];
 
