@@ -26,15 +26,16 @@ export class UlbDetailsComponent implements OnInit {
 
   breadcrumbLinks: BreadcrumbLink[] = [
     {
-      label: 'City Finance Ranking - Home',
+      // label: 'City Finance Ranking - Home',
+      label: 'Back to input form',
       // url: '/rankings/home',
-     url: '/rankings/fr-home-page'
+     url: '/rankings/ulb-form'
     },
-    {
-      label: 'Top rankings',
-      url: '/rankings/fr-home-page'
-      // url: '/rankings/top-rankings'
-    }
+    // {
+    //   label: 'Top rankings',
+    //   url: '/rankings/ulb-form'
+    //   // url: '/rankings/top-rankings'
+    // }
   ];
 
   data: APIResponse;

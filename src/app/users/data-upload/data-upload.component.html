@@ -302,7 +302,7 @@
                         }}</span>
                       <ng-container *ngSwitchCase="'status'">
                         <ng-container [ngSwitch]="row['status']">
-                          <a *ngSwitchCase="uploadStatus.PENDING" (click)="openModal(row, historyModal)">
+                          <a class="text-decoration" *ngSwitchCase="uploadStatus.PENDING" (click)="openModal(row, historyModal)">
                             {{
                             row["completeness"] == uploadStatus.PENDING &&
                             row["correctness"] == uploadStatus.PENDING
@@ -361,7 +361,7 @@
 <ng-template #historyModal>
   <div class="modal-body">
     <div style="margin-bottom: 0.5rem; display: flex; justify-content: flex-end;">
-      <button style="min-width: min-content;" (click)="modalService.hide(1)" class="btn btn-danger" title="Close"
+      <button style="min-width: min-content;" (click)="modalRef.hide();" class="btn btn-danger" title="Close"
         type="button" data-dismiss="modal" aria-label="Close">
         <i class="fa fa-times" style="color: white;"></i>
       </button>
