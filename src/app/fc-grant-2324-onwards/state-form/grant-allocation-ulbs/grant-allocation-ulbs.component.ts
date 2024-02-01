@@ -342,7 +342,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
       if (res.type === HttpEventType.Response) {
         try {
           const params = {
-            url: fileAlias,
+            url: path,
             design_year: this.gtcFormData[i].quesArray[j]?.year,
             type: this.gtcFormData[i].quesArray[j]?.type,
             installment: this.gtcFormData[i].quesArray[j]?.installment
@@ -378,8 +378,12 @@ export class GrantAllocationUlbsComponent implements OnInit {
     const fileName = this.gtcFormData[i]?.quesArray[j]?.file?.name;
     const url = this.gtcFormData[i]?.quesArray[j]?.file?.url;
 
-    if (fileName === "" && url === "") {
+    if (fileName == "") {
       swal("Error", "Please upload a file.", "error");
+      return;
+    }
+    if (url == "") {
+      swal("Error", "Please wait! The file is not yet uploaded.", "error");
       return;
     }
 

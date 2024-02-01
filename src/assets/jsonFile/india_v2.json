@@ -13020,7 +13020,7 @@
                     ],
                     "type": "Polygon",
                     "properties": {
-                        "ST_NM": "Arunachal Pradesh",
+                        "ST_NM": "Arunanchal Pradesh",
                         "ST_CODE": "AR"
                     }
                 },
@@ -13478,14 +13478,17 @@
                     "arcs": [
                         [
                             [
-                                277
+                                277   
+                                
                             ]
                         ],
                         [
                             [
                                 278
+                                
                             ]
                         ]
+                      
                     ],
                     "type": "MultiPolygon",
                     "properties": {
