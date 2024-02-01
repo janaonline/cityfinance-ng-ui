@@ -5,7 +5,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { SweetAlert } from 'sweetalert/typings/core';
 
 import { DataEntryService } from '../../dashboard/data-entry/data-entry.service';
@@ -151,6 +151,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
   };
 
   isPopupOpen = false;
+  modalRef: BsModalRef;
 
   ngOnInit() {
     this.fetchFinancialYears();
@@ -763,7 +764,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
           this.modalTableData = this.modalTableData
             .filter((row) => typeof row["actionTakenBy"] != "string")
             .reverse();
-          this.modalService.show(historyModal, {});
+          this.modalRef = this.modalService.show(historyModal, {});
         }
       },
       (error) => this.handlerError(error)
