@@ -302,7 +302,7 @@
                         }}</span>
                       <ng-container *ngSwitchCase="'status'">
                         <ng-container [ngSwitch]="row['status']">
-                          <a style="text-decoration: underline;" *ngSwitchCase="uploadStatus.PENDING" (click)="openModal(row, historyModal)">
+                          <a class="text-decoration" *ngSwitchCase="uploadStatus.PENDING" (click)="openModal(row, historyModal)">
                             {{
                             row["completeness"] == uploadStatus.PENDING &&
                             row["correctness"] == uploadStatus.PENDING
