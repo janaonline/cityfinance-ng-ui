@@ -161,6 +161,7 @@ export class CfAnnualAccountComponent
     console.log('action paylaodsss 123456', this.actionResFile);
   
    this.activeTab = this.tabs[0];
+   this.getStaticFile()
   }
 
   ngOnChanges(changes: SimpleChanges) {

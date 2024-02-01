@@ -118,7 +118,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     {
       label: "slbs",
       link: "../slbs",
-      // title: "Million Plus City Challenge Fund",
+      title: "SLBs for Water Supply and Sanitation",
       tooltip: "tooltip",
       image: "../../../../assets/ulbform/mpccf.svg",
       permittedAccounts: [""],
@@ -403,7 +403,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       Housing and Urban Affairs (MoHUA) on the year-wise action plan to meet targeted outcomes.`;
       this.checkPos = true;
     }
-    if (title == this.performanceConditionTitle) {
+    if (title == 'SLBs for Water Supply and Sanitation') {
       // this.p = (num+3)*125;
       this.val = 3;
       this.hover = true;
