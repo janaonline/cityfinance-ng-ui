@@ -2,7 +2,7 @@ import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { services, targets } from 'src/app/users/data-upload/components/configs/water-waste-management';
 import { IFinancialData } from 'src/app/users/data-upload/models/financial-data.interface';
@@ -72,6 +72,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
 
   isULBMillionPlus: boolean;
   years = JSON.parse(localStorage.getItem("Years"))
+  modalRef: BsModalRef;
 
   ngOnInit() {}
 
@@ -249,7 +250,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
     if (this.isPopupOpen) return;
     this.formHistoricalData = [];
     this.isPopupOpen = true;
-    this.modalService.show(historyModal, {});
+    this.modalRef = this.modalService.show(historyModal, {});
     this.modalService.onHide.subscribe((vlaue) => {
       this.isPopupOpen = false;
     });
@@ -270,6 +271,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
 
   closePopUp() {
     this.modalService.hide(1);
+    this.modalRef.hide()
     this.isPopupOpen = false;
   }
 
