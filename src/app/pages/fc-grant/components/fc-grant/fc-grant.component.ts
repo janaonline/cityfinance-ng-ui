@@ -253,7 +253,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
     this.modalService.onHide.subscribe((vlaue) => {
       this.isPopupOpen = false;
     });
-    this._financialService.fetchFinancialDataHistory(row._id).subscribe(
+    this._financialService.fetchFinancialDataHistory(row.ulb).subscribe(
       (result: HttpResponse<any>) => {
         if (result["success"]) {
           this.formHistoricalData = result["data"].map((data) =>
