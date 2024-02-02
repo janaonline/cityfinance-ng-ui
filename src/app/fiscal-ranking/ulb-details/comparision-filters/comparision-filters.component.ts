@@ -45,7 +45,11 @@ export class ComparisionFiltersComponent implements OnInit {
   }
 
   search() {
-    this.fiscalRankingService.searchUlb(this.query).subscribe((res: any) => {
+    const queryParams = {
+      q: this.query,
+      populationBucket: this.data?.ulb.populationBucket
+    }
+    this.fiscalRankingService.callGetMethod('scoring-fr/autocomplete-ulbs', queryParams).subscribe((res: any) => {
       this.noResultFound = false;
       this.searchResults = res?.ulbs;
       console.log('this.searchResults', this.searchResults);
