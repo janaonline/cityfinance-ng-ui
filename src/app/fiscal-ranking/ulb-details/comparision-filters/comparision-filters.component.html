@@ -17,9 +17,9 @@
         </div>
     </div>
     <div class="mt-3 p-w">
-        <input type="text" [(ngModel)]="query" name="query" (blur)="closeMenu()" (input)="debouncedSearch()" class="form-control"
-            placeholder="Search ULB...">
-        <div class="" #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu" ></div>
+        <input type="text" [(ngModel)]="query" name="query" (input)="debouncedSearch()" class="form-control"
+            placeholder="Search ULB..." autocomplete="off">
+        <div class="" #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu" (selectionChange)="closeMenu()"></div>
         <!-- <div class="" #menuTrigger="matMenuTrigger"  *ngIf="!searchResults"></div> -->
         <div id="" class="form-text text-danger" *ngIf="noResultFound && query">Search result for {{query}} was not found in {{data?.bucketShortName}} category</div>
         <div id="emailHelp" class="form-text">Maximum of 5 ULBs can be compared at once</div>
