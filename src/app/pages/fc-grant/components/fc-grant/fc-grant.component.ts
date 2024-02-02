@@ -69,6 +69,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
   solidWastePercentageCompleted = 0;
   millionPlusCitiesCompleted = 0;
   evidencePercentageCompleted = 0;
+  inProgress = true;
 
   isULBMillionPlus: boolean;
   years = JSON.parse(localStorage.getItem("Years"))
@@ -245,7 +246,6 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
         return null;
     }
   }
-
   openModal(row: any, historyModal: TemplateRef<any>) {
     if (this.isPopupOpen) return;
     this.formHistoricalData = [];
@@ -263,9 +263,12 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
           this.formHistoricalData = this.formHistoricalData
             .filter((row) => typeof row["actionTakenBy"] != "string")
             .reverse();
+          this.inProgress = false
         }
       },
-      (error) => this.handlerError(error)
+      (error) => {
+        this.inProgress = false
+        this.handlerError(error)}
     );
   }
 
