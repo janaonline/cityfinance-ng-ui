@@ -148,9 +148,9 @@ export class UlbFiscalNewComponent implements OnInit {
 
       this.form = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
       this.addSkipLogics();
-      if (this.userData.role == this.userTypes.ULB) {
+      // if (this.userData.role == this.userTypes.ULB) {
         this.addSumLogics();
-      }
+      // }
       this.addSubtractLogics();
       this.form.markAsPristine();
       this.isLoader = false;
