@@ -123,6 +123,7 @@ export class TopRankingsComponent implements OnInit {
 
   loadTopRankedUlbs(table: Table, queryParams: string = '') {
     this.isShowingMap = false;
+    console.log('queryParams', queryParams)
     this.fiscalRankingService.topRankedUlbs(queryParams, table?.response?.columns, this.params).subscribe((res: any) => {
       this.isShowingMap = true;
       this.table.response = res.tableData;

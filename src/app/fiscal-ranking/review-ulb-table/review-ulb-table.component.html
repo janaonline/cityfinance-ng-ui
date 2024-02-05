@@ -6,13 +6,13 @@
         <hr class="my-3">
     </div>
 
-    <div class="row mb-3 mt-3">
+    <div class="row mb-3 mt-3 ps-3 pe-3">
         <div class="col-sm-12 header2">
             {{ title }}
         </div>
     </div>
 
-    <div class="row mt-2">
+    <div class="row mt-2 ps-3 pe-3">
         <div class="col-sm-3">
             <!-- <label for="form" class="l-l">Select State:</label>
             <select class="form-select ms-1" [(ngModel)]="state" (change)="loadData()"
@@ -46,9 +46,9 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row p-3">
         <div class="col-sm-12">
-            <div class="mat-elevation-z8 mt-1" [formGroup]="filterForm" #scrollBar>
+            <div class="mat-elevation-z8 mt-1 p-3" [formGroup]="filterForm" #scrollBar>
                 <div class="table-responsive" [ngClass]="{'paginated-table': isInfiniteScroll}"
                     *ngIf="isInfiniteScroll || !isLoader" (scroll)="handleScroll($event)">
                     <table class="table table-striped ulb-table">
@@ -218,7 +218,7 @@
                     </div>
                 </div>
 
-                <pagination-controls style="float: right; position: relative; margin-top: 1rem;" id="foo"
+                <pagination-controls style="float: right; position: relative; margin-top: 2rem;" id="foo"
                     *ngIf="!isLoader && !(data?.length == 0) && !isInfiniteScroll" (pageChange)="loadData($event)"
                     directionLinks="true" autoHide="false">
                 </pagination-controls>
