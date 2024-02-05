@@ -70,6 +70,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
   millionPlusCitiesCompleted = 0;
   evidencePercentageCompleted = 0;
   inProgress = true;
+  
 
   isULBMillionPlus: boolean;
   years = JSON.parse(localStorage.getItem("Years"))
