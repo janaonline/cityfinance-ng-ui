@@ -431,7 +431,7 @@ div.miniMap {
 }
 
 ::ng-deep .leaflet-pane > svg path.leaflet-interactive {
-  stroke: #ffffff !important;
+  stroke: #9f9d9d !important;
   stroke-width: 2px;
 }
 
