@@ -5,7 +5,7 @@ let url;
 let GoogleTagID: string;
 let isProduction:boolean =false;
 let versionCheckURL = window.location.origin + "/version.json";
-let STORAGE_BASEURL = '';
+let STORAGE_BASEURL = 'https://jana-cityfinance-stg.s3.ap-south-1.amazonaws.com';
 //https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com - s3 storage url prod
 //https://janaagrahstorage.blob.core.windows.net/jana-cityfinance-stg -- auzur storage url -stg
 if (window.location.hostname.includes("new-cityfinance")) {
