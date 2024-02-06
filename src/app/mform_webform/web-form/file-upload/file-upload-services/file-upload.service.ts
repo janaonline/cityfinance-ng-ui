@@ -43,7 +43,7 @@ export class FileUploadService {
     let fileId = name+moment();
     return this.httpClient
         .post(
-          'environment.base_uri' + "getBlobUrl", // url part need to be changed
+          'environment.base_uri' + "getS3Url", // url part need to be changed
           JSON.stringify([
             {
               file_name: name,
@@ -69,7 +69,7 @@ export class FileUploadService {
     const headers = new HttpHeaders({
       'X-Ms-Blob-Type': 'BlockBlob',
     });
-    return this.httpClient.put(url, img, { reportProgress: true, observe: "events", headers: headers })
+    return this.httpClient.put(url, img, { reportProgress: true, observe: "events"})
       .pipe(
         map((event: any) => {
           if (event.type == HttpEventType.UploadProgress) {

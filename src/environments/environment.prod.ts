@@ -27,7 +27,7 @@ if (
   isProduction = true;
   url = "https://cityfinance.in/api/v1/";
   GoogleTagID = "G-MDPDTZFW0N";
-  STORAGE_BASEURL = 'https://janaagrahstorage.blob.core.windows.net/jana-cityfinance-live';
+  STORAGE_BASEURL = 'https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com';
 }
 export const environment = {
   production: true,

@@ -80,8 +80,11 @@ export class DataEntryService {
   // }
   newGetURLForFileUpload(fileName: File["name"], fileType: File["type"], folderName?: string) {
     const headers = new HttpHeaders();
+    // for s3 endpoints == getS3Url
+    // for auzure endpoints == getS3Url
+
     return this.http.post<S3FileURLResponse>(
-      `${environment.api.url}/getBlobUrl`,
+      `${environment.api.url}/getS3Url`,
       JSON.stringify([
         {
           folder: folderName,
@@ -134,7 +137,7 @@ export class DataEntryService {
     return this.http.put(s3URL, file, {
       reportProgress: options.reportProgress,
       observe: 'events',
-      headers: headers, // Include the headers here
+    //  headers: headers, // Include the headers here for auzure
     });
   }
 
@@ -177,7 +180,7 @@ export class DataEntryService {
     return this.http.put(s3URL, file, {
       reportProgress: options.reportProgress,
       observe: "events",
-      headers : headers
+      // headers : headers // Include the headers here for auzure
     });
   }
   checkSpcialCharInFileName(files) {

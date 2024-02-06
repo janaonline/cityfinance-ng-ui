@@ -34,7 +34,7 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     if (token) {
       headers = headers.set("x-access-token", token);
     }
-    headers =  headers.set("x-ms-blob-type", "BlockBlob")
+    //headers =  headers.set("x-ms-blob-type", "BlockBlob")
     const authReq = req.clone({ headers });
     return next.handle(authReq).pipe(
       // takeUntil(this.routerNavigationSuccess),
