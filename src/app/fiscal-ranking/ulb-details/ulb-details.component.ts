@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumbLink } from '../breadcrumb/breadcrumb.component';
 import { FiscalRankingService, UlbData } from '../fiscal-ranking.service';
+import { environment } from 'src/environments/environment';
 
 
 interface APIResponse {
@@ -42,8 +43,13 @@ export class UlbDetailsComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private fiscalRankingService: FiscalRankingService
-  ) { }
+    private fiscalRankingService: FiscalRankingService,
+    private _router: Router,
+  ) {
+    if(environment?.isProduction) {
+       this._router.navigateByUrl('rankings/home')
+      }
+   }
 
   get ulbId() {
     return this.activatedRoute.snapshot.params.ulbId;
