@@ -49,8 +49,10 @@ export class UlbDetailsComponent implements OnInit {
     return this.activatedRoute.snapshot.params.ulbId;
   }
 
-
+  userData:any;
   ngOnInit(): void {
+    this.userData = JSON.parse(localStorage.getItem("userData"));
+    if(this.userData?.role != "ULB") this.breadcrumbLinks[0].url = `/rankings/ulb-form/${this.ulbId}`
     this.breadcrumbLinks.push({
       label: 'ULB details',
       url: `/rankings/ulb/${this.ulbId}`,
