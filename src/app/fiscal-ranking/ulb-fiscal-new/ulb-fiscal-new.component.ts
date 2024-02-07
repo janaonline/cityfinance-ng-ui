@@ -13,6 +13,7 @@ import { USER_TYPE } from 'src/app/models/user/userType';
 import { APPROVAL_TYPES, Tab } from '../models';
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 import { DateAdapter } from '@angular/material/core';
+import { environment } from 'src/environments/environment';
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -83,8 +84,9 @@ export class UlbFiscalNewComponent implements OnInit {
       this.ulbId = this.userData?.ulb;
     }
   }
-
+  isProd: boolean = false;
   ngOnInit(): void {
+    this.isProd = environment?.isProduction;
     this.onLoad();
     sessionStorage.setItem("changeInFR", "false");
   }
