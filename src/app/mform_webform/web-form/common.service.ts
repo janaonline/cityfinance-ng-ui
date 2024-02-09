@@ -113,7 +113,7 @@ export class CommonService {
       'X-Ms-Blob-Type': 'BlockBlob',
     });
     return this.httpClient
-      .put(url, img)
+      .put(url, img, {headers: url.includes('blob.core.windows.net') ? headers : {}})
       .pipe(
         map((response: any) => response),
         catchError((error: any) => {
@@ -203,7 +203,7 @@ export class CommonService {
       return;
     }
     if (!isAllowed && isSize) {
-     let apiEndPoint: string =  `${environment.api.url}getS3Url`
+     let apiEndPoint: string =  `${environment.api.url}get${environment?.storageType}`
      // let apiEndPoint: string = 'https://democityfinanceapi.dhwaniris.in/api/v1/getS3Url';
      // let apiEndPoint: string = 'https://democityfinanceapi.dhwaniris.in/api/v1//getS3Url';
       if (Object.keys(headerOptions).length) {
