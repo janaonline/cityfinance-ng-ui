@@ -45,7 +45,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
     labelKey: "name",
     primaryKey: "_id",
     showCheckbox: false,
-    classes: "filter-component",
+    classes: "filter-component homepage-stateList",
   };
 
   state = new FormControl();
@@ -415,8 +415,17 @@ export class OwnRevenueDashboardComponent implements OnInit {
     });
   }
 
+  // get stateList() {
+  //   return Object.entries(this.stateIds).map(([_id, name]) => ({_id, name}))
+  // }
   get stateList() {
-    return Object.entries(this.stateIds).map(([_id, name]) => ({_id, name}))
+    return Object.entries(this.stateIds)
+    .map(([_id, name]) => ({_id, name}))
+    .sort((a, b) => {
+      if (a.name < b.name) return -1;
+      if (a.name > b.name) return 1;
+      return 0;
+    });
   }
   getUlbForAutoComplete(value, autoSelectUlb = false) {
     const stateId = this.filterGroup?.controls?.stateId?.value;
