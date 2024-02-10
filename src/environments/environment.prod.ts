@@ -6,7 +6,7 @@ let GoogleTagID: string;
 let isProduction: boolean = false;
 let versionCheckURL = window.location.origin + "/version.json";
 let STORAGE_BASEURL:string = 'https://jana-cityfinance-stg.s3.ap-south-1.amazonaws.com';
-let storageType:string = 'S3Url'; // for S3 storage type
+let storageType:string = 'S3Url'; // for S3 storage type, for azure change this to 'BlobUrl'
 
 if (
   window.location.hostname.includes("demo") ||
