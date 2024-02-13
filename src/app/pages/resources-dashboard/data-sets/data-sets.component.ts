@@ -18,8 +18,8 @@ export class DataSetsComponent implements OnInit {
   initialValue: number = 10;
 
   tempBalData;
-  offSet:number = 0;
-  limit:number = 10;
+  offSet: number = 0;
+  limit: number = 10;
   startingIndex = 0;
   mobileFilterConfig: any = {
     isState: true,
@@ -29,6 +29,8 @@ export class DataSetsComponent implements OnInit {
     useFor: "resourcesDashboard"
   };
   isloadMore = false;
+  storageBaseUrl: string = environment?.STORAGE_BASEURL;
+
   constructor(
     private _resourcesDashboardService: ResourcesDashboardService,
     private router: Router,
@@ -51,7 +53,7 @@ export class DataSetsComponent implements OnInit {
       this.learningCount = data?.key?.dataSet;
       this.searchedValue = data?.name;
       this.learningToggle = data?.toggle ? true : false;
-      if (data?.key?.total == 0 && this.searchedValue !==  "") {
+      if (data?.key?.total == 0 && this.searchedValue !== "") {
         this.noDataa = true;
         this.dataReceived = false;
       } else {
@@ -77,7 +79,7 @@ export class DataSetsComponent implements OnInit {
   year;
   type;
 
-  loopControl :number = 0;
+  loopControl: number = 0;
 
   downloadValue: boolean = false;
   ngOnInit(): void {
@@ -93,7 +95,7 @@ export class DataSetsComponent implements OnInit {
 
   openNewTab(data, fullData) {
     console.log('full data', fullData, this.category);
-    if(fullData.hasOwnProperty("section") && fullData.section == "standardised"){
+    if (fullData.hasOwnProperty("section") && fullData.section == "standardised") {
       this.selectedUsersList = []
       this.selectedUsersList.push(fullData);
       this.download(1)
@@ -102,7 +104,7 @@ export class DataSetsComponent implements OnInit {
     }
     console.log("file data", data);
     this.openDialog(data)
-   // window.open(data, "_blank");
+    // window.open(data, "_blank");
     // window.open(data?.fileUrl, "_blank");
     // const pdfUrl = data?.fileUrl;
     // const pdfName = data?.fileName;
@@ -129,23 +131,23 @@ export class DataSetsComponent implements OnInit {
 
   loadMore() {
     console.log(this.limit);
-    if(this.loopControl > this.tempBalData?.length) {
+    if (this.loopControl > this.tempBalData?.length) {
       this.isloadMore = false;
       return;
     } else {
-      this.limit  = this.limit + 10;
+      this.limit = this.limit + 10;
       this.offSet = this.balData.length;
       this.isloadMore = true;
-      this.loopControl  = this.limit;
+      this.loopControl = this.limit;
     }
-      for (this.offSet; this.offSet < this.loopControl; this.offSet ++) {
-        console.log("this.offSet", this.offSet);
-        this.balData.push(this.tempBalData[this.offSet]);
-      }
-      if(this.loopControl == this.tempBalData?.length){
-        this.isloadMore = false;
-      }
-      this.initialValue = this.initialValue + 10;
+    for (this.offSet; this.offSet < this.loopControl; this.offSet++) {
+      console.log("this.offSet", this.offSet);
+      this.balData.push(this.tempBalData[this.offSet]);
+    }
+    if (this.loopControl == this.tempBalData?.length) {
+      this.isloadMore = false;
+    }
+    this.initialValue = this.initialValue + 10;
 
   }
 
@@ -162,8 +164,8 @@ export class DataSetsComponent implements OnInit {
   }
   getData() {
     console.log("getData");
-    let globalName= "";
-    if(this.searchedValue){
+    let globalName = "";
+    if (this.searchedValue) {
       globalName = this.searchedValue
     }
 
@@ -173,7 +175,7 @@ export class DataSetsComponent implements OnInit {
         .getDataSets(this.year, this.type, this.category, this.state, this.ulb, globalName)
         .subscribe(
           (res: any) => {
-            console.log("148",this.balData, res);
+            console.log("148", this.balData, res);
             // this.balData = res["data"];
             if (res.data.length == 0) {
               this.noData = true;
@@ -183,21 +185,21 @@ export class DataSetsComponent implements OnInit {
             } else if (res.data.length !== 0) {
               this.tempBalData = res.data;
               console.log("tempBalData", this.tempBalData)
-              if(this.tempBalData.length < 10) {
+              if (this.tempBalData.length < 10) {
                 this.isloadMore = false;
               }
               let limitVal = this.offSet + this.limit;
-              if(this.tempBalData.length > limitVal) {
+              if (this.tempBalData.length > limitVal) {
                 this.loopControl = limitVal;
                 this.isloadMore = true;
               } else {
                 this.loopControl = this.tempBalData.length
               }
-              console.log("loopControl==>",this.loopControl)
+              console.log("loopControl==>", this.loopControl)
               this.balData = []
               for (let i = 0; i < this.loopControl; i++) {
                 const element = this.tempBalData[i];
-                console.log("element==>",element)
+                console.log("element==>", element)
                 this.balData.push(element);
               }
               console.log("finalBalData", this.balData)
@@ -312,24 +314,34 @@ export class DataSetsComponent implements OnInit {
 
   disabledValue = false;
   download(event) {
+
     if (event) {
       console.log(this.selectedUsersList);
       for (let data of this.selectedUsersList) {
-        if(data.hasOwnProperty('section') && data['section']=="standardised"){
-this._resourcesDashboardService.getStandardizedExcel([data]).subscribe((res)=> {
-  const blob = new Blob([res], {
-    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-  });
-  FileSaver.saveAs(blob, data.fileName );
-console.log('File Download Done')
-return
-}, (err)=> {
-  console.log(err)
-})
-        }else{
-          const pdfUrl = data?.fileUrl;
-          const pdfName = data?.fileName;
-          FileSaver.saveAs(pdfUrl, pdfName);
+        if (data.hasOwnProperty('section') && data['section'] == "standardised") {
+          this._resourcesDashboardService.getStandardizedExcel([data]).subscribe((res) => {
+            const blob = new Blob([res], {
+              type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            });
+            FileSaver.saveAs(blob, data.fileName);
+            console.log('File Download Done')
+            return
+          }, (err) => {
+            console.log(err)
+          })
+        } else {
+          let pdfUrl = data?.fileUrl;
+          let pdfName = data?.fileName;
+          if (data?.fileUrl?.length > 0) {
+            for (let file of data?.fileUrl) {
+              pdfUrl = this.storageBaseUrl + file;
+              FileSaver.saveAs(pdfUrl, pdfName);
+            }
+          } else {
+            FileSaver.saveAs(pdfUrl, pdfName);
+          }
+
+
         }
 
       }
@@ -342,22 +354,23 @@ return
     // if(row.hasOwnProperty("section") && row['section']=="standardised"){
 
     // }else{
-      if (event.checked) {
-        this.selectedUsersList.push(row);
-        this.checkValue = true;
-        row.isSelected = true;
-      } else {
-        let index = this.selectedUsersList.indexOf(row);
-        this.selectedUsersList.splice(index, 1);
+    if (event.checked) {
+      this.selectedUsersList.push(row);
+      this.checkValue = true;
+      row.isSelected = true;
+    } else {
+      let index = this.selectedUsersList.indexOf(row);
+      this.selectedUsersList.splice(index, 1);
 
-        row.isSelected = false;
-      }
+      row.isSelected = false;
+    }
 
-      console.log("hhhhh", this.selectedUsersList);
+    console.log("hhhhh", this.selectedUsersList);
 
-      this.checkIsDisabled(this.selectedUsersList);
+    this.checkIsDisabled(this.selectedUsersList);
   }
   openDialog(data): void {
+    data =  data.filter(entity => entity);
     const dialogRef = this.dialog.open(FileOpenComponent, {
       width: "60vw",
       maxHeight: "95vh",
@@ -379,6 +392,7 @@ return
 // dialog box --------for file open
 import { Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { environment } from "src/environments/environment";
 @Component({
   selector: 'file-open-dialog',
   templateUrl: "./file-open.component.html",

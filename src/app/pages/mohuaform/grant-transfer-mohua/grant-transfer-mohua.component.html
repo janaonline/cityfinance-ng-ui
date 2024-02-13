@@ -28,7 +28,7 @@
 </div>
 <div class="mat-card pt-3 ps-2" style="margin-top: 1rem;">
     <ng-container>
-        <app-comm-file-upload [delFileType]="delType" [quesName]="quesName" [requiredBtn]="requiredBtn" [FromLinkinPfms]="true" (getFileUploadResult)="uploadedFile($event)"></app-comm-file-upload>
+        <app-comm-file-upload [delFileType]="delType" [quesName]="quesName" [requiredBtn]="requiredBtn" [FromLinkinPfms]="true" (getFileUploadResult)="uploadedFile($event)" [formName]="'gtc'"></app-comm-file-upload>
         <br>
     </ng-container>
 </div>

@@ -13,6 +13,8 @@ export class LoaderComponent implements OnInit {
   @Input() show: boolean = false;
   @Input() dots: number = 3;
   ngOnInit(): void {
+    console.log('show', this.show);
+    
   }
 
 }

@@ -8,6 +8,7 @@ import { HttpEventType, HttpParams } from '@angular/common/http';
 import { MatDialog,MatDialogConfig } from "@angular/material/dialog";
 import { NavigationStart, Router } from '@angular/router';
 import { PropertyTaxFloorRatePreviewComponent } from './property-tax-floor-rate-preview/property-tax-floor-rate-preview.component';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-property-tax-floor-rate',
   templateUrl: './property-tax-floor-rate.component.html',
@@ -72,6 +73,8 @@ export class PropertyTaxFloorRateComponent implements OnInit {
   ruleUrl;
   backRouter = '';
   nextRouter = '';
+  storageBaseUrl:string = environment?.STORAGE_BASEURL;
+
   constructor(public _router: Router,
     public dialog: MatDialog,
     private formBuilder: FormBuilder,
@@ -508,7 +511,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
       let folderName = `${this.userData?.role}/2022-23/property_tax_notification/${this.userData?.stateCode}`
       this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
-          let fileAlias = s3Response["data"][0]["file_url"];
+          let fileAlias = s3Response["data"][0]["path"];
           this[progessType] = Math.floor(Math.random() * 90) + 10;
           if(progessType == 'rulesByLawsProgress'){
             this[progessType] = Math.floor(Math.random() * 90) + 10;

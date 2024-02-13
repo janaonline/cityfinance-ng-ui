@@ -1,3 +1,8 @@
+*:not(mat-icon) {
+    font-family: 'Montserrat';
+}
+
 .rankings-card {
+    border-radius: 20px;
     border: 2px dashed gray;
 }

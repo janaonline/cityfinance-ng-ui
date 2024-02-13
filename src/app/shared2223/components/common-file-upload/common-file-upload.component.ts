@@ -10,6 +10,7 @@ import {
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
 import { ToWords } from "to-words";
 import { SweetAlert } from "sweetalert/typings/core";
+import { environment } from "src/environments/environment";
 const swal: SweetAlert = require("sweetalert");
 const toWords = new ToWords();
 @Component({
@@ -79,6 +80,8 @@ export class CommonFileUploadComponent implements OnInit {
   maxNumber = "999999999999999.99";
   pdfError = "Pdf not uploaded!";
   inputNumberError = "Fields can not be blank!";
+  storageBaseUrl:string = environment?.STORAGE_BASEURL;
+
   ngOnInit(): void {
     // debugger;
     console.log("isDisabled", this.isDisabled);
@@ -212,7 +215,7 @@ export class CommonFileUploadComponent implements OnInit {
         this.uploadFileToS3(
           file,
           res["url"],
-          res["file_url"],
+          res["path"],
           name,
           fileType
         );

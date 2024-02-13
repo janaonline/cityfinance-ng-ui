@@ -123,13 +123,14 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
   userUtil = new UserUtility();
 
   allUlb;
-
+  isMapInProgress : boolean = true;
   ngOnInit() {}
 
   ngOnChanges(changes: {
     ulbSelected?: SimpleChange;
     yearSelected: SimpleChange;
   }) {
+    this.isMapInProgress = true;
     if (changes.ulbSelected && changes.ulbSelected.currentValue) {
       const newULBId =
         typeof changes.ulbSelected.currentValue === "object"
@@ -157,7 +158,7 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
           this.onGettingULBWithPopulationSuccess(
             res[1] as IULBWithPopulationResponse
           );
-
+          this.isMapInProgress = false;
           if (this.isMapOnMiniMapMode) {
             this.createStateLevelMap(this.currentStateInView.name);
 

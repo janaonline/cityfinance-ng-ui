@@ -10,6 +10,7 @@ import { UserUtility } from "../util/user/user";
 import { AnnualAccountsViewComponent } from "../pages/annual-accounts/annual-accounts-view/annual-accounts-view.component";
 import { NgxPaginationModule } from "ngx-pagination";
 import { AnnualAccountsModule } from "../pages/annual-accounts/annual-accounts.module";
+import { GobalPartModule } from "../gobal-part/gobal-part.module";
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { AnnualAccountsModule } from "../pages/annual-accounts/annual-accounts.m
     AngularMaterialModule,
     NgxPaginationModule,
     AnnualAccountsModule,
+    GobalPartModule
   ],
   providers: [UserUtility],
   declarations: [UsersComponent, AnnualAccountsViewComponent],

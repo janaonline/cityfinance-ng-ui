@@ -54,7 +54,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ScrollTableDirective } from './directive-and-pipes/scroll-table.directive';
 import { ScrollTablePipe } from './directive-and-pipes/scroll-table.pipe';
 import { MatPaginatorModule } from '@angular/material/paginator';
-
+import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
 
 
 @NgModule({
@@ -123,6 +123,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     FormsModule,
     ScrollingModule,
     MatPaginatorModule,
+    GobalPartModule
   ],
   exports: [
     MyFilterPipe,

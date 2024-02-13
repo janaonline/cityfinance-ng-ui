@@ -46,11 +46,11 @@
 
 
 <div class="row" *ngIf="cardData.length > 0">
-  <a href="{{ item?.file.url }}" target="_blank" class="col-sm-12 col-md-4 col-lg-3" *ngFor="let item of cardData"
+  <a href="{{ item?.file.url | toStorageUrl }}" target="_blank" class="col-sm-12 col-md-4 col-lg-3" *ngFor="let item of cardData"
     style="margin: 1rem 0">
     <div class="card-body pdf">
       <div style="position: relative">
-        <pdf-viewer [src]="item?.file?.url" [render-text]="false" [show-all]="false"
+        <pdf-viewer [src]="item?.file?.url | toStorageUrl" [render-text]="false" [show-all]="false"
           style="display: block; height: 250px" [page]="1" [zoom-scale]="'page-fit'" [original-size]="false">
         </pdf-viewer>
       </div>

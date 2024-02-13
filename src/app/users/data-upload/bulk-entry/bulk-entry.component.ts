@@ -86,12 +86,14 @@ export class BulkEntryComponent implements OnInit {
       (s3Response) => {
         const fileAlias = s3Response["data"][0]["file_url"];
         const s3URL = s3Response["data"][0].url;
+        const filePath = s3Response["data"][0]["path"];
         this.uploadFileToS3(
           file,
           s3URL,
           fileAlias,
           this.bulkEntryForm.get("year").value,
-          fileIndex
+          fileIndex,
+          filePath
         );
       },
       (err) => {
@@ -111,10 +113,11 @@ export class BulkEntryComponent implements OnInit {
     s3URL: string,
     fileAlias: string,
     financialYear: string,
-    fileIndex: number
+    fileIndex: number,
+    filePath
   ) {
     this.dataEntryService
-      .uploadFileToS3(file, s3URL)
+      .uploadFileToS3(file, s3URL, filePath)
       // Currently we are not tracking file upload progress. If it is need, uncomment the below code.
       // .pipe(
       //   map((response: HttpEvent<any>) =>
@@ -125,7 +128,7 @@ export class BulkEntryComponent implements OnInit {
         (res) => {
           if (res.type === HttpEventType.Response) {
             this.dataEntryService
-              .sendUploadFileForProcessing(fileAlias, financialYear)
+              .sendUploadFileForProcessing(fileAlias, financialYear, filePath)
               .subscribe((res) => {
                 this.startFileProcessTracking(
                   file,

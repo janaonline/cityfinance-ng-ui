@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { staticFileKeys } from 'src/app/constants';
 import { IDetailedReportResponse } from 'src/app/models/detailedReport/detailedReportResponse';
 import { IReportType } from 'src/app/models/reportType';
 import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
@@ -15,6 +14,7 @@ import { ExcelService } from '../excel.service';
 import { ReportHelperService } from '../report-helper.service';
 import { ReportService } from '../report.service';
 import { currencryConversionOptions, currencryConversionType, ICurrencryConversion } from './conversionTypes';
+import { staticFileKeys } from 'src/app/util/staticFileConstant';
 
 @Component({
   selector: "app-basic",

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpEventType } from "@angular/common/http";
+import { HttpClient, HttpEventType, HttpHeaders } from "@angular/common/http";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { throwError } from "rxjs/internal/observable/throwError";
 import { catchError, map } from "rxjs/operators";
@@ -9,6 +9,7 @@ import { SnackBarComponent } from "../../snack-bar/snack-bar.component";
 // import * as moment from 'moment'
 import moment from "moment"
 import { Subject } from "rxjs";
+import { environment } from "src/environments/environment";
 
 const blockChar = ["`", ";", "*", "%", "&", "|", "~", "<", ">", "^", "(", ")", "[", "]", "{", "}", "$", "\n", "\r"];
 
@@ -43,7 +44,7 @@ export class FileUploadService {
     let fileId = name+moment();
     return this.httpClient
         .post(
-          'environment.base_uri' + "getS3Url", // url part need to be changed
+          'environment.base_uri' + `get${environment?.storageType}`, // url part need to be changed
           JSON.stringify([
             {
               file_name: name,
@@ -66,7 +67,10 @@ export class FileUploadService {
     let progress;
     const fd = new FormData();
     fd.append("image", img, img["name"].replaceAll(/–/g, ""));
-    return this.httpClient.put(url, img, { reportProgress: true, observe: "events" })
+    const headers = new HttpHeaders({
+      'X-Ms-Blob-Type': 'BlockBlob',
+    });
+    return this.httpClient.put(url, img, { reportProgress: true, observe: "events", headers: url.includes('blob.core.windows.net') ? headers : {}})
       .pipe(
         map((event: any) => {
           if (event.type == HttpEventType.UploadProgress) {

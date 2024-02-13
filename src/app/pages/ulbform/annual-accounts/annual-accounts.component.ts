@@ -12,7 +12,7 @@ import { NavigationStart } from "@angular/router";
 import { SweetAlert } from "sweetalert/typings/core";
 import { UserUtility } from "src/app/util/user/user";
 import { USER_TYPE } from "src/app/models/user/userType";
-import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
+import { staticFileKeys } from "src/app/util/staticFileConstant";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -262,12 +262,14 @@ export class AnnualAccountsComponent implements OnInit {
   };
   clickedBack = false
   actionTaken = false;
+  standardized_dataFile:string = '';
   ngOnInit(): void {
 
     this.ulbId = sessionStorage.getItem("ulb_id");
     this.clickedSave = false;
     this.onLoad();
     sessionStorage.setItem("changeInAnnual", "false");
+   this.getStaticFile();
   }
   navigationCheck() {
     if (!this.clickedSave) {
@@ -808,7 +810,7 @@ export class AnnualAccountsComponent implements OnInit {
         this.uploadFileToS3(
           file,
           res["url"],
-          res["file_url"],
+          res["path"],
           name,
           fileType
         );
@@ -1125,5 +1127,12 @@ export class AnnualAccountsComponent implements OnInit {
         swal("Failed To Save Action");
       }
     );
+  }
+
+  getStaticFile(){
+    const key = staticFileKeys.ANNUAL_ACCOUNT_2022_23;
+    this.dataEntryService.getStaticFileUrl(key).subscribe((res: any) => {
+      this.standardized_dataFile = res?.data?.url;
+    })
   }
 }

@@ -1,0 +1,49 @@
+.w-80 {
+    width: 80%;
+}
+
+.common-cls {
+    font-family: Montserrat;
+    font-size: 16px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #000000;
+}
+
+.fl-label {
+    font-weight: 700;
+    text-align: left;
+
+}
+
+.filter-heading {
+    font-weight: 500;
+}
+
+.fl-card {
+ //  background: linear-gradient(0deg, #DBDBDB, #DBDBDB),linear-gradient(0deg, #F8FAFF, #F8FAFF);
+    border: 1px solid #DBDBDB;
+   background : #F8FAFF;
+}
+
+.bg-img{
+    background-image: url('/assets/fiscal-rankings/participedUlb.png');
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+.map-bg{
+    background-image: url('../../../assets/fiscal-rankings/map-background.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 0 0 100px 0;
+}
+
+.table-card {
+    background-color: #FFFFFF;
+}
+.map-con {
+    height: 40rem; 
+    vertical-align: top;
+    align-items:flex-start;
+}

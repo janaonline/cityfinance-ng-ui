@@ -231,7 +231,7 @@ export class FileUploadComponent implements OnInit, OnDestroy, OnChanges {
               this.initiateFileUploadProcess(
                 file,
                 res.data[0].url,
-                res.data[0].file_url,
+                res.data[0]?.path,
                 file.name,
                 fieldKey
               )

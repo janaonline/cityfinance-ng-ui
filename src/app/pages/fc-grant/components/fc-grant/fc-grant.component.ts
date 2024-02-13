@@ -2,7 +2,7 @@ import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { services, targets } from 'src/app/users/data-upload/components/configs/water-waste-management';
 import { IFinancialData } from 'src/app/users/data-upload/models/financial-data.interface';
@@ -69,9 +69,12 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
   solidWastePercentageCompleted = 0;
   millionPlusCitiesCompleted = 0;
   evidencePercentageCompleted = 0;
+  inProgress = true;
+  
 
   isULBMillionPlus: boolean;
   years = JSON.parse(localStorage.getItem("Years"))
+  modalRef: BsModalRef;
 
   ngOnInit() {}
 
@@ -244,16 +247,15 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
         return null;
     }
   }
-
   openModal(row: any, historyModal: TemplateRef<any>) {
     if (this.isPopupOpen) return;
     this.formHistoricalData = [];
     this.isPopupOpen = true;
-    this.modalService.show(historyModal, {});
+    this.modalRef = this.modalService.show(historyModal, {});
     this.modalService.onHide.subscribe((vlaue) => {
       this.isPopupOpen = false;
     });
-    this._financialService.fetchFinancialDataHistory(row._id).subscribe(
+    this._financialService.fetchFinancialDataHistory(row.ulb).subscribe(
       (result: HttpResponse<any>) => {
         if (result["success"]) {
           this.formHistoricalData = result["data"].map((data) =>
@@ -262,14 +264,18 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
           this.formHistoricalData = this.formHistoricalData
             .filter((row) => typeof row["actionTakenBy"] != "string")
             .reverse();
+          this.inProgress = false
         }
       },
-      (error) => this.handlerError(error)
+      (error) => {
+        this.inProgress = false
+        this.handlerError(error)}
     );
   }
 
   closePopUp() {
     this.modalService.hide(1);
+    this.modalRef.hide()
     this.isPopupOpen = false;
   }
 

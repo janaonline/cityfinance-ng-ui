@@ -146,13 +146,13 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
     if (fileType === 'pdf' && fileExtension !== 'pdf') return swal("Error", "Only PDF File can be Uploaded.", "error");
     this._snackBar.open("Uploaing File...",'', {"duration": 10000});
     this.dataEntryService.newGetURLForFileUpload(file.name, file.type, this.uploadFolderName).subscribe(s3Response => {
-      const { url, file_url } = s3Response.data[0];
+      const { url, path } = s3Response.data[0];
       console.log('url..', url)
       console.log('asdfgg', s3Response)
       this.dataEntryService.newUploadFileToS3(file, url).subscribe((res) => {
         if (res.type !== HttpEventType.Response) return;
-        this.formControl.responseFile.patchValue({ name: file.name, url: file_url });
-        this.responceFile = { name: file.name, url: file_url };
+        this.formControl.responseFile.patchValue({ name: file.name, url: path });
+        this.responceFile = { name: file.name, url: path };
         this._snackBar.dismiss();
         console.log('form', this.formControl?.responseFile?.value?.name);
         
