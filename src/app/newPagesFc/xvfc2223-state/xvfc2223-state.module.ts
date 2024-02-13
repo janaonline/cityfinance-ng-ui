@@ -37,7 +37,7 @@ import { AgGrid2223Component } from './action-plan/ag-grid2223/ag-grid2223.compo
 import { ButtonRendererComponent } from "./action-plan/delete-btn";
 import { GrantClaimsComponent } from './grant-claims/grant-claims.component';
 import { GrantClaimsDialogComponent } from './grant-claims/grant-claims-dialog/grant-claims-dialog.component';
-import { GobalPartModule } from "src/app/gobal-part/gobal-part.module";
+import { GlobalPartModule } from "src/app/global-part/global-part.module";
 
 @NgModule({
   declarations: [
@@ -78,7 +78,7 @@ import { GobalPartModule } from "src/app/gobal-part/gobal-part.module";
     StateformsModule,
     CollapseModule.forRoot(),
     AgGridModule.withComponents([ActionPlanComponent, AgGrid2223Component, CustomTooltipComponent]),
-    GobalPartModule
+    GlobalPartModule
   ],
 })
 export class Xvfc2223StateModule {}

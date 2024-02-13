@@ -6,7 +6,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 
 import { DataTrackerRoutingModule } from './data-tracker-routing.module';
 import { DataTrackerComponent } from './data-tracker/data-tracker.component';
-import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
+import { GlobalPartModule } from 'src/app/global-part/global-part.module';
 
 @NgModule({
   declarations: [DataTrackerComponent],
@@ -16,7 +16,7 @@ import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
     DataTrackerRoutingModule,
     SharedModule,
     AngularMaterialModule,
-    GobalPartModule
+    GlobalPartModule
   ],
 })
 export class DataTrackerModule {}

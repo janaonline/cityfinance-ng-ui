@@ -4,10 +4,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
 
 import { FileComponent } from './file/file.component';
 import { FileRoutes } from './public-files.route';
-import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
+import { GlobalPartModule } from 'src/app/global-part/global-part.module';
 
 @NgModule({
-  imports: [CommonModule, FileRoutes, SharedModule, GobalPartModule],
+  imports: [CommonModule, FileRoutes, SharedModule, GlobalPartModule],
   declarations: [FileComponent]
 })
 export class PublicFilesModule {}

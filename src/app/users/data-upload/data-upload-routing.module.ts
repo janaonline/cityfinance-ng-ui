@@ -10,7 +10,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { BulkEntryComponent } from './bulk-entry/bulk-entry.component';
 import { DataUploadActionComponent } from './data-upload-action/data-upload-action.component';
 import { DataUploadComponent } from './data-upload.component';
-import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
+import { GlobalPartModule } from 'src/app/global-part/global-part.module';
 
 // import {BulkEntryComponent} from './bulk-entry/bulk-entry.component';
 const routes: Routes = [
@@ -31,7 +31,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     SharedModule,
     NgxPaginationModule,
-    GobalPartModule
+    GlobalPartModule
   ],
   exports: [RouterModule],
   declarations: [DataUploadComponent],

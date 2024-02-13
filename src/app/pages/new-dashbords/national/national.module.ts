@@ -14,7 +14,7 @@ import { NationalResourcesComponent } from './national-resources/national-resour
 import { NationalMapSectionComponent } from './national-map-section/national-map-section.component';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { SlickCarouselModule } from "ngx-slick-carousel";
-import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
+import { GlobalPartModule } from 'src/app/global-part/global-part.module';
 
 @NgModule({
   declarations: [
@@ -37,7 +37,7 @@ import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
     AngularMultiSelectModule,
     FormsModule,
     SlickCarouselModule,
-    GobalPartModule
+    GlobalPartModule
   ]
 })
 export class NationalModule { }
