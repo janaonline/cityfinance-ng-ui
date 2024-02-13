@@ -11,7 +11,7 @@ import { UserUtility } from '../../util/user/user';
 import { FinancialDataService } from '../services/financial-data.service';
 import { DataUploadActionComponent } from './data-upload-action/data-upload-action.component';
 import { DataUploadRoutingModule } from './data-upload-routing.module';
-import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
+import { GlobalPartModule } from 'src/app/global-part/global-part.module';
 
 // import {BulkEntryComponent} from './bulk-entry/bulk-entry.component';
 @NgModule({
@@ -22,7 +22,7 @@ import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
     ReactiveFormsModule,
     AngularMaterialModule,
     SharedModule,
-    GobalPartModule
+    GlobalPartModule
   ],
   providers: [AccessChecker, FileUpload, UserUtility, FinancialDataService],
   declarations: [DataUploadActionComponent],

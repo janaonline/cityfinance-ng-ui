@@ -35,7 +35,7 @@ import { PropertyTaxFloorRateComponent } from './property-tax-floor-rate/propert
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { StateResourcesComponent } from './state-resources/state-resources.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
+import { GlobalPartModule } from 'src/app/global-part/global-part.module';
 
 
 @NgModule({
@@ -73,7 +73,7 @@ import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
     AgGridModule.withComponents([ActionPlanComponent, AgGrid2223Component, CustomTooltipComponent]),
     TooltipModule.forRoot(),
     PdfViewerModule,
-    GobalPartModule
+    GlobalPartModule
   ]
 })
 export class StateFormModule { }

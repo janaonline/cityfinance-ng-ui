@@ -75,7 +75,7 @@ import { IndiaMapComponent } from './india-map/india-map.component';
 import { FileUrlCheckPipe } from './pipes/file-url-check.pipe';
 import { VideosPopupComponent } from './home/videos-popup/videos-popup.component';
 import { TypeofPipe } from './pipes/typeof.pipe';
-import { GobalPartModule } from "../gobal-part/gobal-part.module";
+import { GlobalPartModule } from "../global-part/global-part.module";
 
 @NgModule({
   declarations: [
@@ -161,7 +161,7 @@ import { GobalPartModule } from "../gobal-part/gobal-part.module";
     Shared2223Module,
     AngularMultiSelectModule,
     MatProgressSpinnerModule,
-    GobalPartModule
+    GlobalPartModule
   ],
   providers: [
     {

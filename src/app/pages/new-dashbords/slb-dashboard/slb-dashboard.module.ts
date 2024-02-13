@@ -5,7 +5,7 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { SlbDashboardComponent } from './slb-dashboard.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
+import { GlobalPartModule } from 'src/app/global-part/global-part.module';
 
 
 
@@ -18,7 +18,7 @@ import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
     AngularMultiSelectModule,
     SharedModule,
     MatAutocompleteModule,
-    GobalPartModule
+    GlobalPartModule
   ],
   exports: [
     CommonModule,

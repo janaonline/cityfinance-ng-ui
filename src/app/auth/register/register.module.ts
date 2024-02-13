@@ -9,7 +9,7 @@ import { RecaptchaModule } from 'ng-recaptcha';
 import { SharedModule } from '../../shared/shared.module';
 import { RegisterRoutingModule } from './register-routing.module';
 import { RegisterComponent } from './register.component';
-import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
+import { GlobalPartModule } from 'src/app/global-part/global-part.module';
 
 
 @NgModule({
@@ -23,7 +23,7 @@ import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
     MatProgressSpinnerModule,
     MatFormFieldModule,
      MatInputModule,
-     GobalPartModule
+     GlobalPartModule
   ],
   declarations: [RegisterComponent],
 })

@@ -19,7 +19,7 @@ import { AuthModule } from "../auth/auth.module";
 import { SharedModule } from "../shared/shared.module";
 import { MunicipalLawRouter } from "./municipal-law.route";
 import { MunicipalLawsComponent } from "./municipal-laws/municipal-laws.component";
-import { GobalPartModule } from "../gobal-part/gobal-part.module";
+import { GlobalPartModule } from "../global-part/global-part.module";
 
 @NgModule({
   imports: [
@@ -42,7 +42,7 @@ import { GobalPartModule } from "../gobal-part/gobal-part.module";
     CarouselModule.forRoot(),
     SharedModule,
     AngularMaterialModule,
-    GobalPartModule
+    GlobalPartModule
   ],
   declarations: [MunicipalLawsComponent],
   providers: [],
