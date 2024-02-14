@@ -25,7 +25,7 @@ import { SubmittedFormComponent } from './list/submitted-form/submitted-form.com
 import { QuestionnaireRoutes } from './questionnaires.route';
 import { StateQuestionnairesComponent } from './state/state-questionnaires/state-questionnaires.component';
 import { ULBQuestionnaireComponent } from './ulb/questionnaire/questionnaire.component';
-import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
+import { GlobalPartModule } from 'src/app/global-part/global-part.module';
 
 @NgModule({
   imports: [
@@ -49,7 +49,7 @@ import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
     FormsModule,
     MatProgressSpinnerModule,
     MatTabsModule,
-    GobalPartModule
+    GlobalPartModule
   ],
   declarations: [
     StateQuestionnairesComponent,

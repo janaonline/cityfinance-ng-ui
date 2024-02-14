@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { log } from 'console';
-import { ToStorageUrlPipe } from 'src/app/gobal-part/common-pipes/to-storage-url.pipe';
+import { ToStorageUrlPipe } from 'src/app/global-part/common-pipes/to-storage-url.pipe';
 
 @Component({
   selector: 'app-videos-popup',

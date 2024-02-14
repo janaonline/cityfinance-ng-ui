@@ -11,7 +11,7 @@ import { LoginRoutingModule } from './login-routing.module';
 import {MatIconModule} from '@angular/material/icon';
 import { LoginComponent } from './login.component';
 import { MdePopoverModule } from '@material-extended/mde';
-import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
+import { GlobalPartModule } from 'src/app/global-part/global-part.module';
 
 @NgModule({
   imports: [
@@ -26,7 +26,7 @@ import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
     MatInputModule,
     MatIconModule,
     MdePopoverModule,
-    GobalPartModule
+    GlobalPartModule
   ],
   declarations: [LoginComponent],
 })

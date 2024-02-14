@@ -6,7 +6,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 import { UserListComponent } from './user-list/user-list.component';
-import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
+import { GlobalPartModule } from 'src/app/global-part/global-part.module';
 
 const routes: Routes = [{ path: ":userType", component: UserListComponent }];
 
@@ -18,7 +18,7 @@ const routes: Routes = [{ path: ":userType", component: UserListComponent }];
     RouterModule.forChild(routes),
     FormsModule,
     ReactiveFormsModule,
-    GobalPartModule
+    GlobalPartModule
   ],
   declarations: [UserListComponent],
 })

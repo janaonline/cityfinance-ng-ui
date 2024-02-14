@@ -19,8 +19,8 @@ import { MatIconModule } from "@angular/material/icon";
 import { DateFormatPipe } from "./dateTimePipe"
 import { MatDialogModule } from '@angular/material/dialog'
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { SharedModule } from "src/app/shared/shared.module";
-import { GobalPartModule } from "src/app/gobal-part/gobal-part.module";
+import { GlobalPartModule } from "src/app/global-part/global-part.module";
+
 @NgModule({
   imports: [
     CommonModule,
@@ -39,7 +39,7 @@ import { GobalPartModule } from "src/app/gobal-part/gobal-part.module";
     MatDialogModule,
     MatTooltipModule,
     MatIconModule,
-    GobalPartModule
+    GlobalPartModule
   ],
   declarations: [AnnualAccountsCreateComponent, DateFormatPipe],
   exports: [AnnualAccountsCreateComponent],

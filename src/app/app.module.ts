@@ -44,7 +44,7 @@ import { NgxPaginationModule } from "ngx-pagination";
 import { GlobalErrorHandler } from "./global-error-handler.service";
 import { VersionCheckService } from "./version-check.service";
 import { environment } from "src/environments/environment";
-import { GobalPartModule } from "./gobal-part/gobal-part.module";
+import { GlobalPartModule } from "./global-part/global-part.module";
 
 
 @NgModule({
@@ -84,7 +84,7 @@ import { GobalPartModule } from "./gobal-part/gobal-part.module";
     MatFormFieldModule,
     NgxGoogleAnalyticsModule.forRoot(environment.GoogleTagID),
     NgxGoogleAnalyticsRouterModule,
-    GobalPartModule
+    GlobalPartModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
