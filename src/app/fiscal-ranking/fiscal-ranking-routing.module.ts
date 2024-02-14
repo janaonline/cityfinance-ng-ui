@@ -79,7 +79,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+ // imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forRoot(routes,{
+     scrollPositionRestoration: 'enabled'
+   })],
   exports: [RouterModule]
 })
 export class FiscalRankingRoutingModule { }
