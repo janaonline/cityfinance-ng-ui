@@ -111,13 +111,13 @@
             </div>
 
             <div class="col-md-2 mx-1">
-              <input type="text" class="filter searchField w-100" placeholder="ULB" matInput formControlName="ulb"
+              <input type="text" class="filter searchField w-100" placeholder="ULB Name" matInput formControlName="ulb"
                 [matAutocomplete]="auto" />
               <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                 <a (click)="filterData('ulb', option)" *ngFor="let option of filteredOptions; let i = index"
                   style="text-decoration: none">
-                  <mat-option [value]="option?.name">
-                    <span style="font-size: medium"> {{ option?.name }}</span>
+                  <mat-option [value]="option?.name" [disabled]="option?.isDisabled ? true : false">
+                    <span style="font-size: medium" > {{ option?.name }}</span>
                   </mat-option>
                 </a>
               </mat-autocomplete>

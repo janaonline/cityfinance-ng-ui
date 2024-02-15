@@ -438,7 +438,9 @@ export class OwnRevenueDashboardComponent implements OnInit {
       )
       .subscribe((res: any) => {
         console.log(res?.data, "getUlbForAutoComplete");
-        let emptyArr: any = [];
+        let emptyArr: any = [
+          {"name" : "ULB name not found", isDisabled: true}
+        ];
         this.filteredOptions = emptyArr;
         if (res?.data.length > 0) {
           this.filteredOptions = res?.data;
@@ -447,7 +449,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
           }
           //this.noDataFound = false;
         } else {
-          let emptyArr: any = [];
+          // let emptyArr: any = [];
           this.filteredOptions = emptyArr;
           // this.noDataFound = true;
           console.log("no data found");
@@ -526,6 +528,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
   }
 
   filterData(param, val) {
+    if(val?.isDisabled) return
     console.log("filter form", this.filterGroup);
     if (param == "ulb") {
       console.log(val);
