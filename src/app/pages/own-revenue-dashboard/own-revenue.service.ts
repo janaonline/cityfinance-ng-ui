@@ -32,9 +32,9 @@ export class OwnRevenueService {
     });
 }
 
-getULBTypeList() {
+getULBTypeList(params: any) {
   return this.httpClient.get(
-    `${environment.api.url}UlbType`
+    `${environment.api.url}UlbType`,{params}
   );
 }
 
