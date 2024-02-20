@@ -691,7 +691,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
       });
     }
 
-    this.ownRevenueService.getULBTypeList().subscribe(
+    this.ownRevenueService.getULBTypeList({ulbExists:true}).subscribe(
       (res) => {
         console.log(res, "getULBTypeList");
         this.ulbTypeList = res["data"];
