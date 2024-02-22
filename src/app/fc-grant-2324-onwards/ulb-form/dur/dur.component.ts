@@ -69,6 +69,10 @@ export class DurComponent implements OnInit, OnDestroy {
     const years = JSON.parse(localStorage.getItem("Years"));
     return years?.['2023-24'];
   }
+  get financial_year() {
+    const years = JSON.parse(localStorage.getItem("Years"));
+    return years?.['2022-23'];
+  }
 
   get ulbId() {
     if(this.userData?.role == 'ULB') return this.userData?.ulb;
@@ -305,7 +309,7 @@ export class DurComponent implements OnInit, OnDestroy {
       isDraft: isDraft,
       status: isDraft ? 2 : 3,
       isProjectLoaded: this.isLastDeleted || this.isProjectLoaded,
-      financialYear: this.design_year,
+      financialYear: this.financial_year,
       designYear: this.design_year,
       ulb: this.ulbId,
       formId: 4,
