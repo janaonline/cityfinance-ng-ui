@@ -27,7 +27,7 @@
                                    <option value="" selected>City</option>
                                    <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option>
                                </select> -->
-                <input type="text" class="form-control" placeholder="Search for ULB" matInput formControlName="ulb"
+                <input type="text" class="form-control" placeholder="ULB name" matInput formControlName="ulb"
                   [matAutocomplete]="auto" style="
                     line-height: 1.5;
                     font-size: 1rem;
@@ -37,7 +37,7 @@
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                   <a (click)="filterData('ulb', option)" *ngFor="let option of filteredOptions; let i = index"
                     style="text-decoration: none">
-                    <mat-option [value]="option?.name">
+                    <mat-option [value]="option?.name" [disabled]="option?.isDisabled ? true : false">
                       <span style="font-size: medium"> {{ option?.name }}</span>
                     </mat-option>
                   </a>

@@ -23,12 +23,12 @@
                             </select>
                         </div>
                         <div class="col-sm-12 mb-3" *ngIf="mobileFilterConfig?.isUlb">
-                            <input type="text" class="form-control" placeholder="City" matInput formControlName="ulb"
+                            <input type="text" class="form-control" placeholder="ULB name" matInput formControlName="ulb"
                                 [matAutocomplete]="auto">
                             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                                 <a (click)="filterData('ulb',option)" *ngFor="let option of filteredOptions; let i = index;"
                                     style="text-decoration: none;">
-                                    <mat-option [value]="option?.name">
+                                    <mat-option [value]="option?.name" [disabled]="option?.isDisabled ? true : false">
                                         <span> {{option?.name}}</span>
                                     </mat-option>
                                 </a>
