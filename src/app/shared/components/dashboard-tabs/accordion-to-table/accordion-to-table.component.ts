@@ -155,9 +155,6 @@ export class AccordionToTableComponent implements OnInit {
         .getBondIssuer()
         .subscribe((res) => this.onGettingBondIssuerSuccess(res));
       this._bondService
-        .getBondIssuerItem()
-        .subscribe((res) => this.onGettingBondIssuerItemSuccess(res));
-      this._bondService
         .getULBS()
         .subscribe((res) => this.onGettingULBResponseSuccess(res));
     });
