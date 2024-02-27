@@ -16,6 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { GlobalPartModule } from 'src/app/global-part/global-part.module';
 import { UrbanReformsIvComponent } from './urban-reforms-iv/urban-reforms-iv.component';
 import { DocumentsComponent } from './urban-reforms-iv/documents/documents.component';
 
@@ -33,7 +34,8 @@ import { DocumentsComponent } from './urban-reforms-iv/documents/documents.compo
     FormsModule,
     PdfViewerModule,
     AngularMultiSelectModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    GlobalPartModule
   ]
 })
 export class MohuaFormModule { }

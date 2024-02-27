@@ -23,6 +23,7 @@ import { CreditRatingRouter } from "./credit-rating.route";
 import { MunicipalBondComponent } from "./municipal-bond/municipal-bond.component";
 import { ReportComponent } from "./report/report.component";
 import { ScaleComponent } from "./scale/scale.component";
+import { GlobalPartModule } from "../global-part/global-part.module";
 
 @NgModule({
   imports: [
@@ -44,6 +45,7 @@ import { ScaleComponent } from "./scale/scale.component";
     CarouselModule.forRoot(),
     SharedModule,
     AngularMaterialModule,
+    GlobalPartModule
   ],
   declarations: [
     CreditRatingComponent,

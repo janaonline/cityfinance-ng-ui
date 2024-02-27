@@ -99,7 +99,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
       text: 'Get access to a rich repository of resources to build your knowledge, and implement municipal finance reforms',
       icon: '../../../assets/new_dashBord_ftr_hdr/resoures/Group 15547.png',
       // hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
-      link:'/resources-dashboard'
+      link:'/resources-dashboard/learning-center/toolkits'
     },
     {
       title: '',

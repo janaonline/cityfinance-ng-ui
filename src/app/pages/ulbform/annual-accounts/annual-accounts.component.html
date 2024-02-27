@@ -75,7 +75,7 @@
                     <div *ngFor="let item of unAuditQues ; let quesIndex=index">
                         <ng-container>
                             <app-comm-file-upload [isDisabled]="isDisabled && provisionDisable" [dataFromParent]="item.data" (getFileUploadResult)="getUploadFileData($event,'unAudited',item.name,quesIndex)" (actionValues)="checkStatusUnA($event, quesIndex)" [statusResponse]='actionResAn'
-                                [quesName]="item.name">
+                                [quesName]="item.name" [formName]="'annual_accounts'">
                             </app-comm-file-upload>
                         </ng-container>
                         <!-- <div class="row" style="margin-left: 2pc;">
@@ -120,7 +120,7 @@
                 </div>
                 <div class="col-sm-12" *ngIf="data.unAudited.submit_standardized_data">
                     <div class="col-sm-2 center" style="padding: 0;">
-                        <a class="btn btn22" href="https://democityfinanceapi.dhwaniris.in/assets/files/Standardized%20Data_Format.xlsx" target="_blank">
+                        <a class="btn btn22" href="{{standardized_dataFile | toStorageUrl}}" target="_blank">
                             Download Template
                         </a>
                     </div>
@@ -158,7 +158,7 @@
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
                                     <ng-container>
                                         <div *ngIf="data.unAudited.standardized_data?.excel?.url">
-                                            <a href="{{ data.unAudited.standardized_data?.excel?.url }}" target="_blank">
+                                            <a href="{{ data.unAudited.standardized_data?.excel?.url | toStorageUrl}}" target="_blank">
                                                 <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                                             </a>
@@ -276,7 +276,9 @@
                 </div>
                 <div class="col-sm-12" *ngIf="data.audited.submit_standardized_data">
                     <div class="col-sm-2 center" style="padding: 0;">
-                        <a class="btn btn22" href="https://democityfinanceapi.dhwaniris.in/assets/files/Standardized%20Data_Format.xlsx" target="_blank">
+                        
+                        <!-- href="https://democityfinanceapi.dhwaniris.in/assets/files/Standardized%20Data_Format.xlsx" -->
+                        <a class="btn btn22" href="{{standardized_dataFile | toStorageUrl}}"  target="_blank">
                             Download Template
                         </a>
                     </div>
@@ -313,7 +315,7 @@
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
                                     <ng-container>
                                         <div *ngIf="data.audited.standardized_data?.excel.url">
-                                            <a href="{{ data.audited.standardized_data?.excel.url }}" target="_blank">
+                                            <a href="{{ data.audited.standardized_data?.excel.url | toStorageUrl}}" target="_blank">
                                                 <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                                             </a>
@@ -370,7 +372,7 @@
         <div class="card-body" style="padding: 1%; margin-left: 0;">
             <!-- <p><b>State Review Status :</b> {{anFormStaus | titlecase}}</p> -->
             <p><b style="padding-right: 25px;">State Review Status :</b>
-                <label class="btn btn-success" [ngClass]="{'btn-a' : (anFormStaus == 'APPROVED'),
+                <label class="btn btn-success btn-label" [ngClass]="{'btn-a' : (anFormStaus == 'APPROVED'),
             'btn-r' : (anFormStaus == 'REJECTED'), 'btn-p' : (anFormStaus == 'PENDING' || anFormStaus == 'N/A'  )}">
                     {{anFormStaus | titlecase}}</label>
             </p>
@@ -379,7 +381,7 @@
 
             <p *ngIf="ulbFormStatusMoHUA && (finalSubmitUtiStatus == 'true')">
                 <b style="padding-right: 10px;"> MoHUA Review Status :</b>
-                <label class="btn btn-success" [ngClass]="{'btn-a' : (ulbFormStatusMoHUA == 'APPROVED'),
+                <label class="btn btn-success btn-label" [ngClass]="{'btn-a' : (ulbFormStatusMoHUA == 'APPROVED'),
                    'btn-r' : (ulbFormStatusMoHUA == 'REJECTED'), 'btn-p' : (ulbFormStatusMoHUA == 'PENDING' || ulbFormStatusMoHUA == 'N/A')}">
                     {{ulbFormStatusMoHUA | titlecase}}</label>
             </p>

@@ -106,6 +106,8 @@ import { MapcomponentComponent } from './components/municipality-budget/mapcompo
 import { CommonFilterComponent } from './components/common-filter/common-filter.component';
 import { EndsWithPipe } from './pipes/ends-with.pipe';
 import { IncludesPipe } from './pipes/includes.pipe';
+import { GlobalPartModule } from "../global-part/global-part.module";
+
 @NgModule({
   imports: [
     ButtonsModule.forRoot(),
@@ -141,6 +143,7 @@ import { IncludesPipe } from './pipes/includes.pipe';
     Shared2223Module,
     PdfViewerModule,
     MatPaginatorModule,
+    GlobalPartModule
   ],
   declarations: [
     PreLoaderComponent,
@@ -211,6 +214,7 @@ import { IncludesPipe } from './pipes/includes.pipe';
     CommonFilterComponent,
     EndsWithPipe,
     IncludesPipe,
+    
   ],
   exports: [
     JoinPipe,

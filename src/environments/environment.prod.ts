@@ -1,27 +1,34 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-let url;
+let url = window.location.origin + "/api/v1/";
 let GoogleTagID: string;
-let isProduction:boolean =false;
+let isProduction: boolean = false;
 let versionCheckURL = window.location.origin + "/version.json";
+let STORAGE_BASEURL:string = 'https://jana-cityfinance-stg.s3.ap-south-1.amazonaws.com';
+let storageType:string = 'S3Url'; // for S3 storage type, for azure change this to 'BlobUrl'
+
 if (
   window.location.hostname.includes("demo") ||
   window.location.hostname.includes("localhost")
 ) {
   url = "https://democityfinanceapi.dhwaniris.in/api/v1/";
   GoogleTagID = "G-MDPDTZFW0N";
+} else if (window.location.hostname.includes("staging-jana")) {
+  url = "https://staging-jana.cityfinance.in/api/v1/";
+} else if (window.location.hostname.includes("uat")) {
+  url = "https://uat.cityfinance.in/api/v1/";
 } else if (window.location.hostname.includes("staging")) {
   url = "https://staging.cityfinance.in/api/v1/";
-}else if (window.location.hostname.includes("new-cityfinance")) {
+} else if (window.location.hostname.includes("new-cityfinance")) {
   url = "https://newcityfinanceapi.dhwaniris.in/api/v1/";
   // url = "http://localhost:8080/api/v1/";
   GoogleTagID = "G-MDPDTZFW0N";
-}
- else {
+} else if (window.location.origin === "https://cityfinance.in") {
   isProduction = true;
   url = "https://cityfinance.in/api/v1/";
   GoogleTagID = "G-MDPDTZFW0N";
+  STORAGE_BASEURL = 'https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com';
 }
 export const environment = {
   production: true,
@@ -35,7 +42,9 @@ export const environment = {
   },
   isProduction: isProduction,
   GoogleTagID,
-  versionCheckURL
+  versionCheckURL,
+  STORAGE_BASEURL,
+  storageType
 };
 
 /*

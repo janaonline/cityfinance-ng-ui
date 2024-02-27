@@ -11,6 +11,7 @@ import { UserUtility } from '../../util/user/user';
 import { FinancialDataService } from '../services/financial-data.service';
 import { BulkEntryComponent } from './bulk-entry/bulk-entry.component';
 import { DataUploadRoutingModule } from './xvform-routing.module';
+import { GlobalPartModule } from 'src/app/global-part/global-part.module';
 
 // import { DataUploadActionComponent } from './data-upload-action/data-upload-action.component';
 @NgModule({
@@ -21,6 +22,7 @@ import { DataUploadRoutingModule } from './xvform-routing.module';
     ReactiveFormsModule,
     AngularMaterialModule,
     SharedModule,
+    GlobalPartModule
   ],
   providers: [AccessChecker, FileUpload, UserUtility, FinancialDataService],
   declarations: [BulkEntryComponent],

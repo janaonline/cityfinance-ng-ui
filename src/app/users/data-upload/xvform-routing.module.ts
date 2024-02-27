@@ -15,6 +15,7 @@ import { PreviewComponent } from './components/preview/preview.component';
 import { SolidWasteManagementComponent } from './components/solid-waste-management/solid-waste-management.component';
 import { WasteWaterManagementComponent } from './components/waste-water-management/waste-water-management.component';
 import { DataUploadComponent } from './xvform-dashboard.component';
+import { GlobalPartModule } from 'src/app/global-part/global-part.module';
 
 // import { DataUploadActionComponent } from './data-upload-action/data-upload-action.component';
 const routes: Routes = [
@@ -36,6 +37,7 @@ const routes: Routes = [
     SharedModule,
     NgxPaginationModule,
     MatStepperModule,
+    GlobalPartModule
   ],
   exports: [RouterModule],
   declarations: [

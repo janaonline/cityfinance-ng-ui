@@ -51,7 +51,7 @@
                   fileUploadTracker[question.key][file.name]
                     ?.url) as downloadurl
               "
-              [href]="downloadurl"
+              [href]="downloadurl | toStorageUrl"
               class="download-link-icon"
               target="_blank"
             >
@@ -81,7 +81,7 @@
               *ngFor="let doc of documents[question.key] || []"
             >
               <span class="file-tracker-name"> {{ doc.name }}</span>
-              <a [href]="doc.url" class="download-link-icon" target="_blank">
+              <a [href]="doc.url | toStorageUrl" class="download-link-icon" target="_blank">
                 <i
                   title="Download"
                   class="fa fa-cloud-download"

@@ -22,6 +22,7 @@ import { StateformsService } from "src/app/pages/stateforms/stateforms.service";
 import { WaterRejenuvations2223PreviewComponent } from "./water-rejenuvations2223-preview/water-rejenuvations2223-preview.component";
 import { StateDashboardService } from "src/app/pages/stateforms/state-dashboard/state-dashboard.service";
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
+import { environment } from "src/environments/environment";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -117,6 +118,8 @@ export class WaterRejenuvations2223Component implements OnInit {
 backRouter = '';
 nextRouter = '';
 completeWaterRejData: any | object;
+storageBaseUrl:string = environment?.STORAGE_BASEURL;
+
   constructor(
     private fb: FormBuilder,
     private waterRejenuvationService: WaterRejenuvations2223ServiceService,
@@ -1497,8 +1500,8 @@ completeWaterRejData: any | object;
       this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
         async (s3Response) => {
           const res = s3Response.data[0];
-          await this.uploadFileToS3(file, res["url"], res["file_url"]);
-          this.photosArray.push({ url: res["file_url"], name });
+          await this.uploadFileToS3(file, res["url"], res["path"]);
+          this.photosArray.push({ url: res["path"], name });
           resolve();
         },
         (err) => {
@@ -1795,7 +1798,7 @@ completeWaterRejData: any | object;
       let folderName = `${this.userData?.role}/2022-23/projects_wss/${this.userData?.stateCode}`
       this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
-          let fileAlias = s3Response["data"][0]["file_url"];
+          let fileAlias = s3Response["data"][0]["path"];
           this[progessType] = Math.floor(Math.random() * 90) + 10;
           // if(progessType == 'rulesByLawsProgress'){
           //   this[progessType] = Math.floor(Math.random() * 90) + 10;

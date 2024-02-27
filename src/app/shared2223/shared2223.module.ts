@@ -37,6 +37,8 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { NoUpDownDirective } from "../fiscal-ranking/ulb-fiscal-new/no-up-down.directive";
 import { NumericInputDirective } from './directive/numeric-input.directive';
 import { PmuApprovalPopupComponent } from './components/pmu-approval-popup/pmu-approval-popup.component';
+import { ScrollToTopComponent } from './components/scroll-to-top/scroll-to-top.component';
+import { GlobalPartModule } from "../global-part/global-part.module";
 
 @NgModule({
   declarations: [
@@ -60,6 +62,7 @@ import { PmuApprovalPopupComponent } from './components/pmu-approval-popup/pmu-a
     NoUpDownDirective,
     NumericInputDirective,
     PmuApprovalPopupComponent,
+    ScrollToTopComponent,
     // BreadcrumbComponent,
   ],
   imports: [
@@ -79,6 +82,7 @@ import { PmuApprovalPopupComponent } from './components/pmu-approval-popup/pmu-a
     MdePopoverModule,
     MatRadioModule,
     MatDatepickerModule,
+    GlobalPartModule
   ],
   exports: [
     OdfFormComponent,
@@ -91,7 +95,8 @@ import { PmuApprovalPopupComponent } from './components/pmu-approval-popup/pmu-a
     EditUlbTableComponent,
     PreLoaderNewComponent,
     CommonActionRadioComponent,
-    NumericInputDirective
+    NumericInputDirective,
+    ScrollToTopComponent
     // BreadcrumbComponent,
   ],
 })

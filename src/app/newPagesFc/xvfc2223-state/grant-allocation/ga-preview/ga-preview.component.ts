@@ -16,6 +16,7 @@ import { DialogComponent } from "src/app/shared/components/dialog/dialog.compone
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 import { SweetAlert } from "sweetalert/typings/core";
 import { State2223Service } from "../../state-services/state2223.service";
+import { environment } from "src/environments/environment";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -111,6 +112,8 @@ export class GaPreviewComponent implements OnInit {
   margin-top: .5rem !important;
 }
     </style>`;
+    storageBaseUrl:string = environment?.STORAGE_BASEURL;
+
   @ViewChild("gtcpre") _html: ElementRef;
   // @ViewChild("annualPreview") _html: ElementRef;
   @ViewChild("templateSave") template;

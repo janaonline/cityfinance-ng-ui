@@ -25,6 +25,7 @@ import { SubmittedFormComponent } from './list/submitted-form/submitted-form.com
 import { QuestionnaireRoutes } from './questionnaires.route';
 import { StateQuestionnairesComponent } from './state/state-questionnaires/state-questionnaires.component';
 import { ULBQuestionnaireComponent } from './ulb/questionnaire/questionnaire.component';
+import { GlobalPartModule } from 'src/app/global-part/global-part.module';
 
 @NgModule({
   imports: [
@@ -40,7 +41,6 @@ import { ULBQuestionnaireComponent } from './ulb/questionnaire/questionnaire.com
     MatInputModule,
     MatIconModule,
     MatDialogModule,
-    SharedModule,
     MatDatepickerModule,
     MatNativeDateModule,
     NgxPaginationModule,
@@ -49,6 +49,7 @@ import { ULBQuestionnaireComponent } from './ulb/questionnaire/questionnaire.com
     FormsModule,
     MatProgressSpinnerModule,
     MatTabsModule,
+    GlobalPartModule
   ],
   declarations: [
     StateQuestionnairesComponent,

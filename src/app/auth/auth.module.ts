@@ -14,6 +14,7 @@ import { SharedModule } from '../shared/shared.module';
 import { AuthRouter } from './auth.router';
 import { AuthService } from './auth.service';
 import { StatisticsComponent } from './statistics/statistics.component';
+import { GlobalPartModule } from '../global-part/global-part.module';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { StatisticsComponent } from './statistics/statistics.component';
     ReactiveFormsModule,
     MatAutocompleteModule,
     MatInputModule,
+    GlobalPartModule
   ],
   providers: [AuthService],
   declarations: [StatisticsComponent, UlbCoverageComponent],

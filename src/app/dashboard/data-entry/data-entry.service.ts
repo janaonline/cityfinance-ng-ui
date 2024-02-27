@@ -80,8 +80,11 @@ export class DataEntryService {
   // }
   newGetURLForFileUpload(fileName: File["name"], fileType: File["type"], folderName?: string) {
     const headers = new HttpHeaders();
+    // for s3 endpoints == getS3Url
+    // for auzure endpoints == getS3Url
+   
     return this.http.post<S3FileURLResponse>(
-      `${environment.api.url}/getS3Url`,
+      `${environment.api.url}/get${environment?.storageType}`,
       JSON.stringify([
         {
           folder: folderName,
@@ -108,25 +111,46 @@ export class DataEntryService {
     return formattedObj;
 
   }
-  uploadFileToS3(
-    file: File,
-    s3URL: string,
-    options = { reportProgress: true }
-  ) {
+  // uploadFileToS3(
+  //   file: File,
+  //   s3URL: string,
+  //   options = { reportProgress: true }
+  // ) {
+  //   return this.http.put(s3URL, file, {
+  //     reportProgress: options.reportProgress,
+  //     observe: "events",
+  //   });
+  // }
+  uploadFileToS3(file: File, s3URL: string, options = { reportProgress: true }): Observable<any> {
+    // Create headers
+    // const token = JSON.parse(localStorage.getItem("id_token"));
+    // const sessionID = sessionStorage.getItem("sessionID");
+    const headers = new HttpHeaders({
+      'X-Ms-Blob-Type': 'BlockBlob',
+      // "Content-Type" : "application/json",
+      // "sessionId" : sessionID,
+      // "x-access-token" : token
+      // Add more headers as needed
+    });
+
+    // Make the PUT request with headers
     return this.http.put(s3URL, file, {
       reportProgress: options.reportProgress,
-      observe: "events",
+      observe: 'events',
+      headers: s3URL.includes('blob.core.windows.net') ? headers : {}, // Include the headers here for auzure
     });
   }
+
+
 
 
   /**
    *
    * @param alias Here fileAlias is the file_alias key that is returned from getting s3URL api call.
    */
-  sendUploadFileForProcessing(alias: string, financialYear: string = "") {
+  sendUploadFileForProcessing(alias: string, financialYear: string = "", path?:string) {
     return this.http.post(`${environment.api.url}/processData`, {
-      alias,
+      alias: path,
       financialYear,
     });
   }
@@ -150,9 +174,13 @@ export class DataEntryService {
     s3URL: string,
     options = { reportProgress: true }
   ) {
+    const headers = new HttpHeaders({
+      'X-Ms-Blob-Type': 'BlockBlob',
+    });
     return this.http.put(s3URL, file, {
       reportProgress: options.reportProgress,
       observe: "events",
+      headers: s3URL.includes('blob.core.windows.net') ? headers : {}
     });
   }
   checkSpcialCharInFileName(files) {
@@ -174,5 +202,9 @@ export class DataEntryService {
     a.download = filename;
     a.click();
     window.URL.revokeObjectURL(url);;
+  }
+
+  getStaticFileUrl(key: number) {
+    return this.http.get(`${environment.api.url}link-record?key=${key}`)
   }
 }

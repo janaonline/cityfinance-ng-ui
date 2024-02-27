@@ -1,19 +1,28 @@
+*:not(mat-icon) {
+    font-family: 'Montserrat';
+}
+
 h1 {
     color: #193369;
 }
 
+
 .card {
     background-color: #FFEFF9;
+    border-radius: 20px;
 }
 
 .text-pink {
     color: #F30098;
+    text-decoration: none;
 }
 
 .image-container {
     position: relative;
     display: inline-block;
-    /* or block, depending on your layout */
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    overflow: hidden;
 }
 
 .image-container::before {

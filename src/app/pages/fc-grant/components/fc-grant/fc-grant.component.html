@@ -224,12 +224,12 @@
       </button>
     </div>
 
-    <div *ngIf="!formHistoricalData || !formHistoricalData.length">
+    <div *ngIf=" inProgress">
       <app-pre-loader></app-pre-loader>
       <app-pre-loader></app-pre-loader>
     </div>
 
-    <app-formhistory *ngIf="formHistoricalData?.length" [data]="formHistoricalData"></app-formhistory>
+    <app-formhistory *ngIf="formHistoricalData?.length ;else noData" [data]="formHistoricalData"></app-formhistory>
   </div>
   <ng-template #noData>
     <div class="row">

@@ -1,0 +1,31 @@
+<section class="container">
+    <div class="row">
+        <div class="col-6">
+            <div class="d-flex gap-3 justify-end justify-content-end my-3">
+                <button class="btn btn-text btn-orange" (click)="reset()">Reset</button>
+                <button class="btn btn-orange d-flex" (click)="openFilter()">Filter <i class="material-icons">filter_alt</i></button>
+            </div>
+            <h4 class="color-blue">Comparison Across Assessment Parameters</h4>
+            <p>Compare <span class="color-orange">{{ ulb?.name }}</span> performance with national, state and population
+                category averages. Use below selection modes to explore.</p>
+
+
+            <form>
+                <div class="form-check" *ngFor="let option of types">
+                    <input class="form-check-input cursor-pointer" type="radio" name="filterType" [(ngModel)]="type"
+                        [id]="option.id + 'chart'" [value]="option.id" (change)="createChart()">
+                    <label class="form-check-label cursor-pointer" [for]="option.id + 'chart'">
+                        {{ option.label }}
+                    </label>
+                </div>
+            </form>
+
+        </div>
+        <div class="col-6">
+            <div class="chart-container">
+                <canvas id="bar-chart-with-line">{{ chart }}</canvas>
+            </div>
+            <p class="text-danger text-end" *ngIf="hasNonBucketUlb"><small>🔴 The ULB selected does not fall under {{ bucketShortName }}</small></p>
+        </div>
+    </div>
+</section>

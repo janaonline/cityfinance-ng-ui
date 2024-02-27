@@ -172,7 +172,8 @@ export class GrantAllocationComponent implements OnInit {
     }
   }
   downloadSample() {
-    this._gAservices.downloadFile().subscribe((response) => {
+    const YEAR2122 = this.years["2021-22"];
+    this._gAservices.downloadFile(YEAR2122).subscribe((response) => {
       let blob: any = new Blob([response], {
         type: "text/json; charset=utf-8",
       });
@@ -256,7 +257,7 @@ export class GrantAllocationComponent implements OnInit {
      let folderName = `${this.userData?.role}/2021-22/grant_allocation/${this.userData?.stateCode}`
       this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
-          const fileAlias = s3Response["data"][0]["file_url"];
+          const fileAlias = s3Response["data"][0]["path"];
           this.progessType = Math.floor(Math.random() * 90) + 10;
           const s3URL = s3Response["data"][0].url;
           this.uploadFileToS3(
@@ -264,7 +265,9 @@ export class GrantAllocationComponent implements OnInit {
             s3URL,
             fileAlias,
             fileIndex,
-            this.progessType
+            this.progessType,
+            s3Response["data"][0]["path"]
+
           );
           resolve("success");
           console.log("file url", fileAlias);
@@ -287,7 +290,8 @@ export class GrantAllocationComponent implements OnInit {
     s3URL: string,
     fileAlias: string,
     fileIndex: number,
-    progressType: string = ""
+    progressType: string = "",
+    filePath
   ) {
     this.dataEntryService
       .uploadFileToS3(file, s3URL)
@@ -306,7 +310,7 @@ export class GrantAllocationComponent implements OnInit {
               (response) => {
                 console.log(response);
                 this.progessType = 100;
-                this.gtFileUrl = fileAlias;
+                this.gtFileUrl = filePath;
                 this.checkDiff();
                 //  swal('Record Submitted Successfully!')
                 //  resolve(res)

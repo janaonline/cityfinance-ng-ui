@@ -28,6 +28,7 @@ import {
 } from "src/app/users/data-upload/components/configs/slb2223";
 import { Slbs2223PreviewComponent } from "./slbs2223-preview/slbs2223-preview.component";
 import { NewDashboardService } from "src/app/pages/new-dashbords/new-dashboard.service";
+import { environment } from "src/environments/environment";
 @Component({
   selector: 'app-slbs2223',
   templateUrl: './slbs2223.component.html',
@@ -74,6 +75,8 @@ export class Slbs2223Component implements OnInit {
   mouFileUrl = '';
   dialogRef;
   isApiInProgress = true;
+  storageBaseUrl:string = environment?.STORAGE_BASEURL;
+
   constructor(
     private _matDialog: MatDialog,
     private commonService: CommonService,
