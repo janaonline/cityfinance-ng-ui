@@ -5,6 +5,7 @@ import { BreadcrumbLink } from '../breadcrumb/breadcrumb.component';
 import { FiscalRankingService, Table } from '../fiscal-ranking.service';
 import { ColorDetails, Marker } from '../india-map/india-map.component';
 import { SearchPopupComponent } from '../ulb-details/search-popup/search-popup.component';
+import { IState } from 'src/app/models/state/state';
 
 @Component({
   selector: 'app-top-rankings',
@@ -24,7 +25,7 @@ export class TopRankingsComponent implements OnInit {
       class: 'disabled'
     }
   ];
-  markers: Marker[] = [];
+  markers = [];
   types = [
     {
       key: 'overAllRank',
@@ -76,7 +77,7 @@ export class TopRankingsComponent implements OnInit {
     { color: "#04DC00", text: "10+", min: 11, max: Infinity },
   ];
   isShowingMap: boolean = false;
-
+  stateSelected:IState;
   constructor(
     private matDialog: MatDialog,
     private fiscalRankingService: FiscalRankingService,
@@ -111,7 +112,7 @@ export class TopRankingsComponent implements OnInit {
   }
 
   get footnote() {
-    if(this.filter.value?.populationBucket == '1') {
+    if (this.filter.value?.populationBucket == '1') {
       return "Note: These are the ULBs that submitted their records to complete the ranking."
     }
   }
@@ -127,7 +128,7 @@ export class TopRankingsComponent implements OnInit {
     this.fiscalRankingService.topRankedUlbs(queryParams, table?.response?.columns, this.params).subscribe((res: any) => {
       this.isShowingMap = true;
       this.table.response = res.tableData;
-      this.markers = res.mapDataTopUlbs;
+      this.markers = res?.mapDataTopUlbs;
     })
   }
 
@@ -138,6 +139,7 @@ export class TopRankingsComponent implements OnInit {
 
   loadStates() {
     this.fiscalRankingService.states().subscribe((res: any) => {
+      console.log('state data', res)
       this.stateList = res.data;
     });
   }
@@ -156,4 +158,29 @@ export class TopRankingsComponent implements OnInit {
       panelClass: 'search-page',
     })
   }
+  onSelectingStateFromDropDown(state: any | null) {
+     this.stateSelected = state;
+     this.updateDropdownStateSelection(state);
+    // this.fetchDataForVisualization(state ? state._id : null);
+    // this.fetchBondIssueAmout(
+    //   this.stateSelected ? this.stateSelected._id : null
+    // );
+   // this.selectStateOnMap(state);
+  }
+
+  private updateDropdownStateSelection(state: IState) {
+    this.stateSelected = state;
+    this.filter.controls.stateId.setValue(state ? [{ ...state }] : []);
+  }
+
+  stateId = '';
+  onStateChange(e){
+    // console.log('eeee', e);
+    // this.stateId = e?.state;
+    // this.filter.patchValue({
+    //   state: this.stateId
+    // })
+    //this.loadTopRankedUlbs(this.table, '');
+  }
 }
+

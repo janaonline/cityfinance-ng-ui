@@ -129,7 +129,9 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
   ngOnChanges(changes: {
     ulbSelected?: SimpleChange;
     yearSelected: SimpleChange;
+    stateId?: SimpleChange
   }) {
+   // this.clearNationalMapContainer();
     this.isMapInProgress = true;
     if (changes.ulbSelected && changes.ulbSelected.currentValue) {
       const newULBId =
@@ -141,7 +143,7 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
         this.onSelectingULBFromDropdown(newULBId);
       }
     }
-    if (changes.yearSelected) {
+    if (changes.yearSelected || changes?.stateId) {
       this.stateAndULBDataMerged = {};
       this.clearNationalMapContainer();
       if (this.districtMap) {
@@ -160,7 +162,7 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
           );
           this.isMapInProgress = false;
           if (this.isMapOnMiniMapMode) {
-            this.createStateLevelMap(this.currentStateInView.name);
+            this.createStateLevelMap(this.currentStateInView.name, { emitState: true }, null);
 
             if (this.currentULBClicked) {
               setTimeout(() => {
@@ -175,6 +177,7 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
         });
       }, 0);
     }
+   
   }
 
   protected initiatedDataFetchingProcess() {
@@ -404,7 +407,8 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
   onStateLayerClick(
     args: ILeafletStateClickEvent,
     showMiniMap = true,
-    skipOndropDownSelect = true
+    skipOndropDownSelect = true,
+    markers?
   ) {
     console.log("aggs.", args);
     this.isProcessingCompleted.emit(false);
@@ -413,7 +417,7 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     }
     this.isNationalMapToDistroctMapInProcess = setTimeout(() => {
       try {
-        this.onClickingState(args, showMiniMap, skipOndropDownSelect);
+        this.onClickingState(args, showMiniMap, skipOndropDownSelect, markers);
       } catch (error) {
         this.mouseHoverOnState = null;
         /**
@@ -705,7 +709,8 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
   onClickingState(
     mapClickEvent: ILeafletStateClickEvent,
     showMiniMap,
-    skipOndropDownSelect
+    skipOndropDownSelect,
+    markers?
   ) {
     if (!this.DistrictsJSONForMapCreation) {
       console.error(`district json not loaded`);
@@ -736,7 +741,9 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       return;
     }
     const status = this.createStateLevelMap(
-      mapClickEvent.sourceTarget.feature.properties.ST_NM
+      mapClickEvent.sourceTarget.feature.properties.ST_NM,
+      { emitState: false },
+      markers
     );
     if (!status) {
       return false;
@@ -798,7 +805,8 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   createStateLevelMap(
     stateName: string,
-    options: { emitState: boolean } = { emitState: true }
+    options: { emitState: boolean } = { emitState: true },
+    markers?
   ) {
     const stateFound = Object.values(this.stateAndULBDataMerged).find(
       (state) => state.name === stateName
@@ -869,7 +877,7 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     this.createDistrictMap(newObj, {
       center: stateCenter,
       dataPoints: [...dataPointsForMarker],
-    });
+    },markers)
     this.currentStateInView = { ...stateFound };
     if (options.emitState) {
       this.stateSelected.emit(stateFound);
@@ -906,7 +914,8 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
         population: number;
         auditStatus: ULBWithMapData["auditStatus"];
       }[];
-    }
+    },
+    markers?
   ) {
     if (this.districtMap) {
       return;
@@ -948,18 +957,30 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
         districtMap.fitBounds(districtLayer.getBounds());
       }
       this.districtMap = districtMap;
-
-      options.dataPoints.forEach((dataPoint) => {
-        const marker = this.createDistrictMarker({
-          ...dataPoint,
-          icon: this.blueIcon,
-        }).addTo(districtMap);
-        marker.on("mouseover", (value) => (this.mouseHoveredOnULB = dataPoint));
-        marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
-        marker.on("click", (values) =>
-          this.onDistrictMarkerClick(<L.LeafletMouseEvent>values, marker)
-        );
-      });
+      if(markers){
+        markers.forEach(marker => {
+          L.marker([marker.lat, marker.lng], {
+            icon: new L.Icon({
+              iconUrl: 'assets/images/maps/simple_blue_dot.png',
+              iconSize: [10, 10],
+              iconAnchor: [6, 6],
+            }), title: marker.ulbName
+          }).addTo(districtMap);
+        });
+      }else{
+        options.dataPoints.forEach((dataPoint) => {
+          const marker = this.createDistrictMarker({
+            ...dataPoint,
+            icon: this.blueIcon,
+          }).addTo(districtMap);
+          marker.on("mouseover", (value) => (this.mouseHoveredOnULB = dataPoint));
+          marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
+          marker.on("click", (values) =>
+            this.onDistrictMarkerClick(<L.LeafletMouseEvent>values, marker)
+          );
+        });
+      }
+     
     }, 0.5);
   }
 
