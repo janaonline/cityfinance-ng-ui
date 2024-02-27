@@ -609,8 +609,6 @@ export class AccordionToTableComponent implements OnInit {
 
   ngOnInit() {
     let selectedUlb = this.ulbList[this.cityId]?.name;
-    console.log("selectedUlb", selectedUlb);
-
     this.bondParam.ulbs.push(selectedUlb);
     // setTimeout(() => {
     //   console.log("bondParam", this.bondParam);
@@ -619,7 +617,6 @@ export class AccordionToTableComponent implements OnInit {
     //     .subscribe((res) => this.onGettingBondIssuerItemSuccess(res));
     // }, 100);
     this.emptyArray();
-    console.log("valueeeeeeee" + this.value);
     if (this.value == "city") {
       this.city = true;
       this.state = false;
@@ -628,7 +625,10 @@ export class AccordionToTableComponent implements OnInit {
       this.state = true;
       this.city = false;
     }
-    console.log(this.filterForm);
+    this._bondService.getBondIssuerItem().subscribe((res) => {
+      this.onGettingBondIssuerItemSuccess(res)
+    });
+
   }
   issueLength: any = 4;
   issueSize: number = 0;
