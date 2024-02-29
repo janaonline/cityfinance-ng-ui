@@ -7,16 +7,11 @@
 </ng-container>
 <ng-template class="map-con" #map>
     <div class="stateMap analytics-map" [id]="'mapidd' + randomNumber"></div>
-    <div class="" id="districtMapContainer" *ngIf="identifier == 'top-ranking-ulb'"
+    <div class="" id="districtMapContainer"
     [ngStyle]="{ display: currentStateInView ? 'block' : 'none' }" style="height: fit-content">
-
-    
-    <!-- <p class="text-center" *ngIf="currentStateInView">
-  Click on any ULB to view their data or Click on INDIA map to go back.
-</p> -->
   </div>
   <div class="map-reset w-100 text-center mb-3 mt-3" *ngIf="currentStateInView && identifier == 'top-ranking-ulb'" style="z-index: 10000" >
-    <a type="button" style="text-decoration: none" (click)="onSelectingStateFromDropDown(national)">Reset Map To
+    <a type="button" style="text-decoration: none" (click)="resetMap(national)">Reset Map To
       India</a>
   </div>
 </ng-template>

@@ -129,11 +129,14 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
   ngOnChanges(changes: {
     ulbSelected?: SimpleChange;
     yearSelected: SimpleChange;
-    stateId?: SimpleChange
+    stateId?: SimpleChange;
+    markers?:SimpleChange;
+    category?:SimpleChange
   }) {
-   // this.clearNationalMapContainer();
-    this.isMapInProgress = true;
+    debugger
+    
     if (changes.ulbSelected && changes.ulbSelected.currentValue) {
+      this.isMapInProgress = true;
       const newULBId =
         typeof changes.ulbSelected.currentValue === "object"
           ? changes.ulbSelected.currentValue._id
@@ -143,7 +146,8 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
         this.onSelectingULBFromDropdown(newULBId);
       }
     }
-    if (changes.yearSelected || changes?.stateId) {
+    if (changes.yearSelected || changes?.category) {
+      this.isMapInProgress = true;
       this.stateAndULBDataMerged = {};
       this.clearNationalMapContainer();
       if (this.districtMap) {
@@ -176,6 +180,22 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
           }
         });
       }, 0);
+    }
+
+    if(changes?.markers && this.districtMap || changes?.category && this.districtMap){
+      
+    setTimeout(()=>{
+    changes?.markers?.currentValue.forEach(marker => {
+          L.marker([marker.lat, marker.lng], {
+            icon: new L.Icon({
+              iconUrl: 'assets/images/maps/simple_blue_dot.png',
+              iconSize: [10, 10],
+              iconAnchor: [6, 6],
+            }), title: marker.ulbName
+          }).addTo(this.districtMap);
+        });
+        
+    }, 10)
     }
    
   }
@@ -408,7 +428,7 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     args: ILeafletStateClickEvent,
     showMiniMap = true,
     skipOndropDownSelect = true,
-    markers?
+    markers?,
   ) {
     console.log("aggs.", args);
     this.isProcessingCompleted.emit(false);
@@ -798,7 +818,7 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   convertMiniMapToOriginal(domId: string) {
     const element = document.getElementById(domId);
-    element?.classList.remove("miniMap");
+    element?.classList?.remove("miniMap");
     this.isMapOnMiniMapMode = false;
     return true;
   }
@@ -890,10 +910,10 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     this.isMapOnMiniMapMode = true;
     this.createdDomMinId = domId;
     const element = document.getElementById(domId);
-    if (element.classList.contains("miniMap")) {
+    if (element?.classList?.contains("miniMap")) {
       return false;
     }
-    element.classList.add("miniMap");
+    element?.classList?.add("miniMap");
     if (!showMiniMap) element.style.display = "none";
 
     // const newElement = document.createElement("div");
@@ -1158,7 +1178,8 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   clearDistrictMapContainer() {
     const height = this.userUtil.isUserOnMobile() ? `100%` : "57vh";
-    document.getElementById("districtMapContainer").innerHTML = `
+    let elem = document.getElementById("districtMapContainer");
+    if(elem) elem.innerHTML = `
       <div
     id="districtMapId"
     class=" col-sm-12"

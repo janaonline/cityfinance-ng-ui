@@ -78,6 +78,7 @@ export class TopRankingsComponent implements OnInit {
   ];
   isShowingMap: boolean = false;
   stateSelected:IState;
+  category: boolean = false;
   constructor(
     private matDialog: MatDialog,
     private fiscalRankingService: FiscalRankingService,
@@ -97,10 +98,15 @@ export class TopRankingsComponent implements OnInit {
     this.filter.get('category')?.valueChanges.subscribe(() => {
       this.table.response = null;
     });
-    this.filter.valueChanges.subscribe(() => this.loadData());
+    this.filter.valueChanges.subscribe(() => {
+      this.category = true;
+      this.loadData();
+    });
   }
 
   ngOnInit(): void {
+    debugger
+    this.isShowingMap = false;
     this.loadStates();
     this.loadData();
   }
@@ -123,12 +129,12 @@ export class TopRankingsComponent implements OnInit {
   }
 
   loadTopRankedUlbs(table: Table, queryParams: string = '') {
-    this.isShowingMap = false;
     console.log('queryParams', queryParams)
     this.fiscalRankingService.topRankedUlbs(queryParams, table?.response?.columns, this.params).subscribe((res: any) => {
       this.isShowingMap = true;
       this.table.response = res.tableData;
       this.markers = res?.mapDataTopUlbs;
+      this.category = false;
     })
   }
 
@@ -141,6 +147,7 @@ export class TopRankingsComponent implements OnInit {
     this.fiscalRankingService.states().subscribe((res: any) => {
       console.log('state data', res)
       this.stateList = res.data;
+      this.stateList = [{ _id: null, name: "India" }].concat(this.stateList);
     });
   }
 
@@ -170,7 +177,7 @@ export class TopRankingsComponent implements OnInit {
 
   private updateDropdownStateSelection(state: IState) {
     this.stateSelected = state;
-    this.filter.controls.stateId.setValue(state ? [{ ...state }] : []);
+    this.filter.controls.stateData.setValue(state ? [{ ...state }] : []);
   }
 
   stateId = '';
@@ -182,5 +189,12 @@ export class TopRankingsComponent implements OnInit {
     // })
     //this.loadTopRankedUlbs(this.table, '');
   }
+
+  onDropDownChange(e){
+    console.log('eeeeeee', e);
+    //this.isShowingMap = false;
+    this.updateDropdownStateSelection(e);
+  }
+ 
 }
 
