@@ -165,6 +165,7 @@ export class TopRankingsComponent implements OnInit {
     })
   }
   onSelectingStateFromDropDown(state: any | null) {
+    if(state?._id == null) this.isShowingMap = false;
      this.stateSelected = state;
      this.updateDropdownStateSelection(state);
       this.stateId = state;
@@ -175,18 +176,20 @@ export class TopRankingsComponent implements OnInit {
     this.filter.controls.stateData.setValue(state ? [{ ...state }] : []);
   }
 
-  onDropDownChange(e){
-    console.log('eeeeeee', e);
-    this.updateDropdownStateSelection(e);
+  onMapClick(event){
+    if(!event?._id){
+      this.isShowingMap = false;
+    }
+    this.updateDropdownStateSelection(event);
   }
 
-  dropDownChange(e){
-    console.log("eeee", e);
-    this.category = true;
+  dropDownChange(event){
+    this.category = true; 
   }
 
-  onStateDropDownChange(){
-
+  tabChanges(){
+    this.isShowingMap = false;
+    this.updateDropdownStateSelection({_id: null, name: 'India'});
   }
  
 }

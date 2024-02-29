@@ -44,6 +44,7 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
   @Input() colorCoding: any = [];
   @Input() colorDetails: ColorDetails[];
   @Input() category;
+  @Input() stateId;
   randomNumber = 0;
 
   nationalLevelMap: any;
@@ -83,7 +84,7 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
   StatesJSONForMapCreation: any;
   national: any = { _id: "", name: "India" };
   currentId: any;
-
+  
 
 
   constructor(

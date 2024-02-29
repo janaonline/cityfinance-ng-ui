@@ -29,7 +29,7 @@
             <div class="col-md-5 p-3">
                 <ng-container *ngIf="isShowingMap; else mapLoader;">
                     <app-india-map *ngIf="selectedMap == 'topUlbs'" [markers]="markers" [identifier]="'top-ranking-ulb'"
-                    (onDropDownChange)="onDropDownChange($event)" [category]="category">
+                    (onDropDownChange)="onMapClick($event)" [category]="category" [stateId]="stateId">
                     </app-india-map>
                     <app-india-map *ngIf="selectedMap == 'rankHolders'" [colorCoding]="colorCoding"
                         [identifier]="'top-ranking'" [colorDetails]="colorDetails"
@@ -47,11 +47,11 @@
                 <div class="btn-group btn-group-sm btn-group-lg mt-3 text-center d-block" role="group"
                     aria-label="Basic radio toggle button group">
                     <input type="radio" class="btn-check" name="map-filter" id="topUlbs" autocomplete="off"
-                        [(ngModel)]="selectedMap" [value]="'topUlbs'">
+                        [(ngModel)]="selectedMap" [value]="'topUlbs'" (change)="tabChanges()">
                     <label class="btn btn-outline-primary" for="topUlbs">Top ULBs</label>
 
                     <input type="radio" class="btn-check" name="map-filter" id="rankHolders" autocomplete="off"
-                        [(ngModel)]="selectedMap" [value]="'rankHolders'">
+                        [(ngModel)]="selectedMap" [value]="'rankHolders'" (change)="tabChanges()">
                     <label class="btn btn-outline-primary" for="rankHolders">ULB Rank Holders</label>
                 </div>
             </div>
