@@ -124,6 +124,7 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   allUlb;
   isMapInProgress : boolean = true;
+  onStateClick: boolean = false;
   ngOnInit() {}
 
   ngOnChanges(changes: {
@@ -133,7 +134,7 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     markers?:SimpleChange;
     category?:SimpleChange
   }) {
-    debugger
+    
     
     if (changes.ulbSelected && changes.ulbSelected.currentValue) {
       this.isMapInProgress = true;
@@ -146,7 +147,7 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
         this.onSelectingULBFromDropdown(newULBId);
       }
     }
-    if (changes.yearSelected || changes?.category) {
+    if (changes.yearSelected || (changes?.category && this.onStateClick == false)) {
       this.isMapInProgress = true;
       this.stateAndULBDataMerged = {};
       this.clearNationalMapContainer();
@@ -166,7 +167,7 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
           );
           this.isMapInProgress = false;
           if (this.isMapOnMiniMapMode) {
-            this.createStateLevelMap(this.currentStateInView.name, { emitState: true }, null);
+            this.createStateLevelMap(this.currentStateInView.name, { emitState: true }, changes?.markers?.currentValue);
 
             if (this.currentULBClicked) {
               setTimeout(() => {
@@ -181,21 +182,22 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
         });
       }, 0);
     }
-
-    if(changes?.markers && this.districtMap || changes?.category && this.districtMap){
-      
+    if(changes?.markers && this.onStateClick || changes?.category && this.onStateClick){
     setTimeout(()=>{
+    if(this.districtMap) $(".marker-simple").remove();
     changes?.markers?.currentValue.forEach(marker => {
           L.marker([marker.lat, marker.lng], {
             icon: new L.Icon({
               iconUrl: 'assets/images/maps/simple_blue_dot.png',
               iconSize: [10, 10],
               iconAnchor: [6, 6],
-            }), title: marker.ulbName
+              className: 'marker-simple'
+            }), 
+            title: marker.ulbName,
           }).addTo(this.districtMap);
         });
         
-    }, 10)
+    }, 500)
     }
    
   }
@@ -978,15 +980,16 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       }
       this.districtMap = districtMap;
       if(markers){
-        markers.forEach(marker => {
-          L.marker([marker.lat, marker.lng], {
-            icon: new L.Icon({
-              iconUrl: 'assets/images/maps/simple_blue_dot.png',
-              iconSize: [10, 10],
-              iconAnchor: [6, 6],
-            }), title: marker.ulbName
-          }).addTo(districtMap);
-        });
+        // debugger
+        // markers.forEach(marker => {
+        //   L.marker([marker.lat, marker.lng], {
+        //     icon: new L.Icon({
+        //       iconUrl: 'assets/images/maps/simple_blue_dot.png',
+        //       iconSize: [10, 10],
+        //       iconAnchor: [6, 6],
+        //     }), title: marker.ulbName
+        //   }).addTo(districtMap);
+        // });
       }else{
         options.dataPoints.forEach((dataPoint) => {
           const marker = this.createDistrictMarker({
@@ -1143,6 +1146,7 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     this.resetDistrictMap();
     this.clearDistrictMapContainer();
     this.showMapLegends();
+    this.onStateClick = false;
   }
 
   clearUlbFilterControl() {
@@ -1174,6 +1178,7 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   resetDistrictMap() {
     this.districtMap = null;
+    this.onStateClick = false;
   }
 
   clearDistrictMapContainer() {
