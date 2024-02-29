@@ -76,7 +76,7 @@
 
                         </div>
                         <div class="col-4 col-sm-4 col-md-4 ps-3">
-                            <select class="form-select" formControlName="populationBucket">
+                            <select class="form-select" formControlName="populationBucket" (change)="dropDownChange($event)">
                                 <option value="">All Categories</option>
                                 <option *ngFor="let item of populationCategories" [value]="item._id">
                                     {{ item.name }}
@@ -92,7 +92,7 @@
 
                     <ng-container *ngFor="let type of types">
                         <input type="radio" class="btn-check" formControlName="category" [id]="type?.key"
-                            [value]="type?.key">
+                            [value]="type?.key" (change)="dropDownChange($event)">
                         <label class="btn btn-outline-primary" [for]="type?.key">{{ type?.label }}</label>
                     </ng-container>
                 </div>

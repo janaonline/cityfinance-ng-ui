@@ -280,7 +280,8 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
           
        //  if(this.selectedStateCode) this.onSelectingStateFromDropDown(stateDetails);
          if(this.identifier == 'top-ranking-ulb' && this.selectedStateCode){
-          this.onDropDownChange.emit(stateDetails)
+          this.onDropDownChange.emit(stateDetails);
+          this.onStateClick = true;
           this.onStateLayerClick(args, true, true, this.markers);
          }
           
@@ -312,7 +313,6 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
   }
   clearDistrictMapContainer() {
     const height = this.userUtil.isUserOnMobile() ? `100%` : "530px";
-
     document.getElementById("districtMapContainer").innerHTML = `
       <div
     id="districtMapId"
@@ -452,6 +452,7 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
     this.myForm.controls.stateId.setValue(state ? [{ ...state }] : []);
   }
   resetMap(){
+    this.onStateClick = false;
     this.onDropDownChange.emit({_id: null, name: "India"});
     this.resetMapToNationalLevel();
   }

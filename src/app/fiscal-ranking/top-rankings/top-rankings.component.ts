@@ -79,6 +79,7 @@ export class TopRankingsComponent implements OnInit {
   isShowingMap: boolean = false;
   stateSelected:IState;
   category: boolean = false;
+  stateId:any;
   constructor(
     private matDialog: MatDialog,
     private fiscalRankingService: FiscalRankingService,
@@ -99,13 +100,11 @@ export class TopRankingsComponent implements OnInit {
       this.table.response = null;
     });
     this.filter.valueChanges.subscribe(() => {
-      this.category = true;
       this.loadData();
     });
   }
 
   ngOnInit(): void {
-    debugger
     this.isShowingMap = false;
     this.loadStates();
     this.loadData();
@@ -168,11 +167,7 @@ export class TopRankingsComponent implements OnInit {
   onSelectingStateFromDropDown(state: any | null) {
      this.stateSelected = state;
      this.updateDropdownStateSelection(state);
-    // this.fetchDataForVisualization(state ? state._id : null);
-    // this.fetchBondIssueAmout(
-    //   this.stateSelected ? this.stateSelected._id : null
-    // );
-   // this.selectStateOnMap(state);
+      this.stateId = state;
   }
 
   private updateDropdownStateSelection(state: IState) {
@@ -180,20 +175,18 @@ export class TopRankingsComponent implements OnInit {
     this.filter.controls.stateData.setValue(state ? [{ ...state }] : []);
   }
 
-  stateId = '';
-  onStateChange(e){
-    // console.log('eeee', e);
-    // this.stateId = e?.state;
-    // this.filter.patchValue({
-    //   state: this.stateId
-    // })
-    //this.loadTopRankedUlbs(this.table, '');
-  }
-
   onDropDownChange(e){
     console.log('eeeeeee', e);
-    //this.isShowingMap = false;
     this.updateDropdownStateSelection(e);
+  }
+
+  dropDownChange(e){
+    console.log("eeee", e);
+    this.category = true;
+  }
+
+  onStateDropDownChange(){
+
   }
  
 }
