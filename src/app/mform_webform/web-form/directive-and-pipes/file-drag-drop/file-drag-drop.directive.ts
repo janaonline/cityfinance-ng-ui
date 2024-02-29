@@ -40,7 +40,6 @@ export class FileDragDropDirective {
     this.background = '#eee';
     this.borderColor = '#696D7D';
     this.borderStyle = '2px dashed';
-    // debugger;
     let files = evt.dataTransfer.files;
     let valid_files : Array<File> = files;
     this.filesChangeEmiter.emit(valid_files);

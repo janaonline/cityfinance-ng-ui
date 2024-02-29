@@ -125,6 +125,8 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
   allUlb;
   isMapInProgress : boolean = true;
   onStateClick: boolean = false;
+  layerMap = {};
+  stateList = [];
   ngOnInit() {}
 
   ngOnChanges(changes: {
@@ -198,6 +200,9 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
         });
         
     }, 500)
+    }
+    if(changes?.stateId){
+      this.stateDropdownChanges(changes?.stateId?.currentValue);
     }
    
   }
@@ -370,7 +375,12 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       },
     };
     let map: L.Map;
-
+    if (this.stateList.length == 0)
+    this.stateList = geoData.features.map((value: any) => {
+      Object.assign(this.layerMap, { [value.properties.ST_CODE]: null });
+      return value.properties;
+    });
+    this.stateList = this._commonService.sortDataSource(this.stateList, 'ST_NM');
     ({ stateLayers: this.stateLayers, map } =
       MapUtil.createDefaultNationalMap(configuration));
 
@@ -1218,5 +1228,30 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
   removeCustomStyleTag() {
     const element = document.getElementById("customReuseable");
     element.remove();
+  }
+  
+  stateDropdownChanges(stateRes){
+    const stateFound = this.stateList.find(
+      (state) => state._id === stateRes?._id
+    );
+    console.log(this.stateList)
+    if(!stateRes?._id && !this.districtMap){
+      return;
+    }
+    if(!stateRes?._id){
+      this.initializeNationalLevelMapLayer(this.stateLayers)
+    }else if (this.districtMap && stateRes?._id) {
+      MapUtil.destroy(this.districtMap); 
+    }
+    let layerS;
+    this.stateLayers.eachLayer((layer) => {
+      if (stateRes) {
+        if (MapUtil.getStateName(layer) === stateRes.name) {
+          layerS = layer
+        }
+      }
+
+    })
+      layerS.fireEvent("click");
   }
 }
