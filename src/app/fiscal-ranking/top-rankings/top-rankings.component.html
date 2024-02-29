@@ -28,7 +28,8 @@
         <div class="row m-0 min-h-60">
             <div class="col-md-5 p-3">
                 <ng-container *ngIf="isShowingMap; else mapLoader;">
-                    <app-india-map *ngIf="selectedMap == 'topUlbs'" [markers]="markers" [identifier]="'top-ranking-ulb'">
+                    <app-india-map *ngIf="selectedMap == 'topUlbs'" [markers]="markers" [identifier]="'top-ranking-ulb'"
+                    (onDropDownChange)="onDropDownChange($event)" [category]="category">
                     </app-india-map>
                     <app-india-map *ngIf="selectedMap == 'rankHolders'" [colorCoding]="colorCoding"
                         [identifier]="'top-ranking'" [colorDetails]="colorDetails"
@@ -66,7 +67,9 @@
                                 <div class="w-100">
                                     <angular2-multiselect class="expo-drp-in" [data]="stateList"
                                         formControlName="stateData"
-                                        [settings]="dropdownSettings">
+                                        [settings]="dropdownSettings"
+                                        (onSelect)="onSelectingStateFromDropDown($event)"
+                                        (onDeSelect)="onSelectingStateFromDropDown(null)">
                                     </angular2-multiselect>
                                 </div>
                             </div>
