@@ -453,7 +453,6 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
     this.myForm.controls.stateId.setValue(state ? [{ ...state }] : []);
   }
   resetMap(){
-    debugger
     this.onStateClick = false;
     this.stateDetails = {_id: null, name: "India"}
     this.onDropDownChange.emit({_id: null, name: "India"});
