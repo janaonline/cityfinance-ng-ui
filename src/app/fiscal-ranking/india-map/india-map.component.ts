@@ -44,7 +44,7 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
   @Input() colorCoding: any = [];
   @Input() colorDetails: ColorDetails[];
   @Input() category;
-  @Input() stateId;
+  @Input() stateDetails;
   randomNumber = 0;
 
   nationalLevelMap: any;
@@ -121,7 +121,7 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
     this.clearDistrictMapContainer();
     this.randomNumber = Math.round(Math.random());
     this.getFinancialYearList();
-   this.getNationalTableData();
+   //this.getNationalTableData();
     this.loadData();
     this.createNationalMapJson();
   }
@@ -453,8 +453,10 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
     this.myForm.controls.stateId.setValue(state ? [{ ...state }] : []);
   }
   resetMap(){
+    debugger
     this.onStateClick = false;
+    this.stateDetails = {_id: null, name: "India"}
     this.onDropDownChange.emit({_id: null, name: "India"});
-    this.resetMapToNationalLevel();
+   // this.resetMapToNationalLevel();
   }
 }
