@@ -16,7 +16,7 @@
                 <div class="row">
                     <div class="col-sm-12 text-center">
                         <div *ngFor="let item of yearList" class="" style="display: inline-block;">
-                            <button type="button" class="btn" style="margin-right: 2rem;" routerLink="{{item.url}}">{{item.year}} </button>
+                            <button type="button" class="btn" style="margin-right: 2rem;" routerLink="{{item.url}}" [queryParams]="{ year: item?.id}">{{item.year}} </button>
                         </div>
                     </div>
                 </div>
