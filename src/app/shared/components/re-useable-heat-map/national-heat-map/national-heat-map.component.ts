@@ -132,11 +132,10 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
   ngOnChanges(changes: {
     ulbSelected?: SimpleChange;
     yearSelected: SimpleChange;
-    stateId?: SimpleChange;
+    stateDetails?: SimpleChange;
     markers?:SimpleChange;
     category?:SimpleChange
   }) {
-    
     
     if (changes.ulbSelected && changes.ulbSelected.currentValue) {
       this.isMapInProgress = true;
@@ -199,10 +198,11 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
           }).addTo(this.districtMap);
         });
         
-    }, 500)
+    }, 50)
     }
-    if(changes?.stateId){
-      this.stateDropdownChanges(changes?.stateId?.currentValue);
+    if(changes?.stateDetails){
+      debugger
+      this.stateDropdownChanges(changes?.stateDetails?.currentValue);
     }
    
   }

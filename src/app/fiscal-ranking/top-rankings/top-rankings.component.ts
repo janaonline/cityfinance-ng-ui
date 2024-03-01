@@ -79,7 +79,7 @@ export class TopRankingsComponent implements OnInit {
   isShowingMap: boolean = false;
   stateSelected:IState;
   category: boolean = false;
-  stateId:any;
+  stateDetails:any;
   constructor(
     private matDialog: MatDialog,
     private fiscalRankingService: FiscalRankingService,
@@ -168,7 +168,7 @@ export class TopRankingsComponent implements OnInit {
     if(state?._id == null) this.isShowingMap = false;
      this.stateSelected = state;
      this.updateDropdownStateSelection(state);
-      this.stateId = state;
+      this.stateDetails = state;
   }
 
   private updateDropdownStateSelection(state: IState) {
