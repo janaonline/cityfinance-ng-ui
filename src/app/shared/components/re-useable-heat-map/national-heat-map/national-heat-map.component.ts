@@ -201,7 +201,6 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     }, 50)
     }
     if(changes?.stateDetails){
-      debugger
       this.stateDropdownChanges(changes?.stateDetails?.currentValue);
     }
    
