@@ -12,6 +12,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 
 import { AnalyticsRoutes } from './analytics.route';
 import { HomeTabViewComponent } from './home-tab-view/home-tab-view.component';
+import { GlobalPartModule } from 'src/app/global-part/global-part.module';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { HomeTabViewComponent } from './home-tab-view/home-tab-view.component';
     MatSelectModule,
     MatIconModule,
     MatTooltipModule,
+    GlobalPartModule
   ],
   declarations: [HomeTabViewComponent],
 })

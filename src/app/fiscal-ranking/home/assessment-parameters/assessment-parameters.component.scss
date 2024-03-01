@@ -1,3 +1,7 @@
+*:not(mat-icon) {
+    font-family: 'Montserrat';
+}
+
 section {
     text-align: center;
     color: white;
@@ -24,4 +28,10 @@ section {
     text-decoration: underline;
     color: white;
     font-size: 24px;
+}
+
+@media (max-width: 767.98px){
+    .card{
+        max-width: 100%;
+    }
 }

@@ -32,15 +32,15 @@ export class TopRankingsComponent implements OnInit {
     },
     {
       key: 'resourceMobilizationRank',
-      label: 'Resource Mobilization'
+      label: 'Resource Mobilization (RM)'
     },
     {
       key: 'expenditurePerformanceRank',
-      label: 'Expenditure Performance'
+      label: 'Expenditure Performance (EP)'
     },
     {
       key: 'fiscalGovernanceRank',
-      label: 'Fiscal Governance'
+      label: 'Fiscal Governance (FG)'
     },
   ]
 
@@ -83,7 +83,7 @@ export class TopRankingsComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.filter = this.fb.group({
-      populationBucket: '',
+      populationBucket: '1',
       stateData: [''],
       state: '',
       category: 'overAllRank',
@@ -110,6 +110,12 @@ export class TopRankingsComponent implements OnInit {
     return params;
   }
 
+  get footnote() {
+    if(this.filter.value?.populationBucket == '1') {
+      return "Note: These are the ULBs that submitted their records to complete the ranking."
+    }
+  }
+
   loadData() {
     this.loadTopRankedStatesMap();
     this.loadTopRankedUlbs(this.table, '');
@@ -117,6 +123,7 @@ export class TopRankingsComponent implements OnInit {
 
   loadTopRankedUlbs(table: Table, queryParams: string = '') {
     this.isShowingMap = false;
+    console.log('queryParams', queryParams)
     this.fiscalRankingService.topRankedUlbs(queryParams, table?.response?.columns, this.params).subscribe((res: any) => {
       this.isShowingMap = true;
       this.table.response = res.tableData;

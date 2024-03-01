@@ -9,6 +9,7 @@ import { DialogComponent } from 'src/app/shared/components/dialog/dialog.compone
 import { defaultDailogConfiuration } from "src/app/pages/questionnaires/ulb/configs/common.config";
 import { Router } from "@angular/router";
 import { SweetAlert } from "sweetalert/typings/core";
+import { environment } from "src/environments/environment";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-odf-form-preview",
@@ -128,7 +129,8 @@ export class OdfFormPreviewComponent implements OnInit {
     </style>`;
   dialogRef;
   download;
-
+  storageBaseUrl:string = environment?.STORAGE_BASEURL;
+  
   ngOnInit(): void {
     let userData = JSON.parse(localStorage.getItem("userData"));
     console.log("this.data", this.data);

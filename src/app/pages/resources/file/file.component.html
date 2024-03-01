@@ -32,7 +32,7 @@
               {{ file.name }}
             </td>
             <td>
-              <a [href]="file.downloadUrl" target="_blank">
+              <a [href]="file.downloadUrl | toStorageUrl" target="_blank">
                 <i
                   title="Download"
                   class="fa fa-cloud-download"

@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
+import { GlobalPartModule } from 'src/app/global-part/global-part.module';
 @NgModule({
   declarations: [OwnRevenueDashboardComponent],
   imports: [
@@ -25,7 +26,8 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
     ReactiveFormsModule,
     AngularMultiSelectModule,
     FormsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    GlobalPartModule
   ],
 })
 export class OwnRevenueDashboardModule {}

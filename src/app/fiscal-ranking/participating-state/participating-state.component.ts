@@ -245,10 +245,10 @@ export class ParticipatingStateComponent implements OnInit {
   colorCoding;
 
   colorDetails: ColorDetails[] = [
-    { color: "#04DC00", text: "76%-100%", min: 76, max: 100 },
-    { color: "#F8A70B", text: "51%-75%", min: 51, max: 75 },
-    { color: "#FFDB5B", text: "26%-50%", min: 26, max: 50 },
-    { color: "#FFF281", text: "1%-25%", min: 1, max: 15 },
+    { color: "#04DC00", text: ">75%-100%", min: 75, max: 100.1 },
+    { color: "#F8A70B", text: ">50%-75%", min: 50, max: 75 },
+    { color: "#FFDB5B", text: ">25%-50%", min: 25, max: 50 },
+    { color: "#FFF281", text: ">0%-25%", min: 0, max: 25 },
     { color: "#E5E5E5", text: "0%", min: 0, max: 0 },
   ];
 
@@ -273,8 +273,9 @@ export class ParticipatingStateComponent implements OnInit {
     const filterObj = {
       stateType: this.stateType,
       ulbParticipationFilter: this.ulbParticipation,
-      ulbRankingStatusFilter: this.ulbRankingStatus
-
+      ulbRankingStatusFilter: this.ulbRankingStatus,
+      skip: 0,
+      limit: 37
     }
     const endpoint = `scoring-fr/participated-state`;
     this.fiscalRankingService.getTableResponse(endpoint, queryParams, table?.response?.columns, 'data.tableData', filterObj).subscribe((res: any) => {
@@ -321,5 +322,9 @@ export class ParticipatingStateComponent implements OnInit {
 
   onUpdate(table:Table,  event) {
     this.getTableData(table, event?.queryParams);
+   }
+
+   updateSorting(){
+
    }
 }

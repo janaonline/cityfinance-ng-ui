@@ -180,4 +180,8 @@ export class NewCommonService {
        }
     );
   }
+
+  getStaticFileUrl(key: number) {
+    return this.http.get(`${environment.api.url}link-record?key=${key}`)
+  }
 }

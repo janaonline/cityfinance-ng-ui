@@ -1,5 +1,4 @@
-<div class="bg-img" *ngIf="
-loggedInUserType;" style="padding: 0;">
+<div class="bg-img" *ngIf="loggedInUserType;" style="padding: 0;">
     <div class="container-fluid" style="margin-top: 0;">
         <div class="row bg">
             <div class="col-sm-12 col-md-12 col-lg-12 text-center" style="margin-bottom: 4rem; margin-top: 3.125rem;">
@@ -17,7 +16,7 @@ loggedInUserType;" style="padding: 0;">
                 <div class="row">
                     <div class="col-sm-12 text-center">
                         <div *ngFor="let item of yearList" class="" style="display: inline-block;">
-                            <button type="button" class="btn" style="margin-right: 2rem;" routerLink="{{item.url}}">{{item.year}} </button>
+                            <button type="button" class="btn" style="margin-right: 2rem;" routerLink="{{item.url}}" [queryParams]="{ year: item?.id}">{{item.year}} </button>
                         </div>
                     </div>
                 </div>

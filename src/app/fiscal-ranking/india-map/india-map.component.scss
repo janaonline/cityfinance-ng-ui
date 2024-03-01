@@ -2,11 +2,11 @@
 @import "../../../../src/scss/variables";
 @import "../../../../src/scss/mixins";
 
-::ng-deep .tooltip-custom-1 {
+:host ::ng-deep .tooltip-custom-1 {
     transform: translateY(-4000px);
 }
 
-::ng-deep .tooltip-custom {
+:host ::ng-deep .tooltip-custom {
     background: white;
     border: 1px solid black;
     color: black;
@@ -38,6 +38,7 @@
     @media (max-width: 600px) {
         min-height: 550px;
     }
+
     border-radius: 5px;
     padding-top: 1%;
     display: flex;
@@ -58,7 +59,7 @@ div.miniMap {
     display: none;
 }
 
-::ng-deep.miniMapOverlay {
+:host ::ng-deep.miniMapOverlay {
     background: transparent;
     width: 100%;
     height: 100%;
@@ -74,6 +75,7 @@ div.miniMap {
     top: 0%;
     border-radius: inherit;
     border-left: inherit;
+
     @media (max-width: 768px) {
         margin-top: 0%;
         height: 100%;
@@ -124,6 +126,7 @@ div.miniMap {
 .ulbDetails {
     transform: scale(0.8);
     margin-top: -10%;
+
     &>span {
         display: block;
     }
@@ -241,12 +244,12 @@ div.miniMap {
     left: 0;
 }
 
-::ng-deep .mat-progress-spinner circle,
+:host ::ng-deep .mat-progress-spinner circle,
 .mat-spinner circle {
     stroke: #ffc500;
 }
 
-::ng-deep.unfilled circle {
+:host ::ng-deep.unfilled circle {
     stroke: rgba(180, 180, 180, 0.247) !important;
 }
 
@@ -254,22 +257,34 @@ div.miniMap {
     color: #8bd2f0;
 }
 
-::ng-deep .leaflet-zoom-animated svg g {
+:host ::ng-deep .leaflet-zoom-animated svg g {
     transform: translateX(-5%) !important;
 }
 
-::ng-deep div#cdk-overlay-0.cdk-overlay-pane {
+:host ::ng-deep div#cdk-overlay-0.cdk-overlay-pane {
     min-width: 200.1px !important;
 }
 
-::ng-deep .analytics-map {
+:host ::ng-deep .analytics-map {
     .leaflet-bottom {
         transform: scale(0.55);
-        width: 155px;
+        width: 100%;
         font-size: 0.7vw;
     }
 
     .leaflet-control {
+        .indicator-items {
+            display: flex;
+            gap: 20px;
+
+            div {
+                display: flex;
+                align-items: center;
+                font-size: 12px;
+                text-wrap: nowrap;
+            }
+        }
+
         width: fit-content;
         transform: scale(1.6) translateY(-50%);
         position: absolute;
@@ -305,32 +320,38 @@ div.miniMap {
     }
 }
 
-::ng-deep {
+:host ::ng-deep {
     .leaflet-control-attribution {
         display: none;
     }
+
     .cuppa-dropdown {
         position: relative;
         margin-top: -2px;
     }
+
     .map-click-guide {
         position: absolute;
         bottom: 3vh;
     }
+
     .national-map-click-guide {
         margin-left: 13%;
         width: fit-content;
         margin-top: 2%;
         bottom: 1px;
         font-size: 1vw;
+
         @media screen and (max-width: 1024px) and (min-width: 560px) {
             font-size: $font-size-base * 0.75;
         }
+
         @media screen and (max-width: 551px) {
             font-size: $font-size-base * 0.75;
             margin: auto;
         }
     }
+
     .state-map-click-guide {
         text-align: center;
         left: 18%;
@@ -368,13 +389,13 @@ div.miniMap {
     }
 }
 
-::ng-deep .leaflet-pane>svg path.leaflet-interactive {
+:host ::ng-deep .leaflet-pane>svg path.leaflet-interactive {
     stroke: black !important;
     stroke-width: 1px;
     outline: none;
 }
 
-::ng-deep #districtMapId .leaflet-pane>svg path.leaflet-interactive {
+:host ::ng-deep #districtMapId .leaflet-pane>svg path.leaflet-interactive {
     filter: drop-shadow(0px 1px 0px #1e3571) drop-shadow(0px 2px 0px #1e3571) drop-shadow(0px 3px 0px #1e3571) drop-shadow(0px 4px 0px #1e3571) drop-shadow(0px 5px 0px #1e3571) drop-shadow(0px 6px 0px #1e3571) drop-shadow(0px 7px 0px #1e3571);
     stroke-width: 0 !important;
 }
@@ -574,4 +595,10 @@ td {
 
 .miniMap {
     visibility: hidden;
+}
+
+@media (max-width: 767.98px) {
+    .stateMap {
+        width: 100% !important;
+    }
 }

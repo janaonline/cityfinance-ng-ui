@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CollectFdataComponent } from './collect-fdata.component';
+import { UrbanReformsIvComponent } from './urban-reforms-iv.component';
 
-describe('CollectFdataComponent', () => {
-  let component: CollectFdataComponent;
-  let fixture: ComponentFixture<CollectFdataComponent>;
+describe('UrbanReformsIvComponent', () => {
+  let component: UrbanReformsIvComponent;
+  let fixture: ComponentFixture<UrbanReformsIvComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CollectFdataComponent ]
+      declarations: [ UrbanReformsIvComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CollectFdataComponent);
+    fixture = TestBed.createComponent(UrbanReformsIvComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -5,6 +5,8 @@ import { MohuaFormComponent } from './mohua-form.component';
 import { ReviewUlbTableComponent } from './review-ulb-table/review-ulb-table.component';
 import { ReviewStateFormComponent } from './review-state-form/review-state-form.component';
 import { StateResourceManagerComponent } from './state-resource-manager/state-resource-manager.component';
+import { UrbanReformsIvComponent } from './urban-reforms-iv/urban-reforms-iv.component';
+import { DocumentsComponent } from './urban-reforms-iv/documents/documents.component';
 
 const routes: Routes = [
   {
@@ -27,7 +29,15 @@ const routes: Routes = [
       {
         path: 'state-resource-manager',
         component: StateResourceManagerComponent,
-      }      
+      }, 
+      {
+        path: 'urban-reforms-iv',
+        component: UrbanReformsIvComponent,
+      }, 
+      {
+        path: 'urban-reforms-iv/:stateId',
+        component: DocumentsComponent,
+      }, 
     ],
   },
 ];

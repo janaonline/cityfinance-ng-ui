@@ -60,7 +60,7 @@
         <h4 class="pl-1">PDF</h4>
         <div class="list-group">
           <a
-            [href]="file.url"
+            [href]="file.url | toStorageUrl"
             target="_blank"
             class="list-group-item"
             *ngFor="let file of fileList.pdf"
@@ -76,7 +76,7 @@
         <h4 class="pl-1">EXCEL</h4>
         <div class="list-group">
           <a
-            [href]="file.url"
+            [href]="file.url | toStorageUrl"
             target="_blank"
             class="list-group-item"
             *ngFor="let file of fileList.excel"

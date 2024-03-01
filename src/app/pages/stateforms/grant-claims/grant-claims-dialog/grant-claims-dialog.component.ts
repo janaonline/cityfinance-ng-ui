@@ -211,7 +211,7 @@ li {
       this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
           console.log('s3333..', s3Response)
-          const fileAlias = s3Response["data"][0]["file_url"];
+          const fileAlias = s3Response["data"][0]["path"];
           const s3URL = s3Response["data"][0].url;
           this.uploadFileToS3(file, s3URL, fileAlias);
           resolve("success");

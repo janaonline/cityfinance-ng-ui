@@ -14,6 +14,7 @@ import { NationalResourcesComponent } from './national-resources/national-resour
 import { NationalMapSectionComponent } from './national-map-section/national-map-section.component';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { SlickCarouselModule } from "ngx-slick-carousel";
+import { GlobalPartModule } from 'src/app/global-part/global-part.module';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { SlickCarouselModule } from "ngx-slick-carousel";
     MatInputModule,
     AngularMultiSelectModule,
     FormsModule,
-    SlickCarouselModule
+    SlickCarouselModule,
+    GlobalPartModule
   ]
 })
 export class NationalModule { }

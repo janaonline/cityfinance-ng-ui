@@ -3,8 +3,9 @@
     <div class="row">
         <!-- left menu -->
         <div class="col-sm-2 ps-0">
-          <div class="" *ngIf="leftMenu">
-            <app-left-menu-template [leftMenu]="leftMenu"></app-left-menu-template>
+          <!-- {{leftMenu | json}} -->
+          <div class="" *ngIf="isLeftMenu">
+            <app-left-menu-template [leftMenu]="leftMenu" [isLeftMenu]="isLeftMenu"></app-left-menu-template>
           </div>
         </div>
         <div class="col-sm-10">

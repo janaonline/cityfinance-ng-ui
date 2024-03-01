@@ -13,6 +13,7 @@ import { USER_TYPE } from 'src/app/models/user/userType';
 import { APPROVAL_TYPES, Tab } from '../models';
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 import { DateAdapter } from '@angular/material/core';
+import { environment } from 'src/environments/environment';
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -83,8 +84,9 @@ export class UlbFiscalNewComponent implements OnInit {
       this.ulbId = this.userData?.ulb;
     }
   }
-
+  isProd: boolean = false;
   ngOnInit(): void {
+    this.isProd = environment?.isProduction;
     this.onLoad();
     sessionStorage.setItem("changeInFR", "false");
   }
@@ -148,9 +150,9 @@ export class UlbFiscalNewComponent implements OnInit {
 
       this.form = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
       this.addSkipLogics();
-      if (this.userData.role == this.userTypes.ULB) {
+      // if (this.userData.role == this.userTypes.ULB) {
         this.addSumLogics();
-      }
+      // }
       this.addSubtractLogics();
       this.form.markAsPristine();
       this.isLoader = false;
@@ -476,10 +478,10 @@ export class UlbFiscalNewComponent implements OnInit {
     if (fileType === 'pdf' && fileExtension !== 'pdf') return swal("Error", "Only PDF File can be Uploaded.", "error");
     control.patchValue({ uploading: true });
     this.dataEntryService.newGetURLForFileUpload(file.name, file.type, this.uploadFolderName).subscribe(s3Response => {
-      const { url, file_url } = s3Response.data[0];
+      const { url, path } = s3Response.data[0];
       this.dataEntryService.newUploadFileToS3(file, url).subscribe(res => {
         if (res.type !== HttpEventType.Response) return;
-        control.patchValue({ uploading: false, name: file.name, url: file_url });
+        control.patchValue({ uploading: false, name: file.name, url: path });
       },
         (err) => {
           control.patchValue({ uploading: false });

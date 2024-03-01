@@ -16,7 +16,7 @@ export class UlbFormComponent implements OnInit,OnDestroy {
     private router: Router,
     private commonServices : CommonServicesService
   ) {
-    this.getQueryParams();
+    
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.designYearArray = JSON.parse(localStorage.getItem("Years"));
     this.loggedInUserType = this.loggedInUserDetails.role;
@@ -24,12 +24,12 @@ export class UlbFormComponent implements OnInit,OnDestroy {
       this.router.navigate(["/login"]);
       // this.showLoader = false;
     }
-    this.getLeftMenu();
+    // this.getLeftMenu();
+    this.getQueryParams();
     this.getAllStatus();
     this.statusSubs = this.commonServices.setFormStatusUlb.subscribe((res) => {
       if (res == true) {
-        console.log("form status 2223", res);
-        this.getLeftMenu();
+        this.getLeftMenu(this.selectedYearId);
       }
     });
     this.ulbName = sessionStorage.getItem("ulbName");
@@ -55,14 +55,18 @@ export class UlbFormComponent implements OnInit,OnDestroy {
   path = null;
   ulbFormId = null;
   ulbFormName = null;
+  isLeftMenu:boolean = false;
+  selectedYearId: string = ""
   ngOnInit(): void {
    // this.leftMenu = JSON.parse(localStorage.getItem("leftMenuULB"));
   
   }
   getQueryParams() {
-  this.route.queryParams.subscribe(params => {
-    const id = params['id']; // get the 'id' query parameter
-    const name = params['name']; // get the 'name' query parameter
+    this.route.queryParams.subscribe(params => {
+     const yearId = params['year']; // get the 'id' query parameter
+     this.selectedYearId = yearId;
+     sessionStorage.setItem("selectedYearId", this.selectedYearId);
+     this.getLeftMenu(yearId); 
   });
 }
 getAllStatus(){
@@ -76,10 +80,12 @@ getAllStatus(){
   }
   )
 }
-getLeftMenu() {
+getLeftMenu(yearId?) {
+  this.isLeftMenu = false;
   let queryParam = {
     role: '',
-    year: this.designYearArray["2023-24"],
+    // year: this.designYearArray[`${yearId}`],
+    year: yearId,
     _id: ''
   }
 
@@ -94,12 +100,14 @@ getLeftMenu() {
   this.commonServices.formGetMethod("menu", queryParam).subscribe((res: any) => {
     console.log("left responces..", res);
     this.leftMenu = res?.data;
+    this.isLeftMenu = true;
     localStorage.setItem("leftMenuULB", JSON.stringify(res?.data));
     localStorage.setItem("overViewCard2324", JSON.stringify(res?.card));
     this.commonServices.ulbLeftMenuComplete.next(true);
   },
   (error)=>{
     console.log('left menu responces', error)
+    this.isLeftMenu = false;
   }
   );
 }

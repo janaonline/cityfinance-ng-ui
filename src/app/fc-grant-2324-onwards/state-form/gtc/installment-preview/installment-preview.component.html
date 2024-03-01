@@ -59,7 +59,7 @@
         <td class="td">{{ formData.grantDistribute }}</td>
         <td class="td">If No, whether notification for constitution of SFC issued</td>
         <td class="td" colspan="3">Yes/No (if yes attach a copy of notification)<br> <a
-                *ngIf="formData?.recomAvail === 'No' && formData?.sfcNotificationCopy?.textValue" [href]="formData?.sfcNotificationCopy?.textValue"
+                *ngIf="formData?.recomAvail === 'No' && formData?.sfcNotificationCopy?.textValue" [href]="formData?.sfcNotificationCopy?.textValue | toStorageUrl"
                 target="_blank">{{formData?.sfcNotificationCopy?.label}}</a></td>
     </tr>
     <tr class="tr">
@@ -71,7 +71,7 @@
         <td class="td">6.</td>
         <td class="td">Whether Property Tax Notification issued (if not already in force)</td>
         <td class="td" colspan="8">{{ formData?.propertyTaxNotif }} <br> <a
-            *ngIf="formData?.propertyTaxNotif == 'Yes' && formData?.sfcNotificationCopy?.textValue" [href]="formData?.propertyTaxNotifCopy?.textValue"
+            *ngIf="formData?.propertyTaxNotif == 'Yes' && formData?.sfcNotificationCopy?.textValue" [href]="formData?.propertyTaxNotifCopy?.textValue | toStorageUrl"
             target="_blank">{{formData?.propertyTaxNotifCopy?.label}}</a></td>
     </tr>
     <tr class="tr">

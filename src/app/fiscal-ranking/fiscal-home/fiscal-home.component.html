@@ -17,7 +17,7 @@
                                 </div>
                                 <div class="col-sm-12 text-center mt-4">
                                     <div class="li1 ms-4" *ngFor="let item of iconresult" style="">
-                                        <img src={{item.imageurl}} class="bg-light p-3 tp-i-r" style="">
+                                        <img src="{{item.imageurl | toStorageUrl}}" class="bg-light p-3 tp-i-r" style="">
                                         <span class="ms-3 icon-txt">
                                             <span class="icon-p">{{item.text}}</span>
                                         <br>
@@ -67,7 +67,7 @@
                             <div class="row g-0 al-c my-auto">
                                 <div class="col-sm-3 w-n" style="">
                                     <div class="circle" *ngIf="item?.key != 'video'">
-                                        <img src={{item?.image}} class="bg-light tp-i-r-b" style="">
+                                        <img src="{{item?.image }}" class="bg-light tp-i-r-b" style="">
                                     </div>
                                     <div class="circle-v" *ngIf="item?.key == 'video'">
                                         <svg class="tp-i-r-video" xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 0 24 24" width="28px" fill="#7A7AF8">
@@ -176,7 +176,7 @@
             <div class="row d-flex justify-content-center cards-loop p-3">
                 <div class="col-md-4 col-lg-3 col-sm-5" *ngFor="let item of objresult">
                     <div class="card p-3 m-1 shadow cardB">
-                        <img src={{item.imageurl}} class="card-img-top" style="height: 100px; width: 100px;
+                        <img src="{{item.imageurl | toStorageUrl}}" class="card-img-top" style="height: 100px; width: 100px;
                       margin-left:18px;">
                         <div class="card-body ps-0 pe-0">
                             <div class="objectives-t mb-4">{{item.title}}</div>
@@ -203,7 +203,7 @@
                             <div class="card-body p-4">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <img src={{data.imageurl}} class="card-img-top" style="height:113px; width:113px;">
+                                        <img src="{{data.imageurl | toStorageUrl}}" class="card-img-top" style="height:113px; width:113px;">
                                     </div>
                                     <div class="col-sm-12 mt-5">
                                         <div class="title-assess">{{data.title}}</div>
@@ -287,7 +287,7 @@
                                         <span>{{data.title}}</span>
                                     </div>
                                     <div class="col-md-3">
-                                        <img src={{data.imageurl}} class="card-img-top img-fluid" style="height: 60px; width: 60px;">
+                                        <img src="{{data.imageurl | toStorageUrl}}" class="card-img-top img-fluid" style="height: 60px; width: 60px;">
                                     </div>
                                 </div>
                                 <div class="row mt-4">
@@ -312,7 +312,7 @@
             </div>
             <div class="row d-flex justify-content-center text-center p-3 g-0">
                 <div class="col-md-3" *ngFor="let data of rankresult">
-                    <div><img class="img-fluid r-icon" style="" height="20px" src={{data.imageurl}}></div>
+                    <div><img class="img-fluid r-icon" style="" height="20px" src="{{data.imageurl | toStorageUrl}}"></div>
                     <div class="body title-sp mt-2">
                         <span>{{data.title}}</span>
                     </div>

@@ -16,7 +16,7 @@ import { MunicipalityBondsProjectsComponent } from "./shared/components/municipa
 import { MunicipalityBudgetComponent } from "./shared/components/municipality-budget/municipality-budget.component";
 export const appRouter: Routes = [
 
-  { path: '', redirectTo: 'rankings/home', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: "home", component: NewHomeComponent },
   // { path: "oldhome", component: HomeComponent },
   // { path: "card", component: SharedCardComponent },
@@ -240,7 +240,7 @@ export const appRouter: Routes = [
     component: MunicipalityBudgetComponent,
   },
 
-  { path: "**", redirectTo: "rankings/home" },
+  { path: "**", redirectTo: "home" },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(appRouter,{

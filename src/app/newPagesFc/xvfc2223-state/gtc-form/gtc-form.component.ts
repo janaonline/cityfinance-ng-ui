@@ -9,6 +9,7 @@ import { State2223Service } from "../state-services/state2223.service";
 import { GtcPreviewComponent } from "./gtc-preview/gtc-preview.component";
 import { SweetAlert } from "sweetalert/typings/core";
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
+import { environment } from "src/environments/environment";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-gtc-form",
@@ -47,6 +48,8 @@ export class GtcFormComponent implements OnInit {
   isApiInProgress = true;
   nextRouter = '';
   backRouter = '';
+  storageBaseUrl:string = environment?.STORAGE_BASEURL;
+
   ngOnInit(): void {
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
     this.setRouter();
@@ -681,7 +684,7 @@ export class GtcFormComponent implements OnInit {
         this.uploadFileToS3(
           file,
           res["url"],
-          res["file_url"],
+          res["path"],
           name,
           fileType,
           i,

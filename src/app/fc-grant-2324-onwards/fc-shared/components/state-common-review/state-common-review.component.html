@@ -46,7 +46,7 @@
                              [disabled]="actBtnDis">Upload PDF</button>
                         </div>
                         <div class="mt-3" *ngIf="question?.responseFile?.url">
-                              <a href="{{question?.responseFile?.url}}" target="_blank">
+                              <a href="{{question?.responseFile?.url | toStorageUrl}}" target="_blank">
                                 {{question?.responseFile?.name}}
                               </a>
                               <span class="ms-3" [ngClass]="{'disCls' : actBtnDis}">
@@ -89,7 +89,7 @@
                     Supporting Document :
                 </div>
                 <div class="col-sm-6">
-                    <a href="{{question?.responseFile?.url}}" target="_blank" *ngIf="question?.responseFile?.url">
+                    <a href="{{question?.responseFile?.url | toStorageUrl}}" target="_blank" *ngIf="question?.responseFile?.url">
                         {{question?.responseFile?.name}}
                     </a>
                 </div>

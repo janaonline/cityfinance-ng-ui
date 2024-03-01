@@ -12,7 +12,7 @@
             </div>  
         </div>
     </div>
-    <div class="row px-5 mb-4 mt-4">
+    <div class="row px-md-5 mb-4 mt-4">
         <div class="col-sm-12 text-center">
            <span class="form-h-fr">{{currentPageData?.name}} : {{currentPageData?.subHeading}}</span> 
         </div>
@@ -22,10 +22,10 @@
     </div>
 
     <div class="row mb-4">
-        <div class="col-sm-5 ps-0 h-100">
+        <div class="col-md  -5 ps-0 h-100">
             <img src="{{currentPageData?.imgUrl}}" alt="" width="90%" height="90%">
         </div>
-        <div class="col-sm-7 my-auto h-100">
+        <div class="col-md-6 my-auto h-100">
             <div class="row">
                 <div class="col-sm-12 mb-4" *ngFor="let item of currentPageData?.questions">
                     <div class="qus">
@@ -58,19 +58,32 @@
             </div>
         </div>
     </div>
-    <div class="row px-5 mb-4 mt-5">
+    <div class="row px-md-5 mb-4 mt-5">
         <div class="col-sm-12">
            <span class="form-h-fr">{{currentPageData?.scoringMethodology?.header}} </span> 
         </div>
         <div class="col-sm-12 mt-3">
             <div class="scor-met">{{currentPageData?.scoringMethodology?.description}}</div>
         </div>
-        <div class="col-sm-12">
-            <div class="p-3">
-                <img src="{{currentPageData?.scoringMethodology?.imgUrl}}" alt="" width="100%">
-            </div>
-            
+        <div class="col-sm-12 mt-3">
+            <div class="table-border table-responsive border-primary text-muted">
+                <table class="table table-bordered border-primary">
+                    <thead class="table-primary">
+                        <tr>
+                            <th *ngFor="let column of currentPageData?.table?.columns">{{ column?.label }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of currentPageData?.table?.data">
+                            <td [title]="row[column.key]" class="data-item border-primary" *ngFor="let column of currentPageData?.table?.columns">
+                                <div [innerHTML]="row[column.key]"></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>        
         </div>
+        <p class="footnote" *ngFor="let footnote of currentPageData?.table?.footnotes" >{{ footnote }}</p>
     </div>
 </div>
 

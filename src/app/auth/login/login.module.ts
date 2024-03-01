@@ -11,6 +11,7 @@ import { LoginRoutingModule } from './login-routing.module';
 import {MatIconModule} from '@angular/material/icon';
 import { LoginComponent } from './login.component';
 import { MdePopoverModule } from '@material-extended/mde';
+import { GlobalPartModule } from 'src/app/global-part/global-part.module';
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { MdePopoverModule } from '@material-extended/mde';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MdePopoverModule
+    MdePopoverModule,
+    GlobalPartModule
   ],
   declarations: [LoginComponent],
 })

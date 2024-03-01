@@ -1305,7 +1305,7 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
      let folderName = `${this.userData?.role}/2021-22/dur/${this.userData?.ulbCode}`
       this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
-          const fileAlias = s3Response["data"][0]["file_url"];
+          const fileAlias = s3Response["data"][0]["path"];
           //  this.photoUrl = this.tabelRows['controls'][urlIndex]['controls']['photos'].value;
           this.photoUrl.push({ url: fileAlias });
           //  this.tabelRows['controls'][urlIndex].patchValue({

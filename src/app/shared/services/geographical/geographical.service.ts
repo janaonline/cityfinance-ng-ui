@@ -17,11 +17,20 @@ export class GeographicalService {
 
   constructor(private _http: HttpClient) {}
 
+
   loadRawIndiaGeoData() {
     // if (this.rawIndiaMapCached.value) return this.rawIndiaMapCached;
 
-    return this._http
-      .get<IRawIndiaGEOData>("/assets/jsonFile/india_v2.json")
+    // return this._http
+    //   .get<IRawIndiaGEOData>("/assets/jsonFile/india_v2.json")
+    //   .pipe(
+    //     map((response) => {
+    //       this.rawIndiaMapCached.next(response);
+    //       return response;
+    //     })
+    //   );
+      return this._http
+      .get<any>("/assets/jsonFile/state_boundaries_24Jan2024.json")
       .pipe(
         map((response) => {
           this.rawIndiaMapCached.next(response);
@@ -31,11 +40,12 @@ export class GeographicalService {
   }
 
   loadConvertedIndiaGeoData() {
-    return this.loadRawIndiaGeoData().pipe(
-      map((rawData) => {
-        return topo.feature(rawData, rawData.objects.india);
-      })
-    );
+    return this.loadRawIndiaGeoData();
+    // return this.loadRawIndiaGeoData().pipe(
+    //   map((rawData) => {
+    //     return topo.feature(rawData, rawData.objects.india);
+    //   })
+    // );
   }
 
   loadStatesGeoData(): Observable<
