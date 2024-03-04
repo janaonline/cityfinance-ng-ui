@@ -293,8 +293,8 @@ export class OverviewComponent implements OnInit {
     }
     
     getQueryParams() {
-      this.route.queryParams.subscribe(params => {
-       const yearId = params['year']; // get the 'id' query parameter
+      this.route.params.subscribe(params => {
+       const yearId = params['yearId']; // get the 'id' query parameter
        this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
        this.getSideBar(this.selectedYearId); 
     });

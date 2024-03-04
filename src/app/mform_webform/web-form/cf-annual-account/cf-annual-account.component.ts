@@ -17,6 +17,7 @@ import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.servic
 import { HttpEventType } from "@angular/common/http";
 import { SweetAlert } from "sweetalert/typings/core";
 import { staticFileKeys } from "src/app/util/staticFileConstant";
+import { ActivatedRoute } from "@angular/router";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -26,17 +27,16 @@ const swal: SweetAlert = require("sweetalert");
 })
 export class CfAnnualAccountComponent
   extends WebFormComponent
-  implements OnInit, AfterViewInit
-{
+  implements OnInit, AfterViewInit {
   constructor(
     commonService: CommonService,
     public snackBar: MatSnackBar,
     public matDialog: MatDialog,
     private commonServices: CommonServicesService,
     private dataEntryService: DataEntryService,
+    private route: ActivatedRoute,
   ) {
     super(commonService, snackBar, matDialog);
-   
     this.Years = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.ulbId = this.userData?.ulb;
@@ -44,11 +44,14 @@ export class CfAnnualAccountComponent
       this.ulbId = localStorage.getItem("ulb_id");
     }
     this.actionfolderName = `${this.userData?.role}/2023-24/supporting_douments/annual_accounts/${this.ulbId}`
+    this.getQueryParams();
+
   }
   @Output() actionDataSubmit: EventEmitter<any> = new EventEmitter<any>();
   @Input() reviewShortKeyArray = [];
   @Input() actionPayloadRes;
   @Input() canTakeAction: boolean = false;
+  @Input() actionResFile;
   activeTab: object | any;
   errorInAction: boolean = false;
   isActionSubmitted: boolean = false;
@@ -60,15 +63,15 @@ export class CfAnnualAccountComponent
       id: "1",
       title: "unAudited",
       isActive: true,
-      reviewShortKey:'tab_unAudited',
+      reviewShortKey: 'tab_unAudited',
       status: '',
-      statusId:'',
+      statusId: '',
       responseFile: {
-        name:'',
+        name: '',
         url: ''
       },
       responseFile_mohua: {
-        name:'',
+        name: '',
         url: ''
       }
     },
@@ -77,15 +80,15 @@ export class CfAnnualAccountComponent
       id: "2",
       title: "audited",
       isActive: false,
-      reviewShortKey:'tab_audited',
+      reviewShortKey: 'tab_audited',
       status: '',
-      statusId:'',
+      statusId: '',
       responseFile: {
-        name:'',
+        name: '',
         url: ''
       },
       responseFile_mohua: {
-        name:'',
+        name: '',
         url: ''
       }
     },
@@ -100,16 +103,17 @@ export class CfAnnualAccountComponent
     ],
     multi: false,
     shortKeys: [
- 
+
     ],
   };
   userData;
   Years;
   actionfolderName = '';
-  ulbId='';
+  ulbId = '';
   errorMsg = "One or more required fields are empty or contains invalid data. Please check your input.";
-  @Input() actionResFile;
   standardized_dataFile: string = "";
+  selectedYear: string = "";
+  selectedYearId: string = "";
   ngOnInit() {
     if (
       this.isViewMode &&
@@ -151,7 +155,7 @@ export class CfAnnualAccountComponent
         //     name: "098765431",
         //   },
         // },
-       
+
       ],
       multi: false,
       shortKeys: this.reviewShortKeyArray
@@ -159,9 +163,9 @@ export class CfAnnualAccountComponent
     this.actionPayload["responses"] = [...this.actionPayloadRes];
     console.log('action paylaodsss', this.actionPayload);
     console.log('action paylaodsss 123456', this.actionResFile);
-  
-   this.activeTab = this.tabs[0];
-   this.getStaticFile()
+
+    this.activeTab = this.tabs[0];
+    this.getStaticFile()
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -252,12 +256,12 @@ export class CfAnnualAccountComponent
         true
       );
     }
-   
-   // this.tabChangeAA(this.tabs[0], ""); 
+
+    // this.tabChangeAA(this.tabs[0], ""); 
   }
-ngAfterViewInit(){
-  this.tabChangeAA(this.tabs[0], "");
-}
+  ngAfterViewInit() {
+    this.tabChangeAA(this.tabs[0], "");
+  }
   tabChangeAA(tabData: any, type: string) {
     console.log("aaaa", tabData);
     this.tabs.forEach((el) => {
@@ -265,15 +269,15 @@ ngAfterViewInit(){
     });
     console.log('el el 43434', this.actionResFile);
     tabData.isActive = true;
-    if(this.actionResFile){
-    // for(let el in this.actionResFile){
-       console.log('el el', tabData?.reviewShortKey);
-       tabData = Object.assign( tabData, {responseFile: this.actionResFile[tabData?.reviewShortKey].responseFile}, {responseFile_mohua: this.actionResFile[tabData?.reviewShortKey].responseFile_mohua});
-  //   }
+    if (this.actionResFile) {
+      // for(let el in this.actionResFile){
+      console.log('el el', tabData?.reviewShortKey);
+      tabData = Object.assign(tabData, { responseFile: this.actionResFile[tabData?.reviewShortKey].responseFile }, { responseFile_mohua: this.actionResFile[tabData?.reviewShortKey].responseFile_mohua });
+      //   }
     }
     this.activeTab = tabData;
-   console.log('this.activeTab', this.activeTab);
-   
+    console.log('this.activeTab', this.activeTab);
+
   }
   formChangeDetect(e) {
     console.log("eeeeeee", e);
@@ -282,13 +286,13 @@ ngAfterViewInit(){
     } else {
       e.errorInAction = false;
     }
-    let fileIndex = this.actionPayload.responses.findIndex(({shortKey}) => shortKey === e.shortKey);
-   if(e?.type == 'status') this.actionPayload.responses[fileIndex].status = e.status;
-   if(e?.type == 'rejectReason') this.actionPayload.responses[fileIndex].rejectReason = e.rejectReason;
+    let fileIndex = this.actionPayload.responses.findIndex(({ shortKey }) => shortKey === e.shortKey);
+    if (e?.type == 'status') this.actionPayload.responses[fileIndex].status = e.status;
+    if (e?.type == 'rejectReason') this.actionPayload.responses[fileIndex].rejectReason = e.rejectReason;
     console.log('this.actionPayload this.actionPayload', this.actionPayload);
-    
+
   }
- 
+
   saveAction() {
     this.commonServices
       .formPostMethod(this.actionPayload, "common-action/masterAction")
@@ -314,79 +318,79 @@ ngAfterViewInit(){
     const excelFileExtensions = ['xls', 'xlsx'];
     const file: File = event.target.files[0];
     if (!file) return;
-    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
-    if(isfileValid == false){
-      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
-       return;
+    let isfileValid = this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if (isfileValid == false) {
+      swal("Error", "File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+      return;
     }
     const fileExtension = file.name.split('.').pop();
     if ((file.size / 1024 / 1024) > maxFileSize) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
     if (fileType === 'excel' && !excelFileExtensions.includes(fileExtension)) return swal("Error", "Only Excel File can be Uploaded.", "error");
     if (fileType === 'pdf' && fileExtension !== 'pdf') return swal("Error", "Only PDF File can be Uploaded.", "error");
-    this.snackBar.open("Uploaing File...",'', {"duration": 10000});
+    this.snackBar.open("Uploaing File...", '', { "duration": 10000 });
     this.dataEntryService.newGetURLForFileUpload(file.name, file.type, this.actionfolderName).subscribe(s3Response => {
       const { url, path } = s3Response.data[0];
       console.log('url..', url)
       console.log('asdfgg', s3Response)
       this.dataEntryService.newUploadFileToS3(file, url).subscribe((res) => {
         if (res.type !== HttpEventType.Response) return;
-      // this.activeTab.responseFile = { name: file.name, url: file_url };
+        // this.activeTab.responseFile = { name: file.name, url: file_url };
         this.setFileInAction(file.name, path)
         console.log('this.actionPayload 222', this.actionPayload);
         this.snackBar.dismiss();
-       console.log('form activeTab', this.activeTab);
-        
+        console.log('form activeTab', this.activeTab);
+
       });
-    }, 
-    (err) => {
+    },
+      (err) => {
         console.log(err);
-        this.snackBar.open("Unable to save the file..",'', {"duration": 2000});
+        this.snackBar.open("Unable to save the file..", '', { "duration": 2000 });
         this.snackBar.dismiss();
-    });
+      });
   }
-  
-  getActionIndex(shortKey){
-    return shortKey.includes("unAudited") ? "unAudited" : shortKey.includes("audited") ? "audited" : ""; 
-    
+
+  getActionIndex(shortKey) {
+    return shortKey.includes("unAudited") ? "unAudited" : shortKey.includes("audited") ? "audited" : "";
+
   }
-  setFileInAction(name, url){
-    if(this.userData?.role == 'STATE'){
+  setFileInAction(name, url) {
+    if (this.userData?.role == 'STATE') {
       this.activeTab['responseFile']['name'] = name;
       this.activeTab['responseFile']['url'] = url;
-    }else{
+    } else {
       this.activeTab['responseFile_mohua']['name'] = name;
       this.activeTab['responseFile_mohua']['url'] = url;
     }
-    
+
     let typeOfFile = this.activeTab?.reviewShortKey.split("_")[1];
-    let fileIndex = this.actionPayload?.responses.findIndex(({shortKey}) => this.getActionIndex(shortKey) == typeOfFile);
-    this.actionPayload.responses[fileIndex].responseFile = {name: name,  url: url};
+    let fileIndex = this.actionPayload?.responses.findIndex(({ shortKey }) => this.getActionIndex(shortKey) == typeOfFile);
+    this.actionPayload.responses[fileIndex].responseFile = { name: name, url: url };
     console.log('this.actionPayload', this.actionPayload);
     console.log('typeOfFile', typeOfFile);
-    for(let el of this.actionPayload.responses){
-       if(el.shortKey.split('.').includes(typeOfFile)){
-         el.responseFile.name = name;
-         el.responseFile.url = url;
-       }
-     }
+    for (let el of this.actionPayload.responses) {
+      if (el.shortKey.split('.').includes(typeOfFile)) {
+        el.responseFile.name = name;
+        el.responseFile.url = url;
+      }
+    }
   }
 
   alertForFianlSubmit() {
     let errorInAction = false;
-    for(let el of this.actionPayload.responses){
-      if(!el.status){
+    for (let el of this.actionPayload.responses) {
+      if (!el.status) {
         errorInAction = true;
         swal("Missing Data !", `${this.errorMsg}`, "error");
         break;
-      }else if((el.status == 5 || el.status == 7) && (!el?.rejectReason)){
+      } else if ((el.status == 5 || el.status == 7) && (!el?.rejectReason)) {
         errorInAction = true;
         swal("Missing Data !", `${this.errorMsg}`, "error");
         break;
-      }else{
+      } else {
         errorInAction = false;
       }
     }
-    if(errorInAction == true) return;
+    if (errorInAction == true) return;
     swal("Confirmation !", `Are you sure you want to submit this action?`, "warning", {
       buttons: {
         Submit: {
@@ -409,7 +413,7 @@ ngAfterViewInit(){
     });
   }
 
-  getStaticFile(){
+  getStaticFile() {
     const key = staticFileKeys.ANNUAL_ACCOUNT_2022_23;
     this.dataEntryService.getStaticFileUrl(key).subscribe((res: any) => {
       console.log(res.data);
@@ -417,13 +421,27 @@ ngAfterViewInit(){
     })
   }
 
-  getKeyByValue(object: { [key: string]: string }, value: string): string | null {
-    for (const key in object) {
-        if (object[key] === value) {
-            return key;
-        }
-    }
-    return null;
-}
+  getQueryParams() {
+    this.route.params.subscribe(params => {
+      const yearId = params['yearId']; // get the 'id' query parameter
+      //if(yearId) sessionStorage.setItem("selectedYearId", yearId);
+      this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
+      this.getYearInReadableForm();
+    });
+  }
+  getYearInReadableForm() {
+    this.selectedYear = this.commonServices.getYearName(this.selectedYearId);
+   if(this.selectedYear) this.getTabs()
+  }
+  getTabs(){
+    const [startYear, endYear] = this.selectedYear.split("-").map(Number);
+    const unauditedYear = `${startYear - 1}-${endYear-1}`;
+    const auditedYear = `${startYear - 2}-${endYear-2}`;
+    this.tabs[0].name = `Provisional Accounts for ${unauditedYear}`
+    this.tabs[1].name = `Audited Accounts for ${auditedYear}`
+  }
+
+
+
 }
 
