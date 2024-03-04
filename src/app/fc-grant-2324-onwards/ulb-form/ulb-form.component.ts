@@ -58,16 +58,18 @@ export class UlbFormComponent implements OnInit,OnDestroy {
   ulbFormName = null;
   isLeftMenu:boolean = false;
   selectedYearId: string = ""
+  selectedYear:string = "";
   ngOnInit(): void {
    // this.leftMenu = JSON.parse(localStorage.getItem("leftMenuULB"));
   
   }
   getQueryParams() {
-    this.route.queryParams.subscribe(params => {
-     const yearId = params['year']; // get the 'id' query parameter
+    this.route.params.subscribe(params => {
+     const yearId = params['yearId']; // get the 'id' query parameter
     //if(yearId) sessionStorage.setItem("selectedYearId", yearId);
      this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
      this.getLeftMenu(this.selectedYearId); 
+     this.selectedYear = this.commonServices.getYearName(this.selectedYearId);
   });
 }
 getAllStatus(){
@@ -112,9 +114,7 @@ getLeftMenu(yearId?) {
   }
   );
 }
-ngOnDestroy() {
-  this.statusSubs?.unsubscribe();
-}
+
 backStatePage(type) {
   if (type == 'ULB Review' && !this.pathMohua) {
     this.router.navigate(['mohua-form/review-ulb-form'], { queryParams: { formId: this.ulbFormId, state: this.state_id } });
@@ -136,5 +136,9 @@ backStatePage2() {
   this.path = null;
 }
 
+
+ngOnDestroy() {
+  this.statusSubs?.unsubscribe();
+}
 
 }
