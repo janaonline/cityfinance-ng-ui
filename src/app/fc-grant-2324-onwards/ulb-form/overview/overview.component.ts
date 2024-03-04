@@ -150,6 +150,7 @@ export class OverviewComponent implements OnInit {
   designYearArray: any;
   isApiComplete:boolean = false;
   selectedYearId:string = "";
+  selectedYear:string = "";
   ngOnInit(): void {
     this.setRouter();
     this.onResize();
@@ -293,10 +294,9 @@ export class OverviewComponent implements OnInit {
     }
     
     getQueryParams() {
-      this.route.params.subscribe(params => {
-       const yearId = params['yearId']; // get the 'id' query parameter
+      const yearId = this.route.parent.snapshot.paramMap.get('yearId');
        this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
+       this.selectedYear = this.commonServices.getYearName(this.selectedYearId);
        this.getSideBar(this.selectedYearId); 
-    });
     }
 }

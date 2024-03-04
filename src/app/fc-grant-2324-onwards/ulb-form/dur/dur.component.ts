@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 const swal: SweetAlert = require("sweetalert");
 
@@ -44,12 +44,14 @@ export class DurComponent implements OnInit, OnDestroy {
   canTakeAction:boolean = false;
   leftMenuSubs:any;
   statusShow:string = '';
+  selectedYearId:string=""
   constructor(
     private dialog: MatDialog,
     private durService: DurService,
     private loaderService: GlobalLoaderService,
     private commonServices: CommonServicesService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { 
     this.getNextPreUrl();
   }
@@ -65,9 +67,10 @@ export class DurComponent implements OnInit, OnDestroy {
     this.loadData();
   }
 
-  get design_year() {
-    const years = JSON.parse(localStorage.getItem("Years"));
-    return years?.['2023-24'];
+  get design_year() { 
+    const yearId = this.route.parent.snapshot.paramMap.get('yearId');
+     this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId")
+    return this.selectedYearId;
   }
 
   get ulbId() {

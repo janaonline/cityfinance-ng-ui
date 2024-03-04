@@ -333,11 +333,9 @@ export class AnnualAccountComponent implements OnInit {
   }
 
   getQueryParams() {
-    this.route.params.subscribe(params => {
-     const yearId = params['year']; // get the 'id' query parameter
+     const yearId = this.route.parent.snapshot.paramMap.get('yearId'); // get the 'id' query parameter
      this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
      this.selectedYear = this.commonServices.getYearName(this.selectedYearId);
      this.fileFolderName = `${this.userData?.role}/${this.selectedYear}/${this.formName}/${this.userData?.ulbCode}`;
-  });
   }
 }
