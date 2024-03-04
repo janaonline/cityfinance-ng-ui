@@ -26,7 +26,7 @@ export class AnnualAccountComponent implements OnInit {
       this.ulbId = localStorage.getItem("ulb_id");
     }
     this.getNextPreUrl();
-    this.fileFolderName = `${this.userData?.role}/2023-24/${this.formName}/${this.userData?.ulbCode}`;
+    
   }
   cf_ulb = true;
   // annual-accounts/get?ulb=5dd006d4ffbcc50cfd92c87c&design_year=606aafc14dff55e6c075d3ec&
@@ -78,6 +78,7 @@ export class AnnualAccountComponent implements OnInit {
     }
   };
   selectedYearId:string = "";
+  selectedYear:string="";
   ngOnInit(): void {
     this.getQuery = {
       // design_year: this.designYearArray["2023-24"],
@@ -170,7 +171,7 @@ export class AnnualAccountComponent implements OnInit {
       this.statusId = 2;
     }
     this.postData = {
-      design_year: this.designYearArray["2023-24"],
+      design_year: this.selectedYearId,
       ulb: this.ulbId,
       isDraft: draft,
       formId: this.formId,
@@ -332,9 +333,11 @@ export class AnnualAccountComponent implements OnInit {
   }
 
   getQueryParams() {
-    this.route.queryParams.subscribe(params => {
+    this.route.params.subscribe(params => {
      const yearId = params['year']; // get the 'id' query parameter
      this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
+     this.selectedYear = this.commonServices.getYearName(this.selectedYearId);
+     this.fileFolderName = `${this.userData?.role}/${this.selectedYear}/${this.formName}/${this.userData?.ulbCode}`;
   });
   }
 }

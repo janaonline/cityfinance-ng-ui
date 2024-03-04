@@ -14,6 +14,7 @@ export class LeftMenuTemplateComponent implements OnInit, OnChanges {
   }
   @Input() leftMenu = {};
   @Input() isLeftMenu = false;
+  @Input() selectedYear="";
   ngOnInit(): void {
 
   }
