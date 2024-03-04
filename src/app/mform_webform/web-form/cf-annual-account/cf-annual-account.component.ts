@@ -422,14 +422,13 @@ export class CfAnnualAccountComponent
   }
 
   getQueryParams() {
-    this.route.params.subscribe(params => {
-      const yearId = params['yearId']; // get the 'id' query parameter
-      //if(yearId) sessionStorage.setItem("selectedYearId", yearId);
+
+      const yearId = this.route.parent.snapshot.paramMap.get('yearId');
       this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
       this.selectedYear = this.commonServices.getYearName(this.selectedYearId);
       this.actionfolderName = `${this.userData?.role}/${this.selectedYear}/supporting_douments/annual_accounts/${this.ulbId}`
-      if (this.selectedYear) this.getTabs()
-    });
+      if (this.selectedYear) this.getTabs();
+      
   }
 
   getTabs() {

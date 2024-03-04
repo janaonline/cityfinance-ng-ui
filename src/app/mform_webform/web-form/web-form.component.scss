@@ -533,3 +533,19 @@ label {
 input::placeholder {
   color: #c1c0c0;
 }
+
+// for DUR table scrolling style
+
+.dur-overflow {
+  overflow: hidden;
+  width: 100%;
+  .projectDetails_tableView_addButton {
+    width: 110rem;
+    overflow-x: auto;
+    .dur-tbl {
+      overflow-x: auto;
+      width: 100rem;
+    }
+  }
+ 
+}

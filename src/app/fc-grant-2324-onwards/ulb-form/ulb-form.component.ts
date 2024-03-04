@@ -66,7 +66,6 @@ export class UlbFormComponent implements OnInit,OnDestroy {
   getQueryParams() {
     this.route.params.subscribe(params => {
      const yearId = params['yearId']; // get the 'id' query parameter
-    //if(yearId) sessionStorage.setItem("selectedYearId", yearId);
      this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
      this.getLeftMenu(this.selectedYearId); 
      this.selectedYear = this.commonServices.getYearName(this.selectedYearId);
