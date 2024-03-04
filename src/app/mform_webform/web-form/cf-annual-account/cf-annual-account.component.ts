@@ -416,5 +416,14 @@ ngAfterViewInit(){
       this.standardized_dataFile = res?.data?.url;
     })
   }
+
+  getKeyByValue(object: { [key: string]: string }, value: string): string | null {
+    for (const key in object) {
+        if (object[key] === value) {
+            return key;
+        }
+    }
+    return null;
+}
 }
 

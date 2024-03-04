@@ -54,8 +54,9 @@ export class ResourceComponent implements OnInit {
       icon: "",
     },
   ];
-
+  selectedYearId:string = ""
   ngOnInit(): void {
+    this.selectedYearId = sessionStorage.getItem("selectedYearId");
     for (const key in this.sideMenuItem) {
       console.log(`${key}: ${this.sideMenuItem[key]}`);
       this.sideMenuItem[key].forEach(element => {

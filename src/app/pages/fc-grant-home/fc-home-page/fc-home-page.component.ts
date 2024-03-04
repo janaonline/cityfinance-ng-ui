@@ -68,5 +68,7 @@ export class FcHomePageComponent extends BaseComponent implements OnInit {
   //     }
   //   });
   // }
-
+  setId(yearId){
+    sessionStorage.setItem("selectedYearId", yearId);
+  }
 }

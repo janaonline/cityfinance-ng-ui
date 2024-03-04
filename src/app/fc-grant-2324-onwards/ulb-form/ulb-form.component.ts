@@ -29,7 +29,8 @@ export class UlbFormComponent implements OnInit,OnDestroy {
     this.getAllStatus();
     this.statusSubs = this.commonServices.setFormStatusUlb.subscribe((res) => {
       if (res == true) {
-        this.getLeftMenu(this.selectedYearId);
+        let yrId = this.selectedYearId ? this.selectedYearId : sessionStorage.getItem("selectedYearId")
+        this.getLeftMenu(yrId);
       }
     });
     this.ulbName = sessionStorage.getItem("ulbName");
@@ -64,9 +65,10 @@ export class UlbFormComponent implements OnInit,OnDestroy {
   getQueryParams() {
     this.route.queryParams.subscribe(params => {
      const yearId = params['year']; // get the 'id' query parameter
-     this.selectedYearId = yearId;
-     sessionStorage.setItem("selectedYearId", this.selectedYearId);
-     this.getLeftMenu(yearId); 
+    //if(yearId) sessionStorage.setItem("selectedYearId", yearId);
+    debugger
+     this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
+     this.getLeftMenu(this.selectedYearId); 
   });
 }
 getAllStatus(){
@@ -134,5 +136,6 @@ backStatePage2() {
   this.router.navigate(['state-form/review-ulb-form'], { queryParams: { formId: this.ulbFormId } });
   this.path = null;
 }
+
 
 }
