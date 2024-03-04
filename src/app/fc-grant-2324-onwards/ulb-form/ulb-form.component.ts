@@ -66,14 +66,13 @@ export class UlbFormComponent implements OnInit,OnDestroy {
     this.route.queryParams.subscribe(params => {
      const yearId = params['year']; // get the 'id' query parameter
     //if(yearId) sessionStorage.setItem("selectedYearId", yearId);
-    debugger
      this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
      this.getLeftMenu(this.selectedYearId); 
   });
 }
 getAllStatus(){
   this.commonServices.formGetMethod('master-status', {}).subscribe((res:any)=>{
-    console.log('status responces....', res);
+    console.log('status responses....', res);
     localStorage.setItem("allStatusArray", JSON.stringify(res?.data));
   },
   (error)=>{
