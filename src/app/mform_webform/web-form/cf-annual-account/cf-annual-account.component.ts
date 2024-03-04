@@ -43,7 +43,7 @@ export class CfAnnualAccountComponent
     if (!this.ulbId) {
       this.ulbId = localStorage.getItem("ulb_id");
     }
-    this.actionfolderName = `${this.userData?.role}/2023-24/supporting_douments/annual_accounts/${this.ulbId}`
+
     this.getQueryParams();
 
   }
@@ -133,7 +133,7 @@ export class CfAnnualAccountComponent
 
     this.actionPayload = {
       form_level: 2,
-      design_year: this.Years["2023-24"],
+      design_year: this.selectedYearId,
       formId: 5,
       ulbs: [this.ulbId],
       responses: [
@@ -422,21 +422,19 @@ export class CfAnnualAccountComponent
   }
 
   getQueryParams() {
-    this.route.params.subscribe(params => {
-      const yearId = params['yearId']; // get the 'id' query parameter
-      //if(yearId) sessionStorage.setItem("selectedYearId", yearId);
+
+      const yearId = this.route.parent.snapshot.paramMap.get('yearId');
       this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
-      this.getYearInReadableForm();
-    });
+      this.selectedYear = this.commonServices.getYearName(this.selectedYearId);
+      this.actionfolderName = `${this.userData?.role}/${this.selectedYear}/supporting_douments/annual_accounts/${this.ulbId}`
+      if (this.selectedYear) this.getTabs();
+      
   }
-  getYearInReadableForm() {
-    this.selectedYear = this.commonServices.getYearName(this.selectedYearId);
-   if(this.selectedYear) this.getTabs()
-  }
-  getTabs(){
+
+  getTabs() {
     const [startYear, endYear] = this.selectedYear.split("-").map(Number);
-    const unauditedYear = `${startYear - 1}-${endYear-1}`;
-    const auditedYear = `${startYear - 2}-${endYear-2}`;
+    const unauditedYear = `${startYear - 1}-${endYear - 1}`;
+    const auditedYear = `${startYear - 2}-${endYear - 2}`;
     this.tabs[0].name = `Provisional Accounts for ${unauditedYear}`
     this.tabs[1].name = `Audited Accounts for ${auditedYear}`
   }
