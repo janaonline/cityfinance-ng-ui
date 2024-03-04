@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { CommonServicesService } from '../../fc-shared/service/common-services.service';
 import { queryParam } from 'src/app/fc-grant-2324-onwards/fc-shared/common-interface';
 
@@ -15,7 +15,8 @@ export class CommonFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private commonServices: CommonServicesService
+    private commonServices: CommonServicesService,
+    private route: ActivatedRoute
   ) {
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.designYearArray = JSON.parse(localStorage.getItem("Years"));
@@ -24,11 +25,6 @@ export class CommonFormComponent implements OnInit, OnDestroy {
     if (!this.ulbId) {
       this.ulbId = localStorage.getItem("ulb_id");
     }
-    this.getQuery = {
-      design_year: this.designYearArray["2023-24"],
-      formId: null,
-      ulb: this.ulbId
-    };
     this.checkRouterForApi();
   //  this.getLeftMenu();
   }
@@ -305,6 +301,8 @@ export class CommonFormComponent implements OnInit, OnDestroy {
   }
   sideMenuItem: object | any;
   leftMenuSubs:any;
+  selectedYearId:string="";
+  selectedYear:string = "";
   ngOnInit(): void {
     this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
       if (res == true) {
@@ -317,6 +315,12 @@ export class CommonFormComponent implements OnInit, OnDestroy {
     return this.webForm?.hasUnsavedChanges;
   }
   checkRouterForApi() {
+    this.getQueryParams();
+    this.getQuery = {
+      design_year: this.selectedYearId,
+      formId: null,
+      ulb: this.ulbId
+    };
     this.routerSubs = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         const urlArray = event.url.split("/");
@@ -327,9 +331,8 @@ export class CommonFormComponent implements OnInit, OnDestroy {
         } else if (urlArray.includes("gfc")) {
           this.handleUrlForForm('gfc');
         }
-  
-        this.fileFolderName = `${this.userData?.role}/2023-24/${this.formName}/${this.userData?.ulbCode}`;
       }
+      this.fileFolderName = `${this.userData?.role}/${this.selectedYear}/${this.formName}/${this.userData?.ulbCode}`;
     });
   }
   handleUrlForForm(formName: string) {
@@ -376,7 +379,7 @@ export class CommonFormComponent implements OnInit, OnDestroy {
       this.statusId = 2;
     }
     this.postData = {
-      "design_year": this.designYearArray["2023-24"],
+      "design_year": this.selectedYearId,
       "ulb": this.ulbId,
       "isGfc": this.getQuery.isGfc,
       "isDraft": draft,
@@ -400,7 +403,7 @@ export class CommonFormComponent implements OnInit, OnDestroy {
   }
 
   getScoring(formName, designYear) {
-    this.commonServices.getScroing(formName, designYear).subscribe((res: any) => {
+    this.commonServices.getScoring(formName, designYear).subscribe((res: any) => {
       console.log('scoring.........', res);
       this.ratingMarksArray = res?.data;
     })
@@ -471,6 +474,12 @@ getNextPreUrl(form){
       }
     });
   }
+}
+
+getQueryParams() {
+  const yearId = this.route.parent.snapshot.paramMap.get('yearId');
+   this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
+   this.selectedYear = this.commonServices.getYearName(this.selectedYearId);
 }
 ngOnDestroy() {
   this.leftMenuSubs.unsubscribe();

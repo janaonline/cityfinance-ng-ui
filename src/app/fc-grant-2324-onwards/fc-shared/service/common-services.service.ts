@@ -26,7 +26,7 @@ export class CommonServicesService {
       body
     );
   }
-  getScroing(formName, dYr) {
+  getScoring(formName, dYr) {
     // gfc-odf-form-collection
     return this.http.get(`${environment.api.url}ratings?formName=${formName}&financialYear=${dYr}`);
   }
