@@ -29,7 +29,8 @@ export class UlbFormComponent implements OnInit,OnDestroy {
     this.getAllStatus();
     this.statusSubs = this.commonServices.setFormStatusUlb.subscribe((res) => {
       if (res == true) {
-        this.getLeftMenu(this.selectedYearId);
+        let yrId = this.selectedYearId ? this.selectedYearId : sessionStorage.getItem("selectedYearId")
+        this.getLeftMenu(yrId);
       }
     });
     this.ulbName = sessionStorage.getItem("ulbName");
@@ -64,14 +65,14 @@ export class UlbFormComponent implements OnInit,OnDestroy {
   getQueryParams() {
     this.route.queryParams.subscribe(params => {
      const yearId = params['year']; // get the 'id' query parameter
-     this.selectedYearId = yearId;
-     sessionStorage.setItem("selectedYearId", this.selectedYearId);
-     this.getLeftMenu(yearId); 
+    //if(yearId) sessionStorage.setItem("selectedYearId", yearId);
+     this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
+     this.getLeftMenu(this.selectedYearId); 
   });
 }
 getAllStatus(){
   this.commonServices.formGetMethod('master-status', {}).subscribe((res:any)=>{
-    console.log('status responces....', res);
+    console.log('status responses....', res);
     localStorage.setItem("allStatusArray", JSON.stringify(res?.data));
   },
   (error)=>{
@@ -134,5 +135,6 @@ backStatePage2() {
   this.router.navigate(['state-form/review-ulb-form'], { queryParams: { formId: this.ulbFormId } });
   this.path = null;
 }
+
 
 }

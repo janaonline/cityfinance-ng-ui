@@ -31,7 +31,6 @@ export class LeftMenuTemplateComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes:SimpleChanges){
-    debugger
     if(changes?.isLeftMenu){
       this.isLeftMenu = changes?.isLeftMenu?.currentValue
     }
