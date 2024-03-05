@@ -2,6 +2,8 @@ import { Component, ElementRef, Inject, OnChanges, OnInit, SimpleChange, SimpleC
 import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { CommonService } from '../common.service';
+import { CommonServicesService } from 'src/app/fc-grant-2324-onwards/fc-shared/service/common-services.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-common-preview-template',
@@ -13,7 +15,8 @@ export class CommonPreviewTemplateComponent implements OnInit, OnChanges {
   constructor(
     @Inject(MAT_DIALOG_DATA) public preData: any,
     private _matDialog: MatDialog,
-    private webCommonService : CommonService
+    private webCommonService : CommonService,
+   
   ) {
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.allStatusIds = JSON.parse(localStorage.getItem("allStatusArray"));
@@ -104,9 +107,8 @@ export class CommonPreviewTemplateComponent implements OnInit, OnChanges {
   stateName:string = '';
   ulbName:string = '';
   ulbId:string='';
+  
   ngOnInit(): void {
-    console.log('preData......', this.preData);
-    console.log('status......', this.allStatusIds);
     // let statusObj:any = this.allStatusIds.find(({ statusId  }) => statusId === this.preData?.qusResponce?.data[0].status);
      this.formStatus = this.preData?.qusResponce?.data[0].status;
   }
@@ -148,7 +150,7 @@ export class CommonPreviewTemplateComponent implements OnInit, OnChanges {
   //  this.showLoader = true;
     this.webCommonService.downloadPDF({ html }).subscribe(
       (res) => {
-        this.downloadFile(res.slice(0), "pdf", `${this.preData?.qusResponce?.data[0]?.language[0]?.title.split(' ').join('_')}.pdf`);
+        this.downloadFile(res.slice(0), "pdf", `${this.preData?.qusResponce?.data[0]?.language[0]?.title.split(' ').join('_')}_${this.preData?.year?.key}.pdf`);
       //  this.showLoader = false;
       },
       (err) => {
@@ -181,4 +183,6 @@ export class CommonPreviewTemplateComponent implements OnInit, OnChanges {
     return item.order;
     // return index;
   }
+
+
 }
