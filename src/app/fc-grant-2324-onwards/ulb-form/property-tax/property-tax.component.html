@@ -115,7 +115,7 @@
                     *ngFor="let item of tab?.controls?.data?.controls | keyvalue: sortPosition;let rowIndex_rev=index">
                     <tr [ngClass]="['2.5', '5.13', '6.13'].includes('' + item?.value?.controls?.position?.value)  ? 'table-gray' : 'table-main-heading'"
                         *ngIf="specialHeaders[item?.value?.controls?.position?.value] && canShowHeader(item?.value?.controls?.position?.value)">
-                        <th colspan="7">{{ specialHeaders[item?.value?.controls?.position?.value].label }}
+                        <th [attr.colspan]="item?.value?.controls?.yearData?.value?.length + 2">{{ specialHeaders[item?.value?.controls?.position?.value].label }}
                             <mat-icon style="font-size: 18px;"
                                 *ngIf="specialHeaders[item?.value?.controls?.position?.value]?.info"
                                 [matTooltip]="specialHeaders[item?.value?.controls?.position?.value]?.info">info
@@ -132,7 +132,7 @@
                     </tr>
 
                     <tr *ngIf="item?.value?.controls?.position?.value == '7.1'">
-                        <td colspan="7">
+                        <td [attr.colspan]="item?.value?.controls?.yearData?.value?.length + 2">
                             <div>
                                 <p><b>Note: Please read the following instructions and upload the document:</b></p>
                                 <p>1. Once all data is submitted please Preview and Download the form as PDF.</p>
@@ -206,7 +206,7 @@
                             </td>
                         </tr>
                         <tr *ngIf="item?.value?.controls?.child?.value">
-                            <td colspan="7">
+                            <td [attr.colspan]="item?.value?.controls?.yearData?.value?.length + 2">
                                 <button [disabled]="buttonDissabled" class="btn btn-primary"
                                     (click)="addChildQuestions(item?.value)">Add
                                     more</button>
