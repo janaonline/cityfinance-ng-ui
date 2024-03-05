@@ -32,11 +32,12 @@ export class CfAnnualAccountComponent
     commonService: CommonService,
     public snackBar: MatSnackBar,
     public matDialog: MatDialog,
-    private commonServices: CommonServicesService,
+    public route: ActivatedRoute,
+    public commonServicesCf: CommonServicesService,
     private dataEntryService: DataEntryService,
-    private route: ActivatedRoute,
+    
   ) {
-    super(commonService, snackBar, matDialog);
+    super(commonService, snackBar, matDialog, route, commonServicesCf);
     this.Years = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.ulbId = this.userData?.ulb;
@@ -294,7 +295,7 @@ export class CfAnnualAccountComponent
   }
 
   saveAction() {
-    this.commonServices
+    this.commonServicesCf
       .formPostMethod(this.actionPayload, "common-action/masterAction")
       .subscribe(
         (res: any) => {
@@ -422,13 +423,11 @@ export class CfAnnualAccountComponent
   }
 
   getQueryParams() {
-
       const yearId = this.route.parent.snapshot.paramMap.get('yearId');
       this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
-      this.selectedYear = this.commonServices.getYearName(this.selectedYearId);
+      this.selectedYear = this.commonServicesCf.getYearName(this.selectedYearId);
       this.actionfolderName = `${this.userData?.role}/${this.selectedYear}/supporting_douments/annual_accounts/${this.ulbId}`
-      if (this.selectedYear) this.getTabs();
-      
+      if (this.selectedYear) this.getTabs();   
   }
 
   getTabs() {
