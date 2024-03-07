@@ -83,6 +83,7 @@ export class PropertyTaxComponent implements OnInit {
   isFormFinalSubmit: boolean = false;
   canTakeAction: boolean = false;
   leftMenuSubs: any;
+  successErrorMessage: string = "";
   constructor(
     private fb: FormBuilder,
     private dataEntryService: DataEntryService,
@@ -146,8 +147,13 @@ export class PropertyTaxComponent implements OnInit {
       this.canTakeAction = res?.data?.canTakeAction;
       this.formDisable(res?.data);
       console.log('form', this.form);
-    }, err => {
+    }, ({ error }) => {
       this.loaderService.stopLoader();
+      if (error?.success == true && error?.message) {
+        this.successErrorMessage = error?.message;
+      } else {
+        swal('Error', error?.message ?? 'Something went wrong', 'error');
+      }
     });
   }
 
