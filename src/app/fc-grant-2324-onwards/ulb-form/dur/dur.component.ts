@@ -44,7 +44,8 @@ export class DurComponent implements OnInit, OnDestroy {
   canTakeAction:boolean = false;
   leftMenuSubs:any;
   statusShow:string = '';
-  selectedYearId:string=""
+  selectedYearId:string="";
+  financialYear:string=""
   constructor(
     private dialog: MatDialog,
     private durService: DurService,
@@ -59,6 +60,7 @@ export class DurComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // this.isLoaded = true;
+    this.getFinancialYear();
     this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
       if (res == true) {
         this.getNextPreUrl();
@@ -199,8 +201,8 @@ export class DurComponent implements OnInit, OnDestroy {
     let previewData = {
       status: this.statusShow,
       isDraft: true,
-      financialYear: "606aaf854dff55e6c075d219",
-      designYear: "606aafb14dff55e6c075d3ae",
+      financialYear: this.financialYear,
+      designYear: this.design_year,
       grantType: "Tied",
       isProjectLoaded: this.isProjectLoaded,
       grantPosition,
@@ -308,7 +310,7 @@ export class DurComponent implements OnInit, OnDestroy {
       isDraft: isDraft,
       status: isDraft ? 2 : 3,
       isProjectLoaded: this.isLastDeleted || this.isProjectLoaded,
-      financialYear: this.design_year,
+      financialYear: this.financial_year,
       designYear: this.design_year,
       ulb: this.ulbId,
       formId: 4,
@@ -369,6 +371,17 @@ export class DurComponent implements OnInit, OnDestroy {
     console.log(this.isButtonAvail, 'this.isButtonAvail');
     
  }
+ getFinancialYear(){
+  const selectedYear = this.commonServices.getYearName(this.design_year);
+  const [startYear, endYear] = selectedYear.split("-").map(Number);
+  this.financialYear = `${startYear - 1}-${endYear - 1}`;
+  
+ }
+ get financial_year() {
+  const years = JSON.parse(localStorage.getItem("Years"));
+  return years?.[`${this.financialYear}`];
+}
+
  ngOnDestroy(): void {
   this.leftMenuSubs.unsubscribe();
 }

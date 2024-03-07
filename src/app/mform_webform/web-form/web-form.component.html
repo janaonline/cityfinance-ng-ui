@@ -333,7 +333,7 @@
                     <mat-select id="{{question.order}}" [(value)]="question.modelValue" [disableOptionCentering]="true"
                         panelClass="custom-mat-select-panel" (closed)="onSelectionClose(question?.order)"
                         [disabled]="question?.isQuestionDisabled"
-                        (selectionChange)="getSelectionChange(question, $event)">
+                        (selectionChange)="getSelectionChange(question, $event)" [ngClass]="{'invalid-border': question.errorMessage}">
                         <div class="w-100 shadow-sm search-filter">
                             <!-- has-float-label - use this class in span tag and comment the label for floating label field -->
                             <span class="">
@@ -447,7 +447,7 @@
                     </mat-label>
                     <mat-select id="{{question.order}}" panelClass="custom-mat-select-panel" multiple
                         [(ngModel)]="question.value" [disableOptionCentering]="true"
-                        (closed)="onSelectionClose(question?.order)" [disabled]="question?.isQuestionDisabled">
+                        (closed)="onSelectionClose(question?.order)" [disabled]="question?.isQuestionDisabled" >
                         <div class="w-100 shadow-sm search-filter">
                             <!-- has-float-label - use this class in span tag and comment the label for floating label field -->
                             <span class="">
@@ -667,14 +667,16 @@
 
             <div class="common-font-family mb-3 col-sm-12" *ngSwitchCase="QUESTION_TYPE.LABEL">
                 <!-- <div class="col-sm-12 mb-3 " [innerHTML]="question.title | safe: 'html'" id="{{question.order}}" [ngClass]="{'invalid-border': question.errorMessage}"> -->
-                <div class="d-flex justify-content-between"
-                    style="border-radius: 4px 4px 0 0;background:#d3d3d3; padding:12px; font-family:saira; font-weight:600;"
+                <div class="d-flex"
+                    style="border-radius: 4px 4px 0 0;background:#d3d3d3; padding:12px; font-weight:600;"
                     id="{{question.order}}" [ngClass]="{'invalid-border': question.errorMessage}"> {{question?.title}}
                     <!-- <div *ngIf="question?.showComment" class="technicalComments">
                          <span class="commentSelector" *ngIf="!pdfbuttonhide">
                              <app-show-comments (lastComment)="lastComment($event)" [location]="question?.commentApi" [lineItemId]="question?.commentLineItemId" [comment]="comments"></app-show-comments>
                          </span>
                      </div> -->
+                     <mat-icon class="mat-info-icon" *ngIf="question?.information"
+                     [matTooltip]="question?.information" style="font-size: 16px; right: 15px;">info</mat-icon>
                 </div>
             </div>
 
@@ -1508,7 +1510,7 @@
 
             <div class="common-font-family mb-3 col-sm-12" *ngSwitchCase="QUESTION_TYPE.LABEL">
                 <!-- <div class="col-sm-12 mb-3 " [innerHTML]="question.title | safe: 'html'" id="{{question.order}}" [ngClass]="{'invalid-border': question.errorMessage}"> -->
-                <div class="d-flex justify-content-between"
+                <div class="d-flex"
                     style="border-radius: 4px 4px 0 0;background: #058E91; color: white; padding:12px; font-weight:600;"
                     id="{{question.order}}" [ngClass]="{'invalid-border': question.errorMessage}"> {{question?.title}}
                     <!-- <div *ngIf="question?.showComment" class="technicalComments">
@@ -1516,6 +1518,8 @@
                              <app-show-comments (lastComment)="lastComment($event)" [location]="question?.commentApi" [lineItemId]="question?.commentLineItemId" [comment]="comments"></app-show-comments>
                          </span>
                      </div> -->
+                      <mat-icon class="mat-info-icon" *ngIf="question?.information"
+                            [matTooltip]="question?.information" style="font-size: 16px; right: 15px;">info</mat-icon>
                 </div>
             </div>
 
