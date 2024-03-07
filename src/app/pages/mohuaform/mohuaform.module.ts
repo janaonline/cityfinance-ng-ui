@@ -29,7 +29,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
+import { GlobalPartModule } from 'src/app/global-part/global-part.module';
 
 @NgModule({
   declarations: [
@@ -64,7 +64,7 @@ import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,
-    GobalPartModule
+    GlobalPartModule
   ],
   exports: [
    // GrantTransferMohuaComponent

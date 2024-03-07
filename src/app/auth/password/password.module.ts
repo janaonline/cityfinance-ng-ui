@@ -9,7 +9,7 @@ import { RecaptchaModule } from 'ng-recaptcha';
 import { SharedModule } from '../../shared/shared.module';
 import { PasswordRoutingModule } from './password-routing.module';
 import { PasswordComponent } from './password.component';
-import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
+import { GlobalPartModule } from 'src/app/global-part/global-part.module';
 
 @NgModule({
   imports: [
@@ -22,7 +22,7 @@ import { GobalPartModule } from 'src/app/gobal-part/gobal-part.module';
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
-    GobalPartModule
+    GlobalPartModule
   ],
   declarations: [PasswordComponent],
 })

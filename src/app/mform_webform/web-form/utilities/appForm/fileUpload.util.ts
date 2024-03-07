@@ -1,3 +1,5 @@
+import { environment } from "src/environments/environment";
+
 // import api, { axiosInstanceWithoutDefaultConfig } from "./config/api";
 let axios: any;
 let BASE_URL: any;
@@ -26,7 +28,7 @@ async function getS3UrlForFiles(files: any) {
         file_name: file?.name,
       })),
     };
-    let { data: response } = await api.post(`getBlobUrl`, requestBody);
+    let { data: response } = await api.post(`get${environment?.storageType}`, requestBody);
     return response;
   } catch (e) {
     throw new Error("Unable To Upload");
@@ -57,11 +59,14 @@ const getFileAndUploadToGivenUrl = async (
     fileMimeType
   );
   
-  const headers = new Headers({
+  const headersS3 = new Headers({
+    "Content-Type": fileToUpload?.type,
+  });
+  const headersAzure = new Headers({
     "Content-Type": fileToUpload?.type,
     "x-ms-blob-type":"BlockBlob"
   });
-  return axiosInstanceWithoutDefaultConfig.put(url, fileToUpload, { headers });
+  return axiosInstanceWithoutDefaultConfig.put(url, fileToUpload, {headers: url.includes('blob.core.windows.net') ? headersAzure : headersS3});
 };
 
 const getFileWithGivenNameAndMimeType = (

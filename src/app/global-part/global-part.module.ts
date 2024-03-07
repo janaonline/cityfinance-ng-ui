@@ -15,4 +15,4 @@ import { ToStorageUrlPipe } from './common-pipes/to-storage-url.pipe';
     ToStorageUrlPipe
   ]
 })
-export class GobalPartModule { }
+export class GlobalPartModule { }

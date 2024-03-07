@@ -71,8 +71,8 @@ div.miniMap {
 #districtMapContainer {
     padding: 0px;
     width: 98%;
-    position: absolute;
-    top: 0%;
+    //position: absolute;
+   // top: 0%;
     border-radius: inherit;
     border-left: inherit;
 
@@ -89,18 +89,18 @@ div.miniMap {
     overflow: hidden;
 }
 
-.ulbSelectDropdown {
-    z-index: 9;
-    position: absolute;
-    right: -3.5%;
-    top: 11%;
-    width: 50%;
-    background: transparent;
-    max-width: 259.199px;
-    display: inline-flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
+// .ulbSelectDropdown {
+//     z-index: 9;
+//     position: absolute;
+//     right: -3.5%;
+//     top: 11%;
+//     width: 50%;
+//     background: transparent;
+//     max-width: 259.199px;
+//     display: inline-flex;
+//     flex-wrap: wrap;
+//     justify-content: center;
+// }
 
 .regionalDetails {
     min-width: 197px;
@@ -602,3 +602,27 @@ td {
         width: 100% !important;
     }
 }
+
+::ng-deep .circle-cluster {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 100%;
+    border-style: solid;
+    font-size: 10px;
+    font-weight: bold;
+    width: 22px;
+    height: 22px;
+  }
+  ::ng-deep .circle1 {
+    background: #3388FF;
+    border-color: #3388FF;
+    color: #fff;
+  }
+  .circle.circle2 {
+    background: rgba(0, 57, 128, 0.2);
+    border-color: green;
+    color: yellow;
+  }
+
+ 

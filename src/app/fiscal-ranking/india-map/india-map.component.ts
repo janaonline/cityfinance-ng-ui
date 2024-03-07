@@ -36,13 +36,15 @@ export interface Marker {
   styleUrls: ['./india-map.component.scss']
 })
 export class IndiaMapComponent extends NationalHeatMapComponent implements OnInit, AfterViewInit {
-  @Output() onStateChange = new EventEmitter();
+  @Output() onDropDownChange = new EventEmitter();
   @Input() label: string = '';
   @Input() identifier: string = '';
   @Input() mapData: MapData;
-  @Input() markers: Marker[] = [];
+  @Input() markers = [];
   @Input() colorCoding: any = [];
   @Input() colorDetails: ColorDetails[];
+  @Input() category;
+  @Input() stateDetails;
   randomNumber = 0;
 
   nationalLevelMap: any;
@@ -82,7 +84,7 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
   StatesJSONForMapCreation: any;
   national: any = { _id: "", name: "India" };
   currentId: any;
-
+  
 
 
   constructor(
@@ -119,7 +121,7 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
     this.clearDistrictMapContainer();
     this.randomNumber = Math.round(Math.random());
     this.getFinancialYearList();
-    this.getNationalTableData();
+   //this.getNationalTableData();
     this.loadData();
     this.createNationalMapJson();
   }
@@ -220,7 +222,7 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
     if (containerId && this.userUtil.getUserType() == USER_TYPE.STATE) {
       const preSelectedState = this.stateList?.find(state => state._id == this.userUtil.getLoggedInUserDetails()?.state);
       if (preSelectedState) {
-        this.onSelectingStateFromDropDown(preSelectedState);
+      //  this.onSelectingStateFromDropDown(preSelectedState);
       }
     }
 
@@ -266,18 +268,25 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
       (layer as any).on({
         mouseover: () => this.createTooltip(layer, this.stateLayers),
         click: (args: ILeafletStateClickEvent) => {
-          this.selectedStateCode = args.sourceTarget.feature.properties.ST_CODE;
-
-          const state = this.colorCoding?.find(state => state?.code === this.selectedStateCode);
           
+          this.selectedStateCode = args.sourceTarget.feature.properties.ST_CODE;
+          const state = this.colorCoding?.find(state => state?.code === this.selectedStateCode);
+          const stateDetails = this.stateList?.find(state => state?.code === this.selectedStateCode);
           if (this.identifier == 'top-ranking' && state) {
             layer.closePopup();
             layer.bindPopup(`<div class="text-center"><b class="fs-6">${state?.name}</b> <br/> 
-              Top number of rank holder: <b class="color-orange">${state?.percentage}<b></div>`);
+              Total number of rank holder: <b class="color-orange">${state?.percentage}<b></div>`);
             layer.openPopup();
           }
-
-          this.onStateLayerClick(args, false, false);
+          
+       //  if(this.selectedStateCode) this.onSelectingStateFromDropDown(stateDetails);
+         if(this.identifier == 'top-ranking-ulb' && this.selectedStateCode){
+          this.onDropDownChange.emit(stateDetails);
+          this.onStateClick = true;
+          this.onStateLayerClick(args, true, true, this.markers);
+         }
+          
+          
         },
         mouseout: () => (this.mouseHoverOnState = null),
       });
@@ -305,13 +314,12 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
   }
   clearDistrictMapContainer() {
     const height = this.userUtil.isUserOnMobile() ? `100%` : "530px";
-
     document.getElementById("districtMapContainer").innerHTML = `
       <div
     id="districtMapId"
     class="col-sm-12"
     style="background-color: #F8F9FF;
-    display: inline-block; width: 100%;height: ${height};  z-index: 100"
+    display: inline-block; width: 100%; height: ${height};"
 
   >
   </div>`;
@@ -322,7 +330,7 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
       this.stateList = [{ _id: "", name: "India" }].concat(this._commonService.sortDataSource(res, "name"));
     });
     this._commonService.state_name_data.subscribe((res) => {
-      this.onSelectingStateFromDropDown(res);
+     // this.onSelectingStateFromDropDown(res);
       this.updateDropdownStateSelection(res);
     });
   }
@@ -333,33 +341,55 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
     });
   }
 
-  onSelectingStateFromDropDown(state: any | null) {
-    this.nationalMapService.setCurrentSelectedId({ data: state?._id });
-    this.currentStateId = state?._id;
-    this.onStateChange.emit({ state: this.currentStateId })
-    this.AvailabilityTitle = state?.name;
-    this.nationalInput.stateId = state?._id || '';
-    this.getNationalTableData();
-    this.selectedStateCode = state?.code;
-    this.selected_state = state?.name || "India";
-    if (this.selected_state === "India" && this.isMapOnMiniMapMode) {
-      this.createLegends();
-      this._commonService.fetchStateList().subscribe((res) => {
-        this.stateList = [{ _id: "", name: "India" }].concat(res);
-      });
-      this.updateDropdownStateSelection(state);
-      const element = document.getElementById(this.createdDomMinId);
-      element.style.display = "block";
-      this.resetMapToNationalLevel();
-      this.initializeNationalLevelMapLayer(this.stateLayers);
-    }
-    this.stateselected = state;
-    this.selectStateOnMap(state);
-  }
+  // onSelectingStateFromDropDown(state: any | null) {
+  //   this.nationalMapService.setCurrentSelectedId({ data: state?._id });
+  //   this.currentStateId = state?._id;
+  //   this.onStateChange.emit({ state: this.currentStateId })
+  //   this.AvailabilityTitle = state?.name;
+  //   this.nationalInput.stateId = state?._id || '';
+  //   this.getNationalTableData();
+  //   this.selectedStateCode = state?.code;
+  //   this.selected_state = state?.name || "India";
+  //   if (this.selected_state === "India" && this.isMapOnMiniMapMode) {
+  //     this.createLegends();
+  //     this._commonService.fetchStateList().subscribe((res) => {
+  //       this.stateList = [{ _id: "", name: "India" }].concat(res);
+  //     });
+  //     this.updateDropdownStateSelection(state);
+  //     const element = document.getElementById(this.createdDomMinId);
+  //     element.style.display = "block";
+  //     this.resetMapToNationalLevel();
+  //     this.initializeNationalLevelMapLayer(this.stateLayers);
+  //   }
+  //   this.stateselected = state;
+  //   this.selectStateOnMap(state);
+  // }
 
   initializeNationalLevelMapLayer(map: L.GeoJSON<any>) {
     this.showMapLegends();
-    this.markers.forEach(marker => {
+   
+    if(this.identifier == 'top-ranking-ulb' && !this.stateselected){
+      this.markers.forEach(marker => {
+        let circleClass = 'circle1';
+        let count = `${marker?.ulbCount}`;
+        
+        var size = 1 * 2;
+        var style = 'style="width: ' + size + 'px; height: ' + size + 'px; border-width: ' + 2 + 'px;"';
+        var iconSize = size + (.5 * 2);
+        var icon = L.divIcon({
+          html: '<span class="' + 'circle circle-cluster ' + circleClass + '" ' + '>' + count + '</span>',
+          className: '',
+          iconSize: [iconSize, iconSize]
+        });
+        
+        L.marker([marker.lat, marker.lng], {
+          icon: icon,
+        }).addTo(this.nationalLevelMap).bindTooltip(`<div class="text-center"><b class="fs-6">${marker?.stateName}</b> <br/> 
+        Total number of rank holder: <b class="color-orange">${count}<b></div>`); 
+      });
+    }
+     if(this.identifier !== 'top-ranking-ulb'){
+      this.markers.forEach(marker => {
       L.marker([marker.lat, marker.lng], {
         icon: new L.Icon({
           iconUrl: 'assets/images/maps/simple_blue_dot.png',
@@ -369,32 +399,35 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
       }).addTo(this.nationalLevelMap);
     });
 
-    map?.eachLayer((layer: any) => {
-      const stateCode = MapUtil.getStateCode(layer);
-      if (!stateCode) return;
-
-      let color;
-      let stateCodes = this.colorCoding.map(el => el.code);
-      const state = this.stateData?.find(state => state?.code === stateCode);
-
-      if (state) {
-        this.colorCoding?.forEach((elem) => {
-          if (elem?.code == layer?.feature?.properties?.ST_CODE) {
-            if (elem.color) {
-              color = elem.color;
-            } else {
-              color = this.getColor(elem?.percentage);
+      map?.eachLayer((layer: any) => {
+        const stateCode = MapUtil.getStateCode(layer);
+        if (!stateCode) return;
+  
+        let color;
+        let stateCodes = this.colorCoding.map(el => el.code);
+        const state = this.stateData?.find(state => state?.code === stateCode);
+  
+        if (state) {
+          this.colorCoding?.forEach((elem) => {
+            if (elem?.code == layer?.feature?.properties?.ST_CODE) {
+              if (elem.color) {
+                color = elem.color;
+              } else {
+                color = this.getColor(elem?.percentage);
+              }
+            } else if (
+              !stateCodes.includes(layer?.feature?.properties?.ST_CODE)
+            ) {
+              color = this.getColor(0);
             }
-          } else if (
-            !stateCodes.includes(layer?.feature?.properties?.ST_CODE)
-          ) {
-            color = this.getColor(0);
-          }
+  
+            MapUtil.colorStateLayer(layer, color);
+          });
+        }
+      });
+    }
 
-          MapUtil.colorStateLayer(layer, color);
-        });
-      }
-    });
+   
   }
 
   private selectStateOnMap(state?: IState) {
@@ -418,5 +451,11 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
   private updateDropdownStateSelection(state: IState) {
     this.stateselected = state;
     this.myForm.controls.stateId.setValue(state ? [{ ...state }] : []);
+  }
+  resetMap(){
+    this.onStateClick = false;
+    this.stateDetails = {_id: null, name: "India"}
+    this.onDropDownChange.emit({_id: null, name: "India"});
+   // this.resetMapToNationalLevel();
   }
 }

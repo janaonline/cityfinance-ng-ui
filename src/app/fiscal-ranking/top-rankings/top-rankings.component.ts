@@ -5,6 +5,7 @@ import { BreadcrumbLink } from '../breadcrumb/breadcrumb.component';
 import { FiscalRankingService, Table } from '../fiscal-ranking.service';
 import { ColorDetails, Marker } from '../india-map/india-map.component';
 import { SearchPopupComponent } from '../ulb-details/search-popup/search-popup.component';
+import { IState } from 'src/app/models/state/state';
 
 @Component({
   selector: 'app-top-rankings',
@@ -24,7 +25,7 @@ export class TopRankingsComponent implements OnInit {
       class: 'disabled'
     }
   ];
-  markers: Marker[] = [];
+  markers = [];
   types = [
     {
       key: 'overAllRank',
@@ -76,7 +77,9 @@ export class TopRankingsComponent implements OnInit {
     { color: "#04DC00", text: "10+", min: 11, max: Infinity },
   ];
   isShowingMap: boolean = false;
-
+  stateSelected:IState;
+  category: boolean = false;
+  stateDetails:any;
   constructor(
     private matDialog: MatDialog,
     private fiscalRankingService: FiscalRankingService,
@@ -96,10 +99,13 @@ export class TopRankingsComponent implements OnInit {
     this.filter.get('category')?.valueChanges.subscribe(() => {
       this.table.response = null;
     });
-    this.filter.valueChanges.subscribe(() => this.loadData());
+    this.filter.valueChanges.subscribe(() => {
+      this.loadData();
+    });
   }
 
   ngOnInit(): void {
+    this.isShowingMap = false;
     this.loadStates();
     this.loadData();
   }
@@ -111,7 +117,7 @@ export class TopRankingsComponent implements OnInit {
   }
 
   get footnote() {
-    if(this.filter.value?.populationBucket == '1') {
+    if (this.filter.value?.populationBucket == '1') {
       return "Note: These are the ULBs that submitted their records to complete the ranking."
     }
   }
@@ -122,12 +128,12 @@ export class TopRankingsComponent implements OnInit {
   }
 
   loadTopRankedUlbs(table: Table, queryParams: string = '') {
-    this.isShowingMap = false;
     console.log('queryParams', queryParams)
     this.fiscalRankingService.topRankedUlbs(queryParams, table?.response?.columns, this.params).subscribe((res: any) => {
       this.isShowingMap = true;
       this.table.response = res.tableData;
-      this.markers = res.mapDataTopUlbs;
+      this.markers = res?.mapDataTopUlbs;
+      this.category = false;
     })
   }
 
@@ -138,7 +144,9 @@ export class TopRankingsComponent implements OnInit {
 
   loadStates() {
     this.fiscalRankingService.states().subscribe((res: any) => {
+      console.log('state data', res)
       this.stateList = res.data;
+      this.stateList = [{ _id: null, name: "India" }].concat(this.stateList);
     });
   }
 
@@ -156,4 +164,33 @@ export class TopRankingsComponent implements OnInit {
       panelClass: 'search-page',
     })
   }
+  onSelectingStateFromDropDown(state: any | null) {
+    if(state?._id == null) this.isShowingMap = false;
+     this.stateSelected = state;
+     this.updateDropdownStateSelection(state);
+      this.stateDetails = state;
+  }
+
+  private updateDropdownStateSelection(state: IState) {
+    this.stateSelected = state;
+    this.filter.controls.stateData.setValue(state ? [{ ...state }] : []);
+  }
+
+  onMapClick(event){
+    if(!event?._id){
+      this.isShowingMap = false;
+    }
+    this.updateDropdownStateSelection(event);
+  }
+
+  dropDownChange(event){
+    this.category = true; 
+  }
+
+  tabChanges(){
+    this.isShowingMap = false;
+    this.updateDropdownStateSelection({_id: null, name: 'India'});
+  }
+ 
 }
+

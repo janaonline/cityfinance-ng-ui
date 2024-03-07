@@ -28,10 +28,12 @@
         <div class="row m-0 min-h-60">
             <div class="col-md-5 p-3">
                 <ng-container *ngIf="isShowingMap; else mapLoader;">
-                    <app-india-map *ngIf="selectedMap == 'topUlbs'" [markers]="markers">
+                    <app-india-map *ngIf="selectedMap == 'topUlbs'" [markers]="markers" [identifier]="'top-ranking-ulb'"
+                    (onDropDownChange)="onMapClick($event)" [category]="category" [stateDetails]="stateDetails">
                     </app-india-map>
-                    <app-india-map *ngIf="selectedMap == 'rankHolders'" [colorCoding]="colorCoding" [identifier]="'top-ranking'"
-                        [colorDetails]="colorDetails" label="Number of rank holding ULBs in each state">
+                    <app-india-map *ngIf="selectedMap == 'rankHolders'" [colorCoding]="colorCoding"
+                        [identifier]="'top-ranking'" [colorDetails]="colorDetails"
+                        label="Number of rank holding ULBs in each state">
                     </app-india-map>
                 </ng-container>
                 <ng-template #mapLoader>
@@ -45,11 +47,11 @@
                 <div class="btn-group btn-group-sm btn-group-lg mt-3 text-center d-block" role="group"
                     aria-label="Basic radio toggle button group">
                     <input type="radio" class="btn-check" name="map-filter" id="topUlbs" autocomplete="off"
-                        [(ngModel)]="selectedMap" [value]="'topUlbs'">
+                        [(ngModel)]="selectedMap" [value]="'topUlbs'" (change)="tabChanges()">
                     <label class="btn btn-outline-primary" for="topUlbs">Top ULBs</label>
-    
+
                     <input type="radio" class="btn-check" name="map-filter" id="rankHolders" autocomplete="off"
-                        [(ngModel)]="selectedMap" [value]="'rankHolders'">
+                        [(ngModel)]="selectedMap" [value]="'rankHolders'" (change)="tabChanges()">
                     <label class="btn btn-outline-primary" for="rankHolders">ULB Rank Holders</label>
                 </div>
             </div>
@@ -63,15 +65,18 @@
                         <div class="form-group col-md-4">
                             <div class="input-group inp-grp">
                                 <div class="w-100">
-                                    <angular2-multiselect class="expo-drp-in" [data]="stateList" formControlName="stateData"
-                                        [settings]="dropdownSettings">
+                                    <angular2-multiselect class="expo-drp-in" [data]="stateList"
+                                        formControlName="stateData"
+                                        [settings]="dropdownSettings"
+                                        (onSelect)="onSelectingStateFromDropDown($event)"
+                                        (onDeSelect)="onSelectingStateFromDropDown(null)">
                                     </angular2-multiselect>
                                 </div>
                             </div>
-    
+
                         </div>
                         <div class="col-4 col-sm-4 col-md-4 ps-3">
-                            <select class="form-select" formControlName="populationBucket">
+                            <select class="form-select" formControlName="populationBucket" (change)="dropDownChange($event)">
                                 <option value="">All Categories</option>
                                 <option *ngFor="let item of populationCategories" [value]="item._id">
                                     {{ item.name }}
@@ -80,18 +85,21 @@
                         </div>
                     </div>
                 </div>
-    
-    
+
+
                 <div class="btn-group btn-group-sm custom-btn-group btn-group-lg mt-3 text-center d-block" role="group"
                     aria-label="Basic radio toggle button group">
-    
+
                     <ng-container *ngFor="let type of types">
-                        <input type="radio" class="btn-check" formControlName="category" [id]="type?.key" [value]="type?.key">
+                        <input type="radio" class="btn-check" formControlName="category" [id]="type?.key"
+                            [value]="type?.key" (change)="dropDownChange($event)">
                         <label class="btn btn-outline-primary" [for]="type?.key">{{ type?.label }}</label>
                     </ng-container>
                 </div>
-    
-                <app-common-table *ngIf="table?.response" [classLists]="'scroll fixed-ui-tb sn-no'" theme="white" [info]="footnote"  [response]="table?.response" (update)="onUpdate(table, $event)" [tableName]="'Top Ranked Ulb'">
+
+                <app-common-table *ngIf="table?.response" [classLists]="'scroll fixed-ui-tb sn-no'" theme="white"
+                    [info]="footnote" [response]="table?.response" (update)="onUpdate(table, $event)"
+                    [tableName]="'Top Ranked Ulb'">
                 </app-common-table>
             </form>
         </div>
