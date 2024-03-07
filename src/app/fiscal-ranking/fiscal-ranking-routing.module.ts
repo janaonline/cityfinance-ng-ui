@@ -19,7 +19,7 @@ import { ParticipatingUlbsComponent } from './participating-ulbs/participating-u
 const routes: Routes = [
   { path: "", component: HomeComponent },
   { path: "home", component: HomeComponent },
-  // {path: "fr-home-page-old", component: FiscalHomeComponent},
+  // {path: "fr-home-page", component: FiscalHomeComponent},
   { path: "dashboard", component: DashboardComponent },
   { path: "login", component: FiscalLoginComponent },
   { path: "annual-financial-statements", component: AnnualFinancialStatementsComponent },
