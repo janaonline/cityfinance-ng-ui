@@ -10,20 +10,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        node-version: [14.20.1]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Get code
-      uses: actions/checkout@v3
-    - name: Cache dependencies
-      id: cache
-      uses: actions/cache@v3
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
       with:
-        path: ~/.npm
-        key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
-
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
     - name: Install dependencies
       run: npm install --force
     - name: Install dependencies
