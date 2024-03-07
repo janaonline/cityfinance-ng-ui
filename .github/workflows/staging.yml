@@ -1,9 +1,11 @@
 name: Build and Deploy
 
 on:
-  push:
-    branches:
-      - main  # Adjust this to match your main branch name
+  pull_request:
+    types: 
+      - closed
+    branches: 
+      - "dev-jana" 
 
 jobs:
   build:
@@ -11,12 +13,16 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
+    - name: Get code
+      uses: actions/checkout@v3
+    - name: Cache dependencies
+      id: cache
+      uses: actions/cache@v3
       with:
-        node-version: '14.20.1'  # Use the Node.js version required for your project
+        path: ~/.npm
+        key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
 
     - name: Install dependencies
       run: npm install --force
