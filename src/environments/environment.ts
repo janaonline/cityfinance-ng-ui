@@ -24,6 +24,7 @@ if (window.location.hostname.includes("new-cityfinance")) {
 ) {
  // url = "https://staging.cityfinance.in/api/v1/";
   url = "https://democityfinanceapi.dhwaniris.in/api/v1/";
+  STORAGE_BASEURL = 'https://democityfinance.s3.ap-south-1.amazonaws.com';
   GoogleTagID = "G-MDPDTZFW0N";
 } else {
   isProduction = true;
