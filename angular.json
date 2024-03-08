@@ -127,7 +127,6 @@
             }
         }
     },
-    "defaultProject": "PerfectAngular",
     "cli": {
         "analytics": "cace6f27-e889-45b8-b169-d2241593758b"
     }
