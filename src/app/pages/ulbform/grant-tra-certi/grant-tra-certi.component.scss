@@ -52,7 +52,7 @@ h4 {
     color: rgb(0, 87, 80);
     background-color: #f7f7f7;
     overflow-wrap: unset;
-    justify-content: start
+    justify-content: flex-start
 }
 
 .percent-49 {
@@ -62,7 +62,7 @@ h4 {
 
 .resourceCards {
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     flex-wrap: wrap;
 }
 
