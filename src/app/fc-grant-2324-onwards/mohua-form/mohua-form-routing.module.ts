@@ -10,7 +10,7 @@ import { DocumentsComponent } from './urban-reforms-iv/documents/documents.compo
 
 const routes: Routes = [
   {
-    path: "",
+    path: ":yearId",
     component: MohuaFormComponent,
     canActivate: [Mohua2223Guard],
     children: [
