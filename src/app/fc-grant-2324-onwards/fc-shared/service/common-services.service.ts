@@ -12,18 +12,21 @@ export class CommonServicesService {
   constructor(
     private http: HttpClient,
 
-  ) { }
+  ) { 
+    this.designYearArray = JSON.parse(localStorage.getItem("Years"));
+  }
   setFormStatusUlb: BehaviorSubject<any> = new BehaviorSubject<any>(false);
   ulbLeftMenuComplete: BehaviorSubject<any> = new BehaviorSubject<any>(false);
   stateLeftMenuComplete: BehaviorSubject<any> = new BehaviorSubject<any>(false);
   setFormStatusState: BehaviorSubject<any> = new BehaviorSubject<any>(false);
+  designYearArray:object | any;
   formPostMethod(body: any, endPoints:string) {
     return this.http.post(
       `${environment.api.url}${endPoints}`,
       body
     );
   }
-  getScroing(formName, dYr) {
+  getScoring(formName, dYr) {
     // gfc-odf-form-collection
     return this.http.get(`${environment.api.url}ratings?formName=${formName}&financialYear=${dYr}`);
   }
@@ -89,4 +92,19 @@ export class CommonServicesService {
     {  params: queryParam, responseType: "blob" }
   );
 }
+
+getKeyByValue(object: { [key: string]: string }, value: string): string | null {
+  for (const key in object) {
+      if (object[key] === value) {
+          return key;
+      }
+  }
+  return null;
+}
+
+getYearName(yearId: string) {
+  return this.getKeyByValue(this.designYearArray, yearId)
+}
+
+
 }

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { CommonServicesService } from "../../fc-shared/service/common-services.service";
 import { queryParam } from "src/app/fc-grant-2324-onwards/fc-shared/common-interface";
 import { SweetAlert } from "sweetalert/typings/core";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-annual-account",
@@ -14,22 +14,19 @@ export class AnnualAccountComponent implements OnInit {
 
   constructor(
     private commonServices: CommonServicesService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.designYearArray = JSON.parse(localStorage.getItem("Years"));
     // this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
+    this.getQueryParams();
     this.ulbId = this.userData?.ulb;
     if (!this.ulbId) {
       this.ulbId = localStorage.getItem("ulb_id");
     }
     this.getNextPreUrl();
-    this.getQuery = {
-      design_year: this.designYearArray["2023-24"],
-      formId: 5,
-      ulb: this.ulbId,
-    };
-    this.fileFolderName = `${this.userData?.role}/2023-24/${this.formName}/${this.userData?.ulbCode}`;
+    
   }
   cf_ulb = true;
   // annual-accounts/get?ulb=5dd006d4ffbcc50cfd92c87c&design_year=606aafc14dff55e6c075d3ec&
@@ -80,7 +77,15 @@ export class AnnualAccountComponent implements OnInit {
       responseFile_mohua: {url: '', name :''}
     }
   };
+  selectedYearId:string = "";
+  selectedYear:string="";
   ngOnInit(): void {
+    this.getQuery = {
+      // design_year: this.designYearArray["2023-24"],
+       design_year:this.selectedYearId,
+       formId: 5,
+       ulb: this.ulbId,
+     };
     this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe(
       (res) => {
         if (res == true) {
@@ -166,7 +171,7 @@ export class AnnualAccountComponent implements OnInit {
       this.statusId = 2;
     }
     this.postData = {
-      design_year: this.designYearArray["2023-24"],
+      design_year: this.selectedYearId,
       ulb: this.ulbId,
       isDraft: draft,
       formId: this.formId,
@@ -325,5 +330,12 @@ export class AnnualAccountComponent implements OnInit {
         responseFile_mohua: {url: '', name :''}
       }
     };
+  }
+
+  getQueryParams() {
+     const yearId = this.route.parent.snapshot.paramMap.get('yearId'); // get the 'id' query parameter
+     this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
+     this.selectedYear = this.commonServices.getYearName(this.selectedYearId);
+     this.fileFolderName = `${this.userData?.role}/${this.selectedYear}/${this.formName}/${this.userData?.ulbCode}`;
   }
 }

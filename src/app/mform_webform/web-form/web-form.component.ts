@@ -43,6 +43,8 @@ const address = ['\n', '(', ')', ',', ';'];
 import { SweetAlert } from 'sweetalert/typings/core';
 import { getDaysDifference, isValidDate } from './utilities/general';
 import { SelectDeletableComponent } from './select-deletable/select-deletable.component';
+import { CommonServicesService } from 'src/app/fc-grant-2324-onwards/fc-shared/service/common-services.service';
+import { ActivatedRoute } from '@angular/router';
 const swal: SweetAlert = require("sweetalert");
 
 declare const $: any;
@@ -56,7 +58,10 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
   constructor(
     private commonService: CommonService,
     public snackBar: MatSnackBar,
-    public matDialog: MatDialog
+    public matDialog: MatDialog,
+    public route:ActivatedRoute,
+    public commonServicesCf: CommonServicesService,
+    
   ) {
 
   }
@@ -140,7 +145,11 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
   unBlockCharObject: any = ['&', ";"]
   isAppRestrictFirstDigitAsZero: boolean = false;
   showForm: boolean = true;
+  selectedYearId:string="";
+  selectedYear:string="";
+
   ngOnInit() {
+    this.getQueryParams();
     if (
       this.isViewMode &&
       this.viewFormTemplate != 'template1' &&
@@ -2536,7 +2545,11 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
       {
         qusResponce: latestRes,
         qusAns: this.questionData,
-        odfGfcMarks: this.odfGfcMarks
+        odfGfcMarks: this.odfGfcMarks,
+        year: {
+          id:this.selectedYearId,
+          key: this.selectedYear
+        }
         // finalRes:
       },
       width: "85vw",
@@ -2654,4 +2667,10 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
     this.pageSize = pageSize;
     question.scrollIndex = pageIndex * pageSize;
   }
+  
+  getQueryParams() {
+    const yearId = this.route.parent.snapshot.paramMap.get('yearId');
+    this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
+    this.selectedYear = this.commonServicesCf.getYearName(this.selectedYearId);
+}
 }

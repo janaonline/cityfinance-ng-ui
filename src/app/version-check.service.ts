@@ -13,7 +13,8 @@ export class VersionCheckService {
      */
     public initVersionCheck(url, frequency = 1000 * 60 * 30) {
         // setInterval(() => {
-        this.checkVersion(url);
+        if (window.location.hostname.includes("demo") || window.location.hostname.includes("localhost")) return;
+            this.checkVersion(url);
         // }, frequency);
     }
     /**
@@ -36,7 +37,7 @@ export class VersionCheckService {
                         } else {
                             isAgree = confirm("Changes are made... Do you wish to reload ?");
                         }
-                        if(isAgree) {
+                        if (isAgree) {
                             // @ts-ignore
                             location.reload(true);
                         }

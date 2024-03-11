@@ -13,6 +13,7 @@ if (
   window.location.hostname.includes("localhost")
 ) {
   url = "https://democityfinanceapi.dhwaniris.in/api/v1/";
+  STORAGE_BASEURL = 'https://democityfinance.s3.ap-south-1.amazonaws.com';
   GoogleTagID = "G-MDPDTZFW0N";
 } else if (window.location.hostname.includes("staging-jana")) {
   url = "https://staging-jana.cityfinance.in/api/v1/";

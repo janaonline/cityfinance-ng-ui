@@ -221,9 +221,9 @@
                         <!-- <th scope="col" class="f-table">Engineer's Name</th> -->
                         <!-- <th scope="col" class="f-table">Engineer's Contact No.</th> -->
                         <th scope="col" class="pd-th f-table">Total Project cost</th>
-                        <th scope="col" class="pd-th f-table">% of 15<sup>th</sup> FC grants in total project cost
-
-                        </th>
+                        <th scope="col" class="pd-th f-table">% of 15<sup>th</sup> FC grants in total project cost </th>
+                        <th scope="col" class="pd-th f-table"> Is DPR prepared?</th>
+                       
                     </tr>
                 </thead>
                 <tbody>
@@ -239,6 +239,7 @@
                         <td class="f-table">
                             {{((data?.projects[i].expenditure/data?.projects[i].cost)*100).toFixed(2) >=0? ((data?.projects[i].expenditure/data?.projects[i].cost)*100).toFixed(2) : 0 }}%
                         </td>
+                        <td class="f-table">{{data.projects[i]?.dpr_status}}</td>
                         <!-- <td>{{data.projects[i].expenditure}}</td> -->
                     </tr>
                 </tbody>
