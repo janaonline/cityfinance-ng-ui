@@ -4,11 +4,12 @@
 </div>
 <small class="text-danger">All questions with * are mandatory</small>
 
-<ng-template #treeNode let-yearItem="yearItem" let-yearIndex="yearIndex" let-hideErrors="hideErrors">
+<ng-template #treeNode let-yearItem="yearItem" let-yearIndex="yearIndex" let-rowIndex="rowIndex" let-hideErrors="hideErrors">
     <div class="col-sm-12 for-radio" *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
         <div class="form-group">
             <input *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
                 onwheel="this.blur()"
+                [id]="yearItem?.controls?.key?.value+rowIndex"
                 [appDecimalLimit]="yearItem?.controls?.formFieldType?.value != 'number' ? null : yearItem?.controls?.decimalLimit?.value || 0" formControlName="value"
                 class="form-control" [type]="yearItem?.controls?.formFieldType?.value"
                 [readonly]="yearItem?.controls?.readonly?.value" [disabled]="yearItem?.controls?.readonly?.value"
@@ -24,6 +25,7 @@
                 year amount is
                 greater</small>
             <mat-radio-group aria-label="Select an option" formControlName="value"
+            [id]="yearItem?.controls?.key?.value+rowIndex"
                 *ngIf="yearItem?.controls?.formFieldType?.value == 'radio-toggle'"
                 [disabled]="yearItem?.controls?.readonly?.value" class="d-flex">
                 <mat-radio-button value="Yes">Yes</mat-radio-button>
@@ -31,6 +33,7 @@
             </mat-radio-group>
 
             <select *ngIf="yearItem?.controls?.formFieldType?.value == 'select'" class="form-select"
+            [id]="yearItem?.controls?.key?.value+rowIndex"
                 [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && !hideErrors && (yearItem.dirty || yearItem.touched)}"
                 formControlName="value" [attr.disabled]="yearItem?.controls?.readonly?.value ? '' : null"
                 [readonly]="yearItem?.controls?.readonly?.value">
@@ -47,6 +50,7 @@
                 <div class="d-flex w-100 px-2 justify-content-between">
                     <input matInput class="mat-date" formControlName="date" style="pointer-events: none;"
                         [matDatepicker]="r_i" [disabled]="yearItem?.controls?.readonly?.value" [max]="currentDate"
+                        [id]="yearItem?.controls?.key?.value+rowIndex"
                         placeholder="Choose a date" [attr.id]="  + r_i" />
                     <mat-datepicker-toggle matSuffix [disabled]="yearItem?.controls?.readonly?.value" [for]="r_i">
                     </mat-datepicker-toggle>
@@ -59,7 +63,7 @@
             <ng-container *ngIf="yearItem?.controls?.formFieldType?.value == 'file'">
                 <div class="col-sm-12 mb-3" *ngIf="yearItem?.controls?.readonly?.value == false"
                     [ngClass]="{'border-danger-file': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
-                    <button (click)="bs_pdf1.click()" class="btn form-btn com-style w-100" [disabled]="isDisabled">
+                    <button (click)="bs_pdf1.click()" class="btn form-btn com-style w-100" [disabled]="isDisabled" [id]="yearItem?.controls?.key?.value+rowIndex">
                         <div class="row">
                             <div class="col-sm-6 file-text ">
                                 File
@@ -69,7 +73,8 @@
                             </div>
                         </div>
                     </button>
-                    <input #bs_pdf1 style="display: none;" onclick="this.value=null;"
+                    <input #bs_pdf1 style="display: none;" onclick="this.value=null;" 
+                        [id]="yearItem?.controls?.key?.value+rowIndex"
                         (change)="uploadFile($event, yearItem?.controls?.file, false, yearItem?.controls?.allowedFileTypes?.value)"
                         type="file" [accept]="yearItem?.controls?.allowedFileTypes?.value | allowedFileTypes" #file>
                 </div>
@@ -168,7 +173,8 @@
                                 *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
                                 <ng-container [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ 
                                         yearItem: yearItem,
-                                        yearIndex: r_i
+                                        yearIndex: r_i,
+                                        rowIndex: rowIndex_rev
                                     }">
                                 </ng-container>
                             </td>
