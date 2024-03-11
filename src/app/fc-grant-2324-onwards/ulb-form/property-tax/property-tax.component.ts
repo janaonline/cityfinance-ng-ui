@@ -194,6 +194,7 @@ export class PropertyTaxComponent implements OnInit {
               copyOptions: [{ value: item.copyOptions, disabled: true }],
               copyChildFrom: [{ value: item.copyChildFrom, disabled: true }],
               child: this.fb.array(item.child.map(childItem => this.fb.group({
+                entryDesignYear: childItem?.entryDesignYear,
                 key: childItem.key,
                 value: [childItem.value, this.getValidators(childItem, !['date', 'file', 'link'].includes(childItem.formFieldType), parent)],
                 _id: childItem._id,
@@ -415,6 +416,11 @@ export class PropertyTaxComponent implements OnInit {
     return true;
   }
 
+  canDeleteLast(rows: any[]) {
+    const lastRow = rows[rows.length - 1];
+    return lastRow.entryDesignYear == this.design_year;
+  }
+
   finalSubmitConfirmation() {
     swal(
       "Confirmation !",
@@ -546,6 +552,7 @@ export class PropertyTaxComponent implements OnInit {
         value: [value, this.getValidators(targetQuestion, !['date', 'file', 'link'].includes(targetQuestion.formFieldType), parent)],
         _id: targetQuestion._id,
         replicaNumber: replicaCount,
+        entryDesignYear: this.design_year,
         label: [{ value: targetQuestion.label, disabled: true }],
         formFieldType: [{ value: targetQuestion.formFieldType || 'text', disabled: true }],
         position: [{ value: targetQuestion.displayPriority || 1, disabled: true }],

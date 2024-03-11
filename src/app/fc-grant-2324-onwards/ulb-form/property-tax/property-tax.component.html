@@ -195,7 +195,7 @@
                                                 hideErrors: true
                                             }">
                                         </ng-container>
-                                        <button [disabled]="buttonDissabled"
+                                        <button [disabled]="buttonDissabled || child?.controls?.entryDesignYear?.value != design_year"
                                             (click)="editChildQuestions(item?.value, child.controls?.replicaNumber.value, child?.controls?.value?.value)"
                                             class="btn btn-primary edit-button">
                                             <mat-icon>edit</mat-icon>
@@ -215,7 +215,7 @@
                                     <button [disabled]="buttonDissabled" class="btn btn-primary"
                                         (click)="addChildQuestions(item?.value)">Add
                                         more</button>
-                                    <button [disabled]="buttonDissabled"
+                                    <button [disabled]="buttonDissabled || !canDeleteLast(item?.value?.controls?.child?.value)"
                                         *ngIf="item?.value?.controls?.child?.value.length > 0" class="btn btn-danger ms-2"
                                         (click)="removeLastQuestion(item?.value)">Delete
                                         Last</button>
