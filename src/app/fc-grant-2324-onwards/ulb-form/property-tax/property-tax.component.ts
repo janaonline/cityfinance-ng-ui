@@ -233,6 +233,7 @@ export class PropertyTaxComponent implements OnInit {
       formFieldType: [{ value: item.formFieldType || 'text', disabled: true }],
       status: item.status,
       bottomText: [{ value: item.bottomText, disabled: true }],
+      info: item.info,
       label: [{ value: item.label, disabled: true }],
       placeholder: [{ value: item.placeholder, disabled: true }],
       desc: [{ value: item.desc, disabled: true }],

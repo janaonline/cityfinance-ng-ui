@@ -34,6 +34,9 @@
                 <small class="focus-warning" *ngIf="yearItem._parent | yearComparision: yearIndex">Prior
                     year amount is
                     greater</small>
+                <small *ngIf="yearItem?.controls?.info?.value">
+                    {{ yearItem?.controls?.info?.value }}
+                </small>
                 <mat-radio-group aria-label="Select an option" formControlName="value"
                     *ngIf="yearItem?.controls?.formFieldType?.value == 'radio-toggle'"
                     [disabled]="yearItem?.controls?.readonly?.value" class="d-flex">

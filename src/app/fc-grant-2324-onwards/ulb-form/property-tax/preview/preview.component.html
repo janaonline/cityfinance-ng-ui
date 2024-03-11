@@ -49,11 +49,12 @@
                                         <span *ngIf="elem?.date">{{ elem?.date | date: 'dd/MM/yyyy' }}</span>
                                         <span class="file-link" *ngIf="elem?.file"><a href="{{elem?.file?.url | toStorageUrl }}"
                                                 target="_blank">{{elem?.file?.name}}</a></span>
-                                        <span>{{
+                                        <span *ngIf="elem?.value">{{
                                             elem?.isRupee
                                             ? '₹' + elem?.value
                                             : elem?.value
                                             }}</span>
+                                        <small style="display: block;" *ngIf="elem.info">{{ elem?.info }}</small>
                                     </td>
                                 </tr>
                                 <tr *ngFor="let child of tabData?.value?.child; let r_i=index">
