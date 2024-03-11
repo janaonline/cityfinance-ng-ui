@@ -28,6 +28,13 @@ jobs:
 
     - name: Build Angular project
       run: npm run build 
-
-    - name: Deploy to server
-      run: scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r ${{ github.workspace }}/dist/* ${{ secrets.SERVER_USERNAME }}:${{ secrets.SERVER_PASSWORD }}@${{ secrets.SERVER_IP }}:/var/www/html/dev-jana/citifinance-ng-ui/dist/
+    - name: Copy dist files to server
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.SERVER_IP }}  # Add your server IP address as a secret in your repository
+        username: ${{ secrets.SERVER_USERNAME }}  # Add your server username as a secret
+        key: ${{ secrets.SERVER_SSH_KEY }}  # Add your server SSH private key as a secret
+        source: "dist/*"  # Adjust this path based on your project structure
+        target: "/var/www/html/dev-jana/citifinance-ng-ui/"  # Specify the destination path on your server
+    # - name: Deploy to server
+    #   run: scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r ${{ github.workspace }}/dist/* ${{ secrets.SERVER_USERNAME }}:${{ secrets.SERVER_PASSWORD }}@${{ secrets.SERVER_IP }}:/var/www/html/dev-jana/citifinance-ng-ui/dist/
