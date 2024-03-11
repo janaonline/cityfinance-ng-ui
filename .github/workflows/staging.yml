@@ -1,8 +1,10 @@
 name: Build and Deploy
 on:
-  push:
+  pull_request:
+    types:
+      - closed
     branches:
-      - main  # Adjust this to match your main branch name
+      - "dev-jana"
 
 jobs:
   test-ssh-connection:
