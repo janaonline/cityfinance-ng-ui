@@ -297,10 +297,10 @@ export class AnnualAccountComponent implements OnInit {
   }
   nextPreBtn(e) {
     let url =
-      e?.type == "pre"
-        ? this.nextPreUrl?.backBtnRouter
-        : this.nextPreUrl?.nextBtnRouter;
-    this.router.navigate([`/ulb-form/${url.split("/")[1]}`]);
+      e?.type == "pre" ? this.nextPreUrl?.backBtnRouter : this.nextPreUrl?.nextBtnRouter;
+    // added year id in route
+      this.router.navigate([`/ulb-form/${this.selectedYearId}/${url.split('/')[1]}`]);
+   // this.router.navigate([`/ulb-form/${url.split("/")[1]}`]);
   }
   ngOnDestroy(): void {
     this.leftMenuSubs.unsubscribe();
