@@ -475,7 +475,7 @@ getNextPreUrl(form){
     });
   }
 }
-// for getting design year and key of that design year
+// for getting design year and key(like: 2024-25) from route
 getQueryParams() {
   const yearId = this.route.parent.snapshot.paramMap.get('yearId');
    this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
