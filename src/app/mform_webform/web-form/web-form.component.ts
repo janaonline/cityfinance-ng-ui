@@ -1252,6 +1252,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
                   : '',
           },
         ];
+        // question["value"] = question.modelValue;
       } else {
         console.log('else called ');
         if (question && question.input_type == '5') {
@@ -2238,11 +2239,18 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
    * @param {any} selectedValue - The selected value.
    */
   getSelectionChange(question: any, selectedValue: any) {
+    // debugger
+    // let questionIndex = this.questionData.findIndex(
+    //   (item: { order: string }) => item.order == question?.order
+    // );
+
+    // this.questionData[questionIndex].value = question?.modelValue;
     console.log('getSelectionChange', question, selectedValue);
-    // const selectedTarget = { target: { value: selectedValue?.value } };
+    //  const selectedTarget = { target: { value: selectedValue?.value } };
     // if (question && selectedValue) {
     //   this.onChange(question, selectedTarget);
     // }
+
     if (this.formName == 'odf' || this.formName == 'gfc') {
       this.getMarks(selectedValue?.value);
     }
