@@ -15,8 +15,8 @@ import { CustomizedCellComponent } from "src/app/shared/components/ag-grid/custo
 import { CustomTooltipComponent } from "src/app/shared/components/ag-grid/custom-tooltip/custom-tooltip.component";
 import { CustomizedHeaderComponent } from "src/app/shared/components/ag-grid//customized-header/customized-header.component";
 //import { CustomizedHeaderComponent } from "./customized-header/customized-header.component";
-import "ag-grid-community/dist/styles/ag-grid.css";
-import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+// @import "ag-grid-community/dist/styles/ag-grid.css";
+// @import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { State2223Service } from "src/app/newPagesFc/xvfc2223-state/state-services/state2223.service";
 import { ButtonRendererComponent } from "src/app/newPagesFc/xvfc2223-state/action-plan/delete-btn";
 

@@ -1,4 +1,4 @@
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { of } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
@@ -15,7 +15,7 @@ import {
 } from './reactiveFormValidators';
 
 export class FormUtil {
-  private fb: FormBuilder;
+  private fb: UntypedFormBuilder;
 
   private regexForUserName = "[A-Z]+[a-zA-Z]*[\\s*[a-zA-Z]*";
   private regexForAtleast1AplhabetWithSpecialCharacter = "\\w+.?\\s*\\w*\\D";
@@ -27,7 +27,7 @@ export class FormUtil {
   private regexForOnlyNumbericWithDecimalAccept = `\\d*\\.?\\d{1,9}`;
 
   constructor() {
-    this.fb = new FormBuilder();
+    this.fb = new UntypedFormBuilder();
   }
 
   public getUserForm(purpose: "CREATION" | "EDIT" = "CREATION") {
