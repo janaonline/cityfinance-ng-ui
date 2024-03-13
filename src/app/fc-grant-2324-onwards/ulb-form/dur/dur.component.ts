@@ -45,7 +45,8 @@ export class DurComponent implements OnInit, OnDestroy {
   leftMenuSubs:any;
   statusShow:string = '';
   selectedYearId:string="";
-  financialYear:string=""
+  financialYear:string="";
+  selectedYear:string=""
   constructor(
     private dialog: MatDialog,
     private durService: DurService,
@@ -188,11 +189,12 @@ export class DurComponent implements OnInit, OnDestroy {
         name: child?.[0]?.value,
         categoryName: child?.[1]?.selectedValue?.[0]?.label,
         location: {
-          lat: parseFloat(lat).toFixed(2),
-          long: parseFloat(long).toFixed(2)
+          lat: lat ? parseFloat(lat).toFixed(2) : "",
+          long: long ? parseFloat(long).toFixed(2) : ""
         },
         cost: child[5]?.value,
-        expenditure: child[6]?.value
+        expenditure: child[6]?.value,
+        dpr_status: child[8]?.selectedValue?.[0]?.label
       }
     });
 
@@ -201,7 +203,7 @@ export class DurComponent implements OnInit, OnDestroy {
     let previewData = {
       status: this.statusShow,
       isDraft: true,
-      financialYear: this.financialYear,
+      financialYear: this.financial_year,
       designYear: this.design_year,
       grantType: "Tied",
       isProjectLoaded: this.isProjectLoaded,
@@ -210,7 +212,8 @@ export class DurComponent implements OnInit, OnDestroy {
       designation: selfDeclaration?.childQuestionData?.[0]?.[1]?.modelValue,
       categoryWiseData_wm,
       categoryWiseData_swm,
-      projects
+      projects,
+      selectedYear: this.selectedYear
     };
     const dialogRef = this.dialog.open(DurPreviewComponent, {
       data: previewData,
@@ -373,9 +376,11 @@ export class DurComponent implements OnInit, OnDestroy {
     console.log(this.isButtonAvail, 'this.isButtonAvail');
     
  }
+
+ //f
  getFinancialYear(){
-  const selectedYear = this.commonServices.getYearName(this.design_year);
-  const [startYear, endYear] = selectedYear.split("-").map(Number);
+  this.selectedYear = this.commonServices.getYearName(this.design_year);
+  const [startYear, endYear] = this.selectedYear.split("-").map(Number);
   this.financialYear = `${startYear - 1}-${endYear - 1}`;
   
  }

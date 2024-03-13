@@ -264,4 +264,7 @@ console.log('preview data', this.data);
   dialogClose() {
     this._matDialog.closeAll();
   }
+  checkForYear(){
+    return this.data?.selectedYear == "2024-25";
+  }
 }
