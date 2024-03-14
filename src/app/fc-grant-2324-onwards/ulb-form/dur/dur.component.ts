@@ -75,10 +75,10 @@ export class DurComponent implements OnInit, OnDestroy {
      this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId")
     return this.selectedYearId;
   }
-  get financial_year() {
-    const years = JSON.parse(localStorage.getItem("Years"));
-    return years?.['2022-23'];
-  }
+  // get financial_year() {
+  //   const years = JSON.parse(localStorage.getItem("Years"));
+  //   return years?.['2022-23'];
+  // }
 
   get ulbId() {
     if(this.userData?.role == 'ULB') return this.userData?.ulb;
