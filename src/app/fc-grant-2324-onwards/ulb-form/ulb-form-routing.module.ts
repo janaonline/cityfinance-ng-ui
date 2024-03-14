@@ -16,7 +16,7 @@ import { VideoGallaryComponent } from './video-gallary/video-gallary.component';
 
 const routes: Routes = [
   {
-    path: "",
+    path: ":yearId",
     component: UlbFormComponent,
     canActivate: [Ulb2223Guard],
     children: [

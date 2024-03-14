@@ -40,7 +40,10 @@ export class DurCustomWarningsPipe implements PipeTransform {
       }
     }
     if (reasonalbleLimitsKeys.includes(shortKey) && !inReasonalbeLimit(question.modelValue))
-      return `${question.modelValue} is outside reasonable limit, are you sure you want to proceed?`;
+      return `${question.modelValue} entered maybe incorrect. Please recheck before proceeding`;
+   // `${question.modelValue} is outside reasonable limit, are you sure you want to proceed?`;
+     // Amount entered maybe incorrect. Please recheck before proceeding.
+     
   }
 
 

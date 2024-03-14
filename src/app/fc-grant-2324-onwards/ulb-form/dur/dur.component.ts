@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 const swal: SweetAlert = require("sweetalert");
 
@@ -44,12 +44,16 @@ export class DurComponent implements OnInit, OnDestroy {
   canTakeAction:boolean = false;
   leftMenuSubs:any;
   statusShow:string = '';
+  selectedYearId:string="";
+  financialYear:string="";
+  selectedYear:string=""
   constructor(
     private dialog: MatDialog,
     private durService: DurService,
     private loaderService: GlobalLoaderService,
     private commonServices: CommonServicesService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { 
     this.getNextPreUrl();
   }
@@ -57,6 +61,7 @@ export class DurComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // this.isLoaded = true;
+    this.getFinancialYear();
     this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
       if (res == true) {
         this.getNextPreUrl();
@@ -65,9 +70,10 @@ export class DurComponent implements OnInit, OnDestroy {
     this.loadData();
   }
 
-  get design_year() {
-    const years = JSON.parse(localStorage.getItem("Years"));
-    return years?.['2023-24'];
+  get design_year() { 
+    const yearId = this.route.parent.snapshot.paramMap.get('yearId');
+     this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId")
+    return this.selectedYearId;
   }
   get financial_year() {
     const years = JSON.parse(localStorage.getItem("Years"));
@@ -187,11 +193,12 @@ export class DurComponent implements OnInit, OnDestroy {
         name: child?.[0]?.value,
         categoryName: child?.[1]?.selectedValue?.[0]?.label,
         location: {
-          lat: parseFloat(lat).toFixed(2),
-          long: parseFloat(long).toFixed(2)
+          lat: lat ? parseFloat(lat).toFixed(2) : "",
+          long: long ? parseFloat(long).toFixed(2) : ""
         },
         cost: child[5]?.value,
-        expenditure: child[6]?.value
+        expenditure: child[6]?.value,
+        dpr_status: child[8]?.selectedValue?.[0]?.label
       }
     });
 
@@ -200,8 +207,8 @@ export class DurComponent implements OnInit, OnDestroy {
     let previewData = {
       status: this.statusShow,
       isDraft: true,
-      financialYear: "606aaf854dff55e6c075d219",
-      designYear: "606aafb14dff55e6c075d3ae",
+      financialYear: this.financial_year,
+      designYear: this.design_year,
       grantType: "Tied",
       isProjectLoaded: this.isProjectLoaded,
       grantPosition,
@@ -209,7 +216,8 @@ export class DurComponent implements OnInit, OnDestroy {
       designation: selfDeclaration?.childQuestionData?.[0]?.[1]?.modelValue,
       categoryWiseData_wm,
       categoryWiseData_swm,
-      projects
+      projects,
+      selectedYear: this.selectedYear
     };
     const dialogRef = this.dialog.open(DurPreviewComponent, {
       data: previewData,
@@ -265,8 +273,16 @@ export class DurComponent implements OnInit, OnDestroy {
   }
 
   async onSubmit(data) {
+
     let isDraft = data.isSaveAsDraft;
     if (isDraft == false) {
+      const grantPositionData = data?.finalData?.find(obj => obj.shortKey === "grantPosition");
+      const expDuringYrObj = grantPositionData?.nestedAnswer[0]?.answerNestedData?.find(el=>el.shortKey === "grantPosition___expDuringYr");
+     if((expDuringYrObj?.answer[0]?.value == 0)){
+       swal("Error", "The total expenditure incurred during the year cannot be 0", "error");
+       return;
+     }
+
       const userAction = await swal(
         "Confirmation !",
         `${this.finalSubmitMsg}`,
@@ -336,7 +352,9 @@ export class DurComponent implements OnInit, OnDestroy {
   }
   nextPreBtn(e) {
     let url = e?.type == 'pre' ? this.nextPreUrl?.backBtnRouter : this.nextPreUrl?.nextBtnRouter
-    this.router.navigate([`/ulb-form/${url.split('/')[1]}`]);
+    //added year Id in route
+    this.router.navigate([`/ulb-form/${this.selectedYearId}/${url.split('/')[1]}`]);
+    //this.router.navigate([`/ulb-form/${url.split('/')[1]}`]);
   }
   updateInParent(item) {
     Object.entries(item).forEach(([key, value]) => {
@@ -370,6 +388,19 @@ export class DurComponent implements OnInit, OnDestroy {
     console.log(this.isButtonAvail, 'this.isButtonAvail');
     
  }
+
+ //f
+ getFinancialYear(){
+  this.selectedYear = this.commonServices.getYearName(this.design_year);
+  const [startYear, endYear] = this.selectedYear.split("-").map(Number);
+  this.financialYear = `${startYear - 1}-${endYear - 1}`;
+  
+ }
+ get financial_year() {
+  const years = JSON.parse(localStorage.getItem("Years"));
+  return years?.[`${this.financialYear}`];
+}
+
  ngOnDestroy(): void {
   this.leftMenuSubs.unsubscribe();
 }

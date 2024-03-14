@@ -10,7 +10,7 @@ import { TwentyEightSlbPreviewComponent } from './twenty-eight-slb-preview/twent
 
 // import { DurPreviewComponent } from './dur-preview/dur-preview.component';
 import { TwentyEightSlbService } from './twenty-eight-slb.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 
@@ -40,7 +40,8 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
     private twentyEightSlbService: TwentyEightSlbService,
     private loaderService: GlobalLoaderService,
     private commonServices: CommonServicesService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
   isButtonAvail: boolean = false;
   nextPreUrl = {
@@ -51,6 +52,7 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
   isFormFinalSubmit: boolean = false;
   canTakeAction: boolean = false;
   leftMenuSubs: any;
+
   ngOnInit(): void {
     // this.isLoaded = true;
     this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
@@ -68,7 +70,10 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
   }
 
   get design_year() {
-    return this.years?.['2023-24'];
+    //return this.years?.['2023-24'];
+    const yearId = this.route.parent.snapshot.paramMap.get('yearId');
+    return yearId ? yearId : sessionStorage.getItem("selectedYearId")
+     
   }
 
   get ulbId() {

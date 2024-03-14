@@ -7,13 +7,14 @@ import { UserUtility } from 'src/app/util/user/user';
   templateUrl: './left-menu-template.component.html',
   styleUrls: ['./left-menu-template.component.scss']
 })
-export class LeftMenuTemplateComponent implements OnInit {
+export class LeftMenuTemplateComponent implements OnInit, OnChanges {
   role: string;
   constructor() {
     this.role = new UserUtility().getLoggedInUserDetails().role;
   }
   @Input() leftMenu = {};
-
+  @Input() isLeftMenu = false;
+  @Input() selectedYear="";
   ngOnInit(): void {
 
   }
@@ -28,6 +29,13 @@ export class LeftMenuTemplateComponent implements OnInit {
     val_1 = (val_1.key?.split('_'))[1];
     val_2 = (val_2.key?.split('_'))[1];
     return val_1 > val_2 ? 1 : (val_2 > val_1 ? -1 : 0);
+  }
+
+  ngOnChanges(changes:SimpleChanges){
+    if(changes?.isLeftMenu){
+      this.isLeftMenu = changes?.isLeftMenu?.currentValue
+    }
+
   }
 
 }

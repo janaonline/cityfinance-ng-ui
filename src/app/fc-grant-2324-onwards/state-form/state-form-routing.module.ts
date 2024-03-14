@@ -20,7 +20,7 @@ import { StateResourcesComponent } from './state-resources/state-resources.compo
 
 const routes: Routes = [
   {
-    path: "",
+    path: ":yearId",
     component: StateFormComponent,
    canActivate: [State2223Guard],
     children: [
