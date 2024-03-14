@@ -191,9 +191,10 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="" [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled ) }">
-                        <input digitOnly [decimal]="question?.skipDigitOnlyValidation" type="number" class="form-control " [appNumberLength]="question.max" placeholder="{{question.hint}}" [ngClass]="{'invalid-border': question.errorMessage}" minlength="{{question.min}}" maxlength="{{question.max}}"
-                            id="{{question.order}}" [value]="question.modelValue ? question.modelValue : ''" (keyup)="onChange(question, $event)" [ngModelOptions]="{standalone: true}" (focus)="onFocusEvent(question.order)" [appRestrictFirstDigitAsZero]="isAppRestrictFirstDigitAsZero"
-                            [readonly]="question?.isQuestionDisabled" [min]="question.minRange" [max]="question.maxRange" />
+                        <input digitOnly [decimal]="question?.skipDigitOnlyValidation" type="number" class="form-control " [appNumberLength]="question.max" placeholder="{{question.hint}}" [ngClass]="{'invalid-border': question.errorMessage}" 
+                            id="{{question.order}}" [value]="question.modelValue ? question.modelValue : ''" (keyup)="onChange(question, $event)" [ngModelOptions]="{standalone: true}" (focus)="onFocusEvent(question.order)" [appRestrictFirstDigitAsZero]="true"
+                            [readonly]="question?.isQuestionDisabled" [min]="question.minRange" [max]="question.maxRange" 
+                            [appMinMaxRangeCheckOnPaste]="{minRange: question.minRange, maxRange: question.maxRange}" />
                         <mat-icon class="input-eye-icon" *ngIf="question?.information" [matTooltip]="question?.information">info</mat-icon>
                     </div>
                     <div *ngIf="(question?.labelInstruction) && (!question.errorMessage)" class="label-instruction">
