@@ -269,8 +269,16 @@ export class DurComponent implements OnInit, OnDestroy {
   }
 
   async onSubmit(data) {
+
     let isDraft = data.isSaveAsDraft;
     if (isDraft == false) {
+      const grantPositionData = data?.finalData?.find(obj => obj.shortKey === "grantPosition");
+      const expDuringYrObj = grantPositionData?.nestedAnswer[0]?.answerNestedData?.find(el=>el.shortKey === "grantPosition___expDuringYr");
+     if((expDuringYrObj?.answer[0]?.value == 0)){
+       swal("Error", "The total expenditure incurred during the year cannot be 0", "error");
+       return;
+     }
+
       const userAction = await swal(
         "Confirmation !",
         `${this.finalSubmitMsg}`,
