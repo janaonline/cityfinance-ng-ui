@@ -27,6 +27,9 @@ export class DurCustomErrorsPipe implements PipeTransform {
       if (wmSum + swmSum != expDuringYr) {
         return 'The total expenditure in the component wise grants must not exceed the amount of expenditure incurred during the year.'
       }
+      if (expDuringYr == 0) {
+        return ' The total expenditure incurred during the year cannot be 0'
+      }
     }
 
     if (shortKey === 'grantPosition___closingBal') {

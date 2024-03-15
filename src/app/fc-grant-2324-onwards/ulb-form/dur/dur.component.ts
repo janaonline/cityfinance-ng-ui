@@ -45,7 +45,8 @@ export class DurComponent implements OnInit, OnDestroy {
   leftMenuSubs:any;
   statusShow:string = '';
   selectedYearId:string="";
-  financialYear:string=""
+  financialYear:string="";
+  selectedYear:string=""
   constructor(
     private dialog: MatDialog,
     private durService: DurService,
@@ -188,11 +189,12 @@ export class DurComponent implements OnInit, OnDestroy {
         name: child?.[0]?.value,
         categoryName: child?.[1]?.selectedValue?.[0]?.label,
         location: {
-          lat: parseFloat(lat).toFixed(2),
-          long: parseFloat(long).toFixed(2)
+          lat: lat ? parseFloat(lat).toFixed(2) : "",
+          long: long ? parseFloat(long).toFixed(2) : ""
         },
         cost: child[5]?.value,
-        expenditure: child[6]?.value
+        expenditure: child[6]?.value,
+        dpr_status: child[8]?.selectedValue?.[0]?.label
       }
     });
 
@@ -201,7 +203,7 @@ export class DurComponent implements OnInit, OnDestroy {
     let previewData = {
       status: this.statusShow,
       isDraft: true,
-      financialYear: this.financialYear,
+      financialYear: this.financial_year,
       designYear: this.design_year,
       grantType: "Tied",
       isProjectLoaded: this.isProjectLoaded,
@@ -210,7 +212,8 @@ export class DurComponent implements OnInit, OnDestroy {
       designation: selfDeclaration?.childQuestionData?.[0]?.[1]?.modelValue,
       categoryWiseData_wm,
       categoryWiseData_swm,
-      projects
+      projects,
+      selectedYear: this.selectedYear
     };
     const dialogRef = this.dialog.open(DurPreviewComponent, {
       data: previewData,
@@ -234,8 +237,8 @@ export class DurComponent implements OnInit, OnDestroy {
       const location = project?.answerNestedData.find(item => item.shortKey == "location");
       const cost = project?.answerNestedData.find(item => item.shortKey == "cost");
       const expenditure = project?.answerNestedData.find(item => item.shortKey == "expenditure");
-      if (location.answer[0].value == '0,0') {
-        return false
+      if (location.answer?.length == 0 || location.answer[0].value == ',' || location.answer[0].value == '0,0') {
+        return false;
       }
       if (expenditure.answer[0].value && cost.answer[0].value && (+expenditure.answer[0].value > +cost.answer[0].value)) {
         return false;
@@ -266,8 +269,30 @@ export class DurComponent implements OnInit, OnDestroy {
   }
 
   async onSubmit(data) {
+
     let isDraft = data.isSaveAsDraft;
+    if(isDraft) this.finalSubmit(data, isDraft);
     if (isDraft == false) {
+      const selfDeclarationChecked = data?.finalData.find(item => item?.shortKey === "declaration" && item.answer?.[0].value == '1')?.answer?.[0].value;
+      if (selfDeclarationChecked != '1') return swal('Error', 'Please check self declaration', 'error');
+      const grantPositionData = data?.finalData?.find(obj => obj.shortKey === "grantPosition");
+      const expDuringYrObj = grantPositionData?.nestedAnswer[0]?.answerNestedData?.find(el=>el.shortKey === "grantPosition___expDuringYr");
+      
+     if((expDuringYrObj?.answer[0]?.value == 0)){
+       swal("Error", "The total expenditure incurred during the year cannot be 0", "error");
+       return;
+     }
+     const projectDetails = data?.finalData.find(item => item.shortKey == "projectDetails_tableView_addButton")?.nestedAnswer || [];
+     if(projectDetails?.length == 0){
+        swal("Error", "Number of projects can not be 0", "error");
+        return;
+     } 
+     // if = validation check for all input,
+     // else = confirmation popup then final submit, draft, cancel functionality.
+     console.log("this.isFormValid(data)", this.isFormValid(data))
+     if (!this.isFormValid(data)) {
+      return swal('Error', 'Please fill valid values in form', 'error')
+    }else{
       const userAction = await swal(
         "Confirmation !",
         `${this.finalSubmitMsg}`,
@@ -293,18 +318,15 @@ export class DurComponent implements OnInit, OnDestroy {
         isDraft = true;
       }
       if (userAction == 'cancel') return;
+      if(userAction == 'submit') this.finalSubmit(data, isDraft)
     }
+  
+    };
 
-
-    const selfDeclarationChecked = data?.finalData
-      .find(item => item?.shortKey === "declaration" && item.answer?.[0].value == '1')?.answer?.[0].value;
-    console.log('selfDeclaration', data?.finalData.find(item => item.shortKey === "declaration"), selfDeclarationChecked)
-    if (isDraft == false) {
-      if (selfDeclarationChecked != '1') return swal('Error', 'Please check self declaration', 'error');
-      if (!this.isFormValid(data)) return swal('Error', 'Please fill valid values in form', 'error');
-    }
-
-
+    
+    
+  }
+  finalSubmit(data, isDraft){
     this.loaderService.showLoader();
     this.durService.postForm({
       isDraft: isDraft,
@@ -337,7 +359,9 @@ export class DurComponent implements OnInit, OnDestroy {
   }
   nextPreBtn(e) {
     let url = e?.type == 'pre' ? this.nextPreUrl?.backBtnRouter : this.nextPreUrl?.nextBtnRouter
-    this.router.navigate([`/ulb-form/${url.split('/')[1]}`]);
+    //added year Id in route
+    this.router.navigate([`/ulb-form/${this.selectedYearId}/${url.split('/')[1]}`]);
+    //this.router.navigate([`/ulb-form/${url.split('/')[1]}`]);
   }
   updateInParent(item) {
     Object.entries(item).forEach(([key, value]) => {
@@ -371,9 +395,11 @@ export class DurComponent implements OnInit, OnDestroy {
     console.log(this.isButtonAvail, 'this.isButtonAvail');
     
  }
+
+ //f
  getFinancialYear(){
-  const selectedYear = this.commonServices.getYearName(this.design_year);
-  const [startYear, endYear] = selectedYear.split("-").map(Number);
+  this.selectedYear = this.commonServices.getYearName(this.design_year);
+  const [startYear, endYear] = this.selectedYear.split("-").map(Number);
   this.financialYear = `${startYear - 1}-${endYear - 1}`;
   
  }

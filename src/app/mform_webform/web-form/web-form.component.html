@@ -120,7 +120,7 @@
                         id="{{(question?.forParentValue) ? question?.forParentValue : question.order}}"
                         [value]="question.modelValue ? question.modelValue : ''" (change)="onChange(question, $event)"
                         [ngModelOptions]="{standalone: true}" (focus)="onFocusEvent(question.order, question)"
-                        [readonly]="question?.isQuestionDisabled" />
+                        [readonly]="question?.isQuestionDisabled"  [appNumberLength]="question.max"/>
                     <ng-container *ngIf="question?.isPassword">
                         <i *ngIf="!question?.passwordMode" [matTooltip]="'Hide'"
                             (click)="question.passwordMode = !question.passwordMode"
@@ -891,7 +891,7 @@
                         id="{{(question?.forParentValue) ? question?.forParentValue : question.order}}"
                         [value]="question.modelValue ? question.modelValue : ''" (change)="onChange(question, $event)"
                         [ngModelOptions]="{standalone: true}" (focus)="onFocusEvent(question.order, question)"
-                        [readonly]="question?.isQuestionDisabled" />
+                        [readonly]="question?.isQuestionDisabled"  [appNumberLength]="question.max"/>
                     <ng-container *ngIf="question?.isPassword">
                         <i *ngIf="!question?.passwordMode" [matTooltip]="'Hide'"
                             (click)="question.passwordMode = !question.passwordMode"
@@ -1746,7 +1746,7 @@
                             [value]="question.modelValue ? question.modelValue : ''"
                             (change)="onChange(question, $event)" [ngModelOptions]="{standalone: true}"
                             (focus)="onFocusEvent(question.order, question)"
-                            [readonly]="question?.isQuestionDisabled" />
+                            [readonly]="question?.isQuestionDisabled"  [appNumberLength]="question.max"/>
                         <ng-container *ngIf="question?.isPassword">
                             <i *ngIf="!question?.passwordMode" [matTooltip]="'Hide'"
                                 (click)="question.passwordMode = !question.passwordMode"
