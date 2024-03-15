@@ -181,7 +181,7 @@ tr {
   dialogRef;
 
   ngOnInit(): void {
-    this.calculateAmt();
+    this.calculateUtilizedAmt();
     if (this.userDetails.role == USER_TYPE.ULB) {
       this.state = this.userData.stateName;
       this.ulb = this.userData.name;
@@ -268,7 +268,9 @@ console.log('preview data', this.data);
     return this.data?.selectedYear == "2024-25";
   }
 
-  calculateAmt() {
+  // for calculating total wm and swm utilized amount.
+
+  calculateUtilizedAmt() {
     this.data?.categoryWiseData_wm?.forEach((el) => {
       this.totalWmAmount =
         Number(this.totalWmAmount) + Number(el?.grantUtilised);
