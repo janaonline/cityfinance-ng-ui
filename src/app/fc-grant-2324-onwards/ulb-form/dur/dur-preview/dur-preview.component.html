@@ -111,7 +111,7 @@
                         <!-- (((data?.analytics[2]?.amount + data?.analytics[3]?.amount +
                          data?.analytics[5]?.amount +data?.analytics[1]?.amount)/data.grantPosition.expenditure)*100).toFixed(2) -->
 
-                        <td class="f-table" colspan="2" style="font-weight: bold;">Total % of tied grant utilised in WM [&nbsp;{{ +((totalWmAmount/data.grantPosition.expenditure)*100).toFixed(2) > 0 ? (+(totalWmAmount/data.grantPosition.expenditure)*100).toFixed(2) : 0 }}% ]
+                        <td class="f-table" colspan="2" style="font-weight: bold;">Total % of tied grant utilised in WM [&nbsp;{{ +((totalWmAmount/data.grantPosition.grantPosition___expDuringYr)*100).toFixed(2) > 0 ? (+(totalWmAmount/data.grantPosition.grantPosition___expDuringYr)*100).toFixed(2) : 0 }}% ]
                         </td>
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>
@@ -163,7 +163,7 @@
                         <!-- (((data?.analytics[0]?.amount +
                           data?.analytics[4]?.amount)/data.grantPosition.expenditure)*100).toFixed(2) -->
                         <td class="pd-r f-table" style="text-align: left; font-weight: 500; white-space: nowrap;">B. &nbsp; &nbsp;Solid Waste Management(SWM)</td>
-                        <td class="f-table" colspan="2" style="font-weight: bold;">Total % of tied grant utilised in SWM [&nbsp;{{+((totalSwmAmount/data.grantPosition.expenditure)*100).toFixed(2) >0 ? ((totalSwmAmount/data.grantPosition.expenditure)*100).toFixed(2) : 0 }}% ]
+                        <td class="f-table" colspan="2" style="font-weight: bold;">Total % of tied grant utilised in SWM [&nbsp;{{+((totalSwmAmount/data.grantPosition.grantPosition___expDuringYr)*100).toFixed(2) >0 ? ((totalSwmAmount/data.grantPosition.grantPosition___expDuringYr)*100).toFixed(2) : 0 }}% ]
                         </td>
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>

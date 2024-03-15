@@ -167,10 +167,10 @@ tr {
     "In Progress",
   ];
   totalStatus;
-  analytics = [];
-  swm = [];
-  wm = [];
-  categories;
+  //analytics = []; not used 
+  //swm = []; // not used
+  //wm = []; // not used
+  //categories; // not used
   totalWmAmount = 0;
   totalSwmAmount = 0;
   USER_TYPES = USER_TYPE;
@@ -181,7 +181,7 @@ tr {
   dialogRef;
 
   ngOnInit(): void {
-
+    this.calculateAmt();
     if (this.userDetails.role == USER_TYPE.ULB) {
       this.state = this.userData.stateName;
       this.ulb = this.userData.name;
@@ -266,5 +266,16 @@ console.log('preview data', this.data);
   }
   checkForYear(){
     return this.data?.selectedYear == "2024-25";
+  }
+
+  calculateAmt() {
+    this.data?.categoryWiseData_wm?.forEach((el) => {
+      this.totalWmAmount =
+        Number(this.totalWmAmount) + Number(el?.grantUtilised);
+    });
+    this.data?.categoryWiseData_swm?.forEach((el) => {
+      this.totalSwmAmount =
+        Number(this.totalSwmAmount) + Number(el?.grantUtilised);
+    });
   }
 }
