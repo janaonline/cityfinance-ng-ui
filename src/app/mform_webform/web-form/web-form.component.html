@@ -1081,7 +1081,7 @@
                 <div class="common-font-family d-flex align-items-baseline">
                     <div class="d-flex justify-content-between label-wrapper  my-2 py-1 ps-3 rounded w-75"
                         style="font-size: 90%; color: #6c757d;" *ngIf="!tablular">
-                        <div>
+                        <div class="{{question?.shortKey }}">
                             {{question.title}}
                             <span *ngIf="question.required" class="text-primary">*</span>
                             <mat-icon class="file-type-info" *ngIf="question?.information"
@@ -1107,8 +1107,8 @@
                         </div>
                         <div class="row" *ngIf="question?.selectedValue?.length">
                             <ng-container *ngFor="let file of question?.selectedValue">
-                                <p class="col-8" *ngIf="file?.value">{{ file?.label }}</p>
-                                <div class="col-2" *ngIf="file?.value">
+                                <p class="col-8 file-name mt-2" *ngIf="file?.value" matTooltip="Click to view the file, Name: {{file?.label}}">{{ (file?.label).slice(0, 18) + '...' }}</p>
+                                <div class="col-2 mt-2" *ngIf="file?.value">
                                     <a target="_blank" href="{{file?.value | toStorageUrl}}">
                                         <span
                                             class="file-icon position-relative pointer-hand material-icons {{ file?.label }}"
@@ -1119,7 +1119,7 @@
                                     </a>
                                 </div>
                                 <div *ngIf="file?.value && !question?.isQuestionDisabled"
-                                    class="col-2 m-0 material-icons file-icon-cross pointer-hand"
+                                    class="col-2 mt-2 me-0 ms-0 material-icons file-icon-cross pointer-hand"
                                     matTooltip="Remove the upload file"
                                     (click)="removeUploadedFile(question, question?.order)">cancel</div>
                             </ng-container>

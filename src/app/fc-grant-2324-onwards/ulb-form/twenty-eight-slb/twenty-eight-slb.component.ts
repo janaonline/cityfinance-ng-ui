@@ -191,7 +191,7 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
   isFormValid(quetions) {
     console.log('finalData', quetions);
     for (let question of quetions) {
-      for (let childQuestionsData of question?.childQuestionData) {
+      for (let childQuestionsData of question?.childQuestionData ?? [])  {
         const actual = childQuestionsData.find(col => col.shortKey.endsWith('_actualIndicator'));
         const target = childQuestionsData.find(col => col.shortKey.endsWith('_targetIndicator'));
         const lineItem = childQuestionsData.find(col => col.shortKey.endsWith('_indicatorLineItem'));
@@ -216,6 +216,8 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
 
     let isDraft = data.isSaveAsDraft;
     if (isDraft == false) {
+      const selfDeclarationChecked = data?.finalData.find(item => item?.shortKey === "declaration" && item.answer?.[0].value == '1')?.answer?.[0].value;
+      if (selfDeclarationChecked != '1') return swal('Error', 'Please check self declaration', 'error');
       const userAction = await swal(
         "Confirmation !",
         `${this.finalSubmitMsg}`,
@@ -242,6 +244,7 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
       }
       if (userAction == 'cancel') return;
     }
+    
     const finalData = this.addDisableKeys(data);
 
     if (!isDraft && !this.isFormValid(data?.question)) {
