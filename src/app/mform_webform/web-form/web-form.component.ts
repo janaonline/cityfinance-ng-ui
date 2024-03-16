@@ -1084,6 +1084,9 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
             data: { options, count: oldCount - desiredCount - emptyCategories?.length }
           });
           data = await dialog.afterClosed().toPromise();
+          if(data){
+            this.pageChange(projectDetailsQuestion, { pageIndex: 0, pageSize: 10 })
+          }
           if (!data && categoryWiseQuestion?.[category_name]) {
             return this.onChange(categoryWiseQuestion[category_name], { target: { value: '' + oldCount } });
           }
