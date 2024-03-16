@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { CommonServicesService } from '../../fc-shared/service/common-services.service';
 import { queryParam } from 'src/app/fc-grant-2324-onwards/fc-shared/common-interface';
 
@@ -17,7 +17,8 @@ export class PfmsComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private commonServices: CommonServicesService
+    private commonServices: CommonServicesService,
+    private route: ActivatedRoute
   ) {
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.designYearArray = JSON.parse(localStorage.getItem("Years"));
@@ -317,13 +318,16 @@ export class PfmsComponent implements OnInit {
   leftMenuSubs:any;
   formId:string= '';
   hideForm:boolean = false;
+  selectedYearId:string="";
+  selectedYear:string = "";
   ngOnInit(): void {
+    this.getQueryParams();
     this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
       if (res == true) {
         this.getNextPreUrl();
       }
     });
-    this.fileFolderName = `${this.userData?.role}/2023-24/${this.formName}/${this.userData?.ulbCode}`;
+    this.fileFolderName = `${this.userData?.role}/${this.selectedYear}/${this.formName}/${this.userData?.ulbCode}`;
   }
 
   get hasUnsavedChanges() {
@@ -363,7 +367,7 @@ export class PfmsComponent implements OnInit {
   onSave(finalData, draft) {
    
     this.postData = {
-      "design_year": this.designYearArray["2023-24"],
+      "design_year": this.selectedYearId,
       "ulb": this.ulbId,
       "isDraft": draft,
     //  "status": '',
@@ -431,7 +435,7 @@ export class PfmsComponent implements OnInit {
 
 nextPreBtn(e) {
   let url = e?.type == 'pre' ? this.nextPreUrl?.backBtnRouter : this.nextPreUrl?.nextBtnRouter
-  this.router.navigate([`/ulb-form/${url.split('/')[1]}`]);
+  this.router.navigate([`/ulb-form/${this.selectedYearId}/${url.split('/')[1]}`]);
 }
 actionFormChangeDetect(res){
   if(res == true){
@@ -454,7 +458,7 @@ getNextPreUrl() {
     });
   };
   this.getQuery = {
-    design_year: this.designYearArray["2023-24"],
+    design_year: this.selectedYearId,
     formId: this.formId ? this.formId : 8 ,
     ulb: this.ulbId
   };
@@ -464,6 +468,11 @@ ngOnDestroy() {
   this.leftMenuSubs.unsubscribe();
   
 }
- 
+ // for getting design year and key(like: 2024-25) from route
+getQueryParams() {
+  const yearId = this.route.parent.snapshot.paramMap.get('yearId');
+   this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
+   this.selectedYear = this.commonServices.getYearName(this.selectedYearId);
+}
 
 }
