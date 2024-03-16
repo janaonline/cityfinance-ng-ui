@@ -285,7 +285,7 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
 
   nextPreBtn(e) {
     let url = e?.type == 'pre' ? this.nextPreUrl?.backBtnRouter : this.nextPreUrl?.nextBtnRouter
-    this.router.navigate([`/ulb-form/${this.selectedYearId}${url.split('/')[1]}`]);
+    this.router.navigate([`/ulb-form/${this.selectedYearId}/${url.split('/')[1]}`]);
   }
   actionFormChangeDetect(res) {
     if (res == true) {
