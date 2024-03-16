@@ -358,7 +358,7 @@ input::-webkit-datetime-edit {
   top: 5px;
   left: 1%;
   font-size: 18px;
-  color: #999999;
+  color: #000;
 }
 
 .passwordShowHide {
@@ -548,4 +548,16 @@ input::placeholder {
     }
   }
  
+}
+
+.file-name {
+ // width: 200px; /* Adjust the width as needed */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: blue;
+}
+
+.cert_declaration{
+  color: #000 !important;
 }
