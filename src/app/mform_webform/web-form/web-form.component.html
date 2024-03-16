@@ -966,7 +966,7 @@
                         'w-100': tablular,
                         'ms-2': !tablular }">
                     <div class="d-flex">
-                        <input appDisableNagetive [appDecimalLimit]="question.allowDecimal == false ? 0 : 2"
+                        <input digitOnly [decimal]="true" appDisableNagetive [appDecimalLimit]="question.allowDecimal == false ? 0 : 2"
                             type="number" class="form-control " [appMaxRange]="question"
                             [questionData]="questionData"
                             placeholder="{{question.hint}}" [ngClass]="{
