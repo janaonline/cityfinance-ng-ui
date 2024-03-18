@@ -14,7 +14,7 @@ export class ReviewStateFormComponent implements OnInit {
     private commonService: NewCommonService,
     private stateServices: State2223Service,
     private route: ActivatedRoute) { 
-      this.design_year = this.years["2023-24"];
+      //this.design_year = this.years["2023-24"];
     }
 
   formId = "12";
@@ -28,14 +28,16 @@ export class ReviewStateFormComponent implements OnInit {
   reviewTableName = 'Review State Forms';
   stateId = '';
   years = JSON.parse(localStorage.getItem("Years"));
-  design_year = '';
+  //design_year = '';
   formBaseUrl:string = 'state-form';
   sfcFormId: string = '15';
   sfcFormIdPreYear: string = '62c553822954384b44b3c38e';
   lastYearReviewRoutes: string = '../../mohua2223/review-state-form';
   pTaxFormId:string = '17';
   pTaxFormIdPreYear:string = '62c5534e2954384b44b3c38a';
+  selectedYearId:string=""
   ngOnInit(): void {
+    this.getQueryParams();
     this.onLoad();
     this.getFormId();
     if (this.data?.length > 0)
@@ -45,7 +47,7 @@ export class ReviewStateFormComponent implements OnInit {
   }
 
   onLoad() {
-    this.params.design_year = this.design_year;
+    this.params.design_year = this.selectedYearId;
     this.title = "Review State Forms";
     this.commonService.getFormList(this.params).subscribe(
       (res) => {
@@ -77,6 +79,12 @@ export class ReviewStateFormComponent implements OnInit {
       }
     });
   }
-
+  //get design year id from routes
+  getQueryParams() {
+    const yearId = this.route.parent.snapshot.paramMap.get('yearId');
+     this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
+     this.formBaseUrl = `state-form/${this.selectedYearId}`;
+     //this.selectedYear = this.commonService.getYearName(this.selectedYearId);
+  }
 
 }

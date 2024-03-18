@@ -34,7 +34,7 @@ export class DurComponent implements OnInit, OnDestroy {
   isButtonAvail : boolean = false;
   // nextRouter:string = '';
   // backRouter:string = '';
-  formId:number = null;
+  formId:number = 4;
   nextPreUrl = {
     nextBtnRouter: '',
     backBtnRouter: ''
@@ -376,7 +376,7 @@ export class DurComponent implements OnInit, OnDestroy {
       this.sideMenuItem[key].forEach((ele) => {
         if (ele?.folderName == "dur") {
           this.nextPreUrl = {nextBtnRouter : ele?.nextUrl, backBtnRouter : ele?.prevUrl}
-          this.formId = ele?.formId;
+          this.formId = ele?.formId ?? 4;
         }
       });
     }
