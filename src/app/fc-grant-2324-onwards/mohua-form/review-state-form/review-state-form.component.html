@@ -15,9 +15,9 @@
         </div>
     </div>
     <div class="row" *ngIf="formId != sfcFormId && formId != pTaxFormId">
-        <div class="col-sm-12">
+        <div class="col-sm-12" *ngIf="data?.length">
             <app-table [dropdownData]="data" [isUa]="isUa" [formId]="formId" [state_id_i]="stateId"
-             [tableName]="reviewTableName" [designYear]="design_year" [formBaseUrl]="formBaseUrl" [endPoint]="'reviewForms'"></app-table>
+             [tableName]="reviewTableName" [designYear]="selectedYearId" [formBaseUrl]="formBaseUrl" [endPoint]="'reviewForms'"></app-table>
         </div>
     </div>
     <div class="row mt-4 mb-m" *ngIf="formId == sfcFormId || formId == pTaxFormId">

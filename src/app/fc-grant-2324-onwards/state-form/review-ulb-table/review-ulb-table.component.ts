@@ -35,8 +35,10 @@ export class ReviewUlbTableComponent implements OnInit {
   backRouter = '';
   nextRouter = '';
   formBaseUrl:string = 'ulb-form';
+  selectedYearId:string="";
+  selectedYear:string="";
   ngOnInit(): void {
-    
+    this.getQueryParams()
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
     this.setRouter();
     this.onLoad();
@@ -89,6 +91,13 @@ export class ReviewUlbTableComponent implements OnInit {
         }
       });
     }
+  }
+  
+  getQueryParams() {
+    const yearId = this.route.parent.snapshot.paramMap.get('yearId');
+     this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
+     this.formBaseUrl = `ulb-form/${this.selectedYearId}`;
+     //this.selectedYear = this.commonService.getYearName(this.selectedYearId);
   }
 
 }
