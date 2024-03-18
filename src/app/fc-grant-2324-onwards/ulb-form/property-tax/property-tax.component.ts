@@ -69,6 +69,7 @@ export class PropertyTaxComponent implements OnInit {
   userTypes = USER_TYPE;
   form: FormArray;
   statusId: number;
+  stateGsdpGrowthRate: number;
   currentDate = new Date();
   formSubmitted = false;
   specialHeaders: { [key: number]: string[] } = {};
@@ -137,6 +138,7 @@ export class PropertyTaxComponent implements OnInit {
       this.tabs = res?.data?.tabs;
       this.status = res?.data?.status;
       this.statusId = res?.data?.statusId;
+      this.stateGsdpGrowthRate = res?.data?.stateGsdpGrowthRate;
       this.skipLogicDependencies = res?.data?.skipLogicDependencies;
       this.financialYearTableHeader = res?.data?.financialYearTableHeader;
       this.specialHeaders = res?.data?.specialHeaders;
@@ -575,6 +577,21 @@ export class PropertyTaxComponent implements OnInit {
   }
   get doesColSewerageChargesCtrl() {
     return this.s3Control.get('data.doesColSewerageCharges.yearData.0');
+  }
+
+  /**
+   * |------------------------------------------------------------------------------------|
+   * |               |               Data points               |  Growth Rate Formula (%) |
+   * | GROWTH RATE % | A. Ptax Collection 2022-23 (in lakhs)   |         (B - A) / A      |
+   * |               | B. Ptax Collection 2023-24 (in lakhs)   |                          |
+   * |------------------------------------------------------------------------------------|
+   */
+  get growthRatePercentage() {
+    const collectIncludingCess =  this.s3Control.get('data.collectIncludingCess.yearData').value;
+    const A = collectIncludingCess?.find(year => year.key == 'FY2022-23')?.value;
+    const B = collectIncludingCess?.find(year => year.key == 'FY2023-24')?.value;
+    if(A == '' || B == '') return null;
+    return (B - A) / A;
   }
 
   canShowHeader(displayPriority: string) {
