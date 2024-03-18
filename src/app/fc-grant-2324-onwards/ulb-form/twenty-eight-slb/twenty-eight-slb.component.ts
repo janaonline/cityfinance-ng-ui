@@ -216,8 +216,11 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
 
     let isDraft = data.isSaveAsDraft;
     if (isDraft == false) {
+      if(this.selectedYear != "2023-24"){
       const selfDeclarationChecked = data?.finalData.find(item => item?.shortKey === "declaration" && item.answer?.[0].value == '1')?.answer?.[0].value;
       if (selfDeclarationChecked != '1') return swal('Error', 'Please check self declaration', 'error');
+      }
+      
       const userAction = await swal(
         "Confirmation !",
         `${this.finalSubmitMsg}`,
