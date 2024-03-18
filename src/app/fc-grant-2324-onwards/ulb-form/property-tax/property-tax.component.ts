@@ -392,6 +392,9 @@ export class PropertyTaxComponent implements OnInit {
         showData: this.form.getRawValue(),
         financialYearTableHeader: this.financialYearTableHeader,
         specialHeaders: this.specialHeaders,
+        stateGsdpGrowthRate: this.stateGsdpGrowthRate,
+        yearName: this.yearName,
+        growthRatePercentage: this.growthRatePercentage,
         additionalData: {
           pristine: this.form.pristine,
           statusText: this.status,

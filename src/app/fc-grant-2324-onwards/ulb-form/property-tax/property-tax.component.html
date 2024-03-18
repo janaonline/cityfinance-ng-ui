@@ -146,7 +146,7 @@
                                 <p class="mb-0" *ngIf="growthRatePercentage == null; else gsdp_msg;">Property tax growth rate cannot be calculated.</p>
                                 <ng-template #gsdp_msg>
                                     <p class="mb-0 text-danger" *ngIf="growthRatePercentage < stateGsdpGrowthRate">Property tax growth rate is less that State GSDP.</p>
-                                    <p class="mb-0 text-success" *ngIf="growthRatePercentage > stateGsdpGrowthRate">Property tax growth rate is greater that State GSDP.</p>
+                                    <p class="mb-0 text-success" *ngIf="growthRatePercentage >= stateGsdpGrowthRate">Property tax growth rate is greater that State GSDP.</p>
                                 </ng-template>
                             </td>
                         </tr>
