@@ -35,11 +35,12 @@ export class ReviewStateFormComponent implements OnInit {
   lastYearReviewRoutes: string = '../../mohua2223/review-state-form';
   pTaxFormId:string = '17';
   pTaxFormIdPreYear:string = '62c5534e2954384b44b3c38a';
+  selectedYearId:string="";
   ngOnInit(): void {
-    this.onLoad();
+    this.getQueryParams();
     this.getFormId();
-    if (this.data?.length > 0)
-    this.formId = this.data[0]["formId"];
+    // if (this.data?.length > 0)
+    // this.formId = this.data[0]["formId"];
     sessionStorage.removeItem("path2");
     sessionStorage.removeItem("Stateform_id");
   }
@@ -77,6 +78,13 @@ export class ReviewStateFormComponent implements OnInit {
       }
     });
   }
-
+  //get design year id from routes
+  getQueryParams() {
+    const yearId = this.route.parent.snapshot.paramMap.get('yearId');
+     this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
+     this.formBaseUrl = `state-form/${this.selectedYearId}`;
+     this.onLoad();
+     //this.selectedYear = this.commonService.getYearName(this.selectedYearId);
+  }
 
 }

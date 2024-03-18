@@ -41,8 +41,8 @@ export class ReviewUlbTableComponent implements OnInit {
   ngOnInit(): void {
     this.onLoad();
     this.getFormId();
-    if (this.data?.length > 0)
-    this.formId = this.data[0]["formId"];
+    // if (this.data?.length > 0)
+    // this.formId = this.data[0]["formId"];
   }
 
   onLoad() {
