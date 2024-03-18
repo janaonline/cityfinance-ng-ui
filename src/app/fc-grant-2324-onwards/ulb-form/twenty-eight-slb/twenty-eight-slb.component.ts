@@ -124,6 +124,7 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
   onPreview() {
     const data = this.webForm.questionData;
     console.log(data);
+    
     let slbPreData = {
       perData: {
         data: data.reduce((obj, item) => ({
