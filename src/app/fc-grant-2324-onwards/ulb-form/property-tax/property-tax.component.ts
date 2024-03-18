@@ -225,6 +225,7 @@ export class PropertyTaxComponent implements OnInit {
       type: item.type,
       _id: item._id,
       replicaNumber: replicaCount,
+      notApplicable: item.notApplicable,
       modelName: [{ value: item.modelName, disabled: true }],
       isRupee: [{ value: item.isRupee, disabled: true }],
       decimalLimit: [{ value: item.decimalLimit, disabled: true }],

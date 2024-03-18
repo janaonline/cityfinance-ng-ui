@@ -48,16 +48,20 @@
                                     <th class="th" scope="row" width="45%">{{ tabData?.value?.label }}</th>
                                     <td class="td" [width]="50 / tabData?.value?.yearData.length + '%'"
                                         *ngFor="let elem of tabData?.value?.yearData; let y_i=index">
-                                        <span *ngIf="elem?.date">{{ elem?.date | date: 'dd/MM/yyyy' }}</span>
-                                        <span class="file-link" *ngIf="elem?.file"><a
-                                                href="{{elem?.file?.url | toStorageUrl }}"
-                                                target="_blank">{{elem?.file?.name}}</a></span>
-                                        <span *ngIf="elem?.value">{{
-                                            elem?.isRupee
-                                            ? '₹' + elem?.value
-                                            : elem?.value
-                                            }}</span>
-                                        <small style="display: block;" *ngIf="elem.info">{{ elem?.info }}</small>
+                                        <span *ngIf="elem.notApplicable; else applicable;">N/A</span>
+                                        <ng-template #applicable>
+                                            <span *ngIf="elem?.date">{{ elem?.date | date: 'dd/MM/yyyy' }}</span>
+                                            <span class="file-link" *ngIf="elem?.file"><a
+                                                    href="{{elem?.file?.url | toStorageUrl }}"
+                                                    target="_blank">{{elem?.file?.name}}</a></span>
+                                            
+                                            <span *ngIf="elem?.value">{{
+                                                elem?.isRupee
+                                                ? '₹' + elem?.value
+                                                : elem?.value
+                                                }}</span>
+                                            <small style="display: block;" *ngIf="elem.info">{{ elem?.info }}</small>
+                                        </ng-template>
                                     </td>
                                 </tr>
 
@@ -83,14 +87,17 @@
                                         <div>{{ child.value }}</div>
                                     </th>
                                     <td class="td" [width]="50 / child.yearData.length + '%'" *ngFor="let elem of child.yearData; let y_i=index">
-                                        <span *ngIf="elem?.date">{{ elem?.date | date: 'dd/MM/yyyy' }}</span>
-                                        <span *ngIf="elem?.file"><a href="{{elem?.file?.url | toStorageUrl}}"
-                                                target="_blank">{{elem?.file?.name}}</a></span>
-                                        <span>{{
-                                            elem?.isRupee
-                                            ? '₹' + elem?.value
-                                            : elem?.value
-                                            }}</span>
+                                        <span *ngIf="elem.notApplicable; else applicable;">N/A</span>
+                                        <ng-template #applicable>
+                                            <span *ngIf="elem?.date">{{ elem?.date | date: 'dd/MM/yyyy' }}</span>
+                                            <span *ngIf="elem?.file"><a href="{{elem?.file?.url | toStorageUrl}}"
+                                                    target="_blank">{{elem?.file?.name}}</a></span>
+                                            <span>{{
+                                                elem?.isRupee
+                                                ? '₹' + elem?.value
+                                                : elem?.value
+                                                }}</span>
+                                        </ng-template>
                                     </td>
                                 </tr>
                             </ng-container>
