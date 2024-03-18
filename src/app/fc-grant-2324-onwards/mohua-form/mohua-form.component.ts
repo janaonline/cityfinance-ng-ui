@@ -27,7 +27,7 @@ export class MohuaFormComponent implements OnInit {
     this.designYearArray = JSON.parse(localStorage.getItem("Years"));
     this.stateName = sessionStorage.getItem("stateName");
     this.stateId = this.userData?.state;
-    this.getMohuaSideBar(this.userData);
+   // this.getMohuaSideBar(this.userData);
   }
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   loggedInUserType:boolean;
@@ -75,7 +75,7 @@ export class MohuaFormComponent implements OnInit {
      const yearId = params['yearId']; // get the 'id' query parameter
      this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
     // this.getLeftMenu(this.selectedYearId); 
-    this.getMohuaSideBar(this.userData);
+      this.getMohuaSideBar(this.userData);
      this.selectedYear = this.commonServices.getYearName(this.selectedYearId);
   });
 }

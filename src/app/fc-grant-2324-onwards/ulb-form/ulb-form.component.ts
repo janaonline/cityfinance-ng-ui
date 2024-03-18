@@ -116,13 +116,13 @@ getLeftMenu(yearId?) {
 
 backStatePage(type) {
   if (type == 'ULB Review' && !this.pathMohua) {
-    this.router.navigate(['mohua-form/review-ulb-form'], { queryParams: { formId: this.ulbFormId, state: this.state_id } });
+    this.router.navigate([`mohua-form/${this.selectedYearId}/review-ulb-form`], { queryParams: { formId: this.ulbFormId, state: this.state_id } });
     this.path = null;
   } else if (type == 'ULB Review' && this.pathMohua) {
-    this.router.navigate(['state-form/review-ulb-form'], { queryParams: { formId: this.ulbFormId, state: this.state_id } });
+    this.router.navigate([`state-form/${this.selectedYearId}/review-ulb-form`], { queryParams: { formId: this.ulbFormId, state: this.state_id } });
     this.path = null;
   } else if (type == 'State Review') {
-    this.router.navigate(['mohua-form/review-state-form'], { queryParams: { formId: this.stateFormId } });
+    this.router.navigate([`mohua-form/${this.selectedYearId}/review-state-form`], { queryParams: { formId: this.stateFormId } });
     sessionStorage.removeItem("path2");
     this.pathMohua = null;
     this.stateFormId = ''
@@ -131,7 +131,7 @@ backStatePage(type) {
 
 }
 backStatePage2() {
-  this.router.navigate(['state-form/review-ulb-form'], { queryParams: { formId: this.ulbFormId } });
+  this.router.navigate([`state-form/${this.selectedYearId}/review-ulb-form`], { queryParams: { formId: this.ulbFormId } });
   this.path = null;
 }
 

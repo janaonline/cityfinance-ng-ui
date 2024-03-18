@@ -14,7 +14,7 @@ export class ReviewStateFormComponent implements OnInit {
     private commonService: NewCommonService,
     private stateServices: State2223Service,
     private route: ActivatedRoute) { 
-      this.design_year = this.years["2023-24"];
+      //this.design_year = this.years["2023-24"];
     }
 
   formId = "12";
@@ -28,7 +28,7 @@ export class ReviewStateFormComponent implements OnInit {
   reviewTableName = 'Review State Forms';
   stateId = '';
   years = JSON.parse(localStorage.getItem("Years"));
-  design_year = '';
+  //design_year = '';
   formBaseUrl:string = 'state-form';
   sfcFormId: string = '15';
   sfcFormIdPreYear: string = '62c553822954384b44b3c38e';
@@ -46,7 +46,7 @@ export class ReviewStateFormComponent implements OnInit {
   }
 
   onLoad() {
-    this.params.design_year = this.design_year;
+    this.params.design_year = this.selectedYearId;
     this.title = "Review State Forms";
     this.commonService.getFormList(this.params).subscribe(
       (res) => {
