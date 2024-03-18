@@ -38,10 +38,9 @@ export class ReviewStateFormComponent implements OnInit {
   selectedYearId:string=""
   ngOnInit(): void {
     this.getQueryParams();
-    this.onLoad();
     this.getFormId();
-    if (this.data?.length > 0)
-    this.formId = this.data[0]["formId"];
+    // if (this.data?.length > 0)
+    // this.formId = this.data[0]["formId"];
     sessionStorage.removeItem("path2");
     sessionStorage.removeItem("Stateform_id");
   }
@@ -84,6 +83,7 @@ export class ReviewStateFormComponent implements OnInit {
     const yearId = this.route.parent.snapshot.paramMap.get('yearId');
      this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
      this.formBaseUrl = `state-form/${this.selectedYearId}`;
+     this.onLoad();
      //this.selectedYear = this.commonService.getYearName(this.selectedYearId);
   }
 

@@ -157,7 +157,6 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     } else {
     }
     this.dataSubscription?.unsubscribe();
-    if(changes?.dropdownData){
       let formData;
       if(this.designYear == this.years["2023-24"] || this.designYear == this.years["2024-25"]){
         formData = this.dropdownData?.find(({ formId }) => {
@@ -171,7 +170,6 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       this.formUrl = formData?.url;
       this.formName = formData?.folderName;
       this.formRouterLink = `../../../${this.formBaseUrl}/` + this.formUrl;
-    } 
     this.callAPI();
   }
 
