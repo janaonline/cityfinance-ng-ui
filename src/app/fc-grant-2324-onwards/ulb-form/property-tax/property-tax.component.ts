@@ -273,12 +273,11 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   addSkipLogics() {
-    const s3Control = this.form.controls.find(control => control.value?.id == 's3') as FormGroup;
     Object.entries(this.skipLogicDependencies).forEach(([selector, skipLogicDependency]) => {
       (skipLogicDependency as any)?.updatables?.forEach(updatable => {
-        const control = s3Control.get(selector);
+        const control = this.s3Control.get(selector);
         control.valueChanges.subscribe(({ value }) => {
-          const updatableControl = s3Control?.get(updatable.target) as FormGroup;
+          const updatableControl = this.s3Control?.get(updatable.target) as FormGroup;
           if (value === updatable?.on) {
             updatableControl.patchValue({
               value: updatable?.value
@@ -288,16 +287,16 @@ export class PropertyTaxComponent implements OnInit {
         control.updateValueAndValidity({ emitEvent: true });
       })
       Object.entries(((skipLogicDependency as any).skippable as object)).forEach(([skippable, config]) => {
-        const control = s3Control.get(selector)
+        const control = this.s3Control.get(selector)
         control.valueChanges.subscribe(({ value }) => {
           const canShow = (typeof config.value == 'string' ? [config.value] : config.value).includes(value);
-          s3Control.patchValue({ data: { [skippable]: { canShow } } });
+          this.s3Control.patchValue({ data: { [skippable]: { canShow } } });
           const childSelectorString = `data.${skippable}.child`;
-          const childControl = s3Control.get(childSelectorString);
+          const childControl = this.s3Control.get(childSelectorString);
           this.toggleValidations(childControl, childSelectorString, canShow, true);
           config.years?.forEach(yearIndex => {
             const selectorString = `data.${skippable}.yearData.${yearIndex}`;
-            const updatableControl = s3Control?.get(selectorString) as FormGroup;
+            const updatableControl = this.s3Control?.get(selectorString) as FormGroup;
             if (!updatableControl) return;
             ['value', 'file.name', 'file.url', 'date'].forEach(innerSelectorString => {
               const control  = updatableControl.get(innerSelectorString)
@@ -567,13 +566,15 @@ export class PropertyTaxComponent implements OnInit {
     })
   }
 
+  get s3Control() {
+    return this.form?.controls.find(control => control.value?.id == 's3') as FormGroup;
+  }
+
   get notificationWaterChargesCtrl() {
-    const s3Control = this.form.controls.find(control => control.value?.id == 's3') as FormGroup;
-    return s3Control.get('data.notificationWaterCharges.yearData.0');
+    return this.s3Control.get('data.notificationWaterCharges.yearData.0');
   }
   get doesColSewerageChargesCtrl() {
-    const s3Control = this.form.controls.find(control => control.value?.id == 's3') as FormGroup;
-    return s3Control.get('data.doesColSewerageCharges.yearData.0');
+    return this.s3Control.get('data.doesColSewerageCharges.yearData.0');
   }
 
   canShowHeader(displayPriority: string) {
