@@ -1563,7 +1563,7 @@
                     <h6>{{ question?.title }} <mat-icon *ngIf="question?.information" style="font-size: medium;"
                             [matTooltip]="question?.information">info</mat-icon>
                     </h6>
-                    <mat-paginator *ngIf="question?.childQuestionData?.length > 10"
+                    <mat-paginator #paginator *ngIf="question?.childQuestionData?.length > 10"
                         [length]="question?.childQuestionData?.length" 
                         [pageSize]="pageSize"
                         [pageSizeOptions]="pageSizeOptions"
