@@ -36,6 +36,6 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}  # Add your server SSH private key as a secret
         port: 22
         source: "dist/*"  # Adjust this path based on your project structure
-        target: "/var/www/html/development/citifinance-ng-ui/"  # Specify the destination path on your server
+        target: "/var/www/html/development-bkp2/citifinance-ng-ui/"  # Specify the destination path on your server
     # - name: Deploy to server
     #   run: scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r ${{ github.workspace }}/dist/* ${{ secrets.SERVER_USERNAME }}:${{ secrets.SERVER_PASSWORD }}@${{ secrets.SERVER_IP }}:/var/www/html/dev-jana/citifinance-ng-ui/dist/
