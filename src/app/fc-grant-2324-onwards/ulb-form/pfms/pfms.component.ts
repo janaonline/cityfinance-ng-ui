@@ -4,6 +4,7 @@ import { CommonServicesService } from '../../fc-shared/service/common-services.s
 import { queryParam } from 'src/app/fc-grant-2324-onwards/fc-shared/common-interface';
 
 import { SweetAlert } from "sweetalert/typings/core";
+import { filter, take } from 'rxjs/operators';
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -320,6 +321,8 @@ export class PfmsComponent implements OnInit {
   hideForm:boolean = false;
   selectedYearId:string="";
   selectedYear:string = "";
+  message:string="";
+  navigationUrl:string= "";
   ngOnInit(): void {
     this.getQueryParams();
     this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
@@ -336,10 +339,14 @@ export class PfmsComponent implements OnInit {
 
 
   callGetApi(endPoints: string, queryParams: {}) {
+    this.isApiComplete = false;
+    this.hideForm = true;
     this.commonServices.formGetMethod(endPoints, queryParams).subscribe((res: any) => {
       console.log('res.........', res);
       this.questionResponse.data = res.data; 
       this.hideForm = res.hideForm;
+      this.message = res?.message;
+      this.navigationUrl = res?.url;
       this.canTakeAction =  res?.data[0]?.canTakeAction;
       this.formDisable(res?.data[0]);
       console.log('res.........', this.questionResponse);
@@ -475,4 +482,24 @@ getQueryParams() {
    this.selectedYear = this.commonServices.getYearName(this.selectedYearId);
 }
 
+
+routerChange() {
+  // Set API completion flag to false
+  this.isApiComplete = false;
+
+  // Subscribe to navigation end event to execute getQueryParams() after navigation
+  this.router.events.pipe(
+    filter(event => event instanceof NavigationEnd),
+    take(1) // Automatically unsubscribe after the first navigation event
+  ).subscribe(() => {
+    // Execute getQueryParams() after navigation is complete
+    this.getQueryParams();
+
+    // Update form status through common services
+  //  this.commonServices.setFormStatusUlb.next(true);
+  });
+
+  // Navigate to the specified URL
+  this.router.navigateByUrl(`${this.navigationUrl}`);
+}
 }
