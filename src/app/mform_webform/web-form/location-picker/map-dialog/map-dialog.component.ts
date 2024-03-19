@@ -61,7 +61,7 @@ export class MapDialogComponent implements OnInit {
   }
 
   onSubmit() {
-    this.dialogRef.close(`${this.latitude},${this.longitude}`);
+    this.dialogRef.close(`${(this.latitude).toFixed(6)},${(this.longitude).toFixed(6)}`);
   }
 
   onDrag(e) {

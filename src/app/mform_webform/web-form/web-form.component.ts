@@ -1075,6 +1075,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
             console.log('sector', projectName);
             return { id: projectName?.forParentValue, name: projectName?.modelValue };
           });
+        this.pageChange(projectDetailsQuestion, { pageIndex: 0, pageSize: 10 })  
         let data = [];
         if (oldCount - desiredCount - emptyCategories?.length > 0) {
           const dialog = this.matDialog.open(SelectDeletableComponent, {
