@@ -313,7 +313,7 @@
                 <!-- <app-custom-dropdown [configuration]="question?.dropdownConfig" [datas]="question?.answer_option" (valueChanges)="onChange(question, {target: {value: $event.value}})"></app-custom-dropdown> -->
                 <label for="{{question.order}}">{{question.title}}<span *ngIf="question.required"
                         class="text-primary">*</span></label>
-                <mat-form-field class="w-100" [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled ) }"
+                <mat-form-field class="w-100 d-block" [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled ) }"
                     floatLabel="never">
                     <mat-label>{{question.hint}}
                     </mat-label>
@@ -380,7 +380,7 @@
                  <mat-icon class="input-eye-icon" *ngIf="question?.hint" [matTooltip]="question?.hint">info</mat-icon>
            </span> -->
                 <div class="col-sm-12  font-weight-500 text-primary error-msg" *ngIf="question.errorMessage"
-                    style="margin-top: -13px;">
+                    style="">
                     {{question.hint?question.hint:question.errorMessage}}
                 </div>
             </div>
@@ -1027,7 +1027,7 @@
                     (onQuestionUpdate)="onChange(question, $event)">
                 </app-location-picker>
                 <div class="col-sm-12  font-weight-500 text-primary error-msg"
-                    *ngIf="finalSubmitted && question.modelValue == '0,0'">
+                    *ngIf="finalSubmitted && (!question.modelValue || question.modelValue == ',' || question.modelValue == '0,0')">
                     Location is required
                 </div>
             </div>
@@ -1132,7 +1132,7 @@
             </div>
 
             <!-- [ngClass]="{'col-sm-12': ( question.width == '100' || isOpenChevron ), 'col-sm-6': (question.width == '50' && !isOpenChevron ) || ( question.width == '25' && isOpenChevron ) , 'col-sm-3': ( question.width == '25' && !isOpenChevron ), 'invalid-border-class': ( question.errorMessage ), 'custom-col-sm-2': ( question.width == '20' && !isOpenChevron ) }" -->
-            <div class="common-font-family customDropDown col-12 d-flex align-items-baseline"
+            <div class="common-font-family customDropDown col-12 align-items-baseline"
                 *ngSwitchCase="QUESTION_TYPE.SINGLE_SELECT">
                 <!-- <app-custom-dropdown [configuration]="question?.dropdownConfig" [datas]="question?.answer_option" (valueChanges)="onChange(question, {target: {value: $event.value}})"></app-custom-dropdown> -->
                 <label for="{{question.order}}" *ngIf="!tablular"
@@ -1141,7 +1141,7 @@
                     <mat-icon *ngIf="question?.information" style="font-size: medium;"
                         [matTooltip]="question?.information">info</mat-icon>
                 </label>
-                <mat-form-field style="position: relative;" [ngClass]="{
+                <mat-form-field style="position: relative;" class="d-block" [ngClass]="{
                         'disable-question-field': ( question?.isQuestionDisabled ),
                         'w-25': !tablular,
                         'w-100': tablular,
@@ -1212,7 +1212,7 @@
                  <mat-icon class="input-eye-icon" *ngIf="question?.hint" [matTooltip]="question?.hint">info</mat-icon>
            </span> -->
                 <div class="col-sm-12  font-weight-500 text-primary error-msg" *ngIf="question.errorMessage"
-                    style="margin-top: -13px;">
+                    style="">
                     {{question.hint?question.hint:question.errorMessage}}
                 </div>
             </div>
