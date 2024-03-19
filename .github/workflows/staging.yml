@@ -1,0 +1,41 @@
+name: Build and Deploy
+ 
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - "development"
+ 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.20.1]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - name: Install dependencies
+      run: npm install --force
+    - name: Install dependencies
+      run: npm install --save @types/lodash@4.14.74 --force
+ 
+    - name: Build Angular project
+      run: npm run build
+    - name: Copy dist files to server
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.SERVER_IP }}  # Add your server IP address as a secret in your repository
+        username: ${{ secrets.SERVER_USERNAME }}  # Add your server username as a secret
+        key: ${{ secrets.SSH_PRIVATE_KEY }}  # Add your server SSH private key as a secret
+        port: 22
+        source: "dist/*"  # Adjust this path based on your project structure
+        target: "/var/www/html/dev-jana/citifinance-ng-ui/"  # Specify the destination path on your server
+    # - name: Deploy to server
+    #   run: scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r ${{ github.workspace }}/dist/* ${{ secrets.SERVER_USERNAME }}:${{ secrets.SERVER_PASSWORD }}@${{ secrets.SERVER_IP }}:/var/www/html/dev-jana/citifinance-ng-ui/dist/
