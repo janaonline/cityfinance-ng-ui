@@ -316,6 +316,7 @@ export class DurComponent implements OnInit, OnDestroy {
       );
       if (userAction == 'draft') {
         isDraft = true;
+        this.finalSubmit(data, isDraft)
       }
       if (userAction == 'cancel') return;
       if(userAction == 'submit') this.finalSubmit(data, isDraft)
