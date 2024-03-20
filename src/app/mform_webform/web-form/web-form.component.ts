@@ -152,6 +152,9 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('paginator') paginator: MatPaginator;
   
   ngOnInit() {
+
+    console.log("hideNextButton", this.hideNextButton);
+    
     this.getQueryParams();
     if (
       this.isViewMode &&
