@@ -10,6 +10,7 @@
                 <a [href]="file?.url | toStorageUrl" target="_blank" download class="file-entry" *ngFor="let file of files">
                     <div class="details">
                         <img class="file-icon" *ngIf="file?.url | endsWith : ['.pdf']" src="assets/pdf.png">
+                        <img class="file-icon" *ngIf="file?.url | endsWith : ['.zip']" src="assets/zip.png">
                         <img class="file-icon" *ngIf="file?.url | endsWith : ['.xls', '.xlsx']" src="assets/excel.png">
                         <div>
                             <div>{{ file.name }}</div>
