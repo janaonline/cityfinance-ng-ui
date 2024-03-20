@@ -35,7 +35,7 @@ export class ReviewStateFormComponent implements OnInit {
   lastYearReviewRoutes: string = '../../mohua2223/review-state-form';
   pTaxFormId:string = '17';
   pTaxFormIdPreYear:string = '62c5534e2954384b44b3c38a';
-  selectedYearId:string=""
+  selectedYearId:string="";
   ngOnInit(): void {
     this.getQueryParams();
     this.getFormId();

@@ -9,7 +9,7 @@ import { SnackBarComponent } from '../snack-bar/snack-bar.component';
 export class NumberLengthDirective {
   @Input() appNumberLength: any;
 
-  constructor(private el: ElementRef) { }
+  constructor(private el: ElementRef, private snackBar: MatSnackBar) { }
   @HostListener("keydown", ["$event"]) onKeydown(event: KeyboardEvent | any) {
   // console.log(event.target['value'])
   let length: any = event.target['value'].toString().length + 1;
@@ -17,6 +17,26 @@ export class NumberLengthDirective {
   if(length>this.appNumberLength){
     event.preventDefault();
   }
+  }
+
+  @HostListener("paste", ["$event"]) onPaste(event: ClipboardEvent) {
+    const clipboardData = event.clipboardData || (window as any).clipboardData;
+    const pastedText = clipboardData.getData('text');
+    // Attempt to parse the pasted text as a number
+    const pastedNumber = !isNaN(pastedText) ? parseFloat(pastedText) : pastedText;
+    let inputLength = ((pastedNumber).toString()).length;
+    // Check if parsed number is within the specified range
+    if (isNaN(pastedNumber) && (
+      (this.appNumberLength !== undefined && inputLength  < 1) ||
+      (this.appNumberLength !== undefined && inputLength > this.appNumberLength)
+    )) {
+      this.snackBar.openFromComponent(SnackBarComponent, {
+        data: [`Upto ${(this.appNumberLength)} characters is allowed`],
+        duration: 3000
+      });
+      this.el.nativeElement.value = '';
+      event.preventDefault();
+    }
   }
 }
 
