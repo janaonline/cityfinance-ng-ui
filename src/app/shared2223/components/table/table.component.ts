@@ -170,7 +170,8 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       this.formUrl = formData?.url;
       this.formName = formData?.folderName;
       this.formRouterLink = `../../../${this.formBaseUrl}/` + this.formUrl;
-    this.callAPI();
+      this.callAPI();    
+    
   }
 
   handleScroll(event) {
