@@ -1545,6 +1545,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
           ],
           4000
         );
+        this.isImageUploading = false;
         return false;
       }
       // if (!mimeType.match(/image\/*/)) {
