@@ -69,7 +69,11 @@ export class MaxRangeDirective {
         duration: 3000
       });
     }
-    this.el.nativeElement.value = '' + positiveNumber;
+    this.snackBar.openFromComponent(SnackBarComponent, {
+      data: [`Paste is not allowed`],
+      duration: 3000
+    });
+    this.el.nativeElement.value = '';
   }
 }
 
