@@ -14,7 +14,7 @@ export class DurCustomErrorsPipe implements PipeTransform {
         ?.childQuestionData?.[loopIndex]
         ?.find(question => question.shortKey == 'cost')?.modelValue
       if (cost == 0) {
-        return 'Total Project Cost should be greater then 0 ' + cost;
+        return 'Total Project Cost should be greater then 0 ';
       }
     }
     if (shortKey === 'grantPosition___expDuringYr') {
