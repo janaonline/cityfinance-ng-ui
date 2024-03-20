@@ -1720,7 +1720,7 @@
                         {{buttonText}}
                     </button>
                 </div>
-                <div class="d-inline-flex ">
+                <div class="d-inline-flex " *ngIf="!hideNextButton">
                     <button class="btn btn-next text-uppercase" (click)="nextPrevBtnCall('next')">
                         Next Form ->
                     </button>
