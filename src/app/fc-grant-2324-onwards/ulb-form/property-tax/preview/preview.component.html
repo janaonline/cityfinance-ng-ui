@@ -43,6 +43,19 @@
                                         *ngFor="let year of data.financialYearTableHeader[tabData?.value?.position]; let  i = index;">
                                         {{ year.label }}</th>
                                 </tr>
+
+                                <tr *ngIf="tabData?.value?.position == '7.1' && data?.yearName == '2024-25'">
+                                    <td [attr.colspan]="tabData?.value?.yearData.length + 2" class="td">
+                                        <p *ngIf="data.growthRatePercentage == null; else gsdp_msg;">This is a reminder that property tax information for {{ulbName}} for the fiscal year 22-23 has not been submitted. This submission is crucial for receiving the XV Finance Commission grant for FY 24-25. Please ensure the necessary information be submitted at your earliest convenience to ensure compliance.</p>
+                                        <ng-template #gsdp_msg>
+                                            <p *ngIf="data.growthRatePercentage >= data.stateGsdpGrowthRate">The {{ulbName}} is eligible in property tax compliance for XV Finance Commission
+                                                Grant for FY 24-25.</p>
+                                            <p *ngIf="data.growthRatePercentage < data.stateGsdpGrowthRate">The {{ulbName}} is not eligible in property tax compliance for XV Finance
+                                                Commission Grant for FY 24-25.</p>
+                                        </ng-template>
+                                    </td>
+                                </tr>
+
                                 <tr>
                                     <th class="th" scope="row" width="5%">{{ tabData?.value?.position }}</th>
                                     <th class="th" scope="row" width="45%">{{ tabData?.value?.label }}</th>
@@ -65,20 +78,6 @@
                                     </td>
                                 </tr>
 
-                                <tr *ngIf="tabData?.value?.position == '1.17' && data?.yearName == '2024-25'">
-                                    <td colspan="7" class="text-center">
-                                        <p *ngIf="data.growthRatePercentage == null; else gsdp_msg;">This is a reminder that property tax information for {{ulbName}} for the fiscal
-                                            year 22-23 has not been submitted. This submission is crucial for receiving the
-                                            XV Finance Commission grant for FY 24-25. Please ensure the necessary
-                                            information be submitted at your earliest convenience to ensure compliance.</p>
-                                        <ng-template #gsdp_msg>
-                                            <p *ngIf="data.growthRatePercentage >= data.stateGsdpGrowthRate">The {{ulbName}} is eligible in property tax compliance for XV Finance Commission
-                                                Grant for FY 24-25.</p>
-                                            <p *ngIf="data.growthRatePercentage < data.stateGsdpGrowthRate">The {{ulbName}} is not eligible in property tax compliance for XV Finance
-                                                Commission Grant for FY 24-25.</p>
-                                        </ng-template>
-                                    </td>
-                                </tr>
                                 <tr *ngFor="let child of tabData?.value?.child; let r_i=index">
                                     <th class="th" scope="row" width="5%">{{ child.position }}.{{ child?.replicaNumber
                                         }}</th>

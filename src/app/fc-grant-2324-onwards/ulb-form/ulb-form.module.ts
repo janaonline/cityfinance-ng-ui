@@ -31,6 +31,7 @@ import { AllowedFileTypesPipe } from './property-tax/allowed-file-types.pipe';
 import { FormErrorPipe } from './property-tax/form-error.pipe';
 import { VideoGallaryComponent } from './video-gallary/video-gallary.component';
 import { GlobalPartModule } from 'src/app/global-part/global-part.module';
+import { Shared2223Module } from 'src/app/shared2223/shared2223.module';
 
 
 
@@ -60,6 +61,7 @@ import { GlobalPartModule } from 'src/app/global-part/global-part.module';
     MatIconModule,
     ReactiveFormsModule,
     GlobalPartModule,
+    Shared2223Module,
   ]
 })
 export class UlbFormModule { }

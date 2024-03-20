@@ -96,7 +96,8 @@ import { GlobalPartModule } from "../global-part/global-part.module";
     PreLoaderNewComponent,
     CommonActionRadioComponent,
     NumericInputDirective,
-    ScrollToTopComponent
+    ScrollToTopComponent,
+    NoUpDownDirective,
     // BreadcrumbComponent,
   ],
 })
