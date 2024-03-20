@@ -1166,7 +1166,7 @@
                         panelClass="custom-mat-select-panel" (closed)="onSelectionClose(question?.order)"
                         [disabled]="question?.isQuestionDisabled"
                         (selectionChange)="getSelectionChange(question, $event)">
-                        <div class="w-100 shadow-sm search-filter">
+                        <div class="w-100 shadow-sm search-filter" *ngIf="question?.shortKey != 'dpr_status'">
                             <!-- has-float-label - use this class in span tag and comment the label for floating label field -->
                             <span class="">
                                 <input id="{{question.order+'_dropDownSearch'}}" type="text" class="form-control"
@@ -1177,7 +1177,7 @@
                                 <!-- <label for="{{question.order+'_dropDownSearch'}}">Search {{question.title}}</label> -->
                             </span>
                         </div>
-                        <div class="single-select custom-y-scroll">
+                        <div class="custom-y-scroll" [ngClass]="{'single-select' : question?.shortKey != 'dpr_status'}">
                             <mat-option *ngIf="question?.answer_option?.length == 0" disabled>No options available
                             </mat-option>
                             <mat-option *ngFor="let opt of question?.answer_option; trackBy:optionIdentity;"
@@ -1193,6 +1193,7 @@
                             </mat-option>
                         </div>
                     </mat-select>
+                    
                     <mat-icon class="input-eye-icon" *ngIf="question?.information" [matTooltip]="question?.information"
                         style="font-size: 16px; right: 15px;">info</mat-icon>
                 </mat-form-field>
@@ -1211,9 +1212,10 @@
                  class="text-primary">*</span></label>
                  <mat-icon class="input-eye-icon" *ngIf="question?.hint" [matTooltip]="question?.hint">info</mat-icon>
            </span> -->
-                <div class="col-sm-12  font-weight-500 text-primary error-msg" *ngIf="question.errorMessage"
+           
+                <div class="col-sm-12  font-weight-500 text-primary error-msg" *ngIf="!question.modelValue && question.errorMessage"
                     style="">
-                    {{question.hint?question.hint:question.errorMessage}}
+                    {{question.hint ? question.hint : question.errorMessage}}
                 </div>
             </div>
 
