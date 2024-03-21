@@ -75,9 +75,10 @@ export class DurComponent implements OnInit, OnDestroy {
      this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId")
     return this.selectedYearId;
   }
+  
   get financial_year() {
     const years = JSON.parse(localStorage.getItem("Years"));
-    return years?.['2022-23'];
+    return years?.[this.financialYear];
   }
 
   get ulbId() {
@@ -408,10 +409,7 @@ export class DurComponent implements OnInit, OnDestroy {
   this.financialYear = `${startYear - 1}-${endYear - 1}`;
   
  }
- get financial_year() {
-  const years = JSON.parse(localStorage.getItem("Years"));
-  return years?.[`${this.financialYear}`];
-}
+
 
  ngOnDestroy(): void {
   this.leftMenuSubs.unsubscribe();
