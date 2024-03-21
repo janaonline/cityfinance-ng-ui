@@ -43,7 +43,6 @@ import { GlobalPartModule } from "../global-part/global-part.module";
 @NgModule({
   declarations: [
     OdfFormComponent,
-   // GfcFormComponent,
     FooterBtnComponent,
     CommonFileUploadComponent,
     NumberToWordINRPipe,
@@ -96,9 +95,7 @@ import { GlobalPartModule } from "../global-part/global-part.module";
     PreLoaderNewComponent,
     CommonActionRadioComponent,
     NumericInputDirective,
-    ScrollToTopComponent,
-    NoUpDownDirective,
-    // BreadcrumbComponent,
+    ScrollToTopComponent
   ],
 })
 export class Shared2223Module {}
