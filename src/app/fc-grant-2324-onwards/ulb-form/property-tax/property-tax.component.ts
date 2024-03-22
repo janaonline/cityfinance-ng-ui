@@ -127,6 +127,7 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   get hasUnsavedChanges() {
+    if(!this.form) return false;
     return !this.form.pristine;
   }
 

@@ -3,12 +3,6 @@
     <button class="btn btn-primary" (click)="onPreview()">Preview</button>
 </div>
 
-<div class="p-2 my-2 rounded" style="border: 1px solid red;">
-    <small style="color: red">ONLY FOR TESTING PURPOSE WILL REMOVE LATER</small>
-    <p>Year ID: {{ design_year }}</p>
-    <p>Design year: {{ yearName }}</p>
-</div>
-
 <div class="error-container" *ngIf="successErrorMessage" [innerHTML]="successErrorMessage"></div>
 
 <ng-container *ngIf="!successErrorMessage">
