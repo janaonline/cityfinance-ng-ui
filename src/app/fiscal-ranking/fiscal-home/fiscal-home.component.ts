@@ -128,7 +128,7 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
   ]
 
   ngOnInit(): void {
-    this.openPopup(this.fqCardData[2]);
+    // this.openPopup(this.fqCardData[2]);
     this.fiscal.getLandingPageCard().subscribe((data: any) => {
       console.log("this myu data======>", data.data)
       this.setDisplayItem();
