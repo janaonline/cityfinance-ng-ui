@@ -1,0 +1,333 @@
+<div style="float: right;" class="mb-3">
+    <button class="btn btn-primary" (click)="onPreview()">Preview</button>
+</div>
+<small class="text-danger">All questions with * are mandatory</small>
+
+<div >
+    <table  class="table table-striped caption-top sfc-form-table">
+       <tbody  style="border-top: none;">
+          <tr  class="table-main-heading">
+             <th  colspan="7">
+                State Finance Commission Details 
+             </th>
+          </tr>
+          <tr>
+             <th  scope="row" class="float-number">
+                <p  class="mb-0">
+                    Is SFC constituted? <span  class="text-danger">*</span>
+                </p>                
+             </th>
+             <td  style="width: 24%;">
+                <div  class="col-sm-12 for-radio">
+                   <div  class="form-group">                      
+                     <mat-radio-group aria-label="Select an option" formControlName="value"
+                           class="d-flex">
+                           <mat-radio-button value="Yes">Yes</mat-radio-button>
+                           <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
+                     </mat-radio-group>                      
+                   </div>
+                </div>
+                
+             </td>
+             <td  style="width: 12%;">
+                
+             </td>
+             <td  style="width: 12%;">
+                
+             </td>
+             <td  style="width: 12%;">
+                
+             </td>
+             
+          </tr>
+
+          <tr>
+            <th  scope="row" class="float-number">
+               <p  class="mb-0">
+                Notification of SFC constitution  <span  class="text-danger">*</span>
+               </p>               
+            </th>
+            <td  style="width: 24%;">
+               <ng-container>
+                  <div class="col-sm-12 mb-3">
+                      <button  class="btn form-btn com-style w-100">
+                          <div class="row">
+                              <div class="col-sm-6 file-text ">
+                                  File
+                              </div>
+                              <div class="col-sm-6 text-end">
+                                  <img src="../../../assets/circle/cloud_upload_black_24dp.svg">
+                              </div>
+                          </div>
+                      </button>
+                      <input  style="display: none;"  type="file">
+                  </div>
+                  <div class="col-sm-12 com-style f-w mt-1">
+                      <a class="w-90" style="word-break: break-all;" 
+                          target="_blank">Link <mat-icon>cloud_download
+                          </mat-icon></a>
+                      <a>
+                          <img src="../../../assets/form-icon/close_black_24dp.svg">
+                      </a>
+                  </div>
+                  <div class="col-sm-12 text-center w-70">
+                      <app-loader >
+                      </app-loader>
+                  </div>
+                  <small class="text-danger"
+                      >File is
+                      required</small>
+              </ng-container>
+               
+            </td>
+            <td  style="width: 12%;">
+               
+            </td>
+            <td  style="width: 12%;">
+               
+            </td>
+            <td  style="width: 12%;">
+               
+            </td>
+            
+         </tr>
+          
+          <tr>
+             <th  scope="row" class="float-number">
+                <p  class="mb-0">
+                    Date of Constitution <span  class="text-danger">*</span>
+                </p>                
+             </th>
+             <td  style="width: 24%;">
+                <div  class="col-sm-12 for-radio">
+                  <div  class="form-group">                     
+                     <div class="input-group" style="background-color: white; border: 1px solid #C6C6C6;">
+                        <div class="d-flex w-100 px-2 justify-content-between">
+                           <input matInput class="mat-date" formControlName="date" style="pointer-events: none;"
+                                 [matDatepicker]="r_i"  [max]="currentDate"
+                                 placeholder="Choose a date" [attr.id]="  + r_i" />
+                           <mat-datepicker-toggle matSuffix  [for]="r_i">
+                           </mat-datepicker-toggle>
+                        </div>
+                        <mat-datepicker #r_i></mat-datepicker>
+                     </div>
+                     <small  class="text-danger ">Please provide a valid date</small>
+                  </div>
+                </div>                
+             </td>
+             <td  style="width: 12%;">
+                
+             </td>
+             <td  style="width: 12%;">
+                
+             </td>
+             <td  style="width: 12%;">
+                
+             </td>             
+          </tr>
+
+          <tr>
+            <th  scope="row" class="float-number">
+               <p  class="mb-0">
+                Award Period  <span  class="text-danger">*</span>
+               </p>               
+            </th>
+            <td  style="width: 24%;">
+               <div  class="col-sm-12 for-radio">
+                  <div  class="form-group">                     
+                     <div class="input-group" style="background-color: white; border: 1px solid #C6C6C6;">
+                        <div class="d-flex w-100 px-2 justify-content-between">
+                           <input matInput class="mat-date" formControlName="date" style="pointer-events: none;"
+                                 [matDatepicker]="r_i"  [max]="currentDate"
+                                 placeholder="Choose a date" [attr.id]="  + r_i" />
+                           <mat-datepicker-toggle matSuffix  [for]="r_i">
+                           </mat-datepicker-toggle>
+                        </div>
+                        <mat-datepicker #r_i></mat-datepicker>
+                     </div>
+                     <small  class="text-danger ">Please provide a valid date</small>
+                  </div>
+               </div>               
+            </td>
+            <td  style="width: 12%;">
+               
+            </td>
+            <td  style="width: 12%;">
+               
+            </td>
+            <td  style="width: 12%;">
+               
+            </td>            
+         </tr>
+          
+         <tr>
+            <th  scope="row" class="float-number">
+               <p  class="mb-0">
+                Action Taken Report <span  class="text-danger">*</span>
+               </p>               
+            </th>
+            <td  style="width: 24%;">
+               <ng-container>
+                  <div class="col-sm-12 mb-3">
+                      <button  class="btn form-btn com-style w-100">
+                          <div class="row">
+                              <div class="col-sm-6 file-text ">
+                                  File
+                              </div>
+                              <div class="col-sm-6 text-end">
+                                  <img src="../../../assets/circle/cloud_upload_black_24dp.svg">
+                              </div>
+                          </div>
+                      </button>
+                      <input  style="display: none;"  type="file">
+                  </div>
+                  <div class="col-sm-12 com-style f-w mt-1">
+                      <a class="w-90" style="word-break: break-all;" 
+                          target="_blank">Link <mat-icon>cloud_download
+                          </mat-icon></a>
+                      <a>
+                          <img src="../../../assets/form-icon/close_black_24dp.svg">
+                      </a>
+                  </div>
+                  <div class="col-sm-12 text-center w-70">
+                      <app-loader >
+                      </app-loader>
+                  </div>
+                  <small class="text-danger"
+                      >File is
+                      required</small>
+              </ng-container>               
+            </td>
+            <td  style="width: 12%;">
+               
+            </td>
+            <td  style="width: 12%;">
+               
+            </td>
+            <td  style="width: 12%;">
+               
+            </td>            
+         </tr>
+
+          <tr>
+             <th  scope="row" class="float-number">
+                <p  class="mb-0">
+                    SFC Report  <span  class="text-danger">*</span>
+                </p>                
+             </th>
+             <td  style="width: 24%;">
+               <ng-container>
+                  <div class="col-sm-12 mb-3">
+                      <button  class="btn form-btn com-style w-100">
+                          <div class="row">
+                              <div class="col-sm-6 file-text ">
+                                  File
+                              </div>
+                              <div class="col-sm-6 text-end">
+                                  <img src="../../../assets/circle/cloud_upload_black_24dp.svg">
+                              </div>
+                          </div>
+                      </button>
+                      <input  style="display: none;"  type="file">
+                  </div>
+                  <div class="col-sm-12 com-style f-w mt-1">
+                      <a class="w-90" style="word-break: break-all;" 
+                          target="_blank">Link <mat-icon>cloud_download
+                          </mat-icon></a>
+                      <a>
+                          <img src="../../../assets/form-icon/close_black_24dp.svg">
+                      </a>
+                  </div>
+                  <div class="col-sm-12 text-center w-70">
+                      <app-loader >
+                      </app-loader>
+                  </div>
+                  <small class="text-danger"
+                      >File is
+                      required</small>
+              </ng-container>                
+             </td>
+             <td  style="width: 12%;">
+                
+             </td>
+             <td  style="width: 12%;">
+                
+             </td>
+             <td  style="width: 12%;">
+                
+             </td>             
+          </tr>
+          <tr>
+            <th  scope="row" class="float-number">
+               <p  class="mb-0">
+                Date of release of SFC report  <span  class="text-danger">*</span>
+               </p>
+               
+            </th>
+            <td style="width: 24%;">               
+               <div  class="col-sm-12 for-radio">
+                  <div  class="form-group">                     
+                     <div class="input-group" style="background-color: white; border: 1px solid #C6C6C6;">
+                        <div class="d-flex w-100 px-2 justify-content-between">
+                           <input matInput class="mat-date" formControlName="date" style="pointer-events: none;"
+                                 [matDatepicker]="r_i"  [max]="currentDate"
+                                 placeholder="Choose a date" [attr.id]="  + r_i" />
+                           <mat-datepicker-toggle matSuffix  [for]="r_i">
+                           </mat-datepicker-toggle>
+                        </div>
+                        <mat-datepicker #r_i></mat-datepicker>
+                     </div>
+                     <small  class="text-danger ">Please provide a valid date</small>
+                  </div>
+               </div>               
+            </td>
+            <td  style="width: 12%;">
+               
+            </td>
+            <td  style="width: 12%;">
+               
+            </td>
+            <td  style="width: 12%;">
+               
+            </td>            
+         </tr>
+       </tbody>
+    </table>
+    
+ </div>
+
+<div>
+    <!---------- review process for State and Mohua ----------------->
+    <div class="" *ngIf="statusId && statusId != 1 && statusId != 2">
+    <app-form-common-action [canTakeAction]="canTakeAction" [isFormFinalSubmit]="isFormFinalSubmit"
+    (formChangeEventEmit)="actionFormChangeDetect($event)" [nextPreUrl]="nextPreUrl" 
+    [formId]="formId" [isButtonAvail]="isButtonAvail" [formName]="'dur'"></app-form-common-action>
+    </div>
+
+    <div class="d-flex justify-content-end my-2" *ngIf="isButtonAvail">
+        <div class="row w-100">
+            <div class="col-sm-6">
+                <button class="btn btn-pre" [routerLink]="nextPreUrl?.backBtnRouter">
+                    &lt;- Previous Form </button>
+            </div>
+            <div class="col-sm-6 d-flex justify-content-end">
+                <div class="d-inline-flex mr-1">
+                    <button [disabled]="buttonDissabled" class="btn btn-save text-uppercase" (click)="submit()">
+                        Save as Draft
+                    </button>
+                </div>
+                <div class="d-inline-flex mr-1">
+                    <button [disabled]="buttonDissabled" class="btn btn-save text-uppercase"
+                        (click)="finalSubmitConfirmation()">
+                        Submit
+                    </button>
+                </div>
+                <div class="d-inline-flex ">
+                    <button [routerLink]="nextPreUrl?.nextBtnRouter" class="btn btn-next text-uppercase">
+                        Next Form -&gt;
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
