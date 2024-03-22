@@ -268,7 +268,9 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
       this.getActionRes();
       //temp commented for Production
       // if(environment?.isProduction === false){
-        if((this.formId == 4) &&
+
+        // 3.PTO 4. DUR
+        if((this.formId == 4 || this.formId == 3) &&
         (this.statusForm?.value?.status == 7) && 
         this.userData?.role == 'MoHUA'){
           this.sequentialReview({onlyGet: false})
