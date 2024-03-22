@@ -349,25 +349,28 @@ ulbCode = '';
                       year,
                       type,
                     };
-                    this.annualAccountsService.getYearHistory(params).subscribe(
-                      async (res) => {
-                        this.loader[year][type] = false;
-                        if (res["data"].haveHistory) {
-                          this.historyYear = res["data"].historyData;
-                          this.yearInHistory = year;
-                          this.typeInHistory = type;
-                          let store = await this.openModal(this.template);
-                          if (!store) return;
+                    if(response?.status === 200){
+                      this.annualAccountsService.getYearHistory(params).subscribe(
+                        async (res) => {
+                          this.loader[year][type] = false;
+                          if (res["data"].haveHistory) {
+                            this.historyYear = res["data"].historyData;
+                            this.yearInHistory = year;
+                            this.typeInHistory = type;
+                            let store = await this.openModal(this.template);
+                            if (!store) return;
+                          }
+                          this.documents[year][type] = [
+                            { name: fileName, url: finalUrl },
+                          ];
+                        },
+                        (err) => {
+                          console.error(err);
+                          this.loader[year][type] = false;
                         }
-                        this.documents[year][type] = [
-                          { name: fileName, url: finalUrl },
-                        ];
-                      },
-                      (err) => {
-                        console.error(err);
-                        this.loader[year][type] = false;
-                      }
-                    );
+                      );
+                    }
+                   
                 //  }
                 },
                 (error) => {

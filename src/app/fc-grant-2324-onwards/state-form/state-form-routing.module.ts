@@ -21,7 +21,7 @@ import { SfcFormComponent } from './sfc-form/sfc-form.component';
 
 const routes: Routes = [
   {
-    path: "",
+    path: ":yearId",
     component: StateFormComponent,
    canActivate: [State2223Guard],
     children: [
