@@ -70,8 +70,8 @@
                 </div>
             </div>
         </div>
-        <div class="col"></div>
-        <div class="col-lg-auto">
+        <!-- <div class="col"></div> -->
+        <div class="col-lg-auto" style="display: none;">
             <div class="images" style="text-align: -webkit-center">
                 <carousel [interval]="myInterval" [isAnimated]="true" (activeSlideChange)="carouselClass($event)" [ngClass]="{ 'p-indi': p_indi, 'm-indi': m_indi }">
                     <slide *ngFor="let slide of slides; let index = index">
