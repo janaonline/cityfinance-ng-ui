@@ -107,17 +107,25 @@ export class SfcFormComponent implements OnInit {
   }
 
   get uploadFolderName() {
-    return `${this.userData?.role}/2023-24/pto/${this.userData?.ulbCode}`
+    const years = JSON.parse(localStorage.getItem("Years"));
+    const year = this.getKeyByValue(years,this.design_year);
+    return `${this.userData?.role}/${year}/sfc/${this.userData?.stateCode}`
+  }
+
+  getKeyByValue(object, value) {
+    return Object.keys(object).find(key => object[key] === value);
   }
 
   get design_year() {
-    const years = JSON.parse(localStorage.getItem("Years"));
-    return years?.['2023-24'];
+    // const years = JSON.parse(localStorage.getItem("Years"));
+    // console.log('this.years', years);
+    return this.activatedRoute.parent.snapshot.paramMap.get('yearId');
+    // return years?.['2023-24'];
   }
 
-  get ulbId() {
-    if (this.userData?.role == 'ULB') return this.userData?.ulb;
-    return localStorage.getItem("ulb_id");
+  get stateId() {
+    if (this.userData?.role == 'STATE') return this.userData?.state;
+    return localStorage.getItem("state_id");
   }
 
   get hasUnsavedChanges() {
@@ -126,7 +134,7 @@ export class SfcFormComponent implements OnInit {
 
   loadData() {
     this.loaderService.showLoader();
-    this.sfcFormService.getForm(this.ulbId, this.design_year).subscribe((res: any) => {
+    this.sfcFormService.getForm(this.stateId, this.design_year).subscribe((res: any) => {
       this.loaderService.stopLoader();
       console.log('response', res);
       this.tabs = res?.data?.tabs;
@@ -137,19 +145,24 @@ export class SfcFormComponent implements OnInit {
       this.specialHeaders = res?.data?.specialHeaders;
 
       this.form = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
-      this.addSkipLogics();
+      // this.addSkipLogics();
       this.isLoader = false;
       this.canTakeAction = res?.data?.canTakeAction;
       this.formDisable(res?.data);
-      console.log('form', this.form);
     }, err => {
       this.loaderService.stopLoader();
     });
   }
 
   get buttonDissabled() {
-    if (this.userData?.role != USER_TYPE.ULB) return true;
+    if (this.userData?.role != USER_TYPE.STATE) return true;
     return ![1, 2, 5, 7].includes(this.statusId);
+  }
+
+  formDisable(res) {
+    if (!res) return;
+    if(this.userData?.role != USER_TYPE.STATE) return false;
+    this.isButtonAvail = [1, 2, 5, 7].includes(res?.statusId);
   }
 
   getTabFormGroup(tab: Tab): any {
@@ -162,42 +175,21 @@ export class SfcFormComponent implements OnInit {
         _id: feedback._id,
       }),
       data: this.fb.group(Object.entries(data).reduce((obj, [key, item]: any) => {
-        if (this.linearTabs.includes(tab.id)) {
-          obj[key] = this.getInnerFormGroup({ ...item, key })
-        }
-        else {
-          obj[key] = this.fb.group({
-            key: item.key,
-            position: [{ value: item.displayPriority || 1, disabled: true }],
-            isHeading: [{ value: Number.isInteger(+item.displayPriority), disabled: true }],
-            modelName: [{ value: item.modelName, disabled: true }],
-            required: [{ value: item.required, disabled: true }],
-            calculatedFrom: [{ value: item.calculatedFrom, disabled: true }],
-            logic: [{ value: item.logic, disabled: true }],
-            canShow: [{ value: item.canShow !== undefined ? item.canShow : true, disabled: true }],
-            downloadLink: [{ value: item.downloadLink, disabled: true }],
-            label: [{ value: item.label, disabled: true }],
-            info: [{ value: item.info, disabled: true }],
-            ...(item.child && {
-              replicaCount: item.replicaCount,
-              maxChild: [{ value: item.maxChild, disabled: true }],
-              copyOptions: [{ value: item.copyOptions, disabled: true }],
-              copyChildFrom: [{ value: item.copyChildFrom, disabled: true }],
-              child: this.fb.array(item.child.map(childItem => this.fb.group({
-                key: childItem.key,
-                value: [childItem.value, this.getValidators(childItem, !['date', 'file', 'link'].includes(childItem.formFieldType), parent)],
-                _id: childItem._id,
-                label: [{ value: childItem.label, disabled: true }],
-                replicaNumber: childItem.replicaNumber,
-                readonly: [{ value: childItem.readonly, disabled: true }],
-                formFieldType: [{ value: childItem.formFieldType || 'text', disabled: true }],
-                position: [{ value: childItem.displayPriority || 1, disabled: true }],
-                yearData: this.fb.array(childItem?.yearData?.map(yearItem => this.getInnerFormGroup(yearItem, item, childItem.replicaNumber)))
-              })), item?.required ? [Validators.required] : []),
-            }),
-            yearData: this.fb.array(item.yearData.map(yearItem => this.getInnerFormGroup(yearItem, item)))
-          })
-        }
+
+        obj[key] = this.fb.group({
+          key: item.key,
+          position: [{ value: item.displayPriority || 1, disabled: true }],
+          isHeading: [{ value: Number.isInteger(+item.displayPriority), disabled: true }],
+          modelName: [{ value: item.modelName, disabled: true }],
+          required: [{ value: item.required, disabled: true }],
+          calculatedFrom: [{ value: item.calculatedFrom, disabled: true }],
+          logic: [{ value: item.logic, disabled: true }],
+          canShow: [{ value: item.canShow !== undefined ? item.canShow : true, disabled: true }],
+          downloadLink: [{ value: item.downloadLink, disabled: true }],
+          label: [{ value: item.label, disabled: true }],
+          info: [{ value: item.info, disabled: true }],
+          yearData: this.fb.array(item.yearData.map(yearItem => this.getInnerFormGroup(yearItem, item)))
+        })
         return obj;
       }, {}))
     })
@@ -220,6 +212,8 @@ export class SfcFormComponent implements OnInit {
       previousYearCodes: [{ value: item.previousYearCodes, disabled: true }],
       date: [item.date, item.formFieldType == 'date' && item.required ? [Validators.required] : []],
       formFieldType: [{ value: item.formFieldType || 'text', disabled: true }],
+      max: [{ value: item.max, disabled: true }],
+      min: [{ value: item.min, disabled: true }],
       status: item.status,
       bottomText: [{ value: item.bottomText, disabled: true }],
       label: [{ value: item.label, disabled: true }],
@@ -260,6 +254,9 @@ export class SfcFormComponent implements OnInit {
     return decimalA > decimalB ? 1 : (decimalB > decimalA ? -1 : 0);;
   }
 
+  /**
+   * TODO: Check and remove function
+   */
   addSkipLogics() {
     const s3Control = this.form.controls.find(control => control.value?.id == 's3') as FormGroup;
     Object.entries(this.skipLogicDependencies).forEach(([selector, skipLogicDependency]) => {
@@ -288,7 +285,7 @@ export class SfcFormComponent implements OnInit {
             const updatableControl = s3Control?.get(selectorString) as FormGroup;
             if (!updatableControl) return;
             ['value', 'file.name', 'file.url', 'date'].forEach(innerSelectorString => {
-              const control  = updatableControl.get(innerSelectorString)
+              const control = updatableControl.get(innerSelectorString)
               this.toggleValidations(control, selectorString + '.' + innerSelectorString, canShow, false);
             });
           })
@@ -304,7 +301,7 @@ export class SfcFormComponent implements OnInit {
         this.validators[selector] = control.validator;
       }
       if (!canShow) {
-        if(isArray) {
+        if (isArray) {
           (control as FormArray).clear();
           control?.parent?.get('replicaCount')?.patchValue(0);
         } else {
@@ -322,10 +319,10 @@ export class SfcFormComponent implements OnInit {
     const maxFileSize = 5;
     const file: File = event.target.files[0];
     if (!file) return;
-    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
-    if(isfileValid == false){
-      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
-       return;
+    let isfileValid = this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if (isfileValid == false) {
+      swal("Error", "File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+      return;
     }
     const fileExtension = file.name.split('.').pop();
     if (!allowedFileTypes?.includes(fileExtension)) return swal("Error", `Allowed file extensions: ${allowedFileTypes?.join(', ')}`, "error");
@@ -364,7 +361,7 @@ export class SfcFormComponent implements OnInit {
         }
       );
       console.log({ confirmed });
-      if(!confirmed) return
+      if (!confirmed) return
       else {
         await this.submit();
       }
@@ -455,125 +452,11 @@ export class SfcFormComponent implements OnInit {
     return invalidControls;
   }
 
-  async editChildQuestions(item: FormGroup, replicaNumber: number, oldLabel: string) {
-    const childrens = item.controls.child as FormArray;
-    const { value: updatedLabel } = await swal2.fire({
-      title: item.controls?.copyOptions.value ? 'Select an option' : 'Enter a value',
-      input: item.controls?.copyOptions.value ? 'select' : 'text',
-      inputValue: oldLabel,
-      inputOptions: item.controls?.copyOptions.value?.reduce((result, item) => ({ ...result, [item.id]: item.label }), {}),
-      showCancelButton: true,
-      cancelButtonText: 'Cancel',
-      confirmButtonText: 'Add',
-    });
-    if (!updatedLabel) return;
-    console.log(childrens.value);
-    const updatableQuestions = childrens.controls.filter(control => control.value.replicaNumber == replicaNumber) as FormGroup[];
-
-    updatableQuestions.forEach(control => {
-      control.patchValue({
-        value: updatedLabel,
-      })
-    });
-  }
-
-
-  async removeLastQuestion(item: FormGroup) {
-    const childrens = item.controls.child as FormArray;
-    const lastItemReplicaNumber = childrens.controls[childrens.controls.length - 1]?.value?.replicaNumber;
-    const willDelete = await swal({
-      title: "Are you sure?",
-      text: "Do you want to remove this question?",
-      icon: "warning",
-      dangerMode: true,
-    });
-    if (!willDelete) return;
-    const removableIndexes = [];
-    childrens.controls.forEach((control, index) => {
-      if (control.value.replicaNumber == lastItemReplicaNumber) {
-        removableIndexes.push(index);
-      }
-    });
-    removableIndexes.reverse();
-    removableIndexes.forEach(index => {
-      childrens.removeAt(index);
-    });
-    let replicaCount = item.controls?.replicaCount?.value;
-    replicaCount--;
-    item.patchValue({
-      replicaCount,
-    });
-  }
-  async addChildQuestions(item: FormGroup) {
-    const copyChildFrom = item.controls?.copyChildFrom.value as string[];
-    const maxChild = item.controls?.maxChild?.value;
-    let replicaCount = item.controls?.replicaCount?.value;
-    console.log({ maxChild, replicaCount });
-    const childrens = item.controls.child as FormArray;
-    if (replicaCount >= maxChild) return swal('Warning', `Upto ${maxChild} items allowed`, 'warning');
-    const { value } = await swal2.fire({
-      title: item.controls?.copyOptions.value ? 'Select an option' : 'Enter a value',
-      input: item.controls?.copyOptions.value ? 'select' : 'text',
-      inputOptions: item.controls?.copyOptions.value?.reduce((result, item) => ({ ...result, [item.id]: item.label }), {}),
-      showCancelButton: true,
-      cancelButtonText: 'Cancel',
-      confirmButtonText: 'Add',
-    })
-    if (!value) return;
-    if((childrens?.value as any[])?.some(item => item.value == value)) {
-      return  swal('Warning', `${value} already exists`, 'warning');
-    }
-
-    replicaCount++;
-    item.patchValue({
-      replicaCount,
-    });
-    copyChildFrom.forEach((targetQuestion: any) => {
-      // const targetQuestion = this.tabs[0].data[key];
-      console.log(targetQuestion);
-      childrens.push(this.fb.group({
-        key: targetQuestion.key,
-        value: [value, this.getValidators(targetQuestion, !['date', 'file', 'link'].includes(targetQuestion.formFieldType), parent)],
-        _id: targetQuestion._id,
-        replicaNumber: replicaCount,
-        label: [{ value: targetQuestion.label, disabled: true }],
-        formFieldType: [{ value: targetQuestion.formFieldType || 'text', disabled: true }],
-        position: [{ value: targetQuestion.displayPriority || 1, disabled: true }],
-        readonly: true,
-        yearData: this.fb.array(targetQuestion?.yearData?.map(yearItem => this.getInnerFormGroup({
-          ...yearItem,
-          label: targetQuestion.label,
-          postion: targetQuestion.displayPriority
-        }, item, replicaCount)))
-      }))
-    })
-  }
-
-  get notificationWaterChargesCtrl() {
-    const s3Control = this.form.controls.find(control => control.value?.id == 's3') as FormGroup;
-    return s3Control.get('data.notificationWaterCharges.yearData.0');
-  }
-  get doesColSewerageChargesCtrl() {
-    const s3Control = this.form.controls.find(control => control.value?.id == 's3') as FormGroup;
-    return s3Control.get('data.doesColSewerageCharges.yearData.0');
-  }
-
-  canShowHeader(displayPriority: string) {
-    const waterChargesHeaders = ['5.5', '5.11', '5.13', '5.17', '5.21', '5.25', '5.30', '5.31', '5.32'];
-    const sewerageChargesHeaders = ['6.5', '6.11', '6.13', '6.17', '6.21', '6.25', '6.30', '6.31', '6.32'];
-    if (waterChargesHeaders.includes(displayPriority) && this.notificationWaterChargesCtrl.value.value !== 'Yes') {
-      return false;
-    }
-    if (sewerageChargesHeaders.includes(displayPriority) && this.doesColSewerageChargesCtrl.value.value !== 'Yes') {
-      return false;
-    }
-    return true;
-  }
 
   submit(isDraft = true) {
     console.log(this.form)
     const payload = {
-      ulbId: this.ulbId,
+      state: this.stateId,
       formId: this.formId,
       design_year: this.design_year,
       isDraft: isDraft,
@@ -583,25 +466,25 @@ export class SfcFormComponent implements OnInit {
     this.loaderService.showLoader();
     return new Promise((resolve, reject) => {
       this.sfcFormService.postData(payload).subscribe(res => {
-       this.form.markAsPristine();
-       this.loaderService.stopLoader();
-       this.commonServices.setFormStatusUlb.next(true);
-       this.loadData();
-       this.isFormFinalSubmit = true;
-       this.formSubmitted = !isDraft;
-       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
-       resolve(true);
-     }, ({ error }) => {
-       this.loaderService.stopLoader();
-       swal('Error', error?.message ?? 'Something went wrong', 'error');
-       reject();
-     })
+        this.form.markAsPristine();
+        this.loaderService.stopLoader();
+        // this.commonServices.setFormStatusUlb.next(true);
+        this.loadData();
+        this.isFormFinalSubmit = true;
+        this.formSubmitted = !isDraft;
+        swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
+        resolve(true);
+      }, ({ error }) => {
+        this.loaderService.stopLoader();
+        swal('Error', error?.message ?? 'Something went wrong', 'error');
+        reject();
+      })
     })
   }
 
   actionFormChangeDetect(res) {
     if (res == true) {
-      this.commonServices.setFormStatusUlb.next(true);
+      // this.commonServices.setFormStatusUlb.next(true);
       this.loadData();
     }
   }
@@ -618,11 +501,7 @@ export class SfcFormComponent implements OnInit {
     }
   }
 
-  formDisable(res) {
-    if (!res) return;
-    this.isButtonAvail = this.commonServices.formDisable(res, this.userData);
-    console.log('acfystkdghask', this.isButtonAvail); 
- }
+  
 
   ngOnDestroy(): void {
     this.leftMenuSubs.unsubscribe();

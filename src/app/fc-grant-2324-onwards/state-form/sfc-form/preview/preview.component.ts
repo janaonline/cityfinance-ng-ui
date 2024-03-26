@@ -22,7 +22,6 @@ export class PreviewComponent implements OnInit {
   userData;
   ulbName: string = '';
   stateName: string = '';
-  ulbId: string = "";
   dialogRef;
   yearList: string[] = ['#', '2018-19', '2019-20', '2020-21', '2021-22', '2022-23'];
   yearWiseTabs: string[] = ['s3', 's4', 's5', 's6'];
@@ -35,13 +34,9 @@ export class PreviewComponent implements OnInit {
   ) {
     this.userData = JSON.parse(localStorage.getItem("userData"));
     console.log({ html: this._html });
-    if (this.userData?.role == "ULB") {
-      this.ulbName = this.userData?.name;
-      this.ulbId = this.userData?.ulb;
+    if (this.userData?.role == "STATE") {
       this.stateName = this.userData?.stateName;
     }else {
-      this.ulbId = localStorage.getItem("ulb_id");
-      this.ulbName = sessionStorage.getItem("ulbName");
       this.stateName = sessionStorage.getItem("stateName");
     }
     
@@ -133,7 +128,7 @@ export class PreviewComponent implements OnInit {
   }
   downloadAsPdf() {
     this._questionnaireService.downloadPDF({ html: this.styleForPDF + this._html.nativeElement.outerHTML }).subscribe(res => {
-      this.sfcFormService.downloadFile(res.slice(0), "pdf", "property_tax.pdf");
+      this.sfcFormService.downloadFile(res.slice(0), "pdf", "sfc_form.pdf");
     }, err => {
       this.onGettingError(' "Failed to download PDF. Please try after sometime."');
     }
