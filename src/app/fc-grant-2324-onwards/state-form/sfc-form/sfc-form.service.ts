@@ -27,11 +27,11 @@ export class SfcFormService {
       return url;
    }
 
-   getForm(ulb: string, design_year: string) {
-      return this.http.get(`${environment.api.url}propTaxOp/view?ulb=${ulb}&design_year=${design_year}`);
+   getForm(state: string, design_year: string) {
+      return this.http.get(`${environment.api.url}sfc/form?state=${state}&design_year=${design_year}`);
    }
 
    postData(body) {
-      return this.http.post(`${environment.api.url}propTaxOp/create-form`, body);
+      return this.http.post(`${environment.api.url}sfc/create-form`, body);
    }
 }
