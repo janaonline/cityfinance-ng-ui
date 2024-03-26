@@ -87,31 +87,33 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
       section: 'download_file',
       key: 'brochure'
     },
-    {
-      image: "../../../assets/M FIGMA/dvr_black_24dp.svg",
-      title: "Know more",
-      text: "",
-      videos : [
-        {
-          title: 'Click here for latest video',
-          url: `https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/FiscalRanking/knowMoreVideo_6b2e991a-1d08-433f-b566-a61f515cba53.mp4`,
-          key: 'newVideo',
-          isActive: true,
-          id: '1'
-        },
-        {
-          title: 'Click here for launch video',
-          url: `https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_Portal_Video_Go_Live_fc20cbd7-303f-4ef0-aa98-1b5e4c35dc19.mp4`,
-          key: 'oldVideo',
-          isActive: false,
-          id: '2'
-        }
-      ],
-      isModal: true,
-      icon_down: '',
-      section: 'play_video',
-      key: 'video'
-    },
+
+    // commented know more section for avoiding to view the video
+    // {
+    //   image: "../../../assets/M FIGMA/dvr_black_24dp.svg",
+    //   title: "Know more",
+    //   text: "",
+    //   videos : [
+    //     {
+    //       title: 'Click here for latest video',
+    //       url: `https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/FiscalRanking/knowMoreVideo_6b2e991a-1d08-433f-b566-a61f515cba53.mp4`,
+    //       key: 'newVideo',
+    //       isActive: true,
+    //       id: '1'
+    //     },
+    //     {
+    //       title: 'Click here for launch video',
+    //       url: `https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_Portal_Video_Go_Live_fc20cbd7-303f-4ef0-aa98-1b5e4c35dc19.mp4`,
+    //       key: 'oldVideo',
+    //       isActive: false,
+    //       id: '2'
+    //     }
+    //   ],
+    //   isModal: true,
+    //   icon_down: '',
+    //   section: 'play_video',
+    //   key: 'video'
+    // },
     {
       image: "../../../assets/M FIGMA/newDraft.png",
       title: "Contact Details",
