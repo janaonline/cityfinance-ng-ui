@@ -1078,7 +1078,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
             console.log('sector', projectName);
             return { id: projectName?.forParentValue, name: projectName?.modelValue };
           });
-        this.pageChange(projectDetailsQuestion, { pageIndex: 0, pageSize: 10 })  
+       if(projectDetailsQuestion?.childQuestionData.length > 10) this.pageChange(projectDetailsQuestion, { pageIndex: 0, pageSize: 10 })  
         let data = [];
         if (oldCount - desiredCount - emptyCategories?.length > 0) {
           const dialog = this.matDialog.open(SelectDeletableComponent, {
@@ -1089,7 +1089,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
           });
           data = await dialog.afterClosed().toPromise();
           if(data){
-            this.pageChange(projectDetailsQuestion, { pageIndex: 0, pageSize: 10 })
+            if(projectDetailsQuestion?.childQuestionData?.length > 10) this.pageChange(projectDetailsQuestion, { pageIndex: 0, pageSize: 10 })
           }
           if (!data && categoryWiseQuestion?.[category_name]) {
             return this.onChange(categoryWiseQuestion[category_name], { target: { value: '' + oldCount } });
