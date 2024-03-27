@@ -163,6 +163,7 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
       },
       ulbId: this.ulbId,
       status: this.status,
+      selectedYear: this.selectedYear,
      ...withoutChildQuestionObj
       // saveDataJson: this.slbData
     };

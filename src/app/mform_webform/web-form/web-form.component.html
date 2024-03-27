@@ -813,7 +813,8 @@
                 </div>
             </div>
         </div>
-        <p class="p-4" *ngIf="questionresponse?.data[0]?.formId == '6'">Click <a style="color: blue;"
+        <!-- formId 6 is for 28slb -->
+        <p class="p-4" *ngIf="questionresponse?.data[0]?.formId == '6' && questionresponse?.data[0]?.createdIn2122">Click <a style="color: blue;"
                 href="{{slbFormURL}}">Here</a> to view your performance against the 4 SLBs</p>
         <div class="d-flex justify-content-end" *ngIf="showSubmitButton && isButtonDisplay">
             <div class="row w-100">
@@ -1892,7 +1893,6 @@
 
             </div>
             <div class="row mb-3" *ngSwitchCase="QUESTION_TYPE.NUMERIC">
-2
                 <div class="col-sm-6">
                     <div class="">
                         <label class="" for="{{question.order}}">{{question.title}} <span *ngIf="question.required"

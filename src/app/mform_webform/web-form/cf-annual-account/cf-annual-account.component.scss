@@ -135,6 +135,7 @@ input[type="number"] {
   color: #fff;
   font-size: 12px;
 }
-::ng-deep .mat-icom {
-vertical-align: middle;
+
+.pointer-hand {
+  cursor: pointer !important;
 }
