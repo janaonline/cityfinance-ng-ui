@@ -154,23 +154,7 @@ tr {
 }
   </style>`;
 
-  @Input()
-  changeFromOutSide: any;
-
-  subParentForModal;
-
-  formStatusCheck = "";
-  statusArray = [
-    "Not Started",
-    "Under Review By State",
-    "Completed",
-    "In Progress",
-  ];
-  totalStatus;
-  //analytics = []; not used 
-  //swm = []; // not used
-  //wm = []; // not used
-  //categories; // not used
+  @Input()changeFromOutSide: any;
   totalWmAmount = 0;
   totalSwmAmount = 0;
   USER_TYPES = USER_TYPE;
