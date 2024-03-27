@@ -34,7 +34,7 @@ export class DurComponent implements OnInit, OnDestroy {
   isButtonAvail : boolean = false;
   // nextRouter:string = '';
   // backRouter:string = '';
-  formId:number = null;
+  formId:number = 4;
   nextPreUrl = {
     nextBtnRouter: '',
     backBtnRouter: ''
@@ -189,8 +189,8 @@ export class DurComponent implements OnInit, OnDestroy {
         name: child?.[0]?.value,
         categoryName: child?.[1]?.selectedValue?.[0]?.label,
         location: {
-          lat: lat ? parseFloat(lat).toFixed(2) : "",
-          long: long ? parseFloat(long).toFixed(2) : ""
+          lat: lat ? parseFloat(lat).toFixed(6) : "",
+          long: long ? parseFloat(long).toFixed(6) : ""
         },
         cost: child[5]?.value,
         expenditure: child[6]?.value,
@@ -316,6 +316,7 @@ export class DurComponent implements OnInit, OnDestroy {
       );
       if (userAction == 'draft') {
         isDraft = true;
+        this.finalSubmit(data, isDraft)
       }
       if (userAction == 'cancel') return;
       if(userAction == 'submit') this.finalSubmit(data, isDraft)
@@ -383,7 +384,7 @@ export class DurComponent implements OnInit, OnDestroy {
       this.sideMenuItem[key].forEach((ele) => {
         if (ele?.folderName == "dur") {
           this.nextPreUrl = {nextBtnRouter : ele?.nextUrl, backBtnRouter : ele?.prevUrl}
-          this.formId = ele?.formId;
+          this.formId = ele?.formId ?? 4;
         }
       });
     }

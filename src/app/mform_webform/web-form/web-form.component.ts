@@ -8,7 +8,8 @@ import {
   OnDestroy,
   OnChanges,
   SimpleChanges,
-  TemplateRef
+  TemplateRef,
+  ViewChild
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { List, update } from 'immutable';
@@ -45,6 +46,7 @@ import { getDaysDifference, isValidDate } from './utilities/general';
 import { SelectDeletableComponent } from './select-deletable/select-deletable.component';
 import { CommonServicesService } from 'src/app/fc-grant-2324-onwards/fc-shared/service/common-services.service';
 import { ActivatedRoute } from '@angular/router';
+import { MatPaginator } from '@angular/material/paginator';
 const swal: SweetAlert = require("sweetalert");
 
 declare const $: any;
@@ -147,7 +149,8 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
   showForm: boolean = true;
   selectedYearId:string="";
   selectedYear:string="";
-
+  @ViewChild('paginator') paginator: MatPaginator;
+  
   ngOnInit() {
     this.getQueryParams();
     if (
@@ -1075,6 +1078,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
             console.log('sector', projectName);
             return { id: projectName?.forParentValue, name: projectName?.modelValue };
           });
+        this.pageChange(projectDetailsQuestion, { pageIndex: 0, pageSize: 10 })  
         let data = [];
         if (oldCount - desiredCount - emptyCategories?.length > 0) {
           const dialog = this.matDialog.open(SelectDeletableComponent, {
@@ -1541,6 +1545,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
           ],
           4000
         );
+        this.isImageUploading = false;
         return false;
       }
       // if (!mimeType.match(/image\/*/)) {
@@ -2679,6 +2684,9 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
   pageChange(question, { pageIndex, pageSize }) {
     this.pageSize = pageSize;
     question.scrollIndex = pageIndex * pageSize;
+    if(pageIndex === 0){
+      this.paginator.firstPage();
+    }
   }
   
   getQueryParams() {

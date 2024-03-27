@@ -119,14 +119,35 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
     })
   }
 
-
-
+ // preview method: prepare the data for preview and download, and also set popup property;
   onPreview() {
     const data = this.webForm.questionData;
-    console.log(data);
+    console.log("data", data);
+    let withoutChildQuestionObj= {};
+    const filteredArrayWithNoChild = data.filter((elem) => elem.childQuestionData);
+    data.forEach((elem)=>{
+      switch(elem?.shortKey){
+        case "declaration" :
+          withoutChildQuestionObj["declaration"] = elem?.selectedValue[0]?.textValue;
+          break;
+        case "officerName" :
+          withoutChildQuestionObj["officerName"] = elem?.value;
+          break;
+        case "designation" :
+          withoutChildQuestionObj["designation"] = elem?.value;   
+          break;
+        case "cert_declaration" :
+          withoutChildQuestionObj["cert_declaration"] = {};
+          withoutChildQuestionObj["cert_declaration"]["name"] = elem?.selectedValue[0]?.label; 
+          withoutChildQuestionObj["cert_declaration"]["url"] = elem?.selectedValue[0]?.value; 
+          break;
+         default:  
+          break;
+      }
+    });
     let slbPreData = {
       perData: {
-        data: data.reduce((obj, item) => ({
+        data: filteredArrayWithNoChild.reduce((obj, item) => ({
           ...obj,
           [item?.title]: item?.childQuestionData?.map(questionsData => ({
             question: questionsData.find(question => question.shortKey?.endsWith("_question"))?.modelValue,
@@ -141,7 +162,8 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
         }), {}),
       },
       ulbId: this.ulbId,
-      status: this.status
+      status: this.status,
+     ...withoutChildQuestionObj
       // saveDataJson: this.slbData
     };
     const dialogRef = this.dialog.open(TwentyEightSlbPreviewComponent, {
