@@ -154,23 +154,7 @@ tr {
 }
   </style>`;
 
-  @Input()
-  changeFromOutSide: any;
-
-  subParentForModal;
-
-  formStatusCheck = "";
-  statusArray = [
-    "Not Started",
-    "Under Review By State",
-    "Completed",
-    "In Progress",
-  ];
-  totalStatus;
-  analytics = [];
-  swm = [];
-  wm = [];
-  categories;
+  @Input()changeFromOutSide: any;
   totalWmAmount = 0;
   totalSwmAmount = 0;
   USER_TYPES = USER_TYPE;
@@ -181,7 +165,7 @@ tr {
   dialogRef;
 
   ngOnInit(): void {
-
+    this.calculateUtilizedAmt();
     if (this.userDetails.role == USER_TYPE.ULB) {
       this.state = this.userData.stateName;
       this.ulb = this.userData.name;
@@ -263,5 +247,21 @@ console.log('preview data', this.data);
   }
   dialogClose() {
     this._matDialog.closeAll();
+  }
+  checkForYear(){
+    return this.data?.selectedYear == "2024-25";
+  }
+
+  // for calculating total wm and swm utilized amount.
+
+  calculateUtilizedAmt() {
+    this.data?.categoryWiseData_wm?.forEach((el) => {
+      this.totalWmAmount =
+        Number(this.totalWmAmount) + Number(el?.grantUtilised);
+    });
+    this.data?.categoryWiseData_swm?.forEach((el) => {
+      this.totalSwmAmount =
+        Number(this.totalSwmAmount) + Number(el?.grantUtilised);
+    });
   }
 }

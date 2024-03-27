@@ -16,7 +16,7 @@ export class UlbFormComponent implements OnInit,OnDestroy {
     private router: Router,
     private commonServices : CommonServicesService
   ) {
-    this.getQueryParams();
+    
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.designYearArray = JSON.parse(localStorage.getItem("Years"));
     this.loggedInUserType = this.loggedInUserDetails.role;
@@ -24,12 +24,13 @@ export class UlbFormComponent implements OnInit,OnDestroy {
       this.router.navigate(["/login"]);
       // this.showLoader = false;
     }
-    this.getLeftMenu();
+    // this.getLeftMenu();
+    this.getQueryParams();
     this.getAllStatus();
     this.statusSubs = this.commonServices.setFormStatusUlb.subscribe((res) => {
       if (res == true) {
-        console.log("form status 2223", res);
-        this.getLeftMenu();
+        let yrId = this.selectedYearId ? this.selectedYearId : sessionStorage.getItem("selectedYearId")
+        this.getLeftMenu(yrId);
       }
     });
     this.ulbName = sessionStorage.getItem("ulbName");
@@ -55,19 +56,24 @@ export class UlbFormComponent implements OnInit,OnDestroy {
   path = null;
   ulbFormId = null;
   ulbFormName = null;
+  isLeftMenu:boolean = false;
+  selectedYearId: string = ""
+  selectedYear:string = "";
   ngOnInit(): void {
    // this.leftMenu = JSON.parse(localStorage.getItem("leftMenuULB"));
   
   }
   getQueryParams() {
-  this.route.queryParams.subscribe(params => {
-    const id = params['id']; // get the 'id' query parameter
-    const name = params['name']; // get the 'name' query parameter
+    this.route.params.subscribe(params => {
+     const yearId = params['yearId']; // get the 'id' query parameter
+     this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
+     this.getLeftMenu(this.selectedYearId); 
+     this.selectedYear = this.commonServices.getYearName(this.selectedYearId);
   });
 }
 getAllStatus(){
   this.commonServices.formGetMethod('master-status', {}).subscribe((res:any)=>{
-    console.log('status responces....', res);
+    console.log('status responses....', res);
     localStorage.setItem("allStatusArray", JSON.stringify(res?.data));
   },
   (error)=>{
@@ -76,10 +82,12 @@ getAllStatus(){
   }
   )
 }
-getLeftMenu() {
+getLeftMenu(yearId?) {
+  this.isLeftMenu = false;
   let queryParam = {
     role: '',
-    year: this.designYearArray["2023-24"],
+    // year: this.designYearArray[`${yearId}`],
+    year: yearId,
     _id: ''
   }
 
@@ -94,27 +102,27 @@ getLeftMenu() {
   this.commonServices.formGetMethod("menu", queryParam).subscribe((res: any) => {
     console.log("left responces..", res);
     this.leftMenu = res?.data;
+    this.isLeftMenu = true;
     localStorage.setItem("leftMenuULB", JSON.stringify(res?.data));
     localStorage.setItem("overViewCard2324", JSON.stringify(res?.card));
     this.commonServices.ulbLeftMenuComplete.next(true);
   },
   (error)=>{
     console.log('left menu responces', error)
+    this.isLeftMenu = false;
   }
   );
 }
-ngOnDestroy() {
-  this.statusSubs?.unsubscribe();
-}
+
 backStatePage(type) {
   if (type == 'ULB Review' && !this.pathMohua) {
-    this.router.navigate(['mohua-form/review-ulb-form'], { queryParams: { formId: this.ulbFormId, state: this.state_id } });
+    this.router.navigate([`mohua-form/${this.selectedYearId}/review-ulb-form`], { queryParams: { formId: this.ulbFormId, state: this.state_id } });
     this.path = null;
   } else if (type == 'ULB Review' && this.pathMohua) {
-    this.router.navigate(['state-form/review-ulb-form'], { queryParams: { formId: this.ulbFormId, state: this.state_id } });
+    this.router.navigate([`state-form/${this.selectedYearId}/review-ulb-form`], { queryParams: { formId: this.ulbFormId, state: this.state_id } });
     this.path = null;
   } else if (type == 'State Review') {
-    this.router.navigate(['mohua-form/review-state-form'], { queryParams: { formId: this.stateFormId } });
+    this.router.navigate([`mohua-form/${this.selectedYearId}/review-state-form`], { queryParams: { formId: this.stateFormId } });
     sessionStorage.removeItem("path2");
     this.pathMohua = null;
     this.stateFormId = ''
@@ -123,8 +131,13 @@ backStatePage(type) {
 
 }
 backStatePage2() {
-  this.router.navigate(['state-form/review-ulb-form'], { queryParams: { formId: this.ulbFormId } });
+  this.router.navigate([`state-form/${this.selectedYearId}/review-ulb-form`], { queryParams: { formId: this.ulbFormId } });
   this.path = null;
+}
+
+
+ngOnDestroy() {
+  this.statusSubs?.unsubscribe();
 }
 
 }

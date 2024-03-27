@@ -10,7 +10,7 @@ import { TwentyEightSlbPreviewComponent } from './twenty-eight-slb-preview/twent
 
 // import { DurPreviewComponent } from './dur-preview/dur-preview.component';
 import { TwentyEightSlbService } from './twenty-eight-slb.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 
@@ -35,12 +35,17 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
 
   questionresponse;
   slbFormURL:string = ''
+  selectedYearId:string = "";
+  selectedYear:string="";
+  fileFolderName:string="";
+  actualYear:string ="";
   constructor(
     private dialog: MatDialog,
     private twentyEightSlbService: TwentyEightSlbService,
     private loaderService: GlobalLoaderService,
     private commonServices: CommonServicesService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
   isButtonAvail: boolean = false;
   nextPreUrl = {
@@ -51,8 +56,10 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
   isFormFinalSubmit: boolean = false;
   canTakeAction: boolean = false;
   leftMenuSubs: any;
+
   ngOnInit(): void {
     // this.isLoaded = true;
+    this.getQueryParams();
     this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
       if (res == true) {
         this.getNextPreUrl();
@@ -67,9 +74,12 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
     return JSON.parse(localStorage.getItem("Years"));
   }
 
-  get design_year() {
-    return this.years?.['2023-24'];
-  }
+  // get design_year() {
+  //   //return this.years?.['2023-24'];
+  //   const yearId = this.route.parent.snapshot.paramMap.get('yearId');
+  //   return yearId ? yearId : sessionStorage.getItem("selectedYearId")
+     
+  // }
 
   get ulbId() {
     if (this.userData?.role == 'ULB') return this.userData?.ulb;
@@ -88,7 +98,7 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
 
   loadData() {
     this.loaderService.showLoader();
-    this.twentyEightSlbService.getForm(this.ulbId, this.design_year, this.formId).subscribe((res: any) => {
+    this.twentyEightSlbService.getForm(this.ulbId, this.selectedYearId, this.formId).subscribe((res: any) => {
       console.log('loadData::', res);
       this.loaderService.stopLoader();
       if (res?.success == false && res?.message) {
@@ -109,14 +119,35 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
     })
   }
 
-
-
+ // preview method: prepare the data for preview and download, and also set popup property;
   onPreview() {
     const data = this.webForm.questionData;
-    console.log(data);
+    console.log("data", data);
+    let withoutChildQuestionObj= {};
+    const filteredArrayWithNoChild = data.filter((elem) => elem.childQuestionData);
+    data.forEach((elem)=>{
+      switch(elem?.shortKey){
+        case "declaration" :
+          withoutChildQuestionObj["declaration"] = elem?.selectedValue[0]?.textValue;
+          break;
+        case "officerName" :
+          withoutChildQuestionObj["officerName"] = elem?.value;
+          break;
+        case "designation" :
+          withoutChildQuestionObj["designation"] = elem?.value;   
+          break;
+        case "cert_declaration" :
+          withoutChildQuestionObj["cert_declaration"] = {};
+          withoutChildQuestionObj["cert_declaration"]["name"] = elem?.selectedValue[0]?.label; 
+          withoutChildQuestionObj["cert_declaration"]["url"] = elem?.selectedValue[0]?.value; 
+          break;
+         default:  
+          break;
+      }
+    });
     let slbPreData = {
       perData: {
-        data: data.reduce((obj, item) => ({
+        data: filteredArrayWithNoChild.reduce((obj, item) => ({
           ...obj,
           [item?.title]: item?.childQuestionData?.map(questionsData => ({
             question: questionsData.find(question => question.shortKey?.endsWith("_question"))?.modelValue,
@@ -131,7 +162,8 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
         }), {}),
       },
       ulbId: this.ulbId,
-      status: this.status
+      status: this.status,
+     ...withoutChildQuestionObj
       // saveDataJson: this.slbData
     };
     const dialogRef = this.dialog.open(TwentyEightSlbPreviewComponent, {
@@ -181,7 +213,7 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
   isFormValid(quetions) {
     console.log('finalData', quetions);
     for (let question of quetions) {
-      for (let childQuestionsData of question?.childQuestionData) {
+      for (let childQuestionsData of question?.childQuestionData ?? [])  {
         const actual = childQuestionsData.find(col => col.shortKey.endsWith('_actualIndicator'));
         const target = childQuestionsData.find(col => col.shortKey.endsWith('_targetIndicator'));
         const lineItem = childQuestionsData.find(col => col.shortKey.endsWith('_indicatorLineItem'));
@@ -206,6 +238,11 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
 
     let isDraft = data.isSaveAsDraft;
     if (isDraft == false) {
+      if(this.selectedYear != "2023-24"){
+      const selfDeclarationChecked = data?.finalData.find(item => item?.shortKey === "declaration" && item.answer?.[0].value == '1')?.answer?.[0].value;
+      if (selfDeclarationChecked != '1') return swal('Error', 'Please check self declaration', 'error');
+      }
+      
       const userAction = await swal(
         "Confirmation !",
         `${this.finalSubmitMsg}`,
@@ -232,6 +269,7 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
       }
       if (userAction == 'cancel') return;
     }
+    
     const finalData = this.addDisableKeys(data);
 
     if (!isDraft && !this.isFormValid(data?.question)) {
@@ -241,11 +279,11 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
     this.loaderService.showLoader();
     this.twentyEightSlbService.postForm({
       isDraft: isDraft,
-      financialYear: this.design_year,
-      design_year: this.design_year,
+      financialYear: this.actualYear,
+      design_year: this.selectedYearId,
       status: isDraft ? 2 : 3,
-      actualYear: this.years["2022-23"],
-      targetYear: this.years["2023-24"],
+      actualYear: this.actualYear,
+      targetYear: this.selectedYearId,
       ulb: this.ulbId,
       formId: this.formId,
       data: finalData,
@@ -272,7 +310,7 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
 
   nextPreBtn(e) {
     let url = e?.type == 'pre' ? this.nextPreUrl?.backBtnRouter : this.nextPreUrl?.nextBtnRouter
-    this.router.navigate([`/ulb-form/${url.split('/')[1]}`]);
+    this.router.navigate([`/ulb-form/${this.selectedYearId}/${url.split('/')[1]}`]);
   }
   actionFormChangeDetect(res) {
     if (res == true) {
@@ -301,4 +339,16 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.leftMenuSubs.unsubscribe();
   }
+  
+  // get financial year id from route and get target and actual year based on select design year
+  getQueryParams() {
+    const yearId = this.route.parent.snapshot.paramMap.get('yearId'); // get the 'id' query parameter
+    this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
+    this.selectedYear = this.commonServices.getYearName(this.selectedYearId);
+    const [startYear, endYear] = this.selectedYear.split("-").map(Number);
+    this.actualYear = this.years[`${startYear - 1}-${endYear - 1}`];
+    this.fileFolderName = `${this.userData?.role}/${this.selectedYear}/28slb/${this.userData?.ulbCode}`;
+ }
+ 
+  
 }

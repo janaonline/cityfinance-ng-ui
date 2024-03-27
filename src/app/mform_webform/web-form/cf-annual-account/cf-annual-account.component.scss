@@ -10,17 +10,21 @@
     background-color: green !important;
     color: white;
   }
-  ::ng-deep .mat-radio-button {
+
+ ::ng-deep .mat-radio-button {
     // width: 72px;
     background-color: #CFCFCF;
-    padding: 0.5rem 0.85rem 0rem 0.5rem !important;
+   // padding: 0.5rem 0.85rem 0rem 0.5rem !important;
     margin-right: 1rem !important;
+    padding: 0 !important; 
   }
   ::ng-deep .mat-radio-label-content {
     padding: 0 0 7px 5px;
   }
 }
-
+ ::ng-deep .mat-radio-label{
+  padding: 0.5rem 0.85rem 0rem 0.5rem !important;
+}
 
 .btn-upload {
   background-color: #059b9a!important;
