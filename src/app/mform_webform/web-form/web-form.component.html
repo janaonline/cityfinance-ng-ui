@@ -120,7 +120,7 @@
                         id="{{(question?.forParentValue) ? question?.forParentValue : question.order}}"
                         [value]="question.modelValue ? question.modelValue : ''" (change)="onChange(question, $event)"
                         [ngModelOptions]="{standalone: true}" (focus)="onFocusEvent(question.order, question)"
-                        [readonly]="question?.isQuestionDisabled" />
+                        [readonly]="question?.isQuestionDisabled"  [appNumberLength]="question.max"/>
                     <ng-container *ngIf="question?.isPassword">
                         <i *ngIf="!question?.passwordMode" [matTooltip]="'Hide'"
                             (click)="question.passwordMode = !question.passwordMode"
@@ -313,7 +313,7 @@
                 <!-- <app-custom-dropdown [configuration]="question?.dropdownConfig" [datas]="question?.answer_option" (valueChanges)="onChange(question, {target: {value: $event.value}})"></app-custom-dropdown> -->
                 <label for="{{question.order}}">{{question.title}}<span *ngIf="question.required"
                         class="text-primary">*</span></label>
-                <mat-form-field class="w-100" [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled ) }"
+                <mat-form-field class="w-100 d-block" [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled ) }"
                     floatLabel="never">
                     <mat-label>{{question.hint}}
                     </mat-label>
@@ -333,7 +333,7 @@
                     <mat-select id="{{question.order}}" [(value)]="question.modelValue" [disableOptionCentering]="true"
                         panelClass="custom-mat-select-panel" (closed)="onSelectionClose(question?.order)"
                         [disabled]="question?.isQuestionDisabled"
-                        (selectionChange)="getSelectionChange(question, $event)">
+                        (selectionChange)="getSelectionChange(question, $event)" [ngClass]="{'invalid-border': question.errorMessage}">
                         <div class="w-100 shadow-sm search-filter">
                             <!-- has-float-label - use this class in span tag and comment the label for floating label field -->
                             <span class="">
@@ -380,7 +380,7 @@
                  <mat-icon class="input-eye-icon" *ngIf="question?.hint" [matTooltip]="question?.hint">info</mat-icon>
            </span> -->
                 <div class="col-sm-12  font-weight-500 text-primary error-msg" *ngIf="question.errorMessage"
-                    style="margin-top: -13px;">
+                    style="">
                     {{question.hint?question.hint:question.errorMessage}}
                 </div>
             </div>
@@ -447,7 +447,7 @@
                     </mat-label>
                     <mat-select id="{{question.order}}" panelClass="custom-mat-select-panel" multiple
                         [(ngModel)]="question.value" [disableOptionCentering]="true"
-                        (closed)="onSelectionClose(question?.order)" [disabled]="question?.isQuestionDisabled">
+                        (closed)="onSelectionClose(question?.order)" [disabled]="question?.isQuestionDisabled" >
                         <div class="w-100 shadow-sm search-filter">
                             <!-- has-float-label - use this class in span tag and comment the label for floating label field -->
                             <span class="">
@@ -667,14 +667,16 @@
 
             <div class="common-font-family mb-3 col-sm-12" *ngSwitchCase="QUESTION_TYPE.LABEL">
                 <!-- <div class="col-sm-12 mb-3 " [innerHTML]="question.title | safe: 'html'" id="{{question.order}}" [ngClass]="{'invalid-border': question.errorMessage}"> -->
-                <div class="d-flex justify-content-between"
-                    style="border-radius: 4px 4px 0 0;background:#d3d3d3; padding:12px; font-family:saira; font-weight:600;"
+                <div class="d-flex"
+                    style="border-radius: 4px 4px 0 0;background:#d3d3d3; padding:12px; font-weight:600;"
                     id="{{question.order}}" [ngClass]="{'invalid-border': question.errorMessage}"> {{question?.title}}
                     <!-- <div *ngIf="question?.showComment" class="technicalComments">
                          <span class="commentSelector" *ngIf="!pdfbuttonhide">
                              <app-show-comments (lastComment)="lastComment($event)" [location]="question?.commentApi" [lineItemId]="question?.commentLineItemId" [comment]="comments"></app-show-comments>
                          </span>
                      </div> -->
+                     <mat-icon class="mat-info-icon" *ngIf="question?.information"
+                     [matTooltip]="question?.information" style="font-size: 16px; right: 15px;">info</mat-icon>
                 </div>
             </div>
 
@@ -732,14 +734,14 @@
 
 
 <ng-container *ngIf="!isViewMode && viewFormTemplate == 'dur' && showForm">
-    <mat-card class="custom-shadow dur">
+    <mat-card class="custom-shadow dur dur-overflow">
         <div class="row">
             <div class="col-sm-12">
                 <div class="d-flex justify-content-end me-3">
                     <button class="btn btn-primary" (click)="showPreview()">Preview</button>
                 </div>
                 <p class="desc" *ngIf="formDescription">{{formDescription}}</p>
-                <div class="row mb-5" *ngIf="showFormChange">
+                <div class="row mb-3" *ngIf="showFormChange">
                     <div class="col-sm-8 px-0">
                         <input type="text" autocomplete="name" name="name" class="form-control" [(ngModel)]="formId"
                             placeholder="Enter Form Id and then press Submit" [ngModelOptions]="{standalone: true}" />
@@ -748,7 +750,7 @@
                             (click)="onChangeForm()">Submit</button></div>
                 </div>
 
-                <div class="row mt-5">
+                <div class="row mt-3">
                     <div class="col-sm-6" [ngClass]="isOpenChevron ? 'col-sm-6' : 'col-sm-12'">
                         <i *ngIf="showPreviewAnswer" class="fa fa-chevron-circle-left chevron-right"
                             (click)="isOpenChevron = !isOpenChevron"></i>
@@ -812,7 +814,7 @@
             </div>
         </div>
         <p class="p-4" *ngIf="questionresponse?.data[0]?.formId == '6'">Click <a style="color: blue;"
-                href="{{slbFormUR | toStorageUrl}}">Here</a> to view your performance against the 4 SLBs</p>
+                href="{{slbFormURL}}">Here</a> to view your performance against the 4 SLBs</p>
         <div class="d-flex justify-content-end" *ngIf="showSubmitButton && isButtonDisplay">
             <div class="row w-100">
                 <!-- save, draft, pre and next button -->
@@ -889,7 +891,7 @@
                         id="{{(question?.forParentValue) ? question?.forParentValue : question.order}}"
                         [value]="question.modelValue ? question.modelValue : ''" (change)="onChange(question, $event)"
                         [ngModelOptions]="{standalone: true}" (focus)="onFocusEvent(question.order, question)"
-                        [readonly]="question?.isQuestionDisabled" />
+                        [readonly]="question?.isQuestionDisabled"  [appNumberLength]="question.max"/>
                     <ng-container *ngIf="question?.isPassword">
                         <i *ngIf="!question?.passwordMode" [matTooltip]="'Hide'"
                             (click)="question.passwordMode = !question.passwordMode"
@@ -964,7 +966,7 @@
                         'w-100': tablular,
                         'ms-2': !tablular }">
                     <div class="d-flex">
-                        <input appDisableNagetive [appDecimalLimit]="question.allowDecimal == false ? 0 : 2"
+                        <input digitOnly [decimal]="!(question?.title == 'Number of Projects Undertaken')" appDisableNagetive [appDecimalLimit]="question.allowDecimal == false ? 0 : 2"
                             type="number" class="form-control " [appMaxRange]="question"
                             [questionData]="questionData"
                             placeholder="{{question.hint}}" [ngClass]="{
@@ -978,7 +980,7 @@
 
                             [ngModelOptions]="{standalone: true}" (focus)="onFocusEvent(question.order, question)"
                             onwheel="this.blur()" (blur)="onBlurEvent(question)"
-                            [appRestrictFirstDigitAsZero]="isAppRestrictFirstDigitAsZero"
+                            [appRestrictFirstDigitAsZero]="question?.minRange"
                             [readonly]="question?.isQuestionDisabled" />
 
                         <p *ngIf="question.shortKey | slb28Unit : parent : loopIndex"
@@ -1025,7 +1027,7 @@
                     (onQuestionUpdate)="onChange(question, $event)">
                 </app-location-picker>
                 <div class="col-sm-12  font-weight-500 text-primary error-msg"
-                    *ngIf="finalSubmitted && question.modelValue == '0,0'">
+                    *ngIf="finalSubmitted && (!question.modelValue || question.modelValue == ',' || question.modelValue == '0,0')">
                     Location is required
                 </div>
             </div>
@@ -1079,7 +1081,7 @@
                 <div class="common-font-family d-flex align-items-baseline">
                     <div class="d-flex justify-content-between label-wrapper  my-2 py-1 ps-3 rounded w-75"
                         style="font-size: 90%; color: #6c757d;" *ngIf="!tablular">
-                        <div>
+                        <div class="{{question?.shortKey }}">
                             {{question.title}}
                             <span *ngIf="question.required" class="text-primary">*</span>
                             <mat-icon class="file-type-info" *ngIf="question?.information"
@@ -1105,8 +1107,8 @@
                         </div>
                         <div class="row" *ngIf="question?.selectedValue?.length">
                             <ng-container *ngFor="let file of question?.selectedValue">
-                                <p class="col-8" *ngIf="file?.value">{{ file?.label }}</p>
-                                <div class="col-2" *ngIf="file?.value">
+                                <p class="col-8 file-name mt-2" *ngIf="file?.value && (question?.shortKey != 'cert_declaration')">{{ file?.label }}</p>
+                                <div class="col-2 mt-2" *ngIf="file?.value">
                                     <a target="_blank" href="{{file?.value | toStorageUrl}}">
                                         <span
                                             class="file-icon position-relative pointer-hand material-icons {{ file?.label }}"
@@ -1117,7 +1119,7 @@
                                     </a>
                                 </div>
                                 <div *ngIf="file?.value && !question?.isQuestionDisabled"
-                                    class="col-2 m-0 material-icons file-icon-cross pointer-hand"
+                                    class="col-2 mt-2 me-0 ms-0 material-icons file-icon-cross pointer-hand"
                                     matTooltip="Remove the upload file"
                                     (click)="removeUploadedFile(question, question?.order)">cancel</div>
                             </ng-container>
@@ -1130,7 +1132,7 @@
             </div>
 
             <!-- [ngClass]="{'col-sm-12': ( question.width == '100' || isOpenChevron ), 'col-sm-6': (question.width == '50' && !isOpenChevron ) || ( question.width == '25' && isOpenChevron ) , 'col-sm-3': ( question.width == '25' && !isOpenChevron ), 'invalid-border-class': ( question.errorMessage ), 'custom-col-sm-2': ( question.width == '20' && !isOpenChevron ) }" -->
-            <div class="common-font-family customDropDown col-12 d-flex align-items-baseline"
+            <div class="common-font-family customDropDown col-12 align-items-baseline"
                 *ngSwitchCase="QUESTION_TYPE.SINGLE_SELECT">
                 <!-- <app-custom-dropdown [configuration]="question?.dropdownConfig" [datas]="question?.answer_option" (valueChanges)="onChange(question, {target: {value: $event.value}})"></app-custom-dropdown> -->
                 <label for="{{question.order}}" *ngIf="!tablular"
@@ -1139,7 +1141,7 @@
                     <mat-icon *ngIf="question?.information" style="font-size: medium;"
                         [matTooltip]="question?.information">info</mat-icon>
                 </label>
-                <mat-form-field style="position: relative;" [ngClass]="{
+                <mat-form-field style="position: relative;" class="d-block" [ngClass]="{
                         'disable-question-field': ( question?.isQuestionDisabled ),
                         'w-25': !tablular,
                         'w-100': tablular,
@@ -1164,7 +1166,7 @@
                         panelClass="custom-mat-select-panel" (closed)="onSelectionClose(question?.order)"
                         [disabled]="question?.isQuestionDisabled"
                         (selectionChange)="getSelectionChange(question, $event)">
-                        <div class="w-100 shadow-sm search-filter">
+                        <div class="w-100 shadow-sm search-filter" *ngIf="question?.shortKey != 'dpr_status'">
                             <!-- has-float-label - use this class in span tag and comment the label for floating label field -->
                             <span class="">
                                 <input id="{{question.order+'_dropDownSearch'}}" type="text" class="form-control"
@@ -1175,7 +1177,7 @@
                                 <!-- <label for="{{question.order+'_dropDownSearch'}}">Search {{question.title}}</label> -->
                             </span>
                         </div>
-                        <div class="single-select custom-y-scroll">
+                        <div class="custom-y-scroll" [ngClass]="{'single-select' : question?.shortKey != 'dpr_status'}">
                             <mat-option *ngIf="question?.answer_option?.length == 0" disabled>No options available
                             </mat-option>
                             <mat-option *ngFor="let opt of question?.answer_option; trackBy:optionIdentity;"
@@ -1191,6 +1193,7 @@
                             </mat-option>
                         </div>
                     </mat-select>
+                    
                     <mat-icon class="input-eye-icon" *ngIf="question?.information" [matTooltip]="question?.information"
                         style="font-size: 16px; right: 15px;">info</mat-icon>
                 </mat-form-field>
@@ -1209,9 +1212,10 @@
                  class="text-primary">*</span></label>
                  <mat-icon class="input-eye-icon" *ngIf="question?.hint" [matTooltip]="question?.hint">info</mat-icon>
            </span> -->
-                <div class="col-sm-12  font-weight-500 text-primary error-msg" *ngIf="question.errorMessage"
-                    style="margin-top: -13px;">
-                    {{question.hint?question.hint:question.errorMessage}}
+           
+                <div class="col-sm-12  font-weight-500 text-primary error-msg" *ngIf="!question.modelValue && question.errorMessage"
+                    style="">
+                    {{question.hint ? question.hint : question.errorMessage}}
                 </div>
             </div>
 
@@ -1508,7 +1512,7 @@
 
             <div class="common-font-family mb-3 col-sm-12" *ngSwitchCase="QUESTION_TYPE.LABEL">
                 <!-- <div class="col-sm-12 mb-3 " [innerHTML]="question.title | safe: 'html'" id="{{question.order}}" [ngClass]="{'invalid-border': question.errorMessage}"> -->
-                <div class="d-flex justify-content-between"
+                <div class="d-flex"
                     style="border-radius: 4px 4px 0 0;background: #058E91; color: white; padding:12px; font-weight:600;"
                     id="{{question.order}}" [ngClass]="{'invalid-border': question.errorMessage}"> {{question?.title}}
                     <!-- <div *ngIf="question?.showComment" class="technicalComments">
@@ -1516,6 +1520,8 @@
                              <app-show-comments (lastComment)="lastComment($event)" [location]="question?.commentApi" [lineItemId]="question?.commentLineItemId" [comment]="comments"></app-show-comments>
                          </span>
                      </div> -->
+                      <mat-icon class="mat-info-icon" *ngIf="question?.information"
+                            [matTooltip]="question?.information" style="font-size: 16px; right: 15px;">info</mat-icon>
                 </div>
             </div>
 
@@ -1554,12 +1560,12 @@
             (click)="loadInParent('projects')">Load Projects</button>
 
         <ng-container *ngIf="question?.childQuestionData?.length > 0">
-            <div *ngIf="question.shortKey | tableView" class="mt-3">
+            <div *ngIf="question.shortKey | tableView" class="mt-3 custom-scroll {{question.shortKey}}">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <h6>{{ question?.title }} <mat-icon *ngIf="question?.information" style="font-size: medium;"
                             [matTooltip]="question?.information">info</mat-icon>
                     </h6>
-                    <mat-paginator *ngIf="question?.childQuestionData?.length > 10"
+                    <mat-paginator #paginator *ngIf="question?.childQuestionData?.length > 10"
                         [length]="question?.childQuestionData?.length" 
                         [pageSize]="pageSize"
                         [pageSizeOptions]="pageSizeOptions"
@@ -1567,7 +1573,7 @@
                         (page)="pageChange(question, $event)"></mat-paginator>
                 </div>
                 
-                <table class="table table-striped" style="table-layout: fixed;">
+                <table class="table table-striped dur-tbl" style="table-layout: fixed;">
                     <thead style="background-color: #058E91; color: white;">
                         <tr>
                             <th scope="col" style="width: 3%">#</th>
@@ -1714,7 +1720,7 @@
                         {{buttonText}}
                     </button>
                 </div>
-                <div class="d-inline-flex ">
+                <div class="d-inline-flex " *ngIf="!hideNextButton">
                     <button class="btn btn-next text-uppercase" (click)="nextPrevBtnCall('next')">
                         Next Form ->
                     </button>
@@ -1742,7 +1748,7 @@
                             [value]="question.modelValue ? question.modelValue : ''"
                             (change)="onChange(question, $event)" [ngModelOptions]="{standalone: true}"
                             (focus)="onFocusEvent(question.order, question)"
-                            [readonly]="question?.isQuestionDisabled" />
+                            [readonly]="question?.isQuestionDisabled"  [appNumberLength]="question.max"/>
                         <ng-container *ngIf="question?.isPassword">
                             <i *ngIf="!question?.passwordMode" [matTooltip]="'Hide'"
                                 (click)="question.passwordMode = !question.passwordMode"
@@ -1886,7 +1892,7 @@
 
             </div>
             <div class="row mb-3" *ngSwitchCase="QUESTION_TYPE.NUMERIC">
-
+2
                 <div class="col-sm-6">
                     <div class="">
                         <label class="" for="{{question.order}}">{{question.title}} <span *ngIf="question.required"

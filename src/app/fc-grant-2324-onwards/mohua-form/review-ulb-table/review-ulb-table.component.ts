@@ -18,11 +18,11 @@ export class ReviewUlbTableComponent implements OnInit {
     private _commonService: CommonService,) {
     this.fetchStateList();
     this.userData = JSON.parse(localStorage.getItem("userData"));
-     this.design_year = this.years["2023-24"];
-     this.params = {design_year : this.design_year, role: 'ULB'}
+    //  this.design_year = this.years["2023-24"];
+    //  this.params = {design_year : this.design_year, role: 'ULB'}
     }
-      years = JSON.parse(localStorage.getItem("Years"));
-      design_year = '';
+   years = JSON.parse(localStorage.getItem("Years"));
+ // design_year = '';
 
  // formId = "63ff31d63ae39326f4b2f466";
  formId = "1";
@@ -38,11 +38,13 @@ export class ReviewUlbTableComponent implements OnInit {
   userData;
   reviewTableName = 'Review Grant Application';
   formBaseUrl:string = 'ulb-form';
+  selectedYearId:string=""
   ngOnInit(): void {
-    this.onLoad();
+    this.getQueryParams();
+  
     this.getFormId();
-    if (this.data?.length > 0)
-    this.formId = this.data[0]["formId"];
+    // if (this.data?.length > 0)
+    // this.formId = this.data[0]["formId"];
   }
 
   onLoad() {
@@ -92,6 +94,16 @@ export class ReviewUlbTableComponent implements OnInit {
     this._commonService.fetchStateList().subscribe((res) => {
       this.stateList = res;
     });
+  }
+  //get design year id from routes
+  getQueryParams() {
+    const yearId = this.route.parent.snapshot.paramMap.get('yearId');
+     this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
+     this.formBaseUrl = `ulb-form/${this.selectedYearId}`;
+     this.params = {design_year : this.selectedYearId, role: 'ULB'}
+     this.onLoad();
+     
+     //this.selectedYear = this.commonService.getYearName(this.selectedYearId);
   }
 
 }
