@@ -15,6 +15,7 @@ import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-load
 import { PreviewComponent } from './preview/preview.component';
 import { DateAdapter } from '@angular/material/core';
 import { CommonServicesService } from '../../fc-shared/service/common-services.service';
+import { MatRadioChange } from '@angular/material/radio';
 const swal: SweetAlert = require("sweetalert");
 const swal2 = require("sweetalert2");
 
@@ -164,6 +165,13 @@ export class SfcFormComponent implements OnInit {
     if(this.userData?.role != USER_TYPE.STATE) return false;
     this.isButtonAvail = [1, 2, 5, 7].includes(res?.statusId);
   }
+
+  radioChange(event: MatRadioChange) {
+    console.log('event.value',event.value);
+    if(event.value === 'No') {
+      
+    }
+}
 
   getTabFormGroup(tab: Tab): any {
     const { data, feedback, ...rest } = tab;
