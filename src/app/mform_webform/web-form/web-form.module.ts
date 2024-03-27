@@ -6,7 +6,7 @@ import { WebFormViewComponent } from './web-form-view/web-form-view.component';
 import { GetFileIcon } from './pipes/file-icon.pipe';
 import { AlphabetOnlyDirective } from './directive-and-pipes/alphabet-only/alphabet-only.directive';
 import { AlphanumericDirective } from './directive-and-pipes/alphanumeric/alphanumeric.directive';
-import { NumberLengthDirective } from './directive-and-pipes/number-length.directive';
+import { MinMaxRangeCheckOnPasteDirective, NumberLengthDirective } from './directive-and-pipes/number-length.directive';
 import { RestrictFirstDigitAsZeroDirective } from './directive-and-pipes/restrict-first-digit-as-zero/restrict-first-digit-as-zero.directive';
 import { WordLimitClassDirective } from './directive-and-pipes/wordLimit/wordLimit.directive';
 import { ShortKeyValidationDirective } from './directive-and-pipes/shortKeyValidation/short-key-validation.directive';
@@ -97,6 +97,7 @@ import { GlobalPartModule } from 'src/app/global-part/global-part.module';
     SelectDeletableComponent,
     ScrollTableDirective,
     ScrollTablePipe,
+    MinMaxRangeCheckOnPasteDirective
   ],
   schemas: [NO_ERRORS_SCHEMA],
   imports: [

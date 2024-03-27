@@ -104,6 +104,30 @@ tr:nth-child(even) {
   padding-bottom : 5px !important;
   font-size : 11px !important;
 }
+.st-n {
+  margin-bottom: .5rem !important;
+}
+.l-n {
+  width: 35%;
+  display: inline-block !important;
+  font-size: 10px !important;
+}
+.l-a {
+  display: inline-block !important;
+  font-size: 10px !important;
+}
+.an-t {
+  font-size: 10px !important;
+}
+.mt-2 {
+  margin-top: 0.5rem !important;
+}
+.l-n-d {
+  width: 75%;
+  display: inline-block !important;
+  font-size: 10px !important;
+}
+
   </style>`;
   ngOnInit(): void {
     this.getUserData();

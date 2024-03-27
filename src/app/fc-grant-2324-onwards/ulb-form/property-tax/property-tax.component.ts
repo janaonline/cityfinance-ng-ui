@@ -108,12 +108,15 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   get uploadFolderName() {
-    return `${this.userData?.role}/2023-24/pto/${this.userData?.ulbCode}`
+    return `${this.userData?.role}/${this.yearName}/pto/${this.userData?.ulbCode}`;
   }
 
   get design_year() {
-    const years = JSON.parse(localStorage.getItem("Years"));
-    return years?.['2023-24'];
+    return this.activatedRoute.parent.snapshot.params?.yearId;
+  }
+
+  get yearName() {
+    return this.commonServices.getYearName(this.design_year);
   }
 
   get ulbId() {
