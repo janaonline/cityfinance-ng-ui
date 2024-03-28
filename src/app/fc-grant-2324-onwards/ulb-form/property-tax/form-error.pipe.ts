@@ -6,7 +6,7 @@ import { FormControl } from '@angular/forms';
   pure: false
 })
 export class FormErrorPipe implements PipeTransform {
-  transform(control: FormControl, value: any): string | null {
+  transform(control: FormControl): string | null {
     if (control.errors) {
       const errorKeys = Object.keys(control.errors);
       if (errorKeys.length > 0) {
