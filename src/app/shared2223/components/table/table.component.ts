@@ -657,7 +657,7 @@ getStatusAvailability(){
   this method return condition for approval or rejection for a ULB from MOHUA. 
 */
 getSequentialStatus(item) {
-const eligibleFormForSeq = ['dur', '28slb'];
+const eligibleFormForSeq = ['dur', '28slb', 'pto'];
 
  if(item?.prevYearStatusId != 6 && item?.cantakeAction && this.userData?.role == 'MoHUA' && eligibleFormForSeq.includes(this.formName)){
   return true;
