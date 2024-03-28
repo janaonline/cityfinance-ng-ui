@@ -343,7 +343,7 @@ export class PropertyTaxComponent implements OnInit {
        return;
     }
     const fileExtension = file.name.split('.').pop();
-    if (!allowedFileTypes?.includes(fileExtension)) return swal("Error", `Allowed file extensions: ${allowedFileTypes?.join(', ')}`, "error");
+    if (!allowedFileTypes?.includes(fileExtension)) return swal("Error", `Please upload the document in ${allowedFileTypes?.join(', ').toUpperCase()} only`, "error");
 
     if ((file.size / 1024 / 1024) > maxFileSize) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
 
@@ -489,7 +489,7 @@ export class PropertyTaxComponent implements OnInit {
       cancelButtonText: 'Cancel',
       confirmButtonText: 'Add',
     });
-    if (!updatedLabel) return;
+    if (!updatedLabel) return swal('Warning', `Please enter a value`, 'warning');;
     console.log(childrens.value);
     const updatableQuestions = childrens.controls.filter(control => control.value.replicaNumber == replicaNumber) as FormGroup[];
 
@@ -542,7 +542,7 @@ export class PropertyTaxComponent implements OnInit {
       cancelButtonText: 'Cancel',
       confirmButtonText: 'Add',
     })
-    if (!value) return;
+    if (!value) return swal('Warning', `Please enter a value`, 'warning');
     if((childrens?.value as any[])?.some(item => item.value == value)) {
       return  swal('Warning', `${value} already exists`, 'warning');
     }
