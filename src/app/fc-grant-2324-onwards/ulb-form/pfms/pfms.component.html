@@ -26,7 +26,7 @@
 
 <div class="" *ngIf="isApiComplete && !hideForm">
     <app-web-form #webForm [formName]="formName" [viewFormTemplate]="'commonFormCf'" [questionresponse]="questionResponse" (submitQuestion)="resData($event)"
-    [scoreOdfGfc]="ratingMarksArray" [s3FolderName]="fileFolderName"
+     [s3FolderName]="fileFolderName"
     (nextPreBtn)="nextPreBtn($event)" [isButtonDisplay]="isButtonAvail" [isFormDisable]="isFormDisable"></app-web-form>
   </div>
   

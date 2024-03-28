@@ -741,7 +741,7 @@
                     <button class="btn btn-primary" (click)="showPreview()">Preview</button>
                 </div>
                 <p class="desc" *ngIf="formDescription">{{formDescription}}</p>
-                <div class="row mb-5" *ngIf="showFormChange">
+                <div class="row mb-3" *ngIf="showFormChange">
                     <div class="col-sm-8 px-0">
                         <input type="text" autocomplete="name" name="name" class="form-control" [(ngModel)]="formId"
                             placeholder="Enter Form Id and then press Submit" [ngModelOptions]="{standalone: true}" />
@@ -750,7 +750,7 @@
                             (click)="onChangeForm()">Submit</button></div>
                 </div>
 
-                <div class="row mt-5">
+                <div class="row mt-3">
                     <div class="col-sm-6" [ngClass]="isOpenChevron ? 'col-sm-6' : 'col-sm-12'">
                         <i *ngIf="showPreviewAnswer" class="fa fa-chevron-circle-left chevron-right"
                             (click)="isOpenChevron = !isOpenChevron"></i>
@@ -813,8 +813,9 @@
                 </div>
             </div>
         </div>
-        <p class="p-4" *ngIf="questionresponse?.data[0]?.formId == '6'">Click <a style="color: blue;"
-                href="{{slbFormUR | toStorageUrl}}">Here</a> to view your performance against the 4 SLBs</p>
+        <!-- formId 6 is for 28slb -->
+        <p class="p-4" *ngIf="questionresponse?.data[0]?.formId == '6' && questionresponse?.data[0]?.createdIn2122">Click <a style="color: blue;"
+                href="{{slbFormURL}}">Here</a> to view your performance against the 4 SLBs</p>
         <div class="d-flex justify-content-end" *ngIf="showSubmitButton && isButtonDisplay">
             <div class="row w-100">
                 <!-- save, draft, pre and next button -->
@@ -966,7 +967,7 @@
                         'w-100': tablular,
                         'ms-2': !tablular }">
                     <div class="d-flex">
-                        <input digitOnly [decimal]="true" appDisableNagetive [appDecimalLimit]="question.allowDecimal == false ? 0 : 2"
+                        <input digitOnly [decimal]="!(question?.title == 'Number of Projects Undertaken')" appDisableNagetive [appDecimalLimit]="question.allowDecimal == false ? 0 : 2"
                             type="number" class="form-control " [appMaxRange]="question"
                             [questionData]="questionData"
                             placeholder="{{question.hint}}" [ngClass]="{
@@ -980,7 +981,7 @@
 
                             [ngModelOptions]="{standalone: true}" (focus)="onFocusEvent(question.order, question)"
                             onwheel="this.blur()" (blur)="onBlurEvent(question)"
-                            [appRestrictFirstDigitAsZero]="isAppRestrictFirstDigitAsZero"
+                            [appRestrictFirstDigitAsZero]="question?.minRange"
                             [readonly]="question?.isQuestionDisabled" />
 
                         <p *ngIf="question.shortKey | slb28Unit : parent : loopIndex"
@@ -1107,7 +1108,7 @@
                         </div>
                         <div class="row" *ngIf="question?.selectedValue?.length">
                             <ng-container *ngFor="let file of question?.selectedValue">
-                                <p class="col-8 file-name mt-2" *ngIf="file?.value" matTooltip="Click to view the file, Name: {{file?.label}}">{{ (file?.label).slice(0, 18) + '...' }}</p>
+                                <p class="col-8 file-name mt-2" *ngIf="file?.value && (question?.shortKey != 'cert_declaration')">{{ file?.label }}</p>
                                 <div class="col-2 mt-2" *ngIf="file?.value">
                                     <a target="_blank" href="{{file?.value | toStorageUrl}}">
                                         <span
@@ -1166,7 +1167,7 @@
                         panelClass="custom-mat-select-panel" (closed)="onSelectionClose(question?.order)"
                         [disabled]="question?.isQuestionDisabled"
                         (selectionChange)="getSelectionChange(question, $event)">
-                        <div class="w-100 shadow-sm search-filter">
+                        <div class="w-100 shadow-sm search-filter" *ngIf="question?.shortKey != 'dpr_status'">
                             <!-- has-float-label - use this class in span tag and comment the label for floating label field -->
                             <span class="">
                                 <input id="{{question.order+'_dropDownSearch'}}" type="text" class="form-control"
@@ -1177,7 +1178,7 @@
                                 <!-- <label for="{{question.order+'_dropDownSearch'}}">Search {{question.title}}</label> -->
                             </span>
                         </div>
-                        <div class="single-select custom-y-scroll">
+                        <div class="custom-y-scroll" [ngClass]="{'single-select' : question?.shortKey != 'dpr_status'}">
                             <mat-option *ngIf="question?.answer_option?.length == 0" disabled>No options available
                             </mat-option>
                             <mat-option *ngFor="let opt of question?.answer_option; trackBy:optionIdentity;"
@@ -1193,6 +1194,7 @@
                             </mat-option>
                         </div>
                     </mat-select>
+                    
                     <mat-icon class="input-eye-icon" *ngIf="question?.information" [matTooltip]="question?.information"
                         style="font-size: 16px; right: 15px;">info</mat-icon>
                 </mat-form-field>
@@ -1211,9 +1213,10 @@
                  class="text-primary">*</span></label>
                  <mat-icon class="input-eye-icon" *ngIf="question?.hint" [matTooltip]="question?.hint">info</mat-icon>
            </span> -->
-                <div class="col-sm-12  font-weight-500 text-primary error-msg" *ngIf="question.errorMessage"
+           
+                <div class="col-sm-12  font-weight-500 text-primary error-msg" *ngIf="!question.modelValue && question.errorMessage"
                     style="">
-                    {{question.hint?question.hint:question.errorMessage}}
+                    {{question.hint ? question.hint : question.errorMessage}}
                 </div>
             </div>
 
@@ -1330,6 +1333,7 @@
                         *ngIf="!tablular">{{question.title}}
                         <span *ngIf="question.required" class="text-primary">*</span>
                     </label>
+
                     <input type="date" autocomplete="{{question.order}}" id="{{question.order}}" class="form-control "
                         placeholder="{{question.title}}" name="{{question.order}}" [(ngModel)]="question.modelValue"
                         [ngClass]="{
@@ -1339,7 +1343,7 @@
                             'ms-2': !tablular,
                             'invalid-border': question.errorMessage,
                             'warning-border': question.shortKey | durCustomWarnings : question: questionData : loopIndex
-                        }" (change)="onChange(question, $event)" [ngModelOptions]="{standalone: true}"
+                        }" (change)="onChange(question, $event, {}, false, loopIndex)" [ngModelOptions]="{standalone: true}"
                         [readonly]="question?.isQuestionDisabled" [min]="question?.min || question?.minRange"
                         [max]="question?.max || question?.maxRange" (keydown)="restrictManuallyEnterDate()">
                     <mat-icon class="input-warning-icon" style="right: 25px;"
@@ -1589,6 +1593,7 @@
                             *ngFor="let row of question.childQuestionData | scrollTable : question.scrollIndex : pageSize ; trackBy:rowIdentity; let rowIndex = index;">
                             <th scope="row">{{ rowIndex + (question.scrollIndex || 0) + 1 | tableSequence: question
                                 }}</th>
+                            
                             <ng-container *ngFor="let child of row; trackBy:identity; let questionIndexes = index">
                                 <td *ngIf="!child?.hidden">
                                     <ng-container *ngIf="child.visibility" [ngTemplateOutlet]="treeNode"
@@ -1718,7 +1723,7 @@
                         {{buttonText}}
                     </button>
                 </div>
-                <div class="d-inline-flex ">
+                <div class="d-inline-flex " *ngIf="!hideNextButton">
                     <button class="btn btn-next text-uppercase" (click)="nextPrevBtnCall('next')">
                         Next Form ->
                     </button>
@@ -1890,7 +1895,6 @@
 
             </div>
             <div class="row mb-3" *ngSwitchCase="QUESTION_TYPE.NUMERIC">
-2
                 <div class="col-sm-6">
                     <div class="">
                         <label class="" for="{{question.order}}">{{question.title}} <span *ngIf="question.required"

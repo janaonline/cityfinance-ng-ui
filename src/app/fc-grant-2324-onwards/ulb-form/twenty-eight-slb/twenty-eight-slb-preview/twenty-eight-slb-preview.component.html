@@ -7,7 +7,7 @@
         </div>
         <div class="col-sm-12 text-center heading-p">
             <span style="display: block;">
-                Submissions for 15th FC grant for FY 2023-24
+                Submissions for 15th FC grant for FY {{data?.selectedYear}}
             </span>
             <b class="sub-h">{{ulbName}}, {{stateName}}</b>
         </div>
@@ -35,9 +35,9 @@
                     <table class="table downloadTable">
                         <thead>
                             <tr class="tableBorder">
-                                <th scope="col" class="text-center headingClass">Sections/Indicators</th>
-                                <th scope="col" class="text-center headingClass">Actual Indicator 2022-23</th>
-                                <th scope="col" class="text-center headingClass">Target Indicator 2023-24</th>
+                                <th scope="col" class="headingClass">Sections/Indicators</th>
+                                <th scope="col" class="headingClass">Actual Indicator 2022-23</th>
+                                <th scope="col" class="headingClass">Target Indicator 2023-24</th>
                             </tr>
                         </thead>
                         <tbody *ngFor="let lineItem of data?.perData?.data | keyvalue : returnZero" class="tableBody">
@@ -62,7 +62,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div class="">
+                    <div class="mt-2">
                         <div class="st-n">
                             <span class="l-n">Name :</span>
                             <span class="l-a">{{ data?.officerName }}</span>  
@@ -73,10 +73,10 @@
                         </div>
                         <div class="st-n">
                             <span class="l-n">Upload File :</span>
-                            <span class="l-a"><a href="{{data?.cert_declaration?.url}}" target="_blank"> {{data?.cert_declaration?.name }}</a> </span>  
+                            <span class="l-a"><a class="an-t" href="{{data?.cert_declaration?.url | toStorageUrl}}" target="_blank"> {{data?.cert_declaration?.name }}</a> </span>  
                         </div>
                         <div class="st-n">
-                            <span class="l-n">Certified that above information has been extracted from the relevant records being maintained with the ULB and is true to to best of my knowledge and belief :</span>
+                            <span class="l-n-d">Certified that above information has been extracted from the relevant records being maintained with the ULB and is true to to best of my knowledge and belief :</span>
                             <span class="l-a">{{ data?.declaration }}</span>  
                         </div>
                     </div>
