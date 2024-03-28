@@ -2,10 +2,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Pipe({
-  name: 'formError'
+  name: 'formError',
+  pure: false
 })
 export class FormErrorPipe implements PipeTransform {
-  transform(control: FormControl): string | null {
+  transform(control: FormControl, value: any): string | null {
     if (control.errors) {
       const errorKeys = Object.keys(control.errors);
       if (errorKeys.length > 0) {
