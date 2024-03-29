@@ -343,7 +343,7 @@ export class PropertyTaxComponent implements OnInit {
        return;
     }
     const fileExtension = file.name.split('.').pop();
-    if (!allowedFileTypes?.includes(fileExtension)) return swal("Error", `Allowed file extensions: ${allowedFileTypes?.join(', ')}`, "error");
+    if (!allowedFileTypes?.includes(fileExtension)) return swal("Error", `Please upload the document in ${allowedFileTypes?.join(', ').toUpperCase()} only`, "error");
 
     if ((file.size / 1024 / 1024) > maxFileSize) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
 
@@ -480,7 +480,7 @@ export class PropertyTaxComponent implements OnInit {
 
   async editChildQuestions(item: FormGroup, replicaNumber: number, oldLabel: string) {
     const childrens = item.controls.child as FormArray;
-    const { value: updatedLabel } = await swal2.fire({
+    const { value: updatedLabel, isConfirmed } = await swal2.fire({
       title: item.controls?.copyOptions.value ? 'Select an option' : 'Enter a value',
       input: item.controls?.copyOptions.value ? 'select' : 'text',
       inputValue: oldLabel,
@@ -489,7 +489,10 @@ export class PropertyTaxComponent implements OnInit {
       cancelButtonText: 'Cancel',
       confirmButtonText: 'Add',
     });
-    if (!updatedLabel) return;
+    if (!updatedLabel) {
+      if(isConfirmed) swal('Warning', `Please enter a value`, 'warning');
+      return;
+    };
     console.log(childrens.value);
     const updatableQuestions = childrens.controls.filter(control => control.value.replicaNumber == replicaNumber) as FormGroup[];
 
@@ -534,7 +537,7 @@ export class PropertyTaxComponent implements OnInit {
     console.log({ maxChild, replicaCount });
     const childrens = item.controls.child as FormArray;
     if (replicaCount >= maxChild) return swal('Warning', `Upto ${maxChild} items allowed`, 'warning');
-    const { value } = await swal2.fire({
+    const { value, isConfirmed } = await swal2.fire({
       title: item.controls?.copyOptions.value ? 'Select an option' : 'Enter a value',
       input: item.controls?.copyOptions.value ? 'select' : 'text',
       inputOptions: item.controls?.copyOptions.value?.reduce((result, item) => ({ ...result, [item.id]: item.label }), {}),
@@ -542,7 +545,10 @@ export class PropertyTaxComponent implements OnInit {
       cancelButtonText: 'Cancel',
       confirmButtonText: 'Add',
     })
-    if (!value) return;
+    if (!value) {
+      if(isConfirmed) swal('Warning', `Please enter a value`, 'warning');
+      return;
+    };
     if((childrens?.value as any[])?.some(item => item.value == value)) {
       return  swal('Warning', `${value} already exists`, 'warning');
     }
@@ -630,7 +636,7 @@ export class PropertyTaxComponent implements OnInit {
        this.loadData();
        this.isFormFinalSubmit = true;
        this.formSubmitted = !isDraft;
-       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
+       swal('Saved', isDraft ? "Data save as draft successfully!" : "Form submitted successfully!", 'success');
        resolve(true);
      }, ({ error }) => {
        this.loaderService.stopLoader();
