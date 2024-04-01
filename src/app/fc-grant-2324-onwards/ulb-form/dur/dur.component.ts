@@ -244,7 +244,7 @@ export class DurComponent implements OnInit, OnDestroy {
       const location = project?.answerNestedData.find(item => item.shortKey == "location");
       const cost = project?.answerNestedData.find(item => item.shortKey == "cost");
       const expenditure = project?.answerNestedData.find(item => item.shortKey == "expenditure");
-      if (location.answer?.length == 0 || location.answer[0].value == ',' || location.answer[0].value == '0,0') {
+      if (location.answer?.length == 0 || location.answer[0].value == "" || location.answer[0].value == ',' || location.answer[0].value == '0,0' || location.answer[0].value  == ',0' || location.answer[0].value  == '0,') {
         this.locationInvalid = true;
         return false;
       }
