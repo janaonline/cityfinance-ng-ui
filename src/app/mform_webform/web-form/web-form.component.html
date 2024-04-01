@@ -1028,7 +1028,7 @@
                     (onQuestionUpdate)="onChange(question, $event)">
                 </app-location-picker>
                 <div class="col-sm-12  font-weight-500 text-primary error-msg"
-                    *ngIf="finalSubmitted && (!question.modelValue || question.modelValue == ',' || question.modelValue == '0,0')">
+                    *ngIf="finalSubmitted && (!question.modelValue || question.modelValue == ',' || question.modelValue == '0,0' || question.modelValue == ',0' || question.modelValue == '0,')">
                     Location is required
                 </div>
             </div>
