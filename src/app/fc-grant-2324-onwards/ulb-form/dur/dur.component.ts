@@ -239,7 +239,7 @@ export class DurComponent implements OnInit, OnDestroy {
       const location = project?.answerNestedData.find(item => item.shortKey == "location");
       const cost = project?.answerNestedData.find(item => item.shortKey == "cost");
       const expenditure = project?.answerNestedData.find(item => item.shortKey == "expenditure");
-      if (location.answer?.length == 0 || location.answer[0].value == ',' || location.answer[0].value == '0,0') {
+      if (location.answer?.length == 0 || location.answer[0].value == "" || this.isLocationValid(location.answer[0].value)) {
         this.locationInvalid = true;
         return false;
       }
@@ -415,6 +415,26 @@ export class DurComponent implements OnInit, OnDestroy {
 
  ngOnDestroy(): void {
   this.leftMenuSubs.unsubscribe();
+}
+
+ isLocationValid(location: string): boolean {
+  // Split the location string by comma
+  const values: string[] = location.split(',');
+
+  // Iterate through each value for checking error
+  for (const val of values) {
+      try {
+          if (!val || parseFloat(val.trim()) === 0) {
+              return true;
+          }
+      } catch (error) {
+        swal("Error", `${error?.message}`, "error")
+          continue;
+      }
+  }
+
+  // If no error found, return false
+  return false;
 }
   
 }
