@@ -83,6 +83,7 @@ export class SfcFormComponent implements OnInit {
   isFormFinalSubmit: boolean = false;
   canTakeAction: boolean = false;
   leftMenuSubs: any;
+  question: any;
   constructor(
     private fb: FormBuilder,
     private dataEntryService: DataEntryService,
@@ -138,6 +139,7 @@ export class SfcFormComponent implements OnInit {
     this.sfcFormService.getForm(this.stateId, this.design_year).subscribe((res: any) => {
       this.loaderService.stopLoader();
       console.log('response', res);
+      this.question = res?.data;
       this.tabs = res?.data?.tabs;
       this.status = res?.data?.status;
       this.statusId = res?.data?.statusId;
