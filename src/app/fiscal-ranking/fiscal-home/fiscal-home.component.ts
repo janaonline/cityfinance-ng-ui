@@ -87,7 +87,6 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
       section: 'download_file',
       key: 'brochure'
     },
-
     // commented know more section for avoiding to view the video
     // {
     //   image: "../../../assets/M FIGMA/dvr_black_24dp.svg",

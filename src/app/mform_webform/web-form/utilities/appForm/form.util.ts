@@ -818,7 +818,7 @@ const computeNumericQuestionValueByApplyingValidation = (
   ) {
     return question.value;
   }
-  const formatUptoFixedDecimalPlaceValidation = question.validations?.find?.(
+  const formatUptoFixedDecimalPlaceValidation = question.validation?.find?.(
     (validation: any) => validation?._id === VALIDATION.DECIMAL_PLACE
   );
   

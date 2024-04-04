@@ -31,6 +31,7 @@ import { AllowedFileTypesPipe } from './property-tax/allowed-file-types.pipe';
 import { FormErrorPipe } from './property-tax/form-error.pipe';
 import { VideoGallaryComponent } from './video-gallary/video-gallary.component';
 import { GlobalPartModule } from 'src/app/global-part/global-part.module';
+import { NoUpDownDirective } from './property-tax/no-up-down.directive';
 
 
 
@@ -45,6 +46,7 @@ import { GlobalPartModule } from 'src/app/global-part/global-part.module';
     TwentyEightSlbPreviewComponent, 
     OverviewComponent, 
     ResourceComponent, 
+    NoUpDownDirective,
     PropertyTaxComponent, LoaderComponent, PreviewComponent, PfmsComponent, FourSlbComponent, DecimalLimitDirective, YearComparisionPipe, AllowedFileTypesPipe, FormErrorPipe, VideoGallaryComponent
   ],
   imports: [
@@ -59,7 +61,7 @@ import { GlobalPartModule } from 'src/app/global-part/global-part.module';
     MatTooltipModule,
     MatIconModule,
     ReactiveFormsModule,
-    GlobalPartModule,
+    GlobalPartModule
   ]
 })
 export class UlbFormModule { }

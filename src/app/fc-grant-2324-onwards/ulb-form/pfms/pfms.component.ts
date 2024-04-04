@@ -42,7 +42,6 @@ export class PfmsComponent implements OnInit {
   };
   formName: string = 'pfms';
   isApiComplete: boolean = false;
-  ratingMarksArray = [];
   questionResponse: any = {
     timestamp: 1621316934,
     success: true,

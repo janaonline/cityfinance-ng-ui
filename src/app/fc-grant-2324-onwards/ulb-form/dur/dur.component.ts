@@ -47,6 +47,7 @@ export class DurComponent implements OnInit, OnDestroy {
   selectedYearId:string="";
   financialYear:string="";
   selectedYear:string=""
+  locationInvalid:boolean = false;
   constructor(
     private dialog: MatDialog,
     private durService: DurService,
@@ -88,7 +89,7 @@ export class DurComponent implements OnInit, OnDestroy {
   get hasUnsavedChanges() {
     return this.webForm?.hasUnsavedChanges;
   }
-
+ 
   loadData(loadProjects = false) {
     this.loaderService.showLoader();
     this.durService.getForm(this.ulbId, this.design_year).subscribe((res: any) => {
@@ -234,6 +235,7 @@ export class DurComponent implements OnInit, OnDestroy {
   }
 
   isFormValid(data) {
+    this.locationInvalid = false;
     const projectDetails = data?.finalData.find(item => item.shortKey == "projectDetails_tableView_addButton")?.nestedAnswer || [];
     const waterManagement = data?.finalData.find(item => item.shortKey == "waterManagement_tableView")?.nestedAnswer || [];
     const solidWasteManagement = data?.finalData.find(item => item.shortKey == "solidWasteManagement_tableView")?.nestedAnswer || [];
@@ -241,7 +243,8 @@ export class DurComponent implements OnInit, OnDestroy {
       const location = project?.answerNestedData.find(item => item.shortKey == "location");
       const cost = project?.answerNestedData.find(item => item.shortKey == "cost");
       const expenditure = project?.answerNestedData.find(item => item.shortKey == "expenditure");
-      if (location.answer?.length == 0 || location.answer[0].value == ',' || location.answer[0].value == '0,0') {
+      if (location.answer?.length == 0 || location.answer[0].value == "" || this.isLocationValid(location.answer[0].value)) {
+        this.locationInvalid = true;
         return false;
       }
       if (expenditure.answer[0].value && cost.answer[0].value && (+expenditure.answer[0].value > +cost.answer[0].value)) {
@@ -295,7 +298,8 @@ export class DurComponent implements OnInit, OnDestroy {
      // else = confirmation popup then final submit, draft, cancel functionality.
      console.log("this.isFormValid(data)", this.isFormValid(data))
      if (!this.isFormValid(data)) {
-      return swal('Error', 'Please fill valid values in form', 'error')
+      let errMsg = this.locationInvalid ? "Please fill the lat/long or correct the lat/long values" : 'Please fill valid values in form';
+      return swal('Error', `${errMsg}`, 'error')
     }else{
       const userAction = await swal(
         "Confirmation !",
@@ -415,6 +419,26 @@ export class DurComponent implements OnInit, OnDestroy {
 
  ngOnDestroy(): void {
   this.leftMenuSubs.unsubscribe();
+}
+
+ isLocationValid(location: string): boolean {
+  // Split the location string by comma
+  const values: string[] = location.split(',');
+
+  // Iterate through each value for checking error
+  for (const val of values) {
+      try {
+          if (!val || parseFloat(val.trim()) === 0) {
+              return true;
+          }
+      } catch (error) {
+        swal("Error", `${error?.message}`, "error")
+          continue;
+      }
+  }
+
+  // If no error found, return false
+  return false;
 }
   
 }

@@ -166,7 +166,7 @@ tr:nth-child(even) {
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
     const html = this.styleForPDF + elementToAddPDFInString;
     this.showLoader = true;
-    let downloadFileName =  "slb28.pdf";
+    let downloadFileName =  `slb28_${this.data?.selectedYear}.pdf`;
     this._questionnaireService.downloadPDF({ html }).subscribe(
       (res) => {
         this.downloadFile(res.slice(0), "pdf", downloadFileName);
