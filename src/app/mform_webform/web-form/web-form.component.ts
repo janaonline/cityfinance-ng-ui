@@ -109,6 +109,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
   @Input() hidePreviousButton: boolean = false;
   @Input() hideNextButton: boolean = false;
   @Input() pageSize = 10;
+  @Input() designYear = '';
   @Input() pageSizeOptions = [10, 20, 30];
   @Output() submitQuestion: EventEmitter<any> = new EventEmitter<any>();
   @Output() updateInParent: EventEmitter<any> = new EventEmitter<any>();
@@ -656,7 +657,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
       finalQuestionResponse = JSON.parse(JSON.stringify(data && data[0] && data[0]?.question));
       console.log('finalQuestionResponse', finalQuestionResponse)
       let obj = { finalQuestionResponse, name: this.proposalName };
-      if (obj.finalQuestionResponse?.length) {
+      if (obj.finalQuestionResponse?.length || ['606aafcf4dff55e6c075d424'].includes(this.designYear)) {
         this.submitForm(obj.finalQuestionResponse, obj.name, isSaveAsDraft);
       }
     })
