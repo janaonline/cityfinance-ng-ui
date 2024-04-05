@@ -8,6 +8,7 @@ import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-load
 import { SweetAlert } from 'sweetalert/typings/core';
 import { StateResourceService } from '../state-resource.service';
 import { mohuaForm } from 'src/app/fc-grant-2324-onwards/fc-shared/utilities/folderName'
+import { CommonServicesService } from 'src/app/fc-grant-2324-onwards/fc-shared/service/common-services.service';
 
 
 const swal: SweetAlert = require("sweetalert");
@@ -37,13 +38,14 @@ export class AddResourceComponent implements OnInit {
   oldData: any = {};
   mode: 'add' | 'edit';
   form: FormGroup;
-
+  userData = JSON.parse(localStorage.getItem("userData"));
   constructor(
     private fb: FormBuilder,
     private dataEntryService: DataEntryService,
     private loaderService: GlobalLoaderService,
     private stateResourceService: StateResourceService,
     public dialogRef: MatDialogRef<DialogComponent>,
+    private commonServices: CommonServicesService,
     @Inject(MAT_DIALOG_DATA) public data
   ) {
     console.log('data', this.data.oldData);
@@ -77,7 +79,7 @@ export class AddResourceComponent implements OnInit {
   }
 
   get uploadFolderName() {
-    return `mohua/2023-24/${mohuaForm.STATE_RESOURCES}/`
+    return `${this.userData?.role}/${this.yearName}/${mohuaForm.STATE_RESOURCES}/`
   }
 
   get allowedFiles() {
@@ -139,7 +141,8 @@ export class AddResourceComponent implements OnInit {
       actionType: 'createOrUpdate',
       ...this.form.value,
       uploadType: this.subCategory?.uploadType,
-      templateName: this.subCategory?.databaseTemplateName
+      templateName: this.subCategory?.databaseTemplateName,
+      design_year: this.data?.design_year
     });
   }
   deleteAll() {
@@ -168,7 +171,7 @@ export class AddResourceComponent implements OnInit {
 
     if (!isAgree) return;
     this.stateResourceService.removeStateFromFiles({
-      fileIds, stateId: this.oldData?.state?._id
+      fileIds, stateId: this.oldData?.state?._id, design_year: this.data?.design_year
     }).subscribe(res => {
       swal('Successful', 'Successfully deleted', 'success');
       if (this.oldData.files.length != fileIds.length) {
@@ -188,11 +191,15 @@ export class AddResourceComponent implements OnInit {
   }
   downloadTemplate(templateName) {
     this.loaderService.showLoader();
-    this.stateResourceService.getTemplate(templateName, { relatedIds: this.form.value?.relatedIds?.map(item => item?._id) }).subscribe(blob => {
+    this.stateResourceService.getTemplate(templateName, { relatedIds: this.form.value?.relatedIds?.map(item => item?._id), design_year: this.data?.design_year}).subscribe(blob => {
       this.dataEntryService.downloadFileFromBlob(blob, `${templateName}.xlsx`);
       this.loaderService.stopLoader();
     }, err => {
       this.loaderService.stopLoader();
     })
+  }
+  // get year into this format = 2023-24, 2024-25
+  get yearName() {
+    return this.commonServices.getYearName(this.data?.design_year);
   }
 }
