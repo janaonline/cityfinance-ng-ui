@@ -4,12 +4,6 @@
 </div>
 <small class="text-danger">All questions with * are mandatory</small>
 
-<div class="p-2 my-2 rounded" style="border: 1px solid red;">
-    <small style="color: red">ONLY FOR TESTING PURPOSE WILL REMOVE LATER</small>
-    <p>Year ID: {{ design_year }}</p>
-    <p>Design year: {{ yearName }}</p>
-</div>
-
 <ng-template #treeNode let-yearItem="yearItem" let-yearIndex="yearIndex" let-hideErrors="hideErrors">
     <div class="col-sm-12 for-radio" *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
         <div class="form-group">
