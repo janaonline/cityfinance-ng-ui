@@ -82,35 +82,27 @@ table {
 
 td, th {
   text-align: left;
-  padding: 4px;
+  padding: 8px 2px !important;
 }
 
 tr:nth-child(even) {
   background-color: #dddddd;
 }
-.pop-t {
-  font-size: 10px;
-  margin-top: 12px;
-}
+
 .d-i {
   display: inline-block !important;
 }
 .d-m{
-  margin-left: 4px;
+  margin-left: 2px;
 }
-.th-h{
-  padding-top : 5px !important;
-  padding-bottom : 5px !important;
-  font-size : 11px !important;
-}
+
 .st-n {
   margin-bottom: .5rem !important;
 }
 .l-n {
-  width: 95%;
+  width: 100%;
   display: inline-block !important;
   font-size: 10px !important;
-  vertical-align: middle !important;
 }
 .l-a {
   display: inline-block !important;
@@ -127,15 +119,21 @@ tr:nth-child(even) {
   display: inline-block !important;
   font-size: 10px !important;
 }
-
-.table>tbody>tr>th,
-.table>tfoot>tr>td,
-.table>tfoot>tr>th,
-.table>thead>tr>td,
-.table>thead>tr>th,td,tr {
-  vertical-align: middle !important;
+.l-n-p {
+  width: 35%;
+  display: inline-block !important;
+  font-size: 10px !important;
 }
-
+.fontClass {
+  vertical-align: bottom !important;
+    align-items: baseline !important;
+}
+.mt-4 {
+  margin-top: 1rem !important;
+}
+.input-group {
+  padding-left: 3px !important;
+}
   </style>`;
   ngOnInit(): void {
     this.getUserData();

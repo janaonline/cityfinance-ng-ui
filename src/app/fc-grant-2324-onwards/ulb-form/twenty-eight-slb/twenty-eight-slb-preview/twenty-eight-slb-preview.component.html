@@ -35,27 +35,30 @@
                     <table class="table downloadTable">
                         <thead>
                             <tr class="tableBorder">
+                                <th scope="col" class="headingClass">#</th>
                                 <th scope="col" class="headingClass">Sections/Indicators</th>
                                 <th scope="col" class="headingClass">Actual Indicator 2022-23</th>
                                 <th scope="col" class="headingClass">Target Indicator 2023-24</th>
                             </tr>
                         </thead>
                         <tbody *ngFor="let lineItem of data?.perData?.data | keyvalue : returnZero" class="tableBody">
-
+                            
                             <tr class="tableBorder">
-                                <th scope="row" colspan="3" class="th-h h-h tableBorder fieldHeading">{{lineItem?.key | titlecase }}</th>
+                                <th scope="row" colspan="4" class="th-h h-h tableBorder fieldHeading">{{lineItem?.key | titlecase }}</th>
+                                
                             </tr>
-                            <tr *ngFor="let item of lineItem?.value" class="tableBorder">
+                            <tr *ngFor="let item of lineItem?.value let i = index;" class="tableBorder">
+                                <th scope="row" class="h-h">{{i + 1}}.</th>
                                 <th scope="row" class="l-n fontClass h-h tableBorder">{{item?.question}}</th>
                                 <td class="tableBorder">
                                     <div class="input-group h-h">
-                                        <p class="d-i">{{(item?.actual?.value || item?.actual?.value === 0) ? item?.actual?.value : 'N/A'}}</p>
+                                        <span class="d-i">{{(item?.actual?.value || item?.actual?.value === 0) ? item?.actual?.value : 'N/A'}}</span>
                                         <span class="ms-3 d-m" *ngIf="item?.actual?.value || item?.actual?.value === 0" id="basic-addon2">{{item?.unit}}</span>
                                     </div>
                                 </td>
                                 <td class="tableBorder">
                                     <div class="input-group h-h">
-                                        <p class="d-i">{{(item?.target_1?.value || item?.target_1?.value === 0) ? item?.target_1?.value : 'N/A'}}</p>
+                                        <span class="d-i">{{(item?.target_1?.value || item?.target_1?.value === 0) ? item?.target_1?.value : 'N/A'}}</span>
                                         <span class="ms-3 d-m d-i" *ngIf="item?.target_1?.value || item?.target_1?.value === 0" id="basic-addon2">{{item?.unit}}</span>
                                     </div>
                                 </td>
@@ -64,15 +67,15 @@
                     </table>
                     <div class="mt-4">
                         <div class="st-n">
-                            <span class="l-n">Name :</span>
+                            <span class="l-n-p">Name :</span>
                             <span class="l-a">{{ data?.officerName }}</span>  
                         </div>
                         <div class="st-n">
-                            <span class="l-n">Designation :</span>
+                            <span class="l-n-p">Designation :</span>
                             <span class="l-a">{{ data?.designation }}</span>  
                         </div>
                         <div class="st-n">
-                            <span class="l-n">Upload File :</span>
+                            <span class="l-n-p">Upload File :</span>
                             <span class="l-a"><a class="an-t" href="{{data?.cert_declaration?.url | toStorageUrl}}" target="_blank"> {{data?.cert_declaration?.name }}</a> </span>  
                         </div>
                         <div class="st-n">

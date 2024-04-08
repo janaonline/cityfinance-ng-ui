@@ -54,6 +54,12 @@
     display: inline-block;
     
 }
+.l-n-p {
+    width: 50%;
+    margin-bottom: 1rem;
+    display: inline-block;
+    
+}
 
 .table>tbody>tr>th,
 .table>tfoot>tr>td,
@@ -61,7 +67,7 @@
 .table>thead>tr>td,
 .table>thead>tr>th,td,tr {
     border: none !important;
-    vertical-align: middle !important;
+   // vertical-align: middle !important;
 }
 
 tr:nth-child(even) {
