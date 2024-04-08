@@ -81,9 +81,8 @@ table {
 }
 
 td, th {
-  border: 1px solid #dddddd;
   text-align: left;
-  padding: 3px;
+  padding: 4px;
 }
 
 tr:nth-child(even) {
@@ -108,9 +107,10 @@ tr:nth-child(even) {
   margin-bottom: .5rem !important;
 }
 .l-n {
-  width: 35%;
+  width: 95%;
   display: inline-block !important;
   font-size: 10px !important;
+  vertical-align: middle !important;
 }
 .l-a {
   display: inline-block !important;
@@ -126,6 +126,14 @@ tr:nth-child(even) {
   width: 75%;
   display: inline-block !important;
   font-size: 10px !important;
+}
+
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th,td,tr {
+  vertical-align: middle !important;
 }
 
   </style>`;

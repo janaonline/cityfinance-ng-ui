@@ -212,6 +212,8 @@
                         <th scope="col" class="f-table" style="text-decoration: underline;">S. No.</th>
                         <th scope="col" class="f-table">Name of Project</th>
                         <th scope="col" class="f-table">Sector (Water Management /Sanitation/ SWM)</th>
+                        <th scope="col" class="f-table">Start Date</th>
+                        <th scope="col" class="f-table">Completion Date</th>
                         <th scope="col" class="f-table" colspan="2" style="text-align: center;">
                             <span>Location</span>
                             <!-- <hr>
@@ -229,13 +231,15 @@
                 <tbody>
                     <tr *ngFor="let item of data?.projects; let i=index" style="text-align: center; vertical-align: inherit;">
                         <th scope="row" class="f-table">{{1+i}}.</th>
-                        <td class="f-table">{{data.projects[i].name}}</td>
-                        <td class="f-table">{{data.projects[i].categoryName}}</td>
-                        <td class="f-table p-tb">{{data.projects[i].location.lat}}</td>
-                        <td class="f-table p-tb">{{data.projects[i].location.long}}</td>
+                        <td class="f-table">{{data.projects[i]?.name}}</td>
+                        <td class="f-table">{{data.projects[i]?.categoryName}}</td>
+                        <td class="f-table">{{data.projects[i]?.startDate | date: 'dd/MM/yyyy'}}</td>
+                        <td class="f-table">{{data.projects[i]?.completionDate | date: 'dd/MM/yyyy'}}</td>
+                        <td class="f-table p-tb">{{data.projects[i]?.location?.lat}}</td>
+                        <td class="f-table p-tb">{{data.projects[i]?.location?.long}}</td>
                         <!-- <td class="f-table p-tb">{{data.projects[i]?.engineerName}}</td> -->
                         <!-- <td class="f-table p-tb">{{data.projects[i]?.engineerContact}}</td> -->
-                        <td class="f-table">{{data.projects[i].cost}}</td>
+                        <td class="f-table">{{data.projects[i]?.cost}}</td>
                         <td class="f-table">
                             {{((data?.projects[i].expenditure/data?.projects[i].cost)*100).toFixed(2) >=0? ((data?.projects[i].expenditure/data?.projects[i].cost)*100).toFixed(2) : 0 }}%
                         </td>
