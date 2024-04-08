@@ -157,23 +157,21 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     } else {
     }
     this.dataSubscription?.unsubscribe();
+      let formData;
+      if(this.designYear == this.years["2023-24"] || this.designYear == this.years["2024-25"]){
+        formData = this.dropdownData?.find(({ formId }) => {
+          return formId == this.formId;
+        });
+      }else{
+         formData = this.dropdownData?.find(({ _id }) => {
+          return _id == this.formId;
+        });
+      }
+      this.formUrl = formData?.url;
+      this.formName = formData?.folderName;
+      this.formRouterLink = `../../../${this.formBaseUrl}/` + this.formUrl;
     this.callAPI();
-    let formData;
-    if(this.designYear == this.years["2023-24"]){
-      formData = this.dropdownData?.find(({ formId }) => {
-        return formId == this.formId;
-      });
-    }else{
-       formData = this.dropdownData?.find(({ _id }) => {
-        return _id == this.formId;
-      });
-    }
-    this.formUrl = formData?.url;
-    this.formName = formData?.folderName;
-   // this.formRouterLink = "../../ulbform2223/" + this.formUrl;
-    this.formRouterLink = `../../${this.formBaseUrl}/` + this.formUrl;
- //   console.log("form data url", formData);
-  //  this.formStateRouterLink = "../../stateform2223/" + this.formUrl;
+    
     
   }
 

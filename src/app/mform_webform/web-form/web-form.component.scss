@@ -358,7 +358,7 @@ input::-webkit-datetime-edit {
   top: 5px;
   left: 1%;
   font-size: 18px;
-  color: #999999;
+  color: #000;
 }
 
 .passwordShowHide {
@@ -484,7 +484,7 @@ table {
   cursor: pointer;
   vertical-align: middle !important;
   font-size: 18px !important;
-  color: #999999;
+  color: #000000;
 }
 
 .scoreDiv {
@@ -526,10 +526,41 @@ label {
 .disable-question-btn {}
 
 .slb28unit {
-  min-width: 23%;
+  min-width: 27%;
   text-align: center;
 }
 
 input::placeholder {
   color: #c1c0c0;
+}
+
+// for DUR table scrolling style
+
+.dur-overflow {
+  overflow: hidden;
+  width: 100%;
+  .projectDetails_tableView_addButton {
+    width: 110rem;
+    overflow-x: auto;
+    .dur-tbl {
+      overflow-x: auto;
+      width: 100rem;
+    }
+  }
+ 
+}
+
+.file-name {
+ // width: 200px; /* Adjust the width as needed */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: blue;
+}
+
+.cert_declaration{
+  color: #000 !important;
+}
+.pointer-hand {
+  cursor: pointer !important;
 }

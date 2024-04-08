@@ -111,7 +111,7 @@
                         <!-- (((data?.analytics[2]?.amount + data?.analytics[3]?.amount +
                          data?.analytics[5]?.amount +data?.analytics[1]?.amount)/data.grantPosition.expenditure)*100).toFixed(2) -->
 
-                        <td class="f-table" colspan="2" style="font-weight: bold;">Total % of tied grant utilised in WM [&nbsp;{{ +((totalWmAmount/data.grantPosition.expenditure)*100).toFixed(2) > 0 ? (+(totalWmAmount/data.grantPosition.expenditure)*100).toFixed(2) : 0 }}% ]
+                        <td class="f-table" colspan="2" style="font-weight: bold;">Total % of tied grant utilised in WM [&nbsp;{{ +((totalWmAmount/data.grantPosition.grantPosition___expDuringYr)*100).toFixed(2) > 0 ? (+(totalWmAmount/data.grantPosition.grantPosition___expDuringYr)*100).toFixed(2) : 0 }}% ]
                         </td>
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>
@@ -163,7 +163,7 @@
                         <!-- (((data?.analytics[0]?.amount +
                           data?.analytics[4]?.amount)/data.grantPosition.expenditure)*100).toFixed(2) -->
                         <td class="pd-r f-table" style="text-align: left; font-weight: 500; white-space: nowrap;">B. &nbsp; &nbsp;Solid Waste Management(SWM)</td>
-                        <td class="f-table" colspan="2" style="font-weight: bold;">Total % of tied grant utilised in SWM [&nbsp;{{+((totalSwmAmount/data.grantPosition.expenditure)*100).toFixed(2) >0 ? ((totalSwmAmount/data.grantPosition.expenditure)*100).toFixed(2) : 0 }}% ]
+                        <td class="f-table" colspan="2" style="font-weight: bold;">Total % of tied grant utilised in SWM [&nbsp;{{+((totalSwmAmount/data.grantPosition.grantPosition___expDuringYr)*100).toFixed(2) >0 ? ((totalSwmAmount/data.grantPosition.grantPosition___expDuringYr)*100).toFixed(2) : 0 }}% ]
                         </td>
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>
@@ -212,6 +212,8 @@
                         <th scope="col" class="f-table" style="text-decoration: underline;">S. No.</th>
                         <th scope="col" class="f-table">Name of Project</th>
                         <th scope="col" class="f-table">Sector (Water Management /Sanitation/ SWM)</th>
+                        <th scope="col" class="f-table">Start Date</th>
+                        <th scope="col" class="f-table">Completion Date</th>
                         <th scope="col" class="f-table" colspan="2" style="text-align: center;">
                             <span>Location</span>
                             <!-- <hr>
@@ -221,24 +223,27 @@
                         <!-- <th scope="col" class="f-table">Engineer's Name</th> -->
                         <!-- <th scope="col" class="f-table">Engineer's Contact No.</th> -->
                         <th scope="col" class="pd-th f-table">Total Project cost</th>
-                        <th scope="col" class="pd-th f-table">% of 15<sup>th</sup> FC grants in total project cost
-
-                        </th>
+                        <th scope="col" class="pd-th f-table">% of 15<sup>th</sup> FC grants in total project cost </th>
+                        <th scope="col" class="pd-th f-table" *ngIf="checkForYear()"> Is DPR prepared?</th>
+                       
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of data?.projects; let i=index" style="text-align: center; vertical-align: inherit;">
                         <th scope="row" class="f-table">{{1+i}}.</th>
-                        <td class="f-table">{{data.projects[i].name}}</td>
-                        <td class="f-table">{{data.projects[i].categoryName}}</td>
-                        <td class="f-table p-tb">{{data.projects[i].location.lat}}</td>
-                        <td class="f-table p-tb">{{data.projects[i].location.long}}</td>
+                        <td class="f-table">{{data.projects[i]?.name}}</td>
+                        <td class="f-table">{{data.projects[i]?.categoryName}}</td>
+                        <td class="f-table">{{data.projects[i]?.startDate | date: 'dd/MM/yyyy'}}</td>
+                        <td class="f-table">{{data.projects[i]?.completionDate | date: 'dd/MM/yyyy'}}</td>
+                        <td class="f-table p-tb">{{data.projects[i]?.location?.lat}}</td>
+                        <td class="f-table p-tb">{{data.projects[i]?.location?.long}}</td>
                         <!-- <td class="f-table p-tb">{{data.projects[i]?.engineerName}}</td> -->
                         <!-- <td class="f-table p-tb">{{data.projects[i]?.engineerContact}}</td> -->
-                        <td class="f-table">{{data.projects[i].cost}}</td>
+                        <td class="f-table">{{data.projects[i]?.cost}}</td>
                         <td class="f-table">
                             {{((data?.projects[i].expenditure/data?.projects[i].cost)*100).toFixed(2) >=0? ((data?.projects[i].expenditure/data?.projects[i].cost)*100).toFixed(2) : 0 }}%
                         </td>
+                        <td class="f-table">{{data.projects[i]?.dpr_status}}</td>
                         <!-- <td>{{data.projects[i].expenditure}}</td> -->
                     </tr>
                 </tbody>

@@ -8,11 +8,11 @@ export class PasswordValidator {
 
     if (!newPassword.match(this._alphanumericRegex)) {
       throw new Error(
-        "Password must be contain atleast 1 number and 1 alphabet."
+        "Password should be alphanumeric with at least one Uppercase/Lowercase and special character with min length 8"
       );
     }
     if (newPassword.length < 8) {
-      throw new Error("Password must be of minimum 8 characters");
+      throw new Error("Password should be alphanumeric with at least one Uppercase/Lowercase and special character with min length 8");
     }
 
     if (confirmPassword && confirmPassword !== password) {

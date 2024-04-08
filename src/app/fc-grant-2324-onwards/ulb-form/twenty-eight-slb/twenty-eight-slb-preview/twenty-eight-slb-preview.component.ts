@@ -81,28 +81,58 @@ table {
 }
 
 td, th {
-  border: 1px solid #dddddd;
   text-align: left;
-  padding: 3px;
+  padding: 8px 2px !important;
 }
 
 tr:nth-child(even) {
   background-color: #dddddd;
 }
-.pop-t {
-  font-size: 10px;
-  margin-top: 12px;
-}
+
 .d-i {
   display: inline-block !important;
 }
 .d-m{
-  margin-left: 4px;
+  margin-left: 2px;
 }
-.th-h{
-  padding-top : 5px !important;
-  padding-bottom : 5px !important;
-  font-size : 11px !important;
+
+.st-n {
+  margin-bottom: .5rem !important;
+}
+.l-n {
+  width: 100%;
+  display: inline-block !important;
+  font-size: 10px !important;
+}
+.l-a {
+  display: inline-block !important;
+  font-size: 10px !important;
+}
+.an-t {
+  font-size: 10px !important;
+}
+.mt-2 {
+  margin-top: 0.5rem !important;
+}
+.l-n-d {
+  width: 75%;
+  display: inline-block !important;
+  font-size: 10px !important;
+}
+.l-n-p {
+  width: 35%;
+  display: inline-block !important;
+  font-size: 10px !important;
+}
+.fontClass {
+  vertical-align: bottom !important;
+    align-items: baseline !important;
+}
+.mt-4 {
+  margin-top: 1rem !important;
+}
+.input-group {
+  padding-left: 3px !important;
 }
   </style>`;
   ngOnInit(): void {
@@ -142,7 +172,7 @@ tr:nth-child(even) {
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
     const html = this.styleForPDF + elementToAddPDFInString;
     this.showLoader = true;
-    let downloadFileName =  "slb28.pdf";
+    let downloadFileName =  `slb28_${this.data?.selectedYear}.pdf`;
     this._questionnaireService.downloadPDF({ html }).subscribe(
       (res) => {
         this.downloadFile(res.slice(0), "pdf", downloadFileName);
