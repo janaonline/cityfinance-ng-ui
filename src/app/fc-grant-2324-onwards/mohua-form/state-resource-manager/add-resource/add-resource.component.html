@@ -79,12 +79,18 @@
                         <li>Fill in the necessary details in the downloaded file accurately and completely.</li>
                         <li>Once you have filled in the information, save the file on your computer.</li>
                         <li>Now, use the '<b>Browse</b>' button provided here to choose and upload the completed
-                            file</li>
-                        <li>Allowed file types: .xls,.xlsx with maximum size of 20 MB</li>
+                            file.</li>
+                        <li>Allowed file types: .xls,.xlsx with maximum size of {{subCategory?.databaseTemplateName == 'stateGsdp' ? '5' : '20'}} MB.</li>
+                        
                     </ol>
-
-                    <p>Please ensure that all the required fields are filled correctly in the file before re-uploading.
-                    </p>
+                    <ng-container *ngIf="subCategory?.databaseTemplateName == 'stateGsdp'; else nonGSDP">
+                        <p>Please ensure that all the required fields are filled correctly in the file before uploading, the numbers once submitted cannot be modified.</p>
+                    </ng-container>
+                    
+                    <ng-template #nonGSDP>
+                        <p>Please ensure that all the required fields are filled correctly in the file before re-uploading.</p>
+                    </ng-template>
+                   
 
                     <div class="d-flex gap-2 justify-content-center">
                         <button type="button" class="btn btn-secondary"
@@ -115,7 +121,7 @@
     <ng-container *ngIf="mode == 'edit'">
         <div class="d-flex justify-content-between">
             <p class="mb-1"><b>File / Documents</b></p>
-            <button type="button" class="btn btn-outline-danger ms-2" (click)="deleteAll()">
+            <button type="button" class="btn btn-outline-danger ms-2" (click)="deleteAll()" [disabled]="isDisabled">
                 Delete All
             </button>
         </div>
@@ -132,7 +138,7 @@
                 <div class="actions">
                     <a class="btn btn-outline-primary" target="_blank" href="{{ file.url | toStorageUrl }}"
                         *ngIf="mode == 'edit'">View</a>
-                    <button type="button" class="btn btn-outline-danger ms-2" (click)="deleteFiles([file._id])">
+                    <button type="button" class="btn btn-outline-danger ms-2" (click)="deleteFiles([file._id])" [disabled]="isDisabled">
                         Delete
                     </button>
                 </div>

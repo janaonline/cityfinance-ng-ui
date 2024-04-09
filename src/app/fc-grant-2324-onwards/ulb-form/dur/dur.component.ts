@@ -200,7 +200,9 @@ export class DurComponent implements OnInit, OnDestroy {
         },
         cost: child[5]?.value,
         expenditure: child[6]?.value,
-        dpr_status: child[8]?.selectedValue?.[0]?.label
+        dpr_status: child[8]?.selectedValue?.[0]?.label,
+        startDate: child[2]?.value,
+        completionDate: child[3]?.value,
       }
     });
 
