@@ -2,7 +2,7 @@
     <div class="wrap-bg">
         <div class="container">
             <div class="row">
-                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="margin: auto;">
                     <div class="ds-i-c mt-4 mt-lg-5">
                         <span class="city">city</span>
                         <span class="fy">finance.in</span>
@@ -70,8 +70,10 @@
                 </div>
             </div>
         </div>
-        <div class="col"></div>
-        <div class="col-lg-auto">
+
+        <!-- Commnted and given display: none for don't show ministers images -->
+        <!-- <div class="col"></div> -->
+        <div class="col-lg-auto" style="display: none;">
             <div class="images" style="text-align: -webkit-center">
                 <carousel [interval]="myInterval" [isAnimated]="true" (activeSlideChange)="carouselClass($event)" [ngClass]="{ 'p-indi': p_indi, 'm-indi': m_indi }">
                     <slide *ngFor="let slide of slides; let index = index">
