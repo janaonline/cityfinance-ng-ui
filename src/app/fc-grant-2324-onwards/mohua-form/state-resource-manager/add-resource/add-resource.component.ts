@@ -39,6 +39,7 @@ export class AddResourceComponent implements OnInit {
   mode: 'add' | 'edit';
   form: FormGroup;
   userData = JSON.parse(localStorage.getItem("userData"));
+  isDisabled:boolean = true;
   constructor(
     private fb: FormBuilder,
     private dataEntryService: DataEntryService,
@@ -90,10 +91,16 @@ export class AddResourceComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //logic for disable delete button as Property tax gsdp is one time upload
+    if(this.subCategory.databaseTemplateName == "stateGsdp" && this.subCategory.uploadType == "database"){
+      this.isDisabled = true;
+    }else{
+      this.isDisabled = false;
+    }
   }
 
   uploadFile(event: { target: HTMLInputElement }) {
-    const maxFileSize = 20;
+    let maxFileSize = this.subCategory.databaseTemplateName == "stateGsdp" ? 5 : 20;
     const files = Array.from(event.target.files);
     if(this.maxUploads < (files.length + this.form.value?.files?.length)) return swal("File Limit Error", `Maximum ${this.maxUploads} files can be upload`, "error");
     if(files.some(file => (file.size / 1024 / 1024) > maxFileSize)) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
@@ -146,6 +153,7 @@ export class AddResourceComponent implements OnInit {
     });
   }
   deleteAll() {
+    if(this.isDisabled) return;
     this.deleteFiles(this.oldData.files?.map(file => file._id));
   }
   async deleteFiles(fileIds: string[]) {
