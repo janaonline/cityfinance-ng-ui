@@ -5,6 +5,9 @@ import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-load
 import { SweetAlert } from 'sweetalert/typings/core';
 import { AddResourceComponent } from './add-resource/add-resource.component';
 import { StateResourceService } from './state-resource.service';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { CommonServicesService } from '../../fc-shared/service/common-services.service';
+import { filter, take } from 'rxjs/operators';
 
 const swal: SweetAlert = require("sweetalert");
 
@@ -23,7 +26,8 @@ export class StateResourceManagerComponent implements OnInit {
   documents: any[] = [];
   states: any[] = [];
   categories: any[] = [];
-
+  selectedYearId:string="";
+  yearName:string=""
   filters = {
     stateId: '',
     categoryId: '',
@@ -34,17 +38,23 @@ export class StateResourceManagerComponent implements OnInit {
     private matDialog: MatDialog,
     private dataEntryService: DataEntryService,
     private stateResourceService: StateResourceService,
-    private globalLoaderService: GlobalLoaderService
-  ) { }
+    private globalLoaderService: GlobalLoaderService,
+    private activatedRoute: ActivatedRoute,
+    private commonServices: CommonServicesService,
+    private router: Router,
+  ) { 
+      this.routerChange();
+  }
 
   ngOnInit(): void {
-    this.loadData();
+    
   }
 
 
 
   loadData() {
     const payload = {
+      design_year: this.selectedYearId,
       skip: this.pageIndex * this.pageSize,
       limit: this.pageSize,
       ...this.filters,
@@ -72,7 +82,8 @@ export class StateResourceManagerComponent implements OnInit {
         mode,
         oldData: data,
         categories: this.categories,
-        states: this.states
+        states: this.states,
+        design_year : this.selectedYearId
       },
       maxWidth: '50vw',
       maxHeight: '90vh',
@@ -138,5 +149,32 @@ export class StateResourceManagerComponent implements OnInit {
 
   onCategoryChange(value) {
     if (!value) this.filters.subCategoryId = '';
+  }
+// get selected year id from route.
+//   get design_year() {
+//     return this.activatedRoute.parent.snapshot.params?.yearId;
+//   }
+// // get year into this format = 2023-24, 2024-25
+//   get yearName() {
+//     return this.commonServices.getYearName(this.design_year);
+//   }
+
+  getQueryParams() {
+    const yearId = this.activatedRoute.parent.snapshot.paramMap.get('yearId');
+     this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
+     this.yearName = this.commonServices.getYearName(this.selectedYearId);
+
+  }
+  routerChange() {
+    // Subscribe to navigation end event to execute getQueryParams() after navigation
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+      take(1) // Automatically unsubscribe after the first navigation event
+    ).subscribe(() => {
+      // Execute getQueryParams() after navigation is complete
+      this.getQueryParams();
+      this.loadData();
+  
+    });
   }
 }
