@@ -102,8 +102,21 @@
                     <li class="nav-item">
                         <a class="nav-link" routerLinkActive="active" routerLink="/resources-dashboard/learning-center/toolkits">Resources</a>
                     </li>
-                    <li class="nav-item" *ngIf="isLoggedIn && user?.role == 'PMU'"> 
-                        <a class="nav-link" [routerLinkActive]="'active'" routerLink="/mohua-form/state-resource-manager">State resources</a>
+                    <li class="nav-item dropdown" *ngIf="isLoggedIn && user?.role == 'PMU'"> 
+                        <!-- [routerLinkActive]="'active'" routerLink="/mohua-form/state-resource-manager" -->
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">State resources</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item" [routerLinkActive]="'active'" routerLink="/mohua-form/606aafc14dff55e6c075d3ec/state-resource-manager">
+                                    2023-24
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" [routerLinkActive]="'active'" routerLink="/mohua-form/606aafcf4dff55e6c075d424/state-resource-manager">
+                                2024-25
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item" *ngIf="isLoggedIn && user?.role !== 'PMU'">
                         <a class="nav-link" [routerLinkActive]="'active'" routerLink="/fc-home-page">15<sup>th</sup> FC Grants</a>
