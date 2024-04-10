@@ -110,7 +110,7 @@ export class SfcFormComponent implements OnInit {
 
   get uploadFolderName() {
     const years = JSON.parse(localStorage.getItem("Years"));
-    const year = this.getKeyByValue(years,this.design_year);
+    const year = this.getKeyByValue(years, this.design_year);
     return `${this.userData?.role}/${year}/sfc/${this.userData?.stateCode}`
   }
 
@@ -148,7 +148,7 @@ export class SfcFormComponent implements OnInit {
       this.specialHeaders = res?.data?.specialHeaders;
 
       this.form = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
-      // this.addSkipLogics();
+      this.addSkipLogics();
       this.isLoader = false;
       this.canTakeAction = res?.data?.canTakeAction;
       this.formDisable(res?.data);
@@ -164,16 +164,10 @@ export class SfcFormComponent implements OnInit {
 
   formDisable(res) {
     if (!res) return;
-    if(this.userData?.role != USER_TYPE.STATE) return false;
+    if (this.userData?.role != USER_TYPE.STATE) return false;
     this.isButtonAvail = [1, 2, 5, 7].includes(res?.statusId);
   }
 
-  radioChange(event: MatRadioChange) {
-    console.log('event.value',event.value);
-    if(event.value === 'No') {
-      
-    }
-}
 
   getTabFormGroup(tab: Tab): any {
     const { data, feedback, ...rest } = tab;
@@ -511,7 +505,6 @@ export class SfcFormComponent implements OnInit {
     }
   }
 
-  
 
   ngOnDestroy(): void {
     this.leftMenuSubs.unsubscribe();
