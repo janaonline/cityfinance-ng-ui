@@ -21,7 +21,7 @@ export class MohuaFormComponent implements OnInit {
       this.router.navigate(["/login"]);
     }
     this.userData = JSON.parse(localStorage.getItem("userData"));
-    if (![USER_TYPE.MoHUA, USER_TYPE.ADMIN, USER_TYPE.PMU].includes(this.userData?.role)) {
+    if (![USER_TYPE.MoHUA, USER_TYPE.ADMIN].includes(this.userData?.role)) {
       this.router.navigate(["/fc-home-page"]);
     }
     this.designYearArray = JSON.parse(localStorage.getItem("Years"));
