@@ -15,7 +15,7 @@ export class Mohua2223Guard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     let ulbRecord = JSON.parse(localStorage.getItem('userData'));
     let userType = ulbRecord?.role;
-    if ([USER_TYPE.MoHUA, USER_TYPE.ADMIN, USER_TYPE.PARTNER, USER_TYPE.PMU].includes(userType)) {
+    if ([USER_TYPE.MoHUA, USER_TYPE.ADMIN].includes(userType)) {
       return true;
     }
     this.router.navigate(['/login']);
