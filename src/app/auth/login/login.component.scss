@@ -7,7 +7,8 @@
 // .overall-container{
 //   margin-top: 90px;  
 // }
-::ng-deep .register .mat-form-field:last-child .mat-form-field-wrapper {
+::ng-deep .register .mat-form-field:last-child,
+:host ::ng-deep .mat-form-field-wrapper {
   padding-bottom: 0 !important;
 }
 ::ng-deep .form-field-error-message {
@@ -200,11 +201,14 @@
   }
   .forget-password {
     position: relative;
+    margin-top: 1.25rem;
   }
   .forget {
-    position: absolute;
-    right: 0;
-    bottom: -5px;
+    // position: absolute;
+    // right: 0;
+    // bottom: -5px;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
   }
   .mat-form-field {
     width: 100%;
