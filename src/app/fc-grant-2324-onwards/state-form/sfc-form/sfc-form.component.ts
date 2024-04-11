@@ -84,6 +84,23 @@ export class SfcFormComponent implements OnInit {
   canTakeAction: boolean = false;
   leftMenuSubs: any;
   question: any;
+
+  actionPayload = {
+    "responses": [
+      {
+        "shortKey": "",
+        "status": '',
+        "rejectReason": "",
+        "responseFile": {
+          "url": "",
+          "name": ""
+        }
+      }
+    ]
+  };
+
+  isActionSubmitted: boolean = false;
+
   constructor(
     private fb: FormBuilder,
     private dataEntryService: DataEntryService,
@@ -320,7 +337,7 @@ export class SfcFormComponent implements OnInit {
   uploadFile(event: { target: HTMLInputElement }, control: FormControl, reset: boolean = false, allowedFileTypes = []) {
     console.log({ event, control })
     if (reset) return control.patchValue({ uploading: false, name: '', url: '' });
-    const maxFileSize = 5;
+    const maxFileSize = 15;
     const file: File = event.target.files[0];
     if (!file) return;
     let isfileValid = this.dataEntryService.checkSpcialCharInFileName(event.target.files);
@@ -464,7 +481,7 @@ export class SfcFormComponent implements OnInit {
       formId: this.formId,
       design_year: this.design_year,
       isDraft: isDraft,
-      currentFormStatus: isDraft ? 2 : 3,
+      currentFormStatus: isDraft ? 2 : 4,
       actions: this.form.getRawValue()
     }
     this.loaderService.showLoader();
@@ -505,6 +522,85 @@ export class SfcFormComponent implements OnInit {
     }
   }
 
+  saveAction() {
+    this.isActionSubmitted = true;
+    // const quesArray = this.gtcFormData[i]?.quesArray[j]; //TODO: remove
+    const quesArray = this.question;
+    if (!quesArray || ![6, 7].includes(Number(quesArray?.status))) {
+      swal('Error', 'Status is mandatory', 'error');
+      return;
+    }
+    if (quesArray?.status == 7 && !quesArray?.rejectReason) {
+      swal('Error', 'Reject reason is mandatory in case of rejection', 'error');
+      return;
+    }
+
+    swal("Confirmation !", `Are you sure you want to submit this action?`, "warning", {
+      buttons: {
+        Submit: {
+          text: "Submit",
+          value: "submit",
+        },
+        Cancel: {
+          text: "Cancel",
+          value: "cancel",
+        },
+      },
+    }).then((value) => {
+      switch (value) {
+        case "submit":
+          this.handleActionSubmission();
+          break;
+        case "cancel":
+          break;
+      }
+    });
+    //   console.log('everthing is corrects.............');
+
+  }
+  handleActionSubmission() {
+      // const quesArray = this.gtcFormData[i]?.quesArray[j];//TODO: remove
+      const quesArray = this.question;
+      if (!quesArray) {
+        swal('Error', 'Invalid data', 'error');
+        return;
+      }
+      const {
+        status,
+        type,
+        installment,
+        rejectReason,
+        responseFile,
+      } = quesArray ?? {};
+
+      const actionPostPayload = {
+        statusId: status,
+        design_year: this.design_year,
+        state: this.stateId,
+        key: type,
+        installment,
+        rejectReason,
+        responseFile,
+      };
+      this.commonServices.formPostMethod(actionPostPayload, 'sfc/reviewAction')
+        .subscribe(
+          (res) => {
+            this.commonServices?.setFormStatusState.next(true);
+            this.loadData();
+            // this.getGtcData();
+            this.isActionSubmitted = false;
+            swal('Saved', "Action submitted successfully", "success");
+          },
+          (error) => {
+            this.isActionSubmitted = false;
+            swal('Error', error?.message ?? 'Something went wrong', 'error');
+          }
+        );
+  }
+  // In development -- function for get data from child componets
+  actionFormChanges(event) {
+    console.log('e event event', this.form);
+  }
 
   ngOnDestroy(): void {
     this.leftMenuSubs.unsubscribe();
