@@ -152,7 +152,6 @@ export class OverviewComponent implements OnInit {
   selectedYearId:string = "";
   selectedYear:string = "";
   ngOnInit(): void {
-    this.setRouter();
     this.onResize();
   }
 
@@ -206,10 +205,12 @@ export class OverviewComponent implements OnInit {
       }
       this.commonServices.formGetMethod("menu", queryParam).subscribe((res: any) => {
         console.log("left responces..", res);
-       localStorage.setItem("leftMenuULB", JSON.stringify(res?.data)); 
+        localStorage.setItem("leftMenuULB", JSON.stringify(res?.data)); 
+        this.sideMenuItem = res?.data;
         this.cardsOverview = res?.card;
         localStorage.setItem("overViewCard2324", JSON.stringify(res?.card));
         this.isApiComplete = true;
+        this.setRouter();
       },
       (error)=>{
         console.log('left menu responces', error)

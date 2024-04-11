@@ -76,10 +76,6 @@ export class DurComponent implements OnInit, OnDestroy {
      this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId")
     return this.selectedYearId;
   }
-  // get financial_year() {
-  //   const years = JSON.parse(localStorage.getItem("Years"));
-  //   return years?.['2022-23'];
-  // }
 
   get ulbId() {
     if(this.userData?.role == 'ULB') return this.userData?.ulb;
@@ -199,7 +195,9 @@ export class DurComponent implements OnInit, OnDestroy {
         },
         cost: child[5]?.value,
         expenditure: child[6]?.value,
-        dpr_status: child[8]?.selectedValue?.[0]?.label
+        dpr_status: child[8]?.selectedValue?.[0]?.label,
+        startDate: child[2]?.value,
+        completionDate: child[3]?.value,
       }
     });
 

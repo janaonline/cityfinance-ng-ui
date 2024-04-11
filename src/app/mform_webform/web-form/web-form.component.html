@@ -193,7 +193,7 @@
                         [value]="question.modelValue ? question.modelValue : ''" (change)="onChange(question, $event)"
                         [ngModelOptions]="{standalone: true}" (focus)="onFocusEvent(question.order, question)"
                         [appRestrictFirstDigitAsZero]="isAppRestrictFirstDigitAsZero"
-                        [readonly]="question?.isQuestionDisabled" title=""/>
+                        [readonly]="question?.isQuestionDisabled" title="" step="any" autocomplete="off"/> 
                     <mat-icon class="input-eye-icon" *ngIf="question?.information" [matTooltip]="question?.information">
                         info</mat-icon>
                 </span>
@@ -981,7 +981,7 @@
                             [ngModelOptions]="{standalone: true}" (focus)="onFocusEvent(question.order, question)"
                             onwheel="this.blur()" (blur)="onBlurEvent(question)"
                             [appRestrictFirstDigitAsZero]="question?.minRange"
-                            [readonly]="question?.isQuestionDisabled" title=""/>
+                            [readonly]="question?.isQuestionDisabled" title="" step="any" autocomplete="off"/>
 
                         <p *ngIf="question.shortKey | slb28Unit : parent : loopIndex"
                             class="rounded slb28unit bg-primary px-2 py-1 ms-1">{{ question.shortKey | slb28Unit :

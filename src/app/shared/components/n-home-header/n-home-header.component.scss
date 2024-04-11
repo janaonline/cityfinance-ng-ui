@@ -85,6 +85,8 @@ $value in $text-sizes {
         padding-top: $spacer*1.5;
         padding-bottom: $spacer*1.5;
         border-bottom: 2px solid transparent;
+        color: #1D5290;
+        font-weight: bold;
         &:hover,
         &.active {
             color: #E87A1C;

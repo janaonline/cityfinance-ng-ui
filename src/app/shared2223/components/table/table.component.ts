@@ -158,7 +158,9 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     }
     this.dataSubscription?.unsubscribe();
       let formData;
+      let after22_23 = false;
       if(this.designYear == this.years["2023-24"] || this.designYear == this.years["2024-25"]){
+        after22_23 = true;
         formData = this.dropdownData?.find(({ formId }) => {
           return formId == this.formId;
         });
@@ -166,11 +168,13 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
          formData = this.dropdownData?.find(({ _id }) => {
           return _id == this.formId;
         });
+        after22_23 = false;
       }
       this.formUrl = formData?.url;
       this.formName = formData?.folderName;
-      this.formRouterLink = `../../../${this.formBaseUrl}/` + this.formUrl;
-      this.callAPI();    
+      this.formRouterLink = after22_23 ? `../../../${this.formBaseUrl}/${this.formUrl}` : `../../${this.formBaseUrl}/${this.formUrl}`;
+    this.callAPI();
+    
     
   }
 

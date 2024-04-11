@@ -507,7 +507,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
         this.questionData[confirmPasswordIndex]['passwordMode'] = true;
       }
     }
-    if(this.form == 'dur' && !this.questionresponse?.data[0]?.language[0].isQuestionDisabled){
+    if(this.form == 'dur' && !this.questionresponse?.data[0]?.isQuestionDisabled){
       setTimeout(()=>{
         this.setCustomDateValidation();
       },10)
