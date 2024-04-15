@@ -454,8 +454,11 @@ export class PropertyTaxComponent implements OnInit {
     ).then((value) => {
       if (value == 'submit') {
         console.log('invalid', this.findInvalidControlsRecursive(this.form));
+        if (!this.validateErrors()) {
+          swal('Error', 'Please fill all mandatory fields', 'error');
           this.focusOnControl();
-        if (!this.validateErrors()) return;
+          return;
+        } 
         this.submit(false);
       }
       else if (value == 'draft') this.submit();
