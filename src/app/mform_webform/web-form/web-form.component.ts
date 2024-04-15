@@ -506,7 +506,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
         this.questionData[confirmPasswordIndex]['passwordMode'] = true;
       }
     }
-    if(this.form == 'dur' && !this.questionresponse?.data[0]?.language[0].isQuestionDisabled){
+    if(this.form == 'dur' && !this.questionresponse?.data[0]?.isQuestionDisabled){
       setTimeout(()=>{
         this.setCustomDateValidation();
       },10)
@@ -1243,32 +1243,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
       );
     }
 
-    // let questionData = this.questionData
-    // this.questionData = []
-
-    // this.questionData.forEach(question => {
-    //   if( question.childQuestionData){
-    //     question.childQuestionData.map((value, idx) => {
-    //       value.map(
-    //         (child, index) =>
-    //           child.visibility && ({...child, nestedConfig:{
-    //             parentOrder: question.order,
-    //             index,
-    //             loopIndex: idx
-    //           }
-    //           }))
-    //     })
-
-    //    }
-    // });
-    // this.questionData = updatedQuestion.questions.toJS()
-    // this.questionData = this.questionData.map(item => {
-    //   return {
-    //     ...item,
-    //     ...item.childQuestions &&{childQuestionData: item.childQuestionData && item.childQuestionData.toJS()}
-    //   }
-    // })
-
+    
     // check if questions has order = password and confirmPassword
     let passwordQuesIndex = this.questionData.findIndex(
       (item: any) => item.order == 'password'
@@ -1377,23 +1352,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
     })
     this.questionData[questionIndex] = await JSON.parse(JSON.stringify(question));
   }
-  // questionChildData(question){
-  //      if( question.childQuestionData){
-  //       question.childQuestionData = question.childQuestionData.toJS().map((value, idx) => {
-  //         value.map(
-  //           (child, index) =>
-  //             child.visibility && ({...child, nestedConfig:{
-  //               parentOrder: question.order,
-  //               index,
-  //               loopIndex: idx
-  //             }
-  //             }))
-  //       })
-
-  //      }
-  //      console.log("qqqq", question.childQuestionData)
-  //      return question.childQuestionData
-  // }
+ 
 
   checkBoxSwitch(questionType: any) {
     return [
@@ -1429,10 +1388,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
         this.isImageUploading = false;
         return false;
       }
-      // if (!mimeType.match(/image\/*/)) {
-      //   this.openSnackBar(['Invalid file. Only image files could be uploaded.'], 3000);
-      //   return false;
-      // }
+      
     }
     let questionValue: any = [];
     questionValue = [
