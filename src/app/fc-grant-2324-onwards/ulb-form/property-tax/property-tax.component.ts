@@ -682,7 +682,6 @@ export class PropertyTaxComponent implements OnInit {
   formDisable(res) {
     if (!res) return;
     this.isButtonAvail = this.commonServices.formDisable(res, this.userData);
-    console.log('acfystkdghask', this.isButtonAvail);
   }
 
   ngOnDestroy(): void {

@@ -64,7 +64,7 @@ export class CustomHttpInterceptor implements HttpInterceptor {
      * @description 401 means usre need to be logged in to access this api. Therefore, redirect the user
      * to login page
      */
-
+debugger
     switch (err.status) {
       case 401:
         this.clearLocalStorage();
@@ -90,6 +90,10 @@ export class CustomHttpInterceptor implements HttpInterceptor {
           },
         });
         break;
+        case 403:
+          this.clearLocalStorage();
+          this.router.navigate(["login"]);
+          break;
       case 0:
         return throwError({
           error: { message: "Failed to connect with Server" },
