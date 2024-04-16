@@ -456,10 +456,11 @@ export class PropertyTaxComponent implements OnInit {
     ).then((value) => {
       if (value == 'submit') {
         console.log('invalid', this.findInvalidControlsRecursive(this.form));
-        if (!this.validateErrors()){
+        if (!this.validateErrors()) {
+          swal('Error', 'Please fill all mandatory fields', 'error');
           this.focusOnControl();
           return;
-        }
+        } 
         this.submit(false);
       }
       else if (value == 'draft') this.submit();
@@ -468,7 +469,6 @@ export class PropertyTaxComponent implements OnInit {
 
   findInvalidControlsRecursive(formToInvestigate: FormGroup | FormArray): string[] {
     var invalidControls: any[] = [];
-    let i = 0;
     let recursiveFunc = (form: FormGroup | FormArray) => {
       Object.keys(form.controls).forEach(field => {
         const control = form.get(field);
@@ -483,6 +483,8 @@ export class PropertyTaxComponent implements OnInit {
     recursiveFunc(formToInvestigate);
     return invalidControls;
   }
+  
+  //add scroll on error class input
   focusOnControl() {
     const inputElement = document.querySelector('input.ng-invalid, div.ng-invalid, select.ng-invalid') as HTMLElement;
     if (inputElement) {
