@@ -215,7 +215,8 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
     this.isActionSubmitted = true;
     this.actionPayload = {
       "form_level": 1,
-      "design_year" : this.Years["2023-24"],
+      // "design_year" : this.Years["2023-24"],
+      "design_year" : this.selectedYearId,
       "formId": this.formId,
       "ulbs": [
           this.ulbId
