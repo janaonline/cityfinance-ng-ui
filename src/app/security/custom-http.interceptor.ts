@@ -5,7 +5,9 @@ import { Observable, Subject, throwError } from 'rxjs';
 import { catchError, filter } from 'rxjs/operators';
 
 import { Login_Logout } from '../util/logout.util';
+import { SweetAlert } from "sweetalert/typings/core";
 
+const swal: SweetAlert = require("sweetalert");
 @Injectable()
 export class CustomHttpInterceptor implements HttpInterceptor {
   routerNavigationSuccess = new Subject<any>();
@@ -68,8 +70,14 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     switch (err.status) {
       case 401:
         this.clearLocalStorage();
-        this.router.navigate(["login"]);
+        swal('Error', err?.error?.message ?? 'Something went wrong', 'error');
+        this.router.navigate(["fc_grant"]);
         break;
+      case 403:
+        this.clearLocalStorage();
+        swal('Error', err?.error?.message ?? 'Something went wrong', 'error');
+        this.router.navigate(["fc_grant"]);
+        break;  
       case 440:
         this.clearLocalStorage();
         const url = !["/", ""].includes(this.router.url)
