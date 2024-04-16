@@ -127,7 +127,11 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   get hasUnsavedChanges() {
+<<<<<<< HEAD
     if(!this.form) return false;
+=======
+    if (!this.form) return false;
+>>>>>>> 4838ba827f734a041cc2d369dd4ac960716724c9
     return !this.form.pristine;
   }
 
@@ -241,6 +245,8 @@ export class PropertyTaxComponent implements OnInit {
       label: [{ value: item.label, disabled: true }],
       placeholder: [{ value: item.placeholder, disabled: true }],
       desc: [{ value: item.desc, disabled: true }],
+      max: [{ value: item.max, disabled: true }],
+      min: [{ value: item.min, disabled: true }],
       position: [{ value: item.postion, disabled: true }],
       pos: [{ value: item.pos, disabled: true }],
       readonly: [{ value: item.readonly, disabled: true }],
@@ -303,7 +309,7 @@ export class PropertyTaxComponent implements OnInit {
             const updatableControl = this.s3Control?.get(selectorString) as FormGroup;
             if (!updatableControl) return;
             ['value', 'file.name', 'file.url', 'date'].forEach(innerSelectorString => {
-              const control  = updatableControl.get(innerSelectorString)
+              const control = updatableControl.get(innerSelectorString)
               this.toggleValidations(control, selectorString + '.' + innerSelectorString, canShow, false);
             });
           })
@@ -319,7 +325,7 @@ export class PropertyTaxComponent implements OnInit {
         this.validators[selector] = control.validator;
       }
       if (!canShow) {
-        if(isArray) {
+        if (isArray) {
           (control as FormArray).clear();
           control?.parent?.get('replicaCount')?.patchValue(0);
         } else {
@@ -337,10 +343,10 @@ export class PropertyTaxComponent implements OnInit {
     const maxFileSize = 5;
     const file: File = event.target.files[0];
     if (!file) return;
-    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
-    if(isfileValid == false){
-      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
-       return;
+    let isfileValid = this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if (isfileValid == false) {
+      swal("Error", "File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+      return;
     }
     const fileExtension = file.name.split('.').pop();
     if (!allowedFileTypes?.includes(fileExtension)) return swal("Error", `Please upload the document in ${allowedFileTypes?.join(', ').toUpperCase()} only`, "error");
@@ -379,7 +385,7 @@ export class PropertyTaxComponent implements OnInit {
         }
       );
       console.log({ confirmed });
-      if(!confirmed) return
+      if (!confirmed) return
       else {
         await this.submit();
       }
@@ -454,7 +460,11 @@ export class PropertyTaxComponent implements OnInit {
     ).then((value) => {
       if (value == 'submit') {
         console.log('invalid', this.findInvalidControlsRecursive(this.form));
-        if (!this.validateErrors()) return swal('Error', 'Please fill all mandatory fields', 'error');
+        if (!this.validateErrors()) {
+          swal('Error', 'Please fill all mandatory fields', 'error');
+          this.focusOnControl();
+          return;
+        } 
         this.submit(false);
       }
       else if (value == 'draft') this.submit();
@@ -477,7 +487,15 @@ export class PropertyTaxComponent implements OnInit {
     recursiveFunc(formToInvestigate);
     return invalidControls;
   }
-
+  
+  //add scroll on error class input
+  focusOnControl() {
+    const inputElement = document.querySelector('input.ng-invalid, div.ng-invalid, select.ng-invalid') as HTMLElement;
+    if (inputElement) {
+      inputElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      inputElement.focus();
+    }
+  }
   async editChildQuestions(item: FormGroup, replicaNumber: number, oldLabel: string) {
     const childrens = item.controls.child as FormArray;
     const { value: updatedLabel, isConfirmed } = await swal2.fire({
@@ -490,7 +508,7 @@ export class PropertyTaxComponent implements OnInit {
       confirmButtonText: 'Add',
     });
     if (!updatedLabel) {
-      if(isConfirmed) swal('Warning', `Please enter a value`, 'warning');
+      if (isConfirmed) swal('Warning', `Please enter a value`, 'warning');
       return;
     };
     console.log(childrens.value);
@@ -546,11 +564,11 @@ export class PropertyTaxComponent implements OnInit {
       confirmButtonText: 'Add',
     })
     if (!value) {
-      if(isConfirmed) swal('Warning', `Please enter a value`, 'warning');
+      if (isConfirmed) swal('Warning', `Please enter a value`, 'warning');
       return;
     };
-    if((childrens?.value as any[])?.some(item => item.value == value)) {
-      return  swal('Warning', `${value} already exists`, 'warning');
+    if ((childrens?.value as any[])?.some(item => item.value == value)) {
+      return swal('Warning', `${value} already exists`, 'warning');
     }
 
     replicaCount++;
@@ -598,10 +616,10 @@ export class PropertyTaxComponent implements OnInit {
    * |------------------------------------------------------------------------------------|
    */
   get growthRatePercentage() {
-    const collectIncludingCess =  this.s3Control.get('data.collectIncludingCess.yearData').value;
+    const collectIncludingCess = this.s3Control.get('data.collectIncludingCess.yearData').value;
     const A = collectIncludingCess?.find(year => year.key == 'FY2022-23')?.value;
     const B = collectIncludingCess?.find(year => year.key == 'FY2023-24')?.value;
-    if(A == '' || B == '') return null;
+    if (A == '' || B == '') return null;
     return (B - A) / A;
   }
 
@@ -630,19 +648,19 @@ export class PropertyTaxComponent implements OnInit {
     this.loaderService.showLoader();
     return new Promise((resolve, reject) => {
       this.propertyTaxService.postData(payload).subscribe(res => {
-       this.form.markAsPristine();
-       this.loaderService.stopLoader();
-       this.commonServices.setFormStatusUlb.next(true);
-       this.loadData();
-       this.isFormFinalSubmit = true;
-       this.formSubmitted = !isDraft;
-       swal('Saved', isDraft ? "Data save as draft successfully!" : "Form submitted successfully!", 'success');
-       resolve(true);
-     }, ({ error }) => {
-       this.loaderService.stopLoader();
-       swal('Error', error?.message ?? 'Something went wrong', 'error');
-       reject();
-     })
+        this.form.markAsPristine();
+        this.loaderService.stopLoader();
+        this.commonServices.setFormStatusUlb.next(true);
+        this.loadData();
+        this.isFormFinalSubmit = true;
+        this.formSubmitted = !isDraft;
+        swal('Saved', isDraft ? "Data save as draft successfully!" : "Form submitted successfully!", 'success');
+        resolve(true);
+      }, ({ error }) => {
+        this.loaderService.stopLoader();
+        swal('Error', error?.message ?? 'Something went wrong', 'error');
+        reject();
+      })
     })
   }
 
@@ -668,8 +686,8 @@ export class PropertyTaxComponent implements OnInit {
   formDisable(res) {
     if (!res) return;
     this.isButtonAvail = this.commonServices.formDisable(res, this.userData);
-    console.log('acfystkdghask', this.isButtonAvail); 
- }
+    console.log('acfystkdghask', this.isButtonAvail);
+  }
 
   ngOnDestroy(): void {
     this.leftMenuSubs.unsubscribe();

@@ -20,8 +20,8 @@
                     class="form-control" [type]="yearItem?.controls?.formFieldType?.value"
                     [readonly]="yearItem?.controls?.readonly?.value" [disabled]="yearItem?.controls?.readonly?.value"
                     [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && !hideErrors && (yearItem.dirty || yearItem.touched)}"
-                    placeholder="{{yearItem?.controls?.placeholder?.value}}" />
-    
+                    placeholder="{{yearItem?.controls?.placeholder?.value}}"
+                    appMinMaxRestriction [minValue]="yearItem?.controls?.min?.value" [maxValue]="yearItem?.controls?.max?.value" />
                 <small class="focus-warning" *ngIf="yearItem?.controls?.formFieldType?.value == 'number' &&
                     yearItem?.controls?.value?.value == '0'">
                     contains "0" do you still want to continue?
