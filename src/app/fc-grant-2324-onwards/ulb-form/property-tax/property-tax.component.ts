@@ -454,7 +454,11 @@ export class PropertyTaxComponent implements OnInit {
     ).then((value) => {
       if (value == 'submit') {
         console.log('invalid', this.findInvalidControlsRecursive(this.form));
-        if (!this.validateErrors()) return swal('Error', 'Please fill all mandatory fields', 'error');
+        if (!this.validateErrors()) {
+          swal('Error', 'Please fill all mandatory fields', 'error');
+          this.focusOnControl();
+          return;
+        } 
         this.submit(false);
       }
       else if (value == 'draft') this.submit();
@@ -463,6 +467,7 @@ export class PropertyTaxComponent implements OnInit {
 
   findInvalidControlsRecursive(formToInvestigate: FormGroup | FormArray): string[] {
     var invalidControls: any[] = [];
+    let i = 0;
     let recursiveFunc = (form: FormGroup | FormArray) => {
       Object.keys(form.controls).forEach(field => {
         const control = form.get(field);
@@ -477,7 +482,13 @@ export class PropertyTaxComponent implements OnInit {
     recursiveFunc(formToInvestigate);
     return invalidControls;
   }
-
+  focusOnControl() {
+    const inputElement = document.querySelector('input.ng-invalid, div.ng-invalid, select.ng-invalid') as HTMLElement;
+  if (inputElement) {
+    inputElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    inputElement.focus();
+  }
+  }
   async editChildQuestions(item: FormGroup, replicaNumber: number, oldLabel: string) {
     const childrens = item.controls.child as FormArray;
     const { value: updatedLabel, isConfirmed } = await swal2.fire({
