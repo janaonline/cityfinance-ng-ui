@@ -69,15 +69,11 @@ export class CustomHttpInterceptor implements HttpInterceptor {
 
     switch (err.status) {
       case 401:
+      case 403:  
         this.clearLocalStorage();
         swal('Error', err?.error?.message ?? 'Something went wrong', 'error');
         this.router.navigate(["fc_grant"]);
-        break;
-      case 403:
-        this.clearLocalStorage();
-        swal('Error', err?.error?.message ?? 'Something went wrong', 'error');
-        this.router.navigate(["fc_grant"]);
-        break;  
+        break; 
       case 440:
         this.clearLocalStorage();
         const url = !["/", ""].includes(this.router.url)
