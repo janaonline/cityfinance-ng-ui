@@ -1132,7 +1132,7 @@
             </div>
 
             <!-- [ngClass]="{'col-sm-12': ( question.width == '100' || isOpenChevron ), 'col-sm-6': (question.width == '50' && !isOpenChevron ) || ( question.width == '25' && isOpenChevron ) , 'col-sm-3': ( question.width == '25' && !isOpenChevron ), 'invalid-border-class': ( question.errorMessage ), 'custom-col-sm-2': ( question.width == '20' && !isOpenChevron ) }" -->
-            <div class="common-font-family customDropDown col-12 align-items-baseline"
+            <div class="common-font-family customDropDown col-12 align-items-baseline {{form}}"
                 *ngSwitchCase="QUESTION_TYPE.SINGLE_SELECT">
                 <!-- <app-custom-dropdown [configuration]="question?.dropdownConfig" [datas]="question?.answer_option" (valueChanges)="onChange(question, {target: {value: $event.value}})"></app-custom-dropdown> -->
                 <label for="{{question.order}}" *ngIf="!tablular"
