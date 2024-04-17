@@ -460,7 +460,7 @@ export class PropertyTaxComponent implements OnInit {
           swal('Error', 'Please fill all mandatory fields', 'error');
           this.focusOnControl();
           return;
-        }
+        } 
         this.submit(false);
       }
       else if (value == 'draft') this.submit();
@@ -484,6 +484,8 @@ export class PropertyTaxComponent implements OnInit {
     recursiveFunc(formToInvestigate);
     return invalidControls;
   }
+  
+  //add scroll on error class input
   focusOnControl() {
     const inputElement = document.querySelector('input.ng-invalid, div.ng-invalid, select.ng-invalid') as HTMLElement;
     if (inputElement) {
