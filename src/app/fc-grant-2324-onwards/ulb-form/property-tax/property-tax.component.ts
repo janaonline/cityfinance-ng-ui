@@ -486,7 +486,7 @@ export class PropertyTaxComponent implements OnInit {
   
   //add scroll on error class input
   focusOnControl() {
-    const inputElement = document.querySelector('input.ng-invalid, div.ng-invalid, select.ng-invalid') as HTMLElement;
+    const inputElement = document.querySelector('small.text-danger.invalid, input.ng-invalid, div.ng-invalid, select.ng-invalid') as HTMLElement;
     if (inputElement) {
       inputElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
       inputElement.focus();

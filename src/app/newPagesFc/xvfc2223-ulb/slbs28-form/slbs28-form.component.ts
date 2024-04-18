@@ -74,6 +74,7 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
   showMess = '';
   preSLBDataNotFilled;
   isloadingComplte = false;
+  createdIn2122:boolean = false;
   ngOnInit(): void {
     this.setRouter();
     this.onLoad();
@@ -348,6 +349,7 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
     sessionStorage.setItem("changeIn28SLB", "false");
     this.newCommonService.get28SlbsData(this.ulbId).subscribe(
       (res: any) => {
+      this.createdIn2122 = res?.createdIn2122;
       if(res?.show){
         this.formShow = res?.show;
         this.showMess = res?.message;

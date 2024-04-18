@@ -173,7 +173,7 @@
                                             [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon>
                                     </p>
     
-                                    <small class="text-danger"
+                                    <small class="text-danger" [ngClass]="{'invalid' : item?.value?.controls?.child?.invalid && (item?.value?.controls?.child?.dirty || item?.value?.controls?.child?.touched)}"
                                         *ngIf="item?.value?.controls?.child?.invalid && (item?.value?.controls?.child?.dirty || item?.value?.controls?.child?.touched)">{{
                                         item?.value?.controls?.child |
                                         formError }}</small>
