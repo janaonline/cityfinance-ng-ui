@@ -458,7 +458,10 @@ export class PropertyTaxComponent implements OnInit {
         console.log('invalid', this.findInvalidControlsRecursive(this.form));
         if (!this.validateErrors()) {
           swal('Error', 'Please fill all mandatory fields', 'error');
-          this.focusOnControl();
+          // wait for rendering all the dynamic class
+          setTimeout(() => {
+            this.focusOnControl();
+          }, 100) 
           return;
         } 
         this.submit(false);
