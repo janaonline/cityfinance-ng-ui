@@ -125,6 +125,7 @@ export class StateResourceManagerComponent implements OnInit {
 
   applyFilter() {
     this.pageIndex = 0;
+    this.paginator.firstPage();
     this.loadData();
   }
 
