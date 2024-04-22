@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
@@ -7,8 +7,10 @@ import { AddResourceComponent } from './add-resource/add-resource.component';
 import { StateResourceService } from './state-resource.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommonServicesService } from '../../fc-shared/service/common-services.service';
+import { MatPaginator } from '@angular/material/paginator';
 
 const swal: SweetAlert = require("sweetalert");
+
 
 @Component({
   selector: 'app-state-resource-manager',
@@ -16,7 +18,8 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ['./state-resource-manager.component.scss']
 })
 export class StateResourceManagerComponent implements OnInit {
-
+  
+  @ViewChild('paginator') paginator: MatPaginator;
   dataLoaded: boolean = false;
   totalDocuments = 0;
   pageSize = 10;
@@ -122,11 +125,13 @@ export class StateResourceManagerComponent implements OnInit {
 
   applyFilter() {
     this.pageIndex = 0;
+    if(this.paginator) this.paginator.firstPage();
     this.loadData();
   }
 
   resetFilter() {
     this.pageIndex = 0;
+   if(this.paginator) this.paginator.firstPage();
     this.filters = {
       categoryId: '',
       stateId: '',
