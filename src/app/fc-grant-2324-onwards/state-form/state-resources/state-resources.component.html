@@ -3,7 +3,7 @@
     <div class="mt-2" *ngFor="let categoryWiseResource of categoryWiseResources; let i = index;">
         <div class="d-flex justify-content-between">
             <h4 class="fw-bold">{{ categoryWiseResource.name }}</h4>
-            <div class="d-flex gap-3" *ngIf="categoryWiseResource?.documents.length > 3;">
+            <div class="d-flex gap-3" *ngIf="categoryWiseResource?.documents.length > 4;">
                 <button class="btn-primary rounded" (click)="scroll('scroller-' + i, -150)">
                     <mat-icon>chevron_left</mat-icon>
                 </button>
