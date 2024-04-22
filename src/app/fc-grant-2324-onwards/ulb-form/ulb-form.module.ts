@@ -32,6 +32,7 @@ import { FormErrorPipe } from './property-tax/form-error.pipe';
 import { VideoGallaryComponent } from './video-gallary/video-gallary.component';
 import { GlobalPartModule } from 'src/app/global-part/global-part.module';
 import { NoUpDownDirective } from './property-tax/no-up-down.directive';
+import { ReplacePipe } from './property-tax/replace.pipe';
 
 
 
@@ -47,7 +48,7 @@ import { NoUpDownDirective } from './property-tax/no-up-down.directive';
     OverviewComponent, 
     ResourceComponent, 
     NoUpDownDirective,
-    PropertyTaxComponent, LoaderComponent, PreviewComponent, PfmsComponent, FourSlbComponent, DecimalLimitDirective, YearComparisionPipe, AllowedFileTypesPipe, FormErrorPipe, VideoGallaryComponent
+    PropertyTaxComponent, LoaderComponent, PreviewComponent, PfmsComponent, FourSlbComponent, DecimalLimitDirective, YearComparisionPipe, AllowedFileTypesPipe, FormErrorPipe, VideoGallaryComponent, ReplacePipe
   ],
   imports: [
     CommonModule,
