@@ -59,15 +59,16 @@ export class MinMaxRestrictionDirective {
     // Check the type of the input element
     const inputType:any = inputElement.type;
     const pastedText = event.clipboardData?.getData('text') || '';
-
-    if (pastedText?.length > this.maxValue && inputType == 'text') {
-      event.preventDefault();
-      this.el.nativeElement.value = '';
-      this.snackBar.openFromComponent(SnackBarComponent, {
-        data: [`Upto ${this.maxValue} is allowed`],
-        duration: 3000
-      });
-    }else if(inputType == 'number') {
+    if(inputType == 'text') return;
+    // if (pastedText?.length > this.maxValue && inputType == 'text') {
+    //   event.preventDefault();
+    //   this.el.nativeElement.value = '';
+    //   this.snackBar.openFromComponent(SnackBarComponent, {
+    //     data: [`Upto ${this.maxValue} is allowed`],
+    //     duration: 3000
+    //   });
+    // }else
+     if(inputType == 'number') {
       event.preventDefault();
       this.el.nativeElement.value = '';
       this.snackBar.openFromComponent(SnackBarComponent, {
