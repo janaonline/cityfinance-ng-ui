@@ -301,7 +301,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     "slidesToScroll": 3,
     "dots": true,
     "infinite": false,
-    "autoplay" : true,
+    "autoplay" : false,
     "autoplaySpeed" : 2000,
     "responsive": [
       {
@@ -309,7 +309,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
-          infinite: true,
+          infinite: false,
           dots: true
         }
       },

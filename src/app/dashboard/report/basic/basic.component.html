@@ -95,7 +95,7 @@
                 report[key].line_item &&
                 report[key].line_item.includes('Surplus/(Deficit) (C) (A-B)'))
           }">
-                    <td class="text-center" style="position:sticky;left:-1px;background-color: white;">
+                    <td class="text-center" style="position:sticky;left:-1px;background-color: white; text-align: left;">
                         {{ report[key] ? report[key].code : "" }}</td>
                     <td [ngClass]="{
               'text-right':
@@ -115,7 +115,7 @@
                 (report[key] &&
                   report[key].line_item &&
                   report[key].line_item.includes('Surplus/(Deficit) (C) (A-B)'))
-            }" style="position:sticky;left:91px;background-color: white;">
+            }" style="position:sticky;left:91px;background-color: white; text-align: left;">
                         {{ report[key] ? report[key].line_item : "" }}
                     </td>
                     <td class="text-right" *ngFor="let yr of years">
