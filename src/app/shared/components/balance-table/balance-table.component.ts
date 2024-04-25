@@ -24,8 +24,8 @@ import { DialogComponent } from "../dialog/dialog.component";
 import { IDialogConfiguration } from "../dialog/models/dialogConfiguration";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { BalanceTabledialogComponent } from "./balance-tabledialog/balance-tabledialog.component";
-import {ResourcesDashboardService} from '../../../pages/resources-dashboard/resources-dashboard.service'
-import {forkJoin} from 'rxjs';
+import { ResourcesDashboardService } from '../../../pages/resources-dashboard/resources-dashboard.service'
+import { forkJoin } from 'rxjs';
 import { Observable } from 'rxjs';
 import { NewDashboardService } from "src/app/pages/new-dashbords/new-dashboard.service";
 export interface PeriodicElement {
@@ -74,8 +74,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class BalanceTableComponent
   extends BaseComponent
-  implements OnInit, OnChanges
-{
+  implements OnInit, OnChanges {
   // stateUlbData = JSON.parse(localStorage.getItem("ulbList"));
   // // stateData: any = this.stateUlbData;
   yearValue: any;
@@ -279,7 +278,7 @@ export class BalanceTableComponent
     private _dialog: MatDialog,
     private router: Router,
     protected commonService: CommonService,
-    private _resourcesDashboardService : ResourcesDashboardService,
+    private _resourcesDashboardService: ResourcesDashboardService,
     private _loaderService: GlobalLoaderService,
     private excelService: ExcelService // private commonService: CommonService, // private balanceTabeleService: BalanceTableService,
   ) {
@@ -321,27 +320,27 @@ export class BalanceTableComponent
       }
       this.compare = false;
       this._loaderService.stopLoader();
-       if(!this.currentUlbFilterData || !this.currentUlbFilterData?.financialYear || !this.currentUlbFilterData?.financialYear?.length){
+      if (!this.currentUlbFilterData || !this.currentUlbFilterData?.financialYear || !this.currentUlbFilterData?.financialYear?.length) {
         //  this.notDataFound = true;
-          return;
-       }
+        return;
+      }
       this.createDataForBasicComp(this.reportGroup);
       this.show = true;
     },
-    (err)=>{
-      this._loaderService.stopLoader();
-     // this.notDataFound = true;
-    }
+      (err) => {
+        this._loaderService.stopLoader();
+        // this.notDataFound = true;
+      }
     );
   }
   ulbName
 
-  getUlbName(event){
+  getUlbName(event) {
     console.log("value in balance table from basic component ", event)
-this.ulbName = event
-this.rawPDFFiles = []
-this.rawExcelFiles = []
-this.getRawFiles();
+    this.ulbName = event
+    this.rawPDFFiles = []
+    this.rawExcelFiles = []
+    this.getRawFiles();
   }
   openDialog(data: any, fileType: string) {
     console.log("openDialog", data);
@@ -379,12 +378,12 @@ this.getRawFiles();
 
     if (fromBs == "Balance Sheet") {
       this.reportService.BSDetailed(temp2);
-      
+
     } else {
       this.reportService.ieDetailed(temp2);
-    
+
     }
-    
+
   }
 
   // newUlbData: any;
@@ -452,7 +451,7 @@ this.getRawFiles();
     console.log("filers", filters);
     this._loaderService.showLoader()
     this.createDataForBasicComp(this.reportGroup, filters);
-this._loaderService.stopLoader()
+    this._loaderService.stopLoader()
     // setTimeout(() => {
     //   this.invokeHidden();
     // }, 500);
@@ -482,13 +481,13 @@ this._loaderService.stopLoader()
   }
 
   ExistingValues() {
-    if(this.ulbIdval.indexOf(this.id) === -1) {
+    if (this.ulbIdval.indexOf(this.id) === -1) {
       this.ulbIdval.push(this.id);
     }
     let currentUlb = this.stateCode[
       this.ulbStateMapping[this.id]
     ]?.ulbs?.filter((elem) => {
-      const exists = this.ulbListVal?.find(e=>e._id === this.id); // check already contain values
+      const exists = this.ulbListVal?.find(e => e._id === this.id); // check already contain values
       if (elem?._id === this.id && !exists) {
         return elem;
       }
@@ -551,59 +550,59 @@ this._loaderService.stopLoader()
       enableSearchFilter: false,
       classes: "myclass custom-class",
     };
-// this.getRawFiles()
+    // this.getRawFiles()
   }
   rawPDFFiles = []
   rawExcelFiles = []
-getRawFiles(){
-  
-  let category
-  if(this.reportGroup == "Balance Sheet"){
-    category = "balance"
-  }else if(this.reportGroup == "Income & Expenditure Statement"){
-    category = "income"
+  getRawFiles() {
+
+    let category
+    if (this.reportGroup == "Balance Sheet") {
+      category = "balance"
+    } else if (this.reportGroup == "Income & Expenditure Statement") {
+      category = "income"
+    }
+
+    let year = ["2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21"]
+    const calls = [];
+    this.currentUlbFilterData.financialYear.forEach(element => {
+      calls.push(this._resourcesDashboardService.getDataSets(element, "pdf", category, "", this.ulbName, ""));
+    });
+    forkJoin(calls).subscribe(responses => {
+      // console.log(responses)
+      responses.forEach(el => {
+
+        this.rawPDFFiles.push(el['data'][0] ?? { fileUrl: "N/A" })
+
+      })
+      console.log("raw pdfs", this.rawPDFFiles)
+
+    });
+    const calls1 = []
+    this.currentUlbFilterData.financialYear.forEach(element => {
+      calls1.push(this._resourcesDashboardService.getDataSets(element, "excel", category, "", this.ulbName, ""));
+    });
+    forkJoin(calls1).subscribe(responses => {
+      // console.log(responses)
+      responses.forEach(el => {
+        this.rawExcelFiles.push(el['data'][0] ?? { fileUrl: "N/A" })
+      })
+      console.log("raw excels", this.rawExcelFiles)
+    });
+    // for(let el of year){
+
+    //   this._resourcesDashboardService.getDataSets(el, "pdf", category, "", this.ulbName, "").subscribe(res => {
+    //     if(res['data'].length)
+    //     this.rawPDFFiles.push(res['data'][0]);
+    //   })
+    //   this._resourcesDashboardService.getDataSets(el, "excel", category, "", this.ulbName, "").subscribe(res=> {
+    //     if(res['data'].length)
+    //     this.rawExcelFiles.push(res['data'][0]);
+    //   })
+    // }
+    console.log(this.rawPDFFiles, this.rawExcelFiles)
+
   }
-  
-  let year = ["2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21"]
-  const calls = [];
-this.currentUlbFilterData.financialYear.forEach(element => {
-  calls.push(this._resourcesDashboardService.getDataSets(element, "pdf", category, "", this.ulbName, ""));
-});
-forkJoin(calls).subscribe(responses => {
-  // console.log(responses)
-  responses.forEach(el => {
-
-  this.rawPDFFiles.push(el['data'][0] ?? {fileUrl: "N/A"})
-
-  })
-  console.log("raw pdfs",this.rawPDFFiles)
-  
-});
-const calls1 = []
-this.currentUlbFilterData.financialYear.forEach(element => {
-  calls1.push(this._resourcesDashboardService.getDataSets(element, "excel", category, "", this.ulbName, ""));
-});
-forkJoin(calls1).subscribe(responses => {
-  // console.log(responses)
-  responses.forEach(el => {
-  this.rawExcelFiles.push(el['data'][0] ?? {fileUrl: "N/A"})
-  })
-  console.log("raw excels", this.rawExcelFiles)  
-});
-  // for(let el of year){
-  
-  //   this._resourcesDashboardService.getDataSets(el, "pdf", category, "", this.ulbName, "").subscribe(res => {
-  //     if(res['data'].length)
-  //     this.rawPDFFiles.push(res['data'][0]);
-  //   })
-  //   this._resourcesDashboardService.getDataSets(el, "excel", category, "", this.ulbName, "").subscribe(res=> {
-  //     if(res['data'].length)
-  //     this.rawExcelFiles.push(res['data'][0]);
-  //   })
-  // }
-  console.log(this.rawPDFFiles, this.rawExcelFiles)
-  
-}
   download() {
     const isUserLoggedIn = this._authService.loggedIn();
     if (!isUserLoggedIn) {
@@ -634,10 +633,10 @@ forkJoin(calls1).subscribe(responses => {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    
+
     // this.invokeHidden();
     console.log("balance table", changes, this.data);
-    
+
     this._loaderService.showLoader();
     if (this.data.name == "Balance Sheet") {
       this.resetCompare();
@@ -663,7 +662,7 @@ forkJoin(calls1).subscribe(responses => {
         this.createUpdateTable(changes.cityId);
       }
     }
-this._loaderService.stopLoader();
+    this._loaderService.stopLoader();
     // if (changes && changes.cityId) {
     //   this.ExistingValues();
     // }
@@ -674,7 +673,7 @@ this._loaderService.stopLoader();
     this.sheetType = "Summary";
     this._loaderService.showLoader()
     this.createDataForBasicComp(this.reportGroup);
-this._loaderService.stopLoader()
+    this._loaderService.stopLoader()
     this.ulbListVal = [];
     this.ulbIdval = [];
     this.yearValue = [];
@@ -729,21 +728,21 @@ this._loaderService.stopLoader()
   }
 
   allReports: any = [];
-  getReport_pastYears(year){
+  getReport_pastYears(year) {
     let category
-    if(this.reportGroup == "Balance Sheet"){
+    if (this.reportGroup == "Balance Sheet") {
       category = "balance"
-    }else if(this.reportGroup == "Income & Expenditure Statement"){
+    } else if (this.reportGroup == "Income & Expenditure Statement") {
       category = "income"
     }
-    this._resourcesDashboardService.getDataSets(year, "pdf", category, "", this.ulbName, "").subscribe(res=> {
-console.log(res['data'])
-if(res['data'].length == 0){
-  this.openDialog(res["data"], "notFound");
-}else{
+    this._resourcesDashboardService.getDataSets(year, "pdf", category, "", this.ulbName, "").subscribe(res => {
+      console.log(res['data'])
+      if (res['data'].length == 0) {
+        this.openDialog(res["data"], "notFound");
+      } else {
 
-  window.open(res['data'][0]['fileUrl'])
-}
+        window.open(res['data'][0]['fileUrl'])
+      }
     })
   }
   getReport(selectedYear: string, fileType: string) {
