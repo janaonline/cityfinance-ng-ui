@@ -27,6 +27,7 @@ import { BalanceTabledialogComponent } from "./balance-tabledialog/balance-table
 import {ResourcesDashboardService} from '../../../pages/resources-dashboard/resources-dashboard.service'
 import {forkJoin} from 'rxjs';
 import { Observable } from 'rxjs';
+import { NewDashboardService } from "src/app/pages/new-dashbords/new-dashboard.service";
 export interface PeriodicElement {
   name: number;
   figures: string;
@@ -140,13 +141,12 @@ export class BalanceTableComponent
   compare: Boolean;
 
   ulbIdval: any;
-  ulbListVal: any;
+  ulbListVal: any[] = [];
 
   isLoading: any = false;
   showtable: any = false;
 
   singleUlbList: any;
-  ulbData = JSON.parse(localStorage.getItem("ulbMapping"));
   stateCode = JSON.parse(localStorage.getItem("ulbList")).data;
   ulbStateMapping = JSON.parse(localStorage.getItem("ulbStateCodeMapping"));
   downLoadArray = [
@@ -222,6 +222,7 @@ export class BalanceTableComponent
       imageExcel: `<a style="cursor: pointer"><i class="fa fa-file-excel-o"></i></a>`,
     },
   ];
+  ulbYears: any = [];
   onItemSelect(item: any) {
     console.log(item);
     console.log(this.selectedItems);
@@ -270,6 +271,7 @@ export class BalanceTableComponent
   sheetType = "Summary";
   //notDataFound:boolean = false;
   constructor(
+    public newDashboardService: NewDashboardService,
     protected reportService: ReportService,
     public dialog: MatDialog,
     public activatedRoute: ActivatedRoute,
@@ -310,11 +312,13 @@ export class BalanceTableComponent
   allUlbsFilterData;
   setUlbList(ulbId) {
     this._loaderService.showLoader();
-    let stateId = this.stateCode[this.ulbStateMapping[ulbId]]._id;
-    this.commonService.fetchBasicLedgerData().subscribe((res:any) => {
-      this.currentUlbFilterData = res.data
-        .find((val) => val._id.state == stateId)
-        ?.ulbList.find((val) => val.ulb == ulbId);
+    this.newDashboardService.getYearList(ulbId).subscribe((res: any) => {
+      if (res.data) {
+        const financialYear = res.data.sort((a, b) => (b.split("-")[0] - a.split("-")[0]));
+        this.currentUlbFilterData = { ulb: ulbId, financialYear };
+        this.ulbYears = financialYear;
+        this.yearsList = financialYear.map((e) => { return { id: e, itemName: e } });
+      }
       this.compare = false;
       this._loaderService.stopLoader();
        if(!this.currentUlbFilterData || !this.currentUlbFilterData?.financialYear || !this.currentUlbFilterData?.financialYear?.length){
@@ -322,10 +326,6 @@ export class BalanceTableComponent
           return;
        }
       this.createDataForBasicComp(this.reportGroup);
-      this.allUlbsFilterData = res.data.reduce((result, value) => {
-        result[value._id.state] = value.ulbList;
-        return result;
-      }, {});
       this.show = true;
     },
     (err)=>{
@@ -428,20 +428,6 @@ this.getRawFiles();
 
   selectedYea(val) {
     this.years = val;
-    console.log(
-      this.ulbIdval,
-      this.ulbListVal,
-      this.yearValue,
-      this.years,
-      "year===---->"
-    );
-    let multiUlbList = this.ulbListVal.map((val) => {
-      let ulbData = this.allUlbsFilterData[val.state._id]?.find(
-        (value) => value.ulb == val._id
-      );
-      return ulbData;
-    });
-    multiUlbList.push(this.currentUlbFilterData);
     this.compare = true;
 
     console.log(
@@ -449,8 +435,9 @@ this.getRawFiles();
       this.currentUlbFilterData,
       this.ulbIdval
     );
-    let ulbIdArr = multiUlbList.map((el) => {
-      return el.ulb;
+    let ulbIdArr = [];
+    this.ulbListVal.forEach((el) => {
+      ulbIdArr.push(el?._id);
     });
     let filters = {
       isComparative: false,
@@ -458,7 +445,7 @@ this.getRawFiles();
       years: this.years,
       yearList: this.yearValue,
       reportGroup: this.reportGroup,
-      ulbList: multiUlbList,
+      ulbList: this.ulbListVal,
       ulbIds: ulbIdArr,
       valueType: this.valueType,
     };
@@ -473,7 +460,7 @@ this._loaderService.stopLoader()
   }
 
   searchEnable() {
-    if (this.ulbListVal && this.yearValue) {
+    if (this.ulbListVal.length && this.yearValue) {
       return false;
     }
     return true;
@@ -495,11 +482,14 @@ this._loaderService.stopLoader()
   }
 
   ExistingValues() {
-    this.ulbIdval.push(this.id);
+    if(this.ulbIdval.indexOf(this.id) === -1) {
+      this.ulbIdval.push(this.id);
+    }
     let currentUlb = this.stateCode[
       this.ulbStateMapping[this.id]
     ]?.ulbs?.filter((elem) => {
-      if (elem?._id === this.id) {
+      const exists = this.ulbListVal?.find(e=>e._id === this.id); // check already contain values
+      if (elem?._id === this.id && !exists) {
         return elem;
       }
     });
@@ -685,7 +675,7 @@ this._loaderService.stopLoader();
     this._loaderService.showLoader()
     this.createDataForBasicComp(this.reportGroup);
 this._loaderService.stopLoader()
-    this.ulbListVal = "";
+    this.ulbListVal = [];
     this.ulbIdval = [];
     this.yearValue = [];
     this.years = [];
