@@ -244,7 +244,7 @@
 }
 
 .slide {
-    margin-right: 1rem;
+    margin: 0 .5rem;
     background: #ffffff 0% 0% no-repeat padding-box;
     //box-shadow: 0px 2px 20px #4E4E4E29;
     border: 1px solid #f4f4f4;
@@ -410,4 +410,29 @@
     border-right: 1px solid lightblue;
     padding-left: .5rem;
     padding-right: .5rem;
+}
+.cities-count{
+    font-size: 30px;
+    font-weight: bold;
+    color: #e67e15;
+}
+.factsheet{
+    padding: 0 0 40px;
+    h3{
+        padding-bottom: 15px;
+        font: normal normal 800 #{$font-size-base*1.875}/#{$font-size-base*2} Archivo;
+    letter-spacing: 0px;
+    color: #0F1F40;
+    }
+}
+.fact-card{
+    background-color: #F8F9FF;
+    text-align: center;
+    padding: 15px;
+}
+.fact-count{
+    font-size: 30px;
+    font-weight: bold;
+    color: #e67e15;
+    max-width:  0 0 20px;
 }
