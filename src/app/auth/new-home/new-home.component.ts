@@ -24,9 +24,10 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     return elem
     })
   //  console.log("response", response)
-    this.whatNewData = response
+  // Commented for updating the order
+    // this.whatNewData = response
 }, (err: any) => {
-  this.whatNewData = []
+  // this.whatNewData = []
 })
 
   }
@@ -74,7 +75,235 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
       textCls: "m-t",
     },
   ];
-  whatNewData=[]
+  whatNewData=
+  [
+    {
+        "imageUrl": "/objects/0e843e3f-07bc-4411-bf25-429dc595b7e0.png",
+        "tags": [
+            "report",
+            "municipal",
+            "finances"
+        ],
+        "ulb": null,
+        "state": null,
+        "modifiedAt": "2022-11-09T09:59:06.899Z",
+        "createdAt": "2022-11-09T09:59:06.899Z",
+        "isActive": true,
+        "_id": "63737955cfb5f255df3a9cee",
+        "name": "Report on Municipal Finances",
+        "downloadUrl": "/objects/5b1a4e36-ebfb-4311-84c6-8213bee1a284.pdf",
+        "header": "reports_&_publications",
+        "type": "PDF",
+        "publishedYear": "2022-23",
+        "__v": 0
+    },
+    {
+        "imageUrl": "/objects/f209358d-8e95-4c26-8a96-27028aba53cd.png",
+        "tags": [
+            "municipal finance",
+            "xvfc",
+            "15th finance commission",
+            "finance commission",
+            "recommendations",
+            "frbm",
+            "fiscal responsibility",
+            "budget management",
+            "revenue optimisation",
+            "fiscal decentralisation"
+        ],
+        "ulb": null,
+        "state": null,
+        "modifiedAt": "2022-10-25T12:22:15.705Z",
+        "createdAt": "2022-10-25T12:22:15.705Z",
+        "isActive": true,
+        "_id": "6357d5c0586f65649a908e99",
+        "name": "A Municipal Finance Blueprint For India",
+        "downloadUrl": "/objects/bdd4ab84-20bf-4299-818b-e34273084615.pdf",
+        "header": "reports_&_publications",
+        "type": "PDF",
+        "publishedYear": "2022-23",
+        "__v": 0
+    },
+    {
+        "imageUrl": "/resource/National_Municipal_Accounts_Manual__Nov_2004_low.jpg",
+        "tags": [
+            "NIUA",
+            "MOHUA",
+            "accounts",
+            "taxes",
+            "budgeting",
+            "MIS"
+        ],
+        "ulb": null,
+        "state": null,
+        "modifiedAt": "2022-05-19T06:22:55.407Z",
+        "createdAt": "2022-05-19T06:22:55.407Z",
+        "isActive": true,
+        "_id": "6285e58b8e29a11c79d1b1a7",
+        "name": "National Municipal Accounts Manual",
+        "downloadUrl": "/resource/NMAM_Manual.pdf",
+        "header": "reports_&_publications",
+        "type": "PDF",
+        "publishedYear": "2003-04",
+        "__v": 0
+    },
+    {
+        "imageUrl": "/objects/14c19248-8c0a-40a7-b06c-da0af793e09c.png",
+        "tags": [
+            "MOHUA",
+            "AMRUT",
+            "assessment frmaework",
+            "smart cities mission",
+            "municipal performance",
+            "ease of living"
+        ],
+        "ulb": null,
+        "state": null,
+        "modifiedAt": "2022-05-19T06:22:55.407Z",
+        "createdAt": "2022-05-19T06:22:55.407Z",
+        "isActive": true,
+        "_id": "6285e58b8e29a11c79d1b1a8",
+        "name": "Municipal Performance Index- Assessment Framework",
+        "downloadUrl": "/resource/Municipal_Performance_Index_MoHUA.pdf",
+        "header": "reports_&_publications",
+        "type": "PDF",
+        "publishedYear": "2018-19",
+        "__v": 0
+    },
+    {
+        "imageUrl": "/objects/956f444a-139a-4614-ab39-704aca7a56e8.png",
+        "tags": [
+            "Urabanisation",
+            "SWM",
+            "water and drainage",
+            "local governance",
+            "PPP,urban infrastucture",
+            "urban governance"
+        ],
+        "ulb": null,
+        "state": null,
+        "modifiedAt": "2022-05-19T06:22:55.407Z",
+        "createdAt": "2022-05-19T06:22:55.407Z",
+        "isActive": true,
+        "_id": "6285e58b8e29a11c79d1b1a9",
+        "name": "Report on Indian Urban Infrastructure and Services",
+        "downloadUrl": "/resource/HPEC_Urban_Infrastructure.pdf",
+        "header": "reports_&_publications",
+        "type": "PDF",
+        "publishedYear": "2010-11",
+        "__v": 0
+    },
+    {
+        "imageUrl": "/resource/XV_Finance_Commission_low.jpg",
+        "tags": [
+            "15th finance commission",
+            "state finances",
+            "uniio finances",
+            "grands and aids"
+        ],
+        "ulb": null,
+        "state": null,
+        "modifiedAt": "2022-05-19T06:22:55.407Z",
+        "createdAt": "2022-05-19T06:22:55.407Z",
+        "isActive": true,
+        "_id": "6285e58b8e29a11c79d1b1aa",
+        "name": "XV FC Report for 2020-21",
+        "downloadUrl": "/resource/XVFC_202021_Report_English_Web.pdf",
+        "header": "reports_&_publications",
+        "type": "PDF",
+        "publishedYear": "2020-21",
+        "__v": 0
+    },
+    {
+        "imageUrl": "/resource/Property_Tax.jpg",
+        "tags": [
+            "property tax cycle",
+            "enumeration",
+            "valuation",
+            "assessment",
+            "billing and collection",
+            "reporting",
+            "GIS",
+            "best practices",
+            "MPOS",
+            "inegrated database"
+        ],
+        "ulb": null,
+        "state": null,
+        "modifiedAt": "2022-05-19T06:22:55.407Z",
+        "createdAt": "2022-05-19T06:22:55.407Z",
+        "isActive": true,
+        "_id": "6285e58b8e29a11c79d1b1ab",
+        "name": "Property Tax Reforms Toolkit",
+        "downloadUrl": "/resource/Property_Tax_Reforms_Toolkit.pdf",
+        "header": "reports_&_publications",
+        "type": "PDF",
+        "publishedYear": "2020-21",
+        "__v": 0
+    },
+    {
+        "imageUrl": "/resource/Capture.png",
+        "tags": [
+            "15th finance commission",
+            "state finances",
+            "uniio finances",
+            "grands and aids"
+        ],
+        "ulb": null,
+        "state": null,
+        "modifiedAt": "2022-05-19T06:22:55.407Z",
+        "createdAt": "2022-05-19T06:22:55.407Z",
+        "isActive": true,
+        "_id": "6285e58b8e29a11c79d1b1ac",
+        "name": "XVFC VOL I Main Report 2021-26",
+        "downloadUrl": "/resource/XVFC_VOL_I_Main_Report_2021-26.pdf",
+        "header": "reports_&_publications",
+        "type": "PDF",
+        "publishedYear": "2019-20",
+        "__v": 0
+    },
+    {
+        "imageUrl": "/resource/img.png",
+        "tags": [
+            "operational guidelines",
+            "grants"
+        ],
+        "ulb": null,
+        "state": null,
+        "modifiedAt": "2022-05-19T06:22:55.407Z",
+        "createdAt": "2022-05-19T06:22:55.407Z",
+        "isActive": true,
+        "_id": "6285e58b8e29a11c79d1b1ad",
+        "name": "Annexure-I FC-XV operational guidelines for Urban Local Bodies for 2021-26",
+        "downloadUrl": "/resource/Annexure-I_FC-XV_operational_guidelines_for_Urban_Local_Body_for_2021-26.pdf",
+        "header": "reports_&_publications",
+        "type": "PDF",
+        "publishedYear": "2020-21",
+        "__v": 0
+    },
+    {
+        "imageUrl": "/resource/Screenshot_2022-02-18_at_1.31.14_PM.png",
+        "tags": [
+            "opearational guidelines",
+            "AMRUT",
+            "water action plans",
+            "funds",
+            "capacity building"
+        ],
+        "ulb": null,
+        "state": null,
+        "modifiedAt": "2022-05-19T06:22:55.407Z",
+        "createdAt": "2022-05-19T06:22:55.407Z",
+        "isActive": true,
+        "_id": "6285e58b8e29a11c79d1b1ae",
+        "name": "AMRUT 2.0-Operational-Guidelines",
+        "downloadUrl": "/resource/Annexure-I_FC-XV_operational_guidelines_for_Urban_Local_Body_for_2021-26.pdf",
+        "header": "reports_&_publications",
+        "type": "PDF",
+        "publishedYear": "2020-21",
+        "__v": 0
+    }
+]
   exploreCardData = [
     {
       title: '',
@@ -140,6 +369,16 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
   ]
   ngOnInit() {
     this.loadRecentSearchValue();
+
+
+    const hUser = $("#countDownUser").data('value');
+    var hUserLess = hUser - 1000;
+    const k = setInterval(function () {
+      if (hUserLess >= hUser) {
+        clearInterval(k);
+    }
+        hUserLess += 10;
+    }, 25);
 
     this.globalFormControl.valueChanges
     .subscribe(value => {
@@ -295,6 +534,8 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
       this.p_indi = false;
     }
   }
+
+
 
   slideConfig = {
     "slidesToShow": 3,
