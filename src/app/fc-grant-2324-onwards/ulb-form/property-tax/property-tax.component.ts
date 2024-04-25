@@ -548,12 +548,12 @@ export class PropertyTaxComponent implements OnInit {
     });
   }
   async addChildQuestions(item: FormGroup) {
-    const copyChildFrom = item.controls?.copyChildFrom.value as string[];
-    const maxChild = item.controls?.maxChild?.value;
-    let replicaCount = item.controls?.replicaCount?.value;
-    console.log({ maxChild, replicaCount });
-    const childrens = item.controls.child as FormArray;
-    if (replicaCount >= maxChild) return swal('Warning', `Upto ${maxChild} items allowed`, 'warning');
+    // const copyChildFrom = item.controls?.copyChildFrom.value as string[];
+    // const maxChild = item.controls?.maxChild?.value;
+    // let replicaCount = item.controls?.replicaCount?.value;
+    // console.log({ maxChild, replicaCount });
+    // const childrens = item.controls.child as FormArray;
+    // if (replicaCount >= maxChild) return swal('Warning', `Upto ${maxChild} items allowed`, 'warning');
     const { value, isConfirmed } = await swal2.fire({
       title: item.controls?.copyOptions.value ? 'Select an option' : 'Enter a value',
       input: item.controls?.copyOptions.value ? 'select' : 'text',
@@ -561,39 +561,62 @@ export class PropertyTaxComponent implements OnInit {
       showCancelButton: true,
       cancelButtonText: 'Cancel',
       confirmButtonText: 'Add',
-    })
-    if (!value) {
-      if (isConfirmed) swal('Warning', `Please enter a value`, 'warning');
-      return;
-    };
-    if ((childrens?.value as any[])?.some(item => item.value == value)) {
-      return swal('Warning', `${value} already exists`, 'warning');
-    }
-
-    replicaCount++;
-    item.patchValue({
-      replicaCount,
+    }).then((result) => {
+      if (result.isDenied || result.isDismissed) {
+        return;
+      }
+      if (result.isConfirmed) {
+        if (!result.value) {
+          swal('Warning', `Please enter a value`, 'warning');
+           return;
+         }
+      /* Read more about isConfirmed, isDenied below */
+      const copyChildFrom = item.controls?.copyChildFrom.value as string[];
+      const maxChild = item.controls?.maxChild?.value;
+      let replicaCount = item.controls?.replicaCount?.value;
+      console.log({ maxChild, replicaCount });
+      const childrens = item.controls.child as FormArray;
+      if (replicaCount >= maxChild) return swal('Warning', `Upto ${maxChild} items allowed`, 'warning');
+      
+         if ((childrens?.value as any[])?.some(item => item.value == result.value)) {
+          return swal('Warning', `${result.value} already exists`, 'warning');
+        }else {
+          replicaCount++;
+          item.patchValue({
+            replicaCount,
+          });
+          copyChildFrom.forEach((targetQuestion: any) => {
+            // const targetQuestion = this.tabs[0].data[key];
+            console.log(targetQuestion);
+            childrens.push(this.fb.group({
+              key: targetQuestion.key,
+              value: [result.value, this.getValidators(targetQuestion, !['date', 'file', 'link'].includes(targetQuestion.formFieldType), parent)],
+              _id: targetQuestion._id,
+              replicaNumber: replicaCount,
+              entryDesignYear: this.design_year,
+              label: [{ value: targetQuestion.label, disabled: true }],
+              formFieldType: [{ value: targetQuestion.formFieldType || 'text', disabled: true }],
+              position: [{ value: targetQuestion.displayPriority || 1, disabled: true }],
+              readonly: true,
+              yearData: this.fb.array(targetQuestion?.yearData?.map(yearItem => this.getInnerFormGroup({
+                ...yearItem,
+                label: targetQuestion.label,
+                postion: targetQuestion.displayPriority
+              }, item, replicaCount)))
+            }))
+          })
+        }
+      } 
     });
-    copyChildFrom.forEach((targetQuestion: any) => {
-      // const targetQuestion = this.tabs[0].data[key];
-      console.log(targetQuestion);
-      childrens.push(this.fb.group({
-        key: targetQuestion.key,
-        value: [value, this.getValidators(targetQuestion, !['date', 'file', 'link'].includes(targetQuestion.formFieldType), parent)],
-        _id: targetQuestion._id,
-        replicaNumber: replicaCount,
-        entryDesignYear: this.design_year,
-        label: [{ value: targetQuestion.label, disabled: true }],
-        formFieldType: [{ value: targetQuestion.formFieldType || 'text', disabled: true }],
-        position: [{ value: targetQuestion.displayPriority || 1, disabled: true }],
-        readonly: true,
-        yearData: this.fb.array(targetQuestion?.yearData?.map(yearItem => this.getInnerFormGroup({
-          ...yearItem,
-          label: targetQuestion.label,
-          postion: targetQuestion.displayPriority
-        }, item, replicaCount)))
-      }))
-    })
+    // if (!value) {
+    //   if (isConfirmed) swal('Warning', `Please enter a value`, 'warning');
+    //   return;
+    // };
+    // if ((childrens?.value as any[])?.some(item => item.value == value)) {
+    //   return swal('Warning', `${value} already exists`, 'warning');
+    // }
+
+    
   }
 
   get s3Control() {
