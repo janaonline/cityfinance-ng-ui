@@ -201,7 +201,10 @@ export class PropertyTaxComponent implements OnInit {
                 key: childItem.key,
                 value: [childItem.value, this.getValidators(childItem, !['date', 'file', 'link'].includes(childItem.formFieldType), parent)],
                 _id: childItem._id,
-                label: [{ value: childItem.label, disabled: true }],
+                label: [{ 
+                  value: item.copyChildFrom.find(copyChildItem => copyChildItem.key == childItem.key)?.label, 
+                  disabled: true 
+                }],
                 replicaNumber: childItem.replicaNumber,
                 readonly: [{ value: childItem.readonly, disabled: true }],
                 formFieldType: [{ value: childItem.formFieldType || 'text', disabled: true }],
