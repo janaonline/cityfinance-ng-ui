@@ -554,7 +554,7 @@ export class PropertyTaxComponent implements OnInit {
     console.log({ maxChild, replicaCount });
     const childrens = item.controls.child as FormArray;
     if (replicaCount >= maxChild) return swal('Warning', `Upto ${maxChild} items allowed`, 'warning');
-    const { value, isConfirmed } = await swal2.fire({
+    const { value, isConfirmed, isDismissed } = await swal2.fire({
       title: item.controls?.copyOptions.value ? 'Select an option' : 'Enter a value',
       input: item.controls?.copyOptions.value ? 'select' : 'text',
       inputOptions: item.controls?.copyOptions.value?.reduce((result, item) => ({ ...result, [item.id]: item.label }), {}),
@@ -562,6 +562,7 @@ export class PropertyTaxComponent implements OnInit {
       cancelButtonText: 'Cancel',
       confirmButtonText: 'Add',
     })
+    if(isDismissed) return;
     if (!value) {
       if (isConfirmed) swal('Warning', `Please enter a value`, 'warning');
       return;
