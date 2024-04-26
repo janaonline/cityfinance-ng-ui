@@ -201,7 +201,10 @@ export class PropertyTaxComponent implements OnInit {
                 key: childItem.key,
                 value: [childItem.value, this.getValidators(childItem, !['date', 'file', 'link'].includes(childItem.formFieldType), parent)],
                 _id: childItem._id,
-                label: [{ value: childItem.label, disabled: true }],
+                label: [{ 
+                  value: item.copyChildFrom.find(copyChildItem => copyChildItem.key == childItem.key)?.label, 
+                  disabled: true 
+                }],
                 replicaNumber: childItem.replicaNumber,
                 readonly: [{ value: childItem.readonly, disabled: true }],
                 formFieldType: [{ value: childItem.formFieldType || 'text', disabled: true }],
@@ -554,7 +557,7 @@ export class PropertyTaxComponent implements OnInit {
     console.log({ maxChild, replicaCount });
     const childrens = item.controls.child as FormArray;
     if (replicaCount >= maxChild) return swal('Warning', `Upto ${maxChild} items allowed`, 'warning');
-    const { value, isConfirmed } = await swal2.fire({
+    const { value, isConfirmed, isDismissed } = await swal2.fire({
       title: item.controls?.copyOptions.value ? 'Select an option' : 'Enter a value',
       input: item.controls?.copyOptions.value ? 'select' : 'text',
       inputOptions: item.controls?.copyOptions.value?.reduce((result, item) => ({ ...result, [item.id]: item.label }), {}),
@@ -562,6 +565,7 @@ export class PropertyTaxComponent implements OnInit {
       cancelButtonText: 'Cancel',
       confirmButtonText: 'Add',
     })
+    if(isDismissed) return;
     if (!value) {
       if (isConfirmed) swal('Warning', `Please enter a value`, 'warning');
       return;
