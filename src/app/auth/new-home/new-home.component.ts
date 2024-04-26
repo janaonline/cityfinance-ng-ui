@@ -75,233 +75,58 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
       textCls: "m-t",
     },
   ];
+  // Adding latest static  spotlight carousel details
   whatNewData=
   [
     {
-        "imageUrl": "/objects/0e843e3f-07bc-4411-bf25-429dc595b7e0.png",
-        "tags": [
-            "report",
-            "municipal",
-            "finances"
-        ],
-        "ulb": null,
-        "state": null,
-        "modifiedAt": "2022-11-09T09:59:06.899Z",
-        "createdAt": "2022-11-09T09:59:06.899Z",
-        "isActive": true,
-        "_id": "63737955cfb5f255df3a9cee",
-        "name": "Report on Municipal Finances",
-        "downloadUrl": "/objects/5b1a4e36-ebfb-4311-84c6-8213bee1a284.pdf",
-        "header": "reports_&_publications",
-        "type": "PDF",
-        "publishedYear": "2022-23",
-        "__v": 0
+        "imageUrl": "../../../assets/new_dashBord_ftr_hdr/rbi-report.png",
+        "name": "RBI Report on Municipal Finances",
+        "downloadUrl": "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/objects/5b1a4e36-ebfb-4311-84c6-8213bee1a284.pdf"
     },
     {
-        "imageUrl": "/objects/f209358d-8e95-4c26-8a96-27028aba53cd.png",
-        "tags": [
-            "municipal finance",
-            "xvfc",
-            "15th finance commission",
-            "finance commission",
-            "recommendations",
-            "frbm",
-            "fiscal responsibility",
-            "budget management",
-            "revenue optimisation",
-            "fiscal decentralisation"
-        ],
-        "ulb": null,
-        "state": null,
-        "modifiedAt": "2022-10-25T12:22:15.705Z",
-        "createdAt": "2022-10-25T12:22:15.705Z",
-        "isActive": true,
-        "_id": "6357d5c0586f65649a908e99",
+        "imageUrl": "/objects/new_dashBord_ftr_hdr/209358d-8e95-4c26-8a96-27028aba53cd.png",
         "name": "A Municipal Finance Blueprint For India",
-        "downloadUrl": "/objects/bdd4ab84-20bf-4299-818b-e34273084615.pdf",
-        "header": "reports_&_publications",
-        "type": "PDF",
-        "publishedYear": "2022-23",
-        "__v": 0
+        "downloadUrl": "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/objects/bdd4ab84-20bf-4299-818b-e34273084615.pdf"
+    },
+    {
+        "imageUrl": "/objects/new_dashBord_ftr_hdr/209358d-8e95-4c26-8a96-27028aba53cd.png",
+        "name": "XVI FC Constitution & Terms of Reference",
+        "downloadUrl": "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/objects/bdd4ab84-20bf-4299-818b-e34273084615.pdf"
+    },
+    {
+        "imageUrl": "/objects/new_dashBord_ftr_hdr/CFR-Framework.png",
+        "name": "City Finance Rankings Framework",
+        "downloadUrl": "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/objects/CFR-Framework.pdf"
+    },
+    {
+        "imageUrl": "/objects/new_dashBord_ftr_hdr/ASICS-2023-report.png",
+        "name": "ASICS Report 2023",
+        "downloadUrl": "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/objects/ASICS-2023-report.pdf"
+    },
+    {
+        "imageUrl": "/objects/new_dashBord_ftr_hdr/ASICS-2023-report.png",
+        "name": "World Bank Report on Indian Urban Infrastructure and Services",
+        "downloadUrl": "https://documents1.worldbank.org/curated/en/099615110042225105/pdf/P17130200d91fc0da0ac610a1e3e1a664d4.pdf"
     },
     {
         "imageUrl": "/resource/National_Municipal_Accounts_Manual__Nov_2004_low.jpg",
-        "tags": [
-            "NIUA",
-            "MOHUA",
-            "accounts",
-            "taxes",
-            "budgeting",
-            "MIS"
-        ],
-        "ulb": null,
-        "state": null,
-        "modifiedAt": "2022-05-19T06:22:55.407Z",
-        "createdAt": "2022-05-19T06:22:55.407Z",
-        "isActive": true,
-        "_id": "6285e58b8e29a11c79d1b1a7",
         "name": "National Municipal Accounts Manual",
-        "downloadUrl": "/resource/NMAM_Manual.pdf",
-        "header": "reports_&_publications",
-        "type": "PDF",
-        "publishedYear": "2003-04",
-        "__v": 0
-    },
-    {
-        "imageUrl": "/objects/14c19248-8c0a-40a7-b06c-da0af793e09c.png",
-        "tags": [
-            "MOHUA",
-            "AMRUT",
-            "assessment frmaework",
-            "smart cities mission",
-            "municipal performance",
-            "ease of living"
-        ],
-        "ulb": null,
-        "state": null,
-        "modifiedAt": "2022-05-19T06:22:55.407Z",
-        "createdAt": "2022-05-19T06:22:55.407Z",
-        "isActive": true,
-        "_id": "6285e58b8e29a11c79d1b1a8",
-        "name": "Municipal Performance Index- Assessment Framework",
-        "downloadUrl": "/resource/Municipal_Performance_Index_MoHUA.pdf",
-        "header": "reports_&_publications",
-        "type": "PDF",
-        "publishedYear": "2018-19",
-        "__v": 0
-    },
-    {
-        "imageUrl": "/objects/956f444a-139a-4614-ab39-704aca7a56e8.png",
-        "tags": [
-            "Urabanisation",
-            "SWM",
-            "water and drainage",
-            "local governance",
-            "PPP,urban infrastucture",
-            "urban governance"
-        ],
-        "ulb": null,
-        "state": null,
-        "modifiedAt": "2022-05-19T06:22:55.407Z",
-        "createdAt": "2022-05-19T06:22:55.407Z",
-        "isActive": true,
-        "_id": "6285e58b8e29a11c79d1b1a9",
-        "name": "Report on Indian Urban Infrastructure and Services",
-        "downloadUrl": "/resource/HPEC_Urban_Infrastructure.pdf",
-        "header": "reports_&_publications",
-        "type": "PDF",
-        "publishedYear": "2010-11",
-        "__v": 0
-    },
-    {
-        "imageUrl": "/resource/XV_Finance_Commission_low.jpg",
-        "tags": [
-            "15th finance commission",
-            "state finances",
-            "uniio finances",
-            "grands and aids"
-        ],
-        "ulb": null,
-        "state": null,
-        "modifiedAt": "2022-05-19T06:22:55.407Z",
-        "createdAt": "2022-05-19T06:22:55.407Z",
-        "isActive": true,
-        "_id": "6285e58b8e29a11c79d1b1aa",
-        "name": "XV FC Report for 2020-21",
-        "downloadUrl": "/resource/XVFC_202021_Report_English_Web.pdf",
-        "header": "reports_&_publications",
-        "type": "PDF",
-        "publishedYear": "2020-21",
-        "__v": 0
-    },
-    {
-        "imageUrl": "/resource/Property_Tax.jpg",
-        "tags": [
-            "property tax cycle",
-            "enumeration",
-            "valuation",
-            "assessment",
-            "billing and collection",
-            "reporting",
-            "GIS",
-            "best practices",
-            "MPOS",
-            "inegrated database"
-        ],
-        "ulb": null,
-        "state": null,
-        "modifiedAt": "2022-05-19T06:22:55.407Z",
-        "createdAt": "2022-05-19T06:22:55.407Z",
-        "isActive": true,
-        "_id": "6285e58b8e29a11c79d1b1ab",
-        "name": "Property Tax Reforms Toolkit",
-        "downloadUrl": "/resource/Property_Tax_Reforms_Toolkit.pdf",
-        "header": "reports_&_publications",
-        "type": "PDF",
-        "publishedYear": "2020-21",
-        "__v": 0
+        "downloadUrl": "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/resource/NMAM_Manual.pdf"
     },
     {
         "imageUrl": "/resource/Capture.png",
-        "tags": [
-            "15th finance commission",
-            "state finances",
-            "uniio finances",
-            "grands and aids"
-        ],
-        "ulb": null,
-        "state": null,
-        "modifiedAt": "2022-05-19T06:22:55.407Z",
-        "createdAt": "2022-05-19T06:22:55.407Z",
-        "isActive": true,
-        "_id": "6285e58b8e29a11c79d1b1ac",
-        "name": "XVFC VOL I Main Report 2021-26",
-        "downloadUrl": "/resource/XVFC_VOL_I_Main_Report_2021-26.pdf",
-        "header": "reports_&_publications",
-        "type": "PDF",
-        "publishedYear": "2019-20",
-        "__v": 0
+        "name": "XV FC Main Report Volume I",
+        "downloadUrl": "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/resource/XVFC_VOL_I_Main_Report_2021-26.pdf"
     },
     {
         "imageUrl": "/resource/img.png",
-        "tags": [
-            "operational guidelines",
-            "grants"
-        ],
-        "ulb": null,
-        "state": null,
-        "modifiedAt": "2022-05-19T06:22:55.407Z",
-        "createdAt": "2022-05-19T06:22:55.407Z",
-        "isActive": true,
-        "_id": "6285e58b8e29a11c79d1b1ad",
-        "name": "Annexure-I FC-XV operational guidelines for Urban Local Bodies for 2021-26",
-        "downloadUrl": "/resource/Annexure-I_FC-XV_operational_guidelines_for_Urban_Local_Body_for_2021-26.pdf",
-        "header": "reports_&_publications",
-        "type": "PDF",
-        "publishedYear": "2020-21",
-        "__v": 0
+        "name": "XV FC Operational Guidelines",
+        "downloadUrl": "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/resource/Annexure-I_FC-XV_operational_guidelines_for_Urban_Local_Body_for_2021-26.pdf"
     },
     {
-        "imageUrl": "/resource/Screenshot_2022-02-18_at_1.31.14_PM.png",
-        "tags": [
-            "opearational guidelines",
-            "AMRUT",
-            "water action plans",
-            "funds",
-            "capacity building"
-        ],
-        "ulb": null,
-        "state": null,
-        "modifiedAt": "2022-05-19T06:22:55.407Z",
-        "createdAt": "2022-05-19T06:22:55.407Z",
-        "isActive": true,
-        "_id": "6285e58b8e29a11c79d1b1ae",
-        "name": "AMRUT 2.0-Operational-Guidelines",
-        "downloadUrl": "/resource/Annexure-I_FC-XV_operational_guidelines_for_Urban_Local_Body_for_2021-26.pdf",
-        "header": "reports_&_publications",
-        "type": "PDF",
-        "publishedYear": "2020-21",
-        "__v": 0
+        "imageUrl": "/resource/Property_Tax.jpg",
+        "name": "Property Tax Toolkit",
+        "downloadUrl": "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/resource/Property_Tax_Reforms_Toolkit.pdf"
     }
 ]
   exploreCardData = [
@@ -340,8 +165,8 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     },
     {
       title: '',
-      label: '15th Finance Commission Grants',
-      text: 'Apply, review, recommend and track 15th finance commission grants',
+      label: 'XV Finance Commission Grants',
+      text: 'Apply, review, recommend and track XV finance commission grants',
       icon: '../../../assets/new_dashBord_ftr_hdr/15fc.svg',
       // hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
       link:'/login'
@@ -541,16 +366,16 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     "slidesToShow": 3,
     "slidesToScroll": 3,
     "dots": true,
-    "infinite": false,
-    "autoplay" : false,
-    "autoplaySpeed" : 2000,
+    "infinite": true,
+    "autoplay" : true,
+    "autoplaySpeed" : 5000,
     "responsive": [
       {
         breakpoint: 1024,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
-          infinite: false,
+          infinite: true,
           dots: true
         }
       },

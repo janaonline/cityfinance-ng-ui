@@ -240,7 +240,7 @@
 
 ::ng-deep .slick-prev:before,
 ::ng-deep .slick-next:before {
-    color: black !important;
+    color: #e67e15 ;
 }
 
 .slide {
@@ -276,6 +276,9 @@
     font: normal normal 800 #{$font-size-base * 1.875}/#{$font-size-base * 2} "Archivo";
     letter-spacing: 0px;
     color: #0f1f40;
+    display: inline-block;
+    border-bottom: 5px solid #e67e15;
+    padding-bottom: 10px;
 }
 
 .res-s-h {
@@ -335,6 +338,7 @@
 
 .com-logo {
     background-color: #f8f9ff;
+    margin-top: 30px;
 }
 
 .com-h {
@@ -391,7 +395,7 @@
 .partner-title {
     color: #0f1f40;
     font-weight: 600;
-    font-size: $font-size-base * 1;
+    font-size: $font-size-base * .75;
 }
 
 .long-and-truncated {
@@ -412,27 +416,35 @@
     padding-right: .5rem;
 }
 .cities-count{
-    font-size: 30px;
     font-weight: bold;
     color: #e67e15;
 }
 .factsheet{
-    padding: 0 0 40px;
+    padding: 40px 0;
+    text-align: center;
+    background-color: #f8f9ff;
     h3{
-        padding-bottom: 15px;
         font: normal normal 800 #{$font-size-base*1.875}/#{$font-size-base*2} Archivo;
     letter-spacing: 0px;
     color: #0F1F40;
+    display: inline-block;
+    border-bottom: 5px solid #e67e15;
+    padding-bottom: 15px;
+    margin-bottom: 2rem;
     }
 }
 .fact-card{
-    background-color: #F8F9FF;
+    background-color: #fff;
     text-align: center;
+    box-shadow: 0px 2px 33px #53525229;
+    border-radius: 12px;
     padding: 15px;
+    min-height: 125px;
+    border: 1px solid rgba(0, 0, 0, 0.125);
 }
 .fact-count{
-    font-size: 30px;
     font-weight: bold;
     color: #e67e15;
-    max-width:  0 0 20px;
+    font-size: 30px;
+    margin-bottom: 20px;
 }
