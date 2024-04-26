@@ -139,15 +139,16 @@ export class BalanceTableComponent
   multipleTableData: any;
   compare: Boolean;
 
-  ulbIdval: any;
+  ulbIdval: any[] = [];
   ulbListVal: any[] = [];
 
   isLoading: any = false;
   showtable: any = false;
 
   singleUlbList: any;
-  stateCode = JSON.parse(localStorage.getItem("ulbList")).data;
-  ulbStateMapping = JSON.parse(localStorage.getItem("ulbStateCodeMapping"));
+  ulbMapping = JSON.parse(localStorage.getItem("ulbMapping"));
+  // stateCode = JSON.parse(localStorage.getItem("ulbList")).data;
+  // ulbStateMapping = JSON.parse(localStorage.getItem("ulbStateCodeMapping"));
   downLoadArray = [
     {
       tableId: 1,
@@ -222,6 +223,7 @@ export class BalanceTableComponent
     },
   ];
   ulbYears: any = [];
+  currentUlbData: any;
   onItemSelect(item: any) {
     console.log(item);
     console.log(this.selectedItems);
@@ -311,10 +313,13 @@ export class BalanceTableComponent
   allUlbsFilterData;
   setUlbList(ulbId) {
     this._loaderService.showLoader();
+    this.currentUlbData = this.ulbMapping[this.id];
+    this.ulbIdval.push(this.id);
+    this.ulbListVal.push(this.currentUlbData);
     this.newDashboardService.getYearList(ulbId).subscribe((res: any) => {
       if (res.data) {
         const financialYear = res.data.sort((a, b) => (b.split("-")[0] - a.split("-")[0]));
-        this.currentUlbFilterData = { ulb: ulbId, financialYear };
+        this.currentUlbFilterData = { ...this.currentUlbData, ulb: ulbId, financialYear };
         this.ulbYears = financialYear;
         this.yearsList = financialYear.map((e) => { return { id: e, itemName: e } });
       }
@@ -340,7 +345,7 @@ export class BalanceTableComponent
     this.ulbName = event
     this.rawPDFFiles = []
     this.rawExcelFiles = []
-    this.getRawFiles();
+    // this.getRawFiles();
   }
   openDialog(data: any, fileType: string) {
     console.log("openDialog", data);
@@ -469,8 +474,8 @@ export class BalanceTableComponent
 
   createUpdateTable(cityId = null) {
     if (cityId) this.id = cityId.currentValue;
-    this.balanceInput.ulbList =
-      this.stateCode[this.ulbStateMapping[this.id]].ulbs;
+    // this.balanceInput.ulbList =
+    //   this.stateCode[this.ulbStateMapping[this.id]].ulbs;
     // .filter((elem) => {
     //   if (elem?._id === this.id) {
     //     return elem;
@@ -483,17 +488,9 @@ export class BalanceTableComponent
   ExistingValues() {
     if (this.ulbIdval.indexOf(this.id) === -1) {
       this.ulbIdval.push(this.id);
+      this.ulbListVal.push(this.currentUlbData);
     }
-    let currentUlb = this.stateCode[
-      this.ulbStateMapping[this.id]
-    ]?.ulbs?.filter((elem) => {
-      const exists = this.ulbListVal?.find(e => e._id === this.id); // check already contain values
-      if (elem?._id === this.id && !exists) {
-        return elem;
-      }
-    });
-    this.ulbListVal.push(...currentUlb);
-    console.log("ulb.......pk", this.ulbListVal);
+
   }
 
   createMultipleUpdateTable() {
@@ -554,41 +551,42 @@ export class BalanceTableComponent
   }
   rawPDFFiles = []
   rawExcelFiles = []
+  // TODO: check and remove the function
   getRawFiles() {
 
-    let category
-    if (this.reportGroup == "Balance Sheet") {
-      category = "balance"
-    } else if (this.reportGroup == "Income & Expenditure Statement") {
-      category = "income"
-    }
+    // let category
+    // if (this.reportGroup == "Balance Sheet") {
+    //   category = "balance"
+    // } else if (this.reportGroup == "Income & Expenditure Statement") {
+    //   category = "income"
+    // }
 
-    let year = ["2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21"]
-    const calls = [];
-    this.currentUlbFilterData.financialYear.forEach(element => {
-      calls.push(this._resourcesDashboardService.getDataSets(element, "pdf", category, "", this.ulbName, ""));
-    });
-    forkJoin(calls).subscribe(responses => {
-      // console.log(responses)
-      responses.forEach(el => {
+    // let year = ["2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21"]
+    // const calls = [];
+    // this.currentUlbFilterData.financialYear.forEach(element => {
+    //   calls.push(this._resourcesDashboardService.getDataSets(element, "pdf", category, "", this.ulbName, ""));
+    // });
+    // forkJoin(calls).subscribe(responses => {
+    //   // console.log(responses)
+    //   responses.forEach(el => {
 
-        this.rawPDFFiles.push(el['data'][0] ?? { fileUrl: "N/A" })
+    //     this.rawPDFFiles.push(el['data'][0] ?? { fileUrl: "N/A" })
 
-      })
-      console.log("raw pdfs", this.rawPDFFiles)
+    //   })
+    //   console.log("raw pdfs", this.rawPDFFiles)
 
-    });
-    const calls1 = []
-    this.currentUlbFilterData.financialYear.forEach(element => {
-      calls1.push(this._resourcesDashboardService.getDataSets(element, "excel", category, "", this.ulbName, ""));
-    });
-    forkJoin(calls1).subscribe(responses => {
-      // console.log(responses)
-      responses.forEach(el => {
-        this.rawExcelFiles.push(el['data'][0] ?? { fileUrl: "N/A" })
-      })
-      console.log("raw excels", this.rawExcelFiles)
-    });
+    // });
+    // const calls1 = []
+    // this.currentUlbFilterData.financialYear.forEach(element => {
+    //   calls1.push(this._resourcesDashboardService.getDataSets(element, "excel", category, "", this.ulbName, ""));
+    // });
+    // forkJoin(calls1).subscribe(responses => {
+    //   // console.log(responses)
+    //   responses.forEach(el => {
+    //     this.rawExcelFiles.push(el['data'][0] ?? { fileUrl: "N/A" })
+    //   })
+    //   console.log("raw excels", this.rawExcelFiles)
+    // });
     // for(let el of year){
 
     //   this._resourcesDashboardService.getDataSets(el, "pdf", category, "", this.ulbName, "").subscribe(res => {
@@ -600,7 +598,7 @@ export class BalanceTableComponent
     //     this.rawExcelFiles.push(res['data'][0]);
     //   })
     // }
-    console.log(this.rawPDFFiles, this.rawExcelFiles)
+    // console.log(this.rawPDFFiles, this.rawExcelFiles)
 
   }
   download() {
