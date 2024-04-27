@@ -383,7 +383,6 @@ export class BalanceTableComponent
 
     if (fromBs == "Balance Sheet") {
       this.reportService.BSDetailed(temp2);
-
     } else {
       this.reportService.ieDetailed(temp2);
 
@@ -636,15 +635,8 @@ export class BalanceTableComponent
     console.log("balance table", changes, this.data);
 
     this._loaderService.showLoader();
-    if (this.data.name == "Balance Sheet") {
-      this.resetCompare();
-      this.reportGroup = "Balance Sheet";
-      this.createDataForBasicComp(this.reportGroup);
-    } else {
-      this.resetCompare();
-      this.reportGroup = "Income & Expenditure Statement";
-      this.createDataForBasicComp(this.reportGroup);
-    }
+    this.reportGroup = this.data.name == "Balance Sheet" ? this.data.name : "Income & Expenditure Statement";
+    this.resetCompare();
 
     this.balanceInput.isComparative = this.isComparative;
     this.balanceInput.type = this.type;
