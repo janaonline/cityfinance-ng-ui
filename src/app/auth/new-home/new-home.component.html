@@ -104,9 +104,9 @@
                 <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig" (init)="slickInit($event)" (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)" (beforeChange)="beforeChange($event)">
                     <div ngxSlickItem *ngFor="let item of whatNewData" class="slide card-img">
                         <div style="height: 200px">
-                            <img [src]="item.imageUrl | toStorageUrl" alt="" class="image" width="50%" height="100%" />
+                            <img [src]="item.imageUrl" alt="" class="image" width="50%" height="100%" />
                         </div>
-                        <a class="card-text new-card-l" href="{{ item.downloadUrl | toStorageUrl}}" target="_blank">{{ item.name }}</a
+                        <a class="card-text new-card-l" href="{{ item.downloadUrl}}" target="_blank">{{ item.name }}</a
               >
             </div>
           </ngx-slick-carousel>
@@ -126,22 +126,28 @@
         <div class="col-md-9 ps-3">
             <ul class="autoplay-items">
                 <li [ngClass]="{'active': highlightNo === 1, 'done' : highlightNo > 1}" (click)="highlightNo = 1">
-                    <h3>7 Years
-                      <span class="small-desc">of financial data on ULBs of India available</span></h3>
-                    <div class="sl-sub-text">One or more financial statement(s) from 4507 ULBs (95%) available for FY 2019-20 to FY 2021-22 </div>
+                    <h3>3+ Years
+                      <span class="small-desc">of aggregating financial information on ULBs of India</span></h3>
+                    <!-- <div class="sl-sub-text">One or more financial statement(s) from 4507 ULBs (95%) available for FY 2019-20 to FY 2021-22 </div> -->
                 </li>
                 <li [ngClass]="{'active': highlightNo === 2, 'done' : highlightNo > 2 }" (click)="highlightNo = 2">
                     <h3>10,862
                       <span class="small-desc">standardised Financial Statements available</span></h3>
-                    <div class="sl-sub-text">One or more financial statement(s) from 3175 ULBs (67%) available in standardised format for FY 2019-20 to FY 2021-22 </div>
+                    <!-- <div class="sl-sub-text">One or more financial statement(s) from 3175 ULBs (67%) available in standardised format for FY 2019-20 to FY 2021-22 </div> -->
                 </li>
                 <li [ngClass]="{'active': highlightNo === 3, 'done' : highlightNo > 3 }" (click)="highlightNo = 3">
                     <h3>₹ 65,706 Crore
                       <span class="small-desc">XV Finance Commission grants
                       released to 4,600+ ULBs</span></h3>
-                    <div class="sl-sub-text">₹ 1,08,916 Crore grants being administered for 4,700 ULBs through <a href="https://cityfinance.in/">cityfinance.in</a></div>
+                    <!-- <div class="sl-sub-text">₹ 1,08,916 Crore grants being administered for 4,700 ULBs through <a href="https://cityfinance.in/">cityfinance.in</a></div> -->
+                </li>
+                <li [ngClass]="{'active': highlightNo === 3, 'done' : highlightNo > 4 }" (click)="highlightNo = 4">
+                    <h3>₹ 1,08,916 Crore
+                      <span class="small-desc">grants being administered for 4,700 ULBs</span></h3>
+                    <!-- <div class="sl-sub-text">₹ 1,08,916 Crore grants being administered for 4,700 ULBs through <a href="https://cityfinance.in/">cityfinance.in</a></div> -->
                 </li>
             </ul>
+            <div class="text-right mr-2" style="color: #fff;">Last updated on: 1/3/24, 2:43 PM</div>
         </div>
     </div>
 </div>
