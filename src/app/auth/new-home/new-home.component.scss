@@ -231,6 +231,8 @@
     color: #262831;
     opacity: 1;
     padding: 8px 5px 12px 5px;
+    display: block;
+    text-align: center;
 }
 
 .slick-wrapper {
@@ -422,7 +424,7 @@
 .factsheet{
     padding: 40px 0;
     text-align: center;
-    background-color: #f8f9ff;
+    background-color: #1E5492;
     h3{
         font: normal normal 800 #{$font-size-base*1.875}/#{$font-size-base*2} Archivo;
     letter-spacing: 0px;
