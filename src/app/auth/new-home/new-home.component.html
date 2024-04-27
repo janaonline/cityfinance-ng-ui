@@ -8,7 +8,7 @@
                         <span class="fy">finance.in</span>
                     </div>
                     <div class="ds-i-div">
-                        <span class="ds-info">Standardised, timely and credible financial information for <span class="cities-count">3462+</span> cities 
+                        <span class="ds-info">Standardised, timely and credible financial information for <span class="cities-count">3500+</span> cities 
                of India</span
             >
           </div>
@@ -114,6 +114,37 @@
       </div>
     </div>
   </div>
+
+  <div class="container-fluid mr-t-b factsheet-bg">
+    <div class="h-p2 text-center mb3">
+        <h2  class="h-sl">Factsheet</h2>
+    </div>
+    <div class="row d-flex justify-content-center align-items-center mt-4 g-0 mb-4" #highlightContainer>
+        <div class="img-ulb col-md-3">
+            <img src="../../../assets/images/Fact-sheet-left.png" class="rounded">
+        </div>
+        <div class="col-md-9 ps-3">
+            <ul class="autoplay-items">
+                <li [ngClass]="{'active': highlightNo === 1, 'done' : highlightNo > 1}" (click)="highlightNo = 1">
+                    <h3>7 Years
+                      <span class="small-desc">of financial data on ULBs of India available</span></h3>
+                    <div class="sl-sub-text">One or more financial statement(s) from 4507 ULBs (95%) available for FY 2019-20 to FY 2021-22 </div>
+                </li>
+                <li [ngClass]="{'active': highlightNo === 2, 'done' : highlightNo > 2 }" (click)="highlightNo = 2">
+                    <h3>10,862
+                      <span class="small-desc">standardised Financial Statements available</span></h3>
+                    <div class="sl-sub-text">One or more financial statement(s) from 3175 ULBs (67%) available in standardised format for FY 2019-20 to FY 2021-22 </div>
+                </li>
+                <li [ngClass]="{'active': highlightNo === 3, 'done' : highlightNo > 3 }" (click)="highlightNo = 3">
+                    <h3>₹ 65,706 Crore
+                      <span class="small-desc">XV Finance Commission grants
+                      released to 4,600+ ULBs</span></h3>
+                    <div class="sl-sub-text">₹ 1,08,916 Crore grants being administered for 4,700 ULBs through <a href="https://cityfinance.in/">cityfinance.in</a></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
   <div class="factsheet">
     <div class="container">
       <h3>Factsheet</h3>

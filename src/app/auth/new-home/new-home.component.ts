@@ -1,10 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit,AfterViewInit,  ElementRef, HostListener,  Renderer2, ViewChild } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { CommonService } from "src/app/shared/services/common.service";
 import {ResourcesDashboardService} from "../../pages/resources-dashboard/resources-dashboard.service"
-
+declare var $: any;
 @Component({
   selector: "app-new-home",
   templateUrl: "./new-home.component.html",
@@ -16,7 +16,8 @@ export class NewHomeComponent implements OnInit {
   constructor(
     protected _commonService: CommonService,
     private router: Router,
-    public resourceDashboard : ResourcesDashboardService
+    public resourceDashboard : ResourcesDashboardService,
+    private renderer: Renderer2,
   ) {
 this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
   let response =  res?.data.map((elem) => {
@@ -30,6 +31,36 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
   // this.whatNewData = []
 })
 
+  }
+
+  
+  @ViewChild('highlightContainer', { static: false }) private highlightContainer: ElementRef<HTMLDivElement>;
+  isHighlightContainerScrolledIntoView: boolean;
+  highlightNo: number = 0;
+  interval: any;
+  @HostListener('window:scroll', ['$event'])
+  isScrolledIntoView() {
+    if (this.highlightContainer) {
+      const rect = this.highlightContainer.nativeElement.getBoundingClientRect();
+      const topShown = rect.top >= 0;
+      const bottomShown = rect.bottom <= window.innerHeight;
+      this.isHighlightContainerScrolledIntoView = topShown && bottomShown;
+
+      if (this.isHighlightContainerScrolledIntoView) {
+        if (this.highlightNo == 0) {
+          this.highlightNo++;
+          this.interval = setInterval(() => {
+            if (this.highlightNo < 3)
+              this.highlightNo++;
+          }, 5 * 1000);
+        }
+      } else {
+        if (this.interval)
+          clearInterval(this.interval);
+        this.highlightNo = 0;
+      }
+
+    }
   }
   globalFormControl = new FormControl();
   globalOptions = [];
@@ -55,6 +86,16 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
   noWrap = false;
   postBody;
   stopNavigation:any
+
+  counters = [
+    {
+      id: "002",
+      label: "Customers served ",
+      number: "5321",
+      duration: "0.1"
+    }
+  ];
+
 
   slides = [
     {
