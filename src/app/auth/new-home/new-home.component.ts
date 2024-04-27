@@ -50,7 +50,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
         if (this.highlightNo == 0) {
           this.highlightNo++;
           this.interval = setInterval(() => {
-            if (this.highlightNo < 3)
+            if (this.highlightNo < 4)
               this.highlightNo++;
           }, 5 * 1000);
         }
