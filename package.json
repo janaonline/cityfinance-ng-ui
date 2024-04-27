@@ -5,6 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "local": "ng serve --configuration=local",
     "test": "ng test",
     "build": "node --max_old_space_size=8120 ./node_modules/@angular/cli/bin/ng build --prod",
     "postbuild": "node ./build/post-build.js",

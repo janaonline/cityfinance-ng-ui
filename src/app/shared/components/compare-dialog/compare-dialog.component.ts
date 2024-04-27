@@ -9,12 +9,12 @@ import {
 } from "@angular/core";
 import { COMMA, ENTER, T } from "@angular/cdk/keycodes";
 import { FormControl } from "@angular/forms";
-import { MatChipInputEvent } from "@angular/material/chips";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { CommonService } from "../../services/common.service";
 import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatSelect } from "@angular/material/select";
+import { debounceTime, distinctUntilChanged, map, switchMap, tap } from "rxjs/operators";
 
 export interface Fruit {
   name: string;
@@ -31,11 +31,12 @@ export class CompareDialogComponent implements OnInit {
   @ViewChild("chipInput") chipInput: ElementRef<HTMLInputElement>;
   @ViewChild(MatSelect) matSelect: MatSelect;
   stateChipList: any = [];
+  isSearching: boolean = false;
+  showSearches: boolean;
 
   constructor(
     private commonService: CommonService,
-    private matSnackBar: MatSnackBar,
-    private _commonService: CommonService
+    private matSnackBar: MatSnackBar
   ) {
     let ulbList = JSON.parse(localStorage.getItem("ulbList")).data;
     for (const key in ulbList) {
@@ -158,14 +159,9 @@ export class CompareDialogComponent implements OnInit {
     }
   }
 
-  yearsList: { id: string; itemName: string }[] = [
-    { id: "2020-21", itemName: "2020-21" },
-    { id: "2019-20", itemName: "2019-20" },
-    { id: "2018-19", itemName: "2018-19" },
-    { id: "2017-18", itemName: "2017-18" },
-    { id: "2016-17", itemName: "2016-17" },
-    { id: "2015-16", itemName: "2015-16" },
-  ];
+  yearsList: { id: string; itemName: string; isDataAvailable: boolean }[] = [];
+
+  @Input() ulbYears = [];
 
   selectYearValue(event: any) {
     console.log("selectYearValue", event);
@@ -203,12 +199,9 @@ export class CompareDialogComponent implements OnInit {
     if (this.preSelectedUlbList) {
       this.ulbListChip = this.preSelectedUlbList;
     }
-    if (this.preSelectedYears) {
-      console.log("dropYears", this.dropYears, this.preSelectedYears);
-      this.dropYears.setValue(this.preSelectedYears);
-      this.selectedDropYears = this.preSelectedYears;
-    }
 
+    this.getFinancialYearBasedOnData();
+    
     if (this.preSelectedOwnRevenueDbParameter) {
       this.selectedVal.setValue(this.preSelectedOwnRevenueDbParameter);
     }
@@ -231,9 +224,6 @@ export class CompareDialogComponent implements OnInit {
       if (!newToogleValue) this.placeholder = `Search for States`;
       else this.placeholder = `Search for ULBs`;
     });
-    this.selectedVal.valueChanges.subscribe((val) => {
-      console.log(val);
-    });
     this.globalFormControl.valueChanges.subscribe((value) => {
       console.log("globalFormControl", value);
       if (this.togglerValue) {
@@ -242,7 +232,7 @@ export class CompareDialogComponent implements OnInit {
         this.typeX = "state";
       }
       if (value.length >= 1) {
-        this._commonService
+        this.commonService
           .postGlobalSearchData(value, this.typeX, "")
           .subscribe((res: any) => {
             console.log(res?.data);
@@ -267,10 +257,8 @@ export class CompareDialogComponent implements OnInit {
         return null;
       }
     });
-    this.searchField.valueChanges.subscribe((value) => {
-      console.log(value);
-      if (value) this.search(value);
-    });
+
+    this.onSearchValueChange();
 
     if (this.type == 2) {
       if (this.own) {
@@ -287,6 +275,27 @@ export class CompareDialogComponent implements OnInit {
         ];
       }
     }
+  }
+  getFinancialYearBasedOnData() {
+    this.commonService.getFinancialYearBasedOnData().subscribe((resp:any) => {
+      const financialYear = resp.data.sort((a, b) => (b.split("-")[0] - a.split("-")[0]));
+      this.yearsList = financialYear.map((year) => {
+        const isDataAvailable= this.ulbYears.includes(year);
+        return { id: year, itemName: year,  isDataAvailable};
+      });
+      if (this.preSelectedYears) {
+        this.dropYears.setValue(this.preSelectedYears);
+        this.selectedDropYears = this.preSelectedYears;
+
+        this.years = this.preSelectedYears;
+        this.yearValue = this.yearsList.filter((elem) => {
+          if (this.years.includes(elem.itemName)) {
+            return elem;
+          }
+        });
+
+      }
+    })
   }
   ngAfterViewInit() {
     this.matSelect.openedChange.subscribe((opened) => {
@@ -346,22 +355,37 @@ export class CompareDialogComponent implements OnInit {
     this.globalFormControl.setValue("");
   }
 
+  onSearchValueChange() {
+    const search$ = this.searchField.valueChanges.pipe(
+      map((value: any) => {
+        return value
+      }),
+      debounceTime(500),
+      distinctUntilChanged(),
+      tap(() => this.isSearching = true),
+      switchMap((term) => term ? this.search(term) : of<any>({ data: this.filteredOptions })),
+      tap(() => {
+        this.isSearching = false,
+          this.showSearches = true;
+      }));
+
+    search$.subscribe(resp => {
+      this.isSearching = false
+      if (resp['data'].length > 0) {
+        this.noDataFound = false;
+      } else {
+        this.noDataFound = true;
+      }
+      this.filteredOptions = resp["data"]
+    });
+
+  }
   search(matchingWord) {
     let body = {
       matchingWord,
       onlyUlb: true,
     };
-    this.commonService.searchUlb(body, "ulb", this.stateId).subscribe(
-      (res) => {
-        if (res["data"].length > 0) {
-          this.noDataFound = false;
-        } else {
-          this.noDataFound = true;
-        }
-        this.filteredOptions = res["data"];
-      },
-      (err) => {}
-    );
+    return this.commonService.searchUlb(body, "ulb", this.stateId);
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
@@ -384,6 +408,7 @@ export class CompareDialogComponent implements OnInit {
   }
 
   optionSelected(option) {
+    option.state = option.state?.name;
     if (this.ulbListChip.length == 3) {
       this.searchField.setValue(null);
     }

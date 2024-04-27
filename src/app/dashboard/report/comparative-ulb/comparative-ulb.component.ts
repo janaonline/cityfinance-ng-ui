@@ -328,11 +328,11 @@ export class ComparativeUlbComponent implements OnInit {
           /** loop through each result line item and add values for specific year */
           if (addFields) {
             for (let k = 0; k < addFields.length; k++) {
-              console.log(
-                addFields[k],
-                years[j]["title"],
-                result[addFields[k]][years[j]["title"]]
-              );
+              // console.log(
+              //   addFields[k],
+              //   years[j]["title"],
+              //   result[addFields[k]][years[j]["title"]]
+              // );
 
               if (
                 result[addFields[k]] &&

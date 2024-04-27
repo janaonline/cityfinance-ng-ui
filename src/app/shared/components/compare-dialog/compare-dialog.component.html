@@ -262,15 +262,23 @@
 
       <div class="row" *ngIf="showDropDown">
         <div class="yearSelect">
-          <mat-form-field appearance="outline" style="width: 50%; margin-left: 2%;">
+          <mat-form-field appearance="outline" style="width: 70%; margin-left: 2%;">
             <mat-label>Select Years</mat-label>
             <mat-select
               [formControl]="dropYears"
               multiple
               (selectionChange)="selectYearValue($event)"
             >
-              <mat-option *ngFor="let year of yearsList" [value]="year.itemName"
-                >{{ year.itemName }}
+              <mat-option *ngFor="let year of yearsList" [value]="year.itemName" [disabled]="!year.isDataAvailable"
+                >
+                <div class="row">
+                  <div class="col-8">
+                    <span> {{ year.itemName }}</span>
+                  </div>
+                  <div class="col-4">
+                    <span class="subtext"> {{ !year.isDataAvailable ? 'No data available': '' }}</span>
+                  </div>
+                </div>                
               </mat-option>
             </mat-select>
           </mat-form-field>
