@@ -120,7 +120,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
   whatNewData=
   [
     {
-        "imageUrl": "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/objects/0e843e3f-07bc-4411-bf25-429dc595b7e0.png",
+        "imageUrl": "/assets/spotlight/world-bank.jpg",
         "name": "RBI Report on Municipal Finances",
         "downloadUrl": "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/objects/5b1a4e36-ebfb-4311-84c6-8213bee1a284.pdf"
     },
@@ -130,9 +130,9 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
         "downloadUrl": "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/objects/bdd4ab84-20bf-4299-818b-e34273084615.pdf"
     },
     {
-        "imageUrl": "/assets/spotlight/TOR-16TH-FC.jpg",
+        "imageUrl": "/assets/spotlight/16th-FC-Members-Appointment-1.jpg",
         "name": "XVI FC Constitution & Terms of Reference",
-        "downloadUrl": "/assets/spotlight/TOR-16TH-FC.pdf"
+        "downloadUrl": "/assets/spotlight/16th-FC-Members-Appointment-1.pdf"
     },
     {
         "imageUrl": "/assets/spotlight/CFR-Framework.jpg",
