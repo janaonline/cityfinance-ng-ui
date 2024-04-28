@@ -120,7 +120,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
   whatNewData=
   [
     {
-        "imageUrl": "/assets/spotlight/world-bank.jpg",
+        "imageUrl": "/assets/spotlight/RBI-report.jpg",
         "name": "RBI Report on Municipal Finances",
         "downloadUrl": "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/objects/5b1a4e36-ebfb-4311-84c6-8213bee1a284.pdf"
     },
