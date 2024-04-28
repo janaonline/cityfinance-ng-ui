@@ -130,22 +130,22 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
         "downloadUrl": "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/objects/bdd4ab84-20bf-4299-818b-e34273084615.pdf"
     },
     {
-        "imageUrl": "../../../assets/spotlight/TOR-16TH-FC.jpg",
+        "imageUrl": "/assets/spotlight/TOR-16TH-FC.jpg",
         "name": "XVI FC Constitution & Terms of Reference",
-        "downloadUrl": "../../../assets/spotlight/TOR-16TH-FC.pdf"
+        "downloadUrl": "/assets/spotlight/TOR-16TH-FC.pdf"
     },
     {
-        "imageUrl": "../../../assets/spotlight/CFR-Framework.jpg",
+        "imageUrl": "/assets/spotlight/CFR-Framework.jpg",
         "name": "City Finance Rankings Framework",
-        "downloadUrl": "../../../assets/spotlight/CFR-Framework.pdf"
+        "downloadUrl": "/assets/spotlight/CFR-Framework.pdf"
     },
     {
-        "imageUrl": "../../../assets/spotlight/ASICS-2023-report.jpg",
+        "imageUrl": "/assets/spotlight/ASICS-2023-report.jpg",
         "name": "ASICS Report 2023",
-        "downloadUrl": "../../../assets/spotlight/ASICS-2023-report.pdf"
+        "downloadUrl": "/assets/spotlight/ASICS-2023-report.pdf"
     },
     {
-        "imageUrl": "../../../assets/spotlight/world-bank.jpg",
+        "imageUrl": "/assets/spotlight/world-bank.jpg",
         "name": "Indian Urban Infrastructure & Services",
         "downloadUrl": "https://documents1.worldbank.org/curated/en/099615110042225105/pdf/P17130200d91fc0da0ac610a1e3e1a664d4.pdf"
     },
