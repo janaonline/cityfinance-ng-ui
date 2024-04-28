@@ -159,6 +159,11 @@ export class ComparativeUlbComponent implements OnInit {
         }
       );
     });
+
+    this.reportService.selectedConversionType.subscribe(selectedConversionType => {
+      // console.log('selectedConversionType', selectedConversionType);
+      this.onSelectingConversionType(selectedConversionType);
+    });
   }
 
   /**
