@@ -8,9 +8,9 @@
             <span class="fy">finance.in</span>
           </div>
           <div class="ds-i-div">
-            <span class="ds-info">Standardised, timely and credible financial information for
-              <span class="cities-count" [countUp]="3500" [duration]="5000"></span>+ cities of India
-            </span>
+            <span class="ds-info">Standardised, timely and credible financial information for 
+              <span class="cities-count" [countUp]="3500" [duration]="5000"></span>+z cities
+              of India</span>
           </div>
           <div class="g-filter-d">
             <form class="filter-form w-100">
@@ -94,10 +94,9 @@
             (beforeChange)="beforeChange($event)">
             <div ngxSlickItem *ngFor="let item of whatNewData" class="slide card-img">
               <div style="height: 200px">
-                <img [src]="item.imageUrl | toStorageUrl" alt="" class="image" width="50%" height="100%" />
+                <img [src]="item.imageUrl" alt="" class="image" width="50%" height="100%" />
               </div>
-              <a class="card-text new-card-l" href="{{ item.downloadUrl | toStorageUrl}}" target="_blank">{{ item.name
-                }}</a>
+              <a class="card-text new-card-l" href="{{ item.downloadUrl}}" target="_blank">{{ item.name }}</a>
             </div>
           </ngx-slick-carousel>
         </div>
@@ -265,75 +264,58 @@
 
                 </div>
 
-              </div>
+                <div class="col-4 r-brdr">
+                  <p class="text-center partner-title">Technology Partner</p>
+                  <div class="d-flex justify-content-center align-items-center text-center">
+                    <a href="https://dhwaniris.com/" target="_blank">
+                      <img width="75%"
+                        src="../../../assets/new_dashBord_ftr_hdr/Dhwani-Logo_Versions-e1533798168980/dhLogo.png" alt=""
+                        class="img-fluid" />
+                    </a>
 
-              <div class="col-4 r-brdr">
-                <p class="text-center partner-title">Technology Partner</p>
-                <div class="d-flex justify-content-center align-items-center text-center">
-                  <a href="https://dhwaniris.com/" target="_blank">
-                    <img width="75%"
-                      src="../../../assets/new_dashBord_ftr_hdr/Dhwani-Logo_Versions-e1533798168980/dhLogo.png" alt=""
-                      class="img-fluid" />
-                  </a>
+                  </div>
 
                 </div>
-
               </div>
             </div>
-          </div>
 
-          <div class="col-md-6 col-12 col-lg-6 d-flex flex-wrap pb-4">
-            <div class="col-12 px-0 d-flex flex-wrap">
-              <p class="text-center col-12 partner-title">Supported by</p>
-              <div class="col-3 d-flex justify-content-center align-items-center r-brdr">
-                <a href="https://www.omidyarnetwork.in/" target="_blank">
-                  <img src="../../../assets/new_dashBord_ftr_hdr/omdiyar-logo/omdiyar-logo.png" alt=""
-                    class="img-fluid" />
-                </a>
-                <!-- <div class="vr"></div> -->
-              </div>
+            <div class="col-md-6 col-12 col-lg-6 d-flex flex-wrap pb-4">
+              <div class="col-12 px-0 d-flex flex-wrap">
+                <p class="text-center col-12 partner-title">Supported by</p>
+                <div class="col-3 d-flex justify-content-center align-items-center r-brdr">
+                  <a href="https://www.omidyarnetwork.in/" target="_blank">
+                    <img src="../../../assets/new_dashBord_ftr_hdr/Omidyar_Network_logo.png" alt="" class="img-fluid" />
+                  </a>
+                  <!-- <div class="vr"></div> -->
+                </div>
 
-            </div>
-          </div>
-        </div>
+                <div class="col-3 d-flex justify-content-center align-items-center r-brdr">
+                  <a href="https://www.gatesfoundation.org/" target="_blank">
+                    <img src="../../../assets/new_dashBord_ftr_hdr/BMGF.png" alt="" class="img-fluid" />
+                  </a>
+                  <!-- <div class="vr"></div> -->
+                </div>
 
-        <div class="col-md-6 col-12 col-lg-6 d-flex flex-wrap pb-4">
-          <div class="col-12 px-0 d-flex flex-wrap">
-            <p class="text-center col-12 partner-title">Supported by</p>
-            <div class="col-3 d-flex justify-content-center align-items-center r-brdr">
-              <a href="https://www.omidyarnetwork.in/" target="_blank">
-                <img src="../../../assets/new_dashBord_ftr_hdr/Omidyar_Network_logo.png" alt="" class="img-fluid" />
-              </a>
-              <!-- <div class="vr"></div> -->
-            </div>
-
-            <div class="col-3 d-flex justify-content-center align-items-center r-brdr">
-              <a href="https://www.gatesfoundation.org/" target="_blank">
-                <img src="../../../assets/new_dashBord_ftr_hdr/BMGF.png" alt="" class="img-fluid" />
-              </a>
-              <!-- <div class="vr"></div> -->
-            </div>
-
-            <div class="col-3 d-flex justify-content-center align-items-center ps-3 r-brdr">
-              <a href="https://crdf.org.in/center/cwas" target="_blank">
-                <!-- <img
+                <div class="col-3 d-flex justify-content-center align-items-center ps-3 r-brdr">
+                  <a href="https://crdf.org.in/center/cwas" target="_blank">
+                    <!-- <img
                       src="../../../assets/new_dashBord_ftr_hdr/shakti-logo/shakti-logo.png"
                       alt=""
                       class="img-fluid"
                     /> -->
-                <img src="../../../assets/white logo stacked june 22 v3.png" alt="" width="80%" class="img-fluid" />
-              </a>
-            </div>
-            <div class="col-3 d-flex justify-content-center align-items-center ps-3">
-              <a href="https://www.worldbank.org" target="_blank">
-                <img src="../../../assets/world-bank-logo.svg" alt="" width="100%" class="img-fluid" />
-              </a>
+                    <img src="../../../assets/white logo stacked june 22 v3.png" alt="" width="80%" class="img-fluid" />
+                  </a>
+                </div>
+                <div class="col-3 d-flex justify-content-center align-items-center ps-3">
+                  <a href="https://www.worldbank.org" target="_blank">
+                    <img src="../../../assets/world-bank-logo.svg" alt="" width="100%" class="img-fluid" />
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-</div>
-</div>
-</section>
+  </section>
 </div>
