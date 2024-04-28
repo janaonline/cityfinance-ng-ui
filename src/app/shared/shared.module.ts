@@ -107,6 +107,7 @@ import { CommonFilterComponent } from './components/common-filter/common-filter.
 import { EndsWithPipe } from './pipes/ends-with.pipe';
 import { IncludesPipe } from './pipes/includes.pipe';
 import { GlobalPartModule } from "../global-part/global-part.module";
+import { CountUpDirective } from "./directives/count-up.directive";
 
 @NgModule({
   imports: [
@@ -214,7 +215,7 @@ import { GlobalPartModule } from "../global-part/global-part.module";
     CommonFilterComponent,
     EndsWithPipe,
     IncludesPipe,
-    
+    CountUpDirective,
   ],
   exports: [
     JoinPipe,
@@ -266,6 +267,7 @@ import { GlobalPartModule } from "../global-part/global-part.module";
     MunicipalityBondsComponent,
     AutoCompleteComponent,
     EndsWithPipe,
+    CountUpDirective,
   ],
   providers: [FinancialDataService],
   entryComponents: [BalanceTabledialogComponent],
