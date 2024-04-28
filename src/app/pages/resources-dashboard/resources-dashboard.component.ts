@@ -34,7 +34,7 @@ export class ResourcesDashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // this.subscribeValue();
     console.log("======>>>>>", this.cardData);
-    this.activeCard(0, this.cardData);
+    this.activeCard(1, this.cardData);
     this.filteredResources = this.resourcesFilter.valueChanges.pipe(
       startWith(""),
       map((value) => this._filter(value))
