@@ -1,10 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit,AfterViewInit,  ElementRef, HostListener,  Renderer2, ViewChild } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { CommonService } from "src/app/shared/services/common.service";
 import {ResourcesDashboardService} from "../../pages/resources-dashboard/resources-dashboard.service"
-
+declare var $: any;
 @Component({
   selector: "app-new-home",
   templateUrl: "./new-home.component.html",
@@ -16,7 +16,8 @@ export class NewHomeComponent implements OnInit {
   constructor(
     protected _commonService: CommonService,
     private router: Router,
-    public resourceDashboard : ResourcesDashboardService
+    public resourceDashboard : ResourcesDashboardService,
+    private renderer: Renderer2,
   ) {
 this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
   let response =  res?.data.map((elem) => {
@@ -24,11 +25,42 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     return elem
     })
   //  console.log("response", response)
-    this.whatNewData = response
+  // Commented for updating the order
+    // this.whatNewData = response
 }, (err: any) => {
-  this.whatNewData = []
+  // this.whatNewData = []
 })
 
+  }
+
+  
+  @ViewChild('highlightContainer', { static: false }) private highlightContainer: ElementRef<HTMLDivElement>;
+  isHighlightContainerScrolledIntoView: boolean;
+  highlightNo: number = 0;
+  interval: any;
+  @HostListener('window:scroll', ['$event'])
+  isScrolledIntoView() {
+    if (this.highlightContainer) {
+      const rect = this.highlightContainer.nativeElement.getBoundingClientRect();
+      const topShown = rect.top >= 0;
+      const bottomShown = rect.bottom <= window.innerHeight;
+      this.isHighlightContainerScrolledIntoView = topShown && bottomShown;
+
+      if (this.isHighlightContainerScrolledIntoView) {
+        if (this.highlightNo == 0) {
+          this.highlightNo++;
+          this.interval = setInterval(() => {
+            if (this.highlightNo < 4)
+              this.highlightNo++;
+          }, 5 * 1000);
+        }
+      } else {
+        if (this.interval)
+          clearInterval(this.interval);
+        this.highlightNo = 0;
+      }
+
+    }
   }
   globalFormControl = new FormControl();
   globalOptions = [];
@@ -55,6 +87,16 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
   postBody;
   stopNavigation:any
 
+  counters = [
+    {
+      id: "002",
+      label: "Customers served ",
+      number: "5321",
+      duration: "0.1"
+    }
+  ];
+
+
   slides = [
     {
       image: "../../../assets/new_dashBord_ftr_hdr/modiji.png",
@@ -74,7 +116,60 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
       textCls: "m-t",
     },
   ];
-  whatNewData=[]
+  // Adding latest static  spotlight carousel details
+  whatNewData=
+  [
+    {
+        "imageUrl": "/assets/spotlight/RBI-report.jpg",
+        "name": "RBI Report on Municipal Finances",
+        "downloadUrl": "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/objects/5b1a4e36-ebfb-4311-84c6-8213bee1a284.pdf"
+    },
+    {
+        "imageUrl": "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/objects/f209358d-8e95-4c26-8a96-27028aba53cd.png",
+        "name": "A Municipal Finance Blueprint For India",
+        "downloadUrl": "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/objects/bdd4ab84-20bf-4299-818b-e34273084615.pdf"
+    },
+    {
+        "imageUrl": "/assets/spotlight/16th-FC-Members-Appointment-1.jpg",
+        "name": "XVI FC Constitution & Terms of Reference",
+        "downloadUrl": "/assets/spotlight/16th-FC-Members-Appointment-1.pdf"
+    },
+    {
+        "imageUrl": "/assets/spotlight/CFR-Framework.jpg",
+        "name": "City Finance Rankings Framework",
+        "downloadUrl": "/assets/spotlight/CFR-Framework.pdf"
+    },
+    {
+        "imageUrl": "/assets/spotlight/ASICS-2023-report.jpg",
+        "name": "ASICS Report 2023",
+        "downloadUrl": "/assets/spotlight/ASICS-2023-report.pdf"
+    },
+    {
+        "imageUrl": "/assets/spotlight/world-bank.jpg",
+        "name": "Indian Urban Infrastructure & Services",
+        "downloadUrl": "https://documents1.worldbank.org/curated/en/099615110042225105/pdf/P17130200d91fc0da0ac610a1e3e1a664d4.pdf"
+    },
+    {
+        "imageUrl": "https://jana-cityfinance-stg.s3.ap-south-1.amazonaws.com/resource/National_Municipal_Accounts_Manual__Nov_2004_low.jpg",
+        "name": "National Municipal Accounts Manual",
+        "downloadUrl": "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/resource/NMAM_Manual.pdf"
+    },
+    {
+        "imageUrl": "https://jana-cityfinance-stg.s3.ap-south-1.amazonaws.com/resource/Capture.png",
+        "name": "XV FC Main Report Volume I",
+        "downloadUrl": "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/resource/XVFC_VOL_I_Main_Report_2021-26.pdf"
+    },
+    {
+        "imageUrl": "https://jana-cityfinance-stg.s3.ap-south-1.amazonaws.com/resource/img.png",
+        "name": "XV FC Operational Guidelines",
+        "downloadUrl": "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/resource/Annexure-I_FC-XV_operational_guidelines_for_Urban_Local_Body_for_2021-26.pdf"
+    },
+    {
+        "imageUrl": "https://jana-cityfinance-stg.s3.ap-south-1.amazonaws.com/resource/Property_Tax.jpg",
+        "name": "Property Tax Toolkit",
+        "downloadUrl": "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/resource/Property_Tax_Reforms_Toolkit.pdf"
+    }
+]
   exploreCardData = [
     {
       title: '',
@@ -111,8 +206,8 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     },
     {
       title: '',
-      label: '15th Finance Commission Grants',
-      text: 'Apply, review, recommend and track 15th finance commission grants',
+      label: 'XV Finance Commission Grants',
+      text: 'Apply, review, recommend and track XV finance commission grants',
       icon: '../../../assets/new_dashBord_ftr_hdr/15fc.svg',
       // hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
       link:'/login'
@@ -140,6 +235,16 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
   ]
   ngOnInit() {
     this.loadRecentSearchValue();
+
+
+    const hUser = $("#countDownUser").data('value');
+    var hUserLess = hUser - 1000;
+    const k = setInterval(function () {
+      if (hUserLess >= hUser) {
+        clearInterval(k);
+    }
+        hUserLess += 10;
+    }, 25);
 
     this.globalFormControl.valueChanges
     .subscribe(value => {
@@ -296,20 +401,22 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     }
   }
 
+
+
   slideConfig = {
     "slidesToShow": 3,
     "slidesToScroll": 3,
     "dots": true,
-    "infinite": false,
-    "autoplay" : false,
-    "autoplaySpeed" : 2000,
+    "infinite": true,
+    "autoplay" : true,
+    "autoplaySpeed" : 5000,
     "responsive": [
       {
         breakpoint: 1024,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
-          infinite: false,
+          infinite: true,
           dots: true
         }
       },
