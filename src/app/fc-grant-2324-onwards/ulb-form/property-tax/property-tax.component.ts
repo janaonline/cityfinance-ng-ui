@@ -500,19 +500,23 @@ export class PropertyTaxComponent implements OnInit {
   }
   async editChildQuestions(item: FormGroup, replicaNumber: number, oldLabel: string) {
     const childrens = item.controls.child as FormArray;
-    const { value: updatedLabel, isConfirmed } = await swal2.fire({
+    const { value: updatedLabel, isConfirmed, isDismissed } = await swal2.fire({
       title: item.controls?.copyOptions.value ? 'Select an option' : 'Enter a value',
       input: item.controls?.copyOptions.value ? 'select' : 'text',
       inputValue: oldLabel,
       inputOptions: item.controls?.copyOptions.value?.reduce((result, item) => ({ ...result, [item.id]: item.label }), {}),
       showCancelButton: true,
       cancelButtonText: 'Cancel',
-      confirmButtonText: 'Add',
+      confirmButtonText: 'Update',
     });
+    if(isDismissed) return;
     if (!updatedLabel) {
       if (isConfirmed) swal('Warning', `Please enter a value`, 'warning');
       return;
     };
+    if ((childrens?.value as any[])?.some(item => (item.value).toLowerCase() == (updatedLabel).toLowerCase())) {
+      return swal('Warning', `${updatedLabel} already exists`, 'warning');
+    }
     console.log(childrens.value);
     const updatableQuestions = childrens.controls.filter(control => control.value.replicaNumber == replicaNumber) as FormGroup[];
 
@@ -570,7 +574,7 @@ export class PropertyTaxComponent implements OnInit {
       if (isConfirmed) swal('Warning', `Please enter a value`, 'warning');
       return;
     };
-    if ((childrens?.value as any[])?.some(item => item.value == value)) {
+    if ((childrens?.value as any[])?.some(item => (item.value).toLowerCase() == (value).toLowerCase())) {
       return swal('Warning', `${value} already exists`, 'warning');
     }
 
