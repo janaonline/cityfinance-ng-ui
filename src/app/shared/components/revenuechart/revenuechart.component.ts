@@ -22,6 +22,7 @@ import { ShareDialogComponent } from "../share-dialog/share-dialog.component";
 import { CommonService } from "../../services/common.service";
 import { StateFilterDataService } from "../state-filter-data/state-filter-data.service";
 import { stateDashboardSubTabsList } from "../state-filter-data/constant";
+import { RevenuechartService } from "./revenuechart.service";
 
 @Component({
   selector: "app-revenuechart",
@@ -66,7 +67,8 @@ export class RevenuechartComponent
     public activatedRoute: ActivatedRoute,
     private readonly router: Router,
     private commonService: CommonService,
-    private stateFilterDataService: StateFilterDataService
+    private stateFilterDataService: StateFilterDataService,
+    private revenuechartService:RevenuechartService
   ) {
     super();
     this.activatedRoute.queryParams.subscribe((val) => {
@@ -362,7 +364,7 @@ export class RevenuechartComponent
 
   widgetMode: boolean = false;
   apiParamData: any;
-
+  ulbList: any;
   @Input() getChartPayload: any = {};
   multiChart: boolean = false;
   scatterData: any;
@@ -440,6 +442,7 @@ export class RevenuechartComponent
 
   yearValueChange(value) {
     this.year = value;
+    this.revenuechartService.setSelectedYear(value)
     this.sendValue();
   }
 
@@ -471,7 +474,15 @@ export class RevenuechartComponent
       }
     }
     if (changes.mySelectedYears && changes.mySelectedYears.currentValue) {
-      this.year = this.mySelectedYears[0];
+      //this.year = this.mySelectedYears[0];
+      this.revenuechartService.getYear.subscribe((res)=>{
+         if(res){
+           this.year = res
+         }else{
+          this.year = this.mySelectedYears[0];
+         } 
+      })
+      
     }
     console.log("changesmultipleCharts", changes);
     if (changes.multipleCharts && changes.multipleCharts.currentValue) {
@@ -720,6 +731,7 @@ export class RevenuechartComponent
   openModal() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = "39rem";
+     this.revenuechartService.getSelectedULBList.subscribe((res:any)=>{this.ulbList = res;})
     this.dialogRef = this.dialog.open(this.template, dialogConfig);
     this.dialogRef.afterClosed().subscribe((result) => {
       console.log("result", result);
@@ -741,7 +753,6 @@ export class RevenuechartComponent
     this.compareChange.emit(value);
   }
 
-  ulbList: any;
   getCompareCompValues(value) {
     console.log("neeeeee==>", value);
     if (Array.isArray(value)) {
@@ -754,12 +765,14 @@ export class RevenuechartComponent
   getClearedUlbValue(value) {
     console.log("hhhhhhhh", value);
     this.ulbList = value;
-    if (value == "") {
-      this.sendValue();
-    }
+    this.sendValue();
+    // if (value == "") {
+    //   this.sendValue();
+    // }
   }
 
   sendValue(ulbs = []) {
+    this.revenuechartService.getSelectedULBList.subscribe((res)=>{this.ulbList = res})
     let newYears = [this.year],
       numYear = 2,
       newValue = this.year;
@@ -851,6 +864,7 @@ export class RevenuechartComponent
 
   resetState() {
     this.compareType = "State Average";
+    this.revenuechartService.updateUlbList([])
     this.sendValue();
   }
 
