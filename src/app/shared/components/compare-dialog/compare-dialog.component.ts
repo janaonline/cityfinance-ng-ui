@@ -15,6 +15,7 @@ import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatSelect } from "@angular/material/select";
 import { debounceTime, distinctUntilChanged, map, switchMap, tap } from "rxjs/operators";
+import { RevenuechartService } from "../revenuechart/revenuechart.service";
 
 export interface Fruit {
   name: string;
@@ -33,9 +34,10 @@ export class CompareDialogComponent implements OnInit {
   stateChipList: any = [];
   isSearching: boolean = false;
   showSearches: boolean;
-
+    
   constructor(
     private commonService: CommonService,
+    private revenuechartService:RevenuechartService,
     private matSnackBar: MatSnackBar
   ) {
     let ulbList = JSON.parse(localStorage.getItem("ulbList")).data;
@@ -197,7 +199,7 @@ export class CompareDialogComponent implements OnInit {
       this.balcnceTab
     );
     if (this.preSelectedUlbList) {
-      this.ulbListChip = this.preSelectedUlbList;
+        this.ulbListChip = this.preSelectedUlbList;
     }
 
     this.getFinancialYearBasedOnData();
@@ -333,7 +335,7 @@ export class CompareDialogComponent implements OnInit {
       value.checked = false;
       return value;
     });
-
+    
     console.log("cleared ulblist", this.ulbListChip);
   }
   close() {
@@ -508,6 +510,7 @@ export class CompareDialogComponent implements OnInit {
         this.ulbValueList.emit(this.ulbListChip);
         this.SelectYearList.emit(this.yearValue);
         this.SelectYears.emit(this.years);
+        this.revenuechartService.updateUlbList(this.ulbListChip)
         this.close();
       }
     }
