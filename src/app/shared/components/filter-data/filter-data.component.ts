@@ -288,14 +288,16 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     console.log("chart data 1", data);
     this.compareType = body["compareType"];
     let text = body['filterName'].includes('mix') || body['isPerCapita'] ? 'Simple' : 'Weighted'
-    // this.chartTitle = `${this.ulbMapping[this.currentUlb].name} ${
-    //   this.selectedTab =='Total Revenue' ? 'Capital Expenditure' : this.selectedTab
-    // } vs ${body["compareType"]} ${
-    //   this.ulbMapping[this.currentUlb].type
-    // } ${text} Average`;
-    this.chartTitle = `${this.ulbMapping[this.currentUlb].name}  vs ${
-      'selected ULB(s) '+this.selectedTab 
-    }`;
+    this.chartTitle = `${this.ulbMapping[this.currentUlb].name} ${
+      this.selectedTab
+    } vs ${body["compareType"]} ${
+      this.ulbMapping[this.currentUlb].type
+    } ${text} Average`;
+    this.chartTitle = this.chartTitle.replace( this.selectedTab+' vs ULBs.. Municipal Corporation Weighted Average','vs selected ULB(s) '+this.selectedTab )
+    this.chartTitle = this.chartTitle.replace( this.selectedTab+' vs ULBs.. Municipal Corporation Simple Average','vs selected ULB(s) '+this.selectedTab )
+    // this.chartTitle = `${this.ulbMapping[this.currentUlb].name}  vs ${
+    //   'selected ULB(s) '+this.selectedTab 
+    // }`;
     this.barChartPayload = {};
 
     this.selectedFinancialYear = body["financialYear"];
