@@ -337,6 +337,7 @@ export class CompareDialogComponent implements OnInit {
     });
     
     console.log("cleared ulblist", this.ulbListChip);
+    this.revenuechartService.updateUlbList([])
   }
   close() {
     this.closeDialog.emit(true);

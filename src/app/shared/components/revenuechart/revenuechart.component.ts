@@ -476,10 +476,16 @@ export class RevenuechartComponent
     if (changes.mySelectedYears && changes.mySelectedYears.currentValue) {
       //this.year = this.mySelectedYears[0];
       this.revenuechartService.getYear.subscribe((res)=>{
-         if(res){
+         if(res.length>0){
            this.year = res
          }else{
-          this.year = this.mySelectedYears[0];
+          let tempYear = this.mySelectedYears
+          tempYear.sort(function (a, b) {
+            let newA:any = a.split("-")[0];
+            let newB:any = b.split("-")[0];
+            return newB - newA;
+          });
+          this.year = tempYear[0];
          } 
       })
       
@@ -772,7 +778,11 @@ export class RevenuechartComponent
   }
 
   sendValue(ulbs = []) {
-    this.revenuechartService.getSelectedULBList.subscribe((res)=>{this.ulbList = res})
+    this.revenuechartService.getSelectedULBList.subscribe((res)=>{
+      if(res.length>0){
+        this.compareType = "ULBs..";
+      }
+      this.ulbList = res})
     let newYears = [this.year],
       numYear = 2,
       newValue = this.year;

@@ -11,7 +11,7 @@ export class RevenuechartService {
   private setUlbList : BehaviorSubject<any> = new BehaviorSubject([]);
    getSelectedULBList = this.setUlbList.asObservable();
 
-   private setYear : BehaviorSubject<any> = new BehaviorSubject(String);
+   private setYear : BehaviorSubject<any> = new BehaviorSubject([]);
    getYear = this.setYear.asObservable();
 
   updateUlbList(selectedUlbList){
