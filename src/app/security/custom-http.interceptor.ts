@@ -66,7 +66,6 @@ export class CustomHttpInterceptor implements HttpInterceptor {
      * @description 401 means usre need to be logged in to access this api. Therefore, redirect the user
      * to login page
      */
-debugger
     switch (err.status) {
       case 401:
       case 403:  
