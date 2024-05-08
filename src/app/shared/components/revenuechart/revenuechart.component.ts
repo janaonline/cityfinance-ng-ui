@@ -779,8 +779,8 @@ export class RevenuechartComponent
 
   sendValue(ulbs = []) {
     this.revenuechartService.getSelectedULBList.subscribe((res)=>{
-      if(res.length>0){
-        this.compareType = "ULBs..";
+      if(res.length>0 && (this.compareType=='State' || this.compareType==undefined)){
+         this.compareType = "ULBs..";
       }
       this.ulbList = res})
     let newYears = [this.year],
