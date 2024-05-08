@@ -8,7 +8,7 @@ import { environment } from "../../../../environments/environment";
   providedIn: "root",
 })
 export class DashboardService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
   fetchDependencyOwnRevenueData(
     year: string,
@@ -164,6 +164,12 @@ export class DashboardService {
     });
   }
 
+  slbYears(queryParams) {
+    return this.httpClient.get(
+      `${environment.api.url}indicatorsYears`,
+      { params: queryParams }
+    );
+  }
   fetchCitySlbChartData(queryParams) {
     const { type, compUlb, ulb, year } = queryParams;
 

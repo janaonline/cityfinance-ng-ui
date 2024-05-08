@@ -231,6 +231,8 @@
     color: #262831;
     opacity: 1;
     padding: 8px 5px 12px 5px;
+    display: block;
+    text-align: center;
 }
 
 .slick-wrapper {
@@ -240,11 +242,11 @@
 
 ::ng-deep .slick-prev:before,
 ::ng-deep .slick-next:before {
-    color: black !important;
+    color: #e67e15 ;
 }
 
 .slide {
-    margin-right: 1rem;
+    margin: 0 .5rem;
     background: #ffffff 0% 0% no-repeat padding-box;
     //box-shadow: 0px 2px 20px #4E4E4E29;
     border: 1px solid #f4f4f4;
@@ -276,6 +278,9 @@
     font: normal normal 800 #{$font-size-base * 1.875}/#{$font-size-base * 2} "Archivo";
     letter-spacing: 0px;
     color: #0f1f40;
+    display: inline-block;
+    border-bottom: 5px solid #e67e15;
+    padding-bottom: 10px;
 }
 
 .res-s-h {
@@ -290,7 +295,7 @@
     box-shadow: 0px 2px 33px #53525229;
     border-radius: 12px;
     width: 325px;
-    height: 225px;
+    min-height: 225px;
     margin: 1rem;
     padding: 1rem 2rem;
 }
@@ -335,6 +340,7 @@
 
 .com-logo {
     background-color: #f8f9ff;
+    margin-top: 30px;
 }
 
 .com-h {
@@ -391,7 +397,7 @@
 .partner-title {
     color: #0f1f40;
     font-weight: 600;
-    font-size: $font-size-base * 1;
+    font-size: $font-size-base * .75;
 }
 
 .long-and-truncated {
@@ -410,4 +416,144 @@
     border-right: 1px solid lightblue;
     padding-left: .5rem;
     padding-right: .5rem;
+}
+.cities-count{
+    font-weight: bold;
+    color: #e67e15;
+}
+.factsheet{
+    padding: 40px 0;
+    text-align: center;
+    h3{
+        font: normal normal 800 #{$font-size-base*1.875}/#{$font-size-base*2} Archivo;
+    letter-spacing: 0px;
+    color: #0F1F40;
+    display: inline-block;
+    border-bottom: 5px solid #e67e15;
+    padding-bottom: 15px;
+    margin-bottom: 2rem;
+    }
+}
+.fact-card{
+    background-color: #fff;
+    text-align: center;
+    box-shadow: 0px 2px 33px #53525229;
+    border-radius: 12px;
+    padding: 15px;
+    min-height: 125px;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+}
+.fact-count{
+    font-weight: bold;
+    color: #e67e15;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+.how-it-work {
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 36px;
+    line-height: 60px;
+}
+.factsheet-bg{
+    background-color: #1D528F;
+    padding: 40px 0;
+    h2{font: normal normal 800 #{$font-size-base*1.875}/#{$font-size-base*2} Archivo;
+    letter-spacing: 0px;
+    color: #fff;
+    display: inline-block;
+    border-bottom: 5px solid #e67e15;
+    padding-bottom: 15px;
+    }
+
+
+}
+.autoplay-items {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    &::before {
+        content: '';
+        height: 100%;
+        width: 1px;
+        border: 1px dashed #c0e2ff;
+        position: absolute;
+        left: 15px;
+        top: 32px;
+    }
+    & li {
+        list-style: none;
+        position: relative;
+        padding-left: $spacer*3;
+        padding-bottom: $spacer;
+        cursor: pointer;
+        & h3 {
+            font-size: $font-size-base*2;
+            font-weight: $font-weight-bold;
+            color: #e67e15;
+            margin-bottom: 30px;
+            .small-desc{
+                font-size: $font-size-base*1.5;
+                color: #fff;
+                font-weight: normal;
+            }
+        }
+        &::before {
+            content: '';
+            height: 0;
+            width: 2px;
+            background: #0f4782;
+            position: absolute;
+            left: 15px;
+            top: 32px;
+        }
+        &::after {
+            content: '';
+            width: $spacer*2;
+            height: $spacer*2;
+            background: #c0e2ff;
+            border: 6px solid #c0e2ff;
+            border-radius: 50%;
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        & div {
+            height: 0;
+            transition: all .2s ease-in;
+            overflow: hidden;
+        }
+        &.active {
+            &::before {
+                height: 100%;
+                transition: all 5s ease-in;
+            }
+            &::after {
+                background: #0f4782;
+            }
+            & div {
+                height: 30px;
+                transition: all .2s ease-in;
+            }
+        }
+        &.done {
+            &::before {
+                height: 100%;
+            }
+            &::after {
+                background: #c0e2ff;
+            }
+        }
+        &:last-child {
+            &::before {
+                height: 100%;
+                background:#1D528F;
+            }
+        }
+    }
+    .sl-sub-text{
+        color: #fff;
+    }
 }

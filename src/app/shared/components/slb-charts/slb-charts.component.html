@@ -29,11 +29,12 @@
             aria-label="Default select"
           >
             <option
-              [value]="item"
-              [selected]="year == item"
-              *ngFor="let item of yearList"
+              [disabled]="!item.isDataAvailable"
+              [value]="item.year"
+              [selected]="year == item.year"
+              *ngFor="let item of yearListDropdown"
             >
-              {{ item }}
+              {{ item.year }}
             </option>
           </select>
         </div>
