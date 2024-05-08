@@ -408,6 +408,9 @@ export class CompareDialogComponent implements OnInit {
     console.log(event.target.value, "radio value");
     this.valuesToEmit = event.target?.value || event;
     this.searchField.reset();
+    this.ulbListChip = [];
+    this.revenuechartService.updateUlbList([])
+    
   }
 
   optionSelected(option) {
