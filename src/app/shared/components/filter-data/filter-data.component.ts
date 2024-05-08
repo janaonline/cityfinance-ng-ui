@@ -133,7 +133,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
           meta.data.forEach(function (bar, index) {
             var data = dataset.data[index];
             console.log("chartOption Data", data);
-            ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
+             ctx.fillText( data==0 ? "NA" : "₹ "+data , bar._model.x, bar._model.y - 5);
             console.log("chartOption Data 1", bar._model.x, bar._model.y);
           });
         });
@@ -293,6 +293,11 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     } vs ${body["compareType"]} ${
       this.ulbMapping[this.currentUlb].type
     } ${text} Average`;
+    this.chartTitle = this.chartTitle.replace( this.selectedTab+' vs ULBs.. Municipal Corporation Weighted Average','vs selected ULB(s) '+this.selectedTab )
+    this.chartTitle = this.chartTitle.replace( this.selectedTab+' vs ULBs.. Municipal Corporation Simple Average','vs selected ULB(s) '+this.selectedTab )
+    // this.chartTitle = `${this.ulbMapping[this.currentUlb].name}  vs ${
+    //   'selected ULB(s) '+this.selectedTab 
+    // }`;
     this.barChartPayload = {};
 
     this.selectedFinancialYear = body["financialYear"];
@@ -376,6 +381,11 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
                 backgroundColor: backgroundColor[i],
                 borderColor: borderColor[i],
               };
+              this.mySelectedYears.sort(function (a, b) {
+                let newA:any = a.split("-")[0];
+                let newB:any = b.split("-")[0];
+                return newA - newB;
+              });
               this.mySelectedYears.forEach((year) => {
                 let foundUlb = res.find(
                   (val) => val._id.financialYear == year && val._id.ulb == ulb
