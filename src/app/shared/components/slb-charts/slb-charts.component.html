@@ -1,25 +1,20 @@
-<div class="row mt-3 mb-3" style="align-items: center">
-  <div class="col-12 col-sm-12 col-md-7 col-lg-8" style="padding-left: 4.5rem;">
+<div class="row mt-3 mb-3 gx-0" style="align-items: center">
+  <div class="col-12 col-sm-12 col-md-7 col-lg-8 ps-3" style="">
     <span class="about">{{ aboutSlbCharts }}</span>
   </div>
-  <div class="col-12 col-sm-12 col-md-5 col-lg-4">
+  <div class="col-12 col-sm-12 col-md-5 col-lg-4 ps-2">
     <div class="container">
-      <div class="row containerClass">
-        <div class="col-sm col-lg col-md">
+      <div class="row containerClass gx-0">
+        <div class="col">
           <button
             type="button"
-            style="
-              width: -webkit-fill-available;
-              background: white;
-              border-radius: 8px;
-              border: 1px solid gray;
-            "
             (click)="openModal()"
+            class="n-btn"
           >
             Compare By: <span *ngIf="CompFlag"> {{ compareByName }}</span>
           </button>
         </div>
-        <div class="col-sm col-lg col-md customFilters" *ngIf="showYearDropdown">
+        <div class="col customFilters" *ngIf="showYearDropdown">
           <select
             style="
               width: -webkit-fill-available;
@@ -46,12 +41,7 @@
         <div class="col-sm col-lg col-md customFilters">
           <button
             type="button"
-            style="
-              width: -webkit-fill-available;
-              background: white;
-              border-radius: 8px;
-              border: 1px solid gray;
-            "
+            class="n-btn"
             (click)="clearAll()"
           >
             Clear
@@ -65,8 +55,8 @@
     </div>
   </div>
 </div>
-<div class="row">
-  <div class="col-sm-12 col-12">
+<div class="row gx-0">
+  <div class="col-sm-12 col-12 ps-3">
     <ul
       style="
         display: flex;
@@ -111,7 +101,7 @@
   </div>
 </div>
 
-<div class="row mb-3" *ngIf="slbGaugeCharts.length > 0">
+<div class="row mb-3 gx-0" *ngIf="slbGaugeCharts.length > 0">
   <div
     class="col-sm-12 col-md-4 col-lg-3 mb-3"
     *ngFor="let item of slbGaugeCharts; let i = index"

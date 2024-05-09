@@ -26,13 +26,22 @@ export class ReportHelperService {
         maxVal: 180,
         equals: 0
       },
-      "250, 270-290": {
+      // TODO: to be removed.
+      // "250, 270-290": {
+      //   index: -1,
+      //   title: "Other Expenses",
+      //   minVal: 270,
+      //   maxVal: 290,
+      //   equals: 250
+      // },
+
+      "250, 270-272": {
         index: -1,
         title: "Other Expenses",
         minVal: 270,
-        maxVal: 290,
+        maxVal: 272,
         equals: 250
-      },
+      },  
 
       "310-312": {
         index: -1,
@@ -291,7 +300,8 @@ export class ReportHelperService {
       "230",
       "240",
       "260",
-      "250, 270-290",
+      // "250, 270-290", TODO: to be removed.
+      "250, 270-272",
       "200",
       "totalExp",
       "surplusDeficit"
@@ -326,28 +336,49 @@ export class ReportHelperService {
       },
 
       { keyName: "expenditure", title: "B.Expenditure", isCalc: false },
+      // TODO: to be removed.
+      // {
+      //   keyName: "250, 270-290",
+      //   code: "250, 270-290",
+      //   title: "Other Expenses",
+      //   isCalc: true,
+      //   addFields: ["250", "270", "271", "272", "280", "290"],
+      //   delFields: ["250", "270", "271", "272", "280", "290"]
+      // },
+     
       {
-        keyName: "250, 270-290",
-        code: "250, 270-290",
+        keyName: "250, 270-272",
+        code: "250, 270-272",
         title: "Other Expenses",
         isCalc: true,
-        addFields: ["250", "270", "271", "272", "280", "290"],
-        delFields: ["250", "270", "271", "272", "280", "290"]
+        addFields: ["250", "270", "271", "272"],
+        delFields: ["250", "270", "271", "272"]
       },
+     
       {
         keyName: "totalExp",
         title: "Total Expenditure(B)",
         isCalc: true,
-        addFields: ["210", "220", "230", "240", "260", "250, 270-290", "200"]
+        addFields: ["210", "220", "230", "240", "260", "250, 270-272", "200"] // Currently on portal.
       },
 
+      // {
+      //   keyName: "surplusDeficit",
+      //   title: "Surplus/(Deficit) (C) (A-B)",
+      //   isCalc: true,
+      //   addFields: ["totalIncome"],
+      //   subtractFields: ["totalExp"]
+      // }
+
+      // TODO: to be removed.
       {
         keyName: "surplusDeficit",
-        title: "Surplus/(Deficit) (C) (A-B)",
+        title: "Gross Surplus/(Deficit) of Income over Expenditure before Prior Period Items (C) (A-B)",
         isCalc: true,
         addFields: ["totalIncome"],
         subtractFields: ["totalExp"]
       }
+
     ];
   }
 

@@ -1,12 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 import { SweetAlert } from 'sweetalert/typings/core';
 import { AddResourceComponent } from './add-resource/add-resource.component';
 import { StateResourceService } from './state-resource.service';
+import { ActivatedRoute } from '@angular/router';
+import { CommonServicesService } from '../../fc-shared/service/common-services.service';
+import { MatPaginator } from '@angular/material/paginator';
 
 const swal: SweetAlert = require("sweetalert");
+
 
 @Component({
   selector: 'app-state-resource-manager',
@@ -14,7 +18,8 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ['./state-resource-manager.component.scss']
 })
 export class StateResourceManagerComponent implements OnInit {
-
+  
+  @ViewChild('paginator') paginator: MatPaginator;
   dataLoaded: boolean = false;
   totalDocuments = 0;
   pageSize = 10;
@@ -34,7 +39,9 @@ export class StateResourceManagerComponent implements OnInit {
     private matDialog: MatDialog,
     private dataEntryService: DataEntryService,
     private stateResourceService: StateResourceService,
-    private globalLoaderService: GlobalLoaderService
+    private globalLoaderService: GlobalLoaderService,
+    private activatedRoute: ActivatedRoute,
+    private commonServices: CommonServicesService,
   ) { }
 
   ngOnInit(): void {
@@ -45,6 +52,7 @@ export class StateResourceManagerComponent implements OnInit {
 
   loadData() {
     const payload = {
+      design_year: this.design_year,
       skip: this.pageIndex * this.pageSize,
       limit: this.pageSize,
       ...this.filters,
@@ -72,7 +80,8 @@ export class StateResourceManagerComponent implements OnInit {
         mode,
         oldData: data,
         categories: this.categories,
-        states: this.states
+        states: this.states,
+        design_year : this.design_year
       },
       maxWidth: '50vw',
       maxHeight: '90vh',
@@ -116,11 +125,13 @@ export class StateResourceManagerComponent implements OnInit {
 
   applyFilter() {
     this.pageIndex = 0;
+    if(this.paginator) this.paginator.firstPage();
     this.loadData();
   }
 
   resetFilter() {
     this.pageIndex = 0;
+   if(this.paginator) this.paginator.firstPage();
     this.filters = {
       categoryId: '',
       stateId: '',
@@ -138,5 +149,13 @@ export class StateResourceManagerComponent implements OnInit {
 
   onCategoryChange(value) {
     if (!value) this.filters.subCategoryId = '';
+  }
+// get selected year id from route.
+  get design_year() {
+    return this.activatedRoute.parent.snapshot.params?.yearId;
+  }
+// get year into this format = 2023-24, 2024-25
+  get yearName() {
+    return this.commonServices.getYearName(this.design_year);
   }
 }

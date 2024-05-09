@@ -15,11 +15,11 @@ export class ReviewUlbTableComponent implements OnInit {
     private route: ActivatedRoute,
     private stateServices: State2223Service
   ) { 
-    this.design_year = this.years["2023-24"];
+    // this.design_year = this.years["2023-24"];
     this.params = {design_year : this.design_year, role: 'ULB'}
     }
     years = JSON.parse(localStorage.getItem("Years"));
-    design_year = '';
+    // design_year = '';
 
   //formId = "62aa1b04729673217e5ca3aa";
   formId = "1";
@@ -47,6 +47,9 @@ export class ReviewUlbTableComponent implements OnInit {
     this.formId = this.data[0]["formId"];
   }
 
+  get design_year() {
+    return this.route.parent.snapshot.paramMap.get('yearId');
+  }
   onLoad() {
     if (this.params["role"] == "ULB") {
       this.title = "Review Grant Application";
@@ -94,7 +97,8 @@ export class ReviewUlbTableComponent implements OnInit {
   }
   
   getQueryParams() {
-    const yearId = this.route.parent.snapshot.paramMap.get('yearId');
+    // const yearId = this.route.parent.snapshot.paramMap.get('yearId');
+    const yearId = this.design_year;
      this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
      this.formBaseUrl = `ulb-form/${this.selectedYearId}`;
      //this.selectedYear = this.commonService.getYearName(this.selectedYearId);

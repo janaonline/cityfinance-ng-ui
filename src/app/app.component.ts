@@ -77,7 +77,9 @@ export class AppComponent implements OnDestroy, OnInit {
 
 
   versionCheck() {
-    this.versionService.initVersionCheck(environment.versionCheckURL);
+    if(environment.isProduction) {
+      this.versionService.initVersionCheck(environment.versionCheckURL);
+    }
   }
 
 
