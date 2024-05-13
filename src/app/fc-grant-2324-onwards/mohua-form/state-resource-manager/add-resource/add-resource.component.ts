@@ -64,7 +64,7 @@ export class AddResourceComponent implements OnInit {
     console.log(this.form);
 
     this.form.get('categoryId').valueChanges.subscribe(res => {
-      this.clearSubCategoryValue();
+      this.form.patchValue({ subCategoryId: '' });
     })
     this.form.get('subCategoryId').valueChanges.subscribe(res => {
       this.form.patchValue({ files: [] });
@@ -216,13 +216,13 @@ export class AddResourceComponent implements OnInit {
 
   onStateChange(){
     this.form.get('relatedIds').valueChanges.subscribe(res => {
-      if(res && res?.length){
-        this.clearSubCategoryValue();
+      if(res){
+        this.clearFormValue();
       }
     });
   }
-  clearSubCategoryValue(){
-    this.form.patchValue({ subCategoryId: '' });
+  clearFormValue(){
+    this.form.patchValue({categoryId: '', subCategoryId: '', files: []  });
   }
 }
 
