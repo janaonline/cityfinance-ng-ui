@@ -52,3 +52,7 @@
 .selected-list .countplaceholder {
     right: auto;
 }
+
+::ng-deep .add-resource-state-dropdown {
+    background-color: #fff !important;
+}
