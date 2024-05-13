@@ -3,7 +3,7 @@
     border: 1px dashed rgb(255, 110, 110);
     border-radius: 10px;
     display: flex;
-    padding: 10px;
+    padding: 15px;
     align-items: center;
     justify-content: space-between;
     &.document {
@@ -51,4 +51,8 @@
 
 .selected-list .countplaceholder {
     right: auto;
+}
+
+::ng-deep .add-resource-state-dropdown {
+    background-color: #fff !important;
 }

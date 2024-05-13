@@ -349,7 +349,7 @@ div.miniMap {
     }
 }
 
-::ng-deep {
+:host ::ng-deep {
     .leaflet-control-attribution {
         display: none;
     }
@@ -574,8 +574,8 @@ div.miniMap {
     border: none;
 }
 
-::ng-deep .c-remove,
-::ng-deep .clear-all {
+:host ::ng-deep .c-remove,
+:host ::ng-deep .clear-all {
     display: none;
 }
 
