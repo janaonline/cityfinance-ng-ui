@@ -64,7 +64,7 @@ export class AddResourceComponent implements OnInit {
     console.log(this.form);
 
     this.form.get('categoryId').valueChanges.subscribe(res => {
-      this.clearSubCategoryValue();
+      this.form.patchValue({ subCategoryId: '' });
     })
     this.form.get('subCategoryId').valueChanges.subscribe(res => {
       this.form.patchValue({ files: [] });
@@ -90,15 +90,14 @@ export class AddResourceComponent implements OnInit {
   get maxUploads() {
     return this.subCategory?.maxUploads;
   }
-
+dataBaseTemplateTypes = ['stateGsdp', 'gsdp', 'dulyElected'];
   ngOnInit(): void {
     //logic for disable delete button as Property tax gsdp is one time upload
     const subCategory = this.data?.oldData.subCategory;
-    if(subCategory.databaseTemplateName == "stateGsdp" && subCategory.uploadType == "database"){
-      this.isDisabled = true;
-    }else{
-      this.isDisabled = false;
-    }
+    const isDatabaseTemplate = this.dataBaseTemplateTypes.includes(subCategory.databaseTemplateName);
+    const isDatabaseUpload = subCategory.uploadType === 'database';
+  
+    this.isDisabled = isDatabaseTemplate && isDatabaseUpload;
   }
 
   uploadFile(event: { target: HTMLInputElement }) {
@@ -216,13 +215,13 @@ export class AddResourceComponent implements OnInit {
 
   onStateChange(){
     this.form.get('relatedIds').valueChanges.subscribe(res => {
-      if(res && res?.length){
-        this.clearSubCategoryValue();
+      if(res){
+        this.clearFormValue();
       }
     });
   }
-  clearSubCategoryValue(){
-    this.form.patchValue({ subCategoryId: '' });
+  clearFormValue(){
+    this.form.patchValue({categoryId: '', subCategoryId: '', files: []  });
   }
 }
 
