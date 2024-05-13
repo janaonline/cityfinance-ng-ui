@@ -64,17 +64,18 @@ export class AddResourceComponent implements OnInit {
     console.log(this.form);
 
     this.form.get('categoryId').valueChanges.subscribe(res => {
-      this.form.patchValue({ subCategoryId: '' });
+      this.clearSubCategoryValue();
     })
     this.form.get('subCategoryId').valueChanges.subscribe(res => {
       this.form.patchValue({ files: [] });
     })
+    this.onStateChange();
   }
 
   get getSubCategoryList() {
     return this.categories?.find(category => category._id == this.form.value.categoryId)?.subCategories;
   }
-
+  
   get subCategory() {
     return this.getSubCategoryList?.find(subCategory => subCategory._id == this.form.value.subCategoryId);
   }
@@ -211,4 +212,18 @@ export class AddResourceComponent implements OnInit {
   get yearName() {
     return this.commonServices.getYearName(this.data?.design_year);
   }
+
+
+  onStateChange(){
+    this.form.get('relatedIds').valueChanges.subscribe(res => {
+      if(res && res?.length){
+        this.clearSubCategoryValue();
+      }
+    });
+  }
+  clearSubCategoryValue(){
+    this.form.patchValue({ subCategoryId: '' });
+  }
 }
+
+

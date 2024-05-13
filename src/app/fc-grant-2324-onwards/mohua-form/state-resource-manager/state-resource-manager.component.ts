@@ -83,7 +83,7 @@ export class StateResourceManagerComponent implements OnInit {
         states: this.states,
         design_year : this.design_year
       },
-      maxWidth: '50vw',
+      maxWidth: '55vw',
       maxHeight: '90vh',
     })
 
