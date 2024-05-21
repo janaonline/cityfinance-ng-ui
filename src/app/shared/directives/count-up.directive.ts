@@ -1,82 +1,83 @@
-import { Directive, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
 import {
-    animationFrameScheduler,
-    BehaviorSubject,
-    combineLatest,
-    interval,
-} from 'rxjs';
-import { Destroy } from './destroy';
-import { distinctUntilChanged, endWith, map, switchMap, takeUntil, takeWhile } from 'rxjs/operators';
-
-/**
- * Quadratic Ease-Out Function: f(x) = x * (2 - x)
- */
-const easeOutQuad = (x: number): number => x * (2 - x);
+    Directive,
+    ElementRef,
+    Input,
+    Output,
+    HostListener,
+    EventEmitter,
+    OnChanges,
+    SimpleChanges,
+    NgZone, Inject, PLATFORM_ID
+} from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { CountUp, CountUpOptions } from './countUp';
 
 @Directive({
-    selector: '[countUp]',
-    providers: [Destroy],
+    selector: '[countUp]'
 })
-export class CountUpDirective implements OnInit {
-    private readonly count$ = new BehaviorSubject(0);
-    private readonly duration$ = new BehaviorSubject(2000);
+export class CountUpDirective implements OnChanges {
 
-    private readonly currentCount$ = combineLatest([
-        this.count$,
-        this.duration$,
-    ]).pipe(
-        switchMap(([count, duration]) => {
-            // get the time when animation is triggered
-            const startTime = animationFrameScheduler.now();
+    countUp: CountUp;
+    // the value you want to count to
+    @Input('countUp') endVal: number;
 
-            return interval(0, animationFrameScheduler).pipe(
-                // calculate elapsed time
-                map(() => animationFrameScheduler.now() - startTime),
-                // calculate progress
-                map((elapsedTime) => elapsedTime / duration),
-                // complete when progress is greater than 1
-                takeWhile((progress) => progress <= 1),
-                // apply quadratic ease-out
-                // for faster start and slower end of counting
-                map(easeOutQuad),
-                // calculate current count
-                map((progress) => Math.round(progress * count)),
-                // make sure that last emitted value is count
-                endWith(count),
-                distinctUntilChanged()
-            );
-        })
-    );
+    @Input() options: CountUpOptions = {};
+    @Input() reanimateOnClick = true;
+    // eslint-disable-next-line @angular-eslint/no-output-native
+    @Output() complete = new EventEmitter<void>();
 
-    @Input('countUp')
-    set count(count: number) {
-        this.count$.next(count);
-    }
-
-    @Input()
-    set duration(duration: number) {
-        this.duration$.next(duration);
+    // Re-animate if preference is set.
+    @HostListener('click')
+    onClick() {
+        if (this.reanimateOnClick) {
+            this.animate();
+        }
     }
 
     constructor(
-        private readonly elementRef: ElementRef,
-        private readonly renderer: Renderer2,
-        private readonly destroy$: Destroy
+        private el: ElementRef,
+        private zone: NgZone,
+        @Inject(PLATFORM_ID) private platformId: Object,
     ) { }
 
-    ngOnInit(): void {
-        this.displayCurrentCount();
+    ngOnChanges(changes: SimpleChanges): void {
+        // don't animate server-side (universal)
+        if (!isPlatformBrowser(this.platformId)) {
+            return;
+        }
+
+        const { options, endVal } = changes;
+        if (endVal?.currentValue !== undefined) {
+            if (this.countUp !== undefined) {
+                this.zone.runOutsideAngular(() => {
+                    this.countUp.update(this.endVal);
+                });
+            } else {
+                this.initAndRun();
+            }
+        }
+        else if (options?.currentValue !== undefined) {
+            this.initAndRun();
+        }
     }
 
-    private displayCurrentCount(): void {
-        this.currentCount$
-            .pipe(takeUntil(this.destroy$))
-            .subscribe((currentCount) => {
-                this.renderer.setProperty(
-                    this.elementRef.nativeElement,
-                    'innerHTML',
-                    currentCount
-                );
+    animate(): void {
+        this.zone.runOutsideAngular(() => {
+            this.countUp.reset();
+            this.countUp.start(() => {
+                this.zone.run(() => {
+                    this.complete.emit();
+                });
             });
+        });
+    }
+
+    private initAndRun(): void {
+        this.zone.runOutsideAngular(() => {
+            this.countUp = new CountUp(this.el.nativeElement, this.endVal, this.options);
+            if (!this.options.enableScrollSpy) {
+                this.animate();
+            }
+        });
     }
 }
