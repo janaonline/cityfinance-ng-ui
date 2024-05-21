@@ -736,18 +736,22 @@ export class BalanceTableComponent
     })
   }
   getReport(selectedYear: string, fileType: string) {
+    const yearSplit = Number(selectedYear.split('-')[0]);
+    if (yearSplit < 2019) {
+      this.getReport_pastYears(selectedYear);
+      return
+    }
     this._loaderService.showLoader();
     this.reportService.getReports(this.id, selectedYear).subscribe(
       (res) => {
-        if (res && res["success"] && res["data"]?.length > 0) {
-          this._loaderService.stopLoader();
+        this._loaderService.stopLoader();
+        let type = 'notFound';
+        if (res && res["success"]) {
           console.log("getReports", res);
           this.allReports = res["data"];
-          this.openDialog(res["data"][0], fileType);
-        } else {
-          this._loaderService.stopLoader();
-          this.openDialog(res["data"], "notFound");
+          type = res["data"][fileType].length ? fileType : 'notFound';
         }
+        this.openDialog(res["data"], type);
       },
       (error) => {
         this._loaderService.stopLoader();
