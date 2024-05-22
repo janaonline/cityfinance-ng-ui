@@ -30,7 +30,7 @@ jobs:
       run: |
           ssh -o StrictHostKeyChecking=no -i ssh_key ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }} "
           if [ -d /var/www/html/staging-cicd/citifinance-ng-ui/dist ]; then
-            mv /var/www/html/staging-cicd/citifinance-ng-ui/dist /var/www/html/staging-cicd/citifinance-ng-ui/dist_$(date +'%Y%m%d_%H%M%S');
+            mv /var/www/html/staging-cicd/citifinance-ng-ui/dist /var/www/html/staging-cicd/citifinance-ng-ui/dist_$(date +'%Y-%m%-d_%H-%M-%S');
           fi"
   
     - name: Cleanup SSH key
