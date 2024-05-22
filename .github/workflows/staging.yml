@@ -28,6 +28,12 @@ jobs:
  
     - name: Build Angular project
       run: npm run build
+    - name: Rename existing dist folder on server
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }} "
+        if [ -d /var/www/html/staging-cicd/citifinance-ng-ui/dist ]; then
+          mv /var/www/html/staging-cicd/citifinance-ng-ui/dist /var/www/html/staging-cicd/citifinance-ng-ui/dist_$(date +'%Y%m%d_%H%M%S');
+        fi"
     - name: Copy dist files to server
       uses: appleboy/scp-action@master
       with:
