@@ -90,15 +90,14 @@ export class AddResourceComponent implements OnInit {
   get maxUploads() {
     return this.subCategory?.maxUploads;
   }
-
+dataBaseTemplateTypes = ['stateGsdp', 'gsdp', 'dulyElected'];
   ngOnInit(): void {
     //logic for disable delete button as Property tax gsdp is one time upload
     const subCategory = this.data?.oldData.subCategory;
-    if(subCategory.databaseTemplateName == "stateGsdp" && subCategory.uploadType == "database"){
-      this.isDisabled = true;
-    }else{
-      this.isDisabled = false;
-    }
+    const isDatabaseTemplate = this.dataBaseTemplateTypes.includes(subCategory.databaseTemplateName);
+    const isDatabaseUpload = subCategory.uploadType === 'database';
+  
+    this.isDisabled = isDatabaseTemplate && isDatabaseUpload;
   }
 
   uploadFile(event: { target: HTMLInputElement }) {
