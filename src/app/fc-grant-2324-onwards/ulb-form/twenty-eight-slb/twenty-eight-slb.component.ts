@@ -39,6 +39,7 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
   selectedYear:string="";
   fileFolderName:string="";
   actualYear:string ="";
+  actualYearValue: string ="";
   constructor(
     private dialog: MatDialog,
     private twentyEightSlbService: TwentyEightSlbService,
@@ -164,6 +165,7 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
       ulbId: this.ulbId,
       status: this.status,
       selectedYear: this.selectedYear,
+      actualYear: this.actualYearValue,
      ...withoutChildQuestionObj
       // saveDataJson: this.slbData
     };
@@ -348,6 +350,7 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
     this.selectedYear = this.commonServices.getYearName(this.selectedYearId);
     const [startYear, endYear] = this.selectedYear.split("-").map(Number);
     this.actualYear = this.years[`${startYear - 1}-${endYear - 1}`];
+    this.actualYearValue = `${startYear - 1}-${endYear - 1}`
     this.fileFolderName = `${this.userData?.role}/${this.selectedYear}/28slb/${this.userData?.ulbCode}`;
  }
  

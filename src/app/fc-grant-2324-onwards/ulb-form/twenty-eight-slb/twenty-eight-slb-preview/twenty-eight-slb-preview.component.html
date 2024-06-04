@@ -37,8 +37,8 @@
                             <tr class="tableBorder">
                                 <th scope="col" class="headingClass">#</th>
                                 <th scope="col" class="headingClass">Sections/Indicators</th>
-                                <th scope="col" class="headingClass">Actual Indicator 2022-23</th>
-                                <th scope="col" class="headingClass">Target Indicator 2023-24</th>
+                                <th scope="col" class="headingClass">Actual Indicator {{data?.actualYear}}</th>
+                                <th scope="col" class="headingClass">Target Indicator {{data?.selectedYear}}</th>
                             </tr>
                         </thead>
                         <tbody *ngFor="let lineItem of data?.perData?.data | keyvalue : returnZero" class="tableBody">

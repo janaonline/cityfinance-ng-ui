@@ -32,17 +32,18 @@
               <span class="city">city</span>
               <span class="fy">finance.in</span>
           </a> -->
-            <a class="navbar-brand" routerLinkActive="active" routerLink="/rankings/home" [ngClass]="sticky ? 'show' : ''">
-                <img src="../../../../assets/M FIGMA/city-finance-ranking.png" alt="">
-                <!-- <span class="city">city</span>
-                <span class="fy">finance.in</span> -->
+            <a class="navbar-brand" routerLinkActive="active" routerLink="/home" [ngClass]="sticky ? 'show' : ''">
+                <!-- <img src="../../../../assets/M FIGMA/city-finance-ranking.png" alt=""> -->
+                <span class="city" style="font-size: 2rem;">city</span>
+                <span class="fy" style="font-size: 2rem; color: #1D5290; font-weight: bold;">finance</span>
             </a>
             <div class="collapse navbar-collapse me-3" id="">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="navbar-brand cityLogo" aria-current="page" routerLinkActive="active" routerLink="/home">
-                            <span class="city">city</span>
-                            <span class="fy">finance.in</span>
+                        <a class="navbar-brand cityLogo" aria-current="page" routerLinkActive="active" routerLink="/rankings/home">
+                            <img style="height: 28px;" src="../../../../assets/M FIGMA/city-finance-ranking.png" alt="">
+                            <!-- <span class="city">city</span>
+                            <span class="fy">finance.in</span> -->
                         </a>
                     </li>
                     <!-- <li class="nav-item dropdown">
@@ -100,7 +101,7 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" routerLinkActive="active" routerLink="/resources-dashboard/learning-center/toolkits">Resources</a>
+                        <a class="nav-link" routerLinkActive="active" routerLink="/resources-dashboard/data-sets/income_statement">Resources</a>
                     </li>
                     <!-- <li class="nav-item" *ngIf="isLoggedIn && user?.role == 'PMU'"> 
                         <a class="nav-link" [routerLinkActive]="'active'" routerLink="/mohua-form/state-resource-manager">State resources</a>
@@ -132,7 +133,7 @@
                   </button>
                     <ul class="dropdown-menu" aria-labelledby="loginDrp" style="left: -7px;">
                         <li><a class="dropdown-item" (click)="loginLogout('15th_Fc')">
-                         <img src="../../../../assets/fiscal-rankings/logout_FILL0_wght400_GRAD0_opsz24.png" alt=""> 15th FC Grant
+                         <img src="../../../../assets/fiscal-rankings/logout_FILL0_wght400_GRAD0_opsz24.png" alt=""> XV FC Grant
                         </a>
                     </li>
                         <hr class="m-0">
