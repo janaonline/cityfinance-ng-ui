@@ -62,6 +62,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   };
   public hide = true;
   directLogin = false;
+  loginType: string;
+  fcEmail: string;
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -103,6 +105,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.perFillUser !== null) {
       this.onSelectingUserType(this.perFillUser);
     }
+
+    this.loginType = localStorage.getItem('loginType') || '15thFC';
+    this.fcEmail = '15fcgrant@cityfinance.in';
+    if (this.loginType === '16th_Fc') {
+      this.fcEmail = '16fcgrant@cityfinance.in';
+      this.onSelectingUserType(USER_TYPE.ULB);
+    }
   }
 
   get lf() {
@@ -118,7 +127,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     if (this.loginForm.valid) {
-      // const type = localStorage.getItem('loginType') ? localStorage.getItem('loginType'): '15thFC';
       const type = '15thFC';
       const body = { ...this.loginForm.value, type };
       body["email"] = body["email"].trim();
@@ -169,10 +177,9 @@ export class LoginComponent implements OnInit, OnDestroy {
    * NOTE: This method must be called only post login.
    */
   routeToProperLocation() {
-    const loginType = localStorage.getItem('loginType');
-    if (loginType && loginType === '16th_Fc') {
+    if (this.loginType === '16th_Fc') {
       window.location.href = window.location.origin + '/xvi-fc/xvifc-form';
-      window.location.href = 'http://localhost:4300/xvifc-form';
+      // window.location.href = 'http://localhost:4300/xvifc-form';
     } else {
       const rawPostLoginRoute =
         sessionStorage.getItem("postLoginNavigation") || "home";
