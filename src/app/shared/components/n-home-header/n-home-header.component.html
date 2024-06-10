@@ -109,6 +109,9 @@
                     <li class="nav-item" *ngIf="isLoggedIn && user?.role !== 'PMU'">
                         <a class="nav-link" [routerLinkActive]="'active'" routerLink="/fc-home-page">15<sup>th</sup> FC Grants</a>
                     </li>
+                    <li class="nav-item" *ngIf="isLoggedIn && user?.role === 'ULB'">
+                        <a class="nav-link" href="/xvi-fc/xvifc-form">XVI FC Data Collection</a>
+                    </li>
                     <li class="nav-item" *ngIf="isLoggedIn">
                         <a class="nav-link" routerLinkActive="active" [routerLink]="user?.role == 'ULB' ? '/rankings/ulb-form' : '/rankings/review-rankings-ulbform'">{{user?.role == 'ULB' ? "Rankings'22 Form" : "Rankings'22 Dashboard"}}</a>
                     </li>
@@ -138,7 +141,7 @@
                     </li>
                         <hr class="m-0">
                         <li><a class="dropdown-item" (click)="loginLogout('16th_Fc')">
-                         <img src="../../../../assets/fiscal-rankings/logout_FILL0_wght400_GRAD0_opsz24.png" alt=""> XVI FC Grant
+                         <img src="../../../../assets/fiscal-rankings/logout_FILL0_wght400_GRAD0_opsz24.png" alt=""> XVI FC Data Collection
                         </a>
                     </li>
                         <hr class="m-0">
