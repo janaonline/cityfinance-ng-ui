@@ -198,3 +198,12 @@ a.disabled {
 .dropdown-item {
 padding: .5rem 1rem;
 }
+.dropdown-menu.dropdown-menu-login{
+    left: auto;
+    right: 0;
+}
+.dropdown-menu-login .material-icons{
+    font-size: 22px;
+    position: relative;
+    top: 4px;
+}
