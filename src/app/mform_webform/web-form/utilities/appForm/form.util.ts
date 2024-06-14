@@ -818,7 +818,7 @@ const computeNumericQuestionValueByApplyingValidation = (
   ) {
     return question.value;
   }
-  const formatUptoFixedDecimalPlaceValidation = question.validations?.find?.(
+  const formatUptoFixedDecimalPlaceValidation = question.validation?.find?.(
     (validation: any) => validation?._id === VALIDATION.DECIMAL_PLACE
   );
   
@@ -1783,14 +1783,23 @@ function getNestedQuestionResponseForSubmit(question: any, questions: any) {
     case QUESTION_TYPE.CONSENT:
     case QUESTION_TYPE.SINGLE_SELECT:
     case QUESTION_TYPE.RADIO:
-      answer.value = question.value;
-      const answerOption = question.answer_option.find(
-        (option: any) => option._id == question.value
-      );
-      if (answerOption) {
-        answer.label = answerOption.name;
-      }
-      answerObject.answer.push(answer);
+      // answer.value = question.value;
+      // const answerOption = question.answer_option.find(
+      //   (option: any) => option._id == question.value
+      // );
+      // if (answerOption) {
+      //   answer.label = answerOption.name;
+      // }
+      // answerObject.answer.push(answer);
+      // fixed this for single select question === issue :value not updated in payload.
+      answer.value = question?.modelValue ? question?.modelValue :  question.value?.length ? question.value : '';
+          const answerOption = Array.isArray(question.answer_option) ? question.answer_option.find(
+            (option) => option._id == (question?.modelValue ? question?.modelValue : question.value)
+          ) : [];
+          if (answerOption) {
+            answer.label = answerOption.name;
+          }
+          answerObject.answer.push(answer);
       break;
     case QUESTION_TYPE.IMAGE:
       answer.value = question.value;

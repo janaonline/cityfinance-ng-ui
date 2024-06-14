@@ -19,12 +19,14 @@ import { GlobalLoaderService } from "../../services/loaders/global-loader.servic
   styleUrls: ["./slb-charts.component.scss"],
 })
 export class SlbChartsComponent implements OnInit, OnChanges {
+  yearListDropdown: { year: string; isDataAvailable: boolean; }[] = [];
+  typeName: any;
   constructor(
     public dashboardServices: DashboardService,
     public dialog: MatDialog,
     public loaderService: GlobalLoaderService,
     private snackbar: MatSnackBar
-  ) {}
+  ) { }
   @Input() showYearDropdown: boolean = true;
   isCompare = false;
   slbGaugeCharts = [];
@@ -98,30 +100,54 @@ export class SlbChartsComponent implements OnInit, OnChanges {
       console.log(this.year);
       // this.getData();
     }
-
-    this.getData();
+    this.getType();
+    this.slbYears();
+    // this.getData();
   }
 
+  slbYears() {
+    this.loaderService.showLoader();
+    let queryParams = {
+      ulb: this.cityId,
+      type: this.typeName,
+    };
+
+    this.dashboardServices.slbYears(queryParams).subscribe((res: any) => {
+      const years = res.data.sort((a, b) => (b.split("-")[0] - a.split("-")[0]));
+      this.year = years.length ? years[0] : '';
+      this.yearListDropdown = this.yearList.map(e => {
+        return { year: e, isDataAvailable: years.includes(e) };
+      });
+      this.loaderService.stopLoader();
+      this.getData();
+    },
+      (error) => {
+        this.loaderService.stopLoader();
+        console.log(error);
+      });
+  }
+  getType() {
+    this.typeName = this.data.name;
+    switch (this.data.name) {
+      case "Storm Water Drainage":
+        this.typeName = "storm water";
+        break;
+      case "Solid Waste Management":
+        this.typeName = "solid waste";
+        break;
+      case "Waste Water Management":
+        this.typeName = "sanitation";
+        break;
+    }
+  }
   CompFlag: any = "";
   getData() {
     this.loaderService.showLoader();
-    let typeName = this.data.name;
-    switch (this.data.name) {
-      case "Storm Water Drainage":
-        typeName = "storm water";
-        break;
-      case "Solid Waste Management":
-        typeName = "solid waste";
-        break;
-      case "Waste Water Management":
-        typeName = "sanitation";
-        break;
-    }
 
     let queryParams = {
       compUlb: this.compareType,
       ulb: this.cityId,
-      type: typeName,
+      type: this.typeName,
       year: this.year,
     };
 

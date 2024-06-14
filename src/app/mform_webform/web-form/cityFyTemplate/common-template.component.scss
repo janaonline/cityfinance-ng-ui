@@ -7,13 +7,13 @@
   color: white;
 }
 
-::ng-deep .mat-radio-button {
+:host ::ng-deep .mat-radio-button {
   // width: 72px;
   background-color: #CFCFCF;
-  padding: 0.5rem 0.85rem 0rem 0.5rem !important;
+ // padding: 0.5rem 0.85rem .5rem 0.5rem !important;
   margin-right: 1rem !important;
 }
-::ng-deep .mat-radio-label-content {
+:host :ng-deep .mat-radio-label-content {
   padding: 0 0 7px 5px;
 }
 .btn-upload {
@@ -70,9 +70,10 @@ label {
 .disable-question-field {
   pointer-events: none !important;
 }
-.disable-question-btn {
-
-}
 .f-name {
   pointer-events: all !important;
+}
+
+::ng-deep .mat-radio-label{
+  padding: 0.5rem 0.85rem .5rem 0.5rem !important;
 }

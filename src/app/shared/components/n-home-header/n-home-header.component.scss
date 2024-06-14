@@ -45,7 +45,7 @@ $value in $text-sizes {
     color: $white;
     border-color: $secondary;
     box-shadow: 0px 2px 6px #F7C199;
-    font-size: 16px;
+    font-size: $font-size-base*1;
     padding-top: $spacer*.625;
     padding-bottom: $spacer*.625;
     padding-left: $spacer*1;
@@ -87,7 +87,7 @@ $value in $text-sizes {
         border-bottom: 2px solid transparent;
         color: #1D5290;
         font-weight: bold;
-        font-size: 16px;
+        font-size: $font-size-base*1;
         &:hover,
         &.active {
             color: #E87A1C;

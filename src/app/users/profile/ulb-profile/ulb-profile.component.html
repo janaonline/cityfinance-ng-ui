@@ -4,7 +4,7 @@
   </button>
   <h3 *ngIf="profileData" style="width: 100%" class="ml-2">
     <span *ngIf="profile.disabled">View</span>
-    <span *ngIf="profile.enabled">Edit</span> Profile
+    <span *ngIf="profile.enabled">Edit/ Verify </span> Profile
   </h3>
   <div *ngIf="profileData && profileData.status === SIGNUP_STATUS.REJECTED">
     <p class="error-message">
@@ -281,10 +281,10 @@
       <span *ngIf="profile?.enabled && canSubmitForm && isVerified2223"><button type="submit" class="btn btn-primary mr-2" >Update Profile</button></span>
       <span *ngIf="profile?.enabled && canSubmitForm && !isVerified2223"><button type="submit" class="btn btn-primary mr-2" > Verify Profile</button></span>
       <span *ngIf="loggedInUserType === USER_TYPE.ULB">
-        <button  class="btn btn-primary mr-2" style="float: right"
+        <!-- <button  class="btn btn-primary mr-2" style="float: right"
           (click)="onClickingChangePassword($event)">
           Change Password
-        </button>
+        </button> -->
       </span>
     </div>
 

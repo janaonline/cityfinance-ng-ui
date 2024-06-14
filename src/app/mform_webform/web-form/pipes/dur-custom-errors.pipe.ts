@@ -14,7 +14,7 @@ export class DurCustomErrorsPipe implements PipeTransform {
         ?.childQuestionData?.[loopIndex]
         ?.find(question => question.shortKey == 'cost')?.modelValue
       if (cost == 0) {
-        return 'Total Project Cost should be greater then 0 ' + cost;
+        return 'Total Project Cost should be greater then 0 ';
       }
     }
     if (shortKey === 'grantPosition___expDuringYr') {
@@ -26,6 +26,9 @@ export class DurCustomErrorsPipe implements PipeTransform {
       const swmSum = this.getRowSum(solidWasteManagement?.childQuestionData, 1);
       if (wmSum + swmSum != expDuringYr) {
         return 'The total expenditure in the component wise grants must not exceed the amount of expenditure incurred during the year.'
+      }
+      if (expDuringYr == 0) {
+        return ' The total expenditure incurred during the year cannot be 0'
       }
     }
 

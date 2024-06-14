@@ -8,7 +8,7 @@
     </div>
     <div class="col-sm-12 text-center heading-p">
         <span style="display: block;">
-          Submissions for 15th FC grant for FY 2023-24
+          Submissions for 15th FC grant for FY {{preData?.year?.key}}
          </span>
 
         <b class="sub-h">{{ulbName}}, {{stateName}}</b>
@@ -61,7 +61,7 @@
                       {{(question?.selectedValue && question?.selectedValue[0]?.textValue) ? question?.selectedValue[0]?.textValue : (question?.selectedValue && question?.selectedValue[0]?.label) ? question?.selectedValue[0]?.label : 'N/A'}}
                      </span>
                      <span *ngIf="question?.input_type == 11">
-                        <a *ngIf="question?.selectedValue && question?.selectedValue[0]?.value" href="{{question?.selectedValue[0]?.value | toStorageUrl}}">
+                        <a *ngIf="question?.selectedValue && question?.selectedValue[0]?.value" target="_blank" href="{{question?.selectedValue[0]?.value | toStorageUrl}}">
                             {{question?.selectedValue[0]?.label}}
                         </a>
                         <span *ngIf="!question?.selectedValue">
