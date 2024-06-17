@@ -47,6 +47,8 @@ export class ResourcesDashboardComponent implements OnInit, OnDestroy {
     console.log("resource Filter", this.resourcesFilter)
   }
   private _filter(value: string): string[] {
+    this.crossIcon = false;
+    this.search = true;
     if (value != "") {
       const filterValue = this._normalizeValue(value);
       return this.autoCompleteData.filter((data) =>

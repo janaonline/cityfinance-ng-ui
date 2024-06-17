@@ -215,7 +215,8 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
     this.isActionSubmitted = true;
     this.actionPayload = {
       "form_level": 1,
-      "design_year" : this.Years["2023-24"],
+      // "design_year" : this.Years["2023-24"],
+      "design_year" : this.selectedYearId,
       "formId": this.formId,
       "ulbs": [
           this.ulbId
@@ -268,7 +269,9 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
       this.getActionRes();
       //temp commented for Production
       // if(environment?.isProduction === false){
-        if((this.formId == 4) &&
+
+        // 3.PTO 4. DUR
+        if((this.formId == 4 || this.formId == 3) &&
         (this.statusForm?.value?.status == 7) && 
         this.userData?.role == 'MoHUA'){
           this.sequentialReview({onlyGet: false})
@@ -329,7 +332,7 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
 
   getSequentialStatus(item) {
     
-    const allowForms = ['dur', '28slb']
+    const allowForms = ['dur', '28slb', 'pto']
      if(item?.prevYearStatusId != 6 && item?.canTakeAction && this.userData?.role == 'MoHUA' && allowForms.includes(this.formName)){
       return true;
      };

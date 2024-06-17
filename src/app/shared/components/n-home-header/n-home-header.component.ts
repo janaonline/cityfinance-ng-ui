@@ -130,9 +130,14 @@ export class NHomeHeaderComponent implements OnInit {
   }
   // routerLink="/fc-home-page";
   loginLogout(type) {
+    localStorage.setItem('loginType',type);
     if(type == '15th_Fc'){
       this._router.navigateByUrl("/fc_grant");
-    }else if(type == 'ranking'){
+    } 
+    else if(type == '16th_Fc'){
+      this._router.navigateByUrl("/login/xvi-fc");
+    } 
+    else if(type == 'ranking'){
       this._router.navigateByUrl("/rankings/login");
     }else if(type == 'logout'){
       this.authService.loginLogoutCheck.next(false);

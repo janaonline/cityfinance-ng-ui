@@ -62,6 +62,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   };
   public hide = true;
   directLogin = false;
+  loginType: string;
+  fcEmail: string;
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -75,7 +77,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.router.navigate(["/home"]);
       return;
     }
-  //  this.alertForload();
+    //  this.alertForload();
     this.activatedRoute.queryParams.subscribe((param) => {
       if (param.user && param.user == "USER") {
         this.directLogin = true;
@@ -103,6 +105,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.perFillUser !== null) {
       this.onSelectingUserType(this.perFillUser);
     }
+
+    this.loginType = localStorage.getItem('loginType') || '15thFC';
+    this.fcEmail = '15fcgrant@cityfinance.in';
+    if (this.loginType === '16th_Fc') {
+      this.fcEmail = '16fcgrant@cityfinance.in';
+      this.onSelectingUserType(USER_TYPE.ULB);
+    }
   }
 
   get lf() {
@@ -118,7 +127,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     if (this.loginForm.valid) {
-      const body = { ...this.loginForm.value, type:'15thFC'};
+      const type = '15thFC';
+      const body = { ...this.loginForm.value, type };
       body["email"] = body["email"].trim();
       this.loginForm.disable();
       this.authService.signin(body).subscribe(
@@ -133,10 +143,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   private onSuccessfullLogin(res) {
-    const gData = { 
+    const gData = {
       user_role: res?.user?.role,
-      user_id: res?.user?._id, 
-      ...res?.user 
+      user_id: res?.user?._id,
+      ...res?.user
     };
     this.gaService.set(gData);
     this.gaService.gtag('event', 'login', gData);
@@ -167,15 +177,21 @@ export class LoginComponent implements OnInit, OnDestroy {
    * NOTE: This method must be called only post login.
    */
   routeToProperLocation() {
-    const rawPostLoginRoute =
-      sessionStorage.getItem("postLoginNavigation") || "home";
-    const formattedUrl = this.formatURL(rawPostLoginRoute);
-    if (typeof formattedUrl === "string") {
-      this.router.navigate([formattedUrl]);
+    if (this.loginType === '16th_Fc') {
+      window.location.href = window.location.origin + '/xvi-fc/xvifc-form';
+      // window.location.href = 'http://localhost:4300/xvifc-form';
     } else {
-      this.router.navigate([formattedUrl.url], {
-        queryParams: { ...formattedUrl.queryParams },
-      });
+      const rawPostLoginRoute =
+        sessionStorage.getItem("postLoginNavigation") || "home";
+      const formattedUrl = this.formatURL(rawPostLoginRoute);
+
+      if (typeof formattedUrl === "string") {
+        this.router.navigate([formattedUrl]);
+      } else {
+        this.router.navigate([formattedUrl.url], {
+          queryParams: { ...formattedUrl.queryParams },
+        });
+      }
     }
   }
 

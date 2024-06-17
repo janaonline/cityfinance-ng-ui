@@ -72,6 +72,7 @@
                                 (onPreviewDUR)="onPreview(question)" (submitQuestion)="onSubmit($event, question)"
                                 [hidePreviousButton]="true" [hideNextButton]="true" [isButtonDisplay]="true"
                                 *ngIf="question.questionresponse" [formIdentifier]="question?.key"
+                                [designYear]="design_year"
                                 [questionresponse]="question.questionresponse">
                             </app-web-form>
 
