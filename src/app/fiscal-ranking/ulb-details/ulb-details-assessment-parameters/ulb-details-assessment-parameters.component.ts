@@ -19,9 +19,9 @@ export class UlbDetailsAssessmentParametersComponent implements OnInit {
   get footnotes() {
     return this.activeFilter == 'fiscalGovernance' ? `
       Note:  <br />
-      For 10a &b, 'Yes' means the average time taken for the ULB to close their audit is less than 12 months in a financial year. If yes, the marks allotted are 25. 
+      For 10a &b, 'Yes' means Timely Audit Closure & Publication of Audited Annual Accounts in public domain (on Cityfinance.in / ULB’s own website), for 3 years. If yes, the marks allotted are 25.
       <br />
-      For 11a & b, if the answer to this question is 'Yes', the ULB will be awarded 25 marks.
+      For 11a & b, 'Yes' means Property Tax & Accounting System followed - Manual vs IT-based? If yes, the marks allotted are 25.
     `: '';
   }
 

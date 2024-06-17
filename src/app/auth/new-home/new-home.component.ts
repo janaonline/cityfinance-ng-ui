@@ -416,7 +416,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
-          infinite: true,
+          infinite: false,
           dots: true
         }
       },
