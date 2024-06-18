@@ -6,15 +6,16 @@
         </div>
     </div>
     
-    <ng-container *ngIf="currentFormStatus == 11 && isProd == false">
+    <ng-container *ngIf="currentFormStatus == 11">
         <div class="container">
             <div class="financial-tab-notice">
                 <p><b>Check your rank & share your thoughts</b></p>
                 <p>Hello <b>{{ ulbName }}</b></p>
-                <p>Your opinion matters! Before we make your rank public, we want to give you a sneak peek. Take a moment to preview your score and rank and share your feedback. If you do not agree with any data point, please suggest edits. If your suggestions are verified by the MoHUA PMU team, you'll have the chance to resubmit data to enhance your ranking.</p>
+                <p>Before the public release of your rank, you are invited to access your respective scores. In case any discrepancies are identified or queries arise regarding the score, please submit your comments in this regard by selecting the “submit your queries” icon which leads to a Google form for detailing the necessary information. </p>
+                <p>Active participation in the City Finance Ranking is highly valued, and the feedback provided is integral to the accuracy of the rankings.</p>
                 <div class="ulb-feedback">
                     <a href="/rankings/ulb/{{ ulbId }}" class="btn btn-d-org">Preview Your Ranking</a>
-                    <a target="_blank" href="https://forms.gle/7eyGWNmt5ZR21yQe9" class="btn btn-d-org" *ngIf="userData?.role == 'ULB'">Provide Feedback</a>
+                    <a target="_blank" href="https://forms.gle/7eyGWNmt5ZR21yQe9" class="btn btn-d-org" *ngIf="userData?.role == 'ULB'">Submit your queries</a>
                 </div>
             </div>
         </div>
