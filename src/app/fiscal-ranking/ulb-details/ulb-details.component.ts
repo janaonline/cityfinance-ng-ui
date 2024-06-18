@@ -44,11 +44,11 @@ export class UlbDetailsComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private fiscalRankingService: FiscalRankingService,
-    private _router: Router,
+   // private _router: Router,
   ) {
-    if(environment?.isProduction) {
-       this._router.navigateByUrl('rankings/home')
-      }
+    // if(environment?.isProduction) {
+    //    this._router.navigateByUrl('rankings/home')
+    //   }
    }
 
   get ulbId() {
