@@ -9,13 +9,15 @@
     <ng-container *ngIf="currentFormStatus == 11">
         <div class="container">
             <div class="financial-tab-notice">
-                <p><b>Check your rank & share your thoughts</b></p>
-                <p>Hello <b>{{ ulbName }}</b></p>
-                <p>Before the public release of your rank, you are invited to access your respective scores. In case any discrepancies are identified or queries arise regarding the score, please submit your comments in this regard by selecting the “submit your queries” icon which leads to a Google form for detailing the necessary information. </p>
-                <p>Active participation in the City Finance Ranking is highly valued, and the feedback provided is integral to the accuracy of the rankings.</p>
+                <h4><b>Check your provisional score & submit your comments by (28/06/2024 end date)</b></h4>
+                <p>As a final step before public release of City Finance Rankings results, we invite you to access your final scores by clicking on “preview your score” icon (enclosed below). In case any discrepancies are identified or queries arise regarding your score, please submit your comments by selecting the “submit your comments” icon (enclosed below) which leads to a Google form for detailing the necessary information.</p>
+                <p>Please note, the scores have been calculated as per the methodology given in the Final Guidelines of “City Finance Rankings 2022” which are available at https://cityfinance.in/rankings/login. The period allocated for you to review and submit your comments is set for the next 7 working days, commencing from (20/06/2024 Launch/Start Date). </p>
+                <p>In case of non response within the given 7-day window, it will be presumed that the calculated scores are acceptable to you.</p>
+                <p>Active participation in the City Finance Ranking is highly valued, and the feedback provided is integral to the accuracy of the rankings. Your prompt attention to this matter would be appreciated. </p>
+
                 <div class="ulb-feedback">
-                    <a href="/rankings/ulb/{{ ulbId }}" class="btn btn-d-org">Preview Your Ranking</a>
-                    <a target="_blank" href="https://forms.gle/7eyGWNmt5ZR21yQe9" class="btn btn-d-org" *ngIf="userData?.role == 'ULB'">Submit your queries</a>
+                    <a href="/rankings/ulb/{{ ulbId }}" class="btn btn-d-org">Preview your score</a>
+                    <a target="_blank" href="https://forms.gle/7eyGWNmt5ZR21yQe9" class="btn btn-d-org" *ngIf="userData?.role == 'ULB'">Submit your comments</a>
                 </div>
             </div>
         </div>
