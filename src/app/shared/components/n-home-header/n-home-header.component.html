@@ -110,7 +110,7 @@
                         <a class="nav-link" [routerLinkActive]="'active'" routerLink="/fc-home-page">15<sup>th</sup> FC Grants</a>
                     </li>
                     <li class="nav-item" *ngIf="isLoggedIn && user?.role === 'ULB'">
-                        <a class="nav-link" href="/xvi-fc/xvifc-form">XVI FC Data Collection</a>
+                        <a class="nav-link" href="/fc/xvifc-form">XVI FC Data Collection</a>
                     </li>
                     <li class="nav-item" *ngIf="isLoggedIn">
                         <a class="nav-link" routerLinkActive="active" [routerLink]="user?.role == 'ULB' ? '/rankings/ulb-form' : '/rankings/review-rankings-ulbform'">{{user?.role == 'ULB' ? "Rankings'22 Form" : "Rankings'22 Dashboard"}}</a>

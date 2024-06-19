@@ -178,7 +178,7 @@ export class LoginComponent implements OnInit, OnDestroy {
    */
   routeToProperLocation() {
     if (this.loginType === '16th_Fc') {
-      window.location.href = window.location.origin + '/xvi-fc/xvifc-form';
+      window.location.href = window.location.origin + '/fc/xvifc-form';
       // window.location.href = 'http://localhost:4300/xvifc-form';
     } else {
       const rawPostLoginRoute =
