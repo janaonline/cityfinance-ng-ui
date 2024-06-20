@@ -134,7 +134,7 @@ export class NHomeHeaderComponent implements OnInit {
     if(type == '15th_Fc'){
       this._router.navigateByUrl("/fc_grant");
     } 
-    else if(type == '16th_Fc'){
+    else if(type == 'XVIFC'){
       this._router.navigateByUrl("/login/xvi-fc");
     } 
     else if(type == 'ranking'){
