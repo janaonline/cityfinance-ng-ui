@@ -187,11 +187,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   routeToProperLocation(user: IUserLoggedInDetails) {
     if (this.loginType === 'XVIFC') {
       if (user.role === USER_TYPE.XVIFC_STATE) {
-        // window.location.href = window.location.origin + '/fc/admin/xvi-fc-review';
-        window.location.href = 'http://localhost:4300/admin/xvi-fc-review';
+        window.location.href = window.location.origin + '/fc/admin/xvi-fc-review';
+        // window.location.href = 'http://localhost:4300/admin/xvi-fc-review';
       } else if (user.role === USER_TYPE.ULB) {
-        // window.location.href = window.location.origin + '/fc/xvifc-form';
-        window.location.href = 'http://localhost:4300/xvifc-form';
+        window.location.href = window.location.origin + '/fc/xvifc-form';
+        // window.location.href = 'http://localhost:4300/xvifc-form';
       }
     } else {
       const rawPostLoginRoute =
