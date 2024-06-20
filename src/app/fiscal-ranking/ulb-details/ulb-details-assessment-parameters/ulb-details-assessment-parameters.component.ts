@@ -22,6 +22,7 @@ export class UlbDetailsAssessmentParametersComponent implements OnInit {
       For 10a &b, 'Yes' means Timely Audit Closure & Publication of Audited Annual Accounts in public domain (on Cityfinance.in / ULB’s own website), for 3 years. If yes, the marks allotted are 25.
       <br />
       For 11a & b, 'Yes' means Property Tax & Accounting System followed - Manual vs IT-based? If yes, the marks allotted are 25.
+      <br /><br />
     `: '';
   }
 
