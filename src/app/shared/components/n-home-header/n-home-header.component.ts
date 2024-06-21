@@ -131,7 +131,7 @@ export class NHomeHeaderComponent implements OnInit {
   // routerLink="/fc-home-page";
   loginLogout(type) {
     localStorage.setItem('loginType',type);
-    if(type == '15th_Fc'){
+    if(type == '15thFC'){
       this._router.navigateByUrl("/fc_grant");
     } 
     else if(type == 'XVIFC'){
