@@ -434,6 +434,9 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   finalSubmitConfirmation() {
+    if(!this.stateGsdpGrowthRate && this.yearName == '2024-25'){
+      return swal("Info", "State GSDP data is not available. You cannot final submit the form at this time, please save it as draft", "info")
+    }
     swal(
       "Confirmation !",
       `Are you sure you want to submit this form? Once submitted,
@@ -643,6 +646,9 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   submit(isDraft = true) {
+    if(!isDraft && !this.stateGsdpGrowthRate && this.yearName == '2024-25'){
+      return swal("Info", "State GSDP data is not available. You cannot final submit the form at this time, please save it as draft", "info")
+    }
     console.log(this.form)
     const payload = {
       ulbId: this.ulbId,
