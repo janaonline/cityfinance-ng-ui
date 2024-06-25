@@ -138,10 +138,10 @@
                             <td></td>
                             <td></td>
                             <td  [attr.colspan]="item?.value?.controls?.yearData?.value?.length">
-                                <p class="mb-0" *ngIf="growthRatePercentage == null; else gsdp_msg;">Property tax growth rate cannot be calculated.</p>
+                                <p class="mb-0 fw-bold" *ngIf="growthRatePercentage == null; else gsdp_msg;">Property tax growth rate cannot be calculated.</p>
                                 <ng-template #gsdp_msg>
-                                    <p class="mb-0 text-danger" *ngIf="growthRatePercentage < stateGsdpGrowthRate">Property tax growth rate is less that State GSDP.</p>
-                                    <p class="mb-0 text-success" *ngIf="growthRatePercentage >= stateGsdpGrowthRate">Property tax growth rate is greater that State GSDP.</p>
+                                    <p class="mb-0 text-danger fw-bold" *ngIf="growthRatePercentage < stateGsdpGrowthRate">Property tax growth rate is less that State GSDP.</p>
+                                    <p class="mb-0 text-success fw-bold" *ngIf="growthRatePercentage >= stateGsdpGrowthRate">Property tax growth rate is greater that State GSDP.</p>
                                 </ng-template>
                             </td>
                         </tr>
@@ -177,7 +177,7 @@
                                         *ngIf="item?.value?.controls?.child?.invalid && (item?.value?.controls?.child?.dirty || item?.value?.controls?.child?.touched)">{{
                                         item?.value?.controls?.child |
                                         formError }}</small>
-    
+                                            <br>
                                     <p *ngIf="item?.value?.controls?.downloadLink?.value">(Please download sample format)/<a
                                             class="mb-0 text-small fst-italic" style="word-break: break-all;"
                                             [href]="item?.value?.controls?.downloadLink?.value | toStorageUrl" target="_blank">
