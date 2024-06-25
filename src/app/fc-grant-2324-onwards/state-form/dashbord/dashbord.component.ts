@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonServicesService } from '../../fc-shared/service/common-services.service';
 import { SweetAlert } from "sweetalert/typings/core";
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 const swal: SweetAlert = require("sweetalert");
 
@@ -22,7 +22,8 @@ export class DashbordComponent implements OnInit {
 
   constructor(
     private commonServices: CommonServicesService,
-    private _router : Router
+    private _router : Router,
+    private route: ActivatedRoute
   ) {
     this.years = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
@@ -42,15 +43,16 @@ export class DashbordComponent implements OnInit {
   isApiComplete:boolean = false;
   formDataCompleted:boolean = false;
   private dataSubscription: Subscription;
+  selectedYearId:string = '';
   ngOnInit(): void {
-    this.onload();
+    this.getDesignYear();
   }
 
   onload(){
     this.callApiForUlbInfo();
     this.getQueryParams = {
       formType:'',
-      design_year: this.years["2023-24"],
+      design_year: this.selectedYearId,
       installment: null,
       state : this.stateId
     }
@@ -102,11 +104,18 @@ export class DashbordComponent implements OnInit {
       this._router.navigateByUrl(`${navURl}`);
       window.scrollTo(0, 0);
     }else{
-      const navURl = `state-form/grant-claims`
+      const navURl = `state-form/${this.selectedYearId}/grant-claims`
       this._router.navigateByUrl(`${navURl}`);
       window.scrollTo(0, 0);
     }
     
   }
+
+  // for getting design year and key(like: 2024-25) from route
+getDesignYear() {
+  const yearId = this.route.parent.snapshot.paramMap.get('yearId');
+  this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
+  this.onload();
+}
 
 }
