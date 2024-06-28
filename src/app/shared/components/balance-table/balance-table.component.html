@@ -78,8 +78,7 @@
                 <td colspan="2" class="report-title stickyColumn">Raw PDF</td>
                 <td class="cursor text-center" *ngFor="let year of currentUlbFilterData?.financialYear">
 
-                    <div
-                        (click)=" year == '2019-20' || year == '2020-21' ?  getReport(year, 'pdf') :getReport_pastYears(year) ">
+                    <div (click)="getReport(year, 'pdf')">
                         <i class="fa fa-file-pdf-o"></i>
                     </div>
 

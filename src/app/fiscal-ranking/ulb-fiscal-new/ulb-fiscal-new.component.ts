@@ -84,9 +84,9 @@ export class UlbFiscalNewComponent implements OnInit {
       this.ulbId = this.userData?.ulb;
     }
   }
-  isProd: boolean = false;
+ // isProd: boolean = false;
   ngOnInit(): void {
-    this.isProd = environment?.isProduction;
+    //this.isProd = environment?.isProduction;
     this.onLoad();
     sessionStorage.setItem("changeInFR", "false");
   }
