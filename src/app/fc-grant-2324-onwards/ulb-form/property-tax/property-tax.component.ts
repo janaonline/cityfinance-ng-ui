@@ -627,18 +627,33 @@ export class PropertyTaxComponent implements OnInit {
    */
   get growthRatePercentage() {
     if (!this.stateGsdpGrowthRate) {
-      return "The property tax growth rate will be determined once the state provides the GSDP growth rate.";
+      return {
+        msg : "The property tax growth rate will be determined once the state provides the GSDP growth rate.",
+        class: 'text-danger'
+      }
     }
     const collectIncludingCess = this.s3Control.get("data.collectIncludingCess.yearData").value;
     const A = collectIncludingCess?.find((year) => year.key == "FY2022-23")?.value;
     const B = collectIncludingCess?.find((year) => year.key == "FY2023-24")?.value;
-    if ( ["", "0"].includes(A)  || B == "")
-      return "Property tax growth rate cannot be calculated.";
+    if ( ["", "0"].includes(A)  || B == ""){
+      return {
+        msg : "Property tax growth rate cannot be calculated.",
+        class: ''
+      }
+    }
     let growthRatePercent = (B - A) / A;
-    if (growthRatePercent < this.stateGsdpGrowthRate)
-      return "Property tax growth rate is less than State GSDP.";
-    else if (growthRatePercent >= this.stateGsdpGrowthRate)
-      return "Property tax growth rate is greater than State GSDP.";
+    if (growthRatePercent < this.stateGsdpGrowthRate){
+      return {
+        msg : "Property tax growth rate is less than State GSDP.",
+        class: 'text-danger'
+      }
+    }
+    else if (growthRatePercent >= this.stateGsdpGrowthRate){
+      return {
+        msg : "Property tax growth rate is greater than State GSDP.",
+        class: 'text-success'
+      }
+    }
   }
 
   canShowHeader(displayPriority: string) {
