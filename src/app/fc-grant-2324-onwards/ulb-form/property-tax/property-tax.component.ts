@@ -401,7 +401,7 @@ export class PropertyTaxComponent implements OnInit {
         specialHeaders: this.specialHeaders,
         stateGsdpGrowthRate: this.stateGsdpGrowthRate,
         yearName: this.yearName,
-        growthRatePercentage: this.growthRatePercentage,
+        growthRatePercentage: this.growthRatePercentage?.msg,
         additionalData: {
           pristine: this.form.pristine,
           statusText: this.status,
