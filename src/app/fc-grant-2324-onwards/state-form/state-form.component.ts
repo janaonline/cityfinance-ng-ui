@@ -121,7 +121,7 @@ export class StateFormComponent implements OnInit {
 
   backStatePage() {
     if (this.loggedInUserType !== this.userTypes.STATE) {
-      this.router.navigate(['mohua-form/review-state-form'], { queryParams: { formId: this.stateFormId } });
+      this.router.navigate([`mohua-form/${this.selectedYearId}/review-state-form`], { queryParams: { formId: this.stateFormId } });
     }
   }
 
