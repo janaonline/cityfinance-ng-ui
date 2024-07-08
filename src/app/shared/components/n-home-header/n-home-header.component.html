@@ -109,6 +109,9 @@
                     <li class="nav-item" *ngIf="isLoggedIn && user?.role !== 'PMU'">
                         <a class="nav-link" [routerLinkActive]="'active'" routerLink="/fc-home-page">15<sup>th</sup> FC Grants</a>
                     </li>
+                    <li class="nav-item" *ngIf="isLoggedIn && user?.role === 'ULB'">
+                        <a class="nav-link" href="/fc/xvifc-form">XVI FC Data Collection</a>
+                    </li>
                     <li class="nav-item" *ngIf="isLoggedIn">
                         <a class="nav-link" routerLinkActive="active" [routerLink]="user?.role == 'ULB' ? '/rankings/ulb-form' : '/rankings/review-rankings-ulbform'">{{user?.role == 'ULB' ? "Rankings'22 Form" : "Rankings'22 Dashboard"}}</a>
                     </li>
@@ -121,7 +124,7 @@
                       <button type="button" class="btn btn-login fw-bold" (click)="loginLogout('ranking')">Login for Rankings 2022</button>
                     </li> -->
                     <!-- <li class="nav-item ms-1" *ngIf="isLoggedIn == false">
-                      <button type="button" class="btn btn-login fw-bold btn-l-fc" (click)="loginLogout('15th_Fc')">Login for 15th FC Grant</button>
+                      <button type="button" class="btn btn-login fw-bold btn-l-fc" (click)="loginLogout('15thFC')">Login for 15th FC Grant</button>
                     </li> -->
                 </ul>
             </div>
@@ -131,14 +134,25 @@
                     <button class="btn btn-login dropdown-toggle fw-bold" type="button" id="loginDrp" data-bs-toggle="dropdown" aria-expanded="false">
                       Login
                   </button>
-                    <ul class="dropdown-menu" aria-labelledby="loginDrp" style="left: -7px;">
-                        <li><a class="dropdown-item" (click)="loginLogout('15th_Fc')">
-                         <img src="../../../../assets/fiscal-rankings/logout_FILL0_wght400_GRAD0_opsz24.png" alt=""> XV FC Grant
+                    <ul class="dropdown-menu dropdown-menu-login" aria-labelledby="loginDrp">
+                        <li><a class="dropdown-item" (click)="loginLogout('15thFC')">
+                            <span class="material-icons">
+                                login
+                            </span> XV FC Grant
+                        </a>
+                    </li>
+                        <hr class="m-0">
+                        <li><a class="dropdown-item" (click)="loginLogout('XVIFC')">
+                            <span class="material-icons">
+                                login
+                            </span> XVI FC Data Collection
                         </a>
                     </li>
                         <hr class="m-0">
                         <li><a class="dropdown-item" (click)="loginLogout('ranking')">
-                            <img src="../../../../assets/fiscal-rankings/logout_FILL0_wght400_GRAD0_opsz24.png" alt=""> Rankings 2022
+                            <span class="material-icons">
+                                login
+                            </span> Rankings 2022
                         </a></li>
                     </ul>
                 </div>

@@ -99,6 +99,11 @@ export const appRouter: Routes = [
       import("./auth/login/login.module").then((m) => m.LoginModule),
   },
   {
+    path: "login/xvi-fc",
+    loadChildren: () =>
+      import("./auth/login/login.module").then((m) => m.LoginModule),
+  },
+  {
     path: "register",
     loadChildren: () =>
       import("./auth/register/register.module").then((m) => m.RegisterModule),
