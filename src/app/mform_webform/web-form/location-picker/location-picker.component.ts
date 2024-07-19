@@ -23,6 +23,9 @@ export class LocationPickerComponent implements OnInit {
 
   ngOnInit(): void {
     this.latLong = this.question?.modelValue || '0,0';
+    this.question.maxRange =999;
+    this.question.minRange =0;
+    this.question.max = 3;
   }
 
   openDialog() {

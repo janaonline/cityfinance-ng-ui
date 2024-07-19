@@ -3,7 +3,7 @@
   <div class="col-sm-12" *ngIf="questionresponse?.data?.length > 0">
     <div class="form-h">
      {{questionresponse?.data[0]?.language[0]?.title}}
-     <mat-icon class="input-eye-icon" *ngIf="questionresponse?.data[0]?.deadLineMsg" matTooltipClass="tooltip-info"
+     <mat-icon class="input-eye-icon pointer-hand" *ngIf="questionresponse?.data[0]?.deadLineMsg" matTooltipClass="tooltip-info"
       [matTooltip]="questionresponse?.data[0]?.deadLineMsg">info</mat-icon>
      <div class="pre-div float-end d-inline-block">
        <button class="btn btn-upload" (click)="onPreview()">Preview</button>
@@ -60,7 +60,7 @@
                 {{activeTab?.responseFile?.name}}
             </a>
             <span class="ms-3">
-              <span class="material-icons file-icon-cross"
+              <span class="material-icons file-icon-cross pointer-hand"
                   matTooltip="Remove the upload file"
                   (click)="setFileInAction( '', '' )">cancel</span>
               </span>
@@ -70,7 +70,7 @@
                   {{activeTab?.responseFile_mohua?.name}}
               </a>
               <span class="ms-3">
-                <span class="material-icons file-icon-cross"
+                <span class="material-icons file-icon-cross pointer-hand"
                     matTooltip="Remove the upload file"
                     (click)="setFileInAction( '', '' )">cancel</span>
                 </span>
@@ -191,9 +191,10 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="" [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled ) }">
-                        <input digitOnly [decimal]="question?.skipDigitOnlyValidation" type="number" class="form-control " [appNumberLength]="question.max" placeholder="{{question.hint}}" [ngClass]="{'invalid-border': question.errorMessage}" minlength="{{question.min}}" maxlength="{{question.max}}"
-                            id="{{question.order}}" [value]="question.modelValue ? question.modelValue : ''" (keyup)="onChange(question, $event)" [ngModelOptions]="{standalone: true}" (focus)="onFocusEvent(question.order)" [appRestrictFirstDigitAsZero]="isAppRestrictFirstDigitAsZero"
-                            [readonly]="question?.isQuestionDisabled" [min]="question.minRange" [max]="question.maxRange" />
+                        <input digitOnly [decimal]="question?.skipDigitOnlyValidation" type="number" class="form-control " [appNumberLength]="question.max" placeholder="{{question.hint}}" [ngClass]="{'invalid-border': question.errorMessage}" 
+                            id="{{question.order}}" [value]="question.modelValue ? question.modelValue : ''" (keyup)="onChange(question, $event)" [ngModelOptions]="{standalone: true}" (focus)="onFocusEvent(question.order)" [appRestrictFirstDigitAsZero]="true"
+                            [readonly]="question?.isQuestionDisabled" [min]="question.minRange" [max]="question.maxRange" 
+                            [appMinMaxRangeCheckOnPaste]="{minRange: question.minRange, maxRange: question.maxRange}" title=""/>
                         <mat-icon class="input-eye-icon" *ngIf="question?.information" [matTooltip]="question?.information">info</mat-icon>
                     </div>
                     <div *ngIf="(question?.labelInstruction) && (!question.errorMessage)" class="label-instruction">
@@ -213,7 +214,7 @@
                 <div class="col-6 mb-3  " [ngClass]="{'invalid-border': question.errorMessage,'disable-question-field': question?.isQuestionDisabled }" style="">
                     {{question.title}}
                     <span *ngIf="question.required" class="text-primary">*</span>
-                    <mat-icon class="radio-info-icon" *ngIf="question?.information" [matTooltip]="question?.information" matTooltipClass="tooltip-info">info</mat-icon>
+                    <mat-icon class="radio-info-icon pointer-hand" *ngIf="question?.information" [matTooltip]="question?.information" matTooltipClass="tooltip-info">info</mat-icon>
                 </div>
                 <div class="col-6 d-flex justify-content-between">
                     <mat-radio-group class="cf-annual-account" aria-label="Select an option" [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled )}" [disabled]="question?.isQuestionDisabled">
@@ -235,7 +236,7 @@
                     <div>
                         {{question.title}}
                         <span *ngIf="question.required" class="text-primary">*</span>
-                        <mat-icon class="file-type-info" *ngIf="question?.information" [matTooltip]="question?.information">info</mat-icon>
+                        <mat-icon class="file-type-info pointer-hand" *ngIf="question?.information" [matTooltip]="question?.information">info</mat-icon>
                     </div>
                 </div>
                 <div class="align-items-center " [ngClass]="{'col-sm-12' : (question?.title == ''),  'col-sm-6' : (question?.title != '')}">
@@ -362,7 +363,7 @@
                  </label>
             <input type="date" autocomplete="{{question.order}}" id="{{question.order}}" class="form-control " placeholder="{{question.title}}" [ngClass]="{'invalid-border': question.errorMessage}" name="{{question.order}}" [(ngModel)]="question.modelValue" (change)="onChange(question, $event)"
                 [ngModelOptions]="{standalone: true}" [readonly]="question?.isQuestionDisabled" [min]="question?.min" [max]="question?.max" (keydown)="restrictManuallyEnterDate()">
-                <mat-icon class="input-eye-icon" *ngIf="question?.information" [matTooltip]="question?.information" style="right: 50px;">info</mat-icon>
+                <mat-icon class="input-eye-icon pointer-hand" *ngIf="question?.information" [matTooltip]="question?.information" style="right: 50px;">info</mat-icon>
               </div>
         <div class="col-sm-12 font-weight-500 text-primary error-msg" *ngIf="question.errorMessage">
             {{question.information?question.information:question.errorMessage}}
@@ -394,7 +395,7 @@
                         </mat-option>
                     </div>
                 </mat-select>
-                <mat-icon class="input-eye-icon" *ngIf="question?.information" [matTooltip]="question?.information" style="">info</mat-icon>
+                <mat-icon class="input-eye-icon pointer-hand" *ngIf="question?.information" [matTooltip]="question?.information" style="">info</mat-icon>
             </mat-form-field>
             <!-- <div *ngIf="question?.showComment" class="mb-1">
                      <span class="commentSelector" *ngIf="!pdfbuttonhide">
@@ -414,7 +415,7 @@
         <div class="col-sm-12 mb-3 " id="{{question.order}}" [ngClass]="{'invalid-border': question.errorMessage}">
           {{question.title}}
             <span *ngIf="question.required" class="text-primary">*</span>
-            <mat-icon class="radio-info-icon" *ngIf="question?.information" [matTooltip]="question?.information">info</mat-icon>
+            <mat-icon class="radio-info-icon pointer-hand" *ngIf="question?.information" [matTooltip]="question?.information">info</mat-icon>
           </div>
           <div class="col-sm-12" *ngFor="let option of question.answer_option;let i=index" [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled ) }">
             <mat-checkbox class="m-3 " (change)="onChange(question, $event, option)" [checked]="option.checked">{{option.name}}</mat-checkbox>
@@ -451,7 +452,7 @@
                           </mat-option>
                     </div>
                 </mat-select>
-                <mat-icon class="input-eye-icon" *ngIf="question?.information" [matTooltip]="question?.information" style="">info</mat-icon>
+                <mat-icon class="input-eye-icon pointer-hand" *ngIf="question?.information" [matTooltip]="question?.information" style="">info</mat-icon>
               </mat-form-field>
 
         </div>
@@ -476,7 +477,7 @@
       <div class="col-sm-12 mb-3 " id="{{question.order}}" [ngClass]="{'invalid-border': question.errorMessage}">
             {{question.title}}
             <span *ngIf="question.required" class="text-primary">*</span>
-            <mat-icon class="radio-info-icon" *ngIf="question?.information" [matTooltip]="question?.information">info</mat-icon>
+            <mat-icon class="radio-info-icon pointer-hand" *ngIf="question?.information" [matTooltip]="question?.information">info</mat-icon>
         </div>
         <div class="col-sm-12" *ngFor="let option of question.answer_option;let i=index" [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled ) }">
             <mat-checkbox class="m-3 " (change)="onChange(question, $event, option)" [checked]="option.checked">{{option.name}}</mat-checkbox>

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 const swal: SweetAlert = require("sweetalert");
 
@@ -34,7 +34,7 @@ export class DurComponent implements OnInit, OnDestroy {
   isButtonAvail : boolean = false;
   // nextRouter:string = '';
   // backRouter:string = '';
-  formId:number = null;
+  formId:number = 4;
   nextPreUrl = {
     nextBtnRouter: '',
     backBtnRouter: ''
@@ -44,12 +44,17 @@ export class DurComponent implements OnInit, OnDestroy {
   canTakeAction:boolean = false;
   leftMenuSubs:any;
   statusShow:string = '';
+  selectedYearId:string="";
+  financialYear:string="";
+  selectedYear:string=""
+  locationInvalid:boolean = false;
   constructor(
     private dialog: MatDialog,
     private durService: DurService,
     private loaderService: GlobalLoaderService,
     private commonServices: CommonServicesService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { 
     this.getNextPreUrl();
   }
@@ -57,6 +62,7 @@ export class DurComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // this.isLoaded = true;
+    this.getFinancialYear();
     this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
       if (res == true) {
         this.getNextPreUrl();
@@ -65,9 +71,10 @@ export class DurComponent implements OnInit, OnDestroy {
     this.loadData();
   }
 
-  get design_year() {
-    const years = JSON.parse(localStorage.getItem("Years"));
-    return years?.['2023-24'];
+  get design_year() { 
+    const yearId = this.route.parent.snapshot.paramMap.get('yearId');
+     this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId")
+    return this.selectedYearId;
   }
 
   get ulbId() {
@@ -183,11 +190,14 @@ export class DurComponent implements OnInit, OnDestroy {
         name: child?.[0]?.value,
         categoryName: child?.[1]?.selectedValue?.[0]?.label,
         location: {
-          lat: parseFloat(lat).toFixed(2),
-          long: parseFloat(long).toFixed(2)
+          lat: lat ? parseFloat(lat).toFixed(6) : "",
+          long: long ? parseFloat(long).toFixed(6) : ""
         },
         cost: child[5]?.value,
-        expenditure: child[6]?.value
+        expenditure: child[6]?.value,
+        dpr_status: child[8]?.selectedValue?.[0]?.label,
+        startDate: child[2]?.value,
+        completionDate: child[3]?.value,
       }
     });
 
@@ -196,8 +206,8 @@ export class DurComponent implements OnInit, OnDestroy {
     let previewData = {
       status: this.statusShow,
       isDraft: true,
-      financialYear: "606aaf854dff55e6c075d219",
-      designYear: "606aafb14dff55e6c075d3ae",
+      financialYear: this.financial_year,
+      designYear: this.design_year,
       grantType: "Tied",
       isProjectLoaded: this.isProjectLoaded,
       grantPosition,
@@ -205,7 +215,8 @@ export class DurComponent implements OnInit, OnDestroy {
       designation: selfDeclaration?.childQuestionData?.[0]?.[1]?.modelValue,
       categoryWiseData_wm,
       categoryWiseData_swm,
-      projects
+      projects,
+      selectedYear: this.selectedYear
     };
     const dialogRef = this.dialog.open(DurPreviewComponent, {
       data: previewData,
@@ -222,6 +233,7 @@ export class DurComponent implements OnInit, OnDestroy {
   }
 
   isFormValid(data) {
+    this.locationInvalid = false;
     const projectDetails = data?.finalData.find(item => item.shortKey == "projectDetails_tableView_addButton")?.nestedAnswer || [];
     const waterManagement = data?.finalData.find(item => item.shortKey == "waterManagement_tableView")?.nestedAnswer || [];
     const solidWasteManagement = data?.finalData.find(item => item.shortKey == "solidWasteManagement_tableView")?.nestedAnswer || [];
@@ -229,8 +241,9 @@ export class DurComponent implements OnInit, OnDestroy {
       const location = project?.answerNestedData.find(item => item.shortKey == "location");
       const cost = project?.answerNestedData.find(item => item.shortKey == "cost");
       const expenditure = project?.answerNestedData.find(item => item.shortKey == "expenditure");
-      if (location.answer[0].value == '0,0') {
-        return false
+      if (location.answer?.length == 0 || location.answer[0].value == "" || this.isLocationValid(location.answer[0].value)) {
+        this.locationInvalid = true;
+        return false;
       }
       if (expenditure.answer[0].value && cost.answer[0].value && (+expenditure.answer[0].value > +cost.answer[0].value)) {
         return false;
@@ -261,8 +274,31 @@ export class DurComponent implements OnInit, OnDestroy {
   }
 
   async onSubmit(data) {
+
     let isDraft = data.isSaveAsDraft;
+    if(isDraft) this.finalSubmit(data, isDraft);
     if (isDraft == false) {
+      const selfDeclarationChecked = data?.finalData.find(item => item?.shortKey === "declaration" && item.answer?.[0].value == '1')?.answer?.[0].value;
+      if (selfDeclarationChecked != '1') return swal('Error', 'Please check self declaration', 'error');
+      const grantPositionData = data?.finalData?.find(obj => obj.shortKey === "grantPosition");
+      const expDuringYrObj = grantPositionData?.nestedAnswer[0]?.answerNestedData?.find(el=>el.shortKey === "grantPosition___expDuringYr");
+      
+     if((expDuringYrObj?.answer[0]?.value == 0)){
+       swal("Error", "The total expenditure incurred during the year cannot be 0", "error");
+       return;
+     }
+     const projectDetails = data?.finalData.find(item => item.shortKey == "projectDetails_tableView_addButton")?.nestedAnswer || [];
+     if(projectDetails?.length == 0){
+        swal("Error", "Number of projects can not be 0", "error");
+        return;
+     } 
+     // if = validation check for all input,
+     // else = confirmation popup then final submit, draft, cancel functionality.
+     console.log("this.isFormValid(data)", this.isFormValid(data))
+     if (!this.isFormValid(data)) {
+      let errMsg = this.locationInvalid ? "Please fill the lat/long or correct the lat/long values" : 'Please fill valid values in form';
+      return swal('Error', `${errMsg}`, 'error')
+    }else{
       const userAction = await swal(
         "Confirmation !",
         `${this.finalSubmitMsg}`,
@@ -286,26 +322,24 @@ export class DurComponent implements OnInit, OnDestroy {
       );
       if (userAction == 'draft') {
         isDraft = true;
+        this.finalSubmit(data, isDraft)
       }
       if (userAction == 'cancel') return;
+      if(userAction == 'submit') this.finalSubmit(data, isDraft)
     }
+  
+    };
 
-
-    const selfDeclarationChecked = data?.finalData
-      .find(item => item?.shortKey === "declaration" && item.answer?.[0].value == '1')?.answer?.[0].value;
-    console.log('selfDeclaration', data?.finalData.find(item => item.shortKey === "declaration"), selfDeclarationChecked)
-    if (isDraft == false) {
-      if (selfDeclarationChecked != '1') return swal('Error', 'Please check self declaration', 'error');
-      if (!this.isFormValid(data)) return swal('Error', 'Please fill valid values in form', 'error');
-    }
-
-
+    
+    
+  }
+  finalSubmit(data, isDraft){
     this.loaderService.showLoader();
     this.durService.postForm({
       isDraft: isDraft,
       status: isDraft ? 2 : 3,
       isProjectLoaded: this.isLastDeleted || this.isProjectLoaded,
-      financialYear: this.design_year,
+      financialYear: this.financial_year,
       designYear: this.design_year,
       ulb: this.ulbId,
       formId: 4,
@@ -332,7 +366,9 @@ export class DurComponent implements OnInit, OnDestroy {
   }
   nextPreBtn(e) {
     let url = e?.type == 'pre' ? this.nextPreUrl?.backBtnRouter : this.nextPreUrl?.nextBtnRouter
-    this.router.navigate([`/ulb-form/${url.split('/')[1]}`]);
+    //added year Id in route
+    this.router.navigate([`/ulb-form/${this.selectedYearId}/${url.split('/')[1]}`]);
+    //this.router.navigate([`/ulb-form/${url.split('/')[1]}`]);
   }
   updateInParent(item) {
     Object.entries(item).forEach(([key, value]) => {
@@ -354,7 +390,7 @@ export class DurComponent implements OnInit, OnDestroy {
       this.sideMenuItem[key].forEach((ele) => {
         if (ele?.folderName == "dur") {
           this.nextPreUrl = {nextBtnRouter : ele?.nextUrl, backBtnRouter : ele?.prevUrl}
-          this.formId = ele?.formId;
+          this.formId = ele?.formId ?? 4;
         }
       });
     }
@@ -366,8 +402,41 @@ export class DurComponent implements OnInit, OnDestroy {
     console.log(this.isButtonAvail, 'this.isButtonAvail');
     
  }
+
+ //f
+ getFinancialYear(){
+  this.selectedYear = this.commonServices.getYearName(this.design_year);
+  const [startYear, endYear] = this.selectedYear.split("-").map(Number);
+  this.financialYear = `${startYear - 1}-${endYear - 1}`;
+  
+ }
+ get financial_year() {
+  const years = JSON.parse(localStorage.getItem("Years"));
+  return years?.[`${this.financialYear}`];
+}
+
  ngOnDestroy(): void {
   this.leftMenuSubs.unsubscribe();
+}
+
+ isLocationValid(location: string): boolean {
+  // Split the location string by comma
+  const values: string[] = location.split(',');
+
+  // Iterate through each value for checking error
+  for (const val of values) {
+      try {
+          if (!val || parseFloat(val.trim()) === 0) {
+              return true;
+          }
+      } catch (error) {
+        swal("Error", `${error?.message}`, "error")
+          continue;
+      }
+  }
+
+  // If no error found, return false
+  return false;
 }
   
 }

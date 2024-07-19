@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonServicesService } from '../../fc-shared/service/common-services.service';
 
 @Component({
@@ -10,15 +10,16 @@ import { CommonServicesService } from '../../fc-shared/service/common-services.s
 export class OverviewComponent implements OnInit {
 
   constructor(
-    private router: Router,
+    // private router: Router,
+    private route: ActivatedRoute,
     private commonServices : CommonServicesService
   ) {
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.designYearArray = JSON.parse(localStorage.getItem("Years"));
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuULB"));
     this.cardsOverview = JSON.parse(localStorage.getItem("overViewCard2324"));
-
-    this.getSideBar();
+    this.getQueryParams();
+    
   }
   cardData
   userData;
@@ -148,8 +149,9 @@ export class OverviewComponent implements OnInit {
   nextRouter:string;
   designYearArray: any;
   isApiComplete:boolean = false;
+  selectedYearId:string = "";
+  selectedYear:string = "";
   ngOnInit(): void {
-    this.setRouter();
     this.onResize();
   }
 
@@ -186,10 +188,10 @@ export class OverviewComponent implements OnInit {
       }
       console.log(this.itemsPerSlide);
     }
-  getSideBar() {
+  getSideBar(yearId) {
       let queryParam = {
         role: '',
-        year: this.designYearArray["2023-24"],
+        year: yearId,
         _id: ''
       }
 
@@ -204,9 +206,11 @@ export class OverviewComponent implements OnInit {
       this.commonServices.formGetMethod("menu", queryParam).subscribe((res: any) => {
         console.log("left responces..", res);
         localStorage.setItem("leftMenuULB", JSON.stringify(res?.data)); 
+        this.sideMenuItem = res?.data;
         this.cardsOverview = res?.card;
         localStorage.setItem("overViewCard2324", JSON.stringify(res?.card));
         this.isApiComplete = true;
+        this.setRouter();
       },
       (error)=>{
         console.log('left menu responces', error)
@@ -289,5 +293,11 @@ export class OverviewComponent implements OnInit {
         this.checkPos = true;
       }
     }
-
+    
+    getQueryParams() {
+      const yearId = this.route.parent.snapshot.paramMap.get('yearId');
+       this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
+       this.selectedYear = this.commonServices.getYearName(this.selectedYearId);
+       this.getSideBar(this.selectedYearId); 
+    }
 }

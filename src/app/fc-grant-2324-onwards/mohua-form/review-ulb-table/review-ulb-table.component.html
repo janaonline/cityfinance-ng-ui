@@ -22,9 +22,9 @@
       </div>
   </div>
   <div class="row">
-      <div class="col-sm-12">
+      <div class="col-sm-12" *ngIf="data?.length">
           <app-table [dropdownData]="data" [formId]="formId" [state_id_i]="stateId"
-           [tableName]="reviewTableName" [designYear]="design_year" [formBaseUrl]="formBaseUrl" [endPoint]="'reviewForms'"></app-table>
+           [tableName]="reviewTableName" [designYear]="selectedYearId" [formBaseUrl]="formBaseUrl" [endPoint]="'reviewForms'"></app-table>
       </div>
   </div>
 </div>

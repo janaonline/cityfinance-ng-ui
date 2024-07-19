@@ -117,7 +117,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   stateLayers: L.GeoJSON<any>;
 
-  queryParams: { state?: string } = {};
+  queryParams: { state?: string, cityId?: string } = {};
 
   randomNumber = Math.random();
 
@@ -125,7 +125,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   allUlb;
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ngOnChanges(changes: {
     ulbSelected?: SimpleChange;
@@ -178,7 +178,12 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   protected initiatedDataFetchingProcess() {
-    const body = { year: this.yearSelected || [] };
+    const href = window.location.href;
+    const newQuery = ['/dashboard/city', '/home'].some(str => href.includes(str));
+    const body = {
+      year: this.yearSelected || [],
+      newQuery
+    };
     const subscriptions: any[] = [];
     subscriptions.push(
       this._commonService.getStateUlbCovered(body)
@@ -276,7 +281,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
           throw new Error("ULBFound");
         }
       });
-    } catch (error) {}
+    } catch (error) { }
     return markerFound;
   }
 
@@ -558,9 +563,11 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     return stateFound;
   }
 
-  onGettingULBWithPopulationSuccess(res: IULBWithPopulationResponse= {message: '',
-  success: false,
-  data: []}) {
+  onGettingULBWithPopulationSuccess(res: IULBWithPopulationResponse = {
+    message: '',
+    success: false,
+    data: []
+  }) {
     this.allULBSList = res.data;
 
     this.ulbsOfSelectedState = res.data;
@@ -580,7 +587,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     return res;
   }
 
-  onGettingStateULBCoveredSuccess(res: IStateULBCoveredResponse={
+  onGettingStateULBCoveredSuccess(res: IStateULBCoveredResponse = {
     message: '',
     success: false,
     data: []
@@ -612,7 +619,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
           "mapidd" + this.randomNumber
         );
       })
-      .catch((err) => {});
+      .catch((err) => { });
 
     return res;
   }
@@ -730,7 +737,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     if (
       this.currentStateInView &&
       this.currentStateInView.name !==
-        mapClickEvent.sourceTarget.feature.properties.ST_NM
+      mapClickEvent.sourceTarget.feature.properties.ST_NM
     ) {
       this.resetULBsSelected();
     }
@@ -738,7 +745,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     if (
       this.currentStateInView &&
       this.currentStateInView.name ===
-        mapClickEvent.sourceTarget.feature.properties.ST_NM
+      mapClickEvent.sourceTarget.feature.properties.ST_NM
     ) {
       return;
     }

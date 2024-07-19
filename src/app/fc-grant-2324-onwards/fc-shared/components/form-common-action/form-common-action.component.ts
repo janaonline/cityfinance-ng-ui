@@ -7,6 +7,7 @@ import { SweetAlert } from "sweetalert/typings/core";
 import { CommonServicesService } from "../../service/common-services.service";
 import { queryParam } from "../../common-interface";
 import { environment } from "src/environments/environment";
+import { ActivatedRoute } from "@angular/router";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -19,7 +20,8 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
     private formBuilder: FormBuilder,
     private dataEntryService: DataEntryService,
     private _snackBar: MatSnackBar,
-    private commonServices: CommonServicesService
+    private commonServices: CommonServicesService,
+    private route: ActivatedRoute
   ) {
     this.initializeForm();
     this.formValueChange();
@@ -75,10 +77,14 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
   autoReject:boolean = false;
   sequentialAlert: string = `This ULB is not eligible for approval due to its previous year's unapproved status, 
   allowing only rejection`;
+  isPreviewYearApproved: boolean = false;
+  selectedYearId:string = "";
+  selectedYear:string = "";
   ngOnInit(): void {
+   this.getQueryParams()
   if(this.actionData) this.setStatusData(this.actionData);
   this.getQuery = {
-    design_year: this.Years["2023-24"],
+    design_year: this.selectedYearId,
     formId: this.formId,
     ulb: this.ulbId
   };
@@ -86,11 +92,10 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
   if (!id) {
     id = sessionStorage.getItem('ulbCode');
    }
-  this.uploadFolderName = `${this.userData?.role}/2023-24/supporting_douments/${this.formName}/${id}`;
+  this.uploadFolderName = `${this.userData?.role}/${this.selectedYear}/supporting_douments/${this.formName}/${id}`;
   this.getActionRes();
 
   }
-  isPreviewYearApproved: boolean = false;
   ngOnChanges(changes: SimpleChanges): void {
     console.log('formData formData', this.formData);
     if(this.isFormFinalSubmit) this.getActionRes();
@@ -304,7 +309,7 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
   sequentialReview(data) {
     let body = {
       ulbs: [this.ulbId],
-      design_year: this.Years["2023-24"],
+      design_year: this.selectedYearId,
       status: "REJECTED",
       formId: this.formId,
       multi: false,
@@ -329,5 +334,12 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
       return true;
      };
      return false;
+    }
+
+
+    getQueryParams() {
+        const yearId = this.route.parent.snapshot.paramMap.get('yearId');
+        this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
+        this.selectedYear = this.commonServices.getYearName(this.selectedYearId);
     }
 }

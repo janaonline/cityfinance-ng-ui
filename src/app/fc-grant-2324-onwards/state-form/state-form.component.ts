@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonServicesService } from '../fc-shared/service/common-services.service';
 import { UserUtility } from 'src/app/util/user/user';
 import { ProfileService } from 'src/app/users/profile/service/profile.service';
@@ -20,6 +20,7 @@ export class StateFormComponent implements OnInit {
     private commonServices : CommonServicesService,
     private profileService: ProfileService,
     private _commonService: CommonService,
+    private route: ActivatedRoute,
   ) {
     this.initializeUserType();
     this.fetchStateList();
@@ -40,7 +41,8 @@ export class StateFormComponent implements OnInit {
       this.stateName = sessionStorage.getItem("stateName");
     };
     this.designYearArray = JSON.parse(localStorage.getItem("Years"));
-    this.getLeftMenu();
+   // this.getLeftMenu();
+   this.getQueryParams();
     this.statusSubs = this.commonServices.setFormStatusState.subscribe((res) => {
       if (res == true) {
         console.log("form status 2223", res);
@@ -61,9 +63,12 @@ export class StateFormComponent implements OnInit {
   stateId:string;
   designYearArray:any;
   statusSubs:any;
-  isApiComplete:boolean =false;
+  //isApiComplete:boolean =false;
   stateFormId:string = '';
   path:string = '';
+  isLeftMenu:boolean = false;
+  selectedYearId: string = ""
+  selectedYear:string = "";
   ngOnInit(): void {
    // this.leftMenu = JSON.parse(localStorage.getItem("leftMenuULB"));
    this.stateFormId = sessionStorage.getItem("Stateform_id");
@@ -71,20 +76,22 @@ export class StateFormComponent implements OnInit {
   }
 
   getLeftMenu() {
+    this.isLeftMenu = false;
     let queryParam = {
       role: 'STATE',
-      year: this.designYearArray["2023-24"],
+      year: this.selectedYearId,
       _id: this.stateId
     }
-
     this.commonServices.formGetMethod("menu", queryParam).subscribe((res: any) => {
       console.log("left responces..", res);
       this.leftMenu = res?.data;
       localStorage.setItem("leftMenuState", JSON.stringify(res?.data));
       this.commonServices.stateLeftMenuComplete.next(true);
-      this.isApiComplete = true;
+     // this.isApiComplete = true;
+      this.isLeftMenu = true;
     },
     (error)=>{
+      this.isLeftMenu = false;
       console.log('left menu responces', error)
     }
     );
@@ -114,8 +121,17 @@ export class StateFormComponent implements OnInit {
 
   backStatePage() {
     if (this.loggedInUserType !== this.userTypes.STATE) {
-      this.router.navigate(['mohua-form/review-state-form'], { queryParams: { formId: this.stateFormId } });
+      this.router.navigate([`mohua-form/${this.selectedYearId}/review-state-form`], { queryParams: { formId: this.stateFormId } });
     }
   }
+
+  getQueryParams() {
+    this.route.params.subscribe(params => {
+     const yearId = params['yearId']; // get the 'id' query parameter
+     this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
+     this.getLeftMenu(); 
+     this.selectedYear = this.commonServices.getYearName(this.selectedYearId);
+  });
+}
 
 }

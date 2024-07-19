@@ -349,7 +349,7 @@ div.miniMap {
     }
 }
 
-::ng-deep {
+:host ::ng-deep {
     .leaflet-control-attribution {
         display: none;
     }
@@ -454,7 +454,10 @@ div.miniMap {
     letter-spacing: 0px;
     color: #0F1F40;
     opacity: 1;
-    padding: 3rem 0 1rem 1.5rem;
+    padding: 3rem 0 1rem 0;
+    display: inline-block;
+    border-bottom: 5px solid #e67e15;
+    margin-bottom: 1rem;
 }
 
 .expo-sub {
@@ -574,8 +577,8 @@ div.miniMap {
     border: none;
 }
 
-::ng-deep .c-remove,
-::ng-deep .clear-all {
+:host ::ng-deep .c-remove,
+:host ::ng-deep .clear-all {
     display: none;
 }
 

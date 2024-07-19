@@ -2,7 +2,8 @@
     <div class="row">
         <div class="col-md-6 justify-content-start">
             <p class="balanceText">
-                Below are the highlights of the ULB’s {{reportGroup}} for past five years (based on availability). Click on compare to compare <b>{{cityName}}</b> financials with upto five other comparable ULBs.
+                Below are the highlights of the ULB’s {{reportGroup}} for past five years (based on availability). Click
+                on compare to compare <b>{{cityName}}</b> financials with upto five other comparable ULBs.
             </p>
             <!-- <p>
                 <b>N/A:</b>&nbsp; Data not available.
@@ -12,7 +13,8 @@
             <div class="row">
                 <div class="col-md-3">
                     <label class="rp-h">Report Type</label>
-                    <mat-radio-group name="report_type" (change)="valueTypeReport($event, 'reprtType')" aria-label="repot">
+                    <mat-radio-group name="report_type" (change)="valueTypeReport($event, 'reprtType')"
+                        aria-label="repot">
                         <mat-radio-button class="mx-2" [checked]="'Summary' == valueTypeR" value="Summary">
                             Summary
                         </mat-radio-button>
@@ -23,32 +25,36 @@
                 </div>
                 <div class="col-md-3">
                     <label class="rp-h">Value Format</label>
-                    <mat-radio-group name="value_type" (change)="valueTypeChange($event, 'valueType')" aria-label="value">
+                    <mat-radio-group name="value_type" (change)="valueTypeChange($event, 'valueType')"
+                        aria-label="value">
                         <mat-radio-button class="mx-2" [checked]="'absolute' == valueType" value="absolute">
                             Absolute
                         </mat-radio-button>
-                        <mat-radio-button class="mx-2" [checked]="'per_capita' == valueType" value="per_capita">Per Capita
+                        <mat-radio-button class="mx-2" [checked]="'per_capita' == valueType" value="per_capita">Per
+                            Capita
                         </mat-radio-button>
                     </mat-radio-group>
                 </div>
                 <div class="col-md-3 customFilter">
                     <button (click)="openModal()" style="font-size: 0.8em; cursor: pointer" class="searchButton comp">
-                Compare By
-               </button>
+                        Compare By
+                    </button>
                     <a (click)="resetCompare()" style="font-size: 0.8em; cursor: pointer; color: #e67e15" class="">
                         <span class="material-icons" matTooltip="Reset Compare" style="vertical-align: middle;">
-                     refresh
-                  </span>
+                            refresh
+                        </span>
                     </a>
                 </div>
                 <div class="col-md-3">
-                    <select class="form-control" aria-label="Default select" (change)="onSelectingConversionType($event)" style="height: 2.5rem;" [disabled]="disableDropDown">
-                    <option value="none" selected hidden>Select an Option</option>
-                    <option *ngFor="let currency of currencyConversionType"
-                        [value]="currency?.type" [selected]="currency?.type == selectCurrencyValue">
-                        {{currency?.name}}
-                    </option>
-                </select>
+                    <select class="form-control" aria-label="Default select"
+                        (change)="onSelectingConversionType($event)" style="height: 2.5rem;"
+                        [disabled]="disableDropDown">
+                        <option value="none" selected hidden>Select an Option</option>
+                        <option *ngFor="let currency of currencyConversionType" [value]="currency?.type"
+                            [selected]="currency?.type == selectCurrencyValue">
+                            {{currency?.name}}
+                        </option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -60,7 +66,8 @@
         <table style="width:100%;margin-bottom: 2%;">
             <tr class="customTable">
                 <th class="report stickyColumn smallScreenHeader" colspan="2">Download Report</th>
-                <th class="text-center smallScreenHeader" *ngFor="let year of currentUlbFilterData?.financialYear" style="background-color: rgb(226,226,226)">{{year}}</th>
+                <th class="text-center smallScreenHeader" *ngFor="let year of currentUlbFilterData?.financialYear"
+                    style="background-color: rgb(226,226,226)">{{year}}</th>
                 <!-- <th style="background-color: rgb(226,226,226)"></th>
               <th style="background-color: rgb(226,226,226)"></th>
               <th style="background-color: rgb(226,226,226)"></th>
@@ -71,7 +78,7 @@
                 <td colspan="2" class="report-title stickyColumn">Raw PDF</td>
                 <td class="cursor text-center" *ngFor="let year of currentUlbFilterData?.financialYear">
 
-                    <div (click)=" year == '2019-20' || year == '2020-21' ?  getReport(year, 'pdf') :getReport_pastYears(year) ">
+                    <div (click)="getReport(year, 'pdf')">
                         <i class="fa fa-file-pdf-o"></i>
                     </div>
 
@@ -90,7 +97,8 @@
             <tr class="blank-td"></tr>
             <tr class="customTable">
                 <td colspan="2" class="report-title stickyColumn">Raw Excel</td>
-                <td class="cursor text-center" *ngFor="let year of currentUlbFilterData?.financialYear" (click)="getReport(year, 'excel')">
+                <td class="cursor text-center" *ngFor="let year of currentUlbFilterData?.financialYear"
+                    (click)="getReport(year, 'excel')">
 
                     <i class="fa fa-file-excel-o"></i>
 
@@ -101,7 +109,8 @@
         </table>
     </div>
     <div>
-        <p style="opacity: 0.7;margin-bottom: 2%;">* PDF consists of final financial dataset as published by the ULB. Excel File contains standardised data from this raw PDF to enable comparison and analysis.</p>
+        <p style="opacity: 0.7;margin-bottom: 2%;">* PDF consists of final financial dataset as published by the ULB.
+            Excel File contains standardised data from this raw PDF to enable comparison and analysis.</p>
     </div>
     <!-- <div class="row">
       <div class="col-md-12">
@@ -111,6 +120,8 @@
 </div>
 
 <ng-template #template>
-    <app-compare-dialog [balcnceTab]="true" [type]="3" (closeDialog)="closeModal()" (ulbValues)="ulbVal($event)" (ulbValueList)="ulbValList($event)" [preSelectedUlbList]="ulbListVal" [preSelectedYears]="years" [preSelectedUlbIds]="ulbIdval" (SelectYearList)="selectedValueYears($event)"
+    <app-compare-dialog [balcnceTab]="true" [type]="3" (closeDialog)="closeModal()" (ulbValues)="ulbVal($event)"
+        (ulbValueList)="ulbValList($event)" [ulbYears]="ulbYears" [preSelectedUlbList]="ulbListVal"
+        [preSelectedYears]="years" [preSelectedUlbIds]="ulbIdval" (SelectYearList)="selectedValueYears($event)"
         (SelectYears)="selectedYea($event)" [showDropDown]="true"></app-compare-dialog>
 </ng-template>

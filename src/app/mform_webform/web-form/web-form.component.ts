@@ -8,7 +8,8 @@ import {
   OnDestroy,
   OnChanges,
   SimpleChanges,
-  TemplateRef
+  TemplateRef,
+  ViewChild
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { List, update } from 'immutable';
@@ -43,6 +44,9 @@ const address = ['\n', '(', ')', ',', ';'];
 import { SweetAlert } from 'sweetalert/typings/core';
 import { getDaysDifference, isValidDate } from './utilities/general';
 import { SelectDeletableComponent } from './select-deletable/select-deletable.component';
+import { CommonServicesService } from 'src/app/fc-grant-2324-onwards/fc-shared/service/common-services.service';
+import { ActivatedRoute } from '@angular/router';
+import { MatPaginator } from '@angular/material/paginator';
 const swal: SweetAlert = require("sweetalert");
 
 declare const $: any;
@@ -56,7 +60,10 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
   constructor(
     private commonService: CommonService,
     public snackBar: MatSnackBar,
-    public matDialog: MatDialog
+    public matDialog: MatDialog,
+    public route:ActivatedRoute,
+    public commonServicesCf: CommonServicesService,
+    
   ) {
 
   }
@@ -140,7 +147,13 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
   unBlockCharObject: any = ['&', ";"]
   isAppRestrictFirstDigitAsZero: boolean = false;
   showForm: boolean = true;
+  selectedYearId:string="";
+  selectedYear:string="";
+  pageIndex=0;
+  @ViewChild('paginator') paginator: MatPaginator;
+  
   ngOnInit() {
+    this.getQueryParams();
     if (
       this.isViewMode &&
       this.viewFormTemplate != 'template1' &&
@@ -249,80 +262,19 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
 
   processQuestion(response: any, direct = false) {
     console.log('process question')
-    // $(document).ready(function(){
-    //   console.log('called 1st tym')
-    //   $("input").attr("autocomplete", "disabled");
-    // });
     let questionData: any = {
       question: [],
       title: '',
     };
     if (!direct) {
-      response.data[0].language.forEach((element: any) => {
-        // element.question.map((question: any) => (question.selectedValue = ''));
-
-      });
       questionData = response.data[0].language.find(
         (item: any) => item.lng == this.language
       );
     } else {
       questionData.question = response;
     }
-    // console.log("this.language", this.language);
-    // response.data[0].map((question) => (question.selectedValue = ""));
-
-    // console.log('response.data[0]', response.data[0])
-    // let questionData = response.data[0].find(
-    //   (item) => item.lng == this.language
-    // );
-
-    // const imgValidation = [
-    //   {
-    //     error_msg: '',
-    //     _id: '83',
-    //     value: 'image/png',
-    //   },
-    //   {
-    //     error_msg: '',
-    //     _id: '83',
-    //     value: 'image/jpg',
-    //   },
-    //   {
-    //     error_msg: '',
-    //     _id: '83',
-    //     value: 'image/jpeg',
-    //   },
-    //   // {
-    //   // "error_msg": "",
-    //   // "_id": "83",
-    //   // "value": "application/pdf"
-    //   // },
-    //   {
-    //     error_msg: '',
-    //     _id: '81',
-    //     value: '5120',
-    //   },
-    //   {
-    //     error_msg: '',
-    //     _id: '82',
-    //     value: '4',
-    //   },
-    // ];
-
-    const imageAdditionalValidation = [
-      // {
-      //   error_msg: '',
-      //   _id: '81',
-      //   value: '5120',
-      // },
-      // {
-      //   error_msg: '',
-      //   _id: '82',
-      //   value: '4',
-      // },
-    ];
+    const imageAdditionalValidation = [];
     if (questionData) {
-
       if (this.formName == 'odf' || this.formName == 'gfc') {
         for (let item of this.questionresponse?.data[0]?.language[0]?.question) {
 
@@ -335,81 +287,11 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
             item.max = (date.getFullYear()) + "-" + (date.getMonth() + 1).toString().padStart(2, "0") + "-" + day;
             item.min = (date.getFullYear() - 2) + "-" + (date.getMonth() + 1).toString().padStart(2, "0") + "-" + day;
             console.log('min, max', item.min, item.max)
-            //modify date format--------------
-            // let fullDate = new Date(item?.value);
-            // console.log('full date.....', fullDate);
-            // let formatedDate = Number(fullDate.getDate().toString().padStart(2, "0")) + "/" + (fullDate.getMonth() + 1).toString().padStart(2, "0") + "/" + (fullDate.getFullYear());
-            // console.log('full format date', formatedDate);
-            // if(formatedDate){
-            //   item.value = formatedDate;
-            //   item.modelValue = formatedDate;
-            //   item.selectedValue.value = formatedDate;
-            //   item.selectedValue.textValue = formatedDate;
-            //}
-
           }
         }
       }
-      //just for test start
-      // questionData.question = [
-      //   {
-      //     title: "ABC",
-      //     input_type: "1",
-      //     shortKey: "abc",
-      //     order: "1",
-      //   },
-      //   {
-      //     title: "ABC2245",
-      //     input_type: "1",
-      //     shortKey: "abc",
-      //     order: "12",
-      //   },
-      //   {
-      //     title: "ABC2123",
-      //     input_type: "1",
-      //     shortKey: "abc",
-      //     order: "123",
-      //   },
-      //   {
-      //     title: "ABC223",
-      //     input_type: "1",
-      //     shortKey: "abc",
-      //     order: "124",
-      //   },
-      //   {
-      //     title: "ABC2325",
-      //     input_type: "1",
-      //     shortKey: "abc",
-      //     order: "1255",
-      //   },
-      //   {
-      //     title: "ABC22454",
-      //     input_type: "1",
-      //     shortKey: "abc",
-      //     order: "124",
-      //   },
-      //   {
-      //     title: "ABC21233",
-      //     input_type: "1",
-      //     shortKey: "abc",
-      //     order: "1233",
-      //   },
-      //   {
-      //     title: "ABC2232",
-      //     input_type: "1",
-      //     shortKey: "abc",
-      //     order: "1242",
-      //   },
-      //   {
-      //     title: "ABC2321",
-      //     input_type: "1",
-      //     shortKey: "abc",
-      //     order: "1251",
-      //   },
-      // ];
-
-      // questionData.question = response.data[0]
-      //test end
+      
+    
       const defaultValidation: any[] = [];
       questionData.question = questionData.question.map((item: any) => ({
         ...item,
@@ -624,7 +506,11 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
         this.questionData[confirmPasswordIndex]['passwordMode'] = true;
       }
     }
-
+    if(this.form == 'dur' && !this.questionresponse?.data[0]?.isQuestionDisabled){
+      setTimeout(()=>{
+        this.setCustomDateValidation();
+      },10)
+    }
     if (this.form == 'gtc') {
       this.gtcSpecialLogic();
       setTimeout(() => {
@@ -1066,6 +952,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
             console.log('sector', projectName);
             return { id: projectName?.forParentValue, name: projectName?.modelValue };
           });
+       if(projectDetailsQuestion?.childQuestionData.length > 10) this.pageChange(projectDetailsQuestion, { pageIndex: 0, pageSize: 10 })  
         let data = [];
         if (oldCount - desiredCount - emptyCategories?.length > 0) {
           const dialog = this.matDialog.open(SelectDeletableComponent, {
@@ -1075,6 +962,9 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
             data: { options, count: oldCount - desiredCount - emptyCategories?.length }
           });
           data = await dialog.afterClosed().toPromise();
+          if(data){
+            if(projectDetailsQuestion?.childQuestionData?.length > 10) this.pageChange(projectDetailsQuestion, { pageIndex: 0, pageSize: 10 })
+          }
           if (!data && categoryWiseQuestion?.[category_name]) {
             return this.onChange(categoryWiseQuestion[category_name], { target: { value: '' + oldCount } });
           }
@@ -1118,11 +1008,18 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
         });
       }
     }
-
+    if(this.form == 'dur'){
+      setTimeout(()=>{
+        this.setCustomDateValidation();
+      }, 10)
+    }
     console.log('durSpecialLogic projectDetailsQuestion', this.questionData);
   }
 
-  onChange(question: any, value: any = {}, option: any = {}, skip = false) {
+  onChange(question: any, value: any = {}, option: any = {}, skip = false, index?:any) {
+    if(question?.shortKey == "startDate" && this.form == 'dur'){
+      this.setCustomDateValidation(question, index);
+    }
     console.log('event', value);
     if (['receiptDate', 'transDate'].includes(question?.shortKey) && !option['skipGtcLogic']) {
       this.gtcSpecialLogic();
@@ -1243,6 +1140,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
                   : '',
           },
         ];
+        // question["value"] = question.modelValue;
       } else {
         console.log('else called ');
         if (question && question.input_type == '5') {
@@ -1345,32 +1243,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
       );
     }
 
-    // let questionData = this.questionData
-    // this.questionData = []
-
-    // this.questionData.forEach(question => {
-    //   if( question.childQuestionData){
-    //     question.childQuestionData.map((value, idx) => {
-    //       value.map(
-    //         (child, index) =>
-    //           child.visibility && ({...child, nestedConfig:{
-    //             parentOrder: question.order,
-    //             index,
-    //             loopIndex: idx
-    //           }
-    //           }))
-    //     })
-
-    //    }
-    // });
-    // this.questionData = updatedQuestion.questions.toJS()
-    // this.questionData = this.questionData.map(item => {
-    //   return {
-    //     ...item,
-    //     ...item.childQuestions &&{childQuestionData: item.childQuestionData && item.childQuestionData.toJS()}
-    //   }
-    // })
-
+    
     // check if questions has order = password and confirmPassword
     let passwordQuesIndex = this.questionData.findIndex(
       (item: any) => item.order == 'password'
@@ -1479,23 +1352,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
     })
     this.questionData[questionIndex] = await JSON.parse(JSON.stringify(question));
   }
-  // questionChildData(question){
-  //      if( question.childQuestionData){
-  //       question.childQuestionData = question.childQuestionData.toJS().map((value, idx) => {
-  //         value.map(
-  //           (child, index) =>
-  //             child.visibility && ({...child, nestedConfig:{
-  //               parentOrder: question.order,
-  //               index,
-  //               loopIndex: idx
-  //             }
-  //             }))
-  //       })
-
-  //      }
-  //      console.log("qqqq", question.childQuestionData)
-  //      return question.childQuestionData
-  // }
+ 
 
   checkBoxSwitch(questionType: any) {
     return [
@@ -1517,7 +1374,6 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
   async docsInputChangeHandler(event: any, question: any) {
     this.openSnackBar(['Uploading File...'], 50000);
     this.isImageUploading = true;
-    console.log('docsInputChangeHandler', event, question);
     if (question.hasOwnProperty('acceptableType')) {
       var mimeType = event.target.files[0].type;
       if (!question?.acceptableFileType.includes(mimeType)) {
@@ -1529,12 +1385,10 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
           ],
           4000
         );
+        this.isImageUploading = false;
         return false;
       }
-      // if (!mimeType.match(/image\/*/)) {
-      //   this.openSnackBar(['Invalid file. Only image files could be uploaded.'], 3000);
-      //   return false;
-      // }
+      
     }
     let questionValue: any = [];
     questionValue = [
@@ -1586,7 +1440,10 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
     console.log('setDocuments question', question);
     let folderName: string = this.s3FolderName
     this.isImageUploading = true;
-    console.log('file question...', question)
+    console.log('file question...', question);
+    //find the max size from validation array
+    const fileSizeValidation = question?.validation?.find(obj => obj._id == "81");
+
     try {
       let response = await this.commonService.uploadTos3(
         imgObject[0].label,//name
@@ -1594,7 +1451,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
         imgObject[0].type,//type
         imgObject[0].file[0].size,//size
         event,//event
-        (question?.acceptableFileType[1] * 1024),//max file size converting it to bytes
+        (fileSizeValidation?.value * 1024),//max file size converting it to bytes
         false//header options
 
       );
@@ -2229,11 +2086,18 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
    * @param {any} selectedValue - The selected value.
    */
   getSelectionChange(question: any, selectedValue: any) {
+    // debugger
+    // let questionIndex = this.questionData.findIndex(
+    //   (item: { order: string }) => item.order == question?.order
+    // );
+
+    // this.questionData[questionIndex].value = question?.modelValue;
     console.log('getSelectionChange', question, selectedValue);
-    // const selectedTarget = { target: { value: selectedValue?.value } };
+    //  const selectedTarget = { target: { value: selectedValue?.value } };
     // if (question && selectedValue) {
     //   this.onChange(question, selectedTarget);
     // }
+
     if (this.formName == 'odf' || this.formName == 'gfc') {
       this.getMarks(selectedValue?.value);
     }
@@ -2536,7 +2400,11 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
       {
         qusResponce: latestRes,
         qusAns: this.questionData,
-        odfGfcMarks: this.odfGfcMarks
+        odfGfcMarks: this.odfGfcMarks,
+        year: {
+          id:this.selectedYearId,
+          key: this.selectedYear
+        }
         // finalRes:
       },
       width: "85vw",
@@ -2649,9 +2517,49 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
     this.nextPreBtn.emit(data);
   }
 
-
+  
   pageChange(question, { pageIndex, pageSize }) {
+    this.pageIndex = pageIndex;
     this.pageSize = pageSize;
     question.scrollIndex = pageIndex * pageSize;
+    if(pageIndex === 0){
+      this.paginator.firstPage();
+    }
+  }
+  
+  getQueryParams() {
+    const yearId = this.route.parent.snapshot.paramMap.get('yearId');
+    this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
+    this.selectedYear = this.commonServicesCf.getYearName(this.selectedYearId);
+}
+
+// added custom date validation for DUR completion Date based on start date
+  setCustomDateValidation(question?:any, index?:any){
+    let childIndex = (this.pageIndex * this.pageSize) + index;
+    let projectDetailsQuestion = this.questionData.find(question => question.shortKey == 'projectDetails_tableView_addButton');
+    if(question && question?.modelValue){
+      let changedValues = projectDetailsQuestion?.childQuestionData[childIndex];
+      let endDate = changedValues?.find(question => question.shortKey == "completionDate");
+       endDate.modelValue = "";
+    } 
+    let childLength = projectDetailsQuestion?.childQuestionData?.length
+    if(childLength > 0){
+      for (let i= 0; i < childLength; i++) {
+        let item = projectDetailsQuestion?.childQuestionData[i];
+        let startDate = item?.find(question => question.shortKey == 'startDate');
+        let endDate = item?.find(question => question.shortKey == "completionDate");
+        endDate["isQuestionDisabled"] = true;
+        if(startDate?.modelValue){
+          let date = new Date(startDate?.modelValue);
+          let day = (date.getDate() + 1).toString().padStart(2, "0");
+         // endDate.max = (date.getFullYear()) + "-" + (date.getMonth() + 1).toString().padStart(2, "0") + "-" + day;
+          endDate.min = (date.getFullYear()) + "-" + (date.getMonth() + 1).toString().padStart(2, "0") + "-" + day;
+          console.log(endDate, this.questionData);
+          endDate["isQuestionDisabled"] = false; 
+        }
+       }
+    }
+     
+
   }
 }

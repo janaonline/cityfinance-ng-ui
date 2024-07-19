@@ -64,7 +64,7 @@
                             <mde-popover mdePopoverOffsetX="19" mdePopoverOffsetY="-55" #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false">
                                 <div class="mat-card pop1">
                                     <div class="mat-card-content pop2">
-                                        Please write to us at 15fcgrant@cityfinance.in
+                                        Please write to us at {{fcEmail}}
                                     </div>
                                 </div>
                             </mde-popover>
@@ -133,7 +133,7 @@
 
                 <P>For clarifications/ questions, please email us at
                     <br />
-                    <a href="mailto:15fcgrant@cityfinance.in">15fcgrant@cityfinance.in</a>.
+                    <a [href]="'mailto:'+fcEmail" >{{fcEmail}}</a>.
                 </P>
                 <p>We will respond to you within 24 hours.</p>
             </div>
