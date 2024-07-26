@@ -1,7 +1,7 @@
 .progressBar .background {
   display: inline-block;
   background: orange;
-  width: 30%;
+  width: 50%;
   height: 100%;
   border-radius: 10px;
 }
@@ -15,10 +15,10 @@
 }
 
 .progress {
-  width: 40%;
-  margin-left: 1.5em;
-  display: inline-block;
+  width: 50%;
   margin: 0px;
+  margin-left: 3em;
+  // display: inline-block;
   transform: translateY(2px);
   float: right;
 }

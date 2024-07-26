@@ -245,4 +245,9 @@ export class BulkEntryComponent implements OnInit {
     }
     return validFiles;
   }
+
+  getErrorMessages(index: number) {
+    const message = this.fileProcessingTracker[index]?.message || '';
+    return message.split(',').map(msg => msg.trim());
+  }
 }
