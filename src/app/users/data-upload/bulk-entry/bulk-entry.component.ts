@@ -50,13 +50,13 @@ export class BulkEntryComponent implements OnInit {
       year: [this.years[0], Validators.required],
     });
   }
-  createYearList(startingYear){
+  createYearList(startingYear) {
     let resultYear = []
     let ref = startingYear.split("-")
     let tempYear = ref[0]
     let tempYear2 = ref[1]
     let endingYear = new Date().getFullYear();
-    while(Number(tempYear) < Number(endingYear)){
+    while (Number(tempYear) < Number(endingYear)) {
       let newYear = `${tempYear++}-${tempYear2++}`
       resultYear.push(newYear)
     }
