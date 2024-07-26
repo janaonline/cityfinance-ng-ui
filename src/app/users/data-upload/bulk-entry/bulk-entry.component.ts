@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { throwError as observableThrowError } from 'rxjs';
 import { delay, map, retryWhen } from 'rxjs/operators';
+import * as FileSaver from "file-saver";
 
 import { DataEntryService } from '../../../dashboard/data-entry/data-entry.service';
 
@@ -249,5 +250,31 @@ export class BulkEntryComponent implements OnInit {
   getErrorMessages(index: number) {
     const message = this.fileProcessingTracker[index]?.message || '';
     return message.split(',').map(msg => msg.trim());
+  }
+
+
+  downloadErrorLog(event: any) {
+    if (event) {
+      const filesUploaded: String[] = this.filesToUpload.map((obj) => obj.name);
+      this.dataEntryService.dataDump(this.fileProcessingTracker, filesUploaded).subscribe((res: any) => {
+        const blob = new Blob([res], {
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        });
+
+        // Set file name.
+        // const userData: any = JSON.parse(localStorage.getItem('userData') || '{}');
+        const now = new Date();
+        const dateString = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
+        const timeString = `${now.getHours().toString().padStart(2, '0')}-${now.getMinutes().toString().padStart(2, '0')}-${now.getSeconds().toString().padStart(2, '0')}`;
+        const filename = `Bulk-Upload-Error-Log_${dateString}_${timeString}.xlsx`;
+
+        FileSaver.saveAs(blob, filename);
+        console.log('File Download Done');
+        return;
+
+      }, (err) => {
+        console.log("err", err);
+      });
+    }
   }
 }
