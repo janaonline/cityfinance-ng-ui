@@ -100,7 +100,8 @@
 			</div>
 			<div class="form-group mt-3">
 				<button type="submit" class="btn btn-outline-primary btn-s me-3">Upload</button>
-				<button type="button" class="btn btn-outline-primary btn-s" (click)="downloadErrorLog($event)">Download
+				<button type="button" class="btn btn-outline-primary btn-s" *ngIf="Object.keys(fileProcessingTracker).length > 0 &&
+					Object.keys(fileProcessingTracker).length > 0" (click)="downloadErrorLog($event)">Download
 					log</button>
 			</div>
 		</form>
