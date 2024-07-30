@@ -752,7 +752,7 @@ openReviewDialogBox(type, processType?){
     formId: this.formId,
     tableName: this.title,
     designYear : this.designYear,
-    reviewType: this.designYear == this.years["2023-24"] ? 'new_review' : 'old_review',
+    reviewType: this._commonService2324.getReviewType(this.designYear),
     processType: processType
   };
   const dialogRef = this.dialog.open(TableApproveReturnDialogComponent, {
