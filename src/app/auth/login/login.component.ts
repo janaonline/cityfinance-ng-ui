@@ -12,6 +12,7 @@ import { CommonService } from "src/app/shared/services/common.service";
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 import { SweetAlert } from "sweetalert/typings/core";
 import { GoogleAnalyticsService } from "ngx-google-analytics";
+import { IUserLoggedInDetails } from "src/app/models/login/userLoggedInDetails";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -32,6 +33,12 @@ export class LoginComponent implements OnInit, OnDestroy {
       loginName: "Email",
       loginPlaceHolder: "Email",
       loginValidation: "emailValidation",
+    },
+    {
+      role: "ALL",
+      loginName: "Census Code/ULB Code/Email",
+      loginPlaceHolder: "Census Code/ULB Code/Email",
+      loginValidation: "censuscodeOremailValidation",
     },
   ];
 
@@ -62,6 +69,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   };
   public hide = true;
   directLogin = false;
+  loginType: string;
+  fcEmail: string;
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -75,7 +84,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.router.navigate(["/home"]);
       return;
     }
-  //  this.alertForload();
+    //  this.alertForload();
     this.activatedRoute.queryParams.subscribe((param) => {
       if (param.user && param.user == "USER") {
         this.directLogin = true;
@@ -103,6 +112,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.perFillUser !== null) {
       this.onSelectingUserType(this.perFillUser);
     }
+
+    this.loginType = localStorage.getItem('loginType') || '15thFC';
+    this.fcEmail = '15fcgrant@cityfinance.in';
+    if (this.loginType === 'XVIFC') {
+      this.fcEmail = '16fcgrant@cityfinance.in';
+      // this.onSelectingUserType(USER_TYPE.ULB);
+      this.onSelectingUserType('ALL');
+    }
   }
 
   get lf() {
@@ -118,7 +135,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     if (this.loginForm.valid) {
-      const body = { ...this.loginForm.value, type:'15thFC'};
+      const type = this.loginType;
+      const body = { ...this.loginForm.value, type };
       body["email"] = body["email"].trim();
       this.loginForm.disable();
       this.authService.signin(body).subscribe(
@@ -133,10 +151,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   private onSuccessfullLogin(res) {
-    const gData = { 
+    const gData = {
       user_role: res?.user?.role,
-      user_id: res?.user?._id, 
-      ...res?.user 
+      user_id: res?.user?._id,
+      ...res?.user
     };
     this.gaService.set(gData);
     this.gaService.gtag('event', 'login', gData);
@@ -156,7 +174,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       const userUtil = new UserUtility();
       userUtil.updateUserDataInRealTime(res["user"]);
 
-      this.routeToProperLocation();
+      this.routeToProperLocation(res["user"]);
     } else {
       localStorage.removeItem("id_token");
     }
@@ -166,16 +184,27 @@ export class LoginComponent implements OnInit, OnDestroy {
    * @description Route to appropiate location post login.
    * NOTE: This method must be called only post login.
    */
-  routeToProperLocation() {
-    const rawPostLoginRoute =
-      sessionStorage.getItem("postLoginNavigation") || "home";
-    const formattedUrl = this.formatURL(rawPostLoginRoute);
-    if (typeof formattedUrl === "string") {
-      this.router.navigate([formattedUrl]);
+  routeToProperLocation(user: IUserLoggedInDetails) {
+    if (this.loginType === 'XVIFC') {
+      if ([USER_TYPE.XVIFC_STATE, USER_TYPE.XVIFC].includes(user.role)) {
+        window.location.href = window.location.origin + '/fc/admin/xvi-fc-review';
+        // window.location.href = 'http://localhost:4300/admin/xvi-fc-review';
+      } else if (user.role === USER_TYPE.ULB) {
+        window.location.href = window.location.origin + '/fc/xvifc-form';
+        // window.location.href = 'http://localhost:4300/xvifc-form';
+      }
     } else {
-      this.router.navigate([formattedUrl.url], {
-        queryParams: { ...formattedUrl.queryParams },
-      });
+      const rawPostLoginRoute =
+        sessionStorage.getItem("postLoginNavigation") || "home";
+      const formattedUrl = this.formatURL(rawPostLoginRoute);
+
+      if (typeof formattedUrl === "string") {
+        this.router.navigate([formattedUrl]);
+      } else {
+        this.router.navigate([formattedUrl.url], {
+          queryParams: { ...formattedUrl.queryParams },
+        });
+      }
     }
   }
 
@@ -243,6 +272,12 @@ export class LoginComponent implements OnInit, OnDestroy {
           Validators.pattern("^\\d+\\.{0,1}\\d*$"),
           Validators.minLength(6),
           Validators.maxLength(6),
+        ]);
+      case 'ALL':
+        const censusOrEmailRegex = /^(\d{6}|\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,8}))$/;
+        return this.loginForm.controls["email"].setValidators([
+          Validators.required,
+          Validators.pattern(censusOrEmailRegex),
         ]);
       default:
         this.loginForm.controls["email"].setValidators([
