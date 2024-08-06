@@ -229,7 +229,7 @@ const data = {
     },
     {
       value: "0",
-      title: "Urban Agglomorations",
+      title: "ULBs part of Urban Agglomorations",
       key: "uas",
       super: false,
     },
