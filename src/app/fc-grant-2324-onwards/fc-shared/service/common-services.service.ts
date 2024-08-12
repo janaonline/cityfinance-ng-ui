@@ -106,5 +106,12 @@ getYearName(yearId: string) {
   return this.getKeyByValue(this.designYearArray, yearId)
 }
 
+getReviewType(designYear) {
+  const year = this.getYearName(designYear);
+  const yearSplit = Number(year.split('-')[0]);
+  const reviewType = yearSplit >= 2023 ? 'new_review' : 'old_review';
+  return reviewType;
+}
+
 
 }

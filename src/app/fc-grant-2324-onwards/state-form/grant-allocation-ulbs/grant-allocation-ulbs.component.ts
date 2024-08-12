@@ -6,6 +6,7 @@ import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.servic
 import { HttpEventType } from '@angular/common/http';
 import { GaPreviewComponent } from 'src/app/newPagesFc/xvfc2223-state/grant-allocation/ga-preview/ga-preview.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -19,6 +20,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
     private commonServices: CommonServicesService,
     private dataEntryService: DataEntryService,
     private dialog: MatDialog,
+    private activatedRoute: ActivatedRoute,
   ) {
     this.years = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
@@ -69,11 +71,16 @@ export class GrantAllocationUlbsComponent implements OnInit {
     this.getGtcData();
   }
 
+  get yearId() {
+    return this.activatedRoute.parent.snapshot.paramMap.get('yearId');
+  }
+
   getGtcData() {
     this.isApiInProgress = true;
     let queryParams = {
       state: this.stateId,
-      design_year: this.years["2023-24"]
+      // design_year: this.years["2023-24"]
+      design_year: this.yearId
     }
     // {{local}}grantDistribution/getGrantDistributionForm?design_year=606aafc14dff55e6c075d3ec&state=5dcf9d7516a06aed41c748fe
     this.commonServices.formGetMethod(`grantDistribution/getGrantDistributionForm`, queryParams).subscribe(
@@ -388,7 +395,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
     }
 
     this.postBody = {
-      design_year: this.years["2023-24"],
+      design_year: this.yearId,
       year: this.gtcFormData[i]?.quesArray[j]?.year,
       url,
       fileName,
@@ -491,7 +498,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
 
       const actionPostPayload = {
         statusId: status,
-        design_year: this.years["2023-24"],
+        design_year: this.yearId,
         state: this.stateId,
         key: type,
         installment,
