@@ -32,6 +32,7 @@ export class CommonService {
   OpenModalTrigger = new Subject<any>();
   state_name_data = new Subject<any>();
   lastUpdatedYear = new BehaviorSubject<any>("");
+  dataForVisualizationCount = new BehaviorSubject<any>("");
   private httpUtil = new HttpUtility();
   jsonUtil = new JSONUtility();
 
@@ -54,6 +55,10 @@ export class CommonService {
      this.searchItem.next(searchItem)
   }
 
+  setDataForVisualizationCount(VisualizationCountObject){
+    this.dataForVisualizationCount.next(VisualizationCountObject)
+ }
+ 
   searchUlb(body, type, state = "") {
     return this.http.post(
       `${environment.api.url}recentSearchKeyword/search?type=${type}&state=${state}`,
