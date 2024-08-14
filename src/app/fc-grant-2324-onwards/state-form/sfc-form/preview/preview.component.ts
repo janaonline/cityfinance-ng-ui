@@ -58,28 +58,28 @@ export class PreviewComponent implements OnInit {
       display : none;
     }
     .m-hed {
-        font-size: 12px;
+        font-size: 10px;
         margin-top: 1rem;
         font-weight: 500;
         margin-bottom: .5rem;
         text-align: center;
     }
     .f-label {
-      font-size: 11px;
+      font-size: 10px;
       margin-bottom: .5rem;
     }
     .yr-l {
       display : inline-block;
       width: 50%;
-      font-size: 9px;
+      font-size: 10px;
     }
     .yr-ans {
       display : inline-block;
       width: 50%;
-      font-size: 9px;
+      font-size: 10px;
     }
     .form-l {
-      font-size: 11px;
+      font-size: 10px;
       margin-bottom: .5rem;
     }
     .mb-1 {
@@ -93,10 +93,10 @@ export class PreviewComponent implements OnInit {
       margin-left: .5rem;
     }
     .td {
-      font-size: 6px;
+      font-size: 10px;
     }
     .th {
-      font-size: 6px;
+      font-size: 10px;
       text-align: left;
     }
     .table-gray {
