@@ -207,4 +207,9 @@ export class DataEntryService {
   getStaticFileUrl(key: number) {
     return this.http.get(`${environment.api.url}link-record?key=${key}`)
   }
+
+  dataDump(fileProcessingTracker: {}, filesToUpload: String[]) {
+    let payload = { fileProcessingTracker, filesToUpload };
+    return this.http.post(`${environment.api.url}downloadErrorLog`, payload, { responseType: "blob" });
+  }
 }
