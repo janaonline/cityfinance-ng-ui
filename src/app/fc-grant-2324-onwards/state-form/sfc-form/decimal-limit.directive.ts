@@ -15,7 +15,7 @@ export class DecimalLimitDirective {
     console.log(event.key);
     if(this.appDecimalLimit == null) return;
     if(this.appDecimalLimit == 0 && event.key == '.') {
-      swal('Warning', 'Decimals are not allowed', 'warning');
+      swal('Warning', 'Deciamls are not allow', 'warning');
       return event.preventDefault();
     }
     const inputValue = this.el.nativeElement.value;
@@ -27,7 +27,7 @@ export class DecimalLimitDirective {
     
     console.log(decimal?.length, this.appDecimalLimit);
     if (decimal?.length >= this.appDecimalLimit) {
-      swal('Warning', `Upto ${this.appDecimalLimit} decimals are allowed`, 'warning');
+      swal('Warning', `Upto ${this.appDecimalLimit} are allowed`, 'warning');
       event.preventDefault();
     }
   }

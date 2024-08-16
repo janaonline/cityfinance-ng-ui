@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PropertyTaxService } from './property-tax.service';
+import { SfcFormService } from './sfc-form.service';
 
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SweetAlert } from "sweetalert/typings/core";
@@ -37,13 +37,12 @@ export interface Tab {
   __v: number;
   feedback: Feedback;
 }
-
 @Component({
-  selector: 'app-property-tax',
-  templateUrl: './property-tax.component.html',
-  styleUrls: ['./property-tax.component.scss']
+  selector: 'app-sfc-form',
+  templateUrl: './sfc-form.component.html',
+  styleUrls: ['./sfc-form.component.scss']
 })
-export class PropertyTaxComponent implements OnInit {
+export class SfcFormComponent implements OnInit {
 
   userData = JSON.parse(localStorage.getItem("userData"));
 
@@ -69,7 +68,6 @@ export class PropertyTaxComponent implements OnInit {
   userTypes = USER_TYPE;
   form: FormArray;
   statusId: number;
-  stateGsdpGrowthRate: number;
   currentDate = new Date();
   formSubmitted = false;
   specialHeaders: { [key: number]: string[] } = {};
@@ -84,7 +82,24 @@ export class PropertyTaxComponent implements OnInit {
   isFormFinalSubmit: boolean = false;
   canTakeAction: boolean = false;
   leftMenuSubs: any;
-  successErrorMessage: string = "";
+  question: any;
+
+  actionPayload = {
+    "responses": [
+      {
+        "shortKey": "",
+        "status": '',
+        "rejectReason": "",
+        "responseFile": {
+          "url": "",
+          "name": ""
+        }
+      }
+    ]
+  };
+
+  isActionSubmitted: boolean = false;
+
   constructor(
     private fb: FormBuilder,
     private dataEntryService: DataEntryService,
@@ -93,7 +108,7 @@ export class PropertyTaxComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private loaderService: GlobalLoaderService,
     private dateAdapter: DateAdapter<Date>,
-    private propertyTaxService: PropertyTaxService,
+    private sfcFormService: SfcFormService,
     private commonServices: CommonServicesService,
   ) {
     this.dateAdapter.setLocale('en-GB');
@@ -110,36 +125,40 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   get uploadFolderName() {
-    return `${this.userData?.role}/${this.yearName}/pto/${this.userData?.ulbCode}`;
+    const years = JSON.parse(localStorage.getItem("Years"));
+    const year = this.getKeyByValue(years, this.design_year);
+    return `${this.userData?.role}/${year}/sfc/${this.userData?.stateCode}`
+  }
+
+  getKeyByValue(object, value) {
+    return Object.keys(object).find(key => object[key] === value);
   }
 
   get design_year() {
-    return this.activatedRoute.parent.snapshot.params?.yearId;
+    // const years = JSON.parse(localStorage.getItem("Years"));
+    // console.log('this.years', years);
+    return this.activatedRoute.parent.snapshot.paramMap.get('yearId');
+    // return years?.['2023-24'];
   }
 
-  get yearName() {
-    return this.commonServices.getYearName(this.design_year);
-  }
-
-  get ulbId() {
-    if (this.userData?.role == 'ULB') return this.userData?.ulb;
-    return localStorage.getItem("ulb_id");
+  get stateId() {
+    if (this.userData?.role == 'STATE') return this.userData?.state;
+    return localStorage.getItem("state_id");
   }
 
   get hasUnsavedChanges() {
-    if (!this.form) return false;
     return !this.form.pristine;
   }
 
   loadData() {
     this.loaderService.showLoader();
-    this.propertyTaxService.getForm(this.ulbId, this.design_year).subscribe((res: any) => {
+    this.sfcFormService.getForm(this.stateId, this.design_year).subscribe((res: any) => {
       this.loaderService.stopLoader();
       console.log('response', res);
+      this.question = res?.data;
       this.tabs = res?.data?.tabs;
       this.status = res?.data?.status;
       this.statusId = res?.data?.statusId;
-      this.stateGsdpGrowthRate = res?.data?.stateGsdpGrowthRate;
       this.skipLogicDependencies = res?.data?.skipLogicDependencies;
       this.financialYearTableHeader = res?.data?.financialYearTableHeader;
       this.specialHeaders = res?.data?.specialHeaders;
@@ -149,20 +168,20 @@ export class PropertyTaxComponent implements OnInit {
       this.isLoader = false;
       this.canTakeAction = res?.data?.canTakeAction;
       this.formDisable(res?.data);
-      console.log('form', this.form);
-    }, ({ error }) => {
+    }, err => {
       this.loaderService.stopLoader();
-      if (error?.success == true && error?.message) {
-        this.successErrorMessage = error?.message;
-      } else {
-        swal('Error', error?.message ?? 'Something went wrong', 'error');
-      }
     });
   }
 
   get buttonDissabled() {
-    if (this.userData?.role != USER_TYPE.ULB) return true;
+    if (this.userData?.role != USER_TYPE.STATE) return true;
     return ![1, 2, 5, 7].includes(this.statusId);
+  }
+
+  formDisable(res) {
+    if (!res) return;
+    if (this.userData?.role != USER_TYPE.STATE) return false;
+    this.isButtonAvail = [1, 2, 5, 7].includes(res?.statusId);
   }
 
   getTabFormGroup(tab: Tab): any {
@@ -175,46 +194,21 @@ export class PropertyTaxComponent implements OnInit {
         _id: feedback._id,
       }),
       data: this.fb.group(Object.entries(data).reduce((obj, [key, item]: any) => {
-        if (this.linearTabs.includes(tab.id)) {
-          obj[key] = this.getInnerFormGroup({ ...item, key })
-        }
-        else {
-          obj[key] = this.fb.group({
-            key: item.key,
-            position: [{ value: item.displayPriority || 1, disabled: true }],
-            isHeading: [{ value: Number.isInteger(+item.displayPriority), disabled: true }],
-            modelName: [{ value: item.modelName, disabled: true }],
-            required: [{ value: item.required, disabled: true }],
-            calculatedFrom: [{ value: item.calculatedFrom, disabled: true }],
-            logic: [{ value: item.logic, disabled: true }],
-            canShow: [{ value: item.canShow !== undefined ? item.canShow : true, disabled: true }],
-            downloadLink: [{ value: item.downloadLink, disabled: true }],
-            label: [{ value: item.label, disabled: true }],
-            info: [{ value: item.info, disabled: true }],
-            ...(item.child && {
-              replicaCount: item.replicaCount,
-              maxChild: [{ value: item.maxChild, disabled: true }],
-              copyOptions: [{ value: item.copyOptions, disabled: true }],
-              copyChildFrom: [{ value: item.copyChildFrom, disabled: true }],
-              child: this.fb.array(item.child.map(childItem => this.fb.group({
-                entryDesignYear: childItem?.entryDesignYear,
-                key: childItem.key,
-                value: [childItem.value, this.getValidators(childItem, !['date', 'file', 'link'].includes(childItem.formFieldType), parent)],
-                _id: childItem._id,
-                label: [{ 
-                  value: item.copyChildFrom.find(copyChildItem => copyChildItem.key == childItem.key)?.label, 
-                  disabled: true 
-                }],
-                replicaNumber: childItem.replicaNumber,
-                readonly: [{ value: childItem.readonly, disabled: true }],
-                formFieldType: [{ value: childItem.formFieldType || 'text', disabled: true }],
-                position: [{ value: childItem.displayPriority || 1, disabled: true }],
-                yearData: this.fb.array(childItem?.yearData?.map(yearItem => this.getInnerFormGroup(yearItem, item, childItem.replicaNumber)))
-              })), item?.required ? [Validators.required] : []),
-            }),
-            yearData: this.fb.array(item.yearData.map(yearItem => this.getInnerFormGroup(yearItem, item)))
-          })
-        }
+
+        obj[key] = this.fb.group({
+          key: item.key,
+          position: [{ value: item.displayPriority || 1, disabled: true }],
+          isHeading: [{ value: Number.isInteger(+item.displayPriority), disabled: true }],
+          modelName: [{ value: item.modelName, disabled: true }],
+          required: [{ value: item.required, disabled: true }],
+          calculatedFrom: [{ value: item.calculatedFrom, disabled: true }],
+          logic: [{ value: item.logic, disabled: true }],
+          canShow: [{ value: item.canShow !== undefined ? item.canShow : true, disabled: true }],
+          downloadLink: [{ value: item.downloadLink, disabled: true }],
+          label: [{ value: item.label, disabled: true }],
+          info: [{ value: item.info, disabled: true }],
+          yearData: this.fb.array(item.yearData.map(yearItem => this.getInnerFormGroup(yearItem, item)))
+        })
         return obj;
       }, {}))
     })
@@ -229,7 +223,6 @@ export class PropertyTaxComponent implements OnInit {
       type: item.type,
       _id: item._id,
       replicaNumber: replicaCount,
-      notApplicable: item.notApplicable,
       modelName: [{ value: item.modelName, disabled: true }],
       isRupee: [{ value: item.isRupee, disabled: true }],
       decimalLimit: [{ value: item.decimalLimit, disabled: true }],
@@ -238,14 +231,13 @@ export class PropertyTaxComponent implements OnInit {
       previousYearCodes: [{ value: item.previousYearCodes, disabled: true }],
       date: [item.date, item.formFieldType == 'date' && item.required ? [Validators.required] : []],
       formFieldType: [{ value: item.formFieldType || 'text', disabled: true }],
+      max: [{ value: item.max, disabled: true }],
+      min: [{ value: item.min, disabled: true }],
       status: item.status,
       bottomText: [{ value: item.bottomText, disabled: true }],
-      info: item.info,
       label: [{ value: item.label, disabled: true }],
       placeholder: [{ value: item.placeholder, disabled: true }],
       desc: [{ value: item.desc, disabled: true }],
-      max: [{ value: item.max, disabled: true }],
-      min: [{ value: item.min, disabled: true }],
       position: [{ value: item.postion, disabled: true }],
       pos: [{ value: item.pos, disabled: true }],
       readonly: [{ value: item.readonly, disabled: true }],
@@ -281,12 +273,16 @@ export class PropertyTaxComponent implements OnInit {
     return decimalA > decimalB ? 1 : (decimalB > decimalA ? -1 : 0);;
   }
 
+  /**
+   * TODO: Check and remove function
+   */
   addSkipLogics() {
+    const s3Control = this.form.controls.find(control => control.value?.id == 's3') as FormGroup;
     Object.entries(this.skipLogicDependencies).forEach(([selector, skipLogicDependency]) => {
       (skipLogicDependency as any)?.updatables?.forEach(updatable => {
-        const control = this.s3Control.get(selector);
+        const control = s3Control.get(selector);
         control.valueChanges.subscribe(({ value }) => {
-          const updatableControl = this.s3Control?.get(updatable.target) as FormGroup;
+          const updatableControl = s3Control?.get(updatable.target) as FormGroup;
           if (value === updatable?.on) {
             updatableControl.patchValue({
               value: updatable?.value
@@ -296,16 +292,16 @@ export class PropertyTaxComponent implements OnInit {
         control.updateValueAndValidity({ emitEvent: true });
       })
       Object.entries(((skipLogicDependency as any).skippable as object)).forEach(([skippable, config]) => {
-        const control = this.s3Control.get(selector)
+        const control = s3Control.get(selector)
         control.valueChanges.subscribe(({ value }) => {
           const canShow = (typeof config.value == 'string' ? [config.value] : config.value).includes(value);
-          this.s3Control.patchValue({ data: { [skippable]: { canShow } } });
+          s3Control.patchValue({ data: { [skippable]: { canShow } } });
           const childSelectorString = `data.${skippable}.child`;
-          const childControl = this.s3Control.get(childSelectorString);
+          const childControl = s3Control.get(childSelectorString);
           this.toggleValidations(childControl, childSelectorString, canShow, true);
           config.years?.forEach(yearIndex => {
             const selectorString = `data.${skippable}.yearData.${yearIndex}`;
-            const updatableControl = this.s3Control?.get(selectorString) as FormGroup;
+            const updatableControl = s3Control?.get(selectorString) as FormGroup;
             if (!updatableControl) return;
             ['value', 'file.name', 'file.url', 'date'].forEach(innerSelectorString => {
               const control = updatableControl.get(innerSelectorString)
@@ -339,7 +335,7 @@ export class PropertyTaxComponent implements OnInit {
   uploadFile(event: { target: HTMLInputElement }, control: FormControl, reset: boolean = false, allowedFileTypes = []) {
     console.log({ event, control })
     if (reset) return control.patchValue({ uploading: false, name: '', url: '' });
-    const maxFileSize = 5;
+    const maxFileSize = 15;
     const file: File = event.target.files[0];
     if (!file) return;
     let isfileValid = this.dataEntryService.checkSpcialCharInFileName(event.target.files);
@@ -348,7 +344,7 @@ export class PropertyTaxComponent implements OnInit {
       return;
     }
     const fileExtension = file.name.split('.').pop();
-    if (!allowedFileTypes?.includes(fileExtension)) return swal("Error", `Please upload the document in ${allowedFileTypes?.join(', ').toUpperCase()} only`, "error");
+    if (!allowedFileTypes?.includes(fileExtension)) return swal("Error", `Allowed file extensions: ${allowedFileTypes?.join(', ')}`, "error");
 
     if ((file.size / 1024 / 1024) > maxFileSize) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
 
@@ -399,9 +395,6 @@ export class PropertyTaxComponent implements OnInit {
         showData: this.form.getRawValue(),
         financialYearTableHeader: this.financialYearTableHeader,
         specialHeaders: this.specialHeaders,
-        stateGsdpGrowthRate: this.stateGsdpGrowthRate,
-        yearName: this.yearName,
-        growthRatePercentage: this.growthRatePercentage?.msg,
         additionalData: {
           pristine: this.form.pristine,
           statusText: this.status,
@@ -428,15 +421,7 @@ export class PropertyTaxComponent implements OnInit {
     return true;
   }
 
-  canDeleteLast(rows: any[]) {
-    const lastRow = rows[rows.length - 1];
-    return lastRow.entryDesignYear == this.design_year;
-  }
-
   finalSubmitConfirmation() {
-    if(!this.stateGsdpGrowthRate && this.yearName == '2024-25'){
-      return swal("Info", "State GSDP data is not available. You cannot final submit the form at this time, please save it as draft", "info")
-    }
     swal(
       "Confirmation !",
       `Are you sure you want to submit this form? Once submitted,
@@ -462,14 +447,7 @@ export class PropertyTaxComponent implements OnInit {
     ).then((value) => {
       if (value == 'submit') {
         console.log('invalid', this.findInvalidControlsRecursive(this.form));
-        if (!this.validateErrors()) {
-          swal('Error', 'Please fill all mandatory fields', 'error');
-          // wait for rendering all the dynamic class
-          setTimeout(() => {
-            this.focusOnControl();
-          }, 100) 
-          return;
-        } 
+        if (!this.validateErrors()) return swal('Error', 'Please fill all mandatory fields', 'error');
         this.submit(false);
       }
       else if (value == 'draft') this.submit();
@@ -492,205 +470,28 @@ export class PropertyTaxComponent implements OnInit {
     recursiveFunc(formToInvestigate);
     return invalidControls;
   }
-  
-  //add scroll on error class input
-  focusOnControl() {
-    const inputElement = document.querySelector('small.text-danger.invalid, input.ng-invalid, div.ng-invalid, select.ng-invalid') as HTMLElement;
-    if (inputElement) {
-      inputElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      inputElement.focus();
-    }
-  }
-  async editChildQuestions(item: FormGroup, replicaNumber: number, oldLabel: string) {
-    const childrens = item.controls.child as FormArray;
-    const { value: updatedLabel, isConfirmed, isDismissed } = await swal2.fire({
-      title: item.controls?.copyOptions.value ? 'Select an option' : 'Enter a value',
-      input: item.controls?.copyOptions.value ? 'select' : 'text',
-      inputValue: oldLabel,
-      inputOptions: item.controls?.copyOptions.value?.reduce((result, item) => ({ ...result, [item.id]: item.label }), {}),
-      showCancelButton: true,
-      cancelButtonText: 'Cancel',
-      confirmButtonText: 'Update',
-    });
-    if(isDismissed) return;
-    if (!updatedLabel) {
-      if (isConfirmed) swal('Warning', `Please enter a value`, 'warning');
-      return;
-    };
-    if ((childrens?.value as any[])?.some(item => (item.value).toLowerCase() == (updatedLabel).toLowerCase())) {
-      return swal('Warning', `${updatedLabel} already exists`, 'warning');
-    }
-    console.log(childrens.value);
-    const updatableQuestions = childrens.controls.filter(control => control.value.replicaNumber == replicaNumber) as FormGroup[];
 
-    updatableQuestions.forEach(control => {
-      control.patchValue({
-        value: updatedLabel,
-      })
-    });
-  }
-
-
-  async removeLastQuestion(item: FormGroup) {
-    const childrens = item.controls.child as FormArray;
-    const lastItemReplicaNumber = childrens.controls[childrens.controls.length - 1]?.value?.replicaNumber;
-    const willDelete = await swal({
-      title: "Are you sure?",
-      text: "Do you want to remove this question?",
-      icon: "warning",
-      dangerMode: true,
-    });
-    if (!willDelete) return;
-    const removableIndexes = [];
-    childrens.controls.forEach((control, index) => {
-      if (control.value.replicaNumber == lastItemReplicaNumber) {
-        removableIndexes.push(index);
-      }
-    });
-    removableIndexes.reverse();
-    removableIndexes.forEach(index => {
-      childrens.removeAt(index);
-    });
-    let replicaCount = item.controls?.replicaCount?.value;
-    replicaCount--;
-    item.patchValue({
-      replicaCount,
-    });
-  }
-  async addChildQuestions(item: FormGroup) {
-    const copyChildFrom = item.controls?.copyChildFrom.value as string[];
-    const maxChild = item.controls?.maxChild?.value;
-    let replicaCount = item.controls?.replicaCount?.value;
-    console.log({ maxChild, replicaCount });
-    const childrens = item.controls.child as FormArray;
-    if (replicaCount >= maxChild) return swal('Warning', `Upto ${maxChild} items allowed`, 'warning');
-    const { value, isConfirmed, isDismissed } = await swal2.fire({
-      title: item.controls?.copyOptions.value ? 'Select an option' : 'Enter a value',
-      input: item.controls?.copyOptions.value ? 'select' : 'text',
-      inputOptions: item.controls?.copyOptions.value?.reduce((result, item) => ({ ...result, [item.id]: item.label }), {}),
-      showCancelButton: true,
-      cancelButtonText: 'Cancel',
-      confirmButtonText: 'Add',
-    })
-    if(isDismissed) return;
-    if (!value) {
-      if (isConfirmed) swal('Warning', `Please enter a value`, 'warning');
-      return;
-    };
-    if ((childrens?.value as any[])?.some(item => (item.value).toLowerCase() == (value).toLowerCase())) {
-      return swal('Warning', `${value} already exists`, 'warning');
-    }
-
-    replicaCount++;
-    item.patchValue({
-      replicaCount,
-    });
-    copyChildFrom.forEach((targetQuestion: any) => {
-      // const targetQuestion = this.tabs[0].data[key];
-      console.log(targetQuestion);
-      childrens.push(this.fb.group({
-        key: targetQuestion.key,
-        value: [value, this.getValidators(targetQuestion, !['date', 'file', 'link'].includes(targetQuestion.formFieldType), parent)],
-        _id: targetQuestion._id,
-        replicaNumber: replicaCount,
-        entryDesignYear: this.design_year,
-        label: [{ value: targetQuestion.label, disabled: true }],
-        formFieldType: [{ value: targetQuestion.formFieldType || 'text', disabled: true }],
-        position: [{ value: targetQuestion.displayPriority || 1, disabled: true }],
-        readonly: true,
-        yearData: this.fb.array(targetQuestion?.yearData?.map(yearItem => this.getInnerFormGroup({
-          ...yearItem,
-          label: targetQuestion.label,
-          postion: targetQuestion.displayPriority
-        }, item, replicaCount)))
-      }))
-    })
-  }
-
-  get s3Control() {
-    return this.form?.controls.find(control => control.value?.id == 's3') as FormGroup;
-  }
-
-  get notificationWaterChargesCtrl() {
-    return this.s3Control.get('data.notificationWaterCharges.yearData.0');
-  }
-  get doesColSewerageChargesCtrl() {
-    return this.s3Control.get('data.doesColSewerageCharges.yearData.0');
-  }
-
-  /**
-   * |------------------------------------------------------------------------------------|
-   * |               |               Data points               |  Growth Rate Formula (%) |
-   * | GROWTH RATE % | A. Ptax Collection 2022-23 (in lakhs)   |         (B - A) / A      |
-   * |               | B. Ptax Collection 2023-24 (in lakhs)   |                          |
-   * |------------------------------------------------------------------------------------|
-   */
-  get growthRatePercentage() {
-    if (!this.stateGsdpGrowthRate) {
-      return {
-        msg : "The property tax growth rate will be determined once the state provides the GSDP growth rate.",
-        class: 'text-danger'
-      }
-    }
-    const collectIncludingCess = this.s3Control.get("data.collectIncludingCess.yearData").value;
-    const A = collectIncludingCess?.find((year) => year.key == "FY2022-23")?.value;
-    const B = collectIncludingCess?.find((year) => year.key == "FY2023-24")?.value;
-    if ( ["", "0"].includes(A)  || B == ""){
-      return {
-        msg : "Property tax growth rate cannot be calculated.",
-        class: ''
-      }
-    }
-    let growthRatePercent = (B - A) / A;
-    if (growthRatePercent < this.stateGsdpGrowthRate){
-      return {
-        msg : "Property tax growth rate is less than State GSDP.",
-        class: 'text-danger'
-      }
-    }
-    else if (growthRatePercent >= this.stateGsdpGrowthRate){
-      return {
-        msg : "Property tax growth rate is greater than State GSDP.",
-        class: 'text-success'
-      }
-    }
-  }
-
-  canShowHeader(displayPriority: string) {
-    const waterChargesHeaders = ['5.5', '5.11', '5.13', '5.17', '5.21', '5.25', '5.30', '5.31', '5.32'];
-    const sewerageChargesHeaders = ['6.5', '6.11', '6.13', '6.17', '6.21', '6.25', '6.30', '6.31', '6.32'];
-    if (waterChargesHeaders.includes(displayPriority) && this.notificationWaterChargesCtrl.value.value !== 'Yes') {
-      return false;
-    }
-    if (sewerageChargesHeaders.includes(displayPriority) && this.doesColSewerageChargesCtrl.value.value !== 'Yes') {
-      return false;
-    }
-    return true;
-  }
 
   submit(isDraft = true) {
-    if(!isDraft && !this.stateGsdpGrowthRate && this.yearName == '2024-25'){
-      return swal("Info", "State GSDP data is not available. You cannot final submit the form at this time, please save it as draft", "info")
-    }
     console.log(this.form)
     const payload = {
-      ulbId: this.ulbId,
+      state: this.stateId,
       formId: this.formId,
       design_year: this.design_year,
       isDraft: isDraft,
-      currentFormStatus: isDraft ? 2 : 3,
+      currentFormStatus: isDraft ? 2 : 4,
       actions: this.form.getRawValue()
     }
     this.loaderService.showLoader();
     return new Promise((resolve, reject) => {
-      this.propertyTaxService.postData(payload).subscribe(res => {
+      this.sfcFormService.postData(payload).subscribe(res => {
         this.form.markAsPristine();
         this.loaderService.stopLoader();
-        this.commonServices.setFormStatusUlb.next(true);
+        // this.commonServices.setFormStatusUlb.next(true);
         this.loadData();
         this.isFormFinalSubmit = true;
         this.formSubmitted = !isDraft;
-        swal('Saved', isDraft ? "Data save as draft successfully!" : "Form submitted successfully!", 'success');
+        swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
         resolve(true);
       }, ({ error }) => {
         this.loaderService.stopLoader();
@@ -702,7 +503,7 @@ export class PropertyTaxComponent implements OnInit {
 
   actionFormChangeDetect(res) {
     if (res == true) {
-      this.commonServices.setFormStatusUlb.next(true);
+      // this.commonServices.setFormStatusUlb.next(true);
       this.loadData();
     }
   }
@@ -719,10 +520,84 @@ export class PropertyTaxComponent implements OnInit {
     }
   }
 
-  formDisable(res) {
-    if (!res) return;
-    this.isButtonAvail = this.commonServices.formDisable(res, this.userData);
-    console.log('acfystkdghask', this.isButtonAvail);
+  saveAction() {
+    this.isActionSubmitted = true;
+    // const quesArray = this.gtcFormData[i]?.quesArray[j]; //TODO: remove
+    const quesArray = this.question;
+    if (!quesArray || ![6, 7].includes(Number(quesArray?.status))) {
+      swal('Error', 'Status is mandatory', 'error');
+      return;
+    }
+    if (quesArray?.status == 7 && !quesArray?.rejectReason) {
+      swal('Error', 'Reject reason is mandatory in case of rejection', 'error');
+      return;
+    }
+
+    swal("Confirmation !", `Are you sure you want to submit this action?`, "warning", {
+      buttons: {
+        Submit: {
+          text: "Submit",
+          value: "submit",
+        },
+        Cancel: {
+          text: "Cancel",
+          value: "cancel",
+        },
+      },
+    }).then((value) => {
+      switch (value) {
+        case "submit":
+          this.handleActionSubmission();
+          break;
+        case "cancel":
+          break;
+      }
+    });
+    //   console.log('everthing is corrects.............');
+
+  }
+  handleActionSubmission() {
+      // const quesArray = this.gtcFormData[i]?.quesArray[j];//TODO: remove
+      const quesArray = this.question;
+      if (!quesArray) {
+        swal('Error', 'Invalid data', 'error');
+        return;
+      }
+      const {
+        status,
+        type,
+        installment,
+        rejectReason,
+        responseFile,
+      } = quesArray ?? {};
+
+      const actionPostPayload = {
+        statusId: status,
+        design_year: this.design_year,
+        state: this.stateId,
+        key: type,
+        installment,
+        rejectReason,
+        responseFile,
+      };
+      this.commonServices.formPostMethod(actionPostPayload, 'sfc/reviewAction')
+        .subscribe(
+          (res) => {
+            this.commonServices?.setFormStatusState.next(true);
+            this.loadData();
+            // this.getGtcData();
+            this.isActionSubmitted = false;
+            swal('Saved', "Action submitted successfully", "success");
+          },
+          (error) => {
+            this.isActionSubmitted = false;
+            swal('Error', error?.message ?? 'Something went wrong', 'error');
+          }
+        );
+  }
+  // In development -- function for get data from child componets
+  actionFormChanges(event) {
+    console.log('e event event', this.form);
   }
 
   ngOnDestroy(): void {

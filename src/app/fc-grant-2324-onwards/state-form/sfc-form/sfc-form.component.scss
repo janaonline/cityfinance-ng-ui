@@ -7,11 +7,6 @@
     color: #101010;
 }
 
-.error-container {
-    font-size: 1.5rem;
-    padding: 8rem 8rem;
-}
-
 .ch-icon {
     font-size: 1.8rem;
     vertical-align: bottom;
@@ -420,12 +415,12 @@ table {
       }
       ::ng-deep .mat-radio-button {
         background-color: #CFCFCF;
-       // padding: 0.5rem 0.85rem 0rem 0.5rem !important;
+        padding: 0.5rem 0.85rem 0rem 0.5rem !important;
       }
       ::ng-deep .mat-radio-label-content {
         padding: 0 0 7px 5px;
       }
-      ::ng-deep .mat-radio-label{
-        padding: 0.5rem 0.85rem 0rem 0.5rem !important;
-      }
+}
+.table.sfc-form-table th, .table.sfc-form-table td{
+    padding: 15px;
 }

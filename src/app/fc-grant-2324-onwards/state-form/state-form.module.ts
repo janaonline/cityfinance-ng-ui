@@ -33,9 +33,20 @@ import { IndicatorWssPreviewComponent } from './indicators-wss/indicator-wss-pre
 import { GrantAllocationUlbsComponent } from './grant-allocation-ulbs/grant-allocation-ulbs.component';
 import { PropertyTaxFloorRateComponent } from './property-tax-floor-rate/property-tax-floor-rate.component';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { LoaderComponent } from './loader/loader.component';
+import { DecimalLimitDirective } from './sfc-form/decimal-limit.directive';
+import { YearComparisionPipe } from './sfc-form/year-comparision.pipe';
+import { AllowedFileTypesPipe } from './sfc-form/allowed-file-types.pipe';
+import { FormErrorPipe } from './sfc-form/form-error.pipe';
 import { StateResourcesComponent } from './state-resources/state-resources.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { GlobalPartModule } from 'src/app/global-part/global-part.module';
+import { SfcFormComponent } from './sfc-form/sfc-form.component';
+import { PreviewComponent } from './sfc-form/preview/preview.component';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 @NgModule({
@@ -54,7 +65,9 @@ import { GlobalPartModule } from 'src/app/global-part/global-part.module';
     IndicatorWssPreviewComponent,
     GrantAllocationUlbsComponent,
     PropertyTaxFloorRateComponent,
-    StateResourcesComponent
+    StateResourcesComponent,
+    SfcFormComponent,
+    PreviewComponent, LoaderComponent, DecimalLimitDirective, YearComparisionPipe, AllowedFileTypesPipe, FormErrorPipe
     ],
   imports: [
     CommonModule,
@@ -73,7 +86,15 @@ import { GlobalPartModule } from 'src/app/global-part/global-part.module';
     AgGridModule.withComponents([ActionPlanComponent, AgGrid2223Component, CustomTooltipComponent]),
     TooltipModule.forRoot(),
     PdfViewerModule,
-    GlobalPartModule
+    GlobalPartModule,
+    MatFormFieldModule,
+    MatRadioModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatTooltipModule,
+    MatIconModule,
+    ReactiveFormsModule,
+    GlobalPartModule,
   ]
 })
 export class StateFormModule { }

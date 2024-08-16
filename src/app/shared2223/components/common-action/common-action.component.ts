@@ -384,7 +384,7 @@ export class CommonActionComponent implements OnInit, OnChanges {
   }
 
   getSequentialStatus(item) {
-    const allowForms = ['dur', '28slb']
+    const allowForms = ['dur', '28slb', 'pto']
      if(item?.prevYearStatusId != 6 && item?.canTakeAction && this.userData?.role == 'MoHUA' && allowForms.includes(this.formNamefiles)){
       return true;
      };

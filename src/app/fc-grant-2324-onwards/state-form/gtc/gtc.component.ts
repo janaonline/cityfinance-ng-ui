@@ -8,6 +8,7 @@ import { SweetAlert } from 'sweetalert/typings/core';
 import { GtcPreviewComponent } from './gtc-preview/gtc-preview.component';
 import { CommonServicesService } from '../../fc-shared/service/common-services.service';
 import { GtcService } from './gtc.service';
+import { ActivatedRoute } from '@angular/router';
 
 const swal: SweetAlert = require("sweetalert");
 @Component({
@@ -33,6 +34,7 @@ export class GtcComponent implements OnInit {
     private loaderService: GlobalLoaderService,
     private dataEntryService: DataEntryService,
     private commonServices: CommonServicesService,
+    private activatedRoute: ActivatedRoute,
   ) {
 
     setTimeout(() => {
@@ -40,9 +42,15 @@ export class GtcComponent implements OnInit {
     }, 4000)
   }
 
+  get yearId() {
+    return this.activatedRoute.parent.snapshot.paramMap.get('yearId');
+  }
+
   get design_year() {
     const years = JSON.parse(localStorage.getItem("Years"));
-    return years?.['2023-24'];
+    // TODO: get the year
+    // return years?.['2023-24'];
+    return this.yearId;
   }
 
   get stateId() {

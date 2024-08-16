@@ -17,6 +17,7 @@ import { ConfirmationGuard } from '../guards/confirmation.guard';
 import { PropertyTaxFloorRateComponent } from './property-tax-floor-rate/property-tax-floor-rate.component';
 import { StateResourceManagerComponent } from '../mohua-form/state-resource-manager/state-resource-manager.component';
 import { StateResourcesComponent } from './state-resources/state-resources.component';
+import { SfcFormComponent } from './sfc-form/sfc-form.component';
 
 const routes: Routes = [
   {
@@ -78,6 +79,10 @@ const routes: Routes = [
       {
         path: "state-resources",
         component: StateResourcesComponent,
+      },
+      {
+        path: "sfc-form",
+        component: SfcFormComponent,
       },
     ],
   },
