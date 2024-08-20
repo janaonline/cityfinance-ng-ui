@@ -20,6 +20,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { SweetAlert } from "sweetalert/typings/core";
 import { environment } from "src/environments/environment";
 import { Subscription } from "rxjs";
+import { CommonServicesService } from "src/app/fc-grant-2324-onwards/fc-shared/service/common-services.service";
 
 const swal: SweetAlert = require("sweetalert");
 
@@ -32,6 +33,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     private commonService: NewCommonService,
     private _commonService: CommonService,
+    private _commonService2324: CommonServicesService,
     private _fb: FormBuilder,
     public dialog: MatDialog,
     private stateServices: State2223Service
@@ -468,10 +470,16 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       ...csvParams,
       token: this.getToken(),
     };
-    const endPoint = this.designYear == this.years["2023-24"] ? this.endPoint : "review" ;
-    console.log(params);
+
+    
+    // const endPoint = this.designYear == this.years["2023-24"] ? this.endPoint : "review" ;
+    const year = this._commonService2324.getYearName(this.designYear);
+    const yearSplit = Number(year.split('-')[0]);
+    const endPoint = yearSplit >= 2023 ? this.endPoint : "review";
+    // console.log(params);
     this._commonService.openWindowToDownloadCsv(params, endPoint);
   }
+  
   getDesignYear() {
     let design_year = JSON.parse(localStorage.getItem("Years"));
     return design_year["2022-23"];
@@ -640,6 +648,10 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   const isReviewGrantApplication = this.title == 'Review Grant Application';
   const isFormIdIncluded = [7, 11.2, 12, 13, 16].includes(Number(this.formId));
   const isDesignYearMatch = this.designYear == this.years["2022-23"];
+  // TODO: to be removed
+  if (this.designYear == this.years["2024-25"] && [3, 6, 4, 8].includes(Number(this.formId))) {
+    return false;
+  }
 
   if ((isReviewGrantApplication && this.formId != '3') || (isDesignYearMatch && isReviewStateForms) || (isFormIdIncluded && isReviewStateForms)) {
     return true;
@@ -744,7 +756,7 @@ openReviewDialogBox(type, processType?){
     formId: this.formId,
     tableName: this.title,
     designYear : this.designYear,
-    reviewType: this.designYear == this.years["2023-24"] ? 'new_review' : 'old_review',
+    reviewType: this._commonService2324.getReviewType(this.designYear),
     processType: processType
   };
   const dialogRef = this.dialog.open(TableApproveReturnDialogComponent, {

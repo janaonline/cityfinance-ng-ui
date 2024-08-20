@@ -45,9 +45,15 @@
                                                 <div class="col-sm-12 qus qus-h">
                                                     {{question?.instlText}}
                                                 </div>
-
-                                                <app-installment-preview
-                                                    [questionresponse]="question?.questionresponse">
+                                                <div class="col-sm-12 ms-4 mt-2 ans-h"
+                                                    *ngIf="question?.year === '606aafcf4dff55e6c075d424'">
+                                                    <span *ngIf="question?.file?.name"><a
+                                                            href="{{ question?.file?.url | toStorageUrl}}"
+                                                            target="_blank">{{question?.file?.name}}</a></span>
+                                                    <span *ngIf="question?.file?.name == ''">N/A</span>
+                                                </div>
+                                                <app-installment-preview [questionresponse]="question?.questionresponse"
+                                                    *ngIf="question?.year === '606aafc14dff55e6c075d3ec'">
                                                 </app-installment-preview>
                                                 <!-- <div class="col-sm-12 ms-4 mt-2 ans-h">
                                                     <span *ngIf="question?.file?.name"><a href="{{question?.file?.url}}">{{question?.file?.name}}</a></span>
