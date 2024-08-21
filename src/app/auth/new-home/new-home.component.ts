@@ -66,6 +66,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
   globalOptions = [];
   filteredOptions: Observable<any[]>;
   cardData = []
+  dataForVisualization:any;
   pdfInput: any = {
     toolKitVisible: "",
     type: "PDF",
@@ -276,7 +277,10 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
       }
     })
 
-
+    
+    this._commonService.dataForVisualizationCount.subscribe((res)=>{
+       this.dataForVisualization = res;
+    })
   }
 
   loadRecentSearchValue() {
