@@ -28,6 +28,7 @@ import { ResourcesDashboardService } from '../../../pages/resources-dashboard/re
 import { forkJoin } from 'rxjs';
 import { Observable } from 'rxjs';
 import { NewDashboardService } from "src/app/pages/new-dashbords/new-dashboard.service";
+import { environment } from "src/environments/environment";
 export interface PeriodicElement {
   name: number;
   figures: string;
@@ -718,27 +719,27 @@ export class BalanceTableComponent
   }
 
   allReports: any = [];
-  getReport_pastYears(year) {
+  getReport_pastYears(year,selected_file_type) {
     let category
     if (this.reportGroup == "Balance Sheet") {
       category = "balance"
     } else if (this.reportGroup == "Income & Expenditure Statement") {
       category = "income"
     }
-    this._resourcesDashboardService.getDataSets(year, "pdf", category, "", this.ulbName, "").subscribe(res => {
+    this._resourcesDashboardService.getDataSets(year, selected_file_type, category, "", this.ulbName, "").subscribe(res => {
       console.log(res['data'])
       if (res['data'].length == 0) {
         this.openDialog(res["data"], "notFound");
       } else {
-
-        window.open(res['data'][0]['fileUrl'])
+        let target_file_url = environment.STORAGE_BASEURL + res['data'][0]['fileUrl'];
+         window.open(target_file_url)
       }
     })
   }
   getReport(selectedYear: string, fileType: string) {
     const yearSplit = Number(selectedYear.split('-')[0]);
     if (yearSplit < 2019) {
-      this.getReport_pastYears(selectedYear);
+      this.getReport_pastYears(selectedYear,fileType);
       return
     }
     this._loaderService.showLoader();
