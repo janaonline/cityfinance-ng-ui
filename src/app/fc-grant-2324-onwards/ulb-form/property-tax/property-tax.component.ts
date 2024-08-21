@@ -641,7 +641,7 @@ export class PropertyTaxComponent implements OnInit {
         class: ''
       }
     }
-    let growthRatePercent = (B - A) / A;
+    let growthRatePercent = ((B - A) / A)*100;
     if (growthRatePercent < this.stateGsdpGrowthRate){
       return {
         msg : "Property tax growth rate is less than State GSDP.",
