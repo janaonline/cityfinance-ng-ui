@@ -653,7 +653,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     return false;
   }
 
-  if ((isReviewGrantApplication && this.formId != '3') || (isDesignYearMatch && isReviewStateForms) || (isFormIdIncluded && isReviewStateForms)) {
+  if ((isReviewGrantApplication && this.formId != '3' && this.formId != '8') || (isDesignYearMatch && isReviewStateForms) || (isFormIdIncluded && isReviewStateForms)) {
     return true;
   }
   
