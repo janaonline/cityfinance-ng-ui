@@ -709,18 +709,31 @@ export class CommonService {
     apiEndPoint: any,
     stateServiceLabel: boolean = false
   ) {
-    console.log(
-      "openWindowToDownloadCsv",
-      paramContent,
-      apiEndPoint,
-      stateServiceLabel
-    );
+    // console.log(
+    //   "openWindowToDownloadCsv",
+    //   paramContent,
+    //   apiEndPoint,
+    //   stateServiceLabel
+    // );
     let queryString = new URLSearchParams(paramContent).toString();
     if (!stateServiceLabel) {
-      console.log("queryString", queryString);
+      // console.log("queryString", queryString);
+
       let prepareDownloadURL = `${environment.api.url}${apiEndPoint}?csv=true&${queryString}`;
+
+      // console.log("1-->",environment.api.url);
+      // console.log("2-->",apiEndPoint);
+      // console.log("3-->",queryString);
+      // console.log("3-->", paramContent);
+
+      let pTaxApi = "";
       if (prepareDownloadURL) {
-        window.open(prepareDownloadURL);
+        if (paramContent?.formId === '3') {
+          pTaxApi = paramContent.state ?
+            `${environment.api.url}ptax-dump?design_year=${paramContent.design_year}&state=${paramContent.state}&token=${paramContent.token}` :
+            `${environment.api.url}ptax-dump?design_year=${paramContent.design_year}&token=${paramContent.token}`
+          window.open(pTaxApi);
+        } else window.open(prepareDownloadURL);
       }
     }
     if (stateServiceLabel) {

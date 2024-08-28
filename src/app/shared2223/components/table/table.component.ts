@@ -649,11 +649,15 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   const isFormIdIncluded = [7, 11.2, 12, 13, 16].includes(Number(this.formId));
   const isDesignYearMatch = this.designYear == this.years["2022-23"];
   // TODO: to be removed
-  if (this.designYear == this.years["2024-25"] && [3, 6, 4, 8].includes(Number(this.formId))) {
-    return false;
-  }
+  // if (this.designYear == this.years["2024-25"] && [3, 6, 4, 8].includes(Number(this.formId))) {
+  //   return false;
+  // }
+  
+  // if ((isReviewGrantApplication && this.formId != '3') || (isDesignYearMatch && isReviewStateForms) || (isFormIdIncluded && isReviewStateForms)) {
+  //   return true;
+  // }
 
-  if ((isReviewGrantApplication && this.formId != '3' && this.formId != '8') || (isDesignYearMatch && isReviewStateForms) || (isFormIdIncluded && isReviewStateForms)) {
+  if ((isReviewGrantApplication) || (isDesignYearMatch && isReviewStateForms) || (isFormIdIncluded && isReviewStateForms)) {
     return true;
   }
   
