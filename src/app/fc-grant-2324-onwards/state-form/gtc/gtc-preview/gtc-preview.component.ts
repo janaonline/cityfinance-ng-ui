@@ -101,6 +101,9 @@ export class GtcPreviewComponent implements OnInit {
       font-size: 6px;
       text-align: left;
     }
+      p{
+      font-size: 8px;
+      }
     </style>`;
   @ViewChild("gtcpre") _html: ElementRef;
   // @ViewChild("annualPreview") _html: ElementRef;

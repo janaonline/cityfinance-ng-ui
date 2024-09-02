@@ -23,9 +23,9 @@ const routes: Routes = [
   // {path: "fr-home-page", component: FiscalHomeComponent},
   // { path: "dashboard", component: DashboardComponent },
   { path: "login", component: FiscalLoginComponent },
-  // { path: "annual-financial-statements", component: AnnualFinancialStatementsComponent },
-  // { path: "annual-budgets", component: AnnualBudgetsComponent },
-  // { path: "top-rankings", component: TopRankingsComponent },
+ // { path: "annual-financial-statements", component: AnnualFinancialStatementsComponent },
+ // { path: "annual-budgets", component: AnnualBudgetsComponent },
+ // { path: "top-rankings", component: TopRankingsComponent },
   { path: "ulb/:ulbId", component: UlbDetailsComponent },
   {
     path: "ulb-form/:ulbId",

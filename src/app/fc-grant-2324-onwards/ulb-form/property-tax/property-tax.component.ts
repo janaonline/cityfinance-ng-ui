@@ -478,6 +478,7 @@ export class PropertyTaxComponent implements OnInit {
 
   findInvalidControlsRecursive(formToInvestigate: FormGroup | FormArray): string[] {
     var invalidControls: any[] = [];
+    let i = 0;
     let recursiveFunc = (form: FormGroup | FormArray) => {
       Object.keys(form.controls).forEach(field => {
         const control = form.get(field);

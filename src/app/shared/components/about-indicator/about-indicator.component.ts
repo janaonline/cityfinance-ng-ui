@@ -166,7 +166,7 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
         this.addAnchorTag(
           item,
           i,
-          "https://new-cityfinance.dhwaniris.in/resources-dashboard/learning-center/toolkits",
+          "/resources-dashboard/learning-center/toolkits",
           temp ? temp : "Property tax reforms toolkit (published by MoHUA)",
           parentIndex
         );
@@ -177,7 +177,7 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
         this.addAnchorTag(
           item,
           i,
-          "https://new-cityfinance.dhwaniris.in/resources-dashboard/learning-center/eLearning",
+          "/resources-dashboard/learning-center/eLearning",
           temp
             ? temp
             : "E-learning modules on implementing property tax reforms",
@@ -191,7 +191,7 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
         this.addAnchorTag(
           item,
           i,
-          "https://new-cityfinance.dhwaniris.in/resources-dashboard/learning-center/bestPractices",
+          "/resources-dashboard/learning-center/bestPractices",
           temp ? temp : "Best Practices on property tax reforms",
           parentIndex
         );
