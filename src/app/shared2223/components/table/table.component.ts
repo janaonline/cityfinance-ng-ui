@@ -476,7 +476,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     const year = this._commonService2324.getYearName(this.designYear);
     const yearSplit = Number(year.split('-')[0]);
     let endPoint = yearSplit >= 2023 ? this.endPoint : "review";
-    if (params.formId == '7' || params.formId == '15.1') endPoint = "review";
+    if ((params.formId == '7' && this.designYear != '606aafc14dff55e6c075d3ec') || params.formId == '15.1') endPoint = "review";
     this._commonService.openWindowToDownloadCsv(params, endPoint);
   }
   
