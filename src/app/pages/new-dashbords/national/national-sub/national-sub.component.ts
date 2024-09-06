@@ -1243,6 +1243,7 @@ export class NationalSubComponent implements OnInit {
 
   downloadTableData() {
     this.downloadInput.csv = true;
+    this.downloadInput['financialYear'] = this.selectedYear;
     this._loaderService.showLoader();
     try {
       this.nationalService

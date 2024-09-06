@@ -97,14 +97,17 @@ export class FilterModelBoxComponent implements OnInit {
       if(value?.length >= 1){
         this._commonServices.postGlobalSearchData(value, "ulb", stateId ? stateId : "").subscribe((res: any) => {
           console.log(res?.data);
-          let emptyArr:any = []
+          // let emptyArr:any = []
+          let emptyArr: any = [
+            {"name" : "ULB name not found", isDisabled: true}
+          ];
             this.filteredOptions = emptyArr;
           if(res?.data.length > 0 ){
             this.filteredOptions = res?.data;
             //this.noDataFound = false;
           }else{
 
-            let emptyArr:any = []
+            //let emptyArr:any = []
             this.filteredOptions = emptyArr;
            // this.noDataFound = true;
             console.log('no data found')
@@ -124,6 +127,7 @@ export class FilterModelBoxComponent implements OnInit {
 
   filterData(param, val) {
     console.log('filterData', param, 'val', val);
+    if(val?.isDisabled) return
     console.log("filter form", this.filterForm);
     if (param == "ulb") {
       console.log(val);
@@ -150,7 +154,9 @@ export class FilterModelBoxComponent implements OnInit {
         ulbType: "",
         populationCategory: "",
       });
-      let emptyArr: any = [];
+      let emptyArr: any = [
+        {"name" : "ULB name not found", isDisabled: true}
+      ];
       this.filteredOptions = emptyArr;
     } else if (param == "ulbType") {
       this.filterForm.patchValue({
