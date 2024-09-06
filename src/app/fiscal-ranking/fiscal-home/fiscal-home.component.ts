@@ -118,7 +118,7 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
       title: "Contact Details",
       // text:`“These are draft guidelines. Please share feedback, if any,
       // before <span class="clr"> 15th January, 2023 </span> via email on <span class="mailId">rankings@cityfinance.in</span>” `,
-      text: `Please email <a class="contactDetails" href='mailto:rankings@cityfinance.in' target='_blank'> rankings@cityfinance.in </a> for any queries. Please download the file for regional helpline numbers.`,
+      text: `Please email <a class="contactDetails" href='mailto:rankings@cityfinance.in' target='_blank'> rankings@cityfinance.in </a> for any queries.`,
       url: `https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/FiscalRanking/city_finance_rankings_2022_regional_helpline_number_7087a0e5-ad16-4a4a-8533-df05a9727520.pdf`,
       // url:`https://jccd-cityfinance-staging2.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_Final_guideline_2a6b5467-b2f2-456b-b38d-a0387d5f7709.pdf`,
       isModal: true,
