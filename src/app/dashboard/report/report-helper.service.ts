@@ -304,7 +304,11 @@ export class ReportHelperService {
       "250, 270-272",
       "200",
       "totalExp",
-      "surplusDeficit"
+      "grossSurplusBefore",
+      "280",
+      "grossSurplusAfter",
+      "290",
+      "netBalance"
     ];
   }
 
@@ -336,16 +340,6 @@ export class ReportHelperService {
       },
 
       { keyName: "expenditure", title: "B.Expenditure", isCalc: false },
-      // TODO: to be removed.
-      // {
-      //   keyName: "250, 270-290",
-      //   code: "250, 270-290",
-      //   title: "Other Expenses",
-      //   isCalc: true,
-      //   addFields: ["250", "270", "271", "272", "280", "290"],
-      //   delFields: ["250", "270", "271", "272", "280", "290"]
-      // },
-     
       {
         keyName: "250, 270-272",
         code: "250, 270-272",
@@ -361,22 +355,29 @@ export class ReportHelperService {
         isCalc: true,
         addFields: ["210", "220", "230", "240", "260", "250, 270-272", "200"] // Currently on portal.
       },
-
-      // {
-      //   keyName: "surplusDeficit",
-      //   title: "Surplus/(Deficit) (C) (A-B)",
-      //   isCalc: true,
-      //   addFields: ["totalIncome"],
-      //   subtractFields: ["totalExp"]
-      // }
-
-      // TODO: to be removed.
       {
-        keyName: "surplusDeficit",
-        title: "Gross Surplus/(Deficit) of Income over Expenditure before Prior Period Items (C) (A-B)",
+        keyName: "grossSurplusBefore",
+        title:
+          "Gross Surplus/(Deficit) of Income over Expenditure before Prior Period Items (C) (A-B) ",
         isCalc: true,
+        prePushCode: 280,
         addFields: ["totalIncome"],
         subtractFields: ["totalExp"]
+      },
+      {
+        keyName: "grossSurplusAfter",
+        title:
+          "Gross Surplus/(Deficit) of Income over Expenditure after Prior Period Items item(D) (C+280)",
+        isCalc: true,
+        prePushCode: 290,
+        addFields: ["grossSurplusBefore", "280"]
+      },
+      {
+        keyName: "netBalance",
+        title: "Net Surplus/(Deficit) carried over (E) (D+290)",
+        isCalc: true,
+        postPushCode: 290,
+        addFields: ["grossSurplusAfter", "290"]
       }
 
     ];
