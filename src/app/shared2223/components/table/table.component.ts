@@ -475,8 +475,8 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     // const endPoint = this.designYear == this.years["2023-24"] ? this.endPoint : "review" ;
     const year = this._commonService2324.getYearName(this.designYear);
     const yearSplit = Number(year.split('-')[0]);
-    const endPoint = yearSplit >= 2023 ? this.endPoint : "review";
-    // console.log(params);
+    let endPoint = yearSplit >= 2023 ? this.endPoint : "review";
+    if (params.formId == '15.1') endPoint = "review";
     this._commonService.openWindowToDownloadCsv(params, endPoint);
   }
   
@@ -646,7 +646,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   /* formId = 7(grant-tranfer), 11.2(grant-allocation), 12(Project for wss), 13(action-plan), 16(submit-claim-grant) */
   const isReviewStateForms = this.title == 'Review State Forms';
   const isReviewGrantApplication = this.title == 'Review Grant Application';
-  const isFormIdIncluded = [7, 11.2, 12, 13, 16].includes(Number(this.formId));
+  const isFormIdIncluded = [7, 11.2, 12, 13, 16, 15.1].includes(Number(this.formId));
   const isDesignYearMatch = this.designYear == this.years["2022-23"];
   // TODO: to be removed
   // if (this.designYear == this.years["2024-25"] && [3, 6, 4, 8].includes(Number(this.formId))) {
