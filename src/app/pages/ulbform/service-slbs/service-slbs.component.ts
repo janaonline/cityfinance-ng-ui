@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-service-slbs',
@@ -9,7 +10,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 export class ServiceSlbsComponent implements OnInit {
 
 
-  url: string = "https://pas.org.in/web/ceptpas/iuppkpi?parameterAutoLoginLogin=guestulb9&parameterAutoLoginPassword=guestulb9@abc";
+  url: string = environment.performanceURL;
   urlSafe: SafeResourceUrl;
   height;
   constructor(public sanitizer: DomSanitizer) { }
