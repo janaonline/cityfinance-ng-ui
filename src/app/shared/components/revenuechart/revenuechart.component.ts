@@ -496,6 +496,8 @@ export class RevenuechartComponent
       })
       
     }
+    if(this.year !=changes.mySelectedYears.currentValue[0])
+      this.year = changes.mySelectedYears.currentValue[0];
     console.log("changesmultipleCharts", changes);
     if (changes.multipleCharts && changes.multipleCharts.currentValue) {
       this.multipleCharts = changes.multipleCharts.currentValue;
