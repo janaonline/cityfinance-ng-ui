@@ -101,13 +101,13 @@ export class NationalSubComponent implements OnInit {
 
   nationalInput: any = {
     type: "totalRevenue",
-    financialYear: "2020-21",
+    financialYear: "2021-22",
     stateId: "",
     formType: "populationCategory",
   };
   downloadInput: any = {
     type: "totalRevenue",
-    financialYear: "2020-21",
+    financialYear: "2021-22",
     stateId: "",
     formType: "populationCategory",
     csv: false,
@@ -117,7 +117,7 @@ export class NationalSubComponent implements OnInit {
   doughnutArray;
 
   RevenueMixInput: any = {
-    financialYear: "2020-21",
+    financialYear: "2021-22",
     formType: "populationCategory",
     stateId: "",
     type: "revenueMix",
@@ -422,7 +422,7 @@ export class NationalSubComponent implements OnInit {
 
   resetFilter() {
     let emptyArr: any = [];
-    this.selectedYear = "2020-21";
+    this.selectedYear = "2021-22";
     this.selectedState = "";
 
     this.filteredOptions = emptyArr;
@@ -441,7 +441,7 @@ export class NationalSubComponent implements OnInit {
       }
     }
   }
-  selectedYear = "2020-21";
+  selectedYear = "2021-22";
   selectFinancialYear(event) {
     // console.log("this.currntHeadTab==>", this.CurrentHeadTab);
     this.selectedYear = event.target.value;
