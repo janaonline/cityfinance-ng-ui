@@ -249,7 +249,7 @@ export class NationalMapSectionComponent
     return color;
   }
 
-  selectedYear: any = "2020-21";
+  selectedYear: any = "2021-22";
 
   selectFinancialYear(event) {
     this.selectedYear = event.target.value;
@@ -568,7 +568,7 @@ export class NationalMapSectionComponent
   }
 
   resetFilter() {
-    this.selectedYear = "2020-21";
+    this.selectedYear = "2021-22";
     this.onSelectingStateFromDropDown("");
     this.nationalInput = this.nationalInput;
     this.getNationalLevelMapData(this.selectedYear);
