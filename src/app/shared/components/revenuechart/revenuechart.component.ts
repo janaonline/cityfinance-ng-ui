@@ -473,6 +473,12 @@ export class RevenuechartComponent
         this.createChart();
       }
     }
+    this.yearList.sort(function (a, b) {
+      let newA:any = a.split("-")[0];
+      let newB:any = b.split("-")[0];
+      return newB - newA;
+    }); 
+
     if (changes.mySelectedYears && changes.mySelectedYears.currentValue) {
       //this.year = this.mySelectedYears[0];
       this.revenuechartService.getYear.subscribe((res)=>{
@@ -490,6 +496,8 @@ export class RevenuechartComponent
       })
       
     }
+    if(this.year !=changes.mySelectedYears.currentValue[0])
+      this.year = changes.mySelectedYears.currentValue[0];
     console.log("changesmultipleCharts", changes);
     if (changes.multipleCharts && changes.multipleCharts.currentValue) {
       this.multipleCharts = changes.multipleCharts.currentValue;
