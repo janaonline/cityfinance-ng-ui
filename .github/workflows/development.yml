@@ -1,9 +1,14 @@
 name: Build and Deploy development server
  
 on:
-    push:
-      branches:
-        - "development"
+  push:
+    branches:
+      - "development"
+  pull_request:
+   types:
+    - closed
+   branches:
+    - "development"
  
 jobs:
   build:
