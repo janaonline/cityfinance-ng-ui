@@ -494,10 +494,12 @@ export class RevenuechartComponent
           this.year = tempYear[0];
          } 
       })
-      
+      if(this.year !=changes?.mySelectedYears?.currentValue[0]){
+        let index = changes?.mySelectedYears?.currentValue.indexOf(this.year)
+        this.year =  index >-1 ? changes.mySelectedYears.currentValue[index] : changes.mySelectedYears.currentValue[0];
+      }
     }
-    if(this.year !=changes.mySelectedYears.currentValue[0])
-      this.year = changes.mySelectedYears.currentValue[0];
+       
     console.log("changesmultipleCharts", changes);
     if (changes.multipleCharts && changes.multipleCharts.currentValue) {
       this.multipleCharts = changes.multipleCharts.currentValue;
