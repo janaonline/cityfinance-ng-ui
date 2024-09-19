@@ -29,7 +29,11 @@
         appDisableNagetive
         [appMaxRange]="question"
     >
-    <button class="btn btn-primary location-button" [disabled]="disabled" (click)="openDialog()" >
+    <!-- <button class="btn btn-primary location-button" [disabled]="disabled" (click)="openDialog()" >
         <mat-icon> location_on</mat-icon>
-    </button>
+    </button> -->
+    <a class="btn btn-primary location-button" [disabled]="disabled" href="https://www.google.com/maps" target="_blank"
+    matTooltip="Click here to find the latitude and longitude of your project(s).">
+        <mat-icon> location_on</mat-icon>
+    </a>
 </div>
