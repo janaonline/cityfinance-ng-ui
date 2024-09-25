@@ -128,6 +128,7 @@ export class CompareDialogComponent implements OnInit {
   parameters: string[] = [];
 
   ulbListChip: { name: string; _id: string }[] = [];
+  tempPreSelectedUlb = []
 
   ulbIds: any;
 
@@ -200,6 +201,7 @@ export class CompareDialogComponent implements OnInit {
     );
     if (this.preSelectedUlbList) {
         this.ulbListChip = this.preSelectedUlbList;
+        this.tempPreSelectedUlb =  this.preSelectedUlbList.slice();
     }
 
     this.getFinancialYearBasedOnData();
@@ -339,7 +341,16 @@ export class CompareDialogComponent implements OnInit {
     console.log("cleared ulblist", this.ulbListChip);
     this.revenuechartService.updateUlbList([])
   }
-  close() {
+  close(type) {
+    if(type=='close'){
+        if(this.preSelectedUlbList.length != this.tempPreSelectedUlb.length){
+          this.ulbListChip = this.tempPreSelectedUlb;
+            this.revenuechartService.updateUlbList(this.ulbListChip )
+          }
+          if(this.tempPreSelectedUlb.length<=0){
+            this.reset();
+          }
+    }
     this.closeDialog.emit(true);
   }
   checkType(searchValue) {
@@ -479,7 +490,7 @@ export class CompareDialogComponent implements OnInit {
         this.ownRevenueCompValue.emit(this.valuesToEmit);
         // return;
       }
-      this.close();
+      this.close('apply');
     } else {
       console.log(
         "emitting value",
@@ -502,7 +513,7 @@ export class CompareDialogComponent implements OnInit {
           this.ulbValueList.emit(this.ulbListChip);
           this.SelectYearList.emit(this.yearValue);
           this.SelectYears.emit(this.years);
-          this.close();
+          this.close('apply');
         }
         // else if (this.ulbListChip.length == 0 && this.yearValue.length == 0) {
         //   alert("please Select both ulb and year");
@@ -515,7 +526,7 @@ export class CompareDialogComponent implements OnInit {
         this.SelectYearList.emit(this.yearValue);
         this.SelectYears.emit(this.years);
         this.revenuechartService.updateUlbList(this.ulbListChip)
-        this.close();
+        this.close('apply');
       }
     }
     // this.close();
