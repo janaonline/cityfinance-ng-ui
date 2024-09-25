@@ -747,6 +747,7 @@ export class RevenuechartComponent
   openModal() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = "39rem";
+    dialogConfig.disableClose=true;
      this.revenuechartService.getSelectedULBList.subscribe((res:any)=>{this.ulbList = res;})
     this.dialogRef = this.dialog.open(this.template, dialogConfig);
     this.dialogRef.afterClosed().subscribe((result) => {
