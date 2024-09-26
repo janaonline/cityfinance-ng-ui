@@ -885,6 +885,8 @@ export class RevenuechartComponent
   resetState() {
     this.compareType = "State Average";
     this.revenuechartService.updateUlbList([])
+    this.year = this.yearList[0];
+    this.revenuechartService.setSelectedYear(this.year)
     this.sendValue();
   }
 
