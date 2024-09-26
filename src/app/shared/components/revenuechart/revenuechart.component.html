@@ -55,7 +55,7 @@
                     <div *ngIf="nestedChartFilterOption?.showFinancialYear">
                         <select class="btn compare" (change)="yearValueChange($event.target.value)">
           <option
-            [disabled]="i == 0 && disableFirstYear"
+            [disabled]="i == yearList.length-1 && disableFirstYear"
             *ngFor="let yearValue of yearList; let i = index"
             [value]="yearValue"
             [selected]="yearValue == year"

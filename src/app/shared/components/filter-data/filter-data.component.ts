@@ -299,8 +299,28 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     //   'selected ULB(s) '+this.selectedTab 
     // }`;
     this.barChartPayload = {};
-
-    this.selectedFinancialYear = body["financialYear"];
+    if (body.filterName == 'capital_expenditure') {
+      this.selectedFinancialYear = body["financialYear"];
+      this.selectedFinancialYear.sort(function (a, b) {
+        let newA: any = a.split("-")[0];
+        let newB: any = b.split("-")[0];
+        return newA - newB;
+      });
+      let firstElement = this.selectedFinancialYear[this.selectedFinancialYear.length - 1]
+      let newYears = [firstElement],
+        numYear = 3,
+        newValue: any = firstElement;
+      while (numYear--) {
+        newValue = newValue
+          ?.split("-")
+          ?.map((value) =>
+            !isNaN(Number(value)) ? (value = Number(value) - 1) : value
+          )
+          .join("-");
+        newYears.push(newValue);
+      }
+      body.financialYear = newYears;
+    }
     console.log("body===>", body, "mySelectedYears", this.mySelectedYears);
     this.apiCall = this.commonService.getChartDataByIndicator(body).subscribe(
       (res) => {
@@ -503,7 +523,7 @@ ULB ${this.selectedTab} for FY' ${
       this.filterName.includes("expenditure")
     ) {
       for (const key in res["data"]) {
-        res["data"][key] = this.createExpenditureData(res["data"][key]);
+        res["data"][key] = this.createExpenditureData(res["data"][key],this.filterName);
       }
     }
     if (this.selectedTab == "Total Surplus/Deficit") {
@@ -779,7 +799,7 @@ console.log('new Data', newData.data.labels);
     State Own Revenue to Revenue expenditure is ${F.toFixed(0)}% )`;
   }
 
-  createExpenditureData(data) {
+  createExpenditureData(data,filterName) {
     let newData = [];
     for (let index = 0; index < data.length; index++) {
       const element = data[index];
@@ -788,6 +808,7 @@ console.log('new Data', newData.data.labels);
       let year1 = previousYearValue,
         year2 = data[index];
       if (!year1) {
+        if(filterName == 'capital expenditure') continue;
         newData.push({
           _id: { financialYear: data[index]._id },
           amount:
