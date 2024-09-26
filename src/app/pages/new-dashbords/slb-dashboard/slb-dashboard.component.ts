@@ -248,7 +248,6 @@ export class SlbDashboardComponent
     "2018-19",
     "2019-20",
     "2020-21",
-    "2021-22",
   ];
   selectedYear: any;
   isStateServiceLabel: boolean = true;
@@ -272,7 +271,7 @@ export class SlbDashboardComponent
     this.dashboardLastUpdatedYear();
     this.getNationalLevelMapData("2020-21");
     this.yearList = this.yearList.reverse();
-    this.selectedYear = this.yearList[1];
+    this.selectedYear = this.yearList[0];
     this.frontPanelData["year"] = this.selectedYear;
     console.log("selectedYear", this.frontPanelData);
 
@@ -1258,7 +1257,7 @@ export class SlbDashboardComponent
 
   getSelectedYear(selectedYear: any) {
     console.log("getSelectedYear", selectedYear);
-    this.selectedYear = selectedYear ? selectedYear : this.yearList[1];
+    this.selectedYear = selectedYear ? selectedYear : this.yearList[0];
     this.getNationalLevelMapData(this.selectedYear);
 
     // MapUtil.destroy(this.nationalLevelMap);
