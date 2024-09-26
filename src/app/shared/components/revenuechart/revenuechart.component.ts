@@ -548,7 +548,7 @@ export class RevenuechartComponent
     console.log("chartId==>", this.chartId, this.chartData, this.cityChart);
     setTimeout(() => {
       // }
-      if (this.cityChart && this.chartData.type == "bar") {
+      if (this.cityChart && this.chartData.type == "bar" ||  this.chartData.type == "line"){
         console.log("aaaa", this.chartData.data.labels);
 
         this.chartData.data.labels.sort(function (a, b) {
