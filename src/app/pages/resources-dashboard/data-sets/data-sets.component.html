@@ -22,7 +22,9 @@
 </div>
 
 <div class="filter-d mt-3 mb-3" *ngIf="dataReceived" id="top">
-    <app-filter-component (filterFormData)="filterData($event)" [category]="category" [filterInputData]="filterComponent" [downloadValue]="selectedUsersList.length" (download)="download($event)" [filterTabDataSet]="true" [mobileFilterConfig]="mobileFilterConfig"></app-filter-component>
+    <app-filter-component (filterFormData)="filterData($event)" [category]="category"
+        [filterInputData]="filterComponent" [downloadValue]="selectedUsersList.length" (download)="download($event)"
+        [filterTabDataSet]="true" [mobileFilterConfig]="mobileFilterConfig"></app-filter-component>
 </div>
 
 <div class="row" *ngIf="dataReceived">
@@ -58,26 +60,22 @@
                         <div class="col-sm-1 col-1">
                             <!-- <input class="form-check-input" type="checkbox" [checked]="allSelected"
                             (change)="isChecked($event.target.value, allSelected, i)"> -->
-                            <mat-checkbox matTooltip="Select to download" (click)="$event.stopPropagation()" (change)="toggleRowSelection($event, item, i)" [checked]="item.isSelected" [disabled]="item.isDisabled">
+                            <mat-checkbox matTooltip="Select to download" (click)="$event.stopPropagation()"
+                                (change)="toggleRowSelection($event, item, i)" [checked]="item.isSelected"
+                                [disabled]="item.isDisabled">
                             </mat-checkbox>
                         </div>
                         <div class="col-sm-8 d-name col-8 cursor-pointer" matTooltip="Click to View">
                             <div class="row align-items-sm-center">
                                 <div class="col-2 col-sm-1">
                                     <span *ngIf="item?.type == 'pdf'">
-                    <img
-                      src="../../../../../assets/new_dashBord_ftr_hdr/pdf.png"
-                      alt=""
-                      class="p-i"
-                    />
-                  </span>
+                                        <img src="../../../../../assets/new_dashBord_ftr_hdr/pdf.png" alt=""
+                                            class="p-i" />
+                                    </span>
                                     <span *ngIf="item?.type == 'excel'">
-                    <img
-                      src="../../../../../assets/new_dashBord_ftr_hdr/excel.png"
-                      alt=""
-                      class="p-i"
-                    />
-                  </span>
+                                        <img src="../../../../../assets/new_dashBord_ftr_hdr/excel.png" alt=""
+                                            class="p-i" />
+                                    </span>
                                 </div>
                                 <div class="col-10 col-sm-11">
                                     <span>{{ item?.fileName }}</span>
@@ -94,20 +92,19 @@
         </div>
     </div>
     <div class="col-sm-12 text-center mb-3" *ngIf="isloadMore">
-        <button class="btn lmBtn" [matTooltip]="initialValue >= 30 ? 'Use filters for search' : null" (click)="loadMore()">
-      <span class="material-icons" style="vertical-align: middle">
-        refresh
-      </span>
-      <span class="ms-1">Load More</span>
-    </button>
+        <button class="btn lmBtn" [matTooltip]="initialValue >= 30 ? 'Use filters for search' : null"
+            (click)="loadMore()">
+            <span class="material-icons" style="vertical-align: middle">
+                refresh
+            </span>
+            <span class="ms-1">Load More</span>
+        </button>
     </div>
     <div class="backArrow" *ngIf="initialValue > 10">
         <!-- <a href="#top"> -->
         <span class="p-1 lmBtn" role="button" style="margin-left: 2%" (click)="getToTop()">
-      <mat-icon style="vertical-align: middle; color: grey"
-        >arrow_upward</mat-icon
-      >
-    </span>
+            <mat-icon style="vertical-align: middle; color: grey">arrow_upward</mat-icon>
+        </span>
         <!-- </a> -->
     </div>
 </div>
