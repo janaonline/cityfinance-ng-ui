@@ -2,6 +2,7 @@ import { Component, OnInit, SimpleChange } from "@angular/core";
 import { ResourcesDashboardService } from "../resources-dashboard.service";
 import { Router, NavigationStart, Event, NavigationEnd } from "@angular/router";
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
+import { ReportService } from "../../../dashboard/report/report.service";
 import * as FileSaver from "file-saver";
 @Component({
   selector: "app-data-sets",
@@ -30,16 +31,18 @@ export class DataSetsComponent implements OnInit {
   };
   isloadMore = false;
   storageBaseUrl: string = environment?.STORAGE_BASEURL;
+  allReports: any;
 
   constructor(
     private _resourcesDashboardService: ResourcesDashboardService,
     private router: Router,
     public globalLoaderService: GlobalLoaderService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    protected reportService: ReportService,
   ) {
     router.events.subscribe((val) => {
       // see also
-      console.log(val instanceof NavigationEnd, this.router.url);
+      // console.log(val instanceof NavigationEnd, this.router.url);
       if (this.router.url.includes("income_statement")) {
         this.category = "income";
       } else if (this.router.url.includes("balanceSheet")) {
@@ -90,30 +93,45 @@ export class DataSetsComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChange) {
-    console.log("changes===//>", changes);
+    // console.log("changes===//>", changes);
   }
 
-  openNewTab(data, fullData) {
-    console.log('full data', fullData, this.category);
-    if (fullData.hasOwnProperty("section") && fullData.section == "standardised") {
-      this.selectedUsersList = []
-      this.selectedUsersList.push(fullData);
-      this.download(1)
-      this.selectedUsersList = []
-      return;
-    }
-    console.log("file data", data);
-    this.openDialog(data)
-    // window.open(data, "_blank");
-    // window.open(data?.fileUrl, "_blank");
-    // const pdfUrl = data?.fileUrl;
-    // const pdfName = data?.fileName;
-    // FileSaver.saveAs(pdfUrl, pdfName);
-
-    // return url;
-    // window.open(url, '_blank');
+  filterData(e) {
+    console.log("filter -----> ", e);
+    this.year = e?.value?.year ?? "2020-21";
+    this.type = e?.value?.contentType ?? "Raw Data PDF";
+    this.state = e?.value?.state;
+    this.ulb = e?.value?.ulb;
+    this.balData = [];
+    this.offSet = 0;
+    this.limit = 10;
+    this.loopControl = 0;
+    this.getData();
   }
+
+  // openNewTab(data, fullData) {
+  //   console.log('full data', fullData, this.category);
+  //   if (fullData.hasOwnProperty("section") && fullData.section == "standardised") {
+  //     this.selectedUsersList = []
+  //     this.selectedUsersList.push(fullData);
+  //     this.download(1)
+  //     this.selectedUsersList = []
+  //     return;
+  //   }
+  //   console.log("file data", data);
+  //   this.openDialog(data)
+  //   // window.open(data, "_blank");
+  //   // window.open(data?.fileUrl, "_blank");
+  //   // const pdfUrl = data?.fileUrl;
+  //   // const pdfName = data?.fileName;
+  //   // FileSaver.saveAs(pdfUrl, pdfName);
+
+  //   // return url;
+  //   // window.open(url, '_blank');
+  // }
   noData = false;
+
+  // Function to mantain list of only 5 ULBs - Download file.
   checkIsDisabled(selectedList) {
     if (selectedList.length === 5) {
       this.balData.forEach((elem) => {
@@ -159,23 +177,22 @@ export class DataSetsComponent implements OnInit {
 
   getToTop() {
     let element = document.getElementById("top");
-
     element.scrollIntoView();
   }
+
   getData() {
     console.log("getData");
     let globalName = "";
-    if (this.searchedValue) {
-      globalName = this.searchedValue
-    }
+    if (this.searchedValue) { globalName = this.searchedValue }
 
     this.globalLoaderService.showLoader();
+
     try {
       this._resourcesDashboardService
         .getDataSets(this.year, this.type, this.category, this.state, this.ulb, globalName)
         .subscribe(
           (res: any) => {
-            console.log("148", this.balData, res);
+            console.log("datasets api res ---> ", this.balData, res);
             // this.balData = res["data"];
             if (res.data.length == 0) {
               this.noData = true;
@@ -199,7 +216,7 @@ export class DataSetsComponent implements OnInit {
               this.balData = []
               for (let i = 0; i < this.loopControl; i++) {
                 const element = this.tempBalData[i];
-                console.log("element==>", element)
+                // console.log("element==>", element)
                 this.balData.push(element);
               }
               console.log("finalBalData", this.balData)
@@ -228,20 +245,8 @@ export class DataSetsComponent implements OnInit {
   selectedUsersList = [];
   state;
   ulb;
-  filterData(e) {
-    console.log("Data sets", e);
-    this.year = e?.value?.year ?? "2020-21";
-    this.type = e?.value?.contentType ?? "Raw Data PDF";
-    this.state = e?.value?.state;
-    this.ulb = e?.value?.ulb;
-    this.balData = [];
-    this.offSet = 0;
-    this.limit = 10;
-    this.loopControl = 0;
-    // if (e) {
-    this.getData();
-    // }
-  }
+
+
 
   // isAllSelected(All: boolean = false) {
   //   // if (All) {
@@ -369,22 +374,81 @@ export class DataSetsComponent implements OnInit {
 
     this.checkIsDisabled(this.selectedUsersList);
   }
-  openDialog(data): void {
-    data =  data.filter(entity => entity);
-    const dialogRef = this.dialog.open(FileOpenComponent, {
-      width: "60vw",
-      maxHeight: "95vh",
-      height: "fit-content",
-      data: {
-        fileUrl: data,
-        category: this.category
+
+  // openDialog(data): void {
+  //   data = data.filter(entity => entity);
+  //   const dialogRef = this.dialog.open(FileOpenComponent, {
+  //     width: "60vw",
+  //     maxHeight: "95vh",
+  //     height: "fit-content",
+  //     data: {
+  //       fileUrl: data,
+  //       category: this.category
+  //     },
+  //   });
+
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     console.log('The dialog was closed');
+  //     // this.animal = result;
+  //   });
+  // }
+
+  // Get the file.
+  getReport(item: any) {
+    // Download Standardized excel.
+    if (item.hasOwnProperty("section") && item.section == "standardised") {
+      this.selectedUsersList = []
+      this.selectedUsersList.push(item);
+      this.download(1)
+      this.selectedUsersList = []
+      return;
+    }
+
+    // View Raw PDF and Raw Excel.
+    const yearSplit = Number(item.year.split('-')[0]);
+    // 2015-16 to 2018-19.
+    if (yearSplit < 2019) {
+      if (item && item['fileUrl']) {
+        let target_file_url = environment.STORAGE_BASEURL + item['fileUrl'];
+        window.open(target_file_url, '_blank');
+      } else console.error("File URL is missing or invalid.");
+
+      return;
+    }
+
+    // 2019-20 onwards.
+    this.globalLoaderService.showLoader();
+    this.reportService.getReports(item._id, item.year, item.auditType).subscribe(
+      (res) => {
+        this.globalLoaderService.stopLoader();
+        let type = 'notFound';
+        if (res && res["success"]) {
+          this.allReports = res["data"];
+          type = res["data"][item.type].length ? item.type : 'notFound';
+        }
+        this.openDialog2(res["data"], type);
       },
+      (error) => {
+        this.globalLoaderService.stopLoader();
+        console.log(error);
+      }
+    );
+  }
+
+  // Dialog box which has all 6 files in popup.
+  openDialog2(data: any, fileType: string) {
+    const dialogRef = this.dialog.open(BalanceTabledialogComponent, {
+      data: { reportList: data, fileType: fileType },
+      width: "500px",
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      // this.animal = result;
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log("The dialog was closed");
     });
+  }
+
+  id(id: any, selectedYear: string) {
+    throw new Error("Method not implemented.");
   }
 }
 
@@ -393,6 +457,7 @@ export class DataSetsComponent implements OnInit {
 import { Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { environment } from "src/environments/environment";
+import { BalanceTabledialogComponent } from "src/app/shared/components/balance-table/balance-tabledialog/balance-tabledialog.component";
 @Component({
   selector: 'file-open-dialog',
   templateUrl: "./file-open.component.html",

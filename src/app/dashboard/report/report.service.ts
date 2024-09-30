@@ -250,7 +250,7 @@ this._loaderService.showLoader()
     };
   }
 
-  getReports(ulbId: any, financialYear: any) {
-    return this.http.get(`${environment.api.url}ledger/ulb-financial-data/files/${ulbId}?financialYear=${financialYear}`);
+  getReports(ulbId: string, financialYear: string, auditType: string = null) {
+    return this.http.get(`${environment.api.url}ledger/ulb-financial-data/files/${ulbId}?financialYear=${financialYear}&auditType=${auditType}`);
   }
 }

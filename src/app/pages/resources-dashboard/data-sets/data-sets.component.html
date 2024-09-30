@@ -13,13 +13,13 @@
         Sorry we couldn’t find any matches for ‘{{ searchedValue }}’. Please try searching with another term.
     </p>
 </div>
-<div class="container container-cnt" *ngIf="dataReceived">
+<!-- <div class="container container-cnt" *ngIf="dataReceived">
     <div class="row" style="margin: 0 auto">
         <div class="col-sm-12 mb-3">
             <app-resources-tabs [data]="tabData"> </app-resources-tabs>
         </div>
     </div>
-</div>
+</div> -->
 
 <div class="filter-d mt-3 mb-3" *ngIf="dataReceived" id="top">
     <app-filter-component (filterFormData)="filterData($event)" [category]="category"
@@ -55,39 +55,41 @@
             </div>
             <div class="empty" *ngIf="balData.length == 0">No Data Found</div>
             <div *ngIf="balData.length > 0">
-                <div class="card-body cd-repeat" *ngFor="let item of balData; let i = index">
-                    <div class="row align-items-md-center pointer" (click)="openNewTab(item?.fileUrl, item)">
-                        <div class="col-sm-1 col-1">
-                            <!-- <input class="form-check-input" type="checkbox" [checked]="allSelected"
+                <ng-container *ngFor="let item of balData; let i = index">
+                    <div class="card-body cd-repeat" *ngIf="item.fileName">
+                        <!-- <p>{{item | json}}</p> -->
+                        <!-- <div class="row align-items-md-center pointer" (click)="openNewTab(item?.fileUrl, item)"> -->
+                        <div class="row align-items-md-center pointer" (click)="getReport(item)">
+                            <div class="col-sm-1 col-1">
+                                <!-- <input class="form-check-input" type="checkbox" [checked]="allSelected"
                             (change)="isChecked($event.target.value, allSelected, i)"> -->
-                            <mat-checkbox matTooltip="Select to download" (click)="$event.stopPropagation()"
-                                (change)="toggleRowSelection($event, item, i)" [checked]="item.isSelected"
-                                [disabled]="item.isDisabled">
-                            </mat-checkbox>
-                        </div>
-                        <div class="col-sm-8 d-name col-8 cursor-pointer" matTooltip="Click to View">
-                            <div class="row align-items-sm-center">
-                                <div class="col-2 col-sm-1">
-                                    <span *ngIf="item?.type == 'pdf'">
-                                        <img src="../../../../../assets/new_dashBord_ftr_hdr/pdf.png" alt=""
-                                            class="p-i" />
-                                    </span>
-                                    <span *ngIf="item?.type == 'excel'">
-                                        <img src="../../../../../assets/new_dashBord_ftr_hdr/excel.png" alt=""
-                                            class="p-i" />
-                                    </span>
-                                </div>
-                                <div class="col-10 col-sm-11">
-                                    <span>{{ item?.fileName }}</span>
+                                <mat-checkbox matTooltip="Select to download" (click)="$event.stopPropagation()"
+                                    (change)="toggleRowSelection($event, item, i)" [checked]="item.isSelected"
+                                    [disabled]="item.isDisabled">
+                                </mat-checkbox>
+                            </div>
+                            <div class="col-sm-8 d-name col-8 cursor-pointer" matTooltip="Click to View">
+                                <div class="row align-items-sm-center">
+                                    <div class="col-2 col-sm-1">
+                                        <span *ngIf="item?.type == 'pdf'">
+                                            <i class="bi bi-file-earmark-pdf-fill text-danger fs-4"></i>
+                                        </span>
+                                        <span *ngIf="item?.type == 'excel'">
+                                            <i class="bi bi-file-earmark-spreadsheet-fill text-success fs-4"></i>
+                                        </span>
+                                    </div>
+                                    <div class="col-10 col-sm-11">
+                                        <span>{{ item?.fileName }}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-sm-3 d-date col-3">
-                            <!-- {{i+1}} -->
-                            <span>{{ item?.modifiedAt | date: "yyyy-MM-dd" }}</span>
+                            <div class="col-sm-3 d-date col-3">
+                                <!-- {{i+1}} -->
+                                <span>{{ item?.modifiedAt | date: "yyyy-MM-dd" }}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </ng-container>
             </div>
         </div>
     </div>
