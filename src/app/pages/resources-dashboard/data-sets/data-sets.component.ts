@@ -4,6 +4,9 @@ import { Router, NavigationStart, Event, NavigationEnd } from "@angular/router";
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 import { ReportService } from "../../../dashboard/report/report.service";
 import * as FileSaver from "file-saver";
+import { environment } from "src/environments/environment";
+import { BalanceTabledialogComponent } from "src/app/shared/components/balance-table/balance-tabledialog/balance-tabledialog.component";
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: "app-data-sets",
   templateUrl: "./data-sets.component.html",
@@ -33,12 +36,20 @@ export class DataSetsComponent implements OnInit {
   storageBaseUrl: string = environment?.STORAGE_BASEURL;
   allReports: any;
 
+  // Navinder's variables.
+  skip: number = 0;
+  loadMoreData: boolean = false;
+  totalDocs: number = 0;
+  durationInSeconds: number = 3;
+  isBlinking: boolean = false;
+
   constructor(
     private _resourcesDashboardService: ResourcesDashboardService,
     private router: Router,
     public globalLoaderService: GlobalLoaderService,
     public dialog: MatDialog,
     protected reportService: ReportService,
+    private _snackBar: MatSnackBar
   ) {
     router.events.subscribe((val) => {
       // see also
@@ -96,18 +107,143 @@ export class DataSetsComponent implements OnInit {
     // console.log("changes===//>", changes);
   }
 
+  // Arrow to take at the top.
+  getToTop() {
+    let element = document.getElementById("top");
+    element.scrollIntoView();
+  }
+
+  // Arrow will blink for 5 sec.
+  startBlinking() {
+    this.isBlinking = true;
+
+    // Remove the 'blinker' class after 5 seconds
+    setTimeout(() => {
+      this.isBlinking = false;
+    }, 5000);
+  }
+
   filterData(e) {
-    console.log("filter -----> ", e);
+    // console.log("filter -----> ", e);
     this.year = e?.value?.year ?? "2020-21";
     this.type = e?.value?.contentType ?? "Raw Data PDF";
     this.state = e?.value?.state;
     this.ulb = e?.value?.ulb;
     this.balData = [];
-    this.offSet = 0;
-    this.limit = 10;
-    this.loopControl = 0;
+    // this.offSet = 0;
+    // this.limit = 10;
+    // this.loopControl = 0;
+    this.skip = 0;
+    this.totalDocs = 0;
     this.getData();
   }
+
+  // API call + Load more.
+  getData() {
+    // console.log("Inside getData()");
+    let globalName = "";
+    if (this.searchedValue) { globalName = this.searchedValue }
+
+    this.globalLoaderService.showLoader();
+
+    // Add a dialog box: if more than 30 files are loaded.
+    if (this.totalDocs >= 30) this.openSnackBar();
+
+    // Load 10 fies.
+    try {
+      this._resourcesDashboardService
+        .getDataSets(this.year, this.type, this.category, this.state, this.ulb, globalName, this.skip)
+        .subscribe(
+          (res: any) => {
+            const dataLength = res.data.length;
+            // Common actions
+            this.totalDocs += dataLength;
+            this.balData = this.balData.concat(res.data);
+            this.globalLoaderService.stopLoader();
+            console.log("this.skip -----------> ", this.skip)
+            console.log("this.totalDocs -----------> ", this.totalDocs)
+
+            // Conditional logic
+            if (dataLength === 10) {
+              this.loadMoreData = true;
+              this.skip += 10;
+            } else {
+              this.loadMoreData = false;
+            }
+
+            return;
+          },
+          (err) => {
+            this.globalLoaderService.stopLoader();
+            console.error("Error in fetching data: ", err.message);
+          }
+        );
+    } catch (err) {
+      this.globalLoaderService.stopLoader();
+    }
+  }
+
+  // Display the files.
+  getReport(item: any) {
+    // Download Standardized excel.
+    if (item.hasOwnProperty("section") && item.section == "standardised") {
+      this.selectedUsersList = []
+      this.selectedUsersList.push(item);
+      this.download(1)
+      this.selectedUsersList = []
+      return;
+    }
+
+    // View Raw PDF and Raw Excel.
+    const yearSplit = Number(item.year.split('-')[0]);
+    // 2015-16 to 2018-19.
+    if (yearSplit < 2019) {
+      if (item && item['fileUrl']) {
+        let target_file_url = environment.STORAGE_BASEURL + item['fileUrl'];
+        window.open(target_file_url, '_blank');
+      } else console.error("File URL is missing or invalid.");
+
+      return;
+    }
+
+    // 2019-20 onwards.
+    this.globalLoaderService.showLoader();
+    this.reportService.getReports(item._id, item.year, item.auditType).subscribe(
+      (res) => {
+        this.globalLoaderService.stopLoader();
+        let type = 'notFound';
+        if (res && res["success"]) {
+          this.allReports = res["data"];
+          type = res["data"][item.type].length ? item.type : 'notFound';
+        }
+        this.openDialog2(res["data"], type);
+      },
+      (error) => {
+        this.globalLoaderService.stopLoader();
+        console.log(error);
+      }
+    );
+  }
+
+  // Dialog box which has all 6 files in popup.
+  openDialog2(data: any, fileType: string) {
+    const dialogRef = this.dialog.open(BalanceTabledialogComponent, {
+      data: { reportList: data, fileType: fileType },
+      width: "500px",
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log("The dialog was closed");
+    });
+  }
+
+  // Dialog box more than 30 files are loaded.
+  openSnackBar() {
+    this._snackBar.openFromComponent(PizzaPartyComponent, {
+      duration: this.durationInSeconds * 1000,
+    });
+  }
+
 
   // openNewTab(data, fullData) {
   //   console.log('full data', fullData, this.category);
@@ -147,27 +283,27 @@ export class DataSetsComponent implements OnInit {
     }
   }
 
-  loadMore() {
-    console.log(this.limit);
-    if (this.loopControl > this.tempBalData?.length) {
-      this.isloadMore = false;
-      return;
-    } else {
-      this.limit = this.limit + 10;
-      this.offSet = this.balData.length;
-      this.isloadMore = true;
-      this.loopControl = this.limit;
-    }
-    for (this.offSet; this.offSet < this.loopControl; this.offSet++) {
-      console.log("this.offSet", this.offSet);
-      this.balData.push(this.tempBalData[this.offSet]);
-    }
-    if (this.loopControl == this.tempBalData?.length) {
-      this.isloadMore = false;
-    }
-    this.initialValue = this.initialValue + 10;
+  // loadMore() {
+  //   console.log(this.limit);
+  //   if (this.loopControl > this.tempBalData?.length) {
+  //     this.isloadMore = false;
+  //     return;
+  //   } else {
+  //     this.limit = this.limit + 10;
+  //     this.offSet = this.balData.length;
+  //     this.isloadMore = true;
+  //     this.loopControl = this.limit;
+  //   }
+  //   for (this.offSet; this.offSet < this.loopControl; this.offSet++) {
+  //     console.log("this.offSet", this.offSet);
+  //     this.balData.push(this.tempBalData[this.offSet]);
+  //   }
+  //   if (this.loopControl == this.tempBalData?.length) {
+  //     this.isloadMore = false;
+  //   }
+  //   this.initialValue = this.initialValue + 10;
 
-  }
+  // }
 
   // sliceData() {
   //   this.balData = this.balData.slice(0, this.initialValue);
@@ -175,70 +311,66 @@ export class DataSetsComponent implements OnInit {
   //   return this.balData;
   // }
 
-  getToTop() {
-    let element = document.getElementById("top");
-    element.scrollIntoView();
-  }
 
-  getData() {
-    console.log("getData");
-    let globalName = "";
-    if (this.searchedValue) { globalName = this.searchedValue }
+  // getData() {
+  //   console.log("getData");
+  //   let globalName = "";
+  //   if (this.searchedValue) { globalName = this.searchedValue }
 
-    this.globalLoaderService.showLoader();
+  //   this.globalLoaderService.showLoader();
 
-    try {
-      this._resourcesDashboardService
-        .getDataSets(this.year, this.type, this.category, this.state, this.ulb, globalName)
-        .subscribe(
-          (res: any) => {
-            console.log("datasets api res ---> ", this.balData, res);
-            // this.balData = res["data"];
-            if (res.data.length == 0) {
-              this.noData = true;
-              this.balData = []
-              this.isloadMore = false;
-              this.globalLoaderService.stopLoader();
-            } else if (res.data.length !== 0) {
-              this.tempBalData = res.data;
-              console.log("tempBalData", this.tempBalData)
-              if (this.tempBalData.length < 10) {
-                this.isloadMore = false;
-              }
-              let limitVal = this.offSet + this.limit;
-              if (this.tempBalData.length > limitVal) {
-                this.loopControl = limitVal;
-                this.isloadMore = true;
-              } else {
-                this.loopControl = this.tempBalData.length
-              }
-              console.log("loopControl==>", this.loopControl)
-              this.balData = []
-              for (let i = 0; i < this.loopControl; i++) {
-                const element = this.tempBalData[i];
-                // console.log("element==>", element)
-                this.balData.push(element);
-              }
-              console.log("finalBalData", this.balData)
+  //   try {
+  //     this._resourcesDashboardService
+  //       .getDataSets(this.year, this.type, this.category, this.state, this.ulb, globalName)
+  //       .subscribe(
+  //         (res: any) => {
+  //           console.log("datasets api res ---> ", this.balData, res);
+  //           // this.balData = res["data"];
+  //           if (res.data.length == 0) {
+  //             this.noData = true;
+  //             this.balData = []
+  //             this.isloadMore = false;
+  //             this.globalLoaderService.stopLoader();
+  //           } else if (res.data.length !== 0) {
+  //             this.tempBalData = res.data;
+  //             console.log("tempBalData", this.tempBalData)
+  //             if (this.tempBalData.length < 10) {
+  //               this.isloadMore = false;
+  //             }
+  //             let limitVal = this.offSet + this.limit;
+  //             if (this.tempBalData.length > limitVal) {
+  //               this.loopControl = limitVal;
+  //               this.isloadMore = true;
+  //             } else {
+  //               this.loopControl = this.tempBalData.length
+  //             }
+  //             console.log("loopControl==>", this.loopControl)
+  //             this.balData = []
+  //             for (let i = 0; i < this.loopControl; i++) {
+  //               const element = this.tempBalData[i];
+  //               // console.log("element==>", element)
+  //               this.balData.push(element);
+  //             }
+  //             console.log("finalBalData", this.balData)
 
-              this.balData = this.balData.map((elem) => {
-                let target = { isDisabled: false, isSelected: false };
-                return Object.assign(target, elem);
-              });
+  //             this.balData = this.balData.map((elem) => {
+  //               let target = { isDisabled: false, isSelected: false };
+  //               return Object.assign(target, elem);
+  //             });
 
-              this.globalLoaderService.stopLoader();
-              this.noData = false;
-            }
-          },
-          (err) => {
-            this.globalLoaderService.stopLoader();
-            console.log(err.message);
-          }
-        );
-    } catch (err) {
-      this.globalLoaderService.stopLoader();
-    }
-  }
+  //             this.globalLoaderService.stopLoader();
+  //             this.noData = false;
+  //           }
+  //         },
+  //         (err) => {
+  //           this.globalLoaderService.stopLoader();
+  //           console.log(err.message);
+  //         }
+  //       );
+  //   } catch (err) {
+  //     this.globalLoaderService.stopLoader();
+  //   }
+  // }
   balData = [];
   allSelected = false;
   unSelect = false;
@@ -393,71 +525,33 @@ export class DataSetsComponent implements OnInit {
   //   });
   // }
 
-  // Get the file.
-  getReport(item: any) {
-    // Download Standardized excel.
-    if (item.hasOwnProperty("section") && item.section == "standardised") {
-      this.selectedUsersList = []
-      this.selectedUsersList.push(item);
-      this.download(1)
-      this.selectedUsersList = []
-      return;
-    }
 
-    // View Raw PDF and Raw Excel.
-    const yearSplit = Number(item.year.split('-')[0]);
-    // 2015-16 to 2018-19.
-    if (yearSplit < 2019) {
-      if (item && item['fileUrl']) {
-        let target_file_url = environment.STORAGE_BASEURL + item['fileUrl'];
-        window.open(target_file_url, '_blank');
-      } else console.error("File URL is missing or invalid.");
-
-      return;
-    }
-
-    // 2019-20 onwards.
-    this.globalLoaderService.showLoader();
-    this.reportService.getReports(item._id, item.year, item.auditType).subscribe(
-      (res) => {
-        this.globalLoaderService.stopLoader();
-        let type = 'notFound';
-        if (res && res["success"]) {
-          this.allReports = res["data"];
-          type = res["data"][item.type].length ? item.type : 'notFound';
-        }
-        this.openDialog2(res["data"], type);
-      },
-      (error) => {
-        this.globalLoaderService.stopLoader();
-        console.log(error);
-      }
-    );
-  }
-
-  // Dialog box which has all 6 files in popup.
-  openDialog2(data: any, fileType: string) {
-    const dialogRef = this.dialog.open(BalanceTabledialogComponent, {
-      data: { reportList: data, fileType: fileType },
-      width: "500px",
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log("The dialog was closed");
-    });
-  }
 
   id(id: any, selectedYear: string) {
     throw new Error("Method not implemented.");
   }
 }
 
+// Snackbar.
+@Component({
+  selector: 'snack-bar-component-example-snack',
+  template: `
+    <span class="snack-bar">Looking for something? Try using filters!</span>`,
+  styles: [`
+    ::ng-deep .mat-snack-bar-container {
+        background-color: #fff0e3;
+        color: #e87a1c;
+        border: 1px solid #8080804d;
+        border-radius: 6px;
+        font-family: "Archivo";
+    }`],
+})
+export class PizzaPartyComponent { }
 
-// dialog box --------for file open
+
+// // dialog box --------for file open
 import { Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { environment } from "src/environments/environment";
-import { BalanceTabledialogComponent } from "src/app/shared/components/balance-table/balance-tabledialog/balance-tabledialog.component";
 @Component({
   selector: 'file-open-dialog',
   templateUrl: "./file-open.component.html",

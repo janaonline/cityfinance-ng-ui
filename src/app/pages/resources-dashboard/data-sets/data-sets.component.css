@@ -68,6 +68,7 @@ table {
     font: normal normal 700 12px/14px "Archivo";
     letter-spacing: 0px;
     color: #e87a1c;
+    border: 1px solid #8080804d;
 }
 
 .empty {
@@ -120,6 +121,16 @@ table tr {
     right: 0;
     width: fit-content;
     position: sticky;
+}
+
+.blinker {
+    animation: blinker 2s linear infinite;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
 }
 
 thead,

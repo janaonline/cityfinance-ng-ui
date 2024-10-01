@@ -93,21 +93,18 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-12 text-center mb-3" *ngIf="isloadMore">
-        <button class="btn lmBtn" [matTooltip]="initialValue >= 30 ? 'Use filters for search' : null"
-            (click)="loadMore()">
+    <div class="col-sm-12 text-center mb-3" *ngIf="loadMoreData">
+        <button class="btn lmBtn" (click)="getData()">
             <span class="material-icons" style="vertical-align: middle">
                 refresh
             </span>
             <span class="ms-1">Load More</span>
         </button>
     </div>
-    <div class="backArrow" *ngIf="initialValue > 10">
-        <!-- <a href="#top"> -->
-        <span class="p-1 lmBtn" role="button" style="margin-left: 2%" (click)="getToTop()">
-            <mat-icon style="vertical-align: middle; color: grey">arrow_upward</mat-icon>
+    <div class="backArrow" *ngIf="loadMoreData" [ngClass]="{'blinker': isBlinking === true}" >
+        <span class="p-2 lmBtn" role="button" (click)="getToTop()">
+            <mat-icon style="vertical-align: middle;">arrow_upward</mat-icon>
         </span>
-        <!-- </a> -->
     </div>
 </div>
 <!--
