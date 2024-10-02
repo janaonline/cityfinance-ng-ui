@@ -7,6 +7,8 @@ import * as FileSaver from "file-saver";
 import { environment } from "src/environments/environment";
 import { BalanceTabledialogComponent } from "src/app/shared/components/balance-table/balance-tabledialog/balance-tabledialog.component";
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+
 @Component({
   selector: "app-data-sets",
   templateUrl: "./data-sets.component.html",
@@ -21,10 +23,10 @@ export class DataSetsComponent implements OnInit {
   selectedUseCheckBox: any[];
   initialValue: number = 10;
 
-  tempBalData;
-  offSet: number = 0;
-  limit: number = 10;
-  startingIndex = 0;
+  // tempBalData;
+  // offSet: number = 0;
+  // limit: number = 10;
+  // startingIndex = 0;
   mobileFilterConfig: any = {
     isState: true,
     isUlb: true,
@@ -32,9 +34,29 @@ export class DataSetsComponent implements OnInit {
     isYear: true,
     useFor: "resourcesDashboard"
   };
-  isloadMore = false;
+  // isloadMore = false;
   storageBaseUrl: string = environment?.STORAGE_BASEURL;
   allReports: any;
+  // category;
+  filterComponent;
+  tabData = [
+    {
+      name: "Income Statement",
+      filter: ["innerTab1", "innerTab2", "innerTab3"],
+      link: "income_statement",
+    },
+    {
+      name: "Balance Sheet",
+      filter: ["innerTab4", "innerTab5", "innerTab6"],
+      link: "balanceSheet",
+    },
+  ];
+  year: string;
+  type: string;
+
+  // loopControl: number = 0;
+
+  downloadValue: boolean = false;
 
   // Navinder's variables.
   skip: number = 0;
@@ -42,6 +64,7 @@ export class DataSetsComponent implements OnInit {
   totalDocs: number = 0;
   durationInSeconds: number = 3;
   isBlinking: boolean = false;
+  category: string = "balance";
 
   constructor(
     private _resourcesDashboardService: ResourcesDashboardService,
@@ -51,15 +74,15 @@ export class DataSetsComponent implements OnInit {
     protected reportService: ReportService,
     private _snackBar: MatSnackBar
   ) {
-    router.events.subscribe((val) => {
-      // see also
-      // console.log(val instanceof NavigationEnd, this.router.url);
-      if (this.router.url.includes("income_statement")) {
-        this.category = "income";
-      } else if (this.router.url.includes("balanceSheet")) {
-        this.category = "balance";
-      }
-    });
+    // router.events.subscribe((val) => {
+    //   // see also
+    //   // // console.log(val instanceof NavigationEnd, this.router.url);
+    //   // if (this.router.url.includes("income_statement")) {
+    //   //   this.category = "income";
+    //   // } else if (this.router.url.includes("balanceSheet")) {
+    //     this.category = "balance";
+    //   // }
+    // });
     this._resourcesDashboardService.castSearchedData.subscribe((data) => {
       this.learningToggle = data;
     });
@@ -76,26 +99,7 @@ export class DataSetsComponent implements OnInit {
       }
     });
   }
-  category;
-  filterComponent;
-  tabData = [
-    {
-      name: "Income Statement",
-      filter: ["innerTab1", "innerTab2", "innerTab3"],
-      link: "income_statement",
-    },
-    {
-      name: "Balance Sheet",
-      filter: ["innerTab4", "innerTab5", "innerTab6"],
-      link: "balanceSheet",
-    },
-  ];
-  year;
-  type;
 
-  loopControl: number = 0;
-
-  downloadValue: boolean = false;
   ngOnInit(): void {
     this.filterComponent = {
       comp: "dataSets",
@@ -103,9 +107,9 @@ export class DataSetsComponent implements OnInit {
     // this.getData();
   }
 
-  ngOnChanges(changes: SimpleChange) {
-    // console.log("changes===//>", changes);
-  }
+  // ngOnChanges(changes: SimpleChange) {
+  //   // console.log("changes===//>", changes);
+  // }
 
   // Arrow to take at the top.
   getToTop() {
@@ -123,6 +127,7 @@ export class DataSetsComponent implements OnInit {
     }, 5000);
   }
 
+  // Function of app-filter-component.
   filterData(e) {
     // console.log("filter -----> ", e);
     this.year = e?.value?.year ?? "2020-21";
@@ -189,7 +194,7 @@ export class DataSetsComponent implements OnInit {
     if (item.hasOwnProperty("section") && item.section == "standardised") {
       this.selectedUsersList = []
       this.selectedUsersList.push(item);
-      this.download(1)
+      this.downloadStandardizedData(1)
       this.selectedUsersList = []
       return;
     }
@@ -200,7 +205,9 @@ export class DataSetsComponent implements OnInit {
     if (yearSplit < 2019) {
       if (item && item['fileUrl']) {
         let target_file_url = environment.STORAGE_BASEURL + item['fileUrl'];
-        window.open(target_file_url, '_blank');
+        // window.open(target_file_url, '_blank');
+        FileSaver.saveAs(target_file_url, item.fileName);
+
       } else console.error("File URL is missing or invalid.");
 
       return;
@@ -239,11 +246,28 @@ export class DataSetsComponent implements OnInit {
 
   // Dialog box more than 30 files are loaded.
   openSnackBar() {
-    this._snackBar.openFromComponent(PizzaPartyComponent, {
+    this._snackBar.openFromComponent(SnackBarComponent, {
       duration: this.durationInSeconds * 1000,
     });
   }
 
+  // Download standardized data - API will give excel.
+  downloadStandardizedData(event: any) {
+    if (event) {
+      // console.log("this.selectedUsersList ---> ", this.selectedUsersList);
+      for (let data of this.selectedUsersList) {
+        if (data.hasOwnProperty('section') && data['section'] == "standardised") {
+          // console.log("data --->", data);
+          this._resourcesDashboardService.getStandardizedExcel([data]).subscribe((res) => {
+            const blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+            FileSaver.saveAs(blob, data.fileName);
+            console.log('File Download Done');
+            return;
+          }, (error) => { console.error("Unable to downalod standardized file: ", error) })
+        }
+      }
+    }
+  }
 
   // openNewTab(data, fullData) {
   //   console.log('full data', fullData, this.category);
@@ -456,6 +480,7 @@ export class DataSetsComponent implements OnInit {
       console.log(this.selectedUsersList);
       for (let data of this.selectedUsersList) {
         if (data.hasOwnProperty('section') && data['section'] == "standardised") {
+          console.log("data --->", data);
           this._resourcesDashboardService.getStandardizedExcel([data]).subscribe((res) => {
             const blob = new Blob([res], {
               type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -484,6 +509,7 @@ export class DataSetsComponent implements OnInit {
       }
     }
   }
+
 
   newArray = [];
   checkValue = false;
@@ -532,7 +558,7 @@ export class DataSetsComponent implements OnInit {
   }
 }
 
-// Snackbar.
+// Snackbar Component.
 @Component({
   selector: 'snack-bar-component-example-snack',
   template: `
@@ -546,60 +572,60 @@ export class DataSetsComponent implements OnInit {
         font-family: "Archivo";
     }`],
 })
-export class PizzaPartyComponent { }
+export class SnackBarComponent { }
 
 
-// // dialog box --------for file open
-import { Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-@Component({
-  selector: 'file-open-dialog',
-  templateUrl: "./file-open.component.html",
-  styleUrls: ["./data-sets.component.css"],
-})
-export class FileOpenComponent implements OnInit {
-  constructor(
-    public dialogRef: MatDialogRef<FileOpenComponent>,
-    @Inject(MAT_DIALOG_DATA) public dialogFiledata,
-  ) { }
-  fileArr = [];
-  ngOnInit(): void {
-    // this.getData();
-    console.log('dialogFiledata', this.dialogFiledata);
-    this.fileArr = [];
-    for (let i = 0; i < this.dialogFiledata?.fileUrl?.length; i++) {
-      if (this.dialogFiledata?.category == 'income') {
-        let name = ''
-        if (i == 0) {
-          name = 'Income Expenditure'
-        } else if (i == 1) {
-          name = 'Income Expenditure Schedule'
-        }
-        let obj = {
-          url: this.dialogFiledata?.fileUrl[i],
-          fileName: name
-        }
-        this.fileArr[i] = obj;
-      }
-      if (this.dialogFiledata?.category == 'balance') {
-        let name = ''
-        if (i == 0) {
-          name = 'Balance Sheet'
-        } else if (i == 1) {
-          name = 'Balance Sheet Schedule'
-        }
-        let obj = {
-          url: this.dialogFiledata?.fileUrl[i],
-          fileName: name
-        }
-        this.fileArr[i] = obj;
-      }
-    }
-    console.log('this.fileArr', this.fileArr);
+// // // dialog box --------for file open
+// import { Inject } from '@angular/core';
+// import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+// @Component({
+//   selector: 'file-open-dialog',
+//   templateUrl: "./file-open.component.html",
+//   styleUrls: ["./data-sets.component.css"],
+// })
+// export class FileOpenComponent implements OnInit {
+//   constructor(
+//     public dialogRef: MatDialogRef<FileOpenComponent>,
+//     @Inject(MAT_DIALOG_DATA) public dialogFiledata,
+//   ) { }
+//   fileArr = [];
+//   ngOnInit(): void {
+//     // this.getData();
+//     console.log('dialogFiledata', this.dialogFiledata);
+//     this.fileArr = [];
+//     for (let i = 0; i < this.dialogFiledata?.fileUrl?.length; i++) {
+//       if (this.dialogFiledata?.category == 'income') {
+//         let name = ''
+//         if (i == 0) {
+//           name = 'Income Expenditure'
+//         } else if (i == 1) {
+//           name = 'Income Expenditure Schedule'
+//         }
+//         let obj = {
+//           url: this.dialogFiledata?.fileUrl[i],
+//           fileName: name
+//         }
+//         this.fileArr[i] = obj;
+//       }
+//       if (this.dialogFiledata?.category == 'balance') {
+//         let name = ''
+//         if (i == 0) {
+//           name = 'Balance Sheet'
+//         } else if (i == 1) {
+//           name = 'Balance Sheet Schedule'
+//         }
+//         let obj = {
+//           url: this.dialogFiledata?.fileUrl[i],
+//           fileName: name
+//         }
+//         this.fileArr[i] = obj;
+//       }
+//     }
+//     console.log('this.fileArr', this.fileArr);
 
-  }
-  onNoClick(): void {
-    console.log('dialogFiledata', this.dialogFiledata);
-    this.dialogRef.close();
-  }
-}
+//   }
+//   onNoClick(): void {
+//     console.log('dialogFiledata', this.dialogFiledata);
+//     this.dialogRef.close();
+//   }
+// }
