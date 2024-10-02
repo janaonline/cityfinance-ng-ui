@@ -26,9 +26,9 @@ import { ActivatedRoute } from "@angular/router";
   styleUrls: ["./filter-component.component.scss"],
 })
 export class FilterComponentComponent implements OnInit, OnChanges {
-  @Output()
-  filterFormData = new EventEmitter<any>();
-  //  @Output() clearfilter = new EventEmitter<any>();
+  @Output() filterFormData = new EventEmitter<any>();
+  @Output() clearEvent = new EventEmitter<any>();
+
 
   @Input() filterTabDataSet;
   @Input() filterInputData;
@@ -250,6 +250,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
 
     this.patchFilterValues("", "", "", this.defaultYearInDropdown, "Raw Data PDF")
     this.filterFormData.emit(this.filterForm);
+    this.clearEvent.emit();
     this.loadData();
   }
 

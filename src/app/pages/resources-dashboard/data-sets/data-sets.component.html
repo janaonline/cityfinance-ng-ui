@@ -22,7 +22,7 @@
 </div> -->
 
 <div class="filter-d mt-3 mb-3" *ngIf="dataReceived" id="top">
-    <app-filter-component (filterFormData)="filterData($event)" [category]="category"
+    <app-filter-component (filterFormData)="filterData($event)" (clearEvent)="clearEvent()" [category]="category"
         [filterInputData]="filterComponent" [downloadValue]="selectedUsersList.length" (download)="download($event)"
         [filterTabDataSet]="true" [mobileFilterConfig]="mobileFilterConfig"></app-filter-component>
 </div>
@@ -34,8 +34,9 @@
             <div class="card-body cd-h">
                 <div class="row">
                     <div class="col-sm-1 col-1">
-                        <!-- <mat-checkbox (change)="masterToggle($event)"> </mat-checkbox> -->
-                        <span>Sl No.</span>
+                        <p>{{isChecked}}</p>
+                        <mat-checkbox [(ngModel)]="isChecked" (change)="masterToggle($event)"> </mat-checkbox>
+                        <!-- <span>Sl No.</span> -->
                     </div>
                     <div class="col-sm-8 col-7">
                         <span> Document Name</span>
@@ -52,17 +53,16 @@
                         <!-- <p>{{item | json}}</p> -->
                         <!-- <div class="row align-items-md-center pointer" (click)="openNewTab(item?.fileUrl, item)"> -->
                         <div class="row align-items-md-center pointer" (click)="getReport(item)">
-                            <!-- TODO: Uncomment below code. -->
-                            <!-- <div class="col-sm-1 col-1">
+                            <div class="col-sm-1 col-1">
                                 <mat-checkbox matTooltip="Select to download" (click)="$event.stopPropagation()"
                                     (change)="toggleRowSelection($event, item, i)" [checked]="item.isSelected"
                                     [disabled]="item.isDisabled">
                                 </mat-checkbox>
-                            </div> -->
-                            <div class="col-sm-1 col-1"
+                            </div>
+                            <!-- <div class="col-sm-1 col-1"
                                 style="font-family: 'archivo'; font-size: small; text-align: center;">
                                 <span>{{i+1}}.</span>
-                            </div>
+                            </div> -->
                             <div class="col-sm-8 d-name col-8 cursor-pointer" matTooltip="Click to View">
                                 <div class="row align-items-sm-center">
                                     <div class="col-2 col-sm-1">

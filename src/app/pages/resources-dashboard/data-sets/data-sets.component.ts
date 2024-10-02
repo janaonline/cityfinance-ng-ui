@@ -55,7 +55,7 @@ export class DataSetsComponent implements OnInit {
   type: string;
 
   // loopControl: number = 0;
-
+  checkValue = false;
   downloadValue: boolean = false;
 
   // Navinder's variables.
@@ -65,6 +65,7 @@ export class DataSetsComponent implements OnInit {
   durationInSeconds: number = 3;
   isBlinking: boolean = false;
   category: string = "balance";
+  isChecked: boolean = false;
 
   constructor(
     private _resourcesDashboardService: ResourcesDashboardService,
@@ -127,6 +128,11 @@ export class DataSetsComponent implements OnInit {
     }, 5000);
   }
 
+  // This method will be triggered when clearEvent is emitted from the child
+  clearEvent() {
+    this.isChecked = false;
+  }
+
   // Function of app-filter-component.
   filterData(e) {
     // console.log("filter -----> ", e);
@@ -135,12 +141,14 @@ export class DataSetsComponent implements OnInit {
     this.state = e?.value?.state;
     this.ulb = e?.value?.ulb;
     this.balData = [];
+    this.selectedUsersList = [];
     // this.offSet = 0;
     // this.limit = 10;
     // this.loopControl = 0;
     this.skip = 0;
     this.totalDocs = 0;
     this.getData();
+    this.isChecked = false;
   }
 
   // API call + Load more.
@@ -205,8 +213,9 @@ export class DataSetsComponent implements OnInit {
     if (yearSplit < 2019) {
       if (item && item['fileUrl']) {
         let target_file_url = environment.STORAGE_BASEURL + item['fileUrl'];
-        // window.open(target_file_url, '_blank');
-        FileSaver.saveAs(target_file_url, item.fileName);
+
+        if (item.type === "pdf") window.open(target_file_url, '_blank');
+        if (item.type === "excel") this.fetchFile(target_file_url, item.fileName);
 
       } else console.error("File URL is missing or invalid.");
 
@@ -251,6 +260,91 @@ export class DataSetsComponent implements OnInit {
     });
   }
 
+  // Helper: Fetch file from URL -> Create blob -> download file.
+  fetchFile(target_file_url: string, fileName: string) {
+    fetch(target_file_url)
+      .then((response) => {
+        if (!response.ok) { throw new Error("Response was not ok.") }
+        return response.blob();
+      })
+      .then((blob) => { FileSaver.saveAs(blob, fileName); })
+      .catch((error) => console.error("Error in fetching file: ", error));
+  }
+
+  // Function to check/ uncheck ulb file from the table.
+  toggleRowSelection(event: any, ulbfromRow: any, i: number) {
+    // console.log("event --->", event);
+    // console.log("row --->", ulbfromRow);
+    // console.log("i --->", i);
+    if (event.checked) {
+      this.selectedUsersList.push(ulbfromRow);
+      this.checkValue = true;
+      ulbfromRow.isSelected = true;
+    } else {
+      let index = this.selectedUsersList.indexOf(ulbfromRow);
+      this.selectedUsersList.splice(index, 1);
+      ulbfromRow.isSelected = false;
+    }
+
+    // console.log("list from toggleRowSection()", this.selectedUsersList);
+    this.checkIsDisabled(this.selectedUsersList);
+  }
+
+  // Function to mantain list of only 5 ULBs - Download file.
+  checkIsDisabled(selectedList: any[]) {
+    // if (selectedList.length === 5) {
+    //   this.balData.forEach((elem) => {
+    //     if (!selectedList.includes(elem)) {
+    //       elem.isDisabled = true;
+    //     }
+    //   });
+    //   console.log("from if 5", this.balData);
+    // }
+    // if (selectedList.length === 4) {
+    //   this.balData.forEach((elem) => {
+    //     elem.isDisabled = false;
+    //   });
+    //   console.log("from if 4", this.balData);
+    // }
+    // console.log("from if", this.balData);
+
+    const selectedLength = selectedList.length;
+
+    // Only run logic if selectedList.length is < 5
+    if (selectedLength <= 5) {
+      this.balData.forEach((elem) => {
+        // Disable if length is 5 and elem is not selected
+        elem.isDisabled = selectedLength === 5 && !selectedList.includes(elem);
+      });
+    }
+  }
+
+  async masterToggle(event: any) {
+    // Reset/ uncheck using master toggle.
+    if (!event.checked) {
+      this.selectedUsersList = [];
+      this.balData.forEach((val) => {
+        val.isDisabled = false;
+        val.isSelected = false;
+      });
+      // this.isChecked = false;
+      return;
+    }
+    // If master toggle is clicked add starting unselected ulbs in selectedUsersList[] untill [] len = 5
+    else if (event.checked) {
+      let i = 0;
+      while (this.selectedUsersList.length < 5) {
+        if (this.balData[i].isSelected) {
+          i++;
+          continue;
+        }
+        this.balData[i].isSelected = true;
+        this.selectedUsersList.push(this.balData[i++]);
+      }
+    }
+    this.checkIsDisabled(this.selectedUsersList);
+  }
+
   // Download standardized data - API will give excel.
   downloadStandardizedData(event: any) {
     if (event) {
@@ -263,21 +357,57 @@ export class DataSetsComponent implements OnInit {
             FileSaver.saveAs(blob, data.fileName);
             console.log('File Download Done');
             return;
-          }, (error) => { console.error("Unable to downalod standardized file: ", error) })
+          }, (error) => { console.error("Unable to downalod standardized file: ", error) });
+
+          data.isSelected = false;
+        }
+      }
+      this.selectedUsersList = [];
+    }
+  }
+
+  // Download Raw pdf and raw excel.
+  download(event: any) {
+    if (event) {
+      // console.log("event:.", event)
+      // console.log("from download: ", this.selectedUsersList);
+
+      // If selectedUsersList[0] is standardized - call downloadStandardizedData(). selectedUsersList[] has selected ulbs.
+      if (
+        this.selectedUsersList.length &&
+        this.selectedUsersList[0].hasOwnProperty("section") &&
+        this.selectedUsersList[0].section == "standardised"
+      ) {
+        this.downloadStandardizedData(true);
+        this.isChecked = false;
+        return;
+      }
+
+      for (let data of this.selectedUsersList) {
+
+        // For docs which have file.url i.e 2015-16 to 2018-19 (Raw excel, Raw pdf)
+        if (data?.fileUrl) {
+          let target_file_url = environment.STORAGE_BASEURL + data['fileUrl'];;
+
+          // Fetch the file from URL.
+          this.fetchFile(target_file_url, data.fileName);
+          this.selectedUsersList = [];
+          data.isSelected = false;
+          this.isChecked = false;
+        }
+        else {
+          // console.log("inside else")
+          // console.log("from download: ", this.selectedUsersList);
+
         }
       }
     }
   }
 
+
   // openNewTab(data, fullData) {
   //   console.log('full data', fullData, this.category);
-  //   if (fullData.hasOwnProperty("section") && fullData.section == "standardised") {
-  //     this.selectedUsersList = []
-  //     this.selectedUsersList.push(fullData);
-  //     this.download(1)
-  //     this.selectedUsersList = []
-  //     return;
-  //   }
+
   //   console.log("file data", data);
   //   this.openDialog(data)
   //   // window.open(data, "_blank");
@@ -291,21 +421,7 @@ export class DataSetsComponent implements OnInit {
   // }
   noData = false;
 
-  // Function to mantain list of only 5 ULBs - Download file.
-  checkIsDisabled(selectedList) {
-    if (selectedList.length === 5) {
-      this.balData.forEach((elem) => {
-        if (!selectedList.includes(elem)) {
-          elem.isDisabled = true;
-        }
-      });
-    }
-    if (selectedList.length === 4) {
-      this.balData.forEach((elem) => {
-        elem.isDisabled = false;
-      });
-    }
-  }
+
 
   // loadMore() {
   //   console.log(this.limit);
@@ -413,37 +529,7 @@ export class DataSetsComponent implements OnInit {
   //   //   return !!this.selectedUsersList.length;
   //   // }
   // }
-  async masterToggle(event) {
-    if (!event.checked) {
-      this.selectedUsersList = [];
-      this.balData.forEach((val) => {
-        val.isDisabled = false;
-        val.isSelected = false;
-      });
-      return;
-    }
 
-    if (event.checked) {
-      let i = 0;
-      while (this.selectedUsersList.length < 5) {
-        if (this.balData[i].isSelected) {
-          i++;
-          continue;
-        }
-        this.balData[i].isSelected = true;
-        this.selectedUsersList.push(this.balData[i++]);
-      }
-    }
-    this.checkIsDisabled(this.selectedUsersList);
-  }
-
-  checkDownloadButton() {
-    if (!this.checkValue) {
-      this.downloadValue = false;
-    } else {
-      this.downloadValue = true;
-    }
-  }
 
   // downloadFile() {
 
@@ -474,64 +560,44 @@ export class DataSetsComponent implements OnInit {
   //   }
 
   disabledValue = false;
-  download(event) {
+  // download(event) {
 
-    if (event) {
-      console.log(this.selectedUsersList);
-      for (let data of this.selectedUsersList) {
-        if (data.hasOwnProperty('section') && data['section'] == "standardised") {
-          console.log("data --->", data);
-          this._resourcesDashboardService.getStandardizedExcel([data]).subscribe((res) => {
-            const blob = new Blob([res], {
-              type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            });
-            FileSaver.saveAs(blob, data.fileName);
-            console.log('File Download Done')
-            return
-          }, (err) => {
-            console.log(err)
-          })
-        } else {
-          let pdfUrl = data?.fileUrl;
-          let pdfName = data?.fileName;
-          if (data?.fileUrl?.length > 0) {
-            for (let file of data?.fileUrl) {
-              pdfUrl = this.storageBaseUrl + file;
-              FileSaver.saveAs(pdfUrl, pdfName);
-            }
-          } else {
-            FileSaver.saveAs(pdfUrl, pdfName);
-          }
-
-
-        }
-
-      }
-    }
-  }
+  //   if (event) {
+  //     console.log(this.selectedUsersList);
+  //     for (let data of this.selectedUsersList) {
+  //       if (data.hasOwnProperty('section') && data['section'] == "standardised") {
+  //         console.log("data --->", data);
+  //         this._resourcesDashboardService.getStandardizedExcel([data]).subscribe((res) => {
+  //           const blob = new Blob([res], {
+  //             type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  //           });
+  //           FileSaver.saveAs(blob, data.fileName);
+  //           console.log('File Download Done')
+  //           return
+  //         }, (err) => {
+  //           console.log(err)
+  //         })
+  //       } else {
+  //         let pdfUrl = data?.fileUrl;
+  //         let pdfName = data?.fileName;
+  //         if (data?.fileUrl?.length > 0) {
+  //           for (let file of data?.fileUrl) {
+  //             pdfUrl = this.storageBaseUrl + file;
+  //             FileSaver.saveAs(pdfUrl, pdfName);
+  //           }
+  //         } else {
+  //           FileSaver.saveAs(pdfUrl, pdfName);
+  //         }
 
 
-  newArray = [];
-  checkValue = false;
-  toggleRowSelection(event, row, i) {
-    // if(row.hasOwnProperty("section") && row['section']=="standardised"){
+  //       }
 
-    // }else{
-    if (event.checked) {
-      this.selectedUsersList.push(row);
-      this.checkValue = true;
-      row.isSelected = true;
-    } else {
-      let index = this.selectedUsersList.indexOf(row);
-      this.selectedUsersList.splice(index, 1);
+  //     }
+  //   }
+  // }
 
-      row.isSelected = false;
-    }
 
-    console.log("hhhhh", this.selectedUsersList);
 
-    this.checkIsDisabled(this.selectedUsersList);
-  }
 
   // openDialog(data): void {
   //   data = data.filter(entity => entity);
@@ -551,7 +617,13 @@ export class DataSetsComponent implements OnInit {
   //   });
   // }
 
-
+  checkDownloadButton() {
+    if (!this.checkValue) {
+      this.downloadValue = false;
+    } else {
+      this.downloadValue = true;
+    }
+  }
 
   id(id: any, selectedYear: string) {
     throw new Error("Method not implemented.");
