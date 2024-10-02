@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MapDialogComponent } from './map-dialog/map-dialog.component';
 
@@ -7,7 +7,7 @@ import { MapDialogComponent } from './map-dialog/map-dialog.component';
   templateUrl: './location-picker.component.html',
   styleUrls: ['./location-picker.component.scss']
 })
-export class LocationPickerComponent implements OnInit {
+export class LocationPickerComponent implements OnInit, OnChanges {
 
   @Output() onQuestionUpdate: EventEmitter<any> = new EventEmitter();
   @Input() question;
@@ -22,6 +22,15 @@ export class LocationPickerComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // this.latLong = this.question?.modelValue || '0,0';
+    // this.question.maxRange =999;
+    // this.question.minRange =0;
+    // this.question.max = 3;
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    // changes.prop contains the old and the new value...
+    this.question = changes.question?.currentValue;
     this.latLong = this.question?.modelValue || '0,0';
     this.question.maxRange =999;
     this.question.minRange =0;

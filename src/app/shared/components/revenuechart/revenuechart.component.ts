@@ -473,6 +473,12 @@ export class RevenuechartComponent
         this.createChart();
       }
     }
+    this.yearList.sort(function (a, b) {
+      let newA:any = a.split("-")[0];
+      let newB:any = b.split("-")[0];
+      return newB - newA;
+    }); 
+
     if (changes.mySelectedYears && changes.mySelectedYears.currentValue) {
       //this.year = this.mySelectedYears[0];
       this.revenuechartService.getYear.subscribe((res)=>{
@@ -488,8 +494,12 @@ export class RevenuechartComponent
           this.year = tempYear[0];
          } 
       })
-      
+      if(this.year !=changes?.mySelectedYears?.currentValue[0]){
+        let index = changes?.mySelectedYears?.currentValue.indexOf(this.year)
+        this.year =  index >-1 ? changes.mySelectedYears.currentValue[index] : changes.mySelectedYears.currentValue[0];
+      }
     }
+       
     console.log("changesmultipleCharts", changes);
     if (changes.multipleCharts && changes.multipleCharts.currentValue) {
       this.multipleCharts = changes.multipleCharts.currentValue;
@@ -538,7 +548,7 @@ export class RevenuechartComponent
     console.log("chartId==>", this.chartId, this.chartData, this.cityChart);
     setTimeout(() => {
       // }
-      if (this.cityChart && this.chartData.type == "bar") {
+      if (this.cityChart && this.chartData.type == "bar" ||  this.chartData.type == "line"){
         console.log("aaaa", this.chartData.data.labels);
 
         this.chartData.data.labels.sort(function (a, b) {
@@ -737,6 +747,7 @@ export class RevenuechartComponent
   openModal() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = "39rem";
+    dialogConfig.disableClose=true;
      this.revenuechartService.getSelectedULBList.subscribe((res:any)=>{this.ulbList = res;})
     this.dialogRef = this.dialog.open(this.template, dialogConfig);
     this.dialogRef.afterClosed().subscribe((result) => {
@@ -875,6 +886,8 @@ export class RevenuechartComponent
   resetState() {
     this.compareType = "State Average";
     this.revenuechartService.updateUlbList([])
+    this.year = this.yearList[0];
+    this.revenuechartService.setSelectedYear(this.year)
     this.sendValue();
   }
 
