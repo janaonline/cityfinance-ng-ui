@@ -41,6 +41,7 @@ if (window.location.hostname.includes("new-cityfinance")) {
 // url = "https://staging.cityfinance.in/api/v1/";
 // url = "https://cityfinance.in/api/v1/";
 export const environment = {
+  performanceURL: "https://pas.org.in/web/ceptpas/iuppkpi?parameterAutoLoginLogin=guestulb9&parameterAutoLoginPassword=guestulb9@abc",
   production: false,
   api: {
     url2: "https://cityfinance.in/",
