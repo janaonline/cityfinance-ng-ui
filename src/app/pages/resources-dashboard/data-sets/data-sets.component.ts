@@ -1,6 +1,5 @@
 import { Component, Inject, Input, OnInit, SimpleChange } from "@angular/core";
 import { ResourcesDashboardService } from "../resources-dashboard.service";
-import { Router, NavigationStart, Event, NavigationEnd } from "@angular/router";
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 import { ReportService } from "../../../dashboard/report/report.service";
 import * as FileSaver from "file-saver";
@@ -8,7 +7,7 @@ import { environment } from "src/environments/environment";
 import { BalanceTabledialogComponent } from "src/app/shared/components/balance-table/balance-tabledialog/balance-tabledialog.component";
 import { MAT_SNACK_BAR_DATA, MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { DownloadModel, DownloadService } from "src/app/shared/services/download.zip.service";
+import { DownloadService } from "src/app/shared/services/download.zip.service";
 import { tap } from 'rxjs/operators';
 
 @Component({
@@ -29,14 +28,8 @@ export class DataSetsComponent implements OnInit {
   allSelected = false;
   unSelect = false;
   selectedUsersList = [];
-  state;
-  ulb;
-
-
-  // tempBalData;
-  // offSet: number = 0;
-  // limit: number = 10;
-  // startingIndex = 0;
+  state: string;
+  ulb: string;
   mobileFilterConfig: any = {
     isState: true,
     isUlb: true,
@@ -44,10 +37,8 @@ export class DataSetsComponent implements OnInit {
     isYear: true,
     useFor: "resourcesDashboard"
   };
-  // isloadMore = false;
   storageBaseUrl: string = environment?.STORAGE_BASEURL;
   allReports: any;
-  // category;
   filterComponent;
   tabData = [
     {
@@ -63,8 +54,6 @@ export class DataSetsComponent implements OnInit {
   ];
   year: string;
   type: string;
-
-  // loopControl: number = 0;
   checkValue = false;
   downloadValue: boolean = false;
 
@@ -82,22 +71,12 @@ export class DataSetsComponent implements OnInit {
 
   constructor(
     private _resourcesDashboardService: ResourcesDashboardService,
-    // private router: Router,
     public globalLoaderService: GlobalLoaderService,
     public dialog: MatDialog,
     protected reportService: ReportService,
     private _snackBar: MatSnackBar,
     private downloadService: DownloadService
   ) {
-    // router.events.subscribe((val) => {
-    //   // see also
-    //   // // console.log(val instanceof NavigationEnd, this.router.url);
-    //   // if (this.router.url.includes("income_statement")) {
-    //   //   this.category = "income";
-    //   // } else if (this.router.url.includes("balanceSheet")) {
-    //     this.category = "balance";
-    //   // }
-    // });
     this._resourcesDashboardService.castSearchedData.subscribe((data) => {
       this.learningToggle = data;
     });
@@ -119,7 +98,6 @@ export class DataSetsComponent implements OnInit {
     this.filterComponent = {
       comp: "dataSets",
     };
-    // this.getData();
   }
 
   // ngOnChanges(changes: SimpleChange) {
@@ -132,14 +110,14 @@ export class DataSetsComponent implements OnInit {
     element.scrollIntoView();
   }
 
-  // Arrow will blink for 5 sec.
+  // Arrow will blink.
   startBlinking() {
     this.isBlinking = true;
 
     // Remove the 'blinker' class after 5 seconds
     setTimeout(() => {
       this.isBlinking = false;
-    }, 5000);
+    }, 1000 * this.durationInSeconds);
   }
 
   // This method will be triggered when clearEvent is emitted from the child
@@ -148,7 +126,7 @@ export class DataSetsComponent implements OnInit {
   }
 
   // Function of app-filter-component.
-  filterData(e) {
+  filterData(e: any) {
     // console.log("filter -----> ", e);
     this.year = e?.value?.year ?? "2020-21";
     this.type = e?.value?.contentType ?? "Raw Data PDF";
@@ -156,9 +134,6 @@ export class DataSetsComponent implements OnInit {
     this.ulb = e?.value?.ulb;
     this.balData = [];
     this.selectedUsersList = [];
-    // this.offSet = 0;
-    // this.limit = 10;
-    // this.loopControl = 0;
     this.skip = 0;
     this.totalDocs = 0;
     this.getData();
@@ -174,9 +149,12 @@ export class DataSetsComponent implements OnInit {
     this.globalLoaderService.showLoader();
 
     // Add a dialog box: if more than 30 files are loaded.
-    if (this.totalDocs >= 30) this.openSnackBar("Looking for something? Try using filter(s)!");
+    if (this.totalDocs >= 30) {
+      this.openSnackBar("Looking for something? Try using filter(s)!");
+      this.startBlinking();
+    }
 
-    // Load 10 fies.
+    // Load fies.
     try {
       this._resourcesDashboardService
         .getDataSets(this.year, this.type, this.category, this.state, this.ulb, globalName, this.skip)
@@ -362,7 +340,6 @@ export class DataSetsComponent implements OnInit {
       // console.log("this.selectedUsersList ---> ", this.selectedUsersList);
       for (let data of this.selectedUsersList) {
         if (data.hasOwnProperty('section') && data['section'] == "standardised") {
-          // console.log("data --->", data);
           this._resourcesDashboardService.getStandardizedExcel([data]).subscribe((res) => {
             const blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
             FileSaver.saveAs(blob, data.fileName);
@@ -408,7 +385,6 @@ export class DataSetsComponent implements OnInit {
           this.isChecked = false;
         }
         else {
-          // console.log("inside else")
           // console.log("from download: ", this.selectedUsersList);
           let response = { pdf: [], excel: [] };
           let files = [];
@@ -429,7 +405,7 @@ export class DataSetsComponent implements OnInit {
                 ele.name = ele.name + '.' + temp.split(".")[1];
                 ele.url = environment.STORAGE_BASEURL + ele['url'];
 
-                // TODO: To be removed: only for testing.
+                // // TODO: To be removed: only for testing.
                 // if (data.type === "pdf") ele.url = 'https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/ULB/2024-25/annual_accounts/AP016/BalanceSheet-2023-24_5440cf6a-6ff0-45b0-ba09-013227a5a90a.pdf';
                 // if (data.type === "excel") ele.url = "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/ULB/2024-25/annual_accounts/AP016/BalanceSheet_2023-24_0715e2c2-8591-4ef0-80ce-e68ea2c9e9cf.xls";
 
@@ -464,7 +440,7 @@ export class DataSetsComponent implements OnInit {
         // console.log('download$ complete: ');
       },
       error: (error) => {
-        console.log('download$ error: ', error);
+        console.error('download$ error: ', error);
         this.openSnackBar(this.fileDownloadfail);
         this.uncheckSelections();
         return;
@@ -513,211 +489,9 @@ export class DataSetsComponent implements OnInit {
     return;
   }
 
-  // openNewTab(data, fullData) {
-  //   console.log('full data', fullData, this.category);
-
-  //   console.log("file data", data);
-  //   this.openDialog(data)
-  //   // window.open(data, "_blank");
-  //   // window.open(data?.fileUrl, "_blank");
-  //   // const pdfUrl = data?.fileUrl;
-  //   // const pdfName = data?.fileName;
-  //   // FileSaver.saveAs(pdfUrl, pdfName);
-
-  //   // return url;
-  //   // window.open(url, '_blank');
-  // }
+  // TODO: Remove below code if not used.
   noData = false;
-
-
-
-  // loadMore() {
-  //   console.log(this.limit);
-  //   if (this.loopControl > this.tempBalData?.length) {
-  //     this.isloadMore = false;
-  //     return;
-  //   } else {
-  //     this.limit = this.limit + 10;
-  //     this.offSet = this.balData.length;
-  //     this.isloadMore = true;
-  //     this.loopControl = this.limit;
-  //   }
-  //   for (this.offSet; this.offSet < this.loopControl; this.offSet++) {
-  //     console.log("this.offSet", this.offSet);
-  //     this.balData.push(this.tempBalData[this.offSet]);
-  //   }
-  //   if (this.loopControl == this.tempBalData?.length) {
-  //     this.isloadMore = false;
-  //   }
-  //   this.initialValue = this.initialValue + 10;
-
-  // }
-
-  // sliceData() {
-  //   this.balData = this.balData.slice(0, this.initialValue);
-  //   console.log(this.balData);
-  //   return this.balData;
-  // }
-
-
-  // getData() {
-  //   console.log("getData");
-  //   let globalName = "";
-  //   if (this.searchedValue) { globalName = this.searchedValue }
-
-  //   this.globalLoaderService.showLoader();
-
-  //   try {
-  //     this._resourcesDashboardService
-  //       .getDataSets(this.year, this.type, this.category, this.state, this.ulb, globalName)
-  //       .subscribe(
-  //         (res: any) => {
-  //           console.log("datasets api res ---> ", this.balData, res);
-  //           // this.balData = res["data"];
-  //           if (res.data.length == 0) {
-  //             this.noData = true;
-  //             this.balData = []
-  //             this.isloadMore = false;
-  //             this.globalLoaderService.stopLoader();
-  //           } else if (res.data.length !== 0) {
-  //             this.tempBalData = res.data;
-  //             console.log("tempBalData", this.tempBalData)
-  //             if (this.tempBalData.length < 10) {
-  //               this.isloadMore = false;
-  //             }
-  //             let limitVal = this.offSet + this.limit;
-  //             if (this.tempBalData.length > limitVal) {
-  //               this.loopControl = limitVal;
-  //               this.isloadMore = true;
-  //             } else {
-  //               this.loopControl = this.tempBalData.length
-  //             }
-  //             console.log("loopControl==>", this.loopControl)
-  //             this.balData = []
-  //             for (let i = 0; i < this.loopControl; i++) {
-  //               const element = this.tempBalData[i];
-  //               // console.log("element==>", element)
-  //               this.balData.push(element);
-  //             }
-  //             console.log("finalBalData", this.balData)
-
-  //             this.balData = this.balData.map((elem) => {
-  //               let target = { isDisabled: false, isSelected: false };
-  //               return Object.assign(target, elem);
-  //             });
-
-  //             this.globalLoaderService.stopLoader();
-  //             this.noData = false;
-  //           }
-  //         },
-  //         (err) => {
-  //           this.globalLoaderService.stopLoader();
-  //           console.log(err.message);
-  //         }
-  //       );
-  //   } catch (err) {
-  //     this.globalLoaderService.stopLoader();
-  //   }
-  // }
-
-
-
-  // isAllSelected(All: boolean = false) {
-  //   // if (All) {
-  //   //   const numSelected = this.selectedUsersList.length;
-  //   //   const numRows = this.balData.length;
-  //   //   return numSelected === numRows;
-  //   // } else {
-  //   //   return !!this.selectedUsersList.length;
-  //   // }
-  // }
-
-
-  // downloadFile() {
-
-  //   this.reviewUlbService.downloadData().subscribe(
-
-  //   (result) => {
-
-  //   let blob: any = new Blob([result], {
-
-  //   type: "text/json; charset=utf-8",
-
-  //   });
-
-  //   const url = window.URL.createObjectURL(blob);
-
-  //   fileSaver.saveAs(blob, "Review Grant Application.xlsx");
-
-  //   },
-
-  //   (err) => {
-
-  //   console.log(err.message)
-
-  //   }
-
-  //   )
-
-  //   }
-
   disabledValue = false;
-  // download(event) {
-
-  //   if (event) {
-  //     console.log(this.selectedUsersList);
-  //     for (let data of this.selectedUsersList) {
-  //       if (data.hasOwnProperty('section') && data['section'] == "standardised") {
-  //         console.log("data --->", data);
-  //         this._resourcesDashboardService.getStandardizedExcel([data]).subscribe((res) => {
-  //           const blob = new Blob([res], {
-  //             type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-  //           });
-  //           FileSaver.saveAs(blob, data.fileName);
-  //           console.log('File Download Done')
-  //           return
-  //         }, (err) => {
-  //           console.log(err)
-  //         })
-  //       } else {
-  //         let pdfUrl = data?.fileUrl;
-  //         let pdfName = data?.fileName;
-  //         if (data?.fileUrl?.length > 0) {
-  //           for (let file of data?.fileUrl) {
-  //             pdfUrl = this.storageBaseUrl + file;
-  //             FileSaver.saveAs(pdfUrl, pdfName);
-  //           }
-  //         } else {
-  //           FileSaver.saveAs(pdfUrl, pdfName);
-  //         }
-
-
-  //       }
-
-  //     }
-  //   }
-  // }
-
-
-
-
-  // openDialog(data): void {
-  //   data = data.filter(entity => entity);
-  //   const dialogRef = this.dialog.open(FileOpenComponent, {
-  //     width: "60vw",
-  //     maxHeight: "95vh",
-  //     height: "fit-content",
-  //     data: {
-  //       fileUrl: data,
-  //       category: this.category
-  //     },
-  //   });
-
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     console.log('The dialog was closed');
-  //     // this.animal = result;
-  //   });
-  // }
 
   checkDownloadButton() {
     if (!this.checkValue) {
@@ -749,59 +523,3 @@ export class DataSetsComponent implements OnInit {
 export class SnackBarComponent {
   constructor(@Inject(MAT_SNACK_BAR_DATA) public data: any) { }  // Inject 'data'
 }
-
-
-// // // dialog box --------for file open
-// import { Inject } from '@angular/core';
-// import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-// @Component({
-//   selector: 'file-open-dialog',
-//   templateUrl: "./file-open.component.html",
-//   styleUrls: ["./data-sets.component.css"],
-// })
-// export class FileOpenComponent implements OnInit {
-//   constructor(
-//     public dialogRef: MatDialogRef<FileOpenComponent>,
-//     @Inject(MAT_DIALOG_DATA) public dialogFiledata,
-//   ) { }
-//   fileArr = [];
-//   ngOnInit(): void {
-//     // this.getData();
-//     console.log('dialogFiledata', this.dialogFiledata);
-//     this.fileArr = [];
-//     for (let i = 0; i < this.dialogFiledata?.fileUrl?.length; i++) {
-//       if (this.dialogFiledata?.category == 'income') {
-//         let name = ''
-//         if (i == 0) {
-//           name = 'Income Expenditure'
-//         } else if (i == 1) {
-//           name = 'Income Expenditure Schedule'
-//         }
-//         let obj = {
-//           url: this.dialogFiledata?.fileUrl[i],
-//           fileName: name
-//         }
-//         this.fileArr[i] = obj;
-//       }
-//       if (this.dialogFiledata?.category == 'balance') {
-//         let name = ''
-//         if (i == 0) {
-//           name = 'Balance Sheet'
-//         } else if (i == 1) {
-//           name = 'Balance Sheet Schedule'
-//         }
-//         let obj = {
-//           url: this.dialogFiledata?.fileUrl[i],
-//           fileName: name
-//         }
-//         this.fileArr[i] = obj;
-//       }
-//     }
-//     console.log('this.fileArr', this.fileArr);
-
-//   }
-//   onNoClick(): void {
-//     console.log('dialogFiledata', this.dialogFiledata);
-//     this.dialogRef.close();
-//   }
-// }

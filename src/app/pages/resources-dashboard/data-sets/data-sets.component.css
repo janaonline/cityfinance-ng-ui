@@ -124,10 +124,10 @@ table tr {
 }
 
 .blinker {
-    animation: blinker 2s linear infinite;
+    animation: blink-animation 1s steps(1, end) infinite;
 }
 
-@keyframes blinker {
+@keyframes blink-animation {
     50% {
         opacity: 0;
     }

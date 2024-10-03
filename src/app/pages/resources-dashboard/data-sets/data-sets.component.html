@@ -50,7 +50,6 @@
                 <ng-container *ngFor="let item of balData; let i = index">
                     <div class="card-body cd-repeat" *ngIf="item.fileName">
                         <!-- <p>{{item | json}}</p> -->
-                        <!-- <div class="row align-items-md-center pointer" (click)="openNewTab(item?.fileUrl, item)"> -->
                         <div class="row align-items-md-center pointer" (click)="getReport(item)">
                             <div class="col-sm-1 col-1">
                                 <mat-checkbox matTooltip="Select to download" (click)="$event.stopPropagation()"
@@ -58,10 +57,6 @@
                                     [disabled]="item.isDisabled">
                                 </mat-checkbox>
                             </div>
-                            <!-- <div class="col-sm-1 col-1"
-                                style="font-family: 'archivo'; font-size: small; text-align: center;">
-                                <span>{{i+1}}.</span>
-                            </div> -->
                             <div class="col-sm-8 d-name col-8 cursor-pointer" matTooltip="Click to View">
                                 <div class="row align-items-sm-center">
                                     <div class="col-2 col-sm-1">
@@ -95,7 +90,7 @@
             <span class="ms-1">Load More</span>
         </button>
     </div>
-    <div class="backArrow" *ngIf="loadMoreData" [ngClass]="{'blinker': isBlinking === true}">
+    <div class="backArrow" *ngIf="loadMoreData" [ngClass]="{ 'blinker': isBlinking === true }">
         <span class="p-2 lmBtn" role="button" (click)="getToTop()">
             <mat-icon style="vertical-align: middle;">arrow_upward</mat-icon>
         </span>
