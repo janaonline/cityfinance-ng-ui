@@ -77,6 +77,7 @@ export class DataSetsComponent implements OnInit {
   category: string = "balance";
   isChecked: boolean = false;
   fileDownloadSuccess: string = "All set! Your file(s) have been successfully downloaded.";
+  fileDownloadfail: string = "Oops! Failed to download file(s).";
 
 
   constructor(
@@ -173,7 +174,7 @@ export class DataSetsComponent implements OnInit {
     this.globalLoaderService.showLoader();
 
     // Add a dialog box: if more than 30 files are loaded.
-    if (this.totalDocs >= 30) this.openSnackBar("Looking for something? Try using filters!");
+    if (this.totalDocs >= 30) this.openSnackBar("Looking for something? Try using filter(s)!");
 
     // Load 10 fies.
     try {
@@ -186,8 +187,8 @@ export class DataSetsComponent implements OnInit {
             this.totalDocs += dataLength;
             this.balData = this.balData.concat(res.data);
             this.globalLoaderService.stopLoader();
-            console.log("this.skip -----------> ", this.skip)
-            console.log("this.totalDocs -----------> ", this.totalDocs)
+            // console.log("this.skip -----------> ", this.skip)
+            // console.log("this.totalDocs -----------> ", this.totalDocs)
 
             // Conditional logic
             if (dataLength === 10) {
@@ -250,7 +251,7 @@ export class DataSetsComponent implements OnInit {
       },
       (error) => {
         this.globalLoaderService.stopLoader();
-        console.log(error);
+        console.error("Failed to getReport():", error);
       }
     );
   }
@@ -284,7 +285,6 @@ export class DataSetsComponent implements OnInit {
       })
       .then((blob) => {
         FileSaver.saveAs(blob, fileName);
-        this.openSnackBar(this.fileDownloadSuccess);
       })
       .catch((error) => console.error("Error in fetching file: ", error));
   }
@@ -308,24 +308,20 @@ export class DataSetsComponent implements OnInit {
     this.checkIsDisabled(this.selectedUsersList);
   }
 
+  // Function to uncheck all the items.
+  uncheckSelections() {
+    if (this.balData.length) {
+      this.balData.forEach((ele: any) => {
+        ele.isSelected = false;
+        ele.isDisabled = false;
+      });
+    }
+    this.selectedUsersList = [];
+    this.isChecked = false;
+  }
+
   // Function to mantain list of only 5 ULBs - Download file.
   checkIsDisabled(selectedList: any[]) {
-    // if (selectedList.length === 5) {
-    //   this.balData.forEach((elem) => {
-    //     if (!selectedList.includes(elem)) {
-    //       elem.isDisabled = true;
-    //     }
-    //   });
-    //   console.log("from if 5", this.balData);
-    // }
-    // if (selectedList.length === 4) {
-    //   this.balData.forEach((elem) => {
-    //     elem.isDisabled = false;
-    //   });
-    //   console.log("from if 4", this.balData);
-    // }
-    // console.log("from if", this.balData);
-
     const selectedLength = selectedList.length;
 
     // Only run logic if selectedList.length is < 5
@@ -341,11 +337,8 @@ export class DataSetsComponent implements OnInit {
     // Reset/ uncheck using master toggle.
     if (!event.checked) {
       this.selectedUsersList = [];
-      this.balData.forEach((val) => {
-        val.isDisabled = false;
-        val.isSelected = false;
-      });
-      // this.isChecked = false;
+      this.uncheckSelections();
+
       return;
     }
     // If master toggle is clicked add starting unselected ulbs in selectedUsersList[] untill [] len = 5
@@ -373,7 +366,6 @@ export class DataSetsComponent implements OnInit {
           this._resourcesDashboardService.getStandardizedExcel([data]).subscribe((res) => {
             const blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
             FileSaver.saveAs(blob, data.fileName);
-            this.openSnackBar(this.fileDownloadSuccess);
             // console.log('File Download Done');
             return;
           }, (error) => { console.error("Unable to downalod standardized file: ", error) });
@@ -435,25 +427,30 @@ export class DataSetsComponent implements OnInit {
               files.forEach((ele) => {
                 let temp = ele.url;
                 ele.name = ele.name + '.' + temp.split(".")[1];
-                // ele.url = environment.STORAGE_BASEURL + ele['url'];
+                ele.url = environment.STORAGE_BASEURL + ele['url'];
 
                 // TODO: To be removed: only for testing.
-                if (data.type === "pdf") ele.url = 'https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/ULB/2024-25/annual_accounts/AP016/BalanceSheet-2023-24_5440cf6a-6ff0-45b0-ba09-013227a5a90a.pdf';
-                if (data.type === "excel") ele.url = "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/ULB/2024-25/annual_accounts/AP016/BalanceSheet_2023-24_0715e2c2-8591-4ef0-80ce-e68ea2c9e9cf.xls";
+                // if (data.type === "pdf") ele.url = 'https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/ULB/2024-25/annual_accounts/AP016/BalanceSheet-2023-24_5440cf6a-6ff0-45b0-ba09-013227a5a90a.pdf';
+                // if (data.type === "excel") ele.url = "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/ULB/2024-25/annual_accounts/AP016/BalanceSheet_2023-24_0715e2c2-8591-4ef0-80ce-e68ea2c9e9cf.xls";
 
               })
 
               // console.log("files ---->", files)
               this.createZipAndSave(`${data.fileName}.zip`, files);
-              this.openSnackBar(this.fileDownloadSuccess);
             },
             (error) => {
               // this.globalLoaderService.stopLoader();
-              console.log(error);
+              console.error("Found error in download(): ", error);
+              this.openSnackBar(this.fileDownloadfail);
+              this.uncheckSelections();
+              return;
             }
           );
         }
       }
+
+      this.openSnackBar(this.fileDownloadSuccess);
+      this.uncheckSelections();
     }
   }
 
@@ -468,6 +465,9 @@ export class DataSetsComponent implements OnInit {
       },
       error: (error) => {
         console.log('download$ error: ', error);
+        this.openSnackBar(this.fileDownloadfail);
+        this.uncheckSelections();
+        return;
       }
     }));
 
@@ -487,11 +487,12 @@ export class DataSetsComponent implements OnInit {
           }
         },
         complete: () => {
-          // console.log('zip$ complete: ');
-
+          // this.uncheckSelections();
         },
         error: (error) => {
-          console.log('zip$ error: ', error);
+          console.error('zip$ error: ', error);
+          this.openSnackBar(this.fileDownloadfail);
+          this.uncheckSelections();
           return;
         }
       });
