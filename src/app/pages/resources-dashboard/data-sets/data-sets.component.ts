@@ -1,4 +1,4 @@
-import { Component, OnInit, SimpleChange } from "@angular/core";
+import { Component, Inject, Input, OnInit, SimpleChange } from "@angular/core";
 import { ResourcesDashboardService } from "../resources-dashboard.service";
 import { Router, NavigationStart, Event, NavigationEnd } from "@angular/router";
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
@@ -6,8 +6,10 @@ import { ReportService } from "../../../dashboard/report/report.service";
 import * as FileSaver from "file-saver";
 import { environment } from "src/environments/environment";
 import { BalanceTabledialogComponent } from "src/app/shared/components/balance-table/balance-tabledialog/balance-tabledialog.component";
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MAT_SNACK_BAR_DATA, MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
+import { DownloadModel, DownloadService } from "src/app/shared/services/download.zip.service";
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: "app-data-sets",
@@ -22,6 +24,14 @@ export class DataSetsComponent implements OnInit {
   dataReceived: boolean = true;
   selectedUseCheckBox: any[];
   initialValue: number = 10;
+
+  balData = [];
+  allSelected = false;
+  unSelect = false;
+  selectedUsersList = [];
+  state;
+  ulb;
+
 
   // tempBalData;
   // offSet: number = 0;
@@ -66,14 +76,17 @@ export class DataSetsComponent implements OnInit {
   isBlinking: boolean = false;
   category: string = "balance";
   isChecked: boolean = false;
+  fileDownloadSuccess: string = "All set! Your file(s) have been successfully downloaded.";
+
 
   constructor(
     private _resourcesDashboardService: ResourcesDashboardService,
-    private router: Router,
+    // private router: Router,
     public globalLoaderService: GlobalLoaderService,
     public dialog: MatDialog,
     protected reportService: ReportService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private downloadService: DownloadService
   ) {
     // router.events.subscribe((val) => {
     //   // see also
@@ -160,7 +173,7 @@ export class DataSetsComponent implements OnInit {
     this.globalLoaderService.showLoader();
 
     // Add a dialog box: if more than 30 files are loaded.
-    if (this.totalDocs >= 30) this.openSnackBar();
+    if (this.totalDocs >= 30) this.openSnackBar("Looking for something? Try using filters!");
 
     // Load 10 fies.
     try {
@@ -202,8 +215,9 @@ export class DataSetsComponent implements OnInit {
     if (item.hasOwnProperty("section") && item.section == "standardised") {
       this.selectedUsersList = []
       this.selectedUsersList.push(item);
-      this.downloadStandardizedData(1)
-      this.selectedUsersList = []
+      this.downloadStandardizedData(1);
+      this.openSnackBar(this.fileDownloadSuccess);
+      this.selectedUsersList = [];
       return;
     }
 
@@ -254,9 +268,10 @@ export class DataSetsComponent implements OnInit {
   }
 
   // Dialog box more than 30 files are loaded.
-  openSnackBar() {
+  openSnackBar(text: string) {
     this._snackBar.openFromComponent(SnackBarComponent, {
       duration: this.durationInSeconds * 1000,
+      data: { text }
     });
   }
 
@@ -267,7 +282,10 @@ export class DataSetsComponent implements OnInit {
         if (!response.ok) { throw new Error("Response was not ok.") }
         return response.blob();
       })
-      .then((blob) => { FileSaver.saveAs(blob, fileName); })
+      .then((blob) => {
+        FileSaver.saveAs(blob, fileName);
+        this.openSnackBar(this.fileDownloadSuccess);
+      })
       .catch((error) => console.error("Error in fetching file: ", error));
   }
 
@@ -355,7 +373,8 @@ export class DataSetsComponent implements OnInit {
           this._resourcesDashboardService.getStandardizedExcel([data]).subscribe((res) => {
             const blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
             FileSaver.saveAs(blob, data.fileName);
-            console.log('File Download Done');
+            this.openSnackBar(this.fileDownloadSuccess);
+            // console.log('File Download Done');
             return;
           }, (error) => { console.error("Unable to downalod standardized file: ", error) });
 
@@ -380,6 +399,7 @@ export class DataSetsComponent implements OnInit {
       ) {
         this.downloadStandardizedData(true);
         this.isChecked = false;
+        this.openSnackBar(this.fileDownloadSuccess);
         return;
       }
 
@@ -398,12 +418,99 @@ export class DataSetsComponent implements OnInit {
         else {
           // console.log("inside else")
           // console.log("from download: ", this.selectedUsersList);
+          let response = { pdf: [], excel: [] };
+          let files = [];
 
+          this.reportService.getReports(data._id, data.year, data.auditType).subscribe(
+            (res) => {
+              // this.globalLoaderService.stopLoader();
+              let type = 'notFound';
+              if (res && res["success"]) {
+                response = res["data"];
+              }
+              // console.log("response ----------->", response)
+              if (data.type === "pdf") files = response?.pdf || [];
+              if (data.type === "excel") files = response?.excel || [];
+
+              files.forEach((ele) => {
+                let temp = ele.url;
+                ele.name = ele.name + '.' + temp.split(".")[1];
+                // ele.url = environment.STORAGE_BASEURL + ele['url'];
+
+                // TODO: To be removed: only for testing.
+                if (data.type === "pdf") ele.url = 'https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/ULB/2024-25/annual_accounts/AP016/BalanceSheet-2023-24_5440cf6a-6ff0-45b0-ba09-013227a5a90a.pdf';
+                if (data.type === "excel") ele.url = "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/ULB/2024-25/annual_accounts/AP016/BalanceSheet_2023-24_0715e2c2-8591-4ef0-80ce-e68ea2c9e9cf.xls";
+
+              })
+
+              // console.log("files ---->", files)
+              this.createZipAndSave(`${data.fileName}.zip`, files);
+              this.openSnackBar(this.fileDownloadSuccess);
+            },
+            (error) => {
+              // this.globalLoaderService.stopLoader();
+              console.log(error);
+            }
+          );
         }
       }
     }
   }
 
+  // Helper: to create zip files
+  createZipAndSave(fileName: string, files: any) {
+    const download$ = this.downloadService.downloadMultiple(files).pipe(tap({
+      next: (data) => {
+        // console.log('download$ next: ', data);
+      },
+      complete: () => {
+        // console.log('download$ complete: ');
+      },
+      error: (error) => {
+        console.log('download$ error: ', error);
+      }
+    }));
+
+    const zip$ = this.downloadService.zipMultiple(download$);
+
+    zip$
+      .pipe().subscribe({
+        next: (data) => {
+          // console.log('zip$ next: ', data);
+
+          if (data.zipFile) {
+            const downloadAncher = document.createElement("a");
+            downloadAncher.style.display = "none";
+            downloadAncher.href = URL.createObjectURL(data.zipFile);
+            downloadAncher.download = fileName;
+            downloadAncher.click();
+          }
+        },
+        complete: () => {
+          // console.log('zip$ complete: ');
+
+        },
+        error: (error) => {
+          console.log('zip$ error: ', error);
+          return;
+        }
+      });
+
+
+    // const zip = new JSZip();
+
+    // files.forEach((file: any) => {
+    //   let target_file_url = environment.STORAGE_BASEURL + file['url'];;
+    //   let blobResponse: any = this.fetchFile(target_file_url, file.name, true);
+    //   zip.file(file.name, blobResponse);
+    // });
+
+    // zip.generateAsync({ type: 'blob' }).then((blob: any) => {
+    //   FileSaver.saveAs(blob, fileName);
+    // });
+
+    return;
+  }
 
   // openNewTab(data, fullData) {
   //   console.log('full data', fullData, this.category);
@@ -511,12 +618,6 @@ export class DataSetsComponent implements OnInit {
   //     this.globalLoaderService.stopLoader();
   //   }
   // }
-  balData = [];
-  allSelected = false;
-  unSelect = false;
-  selectedUsersList = [];
-  state;
-  ulb;
 
 
 
@@ -632,9 +733,9 @@ export class DataSetsComponent implements OnInit {
 
 // Snackbar Component.
 @Component({
-  selector: 'snack-bar-component-example-snack',
+  selector: 'snack-bar-component',
   template: `
-    <span class="snack-bar">Looking for something? Try using filters!</span>`,
+    <span>{{data.text}}</span>`,
   styles: [`
     ::ng-deep .mat-snack-bar-container {
         background-color: #fff0e3;
@@ -644,7 +745,9 @@ export class DataSetsComponent implements OnInit {
         font-family: "Archivo";
     }`],
 })
-export class SnackBarComponent { }
+export class SnackBarComponent {
+  constructor(@Inject(MAT_SNACK_BAR_DATA) public data: any) { }  // Inject 'data'
+}
 
 
 // // // dialog box --------for file open
