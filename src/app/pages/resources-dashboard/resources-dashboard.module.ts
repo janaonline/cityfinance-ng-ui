@@ -7,7 +7,7 @@ import { ResourcesDashboardComponent } from "./resources-dashboard.component";
 import { SharedModule } from "src/app/shared/shared.module";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { LearningCenterComponent } from "./learning-center/learning-center.component";
-import { DataSetsComponent, FileOpenComponent } from "./data-sets/data-sets.component";
+import { DataSetsComponent } from "./data-sets/data-sets.component";
 import { ReportsPublicationComponent } from "./reports-publication/reports-publication.component";
 
 import { ScorePerComponent } from "./learning-center/score-per/score-per.component";
@@ -62,7 +62,7 @@ import { GlobalPartModule } from "src/app/global-part/global-part.module";
     ELearningModuleComponent,
     MunicipalLawsComponent,
     EnumerationComponent,
-    FileOpenComponent,
+    // FileOpenComponent,
     MunicipalBondRepositoryComponent
   ],
   imports: [
