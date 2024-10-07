@@ -58,16 +58,16 @@
                                 </mat-checkbox>
                             </div>
                             <div class="col-sm-8 d-name col-8 cursor-pointer" matTooltip="Click to View">
-                                <div class="row align-items-sm-center">
-                                    <div class="col-2 col-sm-1">
-                                        <span *ngIf="item?.type == 'pdf'">
-                                            <i class="bi bi-file-earmark-pdf-fill text-danger fs-4"></i>
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <span *ngIf="item?.type == 'pdf'" class="text-danger">
+                                            <img src="../../../../assets/pdf.svg" alt="PDF Icon" class="icon-size">
                                         </span>
-                                        <span *ngIf="item?.type == 'excel'">
-                                            <i class="bi bi-file-earmark-spreadsheet-fill text-success fs-4"></i>
+                                        <span *ngIf="item?.type == 'excel'" class="text-success">
+                                            <img src="../../../../assets/excel.svg" alt="Excel Icon" class="icon-size">
                                         </span>
                                     </div>
-                                    <div class="col-10 col-sm-11">
+                                    <div class="col">
                                         <span>{{ item?.fileName }}</span>
                                     </div>
                                 </div>
