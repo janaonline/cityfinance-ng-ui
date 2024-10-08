@@ -53,10 +53,10 @@
                     			fileUploadTracker[i]?.status === 'FAILED'
                   				}" role="progressbar" style="width: 100%;" [attr.aria-valuenow]="100" aria-valuemin="0"
 							aria-valuemax="100">
-							<ng-container *ngIf=" fileProcessingTracker[i]?.message == 'Completed' ">
+							<ng-container *ngIf="fileProcessingTracker[i]?.message.includes('Completed') ">
 								File uploaded Successfully!
 							</ng-container>
-							<ng-container *ngIf=" fileProcessingTracker[i]?.message != 'Completed' ">
+							<ng-container *ngIf="!fileProcessingTracker[i]?.message.includes('Completed') ">
 								Validation failed!
 							</ng-container>
 						</div>
