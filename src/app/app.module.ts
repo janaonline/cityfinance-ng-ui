@@ -34,7 +34,7 @@ import { CustomRouteReuseStrategy } from "./util/router/reuse-strategy";
 import { MatFormFieldModule } from "@angular/material/form-field";
 
 import { UlbNotRegisteredComponent } from "./auth/ulb-not-registered/ulb-not-registered.component";
-import { FlexLayoutModule } from "@angular/flex-layout";
+// import { FlexLayoutModule } from "@angular/flex-layout";
 import { NewHomeComponent } from "./auth/new-home/new-home.component";
 import { SlickCarouselModule } from "ngx-slick-carousel";
 import { CollapseModule } from "ngx-bootstrap/collapse";
@@ -76,7 +76,7 @@ import { GlobalPartModule } from "./global-part/global-part.module";
     MatCardModule,
     MatFormFieldModule,
     CarouselModule.forRoot(),
-    FlexLayoutModule,
+    // FlexLayoutModule,
     SlickCarouselModule,
     CollapseModule.forRoot(),
     MunicipalLawModule,
