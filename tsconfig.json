@@ -22,6 +22,7 @@
     "lib": [
       "es2017",
       "esnext.string",
+      "ES2021.String",
       "dom"
     ],
     "paths": {
