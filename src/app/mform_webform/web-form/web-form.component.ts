@@ -48,6 +48,8 @@ import { CommonServicesService } from 'src/app/fc-grant-2324-onwards/fc-shared/s
 import { ActivatedRoute } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 const swal: SweetAlert = require("sweetalert");
+import * as FileSaver from "file-saver";
+import { DataEntryService } from '../../dashboard/data-entry/data-entry.service';
 
 declare const $: any;
 
@@ -63,6 +65,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
     public matDialog: MatDialog,
     public route:ActivatedRoute,
     public commonServicesCf: CommonServicesService,
+    protected dataEntryService: DataEntryService
     
   ) {
 
@@ -2440,6 +2443,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
         async (res) => {
           try {
             await this.checkExcelStatus(res["data"]);
+            console.log("---------------", res["data"])
             // setting url after verify---------
             // this.isImageUploading = true;
             let questionIndex = this.questionData.findIndex(
@@ -2467,14 +2471,39 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
             this.snackBar.dismiss();
             this.isImageUploading = false;
           } catch (error) {
-            console.log(
-              "error?.data.message upload error",
-              error?.data.message
-            );
+            console.log("error?.data.message upload error");
+            // console.log("question ---->",question)
             this.snackBar.dismiss();
             this.removeUploadedFile(question, question?.order);
             let errMsg = error?.data.message ? error?.data.message : 'Unable to upload,please try after some times.';
-            this.openSnackBar([`${errMsg}`], 4000);
+
+            if (errMsg.length > 100) {
+              this.openSnackBar([`Please have a look at error log.`], 4000);
+              let fileProcessingTracker = {
+                '0': {
+                  status: 'FAILED',
+                  message: errMsg
+                }
+              }
+              let filesToUpload = ['Standardized Excel'];
+
+              this.dataEntryService.dataDump(fileProcessingTracker, filesToUpload).subscribe((res: any) => {
+                const blob = new Blob([res], {
+                  type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                });
+
+                // Set file name.
+                const filename = `Error-Log.xlsx`;
+                FileSaver.saveAs(blob, filename);
+                console.log('File Download Done');
+                return;
+
+              }, (err) => {
+                console.log("err", err);
+              });
+            }
+            else {this.openSnackBar([`${errMsg}`], 4000);}
+
             this.isImageUploading = false;
           }
           resolve("Success");

@@ -526,6 +526,14 @@ ULB ${this.selectedTab} for FY' ${
         res["data"][key] = this.createExpenditureData(res["data"][key],this.filterName);
       }
     }
+    
+   
+    let selectedYearsList:any = this.mySelectedYears;
+        selectedYearsList.sort(function (a, b) {
+       let newA = a.split("-")[0];
+       let newB = b.split("-")[0];
+       return newA - newB;
+       });
     if (this.selectedTab == "Total Surplus/Deficit") {
       let DeficitData = res.data;
       let tempObj = {};
@@ -548,8 +556,15 @@ ULB ${this.selectedTab} for FY' ${
         });
       }
       res.data = tempObj;
+    }    
+    for(var i =0;i<selectedYearsList.length;i++){
+        let index = res["data"]["ulbData"].findIndex(val=>{return val._id.financialYear==selectedYearsList[i]})
+          if(index<=-1){
+            res["data"]["ulbData"].splice(i,0,{"amount":0,"ulbName":res["data"]["ulbData"][0].ulbName,"_id":{"ulb":res["data"]["ulbData"][0]._id.ulb,"financialYear":selectedYearsList[i]}})
+            res["data"]["compData"].splice(i,0,{"amount":0,"ulbName":res["data"]["compData"][0].ulbName,"_id":{"state":res["data"]["compData"][0]._id.state,"financialYear":selectedYearsList[i]}})
+          }
     }
-    let newData = JSON.parse(JSON.stringify(barChartStatic));
+    let newData = JSON.parse(JSON.stringify(barChartStatic)); 
     console.log('new Data', newData.data.labels);
     newData.data.labels = [];
     // for (const key in res["data"]) {
@@ -560,6 +575,7 @@ ULB ${this.selectedTab} for FY' ${
       }
     });
     // }
+    newData.data.labels = this.mySelectedYears;
     newData.data.labels.sort(function (a, b) {
       let newA = a.split("-")[0];
       let newB = b.split("-")[0];

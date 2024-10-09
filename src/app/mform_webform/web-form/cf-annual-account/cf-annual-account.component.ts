@@ -34,10 +34,10 @@ export class CfAnnualAccountComponent
     public matDialog: MatDialog,
     public route: ActivatedRoute,
     public commonServicesCf: CommonServicesService,
-    private dataEntryService: DataEntryService,
+    protected dataEntryService: DataEntryService,
     
   ) {
-    super(commonService, snackBar, matDialog, route, commonServicesCf);
+    super(commonService, snackBar, matDialog, route, commonServicesCf, dataEntryService);
     this.Years = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.ulbId = this.userData?.ulb;
