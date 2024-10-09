@@ -3,7 +3,7 @@ import 'chartjs-plugin-labels';
 import { Location } from '@angular/common';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -372,10 +372,10 @@ export class DataUploadComponent extends UploadDataUtility
     showCheckbox: true,
     position: "bottom",
   };
-  formStatusForApprovalControl = new FormControl([
+  formStatusForApprovalControl = new UntypedFormControl([
     this.formStatusListForMultiAction[0],
   ]);
-  formStatusForRejectControl = new FormControl([
+  formStatusForRejectControl = new UntypedFormControl([
     this.formStatusListForMultiAction[0],
   ]);
 
