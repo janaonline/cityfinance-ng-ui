@@ -52,13 +52,13 @@
 @import "scss/utilities/api";
 @import "scss/logo";
 // scss-docs-end import-stack
-@import "~ag-grid-community/dist/styles/ag-grid.css";
-@import "~ag-grid-community/dist/styles/ag-theme-alpine.css";
+@import "ag-grid-community/dist/styles/ag-grid.css";
+@import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 @import url("//fonts.googleapis.com/css?family=Exo:300,400,500");
 @import url("//fonts.googleapis.com/css?family=Roboto:100,300,400,500,700");
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
 @import url("//fonts.googleapis.com/icon?family=Material+Icons");
-@import "~ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin";
+@import "ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin";
 
 /* for ui new_cityFinance style */
 
