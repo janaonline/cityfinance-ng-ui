@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges } from "@angular/core";
+import { Component, Input, OnInit, SimpleChanges,EventEmitter, Output } from "@angular/core";
 import { BaseComponent } from "src/app/util/BaseComponent/base_component";
 import { ActivatedRoute, Router } from "@angular/router";
 import { StateFilterDataService } from "./state-filter-data.service";
@@ -331,6 +331,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   sourceDashboardName: string = 'State Dashboard';
   @Input() showYearDropdown: boolean = true;
   @Input() selectedYear: any;
+  @Output() valueSelected = new EventEmitter<string>();
+  selectedValue: string = '2021-22';
   constructor(
     public activatedRoute: ActivatedRoute,
     public stateFilterDataService: StateFilterDataService,
@@ -710,7 +712,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
                     this.stateServiceLabel ? Math.round(el2.value) : el2.amount
                   );
                   el.data.push(obj);
-                  console.log('sasasasasaasa', el)
+                  // console.log('sasasasasaasa', el)
                   obj = { x: 0, y: 0 };
                 });
               } else if (el.label == "Municipal Corporation") {
@@ -884,7 +886,11 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   getSelectedFinancialYear(event) {
+    const selectElement = event.target as HTMLSelectElement;
     this.financialYear = event.target.value;
+    const selectedValue = selectElement.value;
+    this.valueSelected.emit(selectedValue); // Emit the selected value
+    
     console.log("state financial year", this.financialYear);
     if (this.selectedRadioBtnValue) {
       this.initializeScatterData();
@@ -1129,6 +1135,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   widgetMode: boolean = false;
   apiParamData: any;
   ngOnInit(): void {
+    this.valueSelected.emit(this.selectedValue);
     this.activatedRoute.queryParams.subscribe((params) => {
       console.log("param", params);
       this.widgetMode = params?.widgetMode ? JSON.parse(params?.widgetMode) : false;
