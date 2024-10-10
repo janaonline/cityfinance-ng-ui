@@ -95,7 +95,7 @@
             <select
               class="my-2 customDropdown"
               aria-label="Default select"
-              (change)="getSelectedFinancialYear($event)"
+              (change)="getSelectedFinancialYear($event)" [value]="selectedValue"
               style="border-radius: 8px; border: 1px solid gray; opacity: 0.6"
             >
               <option
