@@ -15,6 +15,12 @@ import {
 export class DashboardTabsComponent implements OnInit, OnChanges {
   constructor() { }
 
+  selectedValue: string = ''; 
+
+  onValueSelected(value: string) {
+    this.selectedValue = value; 
+  }
+
   currentStateId;
   tableView = true;
   TableTitles: any;
@@ -224,7 +230,7 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
   }
 
   getStateName() {
-    console.log('getStateName', this.stateId)
+    // console.log('getStateName', this.stateId)
     this.stateName = this.stateMap[this.stateId];
     return this.stateName;
   }
@@ -254,11 +260,7 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
     // console.log("stickyValue==>", this.sticky);
   }
 
-  ngOnInit(): void {
-    console.log("innertab value", this.innerActiveTab);
-    console.log("this.percentValue", this.percentValue);
-    console.log("DashBoardType", this.DashBoardType)
-  }
+  ngOnInit(): void {}
 }
 function convertToPastYears(year) {
   let newYears = [year],

@@ -64,7 +64,7 @@
                     <div [ngSwitch]="DashBoardType" [ngClass]="{ stickyClass: sticky == true }">
                         <div class="d-flex justify-content-center" *ngSwitchCase="'state'">
                             <div class="px-4 dataAvailabiltyTab">
-                                {{ stateName }} Data Availability - {{ percentValue?.toFixed(2) }}% (2020-2021)
+                                {{ stateName }} Data Availability - {{ percentValue?.toFixed(2) }}%  ({{ selectedValue }})
                             </div>
                         </div>
                     </div>
@@ -106,11 +106,11 @@
             <div *ngSwitchCase="'Financial Indicators'">
                 <div [ngSwitch]="DashBoardType">
                     <div *ngSwitchCase="'city'">
-                        <app-filter-data [yearListForDropDown]="yearListForDropDown" [mySelectedYears]="mySelectedYears"
+                        <app-filter-data  [yearListForDropDown]="yearListForDropDown" [mySelectedYears]="mySelectedYears"
                             [currentUlb]="cityId" [data]="innerActiveTab"></app-filter-data>
                     </div>
                     <div *ngSwitchCase="'state'">
-                        <app-state-filter-data [selectedStateId]="stateId" [data]="innerActiveTab">
+                        <app-state-filter-data (valueSelected)="onValueSelected($event)" [selectedStateId]="stateId" [data]="innerActiveTab">
                         </app-state-filter-data>
                     </div>
                 </div>
