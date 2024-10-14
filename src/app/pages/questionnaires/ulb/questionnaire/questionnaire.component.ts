@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { MatHorizontalStepper } from '@angular/material/stepper';
+import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
@@ -29,7 +29,7 @@ export class ULBQuestionnaireComponent implements OnInit, OnDestroy {
     private router: Router,
     private _matDialog: MatDialog
   ) {}
-  @ViewChild(MatHorizontalStepper) stepper: MatHorizontalStepper;
+  @ViewChild(MatStepper) stepper: MatStepper;
   @ViewChild("savingAsDraft") savingAsDraftPopup: TemplateRef<any>;
   draftSavingInProgess = false;
   introductionCompleted = false;

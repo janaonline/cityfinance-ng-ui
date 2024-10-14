@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatHorizontalStepper } from '@angular/material/stepper';
+import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { IQuestionnaireResponse } from 'src/app/pages/questionnaires/model/questionnaireResponse.interface';
@@ -54,7 +54,7 @@ export class FinancialUploadsComponent extends UploadDataUtility
   @ViewChild("previewPopup") previewPopup: TemplateRef<any>;
 
   USER_TYPE = USER_TYPE;
-  @ViewChild(MatHorizontalStepper) stepper: MatHorizontalStepper;
+  @ViewChild(MatStepper) stepper: MatStepper;
 
   documentData: IQuestionnaireResponse["data"][0]["documents"];
 

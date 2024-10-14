@@ -68,8 +68,9 @@
                             }">
                 <button (click)="clearAll()" type="button" class="button-custom default-style"
                   title="Clear selection(s)">
-                  <span class="me-2 d-none d-lg-inline">Clear All</span>
-                  <i class="bi bi-x-circle fs-6"></i>
+                  <span class="me-1 d-none d-lg-inline">Clear All</span>
+                  <!-- <i class="bi bi-x-circle fs  -6"></i> -->
+                  <mat-icon>highlight_off</mat-icon>
                   <!-- <span> Clear All </span>
                   <span style="padding-left: 6px; width: 12px">
                     <img src="../../../../assets/new_dashBord_ftr_hdr/cancel.svg" alt="" />
@@ -80,8 +81,9 @@
               <div class="col" *ngIf="downloadValue">
                 <button (click)="initiateDownload()" type="button" class="button-custom default-style"
                   title="Download reports">
-                  <span class="me-2 d-none d-lg-inline">Download</span>
-                  <i class="bi bi-download fs-6"></i>
+                  <span class="me-1 d-none d-lg-inline">Download</span>
+                  <!-- <i class="bi bi-download fs-6"></i> -->
+                  <span><mat-icon>save_alt</mat-icon></span>
                 </button>
               </div>
 

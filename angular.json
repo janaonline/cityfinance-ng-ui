@@ -34,8 +34,7 @@
                             "node_modules/leaflet/dist/leaflet.css",
                             "src/styles.scss",
                             "node_modules/slick-carousel/slick/slick.scss",
-                            "node_modules/slick-carousel/slick/slick-theme.scss",
-                            "node_modules/bootstrap-icons/font/bootstrap-icons.css"
+                            "node_modules/slick-carousel/slick/slick-theme.scss"
                         ],
                         "scripts": [
                             "node_modules/jquery/dist/jquery.min.js",
@@ -44,7 +43,12 @@
                             "node_modules/chart.js/dist/Chart.js",
                             "node_modules/sweetalert/dist/sweetalert.min.js"
                         ],
-                        "aot": true
+                        "vendorChunk": true,
+                        "extractLicenses": false,
+                        "buildOptimizer": false,
+                        "sourceMap": false,
+                        "optimization": false,
+                        "namedChunks": true
                     },
                     "configurations": {
                         "production": {
@@ -56,8 +60,6 @@
                             ],
                             "optimization": true,
                             "outputHashing": "all",
-                            "sourceMap": true,
-                            "namedChunks": true,
                             "extractLicenses": true,
                             "vendorChunk": false,
                             "buildOptimizer": true,
@@ -76,7 +78,8 @@
                                 }
                             ]
                         }
-                    }
+                    },
+                    "defaultConfiguration": ""
                 },
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
@@ -117,18 +120,6 @@
                             "src/assets"
                         ]
                     }
-                },
-                "lint": {
-                    "builder": "@angular-devkit/build-angular:tslint",
-                    "options": {
-                        "tsConfig": [
-                            "src/tsconfig.app.json",
-                            "src/tsconfig.spec.json"
-                        ],
-                        "exclude": [
-                            "**/node_modules/**"
-                        ]
-                    }
                 }
             }
         },
@@ -147,20 +138,10 @@
                             "devServerTarget": "PerfectAngular:serve:production"
                         }
                     }
-                },
-                "lint": {
-                    "builder": "@angular-devkit/build-angular:tslint",
-                    "options": {
-                        "tsConfig": "e2e/tsconfig.e2e.json",
-                        "exclude": [
-                            "**/node_modules/**"
-                        ]
-                    }
                 }
             }
         }
     },
-    "defaultProject": "PerfectAngular",
     "cli": {
         "analytics": "cace6f27-e889-45b8-b169-d2241593758b"
     }

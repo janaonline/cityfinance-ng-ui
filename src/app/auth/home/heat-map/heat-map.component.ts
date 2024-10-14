@@ -192,7 +192,7 @@ export class HeatMapComponent implements OnInit {
         .done((resp) => {
           // All District JSON Data
           this.DistrictsJSON = resp;
-          resolve();
+          resolve(resp);
         })
         .fail((failed) => {
           console.log("District Boundries getJSON request failed!", failed);

@@ -94,8 +94,14 @@
 //   font-size: 1rem;
 //   font-weight: 600
 // }
+
 * {
   font-family: "Archivo";
+}
+
+.material-icons {
+  font-family: "Material Icons";
+  vertical-align: middle !important;
 }
 
 ::ng-deep .selected-list {
