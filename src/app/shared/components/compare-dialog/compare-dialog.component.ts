@@ -118,7 +118,7 @@ export class CompareDialogComponent implements OnInit {
   singleSelectUlb;
 
   filterList = [
-    { val: "State Average", checked: false },
+    { val: "State Average", checked: true },
     { val: "National Average", checked: false },
     { val: "ULB Type Average", checked: false },
     { val: "ULB Population Category Average", checked: false },
