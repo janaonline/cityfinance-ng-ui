@@ -26,9 +26,9 @@ import { ActivatedRoute } from "@angular/router";
   styleUrls: ["./filter-component.component.scss"],
 })
 export class FilterComponentComponent implements OnInit, OnChanges {
-  @Output()
-  filterFormData = new EventEmitter<any>();
-  //  @Output() clearfilter = new EventEmitter<any>();
+  @Output() filterFormData = new EventEmitter<any>();
+  @Output() clearEvent = new EventEmitter<any>();
+
 
   @Input() filterTabDataSet;
   @Input() filterInputData;
@@ -56,6 +56,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
 
 
   selectedValue: String = "2020-21";
+  defaultYearInDropdown: String = "";
   selectedType: String = "Raw Data PDF";
 
   constructor(
@@ -66,6 +67,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     private _resourcesDashboardService: ResourcesDashboardService
   ) {
     // this.filterData("", "");
+    this.addYearsTillCurrent();
 
     const year = this.route.snapshot.queryParamMap.get('year') || this.selectedValue;
     const ulbName = this.route.snapshot.queryParamMap.get('ulbName') || this.route.snapshot.queryParamMap.get('ulb') || '';
@@ -73,6 +75,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     this.stateId = this.route.snapshot.queryParamMap.get('state') || '';
     const contentType = this.route.snapshot.queryParamMap.get('type') || this.selectedType;
     this.initializationFilterValue();
+    this.defaultYearInDropdown = this.selectedValue;
     this.selectedValue = year ? year : "";
     this.getStatesList();
     this.patchFilterValues(this.stateId, ulbId, ulbName, this.selectedValue, contentType);
@@ -95,12 +98,13 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   // "Standardised Excel",
   // "Standardised PDF",
   filteredOptions: Observable<any[]>;
-  stateId:string = "";
+  stateId: string = "";
   getYearsList() {
     this._resourcesDashboardService.getYearsList().subscribe((res: any) => {
       console.log("years===>", res.data);
       this.yearList = res.data;
       this.yearList.unshift('All Years')
+      this.defaultYearInDropdown = "All Years";
       this.filterForm.patchValue({
         year: "All Years",
       });
@@ -113,12 +117,11 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     console.log("daaaaa", this.filterInputData);
     this.getStatesList();
-    this.addYearsTillCurrent();
+    // this.addYearsTillCurrent();
   }
 
   onChange(event) {
     this.selectedValue = event.target.value;
-    console.log("eve", event);
     this.filterData("year", "");
   }
   onChangeType(event) {
@@ -216,35 +219,38 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   initiateDownload() {
     this.download.emit(true);
   }
-
-  filterData(param, val) {
-    console.log("filter form", this.filterForm);
-    if (param == "ulb") {
-      console.log(val);
+  filterData(param: string, val: any) {
+    if (param === "ulb") {
       const ulbName = val?.name || '';
+      const stateId = val?.state?._id || '';
+
       this.filterForm.patchValue({
-        state: val.state._id,
-        ulbId: val._id,
-        ulb: ulbName ? ulbName : '',
+        state: stateId,
+        ulbId: val?._id || '',
+        ulb: ulbName,
       });
-    } else if (param == "state") {
+    } else if (param === "state") {
       let emptyArr: any = [];
       this.filteredOptions = emptyArr;
       this.filterForm.patchValue({
-        ulbId: val._id,
+        ulbId: '',
       });
     }
+
+    // Emit the updated form values for further processing
     this.filterFormData.emit(this.filterForm);
   }
+
+
   clearAll() {
-    //  this.filterFormData.emit(this.filterForm);
-    // console.log()
     let emptyArr: any = [];
     this.filteredOptions = emptyArr;
     this.filterForm.reset();
+    this.state.reset();
 
-    this.patchFilterValues("", "", "", this.selectedValue, "Raw Data PDF")
+    this.patchFilterValues("", "", "", this.defaultYearInDropdown, "Raw Data PDF")
     this.filterFormData.emit(this.filterForm);
+    this.clearEvent.emit();
     this.loadData();
   }
 
@@ -326,5 +332,8 @@ export class FilterComponentComponent implements OnInit, OnChanges {
 
     // Reverse the array if needed
     this.yearList.reverse();
+
+    // Set the latest year.
+    this.selectedValue = this.yearList[0];
   }
 }
