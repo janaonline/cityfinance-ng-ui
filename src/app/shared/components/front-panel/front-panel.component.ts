@@ -217,6 +217,7 @@ export class FrontPanelComponent implements OnInit, OnChanges {
         // this.availValue = res["data"]?.percent;
         this.availValue = percentage;
         this.halfDoughnutChart();
+        this.halfDoughnutChart2();
 
         this.notFoundNames = res["data"]?.names;
         console.log("ordResponse", res);
@@ -241,6 +242,41 @@ export class FrontPanelComponent implements OnInit, OnChanges {
     const canvas = <HTMLCanvasElement>document.getElementById("myChart1");
     const ctx = canvas.getContext("2d");
     this.myChart = new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: ["Data available", "Data not available"],
+        datasets: [
+          {
+            label: "Availability",
+            borderWidth: 0,
+            data: [this.dataAvailable, 100 - this.dataAvailable],
+            backgroundColor: ["rgba(51, 96, 219, 1)", "rgba(218, 226, 253, 1)"],
+          },
+        ],
+      },
+      options: {
+        rotation: 1 * Math.PI,
+        circumference: 1 * Math.PI,
+        legend: {
+          display: false,
+        },
+        cutoutPercentage: 75,
+      },
+    });
+  }
+
+  myChart2: any;
+  halfDoughnutChart2() {
+    console.log("halfDoughnutChart called");
+    if (this.myChart2) {
+      this.myChart2.destroy();
+    }
+
+    this.dataAvailable = this.availValue;
+
+    const canvas = <HTMLCanvasElement>document.getElementById("myChart2");
+    const ctx = canvas.getContext("2d");
+    this.myChart2 = new Chart(ctx, {
       type: "doughnut",
       data: {
         labels: ["Data available", "Data not available"],
