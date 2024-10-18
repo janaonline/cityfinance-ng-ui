@@ -324,6 +324,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     console.log("body===>", body, "mySelectedYears", this.mySelectedYears);
     this.apiCall = this.commonService.getChartDataByIndicator(body).subscribe(
       (res) => {
+        let ulbForCapex=[]
         if (body.filterName.includes("mix")) {
           this.createPieChart(JSON.parse(JSON.stringify(res["data"])), body);
           // this.calculateRevenue(res["data"]);
@@ -331,10 +332,20 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
           this.multiPie = false;
           console.log(JSON.stringify(res["data"]), body.ulb);
           if (body.ulb.length == 1) this.createBarChart(res);
-          else
+          else{
+            if(this.filterName=='capital expenditure' || this.filterName =='capital expenditure per capita'){
+            let dataFactory = this.createDataForUlbWise(res["data"]["ulbData"], [
+              ...new Set(body.ulb),
+            ])
+            for (const data of dataFactory) {
+                 ulbForCapex = ulbForCapex.concat(this.createExpenditureData(data.ulbData,this.filterName));
+            }
+             res["data"]["ulbData"] =  ulbForCapex ;
+            }
             this.createDataForUlbs(res["data"]["ulbData"], [
               ...new Set(body.ulb),
             ]);
+          }
           if (showCagrIn.includes(this.selectedTab.toLowerCase()))
             this.calculateCagr(res["data"], this.hideElements);
           if (showPerCapita.includes(this.selectedTab.toLowerCase()))
@@ -384,6 +395,20 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     this.positiveCAGR = total > 0;
   }
 
+
+  createDataForUlbWise(allData, ulbs){
+    let ulbWiseData=[];
+    ulbs.map((ulb, i) => {
+      ulbWiseData[i]={"ulbName":this.ulbMapping[ulb].name,"ulbData":[]}
+      for(var j =0; j<allData.length;j++){
+         let filterData =  allData[j].yearData.filter((x)=>{return x.ulbName==this.ulbMapping[ulb].name})
+         if(filterData.length>0)
+          ulbWiseData[i].ulbData.push({"_id":allData[j]._id,"yearData":filterData})
+      }
+    })
+   return ulbWiseData;
+  }
+
   createDataForUlbs(res, ulbs) {
     let obj = {
       type: "bar",
@@ -408,7 +433,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
               });
               this.mySelectedYears.forEach((year) => {
                 let foundUlb = res.find(
-                  (val) => val._id.financialYear == year && val._id.ulb == ulb
+                  (val) => val._id.financialYear == year && val._id.ulb == ulb || val._id.financialYear == year && val.ulbName == this.ulbMapping[ulb].name 
                 );
                 if (foundUlb)
                   innerObj.data.push(
