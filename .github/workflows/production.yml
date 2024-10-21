@@ -3,7 +3,7 @@ name: Build and Deploy City finance 15th FC
 on:
   push:
     branches:
-      - 'test-code-deploy'
+      - 'aws_deploy'
   pull_request:
     branches:
       - 'main'
