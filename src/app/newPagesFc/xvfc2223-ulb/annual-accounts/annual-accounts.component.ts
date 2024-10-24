@@ -12,6 +12,7 @@ import { SweetAlert } from "sweetalert/typings/core";
 import { environment } from "src/environments/environment";
 import { staticFileKeys } from "src/app/util/staticFileConstant";
 const swal: SweetAlert = require("sweetalert");
+import * as FileSaver from "file-saver";
 @Component({
   selector: "app-annual-accounts",
   templateUrl: "./annual-accounts.component.html",
@@ -1552,14 +1553,36 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
             this.manadUploadErrors[fileType].standardized_data.error = false;
             //  this.checkDiff();
           } catch (error) {
-            console.log(
-              "error?.data.message upload error",
-              error?.data.message
-            );
-
+            console.log("error?.data.message upload error");
+            // console.log("----------------------------------------------", error?.data.message.length)
             this.uploadErrors[fileType].standardized_data.file = file;
-            this.uploadErrors[fileType].standardized_data.error =
-              error?.data.message;
+            
+            if(error?.data.message.length > 100) {
+              this.uploadErrors[fileType].standardized_data.error = "Please check the error-log";
+              let fileProcessingTracker = {
+                '0': {
+                  status: 'FAILED',
+                  message: error?.data.message
+                }
+              }
+              let filesToUpload = ['Standardized Excel'];
+
+              this.dataEntryService.dataDump(fileProcessingTracker, filesToUpload).subscribe((res: any) => {
+                const blob = new Blob([res], {
+                  type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                });
+
+                // Set file name.
+                const filename = `Error-Log.xlsx`;
+                FileSaver.saveAs(blob, filename);
+                console.log('File Download Done');
+                return;
+
+              }, (err) => {
+                console.log("err", err);
+              });
+            }
+            else {  this.uploadErrors[fileType].standardized_data.error = error?.data.message;  }
             this.data[fileType].standardized_data.excel.url = null;
             this.manadUploadErrors[fileType].standardized_data.error = null;
             rej(error);
