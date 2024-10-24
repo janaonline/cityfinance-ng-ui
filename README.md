@@ -50,10 +50,13 @@ A brief description of what this project does and who it's for
    ```
 
 7. Build the Angular application:
+
    ```bash
    node --max_old_space_size=6144 ./node_modules/@angular/cli/bin/ng build --prod
    ```
+
 8. Rename the dist directory to dist1:
+
    ```bash
    mv dist dist1
    ```
