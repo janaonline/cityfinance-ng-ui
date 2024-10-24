@@ -9,7 +9,7 @@ import {
   AfterContentInit,
   AfterViewInit,
 } from "@angular/core";
-import { FormControl, FormGroup } from "@angular/forms";
+import { FormControl, FormGroup, UntypedFormGroup } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 // import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import * as fileSaver from "file-saver";
@@ -457,7 +457,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
       });
   }
 
-  filterGroup = new FormGroup({
+  filterGroup = new UntypedFormGroup({
     stateId: new FormControl("State Name"),
     ulb: new FormControl(""),
     ulbType: new FormControl("ULB Type"),

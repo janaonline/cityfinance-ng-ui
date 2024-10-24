@@ -11,18 +11,18 @@
     "declaration": false,
     "module": "es2020",
     "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "target": "es2015",
+    "target": "es2020",
     "typeRoots": [
       "node_modules/@types"
     ],
     "lib": [
       "es2017",
       "esnext.string",
+      "ES2021.String",
       "dom"
     ],
     "paths": {
