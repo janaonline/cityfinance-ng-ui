@@ -3,11 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { FiscalRankingService } from '../fiscal-ranking.service';
 import { GuidelinesPopupComponent } from './guidelines-popup/guidelines-popup.component';
 import { VideosPopupComponent } from './videos-popup/videos-popup.component';
-import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
-import { staticFileKeys } from 'src/app/util/staticFileConstant';
-import { forkJoin } from 'rxjs';
-import { SweetAlert } from "sweetalert/typings/core";
-const swal: SweetAlert = require("sweetalert");
 
 @Component({
   selector: 'app-home',
@@ -21,49 +16,15 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private fiscalRankingService: FiscalRankingService,
-    private matDialog: MatDialog,
-    private dataEntryService: DataEntryService,
+    private matDialog: MatDialog
   ) { }
 
-  staticFileArray = [
-    {
-      key: 'FR_LANDING_PAGE_GUIDELINES',
-      title: 'Final Guidelines',
-      url: ''
-    },
-    {
-      key: 'FR_LANDING_PAGE_BROCHURE',
-      title: 'Brochure',
-      url: ''
-    },
-    {
-      key: 'FR_LANDING_PAGE_LATEST_VIDEO',
-      title: 'Videos',
-      url: ''
-    },
-    {
-      key: 'FR_LANDING_PAGE_LAUNCH_VIDEO',
-      title: 'Videos',
-      url: ''
-    },
-    {
-      key: 'FR_LANDING_PAGE_OLD_CONTACT_DETAILS',
-      title: 'CONTACT DETAILS',
-      url: ''
-    },
-    {
-      key: 'FR_LANDING_PAGE_DRAFT_GUIDELINES',
-      title: 'Draft Guidelines',
-      url: ''
-    },
-  ]
   ngOnInit(): void {
-    this.getStaticFile();
     this.loadData();
-    // if (sessionStorage.getItem('homeVideoAutoOpen') != 'true') {
-    //   this.videosPopup();
-    //   sessionStorage.setItem('homeVideoAutoOpen', 'true');
-    // }
+    if (sessionStorage.getItem('homeVideoAutoOpen') != 'true') {
+      this.videosPopup();
+      sessionStorage.setItem('homeVideoAutoOpen', 'true');
+    }
   }
 
   loadData() {
@@ -103,58 +64,13 @@ export class HomeComponent implements OnInit {
   guidelinesPopup() {
     this.matDialog.open(GuidelinesPopupComponent, {
       width: '450px',
-      maxHeight: '90vh',
-      data: {
-        draftGuidelines : this.staticFileArray[5].url,
-        finalGuidelines : this.staticFileArray[0].url
-      }
+      maxHeight: '90vh'
     });
   }
 
   videosPopup() {
     this.matDialog.open(VideosPopupComponent, {
-      width: '800px',
-      data: {
-        latestVideofileUrl: this.staticFileArray[2].url,
-        launchVideofileUrl: this.staticFileArray[3].url
-      }
+      width: '800px'
     });
   }
-  // getStaticFile(){
-  //   let staticLength = this.staticFileArray?.length;
-  //   for(let i=0; i < staticLength; i++){
-  //     let key = staticFileKeys[`${this.staticFileArray[i].key}`]
-  //     this.dataEntryService.getStaticFileUrl(key).subscribe((res: any) => {
-  //       this.staticFileArray[i].url = res?.data?.url;
-  //     })
-  //   }
-   
-  // }
-  getStaticFile() {
-    let staticFileObservables = this.staticFileArray?.map(staticFile => {
-      let key = staticFileKeys[`${staticFile.key}`];
-      return this.dataEntryService.getStaticFileUrl(key);
-    });
-  
-    if (staticFileObservables && staticFileObservables.length > 0) {
-      forkJoin(staticFileObservables).subscribe(
-        (responses: any[]) => {
-          responses.forEach((res, i) => {
-            this.staticFileArray[i].url = res?.data?.url;
-          });
-  
-          // Call videosPopup here after all API calls are successful
-          if (sessionStorage.getItem('homeVideoAutoOpen') !== 'true') {
-            this.videosPopup();
-            sessionStorage.setItem('homeVideoAutoOpen', 'true');
-          }
-        },
-        (error) => {
-          swal("Error", "Something went wrong!", "error")
-        }
-      );
-    }
-  }
-  
-
 }
