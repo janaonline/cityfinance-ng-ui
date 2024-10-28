@@ -36,7 +36,7 @@ jobs:
 
     - name: Archive build folder
       run: |
-        zip -r ${{ env.ZIP_FILE }} dist
+        zip -r ${{ env.ZIP_FILE }} dist/ appspec.yml scripts/
 
     - uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -63,4 +63,4 @@ jobs:
       - run: |
           echo "Deploying branch ${{ env.GITHUB_REF }} to ${{ github.event.inputs.environment }}"
           commit_hash=`git rev-parse HEAD`
-          aws deploy create-deployment --application-name CF-CodeDeployment-Application --deployment-group-name CF-DeploymentGroup-Frontend --s3-location bucket=cityfinance-frontend,bundleType=zip,key=${{ env.ZIP_FILE }}
+          aws deploy create-deployment --application-name CF-CodeDeployment-Application --deployment-group-name CF-DeploymentGroup-Frontend --s3-location bucket=cityfinance-frontend,bundleType=zip,key=${{ env.ZIP_FILE }}.zip
