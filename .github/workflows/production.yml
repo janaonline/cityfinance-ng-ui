@@ -45,7 +45,7 @@ jobs:
         aws-region: ${{ env.AWS_REGION }}
     - name: Copy to s3 bucket
       run: |
-         aws s3 cp ${{ env.ZIP_FILE }} s3://${{ env.S3BUCKET }}/
+         aws s3 cp ${{ env.ZIP_FILE }}.zip s3://${{ env.S3BUCKET }}/
 
   deploy:
     needs: build
