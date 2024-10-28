@@ -42,13 +42,13 @@ export class UlbDetailsHeaderComponent implements OnInit, OnChanges {
       title: 'Property Tax Details',
       services: [
         { name: '3. Property Tax Includes Water Tax', key: 'propertyWaterTax' },
-        { name: '4. Property Tax Includes Sanitation/Sewerage Tax', key: 'sanitationService' }
+        { name: '4. Property Tax Includes Sanitation/Sewerage Tax', key: 'sanitationService' },
+        { name: '5. Property Tax Register GIS-based', key: 'registerGis' }
       ]
     },
     {
       title: 'Technology Usage',
       services: [
-        { name: '5. Property Tax Register GIS-based', key: 'registerGis' },
         { name: '6. Accounting Software Used', key: 'accountStwre' }
       ]
     }

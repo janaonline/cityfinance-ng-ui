@@ -9,7 +9,6 @@ import { NewCommonService } from 'src/app/shared2223/services/new-common.service
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { FiscalRankingService, FormWiseData, MapData, removeFalsy, Table } from '../fiscal-ranking.service';
 import { TrackingHistoryTableComponent } from './tracking-history-table/tracking-history-table.component';
-import { AuthService } from 'src/app/auth/auth.service';
 
 const tables: Table[] = [
   {
@@ -75,13 +74,7 @@ export class ReviewUlbTableComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog,
     private fiscalRankingService: FiscalRankingService,
-    private authService: AuthService,
     private _commonService: CommonService) {
-      this.userData = JSON.parse(localStorage.getItem("userData"));
-      if (!this.authService.loggedIn() || this.userData?.role == "ULB") {
-        this.router.navigate(["rankings/home"]);
-        return;
-      }
   }
   ngOnInit(): void {
     this.filterForm = this._fb.group({
