@@ -21,7 +21,7 @@ A brief description of what this project does and who it's for
 2. Change to the project directory:
 
    ```bash
-   cd citifinance-ng-ui
+   cd citifinance-ng-ui 
    ```
 
 3. Switch to the desired branch:
