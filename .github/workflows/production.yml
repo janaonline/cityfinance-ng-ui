@@ -11,6 +11,7 @@ on:
 env:
   AWS_REGION: ap-south-1
   S3BUCKET: cityfinance-frontend
+  ZIP_FILE: cityfinancev1
 
 jobs:
   build:
@@ -32,6 +33,11 @@ jobs:
       run: npm install --save @types/lodash@4.14.74 --force
     - name: Build Angular project
       run: npm run build
+
+    - name: Archive build folder
+      run: |
+        zip -r ${{ env.ZIP_FILE }} dist
+
     - uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -39,8 +45,7 @@ jobs:
         aws-region: ${{ env.AWS_REGION }}
     - name: Copy to s3 bucket
       run: |
-         aws s3 cp dist s3://${{ env.S3BUCKET }}/ --recursive
-
+         aws s3 cp ${{ env.ZIP_FILE }} s3://${{ env.S3BUCKET }}/
 
   deploy:
     needs: build
@@ -58,4 +63,4 @@ jobs:
       - run: |
           echo "Deploying branch ${{ env.GITHUB_REF }} to ${{ github.event.inputs.environment }}"
           commit_hash=`git rev-parse HEAD`
-          aws deploy create-deployment --application-name CF-CodeDeployment-Application --deployment-group-name CF-DeploymentGroup-Frontend --s3-location bucket=cityfinance-frontend,bundleType=zip,key=dist \ --ignore-application-stop-failures
+          aws deploy create-deployment --application-name CF-CodeDeployment-Application --deployment-group-name CF-DeploymentGroup-Frontend --s3-location bucket=cityfinance-frontend,bundleType=zip,key=${{ env.ZIP_FILE }} \ --ignore-application-stop-failures
