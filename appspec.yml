@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /var/www/html/cityfinance/cityfinance-ng-ui-v2
+    destination: /var/www/html/cityfinance/cityfinance-ng-ui
 hooks:
   BeforeInstall:
     - location: scripts/before_intall.sh
