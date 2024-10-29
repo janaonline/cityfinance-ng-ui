@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /var/www/html/cityfinance/cityfinancev1
+    destination: /var/www/html/cityfinance/cityfinancev1-deploy
 hooks:
   BeforeInstall:
     - location: scripts/before_intall.sh
