@@ -22,7 +22,7 @@ if (
 } else if (window.location.hostname.includes("staging")) {
   url = "https://staging.cityfinance.in/api/v1/";
 } else if (window.location.hostname.includes("test")) {
-  url = "https://staging.cityfinance.in/api/v1/";
+  url = "https://test.cityfinance.in/api/v1/";
 } else if (window.location.hostname.includes("new-cityfinance")) {
   url = "https://newcityfinanceapi.dhwaniris.in/api/v1/";
   // url = "http://localhost:8080/api/v1/";
