@@ -88,7 +88,7 @@ export class AccordionToTableComponent implements OnInit {
 
   formattedNamesMapping: { [nameIdentifier: string]: string } = {};
 
-  ulbItemLimitPerPage = 4;
+  ulbItemLimitPerPage = 5;
   defaultPageView = 1;
   currentPageInView = 1;
   totalCount;
@@ -303,6 +303,7 @@ export class AccordionToTableComponent implements OnInit {
     }
     console.log("newData", datas);
     this.bondIssuerItemData = datas.data;
+    if(this.cityId){ this.bondIssuerItemData = datas.data.filter((e:any) => e.ulbId === this.cityId); }
 
     if (this.state) {
       this.filterdData = this.bondIssuerItemData.filter(
@@ -323,7 +324,8 @@ export class AccordionToTableComponent implements OnInit {
       this.makeDataForState(this.filterdData);
       // this.makeDataForState(datas.data);
     }
-    this.paginatedbondIssuerItem = this.sliceDataForCurrentView(datas.data);
+    //this.paginatedbondIssuerItem = this.sliceDataForCurrentView(datas.data);
+    this.paginatedbondIssuerItem = this.cityId ? this.sliceDataForCurrentView(this.bondIssuerItemData) : this.sliceDataForCurrentView(datas.data);
 
     let tempArr = [];
     let tempIssueArr = [];
