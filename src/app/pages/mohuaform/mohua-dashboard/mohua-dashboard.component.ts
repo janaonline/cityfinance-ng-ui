@@ -36,6 +36,8 @@ import { UserUtility } from "src/app/util/user/user";
 import * as fileSaver from "file-saver";
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { SupersetService } from './superset.service';
+import { embedDashboard } from '@superset-ui/embedded-sdk';
 @Component({
   selector: "app-mohua-dashboard",
   templateUrl: "./mohua-dashboard.component.html",
@@ -53,7 +55,8 @@ export class MohuaDashboardComponent implements OnInit {
     protected geoService: GeographicalService,
     protected _activateRoute: ActivatedRoute,
     public mohuaDashboardService: MohuaDashboardService,
-    public commonService: CommonService
+    public commonService: CommonService,
+    private supersetService: SupersetService
   ) {
 
 
@@ -63,6 +66,8 @@ export class MohuaDashboardComponent implements OnInit {
   UAs = [];
   UAData = []
   ngOnInit(): void {
+    console.log("Superset check api running");
+    this.loadEmbeddedDashboard();
     this.getUAList();
 
     this.filteredOptions = this.myControl.valueChanges.pipe(
@@ -103,7 +108,49 @@ export class MohuaDashboardComponent implements OnInit {
       this.updateCharts();
 
     };
+    // this.fetchGuestTokenFromBackend();
 
+  }
+
+  private loadEmbeddedDashboard() {
+    const dashboardUuid = '6476518a-7dfd-4614-87c2-8a315c9ece25';   // Replace with actual dashboard UUID
+    const credentials = {
+      username: 'cityfinance.in',
+      password: 'Cityfinance@123',
+      first_name: 'Cityfinance',
+      last_name: 'in'
+    };
+    const orgSlug = 'janaagraha';
+    this.supersetService.fetchEmbedToken(dashboardUuid, credentials, orgSlug).subscribe ( token => console. log ( 'Embed token:' , token), error => console.error ( 'Error fetching embed token:' , error) );
+
+    // Define the fetchGuestToken function that calls our Angular service
+    // const fetchGuestTokenFromBackend = () => {
+    //   // return this.supersetService.fetchEmbedToken(dashboardUuid, credentials, orgSlug).toPromise();
+    //   const tocken = this.supersetService.fetchEmbedToken(dashboardUuid, credentials, orgSlug).toPromise();
+    //   console.log("Superset check", tocken);
+      console.log("Superset check api running");
+    //   return tocken;
+    // };
+
+    // embedDashboard({
+    //   id: dashboardUuid,
+    //   supersetDomain: 'https://janaagraha.dalgo.in/',
+    //   mountPoint: document.getElementById('mohua-superset-container'),
+    //   fetchGuestToken: fetchGuestTokenFromBackend, // Use the method we defined above
+
+    //   dashboardUiConfig: {
+    //     hideTitle: true,
+    //     filters: {
+    //       expanded: true
+    //     },
+    //     urlParams: {
+    //       foo: 'value1',
+    //       bar: 'value2'
+    //     }
+    //   },
+    //   iframeSandboxExtras: ['allow-top-navigation', 'allow-popups-to-escape-sandbox']
+
+    // });
   }
   getUAList() {
     this.UAs = []
@@ -777,8 +824,8 @@ export class MohuaDashboardComponent implements OnInit {
     this.annualProvisional = new Chart(ctx, {
       type: "doughnut",
       data: {
-        labels:  ['Completed and Accounts Submitted',
-        'Completed and Accounts Not Submitted'],
+        labels: ['Completed and Accounts Submitted',
+          'Completed and Accounts Not Submitted'],
         datasets: [
           {
             data: [
@@ -811,7 +858,7 @@ export class MohuaDashboardComponent implements OnInit {
     var myChart = new Chart(ctx, {
       type: "doughnut",
       data: {
-        labels:  [],
+        labels: [],
         datasets: [
           {
             data: [25, 75],
@@ -824,7 +871,7 @@ export class MohuaDashboardComponent implements OnInit {
         circumference: Math.PI + 1,
         rotation: -Math.PI - 0.5,
         cutoutPercentage: 94,
-        
+
         onClick(...args) {
           console.log(args);
         },
@@ -850,7 +897,7 @@ export class MohuaDashboardComponent implements OnInit {
         circumference: Math.PI + 1,
         rotation: -Math.PI - 0.5,
         cutoutPercentage: 94,
-       
+
         onClick(...args) {
           console.log(args);
         },
@@ -880,7 +927,7 @@ export class MohuaDashboardComponent implements OnInit {
       type: "doughnut",
       data: {
         labels: ['Completed and Accounts Submitted',
-        'Completed and Accounts Not Submitted'],
+          'Completed and Accounts Not Submitted'],
         datasets: [
           {
             data: [
