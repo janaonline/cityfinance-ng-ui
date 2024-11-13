@@ -359,7 +359,8 @@ export class AccordionToTableComponent implements OnInit {
     }, 0);
 
     console.log("bidReceivedAmount", this.bidReceivedAmount, this.issueSize);
-    this.totalCount = datas.total;
+    //this.totalCount = datas.total;
+    this.totalCount = this.cityId ? this.bondIssuerItemData.length :datas.total;
 
     console.log("currentData===>", this.bondIssuerItemData);
   }
