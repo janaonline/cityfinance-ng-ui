@@ -34,7 +34,7 @@ import { CustomRouteReuseStrategy } from "./util/router/reuse-strategy";
 import { MatFormFieldModule } from "@angular/material/form-field";
 
 import { UlbNotRegisteredComponent } from "./auth/ulb-not-registered/ulb-not-registered.component";
-import { FlexLayoutModule } from "@angular/flex-layout";
+// import { FlexLayoutModule } from "@angular/flex-layout";
 import { NewHomeComponent } from "./auth/new-home/new-home.component";
 import { SlickCarouselModule } from "ngx-slick-carousel";
 import { CollapseModule } from "ngx-bootstrap/collapse";
@@ -48,73 +48,70 @@ import { GlobalPartModule } from "./global-part/global-part.module";
 
 
 @NgModule({
-  entryComponents: [DialogComponent],
-
-  imports: [
-    AppRouter,
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppCommonModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    ModalModule.forRoot(),
-    ReactiveFormsModule,
-    FormsModule,
-    // FormControl,
-    SharedModule,
-    // CfChartsModule,
-    AngularMaterialModule,
-    CommonModule,
-    AngularMultiSelectModule,
-    MatAutocompleteModule,
-    MatInputModule,
-    MatGridListModule,
-    MatSidenavModule,
-    MatMenuModule,
-    MatListModule,
-    MatIconModule,
-    MatCardModule,
-    MatFormFieldModule,
-    CarouselModule.forRoot(),
-    FlexLayoutModule,
-    SlickCarouselModule,
-    CollapseModule.forRoot(),
-    MunicipalLawModule,
-    NgxPaginationModule,
-    MatFormFieldModule,
-    NgxGoogleAnalyticsModule.forRoot(environment.GoogleTagID),
-    NgxGoogleAnalyticsRouterModule,
-    GlobalPartModule
-  ],
-  schemas: [
-    CUSTOM_ELEMENTS_SCHEMA
-  ],
-  providers: [
-    CustomHttpInterceptor,
-
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: CustomHttpInterceptor,
-      multi: true,
-    },
-    { provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy },
-    { provide: ErrorHandler, useClass: GlobalErrorHandler},
-    AuthService,
-    AuthGuard,
-    VersionCheckService,
-  ],
-  declarations: [
-    AppComponent,
-    DialogComponent,
-    HomeComponent,
-    MapSectionComponent,
-    HeatMapComponent,
-    UlbNotRegisteredComponent,
-    NewHomeComponent,
-    ProfileUpdateComponent,
-    // InrCurrencyPipe,
-  ],
-  bootstrap: [AppComponent],
+    imports: [
+        AppRouter,
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppCommonModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+        ModalModule.forRoot(),
+        ReactiveFormsModule,
+        FormsModule,
+        // FormControl,
+        SharedModule,
+        // CfChartsModule,
+        AngularMaterialModule,
+        CommonModule,
+        AngularMultiSelectModule,
+        MatAutocompleteModule,
+        MatInputModule,
+        MatGridListModule,
+        MatSidenavModule,
+        MatMenuModule,
+        MatListModule,
+        MatIconModule,
+        MatCardModule,
+        MatFormFieldModule,
+        CarouselModule.forRoot(),
+        // FlexLayoutModule,
+        SlickCarouselModule,
+        CollapseModule.forRoot(),
+        MunicipalLawModule,
+        NgxPaginationModule,
+        MatFormFieldModule,
+        NgxGoogleAnalyticsModule.forRoot(environment.GoogleTagID),
+        NgxGoogleAnalyticsRouterModule,
+        GlobalPartModule
+    ],
+    schemas: [
+        CUSTOM_ELEMENTS_SCHEMA
+    ],
+    providers: [
+        CustomHttpInterceptor,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: CustomHttpInterceptor,
+            multi: true,
+        },
+        { provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy },
+        { provide: ErrorHandler, useClass: GlobalErrorHandler },
+        AuthService,
+        AuthGuard,
+        VersionCheckService,
+    ],
+    declarations: [
+        AppComponent,
+        DialogComponent,
+        HomeComponent,
+        MapSectionComponent,
+        HeatMapComponent,
+        UlbNotRegisteredComponent,
+        NewHomeComponent,
+        ProfileUpdateComponent,
+        // InrCurrencyPipe,
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
 
