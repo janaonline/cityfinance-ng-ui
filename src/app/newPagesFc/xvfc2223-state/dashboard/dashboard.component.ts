@@ -1,4 +1,4 @@
-import { CompileShallowModuleMetadata } from '@angular/compiler';
+// import { CompileShallowModuleMetadata } from '@angular/compiler';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { link } from 'fs';

@@ -10,7 +10,7 @@ import { UserUtility } from "src/app/util/user/user";
 import { USER_TYPE } from "src/app/models/user/userType";
 import { IUserLoggedInDetails } from "../../../models/login/userLoggedInDetails";
 import { ProfileService } from "src/app/users/profile/service/profile.service";
-import { FasDirective } from "angular-bootstrap-md";
+// import { FasDirective } from "angular-bootstrap-md";
 const swal: SweetAlert = require("sweetalert");
 import * as fileSaver from "file-saver";
 import { State2223Service } from "src/app/newPagesFc/xvfc2223-state/state-services/state2223.service";
