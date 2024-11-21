@@ -14,7 +14,8 @@ import { FiscalHomeComponent } from "./fiscal-ranking/fiscal-home/fiscal-home.co
 import { FiscalRankingModule } from "./fiscal-ranking/fiscal-ranking.module";
 import { MunicipalityBondsProjectsComponent } from "./shared/components/municipality-bonds-projects/municipality-bonds-projects.component";
 import { MunicipalityBudgetComponent } from "./shared/components/municipality-budget/municipality-budget.component";
-import { DalgoComponent } from "./auth/dalgo/dalgo.component";
+import { DalgoComponent } from "./shared/components/dalgo/dalgo.component";
+
 export const appRouter: Routes = [
 
   { path: '', redirectTo: 'home', pathMatch: 'full' },

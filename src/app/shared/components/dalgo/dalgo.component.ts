@@ -1,11 +1,12 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { embedDashboard } from '@superset-ui/embedded-sdk';
 import { SupersetService } from './superset.service';
 
 @Component({
   selector: 'app-dalgo',                 // Component selector to use in templates
   templateUrl: './dalgo.component.html',  // HTML template file for the component
-  styleUrls: ['./dalgo.component.scss']   // Stylesheet for the component
+  styleUrls: ['./dalgo.component.scss'],   // Stylesheet for the component
+  standalone: true
 })
 
 export class DalgoComponent implements OnInit, AfterViewInit {
@@ -13,8 +14,8 @@ export class DalgoComponent implements OnInit, AfterViewInit {
   private readonly htmlElementId = 'mohua-superset-container';  // Element ID as a constant
   private readonly supersetDomainUrl = 'https://janaagraha.dalgo.in/';
 
-  private readonly supersetEmbedDashboardId = '6476518a-7dfd-4614-87c2-8a315c9ece25'; // MoHUA dashboard UUID
-  //private readonly supersetEmbedDashboardId = '463904ae-53e5-4e86-8f41-314ad84fe11b'; // State dashboard UUID
+  @Input() dashboardId = '6476518a-7dfd-4614-87c2-8a315c9ece25'; // MoHUA dashboard UUID
+  //private readonly dashboardId = '463904ae-53e5-4e86-8f41-314ad84fe11b'; // State dashboard UUID
 
   constructor(private supersetService: SupersetService) { }
 
@@ -51,7 +52,7 @@ export class DalgoComponent implements OnInit, AfterViewInit {
  *
  * **Usage:**
  * The function is designed to retrieve a guest token for embedding Superset dashboards.
- * Ensure that `supersetEmbedDashboardId` and other required IDs are correctly set.
+ * Ensure that `dashboardId` and other required IDs are correctly set.
  *
  * @returns A promise resolving to the guest token received from the API.
  */
@@ -59,7 +60,7 @@ export class DalgoComponent implements OnInit, AfterViewInit {
       // Prepare the request body with the required 'resources' array
       const requestBody = {
         resources: [
-          { type: "dashboard", id: this.supersetEmbedDashboardId },
+          { type: "dashboard", id: this.dashboardId },
         ],
       };
       // Send the request to the Superset service to fetch the guest token
@@ -81,7 +82,7 @@ export class DalgoComponent implements OnInit, AfterViewInit {
 
     // Call embedDashboard to embed the Superset dashboard with specified configurations
     embedDashboard({
-      id: this.supersetEmbedDashboardId,       // UUID of the dashboard to embed
+      id: this.dashboardId,       // UUID of the dashboard to embed
       supersetDomain: this.supersetDomainUrl,  // Superset domain URL
       mountPoint: document.getElementById(this.htmlElementId) as HTMLElement, // DOM element to mount dashboard
       fetchGuestToken: fetchGuestToken,        // Method to retrieve guest token
