@@ -1,0 +1,17 @@
+/* Container style with margin, width, and height adjustments */
+.container {
+  width: calc(100% - 40px); /* Full width minus 20px left and right margins */
+  height: 100vh; /* Full viewport height */
+  margin: 0 20px; /* 20px margins on the left and right */
+  box-sizing: border-box;
+  display: flex; /* Flexbox for flexible child layout */
+  flex-direction: column; /* Stack children vertically */
+}
+
+/* Style the iframe to fill the container */
+.container iframe {
+  width: 100%; /* Make iframe take the full width */
+  height: auto;
+  flex-grow: 1; /* Make iframe expand to take all available height */
+  border: none; /* Remove iframe borders */
+}
