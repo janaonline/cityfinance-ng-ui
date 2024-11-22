@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { embedDashboard } from '@superset-ui/embedded-sdk';
 import { SupersetService } from './superset.service';
+import { CommonServicesService } from 'src/app/fc-grant-2324-onwards/fc-shared/service/common-services.service';
 
 @Component({
   selector: 'app-dalgo',                 // Component selector to use in templates
@@ -17,9 +18,22 @@ export class DalgoComponent implements OnInit, AfterViewInit {
   @Input() dashboardId = '6476518a-7dfd-4614-87c2-8a315c9ece25'; // MoHUA dashboard UUID
   //private readonly dashboardId = '463904ae-53e5-4e86-8f41-314ad84fe11b'; // State dashboard UUID
 
-  constructor(private supersetService: SupersetService) { }
+  @Input() isToExpandFilters = true
+
+  // Dynamically pass the state name from the logged in user profile
+  @Input() filters: { id: string; column: string; value: string; }[] = [
+    { id: 'NATIVE_FILTER-210Q_hGGax', column: 'state', value: 'Andhra Pradesh' },
+    { id: 'NATIVE_FILTER-MgsHyuye2m', column: 'year', value: '2022-23' }
+  ];
+
+  // dalgoFilter: { id: string; column: string; value: string; }[];
+
+  constructor(private supersetService: SupersetService,
+    private commonServices: CommonServicesService,) { }
 
   ngOnInit(): void {
+    this.getSelectedYear();
+    this.getLoggedInStateName();
     this.initializeEmbeddedDashboard();
   }
 
@@ -27,6 +41,20 @@ export class DalgoComponent implements OnInit, AfterViewInit {
     this.adjustIframeDimensions();
   }
 
+  getSelectedYear() {
+    const selectedYearId = sessionStorage.getItem("selectedYearId");
+    const selectedYear = this.commonServices.getYearName(selectedYearId);
+    this.filters.push({ id: 'NATIVE_FILTER-MgsHyuye2m', column: 'year', value: selectedYear });
+    console.log('this.dalgoFilter',this.filters);
+  }
+
+  getLoggedInStateName() {
+    const stateId = sessionStorage.getItem("selectedYearId");
+    const stateName = this.commonServices.getYearName(stateId);
+    this.filters.push({ id: 'NATIVE_FILTER-210Q_hGGax', column: 'state', value: stateName });
+    console.log('this.dalgoFilter',this.filters);
+  }
+  
   /**
    * Initializes and embeds the Superset dashboard into the DOM.
    * Fetches a guest token, configures the dashboard settings, and embeds it using the Superset Embedded SDK.
@@ -68,17 +96,13 @@ export class DalgoComponent implements OnInit, AfterViewInit {
     };
 
 
-    // Dynamically pass the state name from the logged in user profile
-    let filters = [
-      { id: 'NATIVE_FILTER-210Q_hGGax', column: 'state', value: 'Andhra Pradesh' },
-      { id: 'NATIVE_FILTER-MgsHyuye2m', column: 'year', value: '2022-23' }
-    ];
+
 
     // If doesnt need any filter uncomment below to empty the filter array. 
     //filters = [];
 
     // Generate the native filters string by calling the function and applying it to the filters array
-    const nativeFilters = `(${this.generateNativeFilters(filters)})`
+    const nativeFilters = `(${this.generateNativeFilters(this.filters)})`
 
     // Call embedDashboard to embed the Superset dashboard with specified configurations
     embedDashboard({
@@ -90,7 +114,7 @@ export class DalgoComponent implements OnInit, AfterViewInit {
       dashboardUiConfig: {
         hideTitle: true,     // Hide the dashboard title
         filters: {
-          expanded: true     // Expand filters by default
+          expanded: this.isToExpandFilters     // Expand filters by default
         },
         urlParams: { native_filters: nativeFilters } // Dynamic filters passed to Superset dashboard
       },
