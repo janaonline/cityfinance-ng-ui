@@ -51,6 +51,7 @@ export interface IBondIssuerItem {
   isActive: boolean;
   _id: string;
   ulb: string;
+  ulbId: string;
   __v: number;
 }
 

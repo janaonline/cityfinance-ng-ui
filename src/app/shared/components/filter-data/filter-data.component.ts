@@ -274,7 +274,13 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       body.compareType = data["compareType"];
     }
     this.lastSelectedUlbs = body.ulb;
-    body.financialYear = data["year"] ?? this.mySelectedYears;
+    let sortSelectedYear = this.mySelectedYears;
+     sortSelectedYear.sort(function (a, b) {
+      let newA: any = a.split("-")[0];
+      let newB: any = b.split("-")[0];
+      return newB - newA;
+    });
+    body.financialYear = data["year"] ?? sortSelectedYear;
     if (this.selectedTab.includes("Mix")) {
       this.disableFirstYear = false;
       body.financialYear = [body.financialYear[0]];

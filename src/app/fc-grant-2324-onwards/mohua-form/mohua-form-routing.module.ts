@@ -7,6 +7,7 @@ import { ReviewStateFormComponent } from './review-state-form/review-state-form.
 import { StateResourceManagerComponent } from './state-resource-manager/state-resource-manager.component';
 import { UrbanReformsIvComponent } from './urban-reforms-iv/urban-reforms-iv.component';
 import { DocumentsComponent } from './urban-reforms-iv/documents/documents.component';
+import { DashbordComponent } from './dashbord/dashbord.component';
 
 const routes: Routes = [
   {
@@ -14,10 +15,10 @@ const routes: Routes = [
     component: MohuaFormComponent,
     canActivate: [Mohua2223Guard],
     children: [
-      // {
-      //   path: "dashboard",
-      //   component: DashbordComponent,
-      // },
+      {
+        path: "mohua-dashboard",
+        component: DashbordComponent,
+      },
       {
         path: "review-ulb-form",
         component: ReviewUlbTableComponent,
