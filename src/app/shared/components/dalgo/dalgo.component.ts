@@ -1,7 +1,8 @@
-import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { embedDashboard } from '@superset-ui/embedded-sdk';
-import { SupersetService } from './superset.service';
 import { CommonServicesService } from 'src/app/fc-grant-2324-onwards/fc-shared/service/common-services.service';
+import { USER_TYPE } from 'src/app/models/user/userType';
+import { SupersetService } from './superset.service';
 
 @Component({
   selector: 'app-dalgo',                 // Component selector to use in templates
@@ -15,25 +16,35 @@ export class DalgoComponent implements OnInit, AfterViewInit {
   private readonly htmlElementId = 'mohua-superset-container';  // Element ID as a constant
   private readonly supersetDomainUrl = 'https://janaagraha.dalgo.in/';
 
-  @Input() dashboardId = '6476518a-7dfd-4614-87c2-8a315c9ece25'; // MoHUA dashboard UUID
-  //private readonly dashboardId = '463904ae-53e5-4e86-8f41-314ad84fe11b'; // State dashboard UUID
+  @Input() dashboardType = USER_TYPE.MoHUA;
+  @Input() dashboardId = '';
 
   @Input() isToExpandFilters = true
 
   // Dynamically pass the state name from the logged in user profile
   @Input() filters: { id: string; column: string; value: string; }[] = [
-    { id: 'NATIVE_FILTER-210Q_hGGax', column: 'state', value: 'Andhra Pradesh' },
-    { id: 'NATIVE_FILTER-MgsHyuye2m', column: 'year', value: '2022-23' }
+    // { id: 'NATIVE_FILTER-210Q_hGGax', column: 'state', value: 'Andhra Pradesh' },
+    // { id: 'NATIVE_FILTER-MgsHyuye2m', column: 'year', value: '2022-23' }
   ];
 
-  // dalgoFilter: { id: string; column: string; value: string; }[];
+  stateFilterId: string;
+  yearFilterId: string;
 
   constructor(private supersetService: SupersetService,
     private commonServices: CommonServicesService,) { }
 
   ngOnInit(): void {
+    if (this.dashboardType == USER_TYPE.STATE) {
+      this.yearFilterId = 'NATIVE_FILTER-lNqf-pfM93';
+      this.stateFilterId = 'NATIVE_FILTER-oiRM7rNPPU';
+      this.dashboardId = '463904ae-53e5-4e86-8f41-314ad84fe11b';
+      this.getStateName();
+    } else if (this.dashboardType == USER_TYPE.MoHUA) {
+      this.yearFilterId = 'NATIVE_FILTER-MgsHyuye2m';
+      this.dashboardId = '6476518a-7dfd-4614-87c2-8a315c9ece25';
+    }
+
     this.getSelectedYear();
-    this.getLoggedInStateName();
     this.initializeEmbeddedDashboard();
   }
 
@@ -44,17 +55,17 @@ export class DalgoComponent implements OnInit, AfterViewInit {
   getSelectedYear() {
     const selectedYearId = sessionStorage.getItem("selectedYearId");
     const selectedYear = this.commonServices.getYearName(selectedYearId);
-    this.filters.push({ id: 'NATIVE_FILTER-MgsHyuye2m', column: 'year', value: selectedYear });
-    console.log('this.dalgoFilter',this.filters);
+    this.filters.push({ id: this.yearFilterId, column: 'year', value: selectedYear });
   }
 
-  getLoggedInStateName() {
-    const stateId = sessionStorage.getItem("selectedYearId");
-    const stateName = this.commonServices.getYearName(stateId);
-    this.filters.push({ id: 'NATIVE_FILTER-210Q_hGGax', column: 'state', value: stateName });
-    console.log('this.dalgoFilter',this.filters);
+  getStateName() {
+    let stateName = localStorage.getItem("state_name");
+    if (!stateName || stateName === 'undefined') {
+      stateName = sessionStorage.getItem("stateName");
+    }
+    this.filters.push({ id: this.stateFilterId, column: 'state', value: stateName });
   }
-  
+
   /**
    * Initializes and embeds the Superset dashboard into the DOM.
    * Fetches a guest token, configures the dashboard settings, and embeds it using the Superset Embedded SDK.
