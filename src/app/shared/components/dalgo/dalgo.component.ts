@@ -5,9 +5,9 @@ import { USER_TYPE } from 'src/app/models/user/userType';
 import { SupersetService } from './superset.service';
 
 @Component({
-  selector: 'app-dalgo',                 // Component selector to use in templates
-  templateUrl: './dalgo.component.html',  // HTML template file for the component
-  styleUrls: ['./dalgo.component.scss'],   // Stylesheet for the component
+  selector: 'app-dalgo',
+  templateUrl: './dalgo.component.html',
+  styleUrls: ['./dalgo.component.scss'],
   standalone: true
 })
 
