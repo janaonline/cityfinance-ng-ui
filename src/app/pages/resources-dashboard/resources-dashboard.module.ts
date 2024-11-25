@@ -39,7 +39,7 @@ import { ELearningModuleComponent } from "./learning-center/e-learning-module/e-
 import { MunicipalLawsComponent } from "./learning-center/municipal-laws/municipal-laws.component";
 import { EnumerationComponent } from "./learning-center/enumeration/enumeration.component";
 
-import { PdfViewerModule } from "ng2-pdf-viewer";
+// import { PdfViewerModule } from "ng2-pdf-viewer";
 import { MunicipalBondRepositoryComponent } from './learning-center/municipal-bond-repository/municipal-bond-repository.component';
 import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
 import { GlobalPartModule } from "src/app/global-part/global-part.module";
@@ -85,7 +85,7 @@ import { GlobalPartModule } from "src/app/global-part/global-part.module";
     ModalModule.forRoot(),
     MatDialogModule,
     SlickCarouselModule,
-    PdfViewerModule,
+    // PdfViewerModule,
     GlobalPartModule
   ],
   exports: [FilterComponentComponent, FilterModelBoxComponent],
