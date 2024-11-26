@@ -15,7 +15,7 @@ import { GeographicalService } from "src/app/shared/services/geographical/geogra
 import { MapUtil } from "src/app/util/map/mapUtil";
 import { IMapCreationConfig } from "src/app/util/map/models/mapCreationConfig";
 import { ICreditRatingData } from "src/app/models/creditRating/creditRatingResponse";
-const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
+// const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 import { Observable, Subscription } from "rxjs";
 import { AuthService } from "../../auth.service";

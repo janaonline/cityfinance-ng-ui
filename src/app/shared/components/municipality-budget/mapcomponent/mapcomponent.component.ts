@@ -25,7 +25,7 @@ import { FiscalRankingService, MapData } from 'src/app/fiscal-ranking/fiscal-ran
 import { MunicipalityBudgetService } from '../municipality-budget.service';
 // import { EventEmitter } from "stream";
 // const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
-const districtJson = require('../../../../../assets/jsonFile/state_boundries.json');
+// const districtJson = require('../../../../../assets/jsonFile/state_boundries.json');
 
 @Component({
   selector: 'app-mapcomponent',

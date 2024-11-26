@@ -93,7 +93,7 @@ import { ProTTaxFormComponent } from './components/pro-t-tax-form/pro-t-tax-form
 import { ErrorDisplayComponent } from "../shared2223/components/error-display/error-display.component";
 import { Shared2223Module } from "../shared2223/shared2223.module";
 import { GrantTransferMohuaComponent } from "../pages/mohuaform/grant-transfer-mohua/grant-transfer-mohua.component";
-import { PdfViewerModule } from "ng2-pdf-viewer";
+// import { PdfViewerModule } from "ng2-pdf-viewer";
 import { PdfCardViewerComponent } from './components/pdf-card-viewer/pdf-card-viewer.component';
 import { MunicipalityBondsComponent } from './components/municipality-bonds/municipality-bonds.component';
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
@@ -142,7 +142,7 @@ import { CountUpDirective } from "./directives/count-up.directive";
         MatRadioModule,
         MdePopoverModule,
         Shared2223Module,
-        PdfViewerModule,
+        // PdfViewerModule,
         MatPaginatorModule,
         GlobalPartModule
     ],
