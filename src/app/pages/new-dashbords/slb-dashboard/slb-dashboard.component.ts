@@ -32,7 +32,7 @@ import { GlobalLoaderService } from "src/app/shared/services/loaders/global-load
 import { NationalMapSectionService } from "../national/national-map-section/national-map-section.service";
 import { AuthService } from "src/app/auth/auth.service";
 // const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
-const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
+// const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
 
 @Component({
   selector: "app-slb-dashboard",
