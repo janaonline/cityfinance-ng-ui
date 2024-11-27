@@ -14,7 +14,7 @@ import {
   FourTwoDigitNumberDirective,
   FiftTwoDigitNumberDirective,
 } from "./directive/decimal.directive";
-import { Xvfc2223UlbRoutingModule } from "../newPagesFc/xvfc2223-ulb/xvfc2223-ulb-routing.module";
+// import { Xvfc2223UlbRoutingModule } from "../newPagesFc/xvfc2223-ulb/xvfc2223-ulb-routing.module";
 import { ErrorDisplayComponent } from './components/error-display/error-display.component';
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
@@ -69,7 +69,7 @@ import { GlobalPartModule } from "../global-part/global-part.module";
     MatIconModule,
     ReactiveFormsModule,
     FormsModule,
-    Xvfc2223UlbRoutingModule,
+    // Xvfc2223UlbRoutingModule,
     MatTooltipModule,
     TooltipModule.forRoot(),
     BsDatepickerModule.forRoot(),

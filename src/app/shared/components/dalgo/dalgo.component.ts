@@ -17,7 +17,7 @@ export class DalgoComponent implements OnInit, AfterViewInit {
   private readonly supersetDomainUrl = 'https://janaagraha.dalgo.in/';
 
   @Input() dashboardType = USER_TYPE.MoHUA;
-  @Input() dashboardId = '';
+  @Input() dashboardId = '6476518a-7dfd-4614-87c2-8a315c9ece25';
 
   @Input() isToExpandFilters = true
 
