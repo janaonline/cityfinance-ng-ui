@@ -9,7 +9,7 @@ import { AboutIndicatorComponent } from "./shared/components/about-indicator/abo
 import { CompareDialogComponent } from "./shared/components/compare-dialog/compare-dialog.component";
 import { RevenuechartComponent } from "./shared/components/revenuechart/revenuechart.component";
 import { WaterRejenuvationComponent } from "./shared/components/water-rejenuvation/water-rejenuvation.component";
-import {ProTTaxFormComponent} from "./shared/components/pro-t-tax-form/pro-t-tax-form.component"
+import { ProTTaxFormComponent } from "./shared/components/pro-t-tax-form/pro-t-tax-form.component"
 import { FiscalHomeComponent } from "./fiscal-ranking/fiscal-home/fiscal-home.component";
 import { FiscalRankingModule } from "./fiscal-ranking/fiscal-ranking.module";
 import { MunicipalityBondsProjectsComponent } from "./shared/components/municipality-bonds-projects/municipality-bonds-projects.component";
@@ -27,7 +27,11 @@ export const appRouter: Routes = [
   // { path: "tab", component: DashboardTabsComponent },
   // { path: "about", component: AboutIndicatorComponent },
   // { path: "filter", component: FilterDataComponent },
-  { path: "revenuchart", component: RevenuechartComponent },
+  // { path: "revenuchart", component: RevenuechartComponent },
+  // {
+  //   path: "revenuchart",
+  //   loadComponent: () => import('./shared/components/revenuechart/revenuechart.component').then(mod => mod.RevenuechartComponent),
+  // },
   { path: "compareDialog", component: CompareDialogComponent },
   { path: "prop-tax", component: ProTTaxFormComponent },
   {
