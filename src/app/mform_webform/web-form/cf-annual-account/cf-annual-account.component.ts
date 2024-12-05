@@ -127,6 +127,17 @@ export class CfAnnualAccountComponent
     if (this.questionresponse && typeof this.questionresponse != "object") {
       this.questionresponse = JSON.parse(this.questionresponse);
     }
+
+    // If showOptionBox is "false" then set the answer to "YES".
+    if (
+      this.questionresponse?.data[0]?.showOptionBox === false && // showOptionBox = false;
+      this.questionresponse?.data[0]?.formId == '5' && // Annual Accounts;
+      Number(this.questionresponse?.data[0]?.statusId) == 1 // Not started; 
+    ) {
+      this.setDefaultModelValue("audited.submit_annual_accounts");
+      this.setDefaultModelValue("unAudited.submit_annual_accounts");
+    }
+
     this.processQuestion(
       JSON.parse(JSON.stringify(this.questionresponse)),
       false
@@ -167,6 +178,17 @@ export class CfAnnualAccountComponent
 
     this.activeTab = this.tabs[0];
     this.getStaticFile()
+
+  }
+
+  setDefaultModelValue(shortKey: string) {
+    const question = this.questionresponse?.data[0]?.language[0]?.question?.find(
+      (ele: any) => ele.shortKey === shortKey
+    );
+
+    if (question && question.answer_option?.length > 0) {
+      question.modelValue = question.answer_option[0]._id; //set to "Yes" i.e "1".
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -247,7 +269,7 @@ export class CfAnnualAccountComponent
       changes.questionresponse.currentValue
     ) {
       this.questionresponse = changes.questionresponse.currentValue;
-      console.log("typeOF", typeof this.questionresponse);
+      // console.log("this.questionresponse---------", this.questionresponse);
       if (this.questionresponse && typeof this.questionresponse != "object") {
         this.questionresponse = JSON.parse(this.questionresponse);
       }
