@@ -29,7 +29,7 @@ import { GlobalLoaderService } from "src/app/shared/services/loaders/global-load
 import * as fileSaver from "file-saver";
 // import { EventEmitter } from "stream";
 // const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
-const districtJson = require("../../../../../assets/jsonFile/state_boundries.json");
+// const districtJson = require("../../../../../assets/jsonFile/state_boundries.json");
 @Component({
   selector: "app-national-map-section",
   templateUrl: "./national-map-section.component.html",
