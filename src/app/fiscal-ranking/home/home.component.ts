@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FiscalRankingService } from '../fiscal-ranking.service';
 import { GuidelinesPopupComponent } from './guidelines-popup/guidelines-popup.component';
 import { VideosPopupComponent } from './videos-popup/videos-popup.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +18,10 @@ export class HomeComponent implements OnInit {
   constructor(
     private fiscalRankingService: FiscalRankingService,
     private matDialog: MatDialog
-  ) { }
+  ) {
+    //redirect to fc module
+    window.location.href = environment.fcURL + 'cfr/home';
+  }
 
   ngOnInit(): void {
     this.loadData();
