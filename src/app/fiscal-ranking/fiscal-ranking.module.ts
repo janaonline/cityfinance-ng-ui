@@ -75,6 +75,7 @@ import { IndiaMapComponent } from './india-map/india-map.component';
 import { FileUrlCheckPipe } from './pipes/file-url-check.pipe';
 import { VideosPopupComponent } from './home/videos-popup/videos-popup.component';
 import { TypeofPipe } from './pipes/typeof.pipe';
+import { environment } from "src/environments/environment";
 
 @NgModule({
   declarations: [
@@ -180,4 +181,8 @@ import { TypeofPipe } from './pipes/typeof.pipe';
   // ],
   // bootstrap: [UlbFiscalComponent],
 })
-export class FiscalRankingModule { }
+export class FiscalRankingModule {
+  constructor() {
+    window.location.href = environment.fcURL + 'cfr/home';
+  }
+}
