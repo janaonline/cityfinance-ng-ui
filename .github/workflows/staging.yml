@@ -1,6 +1,9 @@
 name: Build and Deploy Staging
  
 on:
+  push:
+      branches:
+        - "staging"
   pull_request:
     types:
       - closed
