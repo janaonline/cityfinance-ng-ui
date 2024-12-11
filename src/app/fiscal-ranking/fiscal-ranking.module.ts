@@ -180,4 +180,8 @@ import { TypeofPipe } from './pipes/typeof.pipe';
   // ],
   // bootstrap: [UlbFiscalComponent],
 })
-export class FiscalRankingModule { }
+export class FiscalRankingModule {
+  constructor() {    
+    window.location.href = 'http://localhost:4300/cfr/home';
+  }
+}
