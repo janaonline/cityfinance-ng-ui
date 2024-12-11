@@ -3,7 +3,9 @@ import { UPDATE_QUESTION_BY_CHILD_CHECK } from "../../reducers/constants";
 import { computeNewValueForMultiSelectQuestion } from "../form.util";
 import { checkIfQuestionOrderIsAvailableInRestriction } from "../question.util";
 
-const deepEqual = require("deep-equal");
+// const deepEqual = require("deep-equal");
+import * as _ from "lodash";
+
 
 const applyRemoveUsedOptionsRestrictionFactoryFunction = () => {
   const questionInitialAnswerOptions: any = {};
@@ -96,7 +98,8 @@ const applyRemoveUsedOptionsRestrictionFactoryFunction = () => {
               questionToUpdate?.answer_option
             )
         );
-      } else if (deepEqual(parentQuestionValue, questionToUpdate?.value)) {
+      // } else if (deepEqual(parentQuestionValue, questionToUpdate?.value)) {
+      } else if (_.isEqual(parentQuestionValue, questionToUpdate?.value)) {
         questionToUpdate.value = "";
       }
     };

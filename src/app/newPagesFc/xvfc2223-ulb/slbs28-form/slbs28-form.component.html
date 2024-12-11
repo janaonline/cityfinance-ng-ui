@@ -89,7 +89,7 @@
                             <div class="col-sm-12">
                                 <label for="population"> Population* : </label>
                                 <input [disabled]="isDisabled" class="form-control ms-3 d-inline-block w-auto" [ngClass]="{'red': population.invalid  && (population.dirty || population.touched)}" [(ngModel)]="slbData.population" required id="population" (keydown)="inputPopulation($event, population)"
-                                    name="population" #population="ngModel" type="text" #population>
+                                    name="population" #population="ngModel" type="text">
                                 <div class="text-danger" *ngIf="population.invalid  && (population.dirty || population.touched) || popError">
                                     Population is required.
                                 </div>

@@ -43,7 +43,12 @@
                             "node_modules/chart.js/dist/Chart.js",
                             "node_modules/sweetalert/dist/sweetalert.min.js"
                         ],
-                        "aot": true
+                        "vendorChunk": true,
+                        "extractLicenses": false,
+                        "buildOptimizer": false,
+                        "sourceMap": true,
+                        "optimization": false,
+                        "namedChunks": true
                     },
                     "configurations": {
                         "production": {
@@ -55,10 +60,10 @@
                             ],
                             "optimization": true,
                             "outputHashing": "all",
-                            "sourceMap": true,
-                            "namedChunks": true,
                             "extractLicenses": true,
                             "vendorChunk": false,
+                            "sourceMap": false,
+                            "namedChunks": false,
                             "buildOptimizer": true,
                             "budgets": [
                                 {
@@ -75,7 +80,8 @@
                                 }
                             ]
                         }
-                    }
+                    },
+                    "defaultConfiguration": ""
                 },
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
@@ -116,18 +122,6 @@
                             "src/assets"
                         ]
                     }
-                },
-                "lint": {
-                    "builder": "@angular-devkit/build-angular:tslint",
-                    "options": {
-                        "tsConfig": [
-                            "src/tsconfig.app.json",
-                            "src/tsconfig.spec.json"
-                        ],
-                        "exclude": [
-                            "**/node_modules/**"
-                        ]
-                    }
                 }
             }
         },
@@ -146,20 +140,10 @@
                             "devServerTarget": "PerfectAngular:serve:production"
                         }
                     }
-                },
-                "lint": {
-                    "builder": "@angular-devkit/build-angular:tslint",
-                    "options": {
-                        "tsConfig": "e2e/tsconfig.e2e.json",
-                        "exclude": [
-                            "**/node_modules/**"
-                        ]
-                    }
                 }
             }
         }
     },
-    "defaultProject": "PerfectAngular",
     "cli": {
         "analytics": "cace6f27-e889-45b8-b169-d2241593758b"
     }
