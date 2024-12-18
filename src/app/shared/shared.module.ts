@@ -141,7 +141,8 @@ import { CountUpDirective } from "./directives/count-up.directive";
         NgxPaginationModule,
         MatRadioModule,
         MdePopoverModule,
-        Shared2223Module,
+        // TODO: check for optimiztion
+        // Shared2223Module,
         // PdfViewerModule,
         MatPaginatorModule,
         GlobalPartModule
