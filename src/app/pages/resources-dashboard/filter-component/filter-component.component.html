@@ -31,7 +31,7 @@
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                   <a (click)="filterData('ulb', option)" *ngFor="let option of filteredOptions; let i = index"
                     style="text-decoration: none">
-                    <mat-option [value]="option?.name">
+                    <mat-option [value]="option?.name" [disabled]="option?.isDisabled ? true : false">
                       <span style="font-size: medium"> {{ option?.name }}</span>
                     </mat-option>
                   </a>

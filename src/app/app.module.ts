@@ -45,6 +45,7 @@ import { GlobalErrorHandler } from "./global-error-handler.service";
 import { VersionCheckService } from "./version-check.service";
 import { environment } from "src/environments/environment";
 import { GlobalPartModule } from "./global-part/global-part.module";
+// import { DalgoComponent } from "./shared/components/dalgo/dalgo.component";
 
 
 @NgModule({
@@ -82,7 +83,8 @@ import { GlobalPartModule } from "./global-part/global-part.module";
         MatFormFieldModule,
         NgxGoogleAnalyticsModule.forRoot(environment.GoogleTagID),
         NgxGoogleAnalyticsRouterModule,
-        GlobalPartModule
+        GlobalPartModule,
+        // DalgoComponent
     ],
     schemas: [
         CUSTOM_ELEMENTS_SCHEMA

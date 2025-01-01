@@ -370,7 +370,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   }
   searchUsersBy(filterForm: {}, skip?: number) {
 
-    console.log({filterForm});
+    // console.log({filterForm});
     this.listFetchOption.filter = filterForm;
     this.listFetchOption.skip =
       skip || skip === 0 ? skip : this.listFetchOption.skip;

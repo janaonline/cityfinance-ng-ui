@@ -84,7 +84,7 @@ export class NewCityCreditRatingComponent
       );
       console.log('finalList', this.finalList)
     }
-
+    return this.finalList;
     console.log("this.finalList", this.finalList);
   }
 
@@ -106,7 +106,12 @@ export class NewCityCreditRatingComponent
 
 
     if (this.detailedList) {
-      this.getFinalData(this.detailedList);
+       for(var i=0;i<this.yearOptions.length;i++){
+      
+        let finalCreditRatingData = this.getFinalData(this.detailedList);
+        if(finalCreditRatingData.length>0)break;
+        this.yearValue = this.yearOptions[i];
+      }
     }
 
   }

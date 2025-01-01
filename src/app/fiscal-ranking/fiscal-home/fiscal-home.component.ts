@@ -87,38 +87,37 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
       section: 'download_file',
       key: 'brochure'
     },
-    // commented know more section for avoiding to view the video
-    // {
-    //   image: "../../../assets/M FIGMA/dvr_black_24dp.svg",
-    //   title: "Know more",
-    //   text: "",
-    //   videos : [
-    //     {
-    //       title: 'Click here for latest video',
-    //       url: `https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/FiscalRanking/knowMoreVideo_6b2e991a-1d08-433f-b566-a61f515cba53.mp4`,
-    //       key: 'newVideo',
-    //       isActive: true,
-    //       id: '1'
-    //     },
-    //     {
-    //       title: 'Click here for launch video',
-    //       url: `https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_Portal_Video_Go_Live_fc20cbd7-303f-4ef0-aa98-1b5e4c35dc19.mp4`,
-    //       key: 'oldVideo',
-    //       isActive: false,
-    //       id: '2'
-    //     }
-    //   ],
-    //   isModal: true,
-    //   icon_down: '',
-    //   section: 'play_video',
-    //   key: 'video'
-    // },
+    {
+      image: "../../../assets/M FIGMA/dvr_black_24dp.svg",
+      title: "Know more",
+      text: "",
+      videos : [
+        {
+          title: 'Click here for latest video',
+          url: `https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/FiscalRanking/knowMoreVideo_6b2e991a-1d08-433f-b566-a61f515cba53.mp4`,
+          key: 'newVideo',
+          isActive: true,
+          id: '1'
+        },
+        {
+          title: 'Click here for launch video',
+          url: `https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_Portal_Video_Go_Live_fc20cbd7-303f-4ef0-aa98-1b5e4c35dc19.mp4`,
+          key: 'oldVideo',
+          isActive: false,
+          id: '2'
+        }
+      ],
+      isModal: true,
+      icon_down: '',
+      section: 'play_video',
+      key: 'video'
+    },
     {
       image: "../../../assets/M FIGMA/newDraft.png",
       title: "Contact Details",
       // text:`“These are draft guidelines. Please share feedback, if any,
       // before <span class="clr"> 15th January, 2023 </span> via email on <span class="mailId">rankings@cityfinance.in</span>” `,
-      text: `Please email <a class="contactDetails" href='mailto:rankings@cityfinance.in' target='_blank'> rankings@cityfinance.in </a> for any queries.`,
+      text: `Please email <a class="contactDetails" href='mailto:rankings@cityfinance.in' target='_blank'> rankings@cityfinance.in </a> for any queries. Please download the file for regional helpline numbers.`,
       url: `https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/FiscalRanking/city_finance_rankings_2022_regional_helpline_number_7087a0e5-ad16-4a4a-8533-df05a9727520.pdf`,
       // url:`https://jccd-cityfinance-staging2.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_Final_guideline_2a6b5467-b2f2-456b-b38d-a0387d5f7709.pdf`,
       isModal: true,
@@ -129,8 +128,7 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
   ]
 
   ngOnInit(): void {
-    // The video popup is commented now. No need to show the video now.
-    // this.openPopup(this.fqCardData[2]);
+    this.openPopup(this.fqCardData[2]);
     this.fiscal.getLandingPageCard().subscribe((data: any) => {
       console.log("this myu data======>", data.data)
       this.setDisplayItem();

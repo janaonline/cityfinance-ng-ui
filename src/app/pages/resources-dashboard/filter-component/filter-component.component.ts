@@ -159,13 +159,15 @@ export class FilterComponentComponent implements OnInit, OnChanges {
           this._commonServices
             .postGlobalSearchData({ ...this.filterForm.value, ulb: value }, "ulb", this.filterForm.value.state)
             .subscribe((res: any) => {
-              let emptyArr: any = [];
+              let emptyArr: any = [
+                {"name" : "ULB name not found", isDisabled: true}
+              ];
               this.filteredOptions = emptyArr;
               if (res?.data.length > 0) {
                 this.filteredOptions = res?.data;
                 //this.noDataFound = false;
               } else {
-                let emptyArr: any = [];
+              //  let emptyArr: any = [];
                 this.filteredOptions = emptyArr;
                 // this.noDataFound = true;
                 console.log("no data found");

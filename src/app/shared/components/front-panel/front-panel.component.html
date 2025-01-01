@@ -42,7 +42,7 @@
     <!-- data availability -->
     <div *ngIf="showDataAvailable" class="container data-availability rounded">
         <div class="row" style="border: 1px solid #cfd8e2; border-radius: 12px; margin-bottom: 2%">
-            <div class="col-md-7">
+            <div class="col-md-4">
                 <h3 class="heading" style="font-size: 1.5rem">Standardized Data Availability</h3>
                 <p class="da-para" *ngIf="data?.name != 'Service Level Benchmark Performance'">
                     Of the {{(data?.name == 'Service Level Benchmark Performance' ? 'service level benchmark data' : 'financial statements')}} submitted by the ULBs, {{ dataAvailable }}% have been changed to a comparable, standardized, and digitized format for the year {{ yearVal }}.
@@ -78,7 +78,7 @@
         </button>
             </div>
 
-            <div class="col-md-5 d-flex justify-content-center">
+            <div class="col-md-4 d-flex justify-content-center">
                 <div class="doughnut-container">
                     <div *ngIf="dataAvailLoading" style="text-align: center">
                         Loading...
@@ -91,6 +91,23 @@
                     </p>
                     <p *ngIf="!dataAvailLoading" class="doughnut_text text-center" [ngStyle]="{ 'font-size': !yearVal ? '15px' : '12px' }">
                         Data Standardized
+                    </p>
+                    <p class="yearText text-center" *ngIf="yearVal">({{ yearVal }})</p>
+                </div>
+            </div>
+            <div class="col-md-4 d-flex justify-content-center">
+                <div class="doughnut-container">
+                    <div *ngIf="dataAvailLoading" style="text-align: center">
+                        Loading...
+                    </div>
+
+                    <canvas id="myChart2" width="100%"> </canvas>
+
+                    <p *ngIf="!dataAvailLoading" class="doughnut_percentage text-center">
+                        {{ financialYear?.data?.percent ? financialYear?.data?.percent : availValue }}%
+                    </p>
+                    <p *ngIf="!dataAvailLoading" class="doughnut_text text-center" [ngStyle]="{ 'font-size': !yearVal ? '15px' : '12px' }">
+                        Data Submitted
                     </p>
                     <p class="yearText text-center" *ngIf="yearVal">({{ yearVal }})</p>
                 </div>
