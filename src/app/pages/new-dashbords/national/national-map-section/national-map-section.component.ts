@@ -164,11 +164,11 @@ export class NationalMapSectionComponent
   national: any = { _id: "", name: "India" };
 
   ngOnInit(): void {
-    this.getNationalLevelMapData("2020-21");
+    this.getFinancialYearList();
+    
     this.clearDistrictMapContainer();
     this.randomNumber = Math.round(Math.random());
-    this.getFinancialYearList();
-    this.getNationalTableData();
+    
     this.loadData();
     // this.subFilterFn("popCat");
     this.createNationalMapJson();
@@ -304,6 +304,7 @@ export class NationalMapSectionComponent
         this._loaderService.stopLoader();
         this.showLoader = false;
         this.tableData = res?.data;
+        this.tableData.columns =  this.tableData.columns.filter(x=>{return x.display_name !='Urban Population Percentage'})
         this.dataAvailabilityvalue = Math.round(res?.dataAvailability);
         sessionStorage.setItem("dataAvail", res.dataAvailability);
         this.nationalMapService.setDataAvailabilityValue({
@@ -564,13 +565,19 @@ export class NationalMapSectionComponent
   getFinancialYearList() {
     this.nationalMapService.getNationalFinancialYear().subscribe((res: any) => {
       this.financialYearList = res?.data?.FYs;
+      this.selectedYear = this.financialYearList[0];
+      this.nationalInput.financialYear = this.selectedYear ;
+      this.getNationalTableData();
+      this.getNationalLevelMapData(this.selectedYear);
     });
   }
 
   resetFilter() {
-    this.selectedYear = "2021-22";
+    //this.selectedYear = "2021-22";
+    this.selectedYear  = this.financialYearList[0];
     this.onSelectingStateFromDropDown("");
     this.nationalInput = this.nationalInput;
+    this.nationalInput.financialYear = this.selectedYear;
     this.getNationalLevelMapData(this.selectedYear);
     this.nationalMapService.setCurrentSelectYear({
       data: this.selectedYear,
