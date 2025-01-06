@@ -39,6 +39,7 @@ export class NationalComponent implements OnInit {
   tabId: any = "61e150439ed0e8575c881028";
   component_name;
   tabIndex;
+  selectedFilterTab:any;
 
   nationalDataAvailability: Number;
   stateId: any;
@@ -124,6 +125,9 @@ export class NationalComponent implements OnInit {
     let availData: any = sessionStorage.getItem("dataAvail");
 
     this.nationalDataAvailability = availData;
+    this.nationalMapService.currentSubTab.subscribe((res) => {
+      this.selectedFilterTab = res?.HeadTab;
+    });
     if (this.tabIndex == 0) {
       this.nationalMapService.dataAvailabilityVal.subscribe((res) => {
         console.log("newRes", res);
