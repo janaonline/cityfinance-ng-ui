@@ -17,11 +17,7 @@ export class NationalMapSectionService {
     this.currentSubTab.next(val);
     return;
   }
-  getCurrentSubTabValue() {
-    this.currentSubTab;
-    return;
-  }
-
+  
   getDataAvailabilityValue() {
     return this.dataAvailabilityVal;
   }
