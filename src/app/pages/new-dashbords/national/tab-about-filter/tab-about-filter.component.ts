@@ -37,6 +37,7 @@ export class TabAboutFilterComponent implements OnInit, OnChanges {
   activeFilter: any = [];
   selectedIndex: any;
   mainTab: any;
+  baseUrl:string = window.location.origin;
   stickyValue: boolean = false;
   ngOnInit(): void {
     this.nationalSubTab("Total Revenue", 0);
