@@ -134,14 +134,15 @@
                         <thead>
                             <tr>
                                 <th scope="col" *ngFor="let column of tableData?.columns" class="{{ column?.key }}">
-                                    {{ column?.display_name }}
+                                   {{ column?.display_name }}
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let row of tableData?.rows | slice: 1">
-                                <td *ngFor="let column of tableData?.columns" class="{{ column?.key }}">
-                                    {{ row[column.key] }}
+                              
+                                <td *ngFor="let column of tableData?.columns" class="{{ column?.key }}" [ngClass]="{'all_ulbs':row.ulb_pop_category=='All ULBs'}">
+                                   {{ row[column.key] }}
                                 </td>
                             </tr>
                         </tbody>

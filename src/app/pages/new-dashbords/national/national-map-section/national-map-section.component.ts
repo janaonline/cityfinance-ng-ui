@@ -304,6 +304,7 @@ export class NationalMapSectionComponent
         this._loaderService.stopLoader();
         this.showLoader = false;
         this.tableData = res?.data;
+        this.tableData.columns =  this.tableData.columns.filter(x=>{return x.display_name !='Urban Population Percentage'})
         this.dataAvailabilityvalue = Math.round(res?.dataAvailability);
         sessionStorage.setItem("dataAvail", res.dataAvailability);
         this.nationalMapService.setDataAvailabilityValue({
