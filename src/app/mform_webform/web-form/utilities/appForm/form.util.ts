@@ -47,6 +47,7 @@ import { applyRestrictions } from "./restrictions";
 import { dynamicOptionFillCount } from "./validations/dynamicOptionFillCount";
 
 import { getFilesS3UrlAndUploadToS3 } from "./fileUpload.util";
+import LZString from "lz-string"
 
 const comparisionRestrictions = [
   RESTRICTION.LESS_THAN,
@@ -344,7 +345,8 @@ const validateUnitTypeQuestionValue = (question: any, questionValue: any) => {
 };
 
 const dispatch = (action: any) => {
-  let temp = sessionStorage.getItem("allAppQuestions");
+  let string = sessionStorage.getItem("allAppQuestions");
+  const temp = LZString.decompress(string);
   let allQuestion;
   if (temp) {
     allQuestion = JSON.parse(temp);
@@ -378,7 +380,8 @@ function questionInputChange(
   if (!question.visibility) {
     return { errors, success, updatedQuestion };
   }
-  sessionStorage.setItem("allAppQuestions", JSON.stringify(questions));
+  const compressed = LZString.compress(JSON.stringify(questions));
+  sessionStorage.setItem("allAppQuestions", compressed);
   questions = List(questions);
   let state: any = { questions: questions };
   const index = questions.findIndex((q: any) => q.order === question.order);
