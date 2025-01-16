@@ -422,9 +422,9 @@ export class NationalSubComponent implements OnInit {
 
   resetFilter() {
     let emptyArr: any = [];
-    this.selectedYear = "2021-22";
+    //this.selectedYear = "2021-22";
     this.selectedState = "";
-
+    this.selectedYear = this.financialYearList[0];
     this.filteredOptions = emptyArr;
     this.nationalFilter.patchValue("");
     this.subFilterFn("popCat");
@@ -590,6 +590,7 @@ export class NationalSubComponent implements OnInit {
       );
       this.selectedGraphValue = this.barChartOptions[0]?.value;
       this.doughnutArray = this.mixRDoughnutPopulationCategory;
+      if(this.financialYearList.length>0)
       this.getCurrentTabValue();
     });
     // this.getCurrentTabValue();
@@ -629,6 +630,9 @@ export class NationalSubComponent implements OnInit {
     this.nationalMapService.getNationalFinancialYear().subscribe((res: any) => {
       this._loaderService.stopLoader();
       this.financialYearList = res?.data?.FYs;
+      this.selectedYear =  this.financialYearList[0]
+      this.nationalInput.financialYear = this.selectedYear ;
+      this.getCurrentTabValue();
     });
   }
 
