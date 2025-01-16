@@ -345,8 +345,8 @@ const validateUnitTypeQuestionValue = (question: any, questionValue: any) => {
 };
 
 const dispatch = (action: any) => {
-  let string = sessionStorage.getItem("allAppQuestions");
-  const temp = LZString.decompress(string);
+  const compressedString = sessionStorage.getItem("allAppQuestions");
+  const temp = LZString.decompress(compressedString);
   let allQuestion;
   if (temp) {
     allQuestion = JSON.parse(temp);
