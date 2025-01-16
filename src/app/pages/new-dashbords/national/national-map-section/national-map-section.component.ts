@@ -164,11 +164,12 @@ export class NationalMapSectionComponent
   national: any = { _id: "", name: "India" };
 
   ngOnInit(): void {
+    //this.getNationalLevelMapData("2020-21");
     this.getFinancialYearList();
-    
     this.clearDistrictMapContainer();
     this.randomNumber = Math.round(Math.random());
-    
+    //this.getFinancialYearList();
+    //this.getNationalTableData();
     this.loadData();
     // this.subFilterFn("popCat");
     this.createNationalMapJson();
@@ -573,8 +574,8 @@ export class NationalMapSectionComponent
   }
 
   resetFilter() {
-    //this.selectedYear = "2021-22";
-    this.selectedYear  = this.financialYearList[0];
+   // this.selectedYear = "2021-22";
+   this.selectedYear  = this.financialYearList[0];
     this.onSelectingStateFromDropDown("");
     this.nationalInput = this.nationalInput;
     this.nationalInput.financialYear = this.selectedYear;

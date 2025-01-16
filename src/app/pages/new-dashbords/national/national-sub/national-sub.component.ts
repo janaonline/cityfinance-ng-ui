@@ -422,7 +422,7 @@ export class NationalSubComponent implements OnInit {
 
   resetFilter() {
     let emptyArr: any = [];
-   // this.selectedYear = "2021-22";
+    //this.selectedYear = "2021-22";
     this.selectedState = "";
     this.selectedYear = this.financialYearList[0];
     this.filteredOptions = emptyArr;
