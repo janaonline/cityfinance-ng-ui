@@ -141,7 +141,7 @@
                         <tbody>
                             <tr *ngFor="let row of tableData?.rows | slice: 1">
                               
-                                <td *ngFor="let column of tableData?.columns" class="{{ column?.key }}" [ngClass]="{'all_ulbs':row.ulb_pop_category=='All ULBs'}">
+                                <td *ngFor="let column of tableData?.columns" class="{{ column?.key }}" [ngClass]="{'all_ulbs':row.ulb_pop_category=='All ULBs' || row.ulbType=='All ULBs'}">
                                    {{ row[column.key] }}
                                 </td>
                             </tr>
