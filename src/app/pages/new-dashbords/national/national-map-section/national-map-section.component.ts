@@ -300,6 +300,7 @@ export class NationalMapSectionComponent
     this.showLoader = true;
 
     this._loaderService.showLoader();
+    this.nationalInput.financialYear = this.selectedYear;
     this.nationalMapService.getNationalData(this.nationalInput).subscribe(
       (res: any) => {
         this._loaderService.stopLoader();
@@ -579,13 +580,12 @@ export class NationalMapSectionComponent
     this.onSelectingStateFromDropDown("");
     this.nationalInput = this.nationalInput;
     this.nationalInput.financialYear = this.selectedYear;
-    this.getNationalLevelMapData(this.selectedYear);
     this.nationalMapService.setCurrentSelectYear({
-      data: this.selectedYear,
+      data: '2020-21',
     });
 
     this.subFilterFn("popCat");
-    // this.getNationalTableData();
+    this.getNationalLevelMapData(this.selectedYear);
   }
 
   onSelectingStateFromDropDown(state: any | null) {
@@ -597,10 +597,11 @@ export class NationalMapSectionComponent
     this.AvailabilityTitle = state?.name;
     if (state) {
       this.nationalInput.stateId = state._id;
+      this.getNationalTableData();
     } else {
       this.nationalInput.stateId = "";
     }
-    this.getNationalTableData();
+   
     this.selectedStateCode = state?.code;
     this.selected_state = state ? state?.name : "India";
     if (this.selected_state === "India" && this.isMapOnMiniMapMode) {
