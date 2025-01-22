@@ -579,6 +579,7 @@ export class NationalMapSectionComponent
    this.selectedYear  = this.financialYearList[0];
     this.onSelectingStateFromDropDown("");
     this.nationalInput = this.nationalInput;
+    MapUtil.destroy(this.nationalLevelMap);
     this.nationalInput.financialYear = this.selectedYear;
     this.nationalMapService.setCurrentSelectYear({
       data: '2020-21',
