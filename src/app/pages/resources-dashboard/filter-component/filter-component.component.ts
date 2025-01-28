@@ -2,24 +2,18 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   OnChanges,
+  OnInit,
   Output,
-  SimpleChanges,
-  TemplateRef,
+  SimpleChanges
 } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { MatDialog } from "@angular/material/dialog";
+import { ActivatedRoute } from "@angular/router";
 import { Observable } from "rxjs";
 import { CommonService } from "src/app/shared/services/common.service";
-import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-} from "@angular/material/dialog";
 import { FilterModelBoxComponent } from "../filter-model-box/filter-model-box.component";
 import { ResourcesDashboardService } from "../resources-dashboard.service";
-import { ActivatedRoute } from "@angular/router";
 @Component({
   selector: "app-filter-component",
   templateUrl: "./filter-component.component.html",
@@ -205,7 +199,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
       }
     }
     if (changes && changes.category && changes.category.currentValue) {
-        this.filterData("category", "");
+      this.filterData("category", "");
     }
 
     if (changes.data) {
@@ -306,11 +300,14 @@ export class FilterComponentComponent implements OnInit, OnChanges {
       ulbId,
       contentType,
       state: stateId
-    });    
+    });
   }
 
   /*this method add calander year dynamic in yearList array, format- "2021-22" */
   addYearsTillCurrent() {
+    // API to get latest year - ULB with latest year annual accounts data.
+    this._resourcesDashboardService.getAnnualAccountsYear().subscribe((res: any) => { });
+
     // Get the current year
     const currentYear = new Date().getFullYear();
     // get the previous year which is presented in the year list
