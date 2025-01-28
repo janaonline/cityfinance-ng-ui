@@ -109,6 +109,15 @@ export class FrontPanelComponent implements OnInit, OnChanges {
       this.data.year = data;
       this.getAvailableData();
     });
+
+    this._commonServices.getSelectedYear.subscribe(res => {
+      if (res) {
+        if(this.yearVal != res){
+        this.yearVal = res;
+        this.data.year = res;
+        this.getAvailableData();}
+      }
+    })
   }
   yearVal = "";
 
