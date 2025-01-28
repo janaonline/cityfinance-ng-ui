@@ -1,12 +1,20 @@
 <div class="row" *ngIf="fileType == 'pdf' && reports?.pdf.length">
   <h5 class="">PDF</h5>
   <div class="mb-2" *ngFor="let pdf of reports?.pdf">
-    <a target="_blank" download="true" class="list-group-item" [href]="pdf?.url | toStorageUrl">
+    <!-- <a target="_blank" download="true" class="list-group-item" [href]="pdf?.url | toStorageUrl">
       {{pdf?.name}}
       <span class="float-right">
         <i class="fa fa-arrow-down icon-color"></i>
       </span>
     </a>
+     -->
+    <a target="_blank" download="true" class="list-group-item" (click)="openFile(pdf)">
+      {{pdf?.name}}
+      <span class="float-right">
+        <i class="fa fa-arrow-down icon-color"></i>
+      </span>
+    </a>
+    
   </div>
 </div>
 
@@ -14,12 +22,20 @@
 <div class="row" *ngIf="fileType == 'excel' && reports?.excel.length">
   <h5 class="">EXCEL</h5>
   <div class="mb-2" *ngFor="let excel of reports?.excel">
-    <a target="_blank" download="true" class="list-group-item" [href]="excel?.url | toStorageUrl">
+    <!-- <a target="_blank" download="true" class="list-group-item" [href]="excel?.url | toStorageUrl">
+      {{excel?.name}}
+      <span class="float-right">
+        <i class="fa fa-arrow-down icon-color"></i>
+      </span>
+    </a> -->
+
+    <a download="true" class="list-group-item" (click)="openFile(excel)">
       {{excel?.name}}
       <span class="float-right">
         <i class="fa fa-arrow-down icon-color"></i>
       </span>
     </a>
+
   </div>
 </div>
 <div class="mb-2 float-right fst-italic" *ngIf="fileType !== 'notFound'">

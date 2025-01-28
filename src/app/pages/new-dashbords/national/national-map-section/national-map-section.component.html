@@ -84,7 +84,7 @@
           <a
             type="button"
             style="text-decoration: none"
-            (click)="onSelectingStateFromDropDown(national)"
+            (click)="resetFilter()"
             >Reset Map To India</a
           >
         </div>
@@ -203,6 +203,7 @@
               </tr>
             </tbody>
           </table>
+          <p class="all_ulbs">Data shown here includes Union Territories</p>
         </div>
         <div
           *ngIf="!tableData"
