@@ -550,6 +550,10 @@ export class StateFilterDataService {
     return this.http.get(environment.api.url + `get-FYs-slb`);
   }
 
+  getFinancialYear() {
+    return this.http.get(environment.api.url + `get-FYs-with-specification`);
+  }
+
   getStateUlbsGroupedByPopulation(paramContent: any) {
     let bodyParams: any;
     bodyParams = this.commonService.getHttpClientParams(paramContent);
