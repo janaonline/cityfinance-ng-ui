@@ -2,24 +2,18 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   OnChanges,
+  OnInit,
   Output,
-  SimpleChanges,
-  TemplateRef,
+  SimpleChanges
 } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { MatDialog } from "@angular/material/dialog";
+import { ActivatedRoute } from "@angular/router";
 import { Observable } from "rxjs";
 import { CommonService } from "src/app/shared/services/common.service";
-import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-} from "@angular/material/dialog";
 import { FilterModelBoxComponent } from "../filter-model-box/filter-model-box.component";
 import { ResourcesDashboardService } from "../resources-dashboard.service";
-import { ActivatedRoute } from "@angular/router";
 @Component({
   selector: "app-filter-component",
   templateUrl: "./filter-component.component.html",
@@ -207,7 +201,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
       }
     }
     if (changes && changes.category && changes.category.currentValue) {
-        this.filterData("category", "");
+      this.filterData("category", "");
     }
 
     if (changes.data) {
@@ -308,34 +302,43 @@ export class FilterComponentComponent implements OnInit, OnChanges {
       ulbId,
       contentType,
       state: stateId
-    });    
+    });
   }
 
   /*this method add calander year dynamic in yearList array, format- "2021-22" */
   addYearsTillCurrent() {
-    // Get the current year
-    const currentYear = new Date().getFullYear();
-    // get the previous year which is presented in the year list
-    let lastYear = parseInt(this.yearList[this.yearList.length - 1]);
+    // Get the current year.
+    let currentYear = new Date().getFullYear();
 
-    // Generate and add years until the current year
-    while (lastYear <= currentYear) {
-      const formattedYear = `${lastYear - 1}-${String(lastYear).slice(2)}`;
+    // API to get latest year - ULB with latest year afss data.
+    this._resourcesDashboardService.getAnnualAccountsYear()
+      .subscribe((res: any) => {
+        currentYear = parseInt(res.latestAfsYear.substring(0, 5)) + 1;
 
-      // Check if the year is not already in the array
-      if (!this.yearList.includes(formattedYear)) {
-        // Add the year to the array
-        this.yearList.push(formattedYear);
-      }
+        // get the previous year which is presented in the year list
+        let lastYear = parseInt(this.yearList[this.yearList.length - 1]);
 
-      // Move to the next year
-      lastYear++;
-    }
+        // Generate and add years until the current year
+        while (lastYear <= currentYear) {
+          const formattedYear = `${lastYear - 1}-${String(lastYear).slice(2)}`;
 
-    // Reverse the array if needed
-    this.yearList.reverse();
+          // Check if the year is not already in the array
+          if (!this.yearList.includes(formattedYear)) {
+            // Add the year to the array
+            this.yearList.push(formattedYear);
+          }
 
-    // Set the latest year.
-    this.selectedValue = this.yearList[0];
+          // Move to the next year
+          lastYear++;
+        }
+
+        // Reverse the array if needed
+        this.yearList.reverse();
+
+        // Set the latest year.
+        this.selectedValue = this.yearList[0];
+
+      });
+
   }
 }

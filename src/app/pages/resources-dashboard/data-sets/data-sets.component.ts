@@ -1,14 +1,16 @@
-import { Component, Inject, Input, OnInit, SimpleChange } from "@angular/core";
-import { ResourcesDashboardService } from "../resources-dashboard.service";
-import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
-import { ReportService } from "../../../dashboard/report/report.service";
-import * as FileSaver from "file-saver";
-import { environment } from "src/environments/environment";
-import { BalanceTabledialogComponent } from "src/app/shared/components/balance-table/balance-tabledialog/balance-tabledialog.component";
-import { MAT_SNACK_BAR_DATA, MatSnackBar } from '@angular/material/snack-bar';
+import { Component, Inject, OnInit } from "@angular/core";
 import { MatDialog } from '@angular/material/dialog';
-import { DownloadService } from "src/app/shared/services/download.zip.service";
+import { MAT_SNACK_BAR_DATA, MatSnackBar } from '@angular/material/snack-bar';
+import * as FileSaver from "file-saver";
 import { tap } from 'rxjs/operators';
+import { BalanceTabledialogComponent } from "src/app/shared/components/balance-table/balance-tabledialog/balance-tabledialog.component";
+import { DownloadUserInfoService } from "src/app/shared/components/user-info-dialog/download-user-info.service";
+import { DownloadService } from "src/app/shared/services/download.zip.service";
+import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
+import { environment } from "src/environments/environment";
+import { ReportService } from "../../../dashboard/report/report.service";
+import { ResourcesDashboardService } from "../resources-dashboard.service";
+import { UtilityService } from "src/app/shared/services/utility.service";
 
 @Component({
   selector: "app-data-sets",
@@ -57,7 +59,6 @@ export class DataSetsComponent implements OnInit {
   checkValue = false;
   downloadValue: boolean = false;
 
-  // Navinder's variables.
   skip: number = 0;
   loadMoreData: boolean = false;
   totalDocs: number = 0;
@@ -67,6 +68,7 @@ export class DataSetsComponent implements OnInit {
   isChecked: boolean = false;
   fileDownloadSuccess: string = "All set! Your file(s) have been successfully downloaded.";
   fileDownloadfail: string = "Oops! Failed to download file(s).";
+  module: string = "resources" // userInfo popup.
 
 
   constructor(
@@ -75,7 +77,9 @@ export class DataSetsComponent implements OnInit {
     public dialog: MatDialog,
     protected reportService: ReportService,
     private _snackBar: MatSnackBar,
-    private downloadService: DownloadService
+    private downloadService: DownloadService,
+    private userInfoService: DownloadUserInfoService,
+    private utilityService: UtilityService
   ) {
     this._resourcesDashboardService.castSearchedData.subscribe((data) => {
       this.learningToggle = data;
@@ -165,8 +169,6 @@ export class DataSetsComponent implements OnInit {
             this.totalDocs += dataLength;
             this.balData = this.balData.concat(res.data);
             this.globalLoaderService.stopLoader();
-            // console.log("this.skip -----------> ", this.skip)
-            // console.log("this.totalDocs -----------> ", this.totalDocs)
 
             // Conditional logic
             if (dataLength === 10) {
@@ -194,8 +196,10 @@ export class DataSetsComponent implements OnInit {
     if (item.hasOwnProperty("section") && item.section == "standardised") {
       this.selectedUsersList = []
       this.selectedUsersList.push(item);
-      this.downloadStandardizedData(1);
-      this.openSnackBar(this.fileDownloadSuccess);
+      this.downloadStandardizedData(true)
+        .then((isDownloaded) => {
+          if (isDownloaded) this.openSnackBar(this.fileDownloadSuccess);
+        });
       this.selectedUsersList = [];
       return;
     }
@@ -204,11 +208,20 @@ export class DataSetsComponent implements OnInit {
     const yearSplit = Number(item.year.split('-')[0]);
     // 2015-16 to 2018-19.
     if (yearSplit < 2019) {
-      if (item && item['fileUrl']) {
+      if (item['fileUrl']) {
         let target_file_url = environment.STORAGE_BASEURL + item['fileUrl'];
 
-        if (item.type === "pdf") window.open(target_file_url, '_blank');
-        if (item.type === "excel") this.fetchFile(target_file_url, item.fileName);
+        if (item.type === "pdf") {
+          // User info popup.
+          this.userInfoService.openUserInfoDialog(`${item['fileName']}_${this.type}`, this.module)
+            .then((isDialogConfirmed) => {
+              if (isDialogConfirmed) window.open(target_file_url, '_blank');
+            });
+        }
+
+        // User info popup for excel is handled in fetchFile()
+        if (item.type == 'excel')
+          this.fetchFile(target_file_url, item.fileName);
 
       } else console.error("File URL is missing or invalid.");
 
@@ -218,14 +231,16 @@ export class DataSetsComponent implements OnInit {
     // 2019-20 onwards.
     this.globalLoaderService.showLoader();
     this.reportService.getReports(item._id, item.year, item.auditType).subscribe(
+
       (res) => {
         this.globalLoaderService.stopLoader();
         let type = 'notFound';
-        if (res && res["success"]) {
+        if (res["success"]) {
           this.allReports = res["data"];
           type = res["data"][item.type].length ? item.type : 'notFound';
         }
-        this.openDialog2(res["data"], type);
+
+        this.openDialog2(res["data"], type, { fileName: item.fileName, type: this.type, module: this.module });
       },
       (error) => {
         this.globalLoaderService.stopLoader();
@@ -235,9 +250,9 @@ export class DataSetsComponent implements OnInit {
   }
 
   // Dialog box which has all 6 files in popup.
-  openDialog2(data: any, fileType: string) {
+  openDialog2(data: any, fileType: string, ulbDetails: any) {
     const dialogRef = this.dialog.open(BalanceTabledialogComponent, {
-      data: { reportList: data, fileType: fileType },
+      data: { reportList: data, fileType, ulbDetails },
       width: "500px",
     });
 
@@ -256,15 +271,13 @@ export class DataSetsComponent implements OnInit {
 
   // Helper: Fetch file from URL -> Create blob -> download file.
   fetchFile(target_file_url: string, fileName: string) {
-    fetch(target_file_url)
-      .then((response) => {
-        if (!response.ok) { throw new Error("Response was not ok.") }
-        return response.blob();
-      })
-      .then((blob) => {
-        FileSaver.saveAs(blob, fileName);
-      })
-      .catch((error) => console.error("Error in fetching file: ", error));
+    // User info popup
+    this.userInfoService.openUserInfoDialog(`${fileName}_${this.type}`, this.module)
+      .then((isDialogConfirmed) => {
+        if (isDialogConfirmed) {
+          this.utilityService.fetchAndSaveFile(target_file_url, fileName);
+        }
+      });
   }
 
   // Function to check/ uncheck ulb file from the table.
@@ -335,48 +348,58 @@ export class DataSetsComponent implements OnInit {
   }
 
   // Download standardized data - API will give excel.
-  downloadStandardizedData(event: any) {
-    if (event) {
-      // console.log("this.selectedUsersList ---> ", this.selectedUsersList);
-      for (let data of this.selectedUsersList) {
-        if (data.hasOwnProperty('section') && data['section'] == "standardised") {
-          this._resourcesDashboardService.getStandardizedExcel([data]).subscribe((res) => {
-            const blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-            FileSaver.saveAs(blob, data.fileName);
-            // console.log('File Download Done');
-            return;
-          }, (error) => { console.error("Unable to downalod standardized file: ", error) });
+  downloadStandardizedData(event: any): Promise<boolean> {
+    return new Promise((resolve) => {
+      if (event) {
+        // console.log("this.selectedUsersList ---> ", this.selectedUsersList);
+        for (let data of this.selectedUsersList) {
+          if (data.hasOwnProperty('section') && data['section'] == "standardised") {
+            this._resourcesDashboardService.getStandardizedExcel([data]).subscribe((res) => {
 
-          data.isSelected = false;
+              // User info popup.
+              this.userInfoService.openUserInfoDialog(`${data.fileName}_${this.type}`, this.module)
+                .then((isDialogConfirmed) => {
+
+                  if (isDialogConfirmed) {
+                    const blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+                    FileSaver.saveAs(blob, data.fileName);
+
+                    resolve(true);
+                  }
+
+                });
+            }, (error) => { console.error("Unable to downalod standardized file: ", error); resolve(false); });
+
+            data.isSelected = false;
+          }
         }
+        this.selectedUsersList = [];
       }
-      this.selectedUsersList = [];
-    }
+    });
   }
 
   // Download Raw pdf and raw excel.
   download(event: any) {
     if (event) {
-      // console.log("event:.", event)
-      // console.log("from download: ", this.selectedUsersList);
 
-      // If selectedUsersList[0] is standardized - call downloadStandardizedData(). selectedUsersList[] has selected ulbs.
       if (
         this.selectedUsersList.length &&
         this.selectedUsersList[0].hasOwnProperty("section") &&
         this.selectedUsersList[0].section == "standardised"
       ) {
-        this.downloadStandardizedData(true);
+        this.downloadStandardizedData(true)
+          .then((isDownloaded) => {
+            if (isDownloaded) this.openSnackBar(this.fileDownloadSuccess);
+          });
         this.isChecked = false;
-        this.openSnackBar(this.fileDownloadSuccess);
         return;
       }
 
       for (let data of this.selectedUsersList) {
 
         // For docs which have file.url i.e 2015-16 to 2018-19 (Raw excel, Raw pdf)
-        if (data?.fileUrl) {
-          let target_file_url = environment.STORAGE_BASEURL + data['fileUrl'];;
+        if (data['fileUrl']) {
+          let target_file_url = environment.STORAGE_BASEURL + data['fileUrl'];
 
           // Fetch the file from URL.
           this.fetchFile(target_file_url, data.fileName);
@@ -420,71 +443,79 @@ export class DataSetsComponent implements OnInit {
               this.openSnackBar(this.fileDownloadfail);
               this.uncheckSelections();
               return;
-            }
+            },
           );
         }
       }
 
-      this.openSnackBar(this.fileDownloadSuccess);
+      // this.openSnackBar(this.fileDownloadSuccess);
       this.uncheckSelections();
     }
   }
 
   // Helper: to create zip files
   createZipAndSave(fileName: string, files: any) {
-    const download$ = this.downloadService.downloadMultiple(files).pipe(tap({
-      next: (data) => {
-        // console.log('download$ next: ', data);
-      },
-      complete: () => {
-        // console.log('download$ complete: ');
-      },
-      error: (error) => {
-        console.error('download$ error: ', error);
-        this.openSnackBar(this.fileDownloadfail);
-        this.uncheckSelections();
-        return;
-      }
-    }));
+    // User info popup.
+    this.userInfoService.openUserInfoDialog(`${fileName}_${this.type}`, this.module)
+      .then((isDialogConfirmed) => {
+        if (isDialogConfirmed) {
 
-    const zip$ = this.downloadService.zipMultiple(download$);
+          const download$ = this.downloadService.downloadMultiple(files).pipe(tap({
+            next: (data) => {
+              // console.log('download$ next: ', data);
+            },
+            complete: () => {
+              this.openSnackBar(this.fileDownloadSuccess);
+              // console.log('download$ complete: ');
+            },
+            error: (error) => {
+              console.error('download$ error: ', error);
+              this.openSnackBar(this.fileDownloadfail);
+              this.uncheckSelections();
+              return;
+            }
+          }));
 
-    zip$
-      .pipe().subscribe({
-        next: (data) => {
-          // console.log('zip$ next: ', data);
+          const zip$ = this.downloadService.zipMultiple(download$);
 
-          if (data.zipFile) {
-            const downloadAncher = document.createElement("a");
-            downloadAncher.style.display = "none";
-            downloadAncher.href = URL.createObjectURL(data.zipFile);
-            downloadAncher.download = fileName;
-            downloadAncher.click();
-          }
-        },
-        complete: () => {
-          // this.uncheckSelections();
-        },
-        error: (error) => {
-          console.error('zip$ error: ', error);
-          this.openSnackBar(this.fileDownloadfail);
-          this.uncheckSelections();
-          return;
+          zip$
+            .pipe().subscribe({
+              next: (data) => {
+                // console.log('zip$ next: ', data);
+
+                if (data.zipFile) {
+                  const downloadAncher = document.createElement("a");
+                  downloadAncher.style.display = "none";
+                  downloadAncher.href = URL.createObjectURL(data.zipFile);
+                  downloadAncher.download = fileName;
+                  downloadAncher.click();
+                }
+              },
+              complete: () => {
+                // this.uncheckSelections();
+              },
+              error: (error) => {
+                console.error('zip$ error: ', error);
+                this.openSnackBar(this.fileDownloadfail);
+                this.uncheckSelections();
+                return;
+              }
+            });
+
+
+          // const zip = new JSZip();
+
+          // files.forEach((file: any) => {
+          //   let target_file_url = environment.STORAGE_BASEURL + file['url'];;
+          //   let blobResponse: any = this.fetchFile(target_file_url, file.name, true);
+          //   zip.file(file.name, blobResponse);
+          // });
+
+          // zip.generateAsync({ type: 'blob' }).then((blob: any) => {
+          //   FileSaver.saveAs(blob, fileName);
+          // });
         }
       });
-
-
-    // const zip = new JSZip();
-
-    // files.forEach((file: any) => {
-    //   let target_file_url = environment.STORAGE_BASEURL + file['url'];;
-    //   let blobResponse: any = this.fetchFile(target_file_url, file.name, true);
-    //   zip.file(file.name, blobResponse);
-    // });
-
-    // zip.generateAsync({ type: 'blob' }).then((blob: any) => {
-    //   FileSaver.saveAs(blob, fileName);
-    // });
 
     return;
   }
