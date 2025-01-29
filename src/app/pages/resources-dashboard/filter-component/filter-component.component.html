@@ -26,7 +26,7 @@
               </div>
 
               <div class="col">
-                <input type="text" class="p-2 border border-1 rounded border-secondary-subtle" placeholder="Search for ULB" matInput formControlName="ulb"
+                <input type="text" class="p-2 bg-white fw-bold text-start border border-1 rounded border-secondary-subtle bg-white" placeholder="Search for ULB" matInput formControlName="ulb"
                   [matAutocomplete]="auto">
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                   <a (click)="filterData('ulb', option)" *ngFor="let option of filteredOptions; let i = index"
