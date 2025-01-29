@@ -305,32 +305,38 @@ export class FilterComponentComponent implements OnInit, OnChanges {
 
   /*this method add calander year dynamic in yearList array, format- "2021-22" */
   addYearsTillCurrent() {
-    // API to get latest year - ULB with latest year annual accounts data.
-    this._resourcesDashboardService.getAnnualAccountsYear().subscribe((res: any) => { });
+    // Get the current year.
+    let currentYear = new Date().getFullYear();
 
-    // Get the current year
-    const currentYear = new Date().getFullYear();
-    // get the previous year which is presented in the year list
-    let lastYear = parseInt(this.yearList[this.yearList.length - 1]);
+    // API to get latest year - ULB with latest year afss data.
+    this._resourcesDashboardService.getAnnualAccountsYear()
+      .subscribe((res: any) => {
+        currentYear = parseInt(res.latestAfsYear.substring(0, 5)) + 1;
 
-    // Generate and add years until the current year
-    while (lastYear <= currentYear) {
-      const formattedYear = `${lastYear - 1}-${String(lastYear).slice(2)}`;
+        // get the previous year which is presented in the year list
+        let lastYear = parseInt(this.yearList[this.yearList.length - 1]);
 
-      // Check if the year is not already in the array
-      if (!this.yearList.includes(formattedYear)) {
-        // Add the year to the array
-        this.yearList.push(formattedYear);
-      }
+        // Generate and add years until the current year
+        while (lastYear <= currentYear) {
+          const formattedYear = `${lastYear - 1}-${String(lastYear).slice(2)}`;
 
-      // Move to the next year
-      lastYear++;
-    }
+          // Check if the year is not already in the array
+          if (!this.yearList.includes(formattedYear)) {
+            // Add the year to the array
+            this.yearList.push(formattedYear);
+          }
 
-    // Reverse the array if needed
-    this.yearList.reverse();
+          // Move to the next year
+          lastYear++;
+        }
 
-    // Set the latest year.
-    this.selectedValue = this.yearList[0];
+        // Reverse the array if needed
+        this.yearList.reverse();
+
+        // Set the latest year.
+        this.selectedValue = this.yearList[0];
+
+      });
+
   }
 }
