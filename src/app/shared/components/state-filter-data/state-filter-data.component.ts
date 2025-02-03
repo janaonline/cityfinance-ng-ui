@@ -427,7 +427,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     this.selectedRadioBtnValue = "";
     this.radioButtonValue = "";
     // this.getYears();
-    this.financialYear = this.yearList[0];
+    this.financialYear = '2021-22';
     if (isReset) {
       this.getScatterData();
       if (this.stateServiceLabel) {
@@ -451,7 +451,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     if (this.stateServiceLabel) {
       this.stateFilterDataService.getFinancialYear().subscribe((res: any) => {
         this.yearList = res?.data?.FYs;
-        this.financialYear = this.yearList[0];
+        this.financialYear = '2021-22';
         this.valueSelected.emit(this.financialYear);
       
       }, (err) => {
@@ -479,7 +479,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       // });
       this.stateFilterDataService.getFinancialYear().subscribe((res: any) => {
         this.yearList = res?.data?.FYs;
-        this.financialYear = this.yearList[0];
+        this.financialYear = '2021-22'
         this.valueSelected.emit(this.financialYear);
       
       }, (err) => {
@@ -490,7 +490,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       //   : [];
       // console.log("sessionFY", this.yearList);
       if (this.yearList?.length) {
-        this.financialYear = this.yearList[0];
+        this.financialYear = '2021-22'
         console.log("financial Year", this.financialYear);
       } else {
         const paramContent: any = {
@@ -507,7 +507,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
                 "financialYearList",
                 JSON.stringify(this.yearList)
               );
-              this.financialYear = this.yearList[0];
+              this.financialYear = '2021-22'
               console.log("financial Year", this.financialYear);
               this.changeActiveBtn(0);
             }

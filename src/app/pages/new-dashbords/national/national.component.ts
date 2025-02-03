@@ -43,7 +43,7 @@ export class NationalComponent implements OnInit {
 
   nationalDataAvailability: Number;
   stateId: any;
-  yearValue: any = "2020-21";
+  yearValue: any = "2021-22";
   type: String = "national";
   cardInput = {
     ifPeople: false,
@@ -120,7 +120,7 @@ export class NationalComponent implements OnInit {
   ngOnInit(): void {
     this.dashboardLastUpdatedYear();
     this.getIndicatorData(this.stateId);
-    this.getCardsData();
+    //this.getCardsData();
     this.component_name = "National";
     let availData: any = sessionStorage.getItem("dataAvail");
 
@@ -151,6 +151,7 @@ export class NationalComponent implements OnInit {
   }
 
   getCardsData() {
+    if(this.yearValue!=''){
     this.newDashboardService
       .dashboardInformation(false, "", "national", this.yearValue)
       .subscribe((res: any) => {
@@ -179,6 +180,7 @@ export class NationalComponent implements OnInit {
           obj.BalanceSheetSize,
         ];
       });
+    }
   }
 
   private fetchMinMaxFinancialYears() {

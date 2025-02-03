@@ -256,12 +256,14 @@ export class NationalMapSectionComponent
     this.selectedYear = event.target.value;
     this.nationalInput.financialYear = this.selectedYear;
     this.getNationalTableData();
-    // this.nationalMapService.setCurrentSelectYear({
-    //   data: event.target.value,
-    // });
+   
+    this._commonService.setSelectedFinancialYear(event.target.value)
     MapUtil.destroy(this.nationalLevelMap);
 
     this.getNationalLevelMapData(event.target.value);
+    this.nationalMapService.setCurrentSelectYear({
+      data: event.target.value,
+    });
   }
 
   convertMiniMapToOriginal(domId: string) {
@@ -567,7 +569,8 @@ export class NationalMapSectionComponent
   getFinancialYearList() {
     this.nationalMapService.getNationalFinancialYear().subscribe((res: any) => {
       this.financialYearList = res?.data?.FYs;
-      this.selectedYear = this.financialYearList[0];
+      //this.selectedYear = this.financialYearList[0];
+      this.selectedYear = "2021-22";
       this.nationalInput.financialYear = this.selectedYear ;
       this.getNationalTableData();
       this.getNationalLevelMapData(this.selectedYear);
@@ -575,18 +578,19 @@ export class NationalMapSectionComponent
   }
 
   resetFilter() {
-   // this.selectedYear = "2021-22";
-   this.selectedYear  = this.financialYearList[0];
+    this.selectedYear = "2021-22";
+   //this.selectedYear  = this.financialYearList[0];
     this.onSelectingStateFromDropDown("");
     this.nationalInput = this.nationalInput;
     MapUtil.destroy(this.nationalLevelMap);
     this.nationalInput.financialYear = this.selectedYear;
     this.nationalMapService.setCurrentSelectYear({
-      data: '2020-21',
+      data: '2021-22',
     });
 
     this.subFilterFn("popCat");
     this.getNationalLevelMapData(this.selectedYear);
+    this._commonService.setSelectedFinancialYear(this.selectedYear)
   }
 
   onSelectingStateFromDropDown(state: any | null) {

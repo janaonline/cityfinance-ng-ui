@@ -26,7 +26,7 @@ export class FrontPanelComponent implements OnInit, OnChanges {
     showMap: true,
     stateId: "",
     date: "",
-    year: "2020-21",
+    year: "2021-22",
     name: "",
     desc: "This urban local body has been classified as a municipal corporation in the 4M+ population category",
     finance: "",
@@ -112,9 +112,10 @@ export class FrontPanelComponent implements OnInit, OnChanges {
 
     this._commonServices.getSelectedYear.subscribe(res => {
       if (res) {
-        if(this.yearVal != res){
+        if(res.length>0) {
         this.yearVal = res;
         this.data.year = res;
+        if(this.componentName !='National')
         this.getAvailableData();}
       }
     })
@@ -208,7 +209,10 @@ export class FrontPanelComponent implements OnInit, OnChanges {
         from:"slb"
       };
     }
-
+    if(!this.yearVal){
+      this.yearVal='2021-22',
+      this.data.year ='2021-22'
+    }
     this.ownRevenueService.displayDataAvailable(obj).subscribe(
       (res) => {
         // this._loaderService.stopLoader();
