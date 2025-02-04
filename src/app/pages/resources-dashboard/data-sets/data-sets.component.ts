@@ -11,6 +11,7 @@ import { environment } from "src/environments/environment";
 import { ReportService } from "../../../dashboard/report/report.service";
 import { ResourcesDashboardService } from "../resources-dashboard.service";
 import { UtilityService } from "src/app/shared/services/utility.service";
+import { forkJoin } from "rxjs";
 
 @Component({
   selector: "app-data-sets",
@@ -132,7 +133,7 @@ export class DataSetsComponent implements OnInit {
   // Function of app-filter-component.
   filterData(e: any) {
     // console.log("filter -----> ", e);
-    this.year = e?.value?.year ?? "2020-21";
+    this.year = e?.value?.year ?? this.year;
     this.type = e?.value?.contentType ?? "Raw Data PDF";
     this.state = e?.value?.state;
     this.ulb = e?.value?.ulb;
@@ -200,7 +201,7 @@ export class DataSetsComponent implements OnInit {
         .then((isDownloaded) => {
           if (isDownloaded) this.openSnackBar(this.fileDownloadSuccess);
         });
-      this.selectedUsersList = [];
+      // this.selectedUsersList = [];
       return;
     }
 
@@ -213,7 +214,7 @@ export class DataSetsComponent implements OnInit {
 
         if (item.type === "pdf") {
           // User info popup.
-          this.userInfoService.openUserInfoDialog(`${item['fileName']}_${this.type}`, this.module)
+          this.userInfoService.openUserInfoDialog([{ fileName: `${item['fileName']}_${this.type}` }], this.module)
             .then((isDialogConfirmed) => {
               if (isDialogConfirmed) window.open(target_file_url, '_blank');
             });
@@ -272,7 +273,7 @@ export class DataSetsComponent implements OnInit {
   // Helper: Fetch file from URL -> Create blob -> download file.
   fetchFile(target_file_url: string, fileName: string) {
     // User info popup
-    this.userInfoService.openUserInfoDialog(`${fileName}_${this.type}`, this.module)
+    this.userInfoService.openUserInfoDialog([{ fileName: `${fileName}_${this.type}` }], this.module)
       .then((isDialogConfirmed) => {
         if (isDialogConfirmed) {
           this.utilityService.fetchAndSaveFile(target_file_url, fileName);
@@ -351,37 +352,39 @@ export class DataSetsComponent implements OnInit {
   downloadStandardizedData(event: any): Promise<boolean> {
     return new Promise((resolve) => {
       if (event) {
-        // console.log("this.selectedUsersList ---> ", this.selectedUsersList);
-        for (let data of this.selectedUsersList) {
-          if (data.hasOwnProperty('section') && data['section'] == "standardised") {
-            this._resourcesDashboardService.getStandardizedExcel([data]).subscribe((res) => {
+        const userInfoFiles = this.selectedUsersList.map((e) => { return { 'fileName': `${e.fileName}_${this.type}` } });
 
-              // User info popup.
-              this.userInfoService.openUserInfoDialog(`${data.fileName}_${this.type}`, this.module)
-                .then((isDialogConfirmed) => {
+        // User info popup.
+        this.userInfoService.openUserInfoDialog(userInfoFiles, this.module)
+          .then((isDialogConfirmed) => {
+            if (isDialogConfirmed) {
 
-                  if (isDialogConfirmed) {
-                    const blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-                    FileSaver.saveAs(blob, data.fileName);
+              for (let data of this.selectedUsersList) {
+                if (data.hasOwnProperty('section') && data['section'] == "standardised") {
+                  this._resourcesDashboardService.getStandardizedExcel([data]).subscribe(
+                    (res) => {
+                      const blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+                      FileSaver.saveAs(blob, data.fileName);
 
-                    resolve(true);
-                  }
+                      resolve(true);
+                    },
+                    (error) => { console.error("Unable to downalod standardized file: ", error); resolve(false); });
 
-                });
-            }, (error) => { console.error("Unable to downalod standardized file: ", error); resolve(false); });
-
-            data.isSelected = false;
-          }
-        }
-        this.selectedUsersList = [];
+                  data.isSelected = false;
+                }
+              }
+              this.uncheckSelections();
+            }
+          });
       }
     });
   }
 
-  // Download Raw pdf and raw excel.
   download(event: any) {
+
     if (event) {
 
+      // Standardized files.
       if (
         this.selectedUsersList.length &&
         this.selectedUsersList[0].hasOwnProperty("section") &&
@@ -395,125 +398,100 @@ export class DataSetsComponent implements OnInit {
         return;
       }
 
-      for (let data of this.selectedUsersList) {
 
-        // For docs which have file.url i.e 2015-16 to 2018-19 (Raw excel, Raw pdf)
-        if (data['fileUrl']) {
-          let target_file_url = environment.STORAGE_BASEURL + data['fileUrl'];
+      // For docs which have file.url i.e 2015-16 to 2018-19 (Raw excel, Raw pdf)
+      if (['2015-16', '2016-17', '2017-18', '2018-19'].includes(this.year)) {
+        const userInfoFiles = this.selectedUsersList.map((e) => { return { 'fileName': `${e.fileName}_${this.type}` } });
 
-          // Fetch the file from URL.
-          this.fetchFile(target_file_url, data.fileName);
-          this.selectedUsersList = [];
-          data.isSelected = false;
-          this.isChecked = false;
-        }
-        else {
-          // console.log("from download: ", this.selectedUsersList);
-          let response = { pdf: [], excel: [] };
-          let files = [];
+        // User info popup.
+        this.userInfoService.openUserInfoDialog(userInfoFiles, this.module)
+          .then((isDialogConfirmed) => {
+            if (isDialogConfirmed) {
 
-          this.reportService.getReports(data._id, data.year, data.auditType).subscribe(
-            (res) => {
-              // this.globalLoaderService.stopLoader();
-              let type = 'notFound';
-              if (res && res["success"]) {
-                response = res["data"];
+              for (let data of this.selectedUsersList) {
+                if (data['fileUrl']) {
+                  let target_file_url = environment.STORAGE_BASEURL + data['fileUrl'];
+
+                  // Fetch the file from URL.
+                  this.utilityService.fetchAndSaveFile(target_file_url, data.fileName);
+                  data.isSelected = false;
+                  this.isChecked = false;
+                }
               }
-              // console.log("response ----------->", response)
-              if (data.type === "pdf") files = response?.pdf || [];
-              if (data.type === "excel") files = response?.excel || [];
 
-              files.forEach((ele) => {
-                let temp = ele.url;
-                ele.name = ele.name + '.' + temp.split(".")[1];
-                ele.url = environment.STORAGE_BASEURL + ele['url'];
-
-                // // TODO: To be removed: only for testing.
-                // if (data.type === "pdf") ele.url = 'https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/ULB/2024-25/annual_accounts/AP016/BalanceSheet-2023-24_5440cf6a-6ff0-45b0-ba09-013227a5a90a.pdf';
-                // if (data.type === "excel") ele.url = "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/ULB/2024-25/annual_accounts/AP016/BalanceSheet_2023-24_0715e2c2-8591-4ef0-80ce-e68ea2c9e9cf.xls";
-
-              })
-
-              // console.log("files ---->", files)
-              this.createZipAndSave(`${data.fileName}.zip`, files);
-            },
-            (error) => {
-              // this.globalLoaderService.stopLoader();
-              console.error("Found error in download(): ", error);
-              this.openSnackBar(this.fileDownloadfail);
               this.uncheckSelections();
-              return;
-            },
-          );
-        }
+            }
+          });
       }
 
-      // this.openSnackBar(this.fileDownloadSuccess);
-      this.uncheckSelections();
+      // 2019-20 onwards.
+      else {
+        const fetchData = (data: any) => this.reportService.getReports(data._id, data.year, data.auditType);
+        const userInfoFiles = this.selectedUsersList.map((e) => { return { 'fileName': `${e.fileName}.zip_${this.type}` } });
+
+        // User info popup.
+        this.userInfoService.openUserInfoDialog(userInfoFiles, this.module)
+          .then((isDialogConfirmed) => {
+            if (isDialogConfirmed) {
+
+              forkJoin(this.selectedUsersList.map(row => fetchData(row)))
+                .subscribe(result => {
+                  result.forEach((res, i) => {
+                    const currentData: any = this.selectedUsersList[i];
+                    const files = res['data'][currentData['type']].map((e: any) => { return { name: e.name, url: environment.STORAGE_BASEURL + e.url } });
+
+                    this.createZipAndSave(userInfoFiles[i].fileName + '.zip', files);
+                  });
+
+                  this.uncheckSelections();
+                });
+            }
+          });
+      }
     }
   }
 
   // Helper: to create zip files
   createZipAndSave(fileName: string, files: any) {
-    // User info popup.
-    this.userInfoService.openUserInfoDialog(`${fileName}_${this.type}`, this.module)
-      .then((isDialogConfirmed) => {
-        if (isDialogConfirmed) {
+    const download$ = this.downloadService.downloadMultiple(files).pipe(tap({
+      next: (data) => {
+        // console.log('download$ next: ', data);
+      },
+      complete: () => {
+        this.openSnackBar(this.fileDownloadSuccess);
+        // console.log('download$ complete: ');
+      },
+      error: (error) => {
+        console.error('download$ error: ', error);
+        this.openSnackBar(this.fileDownloadfail);
+        this.uncheckSelections();
+        return;
+      }
+    }));
 
-          const download$ = this.downloadService.downloadMultiple(files).pipe(tap({
-            next: (data) => {
-              // console.log('download$ next: ', data);
-            },
-            complete: () => {
-              this.openSnackBar(this.fileDownloadSuccess);
-              // console.log('download$ complete: ');
-            },
-            error: (error) => {
-              console.error('download$ error: ', error);
-              this.openSnackBar(this.fileDownloadfail);
-              this.uncheckSelections();
-              return;
-            }
-          }));
+    const zip$ = this.downloadService.zipMultiple(download$);
 
-          const zip$ = this.downloadService.zipMultiple(download$);
+    zip$
+      .pipe().subscribe({
+        next: (data) => {
+          // console.log('zip$ next: ', data);
 
-          zip$
-            .pipe().subscribe({
-              next: (data) => {
-                // console.log('zip$ next: ', data);
-
-                if (data.zipFile) {
-                  const downloadAncher = document.createElement("a");
-                  downloadAncher.style.display = "none";
-                  downloadAncher.href = URL.createObjectURL(data.zipFile);
-                  downloadAncher.download = fileName;
-                  downloadAncher.click();
-                }
-              },
-              complete: () => {
-                // this.uncheckSelections();
-              },
-              error: (error) => {
-                console.error('zip$ error: ', error);
-                this.openSnackBar(this.fileDownloadfail);
-                this.uncheckSelections();
-                return;
-              }
-            });
-
-
-          // const zip = new JSZip();
-
-          // files.forEach((file: any) => {
-          //   let target_file_url = environment.STORAGE_BASEURL + file['url'];;
-          //   let blobResponse: any = this.fetchFile(target_file_url, file.name, true);
-          //   zip.file(file.name, blobResponse);
-          // });
-
-          // zip.generateAsync({ type: 'blob' }).then((blob: any) => {
-          //   FileSaver.saveAs(blob, fileName);
-          // });
+          if (data.zipFile) {
+            const downloadAncher = document.createElement("a");
+            downloadAncher.style.display = "none";
+            downloadAncher.href = URL.createObjectURL(data.zipFile);
+            downloadAncher.download = fileName;
+            downloadAncher.click();
+          }
+        },
+        complete: () => {
+          // this.uncheckSelections();
+        },
+        error: (error) => {
+          console.error('zip$ error: ', error);
+          this.openSnackBar(this.fileDownloadfail);
+          this.uncheckSelections();
+          return;
         }
       });
 

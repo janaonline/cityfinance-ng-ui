@@ -38,7 +38,7 @@ export class BalanceTabledialogComponent implements OnInit {
     if (this.ulbDetails && ['resources'].includes(this.ulbDetails['module'])) {
       const fileName = `${this.ulbDetails['fileName']}_${this.ulbDetails['type']}_${fileInfo['name']}.${this.fileType}`;
 
-      this.userInfoService.openUserInfoDialog(fileName, this.ulbDetails['module'])
+      this.userInfoService.openUserInfoDialog([{ fileName }], this.ulbDetails['module'])
         .then((isDialogConfirmed) => {
           if (isDialogConfirmed) {
             if (this.fileType === "pdf") window.open(target_file_url, '_blank');
