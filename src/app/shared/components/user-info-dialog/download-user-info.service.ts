@@ -21,8 +21,8 @@ export class DownloadUserInfoService {
   }
 
   // Get user info before viewing/ downloading file (update that in db).
-  public openUserInfoDialog(fileName: string, module: string): Promise<boolean> {
-    const downloadInfo = { module: module, fileDownloaded: [{ fileName }] };
+  public openUserInfoDialog(fileDetails: any, module: string): Promise<boolean> {
+    const downloadInfo = { module: module, fileDownloaded: fileDetails };
     const userInfo = localStorage.getItem('userInfo');
 
     return new Promise((resolve) => {
