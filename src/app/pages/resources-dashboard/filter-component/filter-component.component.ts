@@ -49,7 +49,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   };
 
 
-  selectedValue: String = "2020-21";
+  selectedValue: String = "2023-24";
   defaultYearInDropdown: String = "";
   selectedType: String = "Raw Data PDF";
 
