@@ -1416,3 +1416,7 @@ input[type=number] {
     box-shadow: none !important;
     outline: none !important;
 }
+
+.swal-container-on-top {
+  z-index: 100000 !important;
+}
