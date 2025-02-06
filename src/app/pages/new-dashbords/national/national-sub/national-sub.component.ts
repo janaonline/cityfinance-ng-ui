@@ -325,6 +325,10 @@ export class NationalSubComponent implements OnInit {
     }
 
     this.nationalInput.financialYear = this.selectedYear;
+    this.nationalMapService.setCurrentSelectYear({
+      data:this.selectedYear,
+    });
+    
     if (this.activetab.includes("Total")) {
       this.totalRevenue = true;
       this.mixRevenue = false;
@@ -422,13 +426,18 @@ export class NationalSubComponent implements OnInit {
 
   resetFilter() {
     let emptyArr: any = [];
-    //this.selectedYear = "2021-22";
+    this.selectedYear = "2021-22";
     this.selectedState = "";
-    this.selectedYear = this.financialYearList[0];
+   // this.selectedYear = this.financialYearList[0];
     this.filteredOptions = emptyArr;
     this.nationalFilter.patchValue("");
     this.subFilterFn("popCat");
+    this._commonServices.setSelectedFinancialYear(this.selectedYear)
     this.isStateSearch = false;
+    this.nationalMapService.setCurrentSelectYear({
+      data:'2021-22',
+    });
+    
     // this.getCurrentTabValue();
   }
 
@@ -450,6 +459,7 @@ export class NationalSubComponent implements OnInit {
     this.RevenueMixInput.financialYear = this.selectedYear;
     // this.getRevenueMixData(this.RevenueMixInput);
     this.getCurrentTabValue();
+    this._commonServices.setSelectedFinancialYear(this.selectedYear)
   }
 
   createDoughnutChartOptions(data: any) {
@@ -630,7 +640,9 @@ export class NationalSubComponent implements OnInit {
     this.nationalMapService.getNationalFinancialYear().subscribe((res: any) => {
       this._loaderService.stopLoader();
       this.financialYearList = res?.data?.FYs;
-      this.selectedYear =  this.financialYearList[0]
+      //this.selectedYear =  this.financialYearList[0]
+      this.selectedYear =  '2021-22';
+      this._commonServices.setSelectedFinancialYear(this.selectedYear)
       this.nationalInput.financialYear = this.selectedYear ;
       this.getCurrentTabValue();
     });
