@@ -99,7 +99,8 @@
               style="border-radius: 8px; border: 1px solid gray; opacity: 0.6"
             >
               <option
-                *ngFor="let year of yearList"
+                [disabled]="i == 0"
+                *ngFor="let year of yearList; let i = index"
                 [value]="year"
                 [selected]="year == financialYear"
               >

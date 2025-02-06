@@ -76,6 +76,11 @@ export class StateComponent implements OnInit {
       this._commonService.lastUpdatedYear.next(this.moneyYear);
       this.dashBoardData(this.stateId, this.moneyYear);
     });
+    this._commonService.getSelectedYear.subscribe(res => {
+      if (res) {
+        this.dashBoardData(this.stateId, res);
+      }
+    })
   }
   yearVal;
   setYear(year) {
@@ -139,18 +144,19 @@ export class StateComponent implements OnInit {
       );
     //bringing cards data on front panel
     this.newDashboardService
-      .dashboardInformation(false, stateId, "state", data?.year)
+      .dashboardInformation(false, stateId, "state", year)
       .subscribe(
         (res: any) => {
+          res.data = res.data.filter(result=>{return result!=null})
           let obj = {TaxRevenue, OwnRevenue, Grant, Expense, BalanceSheetSize, Revenue };
           for (const key in obj) {
             const element = obj[key];
            
               element.number =
                 "INR " +
-                (res.data.length > 0
+                (res.data.length > 0 &&  res.data.find((value) => value && value._id == key)?.amount
                   ? Math.round(
-                      res.data.find((value) => value._id == key)?.amount /
+                      res.data.find((value) => value && value._id == key)?.amount /
                         10000000
                     )
                   : "0") +
