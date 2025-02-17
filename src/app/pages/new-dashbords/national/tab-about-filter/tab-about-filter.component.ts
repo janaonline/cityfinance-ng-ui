@@ -81,5 +81,12 @@ export class TabAboutFilterComponent implements OnInit, OnChanges {
     if (this.activeFilter) {
       this.nationalSubTab(this.activeFilter[0], 0);
     }
+    
+    if(this.mainTab=='Data Availability'){
+      this._commonServices.setSelectedFinancialYear('2021-22')
+      this.nationalMapService.setCurrentSelectYear({
+      data:'2021-22',
+    });
+  }
   }
 }
