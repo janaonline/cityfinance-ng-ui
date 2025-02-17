@@ -1,0 +1,81 @@
+<div>
+  <h2 mat-dialog-title class="fw-bold">Download</h2>
+  <p class="text-muted">
+    <small>Please enter your information below to download the file(s).</small>
+  </p>
+</div>
+
+<mat-divider class="py-2"></mat-divider>
+
+<ng-container *ngIf="isLoading">
+  <app-pre-loader></app-pre-loader>
+  <app-pre-loader></app-pre-loader>
+</ng-container>
+
+<mat-dialog-content class="px-5 py-2">
+  <div class="row">
+    <ng-container *ngFor="let field of fields">
+      <div class="col-md-6">
+        <mat-form-field
+          [appearance]="'outline'"
+          class="mt-2"
+          [formGroup]="userInfo"
+        >
+          <!-- Label -->
+          <mat-label for="field.key">
+            {{ field.label }}
+            <span *ngIf="field.showAsterisk" class="text-danger">
+              <sup>*</sup>
+            </span>
+          </mat-label>
+
+          <!-- input box -->
+          <input
+            matInput
+            [formControlName]="field.key"
+            [id]="field.key"
+            [type]="field.formFieldType"
+            [readonly]="readonly"
+          />
+
+          <!-- validations -->
+          <ng-container
+            ngProjectAs="mat-error"
+            *ngFor="let validation of field.validations"
+          >
+            <mat-error *ngIf="hasError(field.key, validation.name)">
+              {{ validation.message }}
+            </mat-error>
+          </ng-container>
+
+          <!-- <ng-container *ngFor="let warning of warnings">
+            <mat-hint
+              *ngIf="hasWarning(field.key, warning)"
+              class="warning-hint"
+            >
+              {{ warning.message }}
+            </mat-hint>
+          </ng-container> -->
+        </mat-form-field>
+      </div>
+    </ng-container>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions class="px-5 mb-3 row justify-content-center gap-3">
+  <button
+    type="button"
+    class="col-auto py-2 btn btn-secondary"
+    (click)="submitUserInfo()"
+    [disabled]="userInfo.invalid"
+  >
+    Submit
+  </button>
+  <button
+    mat-dialog-close
+    type="button"
+    class="col-auto py-2 btn btn btn-outline-secondary"
+  >
+    Cancel
+  </button>
+</mat-dialog-actions>

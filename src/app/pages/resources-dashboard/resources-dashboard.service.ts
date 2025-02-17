@@ -72,4 +72,8 @@ export class ResourcesDashboardService {
   getMunicipalityBondsRepositoryList(params) {
     return this.https.get(`${environment.api.url}municipalBondRepository/list`, { params });
   }
+
+  getAnnualAccountsYear(auditType: string = 'unAudited') {
+    return this.https.get(`${environment.api.url}common/get-latest-aa-year/?auditType=${auditType}`);
+  }
 }
