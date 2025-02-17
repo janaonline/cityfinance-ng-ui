@@ -50,10 +50,16 @@ export class CommonService {
 
   private searchItem : BehaviorSubject<any> = new BehaviorSubject([]);
   castSearchItem = this.searchItem.asObservable();
+  private selectedFinancialYear : BehaviorSubject<any> = new BehaviorSubject([]);
+  getSelectedYear = this.selectedFinancialYear.asObservable();
 
   updateSearchItem(searchItem){
      this.searchItem.next(searchItem)
   }
+
+  setSelectedFinancialYear( selectedYear){
+    this.selectedFinancialYear.next(selectedYear)
+ }
 
   setDataForVisualizationCount(VisualizationCountObject){
     this.dataForVisualizationCount.next(VisualizationCountObject)
