@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ulbs_data } from "src/app/newPagesFc/xvfc2223-ulb/detailed-utilization-report/ulbsData";
+import { ulbs_data } from "src/app/fc-grant-2324-onwards/ulb-form/dur/dur-dump/ulbsData";
 
 @Component({
   selector: 'app-dur-dump',
@@ -18,9 +18,9 @@ export class DurDumpComponent implements OnInit {
     // });
 
     // for 2023-24
-    ulbs_data.slice(60, 70).forEach(ulb => {
-      console.log("-------------------data--------------->", ulb.ulbId, ulb.ulbName, ulb.ulbCode, ulb.stateName, ulb.formStatus)
-      window.open(`/ulb-form/606aafc14dff55e6c075d3ec/utilisation-report/${ulb.ulbId}?ulbName=${ulb.ulbName}&ulbCode=${ulb.ulbCode}&stateName=${ulb.stateName}&status=${ulb?.formStatus}`, '_blank')
+    ulbs_data.slice(0, 2).forEach(ulb => {
+      // console.log("-------------------data--------------->", ulb.ulbId, ulb.ulbName, ulb.ulbCode, ulb.stateName, ulb.formStatus)
+      window.open(`/ulb-form/606aafc14dff55e6c075d3ec/utilisation-report/${ulb.ulbId}?ulbName=${ulb.ulbName}&ulbCode=${ulb.ulbCode}&stateName=${ulb.stateName}&status=${ulb.formStatus}&downloadPdf=true`, '_blank')
     });
   }
 

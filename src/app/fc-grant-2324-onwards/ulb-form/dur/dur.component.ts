@@ -1,15 +1,14 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-
-const swal: SweetAlert = require("sweetalert");
-
+import { USER_TYPE } from 'src/app/models/user/userType';
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
+import { UserUtility } from 'src/app/util/user/user';
 import { SweetAlert } from 'sweetalert/typings/core';
 import { CommonServicesService } from '../../fc-shared/service/common-services.service';
-
 import { DurPreviewComponent } from './dur-preview/dur-preview.component';
 import { DurService } from './dur.service';
+const swal: SweetAlert = require("sweetalert");
 
 @Component({
   selector: 'app-dur',
@@ -48,6 +47,17 @@ export class DurComponent implements OnInit, OnDestroy {
   financialYear: string = "";
   selectedYear: string = ""
   locationInvalid: boolean = false;
+
+  // bulk upload data
+  ulbId: string = "";
+  ulbName: string = "";
+  ulbCode: string = "";
+  stateName: string = "";
+  formStatus: string = "";
+  downloadPdf: boolean = false;
+  year: string = "";
+  userDetails = new UserUtility().getLoggedInUserDetails();
+
   constructor(
     private dialog: MatDialog,
     private durService: DurService,
@@ -57,8 +67,39 @@ export class DurComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) {
     this.getNextPreUrl();
+
+    //<-----------------------------------bulk pdf download----------------------------->
+    this.ulbId = this.route.snapshot.params.id;
+    if (!this.ulbId) {
+      this.ulbId = this.getUlbId();
+    }
+    this.route.queryParams.subscribe(params => {
+      // console.log("---------------------params------------", params);
+
+      this.downloadPdf = params['downloadPdf'];
+      this.ulbName = params['ulbName'];
+      this.ulbCode = params['ulbCode'];
+      this.stateName = params['stateName'];
+      this.formStatus = params['formStatus'];
+
+      if (!this.downloadPdf) {
+        this.getStateDetails();
+      }
+
+    });
+    // console.log("---------------data--------------", this.ulbName, this.ulbCode, this.stateName, this.status);
   }
 
+  getStateDetails() {
+    if (this.userDetails.role == USER_TYPE.ULB) {
+      this.stateName = this.userData.stateName;
+      this.ulbName = this.userData.name;
+    } else {
+      this.stateName = sessionStorage.getItem("stateName");
+      this.ulbName = sessionStorage.getItem("ulbName");
+    }
+
+  }
 
   ngOnInit(): void {
     // this.isLoaded = true;
@@ -77,7 +118,7 @@ export class DurComponent implements OnInit, OnDestroy {
     return this.selectedYearId;
   }
 
-  get ulbId() {
+  getUlbId() {
     if (this.userData?.role == 'ULB') return this.userData?.ulb;
     return localStorage.getItem("ulb_id");
   }
@@ -102,6 +143,21 @@ export class DurComponent implements OnInit, OnDestroy {
       if (loadProjects) {
         this.getProjects();
       }
+
+      //--------auto bulk pdf download-------------------------
+      if (this.downloadPdf) {
+        setTimeout(() => {
+          (document.querySelector('#prevBtn') as any).click();
+        }, 5000);
+        setTimeout(() => {
+          (document.querySelector('#donwloadButton') as any).click();
+        }, 8000);
+
+        setTimeout(() => {
+          window.close();
+        }, 22000);
+      }
+
     }, ({ error }) => {
       console.log(error.success)
       this.loaderService.stopLoader();
@@ -204,6 +260,10 @@ export class DurComponent implements OnInit, OnDestroy {
     // console.log({ tiedGrant, child: tiedGrant.childQuestionData, grantPosition, waterManagement, categoryWiseData_wm });
 
     let previewData = {
+      ulbName: this.ulbName,
+      ulbCode: this.ulbCode,
+      stateName: this.stateName,
+      formStatus: this.formStatus,
       status: this.statusShow,
       isDraft: true,
       financialYear: this.financial_year,
