@@ -154,7 +154,7 @@ tr {
 }
   </style>`;
 
-  @Input()changeFromOutSide: any;
+  @Input() changeFromOutSide: any;
   totalWmAmount = 0;
   totalSwmAmount = 0;
   USER_TYPES = USER_TYPE;
@@ -173,7 +173,7 @@ tr {
       this.state = sessionStorage.getItem("stateName");
       this.ulb = sessionStorage.getItem("ulbName");
     }
-console.log('preview data', this.data);
+    console.log('preview data', this.data);
 
   }
 
@@ -248,7 +248,7 @@ console.log('preview data', this.data);
   dialogClose() {
     this._matDialog.closeAll();
   }
-  checkForYear(){
+  checkForYear() {
     return this.data?.selectedYear == "2024-25";
   }
 
