@@ -183,6 +183,21 @@ tr {
 
   }
 
+  private getFileName(): string {
+    // let fileName = `${this.data.stateName}_${this.data.ulbCode || "_"}${this.data.ulbName}_2023-24_${this.data.formStatus || this.data.status}`;
+
+    let filename = [this.data.stateName, this.data.ulbCode, this.data.ulbName, this.data.formStatus || this.data.status].reduce((acc, curr, idx) => {
+      if (curr) {
+        if (idx == 0) return curr;
+        return acc + "_" + curr;
+      }
+      return acc;
+    }, "");
+    filename = filename.replace(/\s/g, "");
+
+    return filename;
+  }
+
   downloadForm() {
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
     const html = this.styleForPDF + elementToAddPDFInString;
@@ -193,8 +208,8 @@ tr {
         // StateName_ULBName_FyYear_FormStatus 
         // let fileName = `${this.state}_${this.ulb}_2023-24_${this.data?.status}`;
         // TODO: set year dynamically
-        let fileName = `${this.data.stateName}_${this.data.ulbCode || ""}_${this.data.ulbName}_2023-24_${this.data.formStatus || this.data.status}`;
-        fileName = fileName.replace(/\s/g, "");
+        const fileName = this.getFileName();
+
         this.downloadFile(res.slice(0), "pdf", `${fileName}.pdf`);
         this.showLoader = false;
       },
