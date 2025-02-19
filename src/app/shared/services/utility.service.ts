@@ -37,7 +37,10 @@ export class UtilityService {
       title: title,
       text: text,
       showConfirmButton: false,
-      timer
+      timer,
+      customClass: {
+        container: 'swal-container-on-top'  // Custom class for the container
+      }
     });
   }
 
@@ -73,7 +76,10 @@ export class UtilityService {
         Swal.showLoading();
       },
       timerProgressBar: true,
-      timer: 0 // No timer here, we'll control when to close the popup manually
+      timer: 0, // No timer here, we'll control when to close the popup manually
+      customClass: {
+        container: 'swal-container-on-top'  // Custom class for the container
+      }
     });
   }
 
