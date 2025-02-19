@@ -6,14 +6,14 @@
                     <img src="/assets/images/emblem-of-india.svg" width="16" alt="Emblem
                       of India" srcset="" class="indian-emblem me-2" />
                     <span class="text-10px">MINISTRY OF HOUSING AND URBAN
-                      AFFAIRS |
-                      GOVERNMENT OF INDIA</span>
+                        AFFAIRS |
+                        GOVERNMENT OF INDIA</span>
                 </div>
                 <div class="col-sm-6 text-end">
-                    <span class="text-12px me-2"><a (click)="scroll()"
-                          class="text-decoration-none text-secondary">Skip To
-                          Main Content</a>
-                  </span>
+                    <span class="text-12px me-2"><a (click)="scroll()" class="text-decoration-none text-secondary">Skip
+                            To
+                            Main Content</a>
+                    </span>
                     <ng-container *ngFor="let data of textSize">
                         <span (click)="setFontSize(data)" class="text-{{ data }}
                           textIcon" [ngClass]="currentTextSize == data ?
@@ -25,9 +25,11 @@
     </section>
     <nav class="navbar navbar-expand-lg navbar-light bg-white py-0" #stickyMenu [ngClass]="{'stiky-tp': isSticky}">
         <div class="container" style="max-width: 92%">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-          </button>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <!-- <a class="navbar-brand" href="#" [ngClass]="sticky ? 'show' : ''">
               <span class="city">city</span>
               <span class="fy">finance.in</span>
@@ -74,21 +76,23 @@
                         </ul>
                     </li> -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          Dashboard
-                      </a>
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Dashboard
+                        </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li>
-                                <a class="dropdown-item" routerLink="/dashboard/national/61e150439ed0e8575c881028">National
-                                  Performance</a>
+                                <a class="dropdown-item"
+                                    routerLink="/dashboard/national/61e150439ed0e8575c881028">National
+                                    Performance</a>
                             </li>
                             <li>
                                 <a class="dropdown-item" routerLink="/own-revenue-dashboard">Own
-                                  Revenue Performance</a>
+                                    Revenue Performance</a>
                             </li>
                             <li>
                                 <a class="dropdown-item" routerLink="/dashboard/slb">Service
-                                  Level Benchmarks Performance</a>
+                                    Level Benchmarks Performance</a>
                             </li>
                             <!-- for municipal-bonds only for stg now -->
                             <li *ngIf="isProd == false">
@@ -101,21 +105,28 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" routerLinkActive="active" routerLink="/resources-dashboard/data-sets/income_statement">Resources</a>
+                        <a class="nav-link" routerLinkActive="active"
+                            routerLink="/resources-dashboard/data-sets/income_statement">Resources</a>
                     </li>
                     <!-- <li class="nav-item" *ngIf="isLoggedIn && user?.role == 'PMU'"> 
                         <a class="nav-link" [routerLinkActive]="'active'" routerLink="/mohua-form/state-resource-manager">State resources</a>
                     </li> -->
                     <li class="nav-item" *ngIf="isLoggedIn && user?.role !== 'PMU'">
-                        <a class="nav-link" [routerLinkActive]="'active'" routerLink="/fc-home-page">15<sup>th</sup> FC Grants</a>
+                        <a class="nav-link" [routerLinkActive]="'active'" routerLink="/fc-home-page">15<sup>th</sup> FC
+                            Grants</a>
                     </li>
                     <li class="nav-item" *ngIf="isLoggedIn && user?.role === 'ULB'">
                         <a class="nav-link" href="/fc/xvifc-form">XVI FC Data Collection</a>
                     </li>
-                    <li class="nav-item" *ngIf="isLoggedIn">
-                        <a class="nav-link" routerLinkActive="active" [routerLink]="user?.role == 'ULB' ? '/rankings/ulb-form' : '/rankings/review-rankings-ulbform'">{{user?.role == 'ULB' ? "Rankings'22 Form" : "Rankings'22 Dashboard"}}</a>
+                    <li class="nav-item" *ngIf="isLoggedIn && user?.role !== 'ADMIN'">
+                        <a *ngIf="user?.role == 'ULB' else rankingDashboard" class="nav-link" routerLinkActive="active"
+                        [routerLink]="'/rankings/ulb-form'">{{"Rankings'22 Form"}}</a>
+                        <ng-template #rankingDashboard>
+                            <a class="nav-link" routerLinkActive="active"
+                                [routerLink]="'/rankings/review-rankings-ulbform'">{{"Rankings'22 Dashboard"}}</a>
+                        </ng-template>
                     </li>
-                    <li class="nav-item" *ngIf="user?.role !== 'PMU'">
+                    <li class="nav-item" *ngIf="user?.role !== 'PMU' && user?.role !== 'ADMIN'">
                         <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/list/ULB']" *ngIf="isLoggedIn
                           &&
                           (canViewUserList || canViewULBSingUpListing)">Users</a>
@@ -131,40 +142,43 @@
             <div class="ms-auto">
                 <!-- <a *ngIf="isLoggedIn == false" routerLinkActive="active" (click)="loginLogout()" class="btn btn-login">{{ btnName }}</a> -->
                 <div class="dropdown" *ngIf="isLoggedIn == false">
-                    <button class="btn btn-login dropdown-toggle fw-bold" type="button" id="loginDrp" data-bs-toggle="dropdown" aria-expanded="false">
-                      Login
-                  </button>
+                    <button class="btn btn-login dropdown-toggle fw-bold" type="button" id="loginDrp"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Login
+                    </button>
                     <ul class="dropdown-menu dropdown-menu-login" aria-labelledby="loginDrp">
                         <li><a class="dropdown-item" (click)="loginLogout('15thFC')">
-                            <span class="material-icons">
-                                login
-                            </span> XV FC Grant
-                        </a>
-                    </li>
+                                <span class="material-icons">
+                                    login
+                                </span> XV FC Grant
+                            </a>
+                        </li>
                         <hr class="m-0">
                         <li><a class="dropdown-item" (click)="loginLogout('XVIFC')">
-                            <span class="material-icons">
-                                login
-                            </span> XVI FC Data Collection
-                        </a>
-                    </li>
+                                <span class="material-icons">
+                                    login
+                                </span> XVI FC Data Collection
+                            </a>
+                        </li>
                         <hr class="m-0">
                         <li><a class="dropdown-item" (click)="loginLogout('ranking')">
-                            <span class="material-icons">
-                                login
-                            </span> Rankings 2022
-                        </a></li>
+                                <span class="material-icons">
+                                    login
+                                </span> Rankings 2022
+                            </a></li>
                     </ul>
                 </div>
                 <div class="btn-group ms-2" dropdown *ngIf="isLoggedIn">
-                    <button id="button-disabled-menu" dropdownToggle type="button" class="btn btn-login-icon dropdown-toggle" aria-controls="dropdown-disabled-menu">
-                      <span class="material-icons">
-                          account_circle
-                      </span>
-                      <span class="caret"></span>
-                  </button>
+                    <button id="button-disabled-menu" dropdownToggle type="button"
+                        class="btn btn-login-icon dropdown-toggle" aria-controls="dropdown-disabled-menu">
+                        <span class="material-icons">
+                            account_circle
+                        </span>
+                        <span class="caret"></span>
+                    </button>
 
-                    <ul id="dropdown-disabled-menu" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-disabled-menu" style="margin-left: -7rem">
+                    <ul id="dropdown-disabled-menu" *dropdownMenu class="dropdown-menu" role="menu"
+                        aria-labelledby="button-disabled-menu" style="margin-left: -7rem">
                         <li role="menuitem" style="padding: 0 1rem;" class="mb-3">
                             <div class="user-avt text-center" style="font-size:
                               2.5rem">
@@ -181,7 +195,8 @@
                             <a class="dropdown-item text-center" routerLink="/user/profile/view">Profile</a>
                         </li>
                         <li class="divider dropdown-divider"></li>
-                        <li role="menuitem"><a class="dropdown-item text-center" (click)="loginLogout('logout')">Logout</a>
+                        <li role="menuitem"><a class="dropdown-item text-center"
+                                (click)="loginLogout('logout')">Logout</a>
                         </li>
                     </ul>
                 </div>
@@ -189,45 +204,56 @@
             <!--  nav in mobile -->
             <div class="collapse navbar-collapse mobile-nav" id="navbarSupportedContent">
                 <div class="container py-3">
-                    <button class="navbar-toggler close" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                      <span class="navbar-toggler-icon"></span>
-                  </button>
+                    <button class="navbar-toggler close" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" routerLinkActive="active" routerLink="/home" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">Home</a>
+                            <a class="nav-link" aria-current="page" routerLinkActive="active" routerLink="/home"
+                                data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">Home</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" data-bs-target="#navbarSupportedContent" data-bs-toggle="dropdown" aria-expanded="false">
-                              Dashboard
-                          </a>
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-target="#navbarSupportedContent"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Dashboard
+                            </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li>
-                                    <a class="dropdown-item" routerLink="/dashboard/national" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">National
-                                      Financial
-                                      Dashboard</a>
+                                    <a class="dropdown-item" routerLink="/dashboard/national" data-bs-toggle="collapse"
+                                        data-bs-target="#navbarSupportedContent">National
+                                        Financial
+                                        Dashboard</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" routerLink="/own-revenue-dashboard" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">Own
-                                      Revenue
-                                      Dashboard</a>
+                                    <a class="dropdown-item" routerLink="/own-revenue-dashboard"
+                                        data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">Own
+                                        Revenue
+                                        Dashboard</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" routerLink="/dashboard/slb" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">Service
-                                      Level
-                                      Benchmarks</a>
+                                    <a class="dropdown-item" routerLink="/dashboard/slb" data-bs-toggle="collapse"
+                                        data-bs-target="#navbarSupportedContent">Service
+                                        Level
+                                        Benchmarks</a>
                                 </li>
                                 <!-- <li><a class="dropdown-item" href="#">Infrastructure Borrowings</a></li> -->
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" routerLink="/resources-dashboard/learning-center/toolkits" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">Resources</a>
+                            <a class="nav-link" routerLinkActive="active"
+                                routerLink="/resources-dashboard/learning-center/toolkits" data-bs-toggle="collapse"
+                                data-bs-target="#navbarSupportedContent">Resources</a>
                         </li>
                         <li class="nav-item" *ngIf="isLoggedIn && user?.role !== 'PMU'">
-                            <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" [routerLinkActive]="'active'" routerLink="/fc-home-page">15<sup>TH</sup>
-                              FC Grants</a>
+                            <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                                [routerLinkActive]="'active'" routerLink="/fc-home-page">15<sup>TH</sup>
+                                FC Grants</a>
                         </li>
                         <li class="nav-item" *ngIf="user?.role !== 'PMU'">
-                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/list/ULB']" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" *ngIf="
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/list/ULB']"
+                                data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" *ngIf="
                               isLoggedIn && (canViewUserList ||
                               canViewULBSingUpListing)
                               ">Users</a>
@@ -235,13 +261,13 @@
                     </ul>
                     <div class="row align-items-center fixed-bottom mx-3 mb-5">
                         <div class="col-auto">
-                            <img src="/assets/images/emblem-of-india.svg" width="16" alt="Emblem of India" srcset="" class="" />
+                            <img src="/assets/images/emblem-of-india.svg" width="16" alt="Emblem of India" srcset=""
+                                class="" />
                         </div>
                         <div class="col">
                             <span class="text-10px">MINISTRY OF HOUSING AND
-                              URBAN AFFAIRS <br
-                                  />
-                              | GOVERNMENT OF INDIA</span>
+                                URBAN AFFAIRS <br />
+                                | GOVERNMENT OF INDIA</span>
                         </div>
                     </div>
                 </div>
