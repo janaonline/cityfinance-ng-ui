@@ -55,7 +55,7 @@
                     [ngClass]="{'border-danger': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
                     <div class="d-flex w-100 px-2 justify-content-between">
                         <input matInput class="mat-date" formControlName="date" style="pointer-events: none;"
-                            [matDatepicker]="r_i" [disabled]="yearItem?.controls?.readonly?.value" [max]="currentDate"
+                            [matDatepicker]="r_i" [disabled]="yearItem?.controls?.readonly?.value" [max]="currentDate" [min]="minDate"
                             placeholder="Choose a date" [attr.id]="  + r_i" />
                         <mat-datepicker-toggle matSuffix [disabled]="yearItem?.controls?.readonly?.value" [for]="r_i">
                         </mat-datepicker-toggle>

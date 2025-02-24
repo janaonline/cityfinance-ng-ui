@@ -71,6 +71,7 @@ export class PropertyTaxComponent implements OnInit {
   statusId: number;
   stateGsdpGrowthRate: number;
   currentDate = new Date();
+  minDate = new Date('01-01-1990');
   formSubmitted = false;
   specialHeaders: { [key: number]: string[] } = {};
   validators = {};
