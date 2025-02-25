@@ -1197,6 +1197,10 @@
                     
                     <mat-icon class="input-eye-icon" *ngIf="question?.information" [matTooltip]="question?.information"
                         style="font-size: 16px; right: 15px;">info</mat-icon>
+
+                    <div class="col-sm-12 mt-3 font-weight-500 text-primary error-msg" *ngIf="!question.modelValue && question.errorMessage">
+                        {{question.hint ? question.hint : question.errorMessage}}
+                    </div> 
                 </mat-form-field>
                 <!-- <span class="has-float-label" [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled ) }">
              <select id="{{question.order}}" placeholder="{{question.title}}" (change)="onChange(question, $event)"
@@ -1214,10 +1218,10 @@
                  <mat-icon class="input-eye-icon" *ngIf="question?.hint" [matTooltip]="question?.hint">info</mat-icon>
            </span> -->
                 </ng-container>
-                <div class="col-sm-12  font-weight-500 text-primary error-msg" *ngIf="!question.modelValue && question.errorMessage"
+                <!-- <div class="col-sm-12  font-weight-500 text-primary error-msg" *ngIf="!question.modelValue && question.errorMessage"
                 style="">
                 {{question.hint ? question.hint : question.errorMessage}}
-            </div>
+            </div> -->
             </div>
 
             <!-- Treating checkbox as multi select -->
