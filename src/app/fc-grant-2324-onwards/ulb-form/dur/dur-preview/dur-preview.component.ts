@@ -163,7 +163,11 @@ tr {
   state;
   ulb;
   dialogRef;
-
+  grantPositionReceivedWithZeroReason: any = {
+    1: 'Reason 1',
+    2: 'Reason 2',
+    3: 'Others',
+  }
   ngOnInit(): void {
     this.calculateUtilizedAmt();
     if (this.userDetails.role == USER_TYPE.ULB) {
