@@ -283,6 +283,7 @@ export class PropertyTaxComponent implements OnInit {
     return decimalA > decimalB ? 1 : (decimalB > decimalA ? -1 : 0);;
   }
 
+  hideQuestion: string = '';
   addSkipLogics() {
 
     Object.entries(this.skipLogicDependencies).forEach(([selector, skipLogicDependency]) => {
@@ -305,23 +306,31 @@ export class PropertyTaxComponent implements OnInit {
         const control = this.s3Control.get(selector)
 
         control.valueChanges.subscribe(({ value }) => {
-          const canShow = (typeof config.value == 'string' ? [config.value] : config.value).includes(value);
-         
-          this.s3Control.patchValue({ data: { [skippable]: { canShow } } });
-          const childSelectorString = `data.${skippable}.child`;
-          const childControl = this.s3Control.get(childSelectorString);
+          this.hideQuestion = this.ulbCollectPtaxCtrl.value.value == 'Yes' ?
+            'data.ulbPassedResolPtax.yearData.0' :
+            'data.notificationPropertyTax.yearData.0';
 
-          this.toggleValidations(childControl, childSelectorString, canShow, true);
-          config.years?.forEach(yearIndex => {
-            const selectorString = `data.${skippable}.yearData.${yearIndex}`;
-            const updatableControl = this.s3Control?.get(selectorString) as FormGroup;
+          if (selector != this.hideQuestion) {
+            const canShow = (typeof config.value == 'string' ? [config.value] : config.value).includes(value);
 
-            if (!updatableControl) return;
-            ['value', 'file.name', 'file.url', 'date'].forEach(innerSelectorString => {
-              const control = updatableControl.get(innerSelectorString)
-              this.toggleValidations(control, selectorString + '.' + innerSelectorString, canShow, false);
-            });
-          })
+            this.s3Control.patchValue({ data: { [skippable]: { canShow } } });
+            const childSelectorString = `data.${skippable}.child`;
+            const childControl = this.s3Control.get(childSelectorString);
+
+            this.toggleValidations(childControl, childSelectorString, canShow, true);
+            config.years?.forEach(yearIndex => {
+              const selectorString = `data.${skippable}.yearData.${yearIndex}`;
+              const updatableControl = this.s3Control?.get(selectorString) as FormGroup;
+
+              if (!updatableControl) return;
+              ['value', 'file.name', 'file.url', 'date'].forEach(innerSelectorString => {
+                const control = updatableControl.get(innerSelectorString)
+                this.toggleValidations(control, selectorString + '.' + innerSelectorString, canShow, false);
+              });
+
+            })
+
+          }
         });
         control.updateValueAndValidity({ emitEvent: true });
       })
@@ -631,10 +640,11 @@ export class PropertyTaxComponent implements OnInit {
     return this.s3Control.get('data.notificationPropertyTax.yearData.0');
   }
   get ulbPassedResolPtaxCtrl() {
-    // console.log("data is he :::::::::::::::::::", this.s3Control.get('data.ulbPassedResolPtax'));
     return this.s3Control.get('data.ulbPassedResolPtax.yearData.0');
   }
-
+  get ulbCollectPtaxCtrl() {
+    return this.s3Control.get('data.ulbCollectPtax.yearData.0')
+  }
 
   /**
    * |------------------------------------------------------------------------------------|
