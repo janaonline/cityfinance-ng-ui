@@ -385,61 +385,70 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   async onPreview() {
-      if (!this.form.pristine) {
-        const confirmed = await swal(
-          "Unsaved Changes!",
-          `You have some unsaved changes on this page. Please save the changes if you want to view the preview.`,
-          "warning"
-          , {
-            buttons: {
-              Leave: {
-                text: "Cancel",
-                className: 'btn-danger',
-                value: false,
-              },
-              Stay: {
-                text: "Save",
-                className: 'btn-success',
-                value: true,
-              },
+    if (!this.form.pristine) {
+      const confirmed = await swal(
+        "Unsaved Changes!",
+        `You have some unsaved changes on this page. Please save the changes if you want to view the preview.`,
+        "warning"
+        , {
+          buttons: {
+            Leave: {
+              text: "Cancel",
+              className: 'btn-danger',
+              value: false,
             },
-          }
-        );
-        console.log({ confirmed });
-        if (!confirmed) return
-        else {
-          await this.submit();
+            Stay: {
+              text: "Save",
+              className: 'btn-success',
+              value: true,
+            },
+          },
         }
-
+      );
+      console.log({ confirmed });
+      if (!confirmed) return
+      else {
+        await this.submit();
       }
-      const date = new Date();
-      console.log(this.form.getRawValue());
-      const rowValues = this.form.getRawValue();
-      const dialogRef = this.dialog.open(PreviewComponent, {
-        id: 'UlbFisPreviewComponent',
-        data: {
-          showData: this.form.getRawValue(),
-          financialYearTableHeader: this.financialYearTableHeader,
-          specialHeaders: this.specialHeaders,
-          stateGsdpGrowthRate: this.stateGsdpGrowthRate,
-          yearName: this.yearName,
-          growthRatePercentage: this.growthRatePercentage?.msg,
-          additionalData: {
-            pristine: this.form.pristine,
-            statusText: this.status,
-            date: `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`,
-            // otherFile: this.otherUploadControl?.value
-          }
-        },
-        width: "85vw",
-        height: "100%",
-        maxHeight: "90vh",
-        panelClass: "no-padding-dialog",
-      });
 
-      dialogRef.componentInstance.saveForm.subscribe((data: any) => {
-        this.submit();
-      });
+    }
+
+    // Will be applicable from 2025-26
+    if (!['2023-24', '2024-25'].includes(this.yearName)) {
+      if (!this.stateGsdpGrowthRate)
+        return swal("Info", "State GSDP data is not available. You cannot preview the form at this time, please save it as draft", "info");
+      if (!this.growthRatePercent)
+        return swal("Info", "Growth rate cannot be calculated, Please fill 'Total property tax collection (1.17)'", "info");
+    }
+
+    const date = new Date();
+    console.log(this.form.getRawValue());
+    const rowValues = this.form.getRawValue();
+    const dialogRef = this.dialog.open(PreviewComponent, {
+      id: 'UlbFisPreviewComponent',
+      data: {
+        showData: this.form.getRawValue(),
+        financialYearTableHeader: this.financialYearTableHeader,
+        specialHeaders: this.specialHeaders,
+        stateGsdpGrowthRate: this.stateGsdpGrowthRate,
+        yearName: this.yearName,
+        growthRatePercentage: this.growthRatePercent,
+        additionalData: {
+          pristine: this.form.pristine,
+          statusText: this.status,
+          date: `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`,
+          // otherFile: this.otherUploadControl?.value
+        }
+      },
+      width: "85vw",
+      height: "100%",
+      maxHeight: "90vh",
+      panelClass: "no-padding-dialog",
+    });
+
+    dialogRef.componentInstance.saveForm.subscribe((data: any) => {
+      this.submit();
+    });
   }
 
   validateErrors() {
