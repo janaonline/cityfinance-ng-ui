@@ -69,7 +69,9 @@ export class PropertyTaxComponent implements OnInit {
   userTypes = USER_TYPE;
   form: FormArray;
   statusId: number;
+  // Growth rate will be calculated 24-25 onwards.
   stateGsdpGrowthRate: number;
+  growthRatePercent: number = null;
   currentDate = new Date();
   minDate = new Date('01-01-1990');
   formSubmitted = false;
@@ -86,6 +88,7 @@ export class PropertyTaxComponent implements OnInit {
   canTakeAction: boolean = false;
   leftMenuSubs: any;
   successErrorMessage: string = "";
+
   constructor(
     private fb: FormBuilder,
     private dataEntryService: DataEntryService,
@@ -382,61 +385,61 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   async onPreview() {
-    if (!this.form.pristine) {
-      const confirmed = await swal(
-        "Unsaved Changes!",
-        `You have some unsaved changes on this page. Please save the changes if you want to view the preview.`,
-        "warning"
-        , {
-          buttons: {
-            Leave: {
-              text: "Cancel",
-              className: 'btn-danger',
-              value: false,
+      if (!this.form.pristine) {
+        const confirmed = await swal(
+          "Unsaved Changes!",
+          `You have some unsaved changes on this page. Please save the changes if you want to view the preview.`,
+          "warning"
+          , {
+            buttons: {
+              Leave: {
+                text: "Cancel",
+                className: 'btn-danger',
+                value: false,
+              },
+              Stay: {
+                text: "Save",
+                className: 'btn-success',
+                value: true,
+              },
             },
-            Stay: {
-              text: "Save",
-              className: 'btn-success',
-              value: true,
-            },
-          },
+          }
+        );
+        console.log({ confirmed });
+        if (!confirmed) return
+        else {
+          await this.submit();
         }
-      );
-      console.log({ confirmed });
-      if (!confirmed) return
-      else {
-        await this.submit();
+
       }
+      const date = new Date();
+      console.log(this.form.getRawValue());
+      const rowValues = this.form.getRawValue();
+      const dialogRef = this.dialog.open(PreviewComponent, {
+        id: 'UlbFisPreviewComponent',
+        data: {
+          showData: this.form.getRawValue(),
+          financialYearTableHeader: this.financialYearTableHeader,
+          specialHeaders: this.specialHeaders,
+          stateGsdpGrowthRate: this.stateGsdpGrowthRate,
+          yearName: this.yearName,
+          growthRatePercentage: this.growthRatePercentage?.msg,
+          additionalData: {
+            pristine: this.form.pristine,
+            statusText: this.status,
+            date: `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`,
+            // otherFile: this.otherUploadControl?.value
+          }
+        },
+        width: "85vw",
+        height: "100%",
+        maxHeight: "90vh",
+        panelClass: "no-padding-dialog",
+      });
 
-    }
-    const date = new Date();
-    console.log(this.form.getRawValue());
-    const rowValues = this.form.getRawValue();
-    const dialogRef = this.dialog.open(PreviewComponent, {
-      id: 'UlbFisPreviewComponent',
-      data: {
-        showData: this.form.getRawValue(),
-        financialYearTableHeader: this.financialYearTableHeader,
-        specialHeaders: this.specialHeaders,
-        stateGsdpGrowthRate: this.stateGsdpGrowthRate,
-        yearName: this.yearName,
-        growthRatePercentage: this.growthRatePercentage?.msg,
-        additionalData: {
-          pristine: this.form.pristine,
-          statusText: this.status,
-          date: `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`,
-          // otherFile: this.otherUploadControl?.value
-        }
-      },
-      width: "85vw",
-      height: "100%",
-      maxHeight: "90vh",
-      panelClass: "no-padding-dialog",
-    });
-
-    dialogRef.componentInstance.saveForm.subscribe((data: any) => {
-      this.submit();
-    });
+      dialogRef.componentInstance.saveForm.subscribe((data: any) => {
+        this.submit();
+      });
   }
 
   validateErrors() {
@@ -453,7 +456,7 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   finalSubmitConfirmation() {
-    if (!this.stateGsdpGrowthRate && this.yearName == '2024-25') {
+    if (!this.stateGsdpGrowthRate && this.yearName != '2023-24') {
       return swal("Info", "State GSDP data is not available. You cannot final submit the form at this time, please save it as draft", "info")
     }
     swal(
@@ -653,6 +656,7 @@ export class PropertyTaxComponent implements OnInit {
    * |               | B. Ptax Collection 2023-24 (in lakhs)   |                          |
    * |------------------------------------------------------------------------------------|
    */
+  // if design_year = 2024-25 (T) then B = 2023-24 (T-1), A = 2022-23 (T-2)
   get growthRatePercentage() {
     if (!this.stateGsdpGrowthRate) {
       return {
@@ -661,24 +665,28 @@ export class PropertyTaxComponent implements OnInit {
       }
     }
     const collectIncludingCess = this.s3Control.get("data.collectIncludingCess.yearData").value;
-    const A = collectIncludingCess?.find((year) => year.key == "FY2022-23")?.value;
-    const B = collectIncludingCess?.find((year) => year.key == "FY2023-24")?.value;
+    const bYr = this.commonServices.getPrevYear(this.yearName);   // T-1
+    const aYr = this.commonServices.getPrevYear(bYr);             // T-2
+
+    const B = collectIncludingCess?.find((year) => year.key == `FY${bYr}`)?.value;
+    const A = collectIncludingCess?.find((year) => year.key == `FY${aYr}`)?.value;
+
     if (["", "0"].includes(A) || B == "") {
       return {
-        msg: "Property tax growth rate cannot be calculated.",
+        msg: `Property tax growth rate cannot be calculated for ${this.yearName}`,
         class: ''
       }
     }
-    let growthRatePercent = ((B - A) / A) * 100;
-    if (growthRatePercent < this.stateGsdpGrowthRate) {
+    this.growthRatePercent = ((B - A) / A) * 100;
+    if (this.growthRatePercent < this.stateGsdpGrowthRate) {
       return {
-        msg: "Property tax growth rate is less than State GSDP.",
+        msg: `Property tax growth rate is less than State GSDP for ${this.yearName}`,
         class: 'text-danger'
       }
     }
-    else if (growthRatePercent >= this.stateGsdpGrowthRate) {
+    else if (this.growthRatePercent >= this.stateGsdpGrowthRate) {
       return {
-        msg: "Property tax growth rate is greater than State GSDP.",
+        msg: `Property tax growth rate is greater than State GSDP for ${this.yearName}`,
         class: 'text-success'
       }
     }
@@ -701,7 +709,7 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   submit(isDraft = true) {
-    if (!isDraft && !this.stateGsdpGrowthRate && this.yearName == '2024-25') {
+    if (!isDraft && !this.stateGsdpGrowthRate && this.yearName != '2023-24') {
       return swal("Info", "State GSDP data is not available. You cannot final submit the form at this time, please save it as draft", "info")
     }
     console.log(this.form)
