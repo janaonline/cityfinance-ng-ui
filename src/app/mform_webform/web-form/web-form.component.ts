@@ -337,7 +337,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
               this.detectQUestionWithZeroValue = parseInt(childQuestion.value)==0 ? true:false
             }
             if(childQuestion.shortKey=='grantPosition___receivedDuringYrWithZero'){
-              this.detectQUestionWithZeroReasonValue = parseInt(childQuestion.value)==3 ? true:false
+              this.detectQUestionWithZeroReasonValue = parseInt(childQuestion.value)==3 ? this.detectQUestionWithZeroValue ? true: false :false;
               this.receivedDuringYrWithZeroOueObj = childQuestion;
               if(this.detectQUestionWithZeroValue){
                 this.receivedDuringYrWithZeroOueObj.validation.push(
@@ -1055,13 +1055,14 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
     if (question.input_type === QUESTION_TYPE.CONSENT) {
       value.target.value = value.target.checked ? "1" : "2";
     }
-    if(question.shortKey == 'grantPosition___receivedDuringYr'){
-     this.detectQUestionWithZeroValue  = parseInt(value.target.value) ==0 ? true: false;
-     this.detectQUestionWithZeroReasonValue = this.detectQUestionWithZeroValue ;
-  }
-    if(question.shortKey=='grantPosition___receivedDuringYrWithZero'){
-      this.detectQUestionWithZeroReasonValue = parseInt(value.target.value)==3 ? true:false
-    }
+    if (question.shortKey == 'grantPosition___receivedDuringYr') {
+      this.detectQUestionWithZeroValue = parseInt(value.target.value) == 0 ? true : false;
+     if (parseInt(value.target.value) != 0)
+       this.detectQUestionWithZeroReasonValue = false;
+   }
+   if (question.shortKey == 'grantPosition___receivedDuringYrWithZero') {
+     this.detectQUestionWithZeroReasonValue = parseInt(value.target.value) == 3 ? true : false
+   }
     question.value = question.modelValue;
     console.log('onChange', { question, value, option, skip })
     this.isFormSubmittedSuccessfully = false;
@@ -2611,8 +2612,8 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
         let endDate = item?.find(question => question.shortKey == "completionDate");
         endDate["isQuestionDisabled"] = true;
         if (['606aafda4dff55e6c075d48f'].includes(this.selectedYearId)) {
-          startDate.min = '2000-01-01';
-          endDate.max = '2026-01-01'
+          startDate.min = '2020-03-01';
+          endDate.max = '2026-04-01'
         }
         if(startDate?.modelValue){
           let date = new Date(startDate?.modelValue);
