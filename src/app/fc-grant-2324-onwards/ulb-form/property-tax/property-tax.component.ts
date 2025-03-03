@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { PropertyTaxService } from './property-tax.service';
 
 import { HttpEventType } from '@angular/common/http';
@@ -743,8 +743,12 @@ export class PropertyTaxComponent implements OnInit {
         resolve(true);
       }, ({ error }) => {
         this.loaderService.stopLoader();
-        swal('Error', error?.message ?? 'Something went wrong', 'error');
-        reject();
+        const errorMessage = error.message || [];
+        const dialogRef = this.dialog.open(ErrorDialog, { data: errorMessage });
+
+        dialogRef.afterClosed().subscribe(() => { console.log("Dialog closed") });
+        // swal('Error', error?.message ?? 'Something went wrong', 'error');
+        reject(error);
       })
     })
   }
@@ -779,3 +783,30 @@ export class PropertyTaxComponent implements OnInit {
   }
 
 }
+
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+@Component({
+  selector: 'error-dialog',
+  template: `
+    <h1 mat-dialog-title>Errors:</h1>
+    <mat-dialog-content>
+    	<ul>
+    		<li *ngFor='let error of data'>{{error}}</li>
+    	</ul>
+    </mat-dialog-content>
+    <div mat-dialog-actions>
+    	<button class="btn btn-primary" (click)="closeDialog()">Close</button>
+    </div>`
+
+})
+export class ErrorDialog {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: string[],
+    private dialogRef: MatDialogRef<ErrorDialog>
+  ) { }
+
+  closeDialog(): void {
+    this.dialogRef.close();
+  }
+}
+

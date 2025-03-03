@@ -35,7 +35,7 @@
                 </small>
                 <mat-radio-group aria-label="Select an option" formControlName="value"
                     *ngIf="yearItem?.controls?.formFieldType?.value == 'radio-toggle'"
-                    [attr.disabled]="yearItem?.controls?.readonly?.value" class="d-flex">
+                    [disabled]="yearItem?.controls?.readonly?.value" class="d-flex">
                     <mat-radio-button value="Yes">Yes</mat-radio-button>
                     <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
                 </mat-radio-group>
