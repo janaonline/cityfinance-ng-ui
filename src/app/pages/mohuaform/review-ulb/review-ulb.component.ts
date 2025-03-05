@@ -187,6 +187,8 @@ export class ReviewUlbComponent implements OnInit {
 
 
   setActionBtnIcon(resData, type) {
+    if (this.loggedInUser.role == USER_TYPE.ADMIN && type == "action") return false;
+    if (this.loggedInUser.role == USER_TYPE.ADMIN && type == "eye") return true;
     if (
       resData.actionTakenByUserRole == USER_TYPE.MoHUA &&
       !resData.isSubmit &&
