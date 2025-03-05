@@ -2612,14 +2612,15 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
         let endDate = item?.find(question => question.shortKey == "completionDate");
         endDate["isQuestionDisabled"] = true;
         if (['606aafda4dff55e6c075d48f'].includes(this.selectedYearId)) {
-          startDate.min = '2020-03-01';
-          endDate.max = '2026-04-01'
+          startDate.min = '2000-01-01';
+          endDate.max = '2026-04-30'
         }
         if(startDate?.modelValue){
           let date = new Date(startDate?.modelValue);
           let day = (date.getDate() + 1).toString().padStart(2, "0");
          // endDate.max = (date.getFullYear()) + "-" + (date.getMonth() + 1).toString().padStart(2, "0") + "-" + day;
           endDate.min = (date.getFullYear()) + "-" + (date.getMonth() + 1).toString().padStart(2, "0") + "-" + day;
+          endDate.min = (date.getFullYear()) < 2020 ? '2020-04-30' : endDate.min
           console.log(endDate, this.questionData);
           endDate["isQuestionDisabled"] = false; 
         }
