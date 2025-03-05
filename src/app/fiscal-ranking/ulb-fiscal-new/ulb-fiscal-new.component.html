@@ -2,26 +2,9 @@
 <div class="container-fluid" style="min-height: 60vh;">
     <div class="row mt-3">
         <div class="col-sm-12 heading com-style">
-    City Finance Ranking 2022    
+            City Finance Rankings 2022
         </div>
     </div>
-    
-    <ng-container *ngIf="currentFormStatus == 11">
-        <div class="container">
-            <div class="financial-tab-notice">
-                <h4><b>Check your provisional score & submit your comments by (28/06/2024 end date)</b></h4>
-                <p>As a final step before public release of City Finance Rankings results, we invite you to access your final scores by clicking on “preview your score” icon (enclosed below). In case any discrepancies are identified or queries arise regarding your score, please submit your comments by selecting the “submit your comments” icon (enclosed below) which leads to a Google form for detailing the necessary information.</p>
-                <p>Please note, the scores have been calculated as per the methodology given in the Final Guidelines of “City Finance Rankings 2022” which are available at <a href="https://cityfinance.in/rankings/login">https://cityfinance.in/rankings/login</a>. The period allocated for you to review and submit your comments is set for the next 7 working days, commencing from (20/06/2024 Launch/Start Date). </p>
-                <p>In case of non response within the given 7-day window, it will be presumed that the calculated scores are acceptable to you.</p>
-                <p>Active participation in the City Finance Ranking is highly valued, and the feedback provided is integral to the accuracy of the rankings. Your prompt attention to this matter would be appreciated. </p>
-
-                <div class="ulb-feedback">
-                    <a href="/rankings/ulb/{{ ulbId }}" class="btn btn-d-org">Preview your score</a>
-                    <a target="_blank" href="https://forms.gle/7eyGWNmt5ZR21yQe9" class="btn btn-d-org" *ngIf="userData?.role == 'ULB'">Submit your comments</a>
-                </div>
-            </div>
-        </div>
-    </ng-container>
 
     <h4 *ngIf="hideForm" class="container text-center h-100 my-5 border p-5 rounded">{{ notice }}</h4>
     <div class="row" *ngIf="!formSubmitted && !hideForm">
@@ -267,7 +250,7 @@
                                                             </div>
                                                             <div class="col-sm-12 com-style f-w mt-1"
                                                                 *ngIf="yearItem?.value?.file?.url">
-                                                                <a class="w-90" href="{{yearItem?.value?.file?.url | toStorageUrl }}"
+                                                                <a class="w-90" href="{{yearItem?.value?.file?.url}}"
                                                                     target="_blank">{{yearItem?.value?.file?.name}}
                                                                     <mat-icon>cloud_download</mat-icon>
                                                                 </a>
@@ -378,7 +361,7 @@
                                                                         <div class="al-up font-size-smaller">Already
                                                                             Uploaded on
                                                                             Cityfinance - <a target="_blank"
-                                                                                [href]="yearItem?.controls?.label.value | alreadyUpdatedUrl : stateCode : ulbName : ulbId ">View
+                                                                                [href]="yearItem?.controls?.label.value | alreadyUpdatedUrl : stateCode : ulbName : ulbId">View
                                                                                 here</a></div>
                                                                     </div>
                                                                     <ng-template #uploadOption>
@@ -413,7 +396,7 @@
                                                                     <div class="col-sm-12 com-style f-w mt-1"
                                                                         *ngIf="yearItem?.value?.file?.url">
                                                                         <a class="w-90"
-                                                                            href="{{yearItem?.value?.file?.url | toStorageUrl }}"
+                                                                            href="{{yearItem?.value?.file?.url}}"
                                                                             target="_blank">{{yearItem?.value?.file?.name}}
                                                                             <mat-icon>cloud_download</mat-icon>
                                                                         </a>
@@ -485,7 +468,7 @@
                                                 [show]="otherUploadControl.controls?.uploading?.value">
                                             </app-loader>
                                             <div class="mt-2 px-3" *ngIf="otherUploadControl?.controls?.url?.value">
-                                                <a href="{{otherUploadControl?.controls?.url?.value | toStorageUrl}}"
+                                                <a href="{{otherUploadControl?.controls?.url?.value}}"
                                                     target="_blank">{{otherUploadControl?.controls?.name?.value}}
                                                     <mat-icon>
                                                         cloud_download</mat-icon></a>
@@ -527,7 +510,7 @@
                                             </app-loader>
                                             <div class="mt-2 px-3"
                                                 *ngIf="ulbSupportingDocControl?.controls?.url?.value">
-                                                <a href="{{ulbSupportingDocControl?.controls?.url?.value | toStorageUrl}}"
+                                                <a href="{{ulbSupportingDocControl?.controls?.url?.value}}"
                                                     target="_blank">{{ulbSupportingDocControl?.controls?.name?.value}}
                                                     <mat-icon>
                                                         cloud_download</mat-icon></a>
@@ -605,7 +588,7 @@
                                                 </div>
                                                 <div class="col-sm-12 com-style mt-3 text-center f-w"
                                                     *ngIf="tab?.value?.data?.signedCopyOfFile?.url">
-                                                    <a href="{{tab?.value?.data?.signedCopyOfFile?.url | toStorageUrl}}"
+                                                    <a href="{{tab?.value?.data?.signedCopyOfFile?.url}}"
                                                         target="_blank">{{tab?.value?.data?.signedCopyOfFile?.name}}
                                                         <mat-icon>cloud_download</mat-icon>
                                                     </a>

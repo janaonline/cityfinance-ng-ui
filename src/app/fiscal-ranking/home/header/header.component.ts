@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +9,7 @@ export class HeaderComponent implements OnInit {
 
   @Output() onGuidelinesPopup = new EventEmitter();
   @Output() onVideosPopup = new EventEmitter();
-  @Input() staticFileUrl =[];
+
   constructor() { }
 
   ngOnInit(): void {

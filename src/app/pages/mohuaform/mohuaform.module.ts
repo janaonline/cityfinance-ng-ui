@@ -30,6 +30,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { GlobalPartModule } from 'src/app/global-part/global-part.module';
+import { DalgoComponent } from 'src/app/shared/components/dalgo/dalgo.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { GlobalPartModule } from 'src/app/global-part/global-part.module';
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,
-    GlobalPartModule
+    GlobalPartModule,
+    DalgoComponent
   ],
   exports: [
    // GrantTransferMohuaComponent
