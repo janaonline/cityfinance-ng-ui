@@ -1,20 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { PropertyTaxService } from './property-tax.service';
 
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { SweetAlert } from "sweetalert/typings/core";
-import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { HttpEventType } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { UserUtility } from 'src/app/util/user/user';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { UserUtility } from 'src/app/util/user/user';
+import { SweetAlert } from "sweetalert/typings/core";
 
 import { KeyValue } from '@angular/common';
-import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
-import { PreviewComponent } from './preview/preview.component';
 import { DateAdapter } from '@angular/material/core';
+import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 import { CommonServicesService } from '../../fc-shared/service/common-services.service';
+import { PreviewComponent } from './preview/preview.component';
 const swal: SweetAlert = require("sweetalert");
 const swal2 = require("sweetalert2");
 
@@ -69,8 +69,11 @@ export class PropertyTaxComponent implements OnInit {
   userTypes = USER_TYPE;
   form: FormArray;
   statusId: number;
+  // Growth rate will be calculated 24-25 onwards.
   stateGsdpGrowthRate: number;
+  growthRatePercent: number = null;
   currentDate = new Date();
+  minDate = new Date('01-01-1990');
   formSubmitted = false;
   specialHeaders: { [key: number]: string[] } = {};
   validators = {};
@@ -85,6 +88,7 @@ export class PropertyTaxComponent implements OnInit {
   canTakeAction: boolean = false;
   leftMenuSubs: any;
   successErrorMessage: string = "";
+
   constructor(
     private fb: FormBuilder,
     private dataEntryService: DataEntryService,
@@ -132,6 +136,7 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   loadData() {
+    console.log("-----------load Data -----------")
     this.loaderService.showLoader();
     this.propertyTaxService.getForm(this.ulbId, this.design_year).subscribe((res: any) => {
       this.loaderService.stopLoader();
@@ -201,9 +206,9 @@ export class PropertyTaxComponent implements OnInit {
                 key: childItem.key,
                 value: [childItem.value, this.getValidators(childItem, !['date', 'file', 'link'].includes(childItem.formFieldType), parent)],
                 _id: childItem._id,
-                label: [{ 
-                  value: item.copyChildFrom.find(copyChildItem => copyChildItem.key == childItem.key)?.label, 
-                  disabled: true 
+                label: [{
+                  value: item.copyChildFrom.find(copyChildItem => copyChildItem.key == childItem.key)?.label,
+                  disabled: true
                 }],
                 replicaNumber: childItem.replicaNumber,
                 readonly: [{ value: childItem.readonly, disabled: true }],
@@ -281,12 +286,16 @@ export class PropertyTaxComponent implements OnInit {
     return decimalA > decimalB ? 1 : (decimalB > decimalA ? -1 : 0);;
   }
 
+  hideQuestion: string = '';
   addSkipLogics() {
+
     Object.entries(this.skipLogicDependencies).forEach(([selector, skipLogicDependency]) => {
+
       (skipLogicDependency as any)?.updatables?.forEach(updatable => {
         const control = this.s3Control.get(selector);
         control.valueChanges.subscribe(({ value }) => {
           const updatableControl = this.s3Control?.get(updatable.target) as FormGroup;
+
           if (value === updatable?.on) {
             updatableControl.patchValue({
               value: updatable?.value
@@ -295,23 +304,36 @@ export class PropertyTaxComponent implements OnInit {
         });
         control.updateValueAndValidity({ emitEvent: true });
       })
+
       Object.entries(((skipLogicDependency as any).skippable as object)).forEach(([skippable, config]) => {
         const control = this.s3Control.get(selector)
+
         control.valueChanges.subscribe(({ value }) => {
-          const canShow = (typeof config.value == 'string' ? [config.value] : config.value).includes(value);
-          this.s3Control.patchValue({ data: { [skippable]: { canShow } } });
-          const childSelectorString = `data.${skippable}.child`;
-          const childControl = this.s3Control.get(childSelectorString);
-          this.toggleValidations(childControl, childSelectorString, canShow, true);
-          config.years?.forEach(yearIndex => {
-            const selectorString = `data.${skippable}.yearData.${yearIndex}`;
-            const updatableControl = this.s3Control?.get(selectorString) as FormGroup;
-            if (!updatableControl) return;
-            ['value', 'file.name', 'file.url', 'date'].forEach(innerSelectorString => {
-              const control = updatableControl.get(innerSelectorString)
-              this.toggleValidations(control, selectorString + '.' + innerSelectorString, canShow, false);
-            });
-          })
+          this.hideQuestion = this.ulbCollectPtaxCtrl.value.value == 'Yes' ?
+            'data.ulbPassedResolPtax.yearData.0' :
+            'data.notificationPropertyTax.yearData.0';
+
+          if (selector != this.hideQuestion) {
+            const canShow = (typeof config.value == 'string' ? [config.value] : config.value).includes(value);
+
+            this.s3Control.patchValue({ data: { [skippable]: { canShow } } });
+            const childSelectorString = `data.${skippable}.child`;
+            const childControl = this.s3Control.get(childSelectorString);
+
+            this.toggleValidations(childControl, childSelectorString, canShow, true);
+            config.years?.forEach(yearIndex => {
+              const selectorString = `data.${skippable}.yearData.${yearIndex}`;
+              const updatableControl = this.s3Control?.get(selectorString) as FormGroup;
+
+              if (!updatableControl) return;
+              ['value', 'file.name', 'file.url', 'date'].forEach(innerSelectorString => {
+                const control = updatableControl.get(innerSelectorString)
+                this.toggleValidations(control, selectorString + '.' + innerSelectorString, canShow, false);
+              });
+
+            })
+
+          }
         });
         control.updateValueAndValidity({ emitEvent: true });
       })
@@ -390,6 +412,15 @@ export class PropertyTaxComponent implements OnInit {
       }
 
     }
+
+    // Will be applicable from 2025-26
+    if (!['2023-24', '2024-25'].includes(this.yearName)) {
+      if (!this.stateGsdpGrowthRate)
+        return swal("Info", "State GSDP data is not available. You cannot preview the form at this time, please save it as draft", "info");
+      if (!this.growthRatePercent)
+        return swal("Info", "Growth rate cannot be calculated, Please fill 'Total property tax collection (1.17)'", "info");
+    }
+
     const date = new Date();
     console.log(this.form.getRawValue());
     const rowValues = this.form.getRawValue();
@@ -401,7 +432,7 @@ export class PropertyTaxComponent implements OnInit {
         specialHeaders: this.specialHeaders,
         stateGsdpGrowthRate: this.stateGsdpGrowthRate,
         yearName: this.yearName,
-        growthRatePercentage: this.growthRatePercentage?.msg,
+        growthRatePercentage: this.growthRatePercent,
         additionalData: {
           pristine: this.form.pristine,
           statusText: this.status,
@@ -434,7 +465,7 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   finalSubmitConfirmation() {
-    if(!this.stateGsdpGrowthRate && this.yearName == '2024-25'){
+    if (!this.stateGsdpGrowthRate && this.yearName != '2023-24') {
       return swal("Info", "State GSDP data is not available. You cannot final submit the form at this time, please save it as draft", "info")
     }
     swal(
@@ -467,9 +498,9 @@ export class PropertyTaxComponent implements OnInit {
           // wait for rendering all the dynamic class
           setTimeout(() => {
             this.focusOnControl();
-          }, 100) 
+          }, 100)
           return;
-        } 
+        }
         this.submit(false);
       }
       else if (value == 'draft') this.submit();
@@ -492,7 +523,7 @@ export class PropertyTaxComponent implements OnInit {
     recursiveFunc(formToInvestigate);
     return invalidControls;
   }
-  
+
   //add scroll on error class input
   focusOnControl() {
     const inputElement = document.querySelector('small.text-danger.invalid, input.ng-invalid, div.ng-invalid, select.ng-invalid') as HTMLElement;
@@ -512,7 +543,7 @@ export class PropertyTaxComponent implements OnInit {
       cancelButtonText: 'Cancel',
       confirmButtonText: 'Update',
     });
-    if(isDismissed) return;
+    if (isDismissed) return;
     if (!updatedLabel) {
       if (isConfirmed) swal('Warning', `Please enter a value`, 'warning');
       return;
@@ -572,7 +603,7 @@ export class PropertyTaxComponent implements OnInit {
       cancelButtonText: 'Cancel',
       confirmButtonText: 'Add',
     })
-    if(isDismissed) return;
+    if (isDismissed) return;
     if (!value) {
       if (isConfirmed) swal('Warning', `Please enter a value`, 'warning');
       return;
@@ -617,6 +648,15 @@ export class PropertyTaxComponent implements OnInit {
   get doesColSewerageChargesCtrl() {
     return this.s3Control.get('data.doesColSewerageCharges.yearData.0');
   }
+  get notificationPropertyTaxCtrl() {
+    return this.s3Control.get('data.notificationPropertyTax.yearData.0');
+  }
+  get ulbPassedResolPtaxCtrl() {
+    return this.s3Control.get('data.ulbPassedResolPtax.yearData.0');
+  }
+  get ulbCollectPtaxCtrl() {
+    return this.s3Control.get('data.ulbCollectPtax.yearData.0')
+  }
 
   /**
    * |------------------------------------------------------------------------------------|
@@ -625,32 +665,37 @@ export class PropertyTaxComponent implements OnInit {
    * |               | B. Ptax Collection 2023-24 (in lakhs)   |                          |
    * |------------------------------------------------------------------------------------|
    */
+  // if design_year = 2024-25 (T) then B = 2023-24 (T-1), A = 2022-23 (T-2)
   get growthRatePercentage() {
     if (!this.stateGsdpGrowthRate) {
       return {
-        msg : "The property tax growth rate will be determined once the state provides the GSDP growth rate.",
+        msg: "The property tax growth rate will be determined once the state provides the GSDP growth rate.",
         class: 'text-danger'
       }
     }
     const collectIncludingCess = this.s3Control.get("data.collectIncludingCess.yearData").value;
-    const A = collectIncludingCess?.find((year) => year.key == "FY2022-23")?.value;
-    const B = collectIncludingCess?.find((year) => year.key == "FY2023-24")?.value;
-    if ( ["", "0"].includes(A)  || B == ""){
+    const bYr = this.commonServices.getPrevYear(this.yearName);   // T-1
+    const aYr = this.commonServices.getPrevYear(bYr);             // T-2
+
+    const B = collectIncludingCess?.find((year) => year.key == `FY${bYr}`)?.value;
+    const A = collectIncludingCess?.find((year) => year.key == `FY${aYr}`)?.value;
+
+    if (["", "0"].includes(A) || B == "") {
       return {
-        msg : "Property tax growth rate cannot be calculated.",
+        msg: `Property tax growth rate cannot be calculated for ${this.yearName}`,
         class: ''
       }
     }
-    let growthRatePercent = ((B - A) / A)*100;
-    if (growthRatePercent < this.stateGsdpGrowthRate){
+    this.growthRatePercent = ((B - A) / A) * 100;
+    if (this.growthRatePercent < this.stateGsdpGrowthRate) {
       return {
-        msg : "Property tax growth rate is less than State GSDP.",
+        msg: `Property tax growth rate is less than State GSDP for ${this.yearName}`,
         class: 'text-danger'
       }
     }
-    else if (growthRatePercent >= this.stateGsdpGrowthRate){
+    else if (this.growthRatePercent >= this.stateGsdpGrowthRate) {
       return {
-        msg : "Property tax growth rate is greater than State GSDP.",
+        msg: `Property tax growth rate is greater than State GSDP for ${this.yearName}`,
         class: 'text-success'
       }
     }
@@ -659,20 +704,30 @@ export class PropertyTaxComponent implements OnInit {
   canShowHeader(displayPriority: string) {
     const waterChargesHeaders = ['5.5', '5.11', '5.13', '5.17', '5.21', '5.25', '5.30', '5.31', '5.32'];
     const sewerageChargesHeaders = ['6.5', '6.11', '6.13', '6.17', '6.21', '6.25', '6.30', '6.31', '6.32'];
-    if (waterChargesHeaders.includes(displayPriority) && this.notificationWaterChargesCtrl.value.value !== 'Yes') {
-      return false;
+    const pTaxHeaders = ['1.9', '1.17', '2.1', '2.5', '2.9', '2.13', '2.17', '2.21', '2.25', '3.1', '4.1'];
+
+    if (waterChargesHeaders.includes(displayPriority) && this.notificationWaterChargesCtrl.value.value !== 'Yes') { return false; }
+    if (sewerageChargesHeaders.includes(displayPriority) && this.doesColSewerageChargesCtrl.value.value !== 'Yes') { return false; }
+
+    if (pTaxHeaders.includes(displayPriority)) {
+      if (this.notificationPropertyTaxCtrl.value.value == 'Yes' || this.ulbPassedResolPtaxCtrl.value.value == 'Yes') { return true; }
+      else return false;
     }
-    if (sewerageChargesHeaders.includes(displayPriority) && this.doesColSewerageChargesCtrl.value.value !== 'Yes') {
-      return false;
-    }
+
     return true;
   }
 
+  getErrorMessage(controlData: AbstractControl): string {
+    if (controlData?.errors && "validationError" in controlData.errors)
+      return controlData.errors.validationError;
+    return '';
+  }
+
   submit(isDraft = true) {
-    if(!isDraft && !this.stateGsdpGrowthRate && this.yearName == '2024-25'){
+    if (!isDraft && !this.stateGsdpGrowthRate && this.yearName != '2023-24') {
       return swal("Info", "State GSDP data is not available. You cannot final submit the form at this time, please save it as draft", "info")
     }
-    console.log(this.form)
+    // console.log(this.form)
     const payload = {
       ulbId: this.ulbId,
       formId: this.formId,
@@ -694,8 +749,43 @@ export class PropertyTaxComponent implements OnInit {
         resolve(true);
       }, ({ error }) => {
         this.loaderService.stopLoader();
-        swal('Error', error?.message ?? 'Something went wrong', 'error');
-        reject();
+        const errorMessage = error.message || {};
+        const dialogRef = this.dialog.open(ErrorDialog, { data: errorMessage });
+
+        dialogRef.afterClosed().subscribe(() => {
+          for (let [key, value] of Object.entries(errorMessage)) {
+            let replicaNo = null, childKey = null;
+            if (key.includes('_')) [key, childKey, replicaNo] = key.split('_');
+
+            const type = 'data.' + key;
+            const control = this.s3Control.get(type);
+
+            // Check if the control is a FormGroup or FormArray
+            if (control instanceof FormGroup || control instanceof FormArray) {
+              for (const yr of value["errorYears"]) {
+                const idx = (Number(yr.slice(-2)) - 19).toString();
+                const yearDataControl = control instanceof FormGroup
+                  ? control.get('yearData')?.get(idx)
+                  : control.controls[idx];
+
+                // Check if yearDataControl exists
+                if (yearDataControl) {
+                  yearDataControl.setErrors({ validationError: value["message"] });
+                }
+
+                // Child Data.
+                if (control?.value?.child?.length > 0) {
+                  const childIdx = control?.value?.child?.findIndex((c: any) => c['key'] == childKey && c['replicaNumber'] == replicaNo).toString();
+                  const childControl = control?.get('child')?.get(childIdx);
+                  const yearIdx = (Number(yr.slice(-2)) - 19).toString();
+                  const yearDataChildControl = childControl?.get('yearData')?.get(yearIdx);
+                  yearDataChildControl?.setErrors({ validationError: value["message"] });
+                }
+              }
+            } else console.warn(`Control ${type} is not a FormGroup or FormArray`);
+          }
+        });
+        reject(error);
       })
     })
   }
@@ -722,7 +812,6 @@ export class PropertyTaxComponent implements OnInit {
   formDisable(res) {
     if (!res) return;
     this.isButtonAvail = this.commonServices.formDisable(res, this.userData);
-    console.log('acfystkdghask', this.isButtonAvail);
   }
 
   ngOnDestroy(): void {
@@ -730,3 +819,35 @@ export class PropertyTaxComponent implements OnInit {
   }
 
 }
+
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+@Component({
+  selector: 'error-dialog',
+  template: `
+    <h1 mat-dialog-title>Errors:</h1>
+    <mat-dialog-content>
+    	<ul>
+    		<li *ngFor='let error of errors'>{{error}}</li>
+    	</ul>
+    </mat-dialog-content>
+    <div mat-dialog-actions>
+    	<button class="btn btn-primary" (click)="closeDialog()">Close</button>
+    </div>`
+
+})
+export class ErrorDialog {
+  errors = [];
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: string[],
+    private dialogRef: MatDialogRef<ErrorDialog>
+  ) {
+    for (const errObj of Object.values(data)) {
+      errObj['errorYears'].forEach((yr: string) => this.errors.push(`${errObj['message']} for the year: ${yr}`));
+    }
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close();
+  }
+}
+
