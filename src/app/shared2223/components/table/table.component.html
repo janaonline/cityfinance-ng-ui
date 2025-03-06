@@ -237,7 +237,7 @@
                         <!-- <a class="bl-ln" (click)="viewHistory(template, formId, resData['_id'])"> {{resData.formStatus}}
                         </a> -->
                     </td>
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData?.cantakeAction == false">
+                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData?.cantakeAction == false || userData?.role == 'ADMIN'">
                         <a [ngClass]='{"notClick" : actBtn}' (click)="viewStateForm(resData)"
                             [routerLink]="formRouterLink">
                             <!-- [routerLink]="[
@@ -248,7 +248,7 @@
                         </a>
                     </td>
                     <td class="btn-td" [style.border-top]="tabelIndex == '0' ? 'none' : ''"
-                        *ngIf="resData.cantakeAction == true">
+                        *ngIf="resData.cantakeAction == true && userData?.role != 'ADMIN'">
                         <!-- <a class="btn btn-primary btn-a" [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)" [routerLink]="[
                            '/ulbform2223/overview', resData?._id  ]">
                           Take Action
