@@ -717,11 +717,17 @@ export class PropertyTaxComponent implements OnInit {
     return true;
   }
 
+  getErrorMessage(controlData: AbstractControl): string {
+    if (controlData?.errors && "validationError" in controlData.errors)
+      return controlData.errors.validationError;
+    return '';
+  }
+
   submit(isDraft = true) {
     if (!isDraft && !this.stateGsdpGrowthRate && this.yearName != '2023-24') {
       return swal("Info", "State GSDP data is not available. You cannot final submit the form at this time, please save it as draft", "info")
     }
-    console.log(this.form)
+    // console.log(this.form)
     const payload = {
       ulbId: this.ulbId,
       formId: this.formId,
@@ -743,11 +749,42 @@ export class PropertyTaxComponent implements OnInit {
         resolve(true);
       }, ({ error }) => {
         this.loaderService.stopLoader();
-        const errorMessage = error.message || [];
+        const errorMessage = error.message || {};
         const dialogRef = this.dialog.open(ErrorDialog, { data: errorMessage });
 
-        dialogRef.afterClosed().subscribe(() => { console.log("Dialog closed") });
-        // swal('Error', error?.message ?? 'Something went wrong', 'error');
+        dialogRef.afterClosed().subscribe(() => {
+          for (let [key, value] of Object.entries(errorMessage)) {
+            let replicaNo = null, childKey = null;
+            if (key.includes('_')) [key, childKey, replicaNo] = key.split('_');
+
+            const type = 'data.' + key;
+            const control = this.s3Control.get(type);
+
+            // Check if the control is a FormGroup or FormArray
+            if (control instanceof FormGroup || control instanceof FormArray) {
+              for (const yr of value["errorYears"]) {
+                const idx = (Number(yr.slice(-2)) - 19).toString();
+                const yearDataControl = control instanceof FormGroup
+                  ? control.get('yearData')?.get(idx)
+                  : control.controls[idx];
+
+                // Check if yearDataControl exists
+                if (yearDataControl) {
+                  yearDataControl.setErrors({ validationError: value["message"] });
+                }
+
+                // Child Data.
+                if (control?.value?.child?.length > 0) {
+                  const childIdx = control?.value?.child?.findIndex((c: any) => c['key'] == childKey && c['replicaNumber'] == replicaNo).toString();
+                  const childControl = control?.get('child')?.get(childIdx);
+                  const yearIdx = (Number(yr.slice(-2)) - 19).toString();
+                  const yearDataChildControl = childControl?.get('yearData')?.get(yearIdx);
+                  yearDataChildControl?.setErrors({ validationError: value["message"] });
+                }
+              }
+            } else console.warn(`Control ${type} is not a FormGroup or FormArray`);
+          }
+        });
         reject(error);
       })
     })
@@ -775,7 +812,6 @@ export class PropertyTaxComponent implements OnInit {
   formDisable(res) {
     if (!res) return;
     this.isButtonAvail = this.commonServices.formDisable(res, this.userData);
-    console.log('acfystkdghask', this.isButtonAvail);
   }
 
   ngOnDestroy(): void {
@@ -791,7 +827,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
     <h1 mat-dialog-title>Errors:</h1>
     <mat-dialog-content>
     	<ul>
-    		<li *ngFor='let error of data'>{{error}}</li>
+    		<li *ngFor='let error of errors'>{{error}}</li>
     	</ul>
     </mat-dialog-content>
     <div mat-dialog-actions>
@@ -800,10 +836,15 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 })
 export class ErrorDialog {
+  errors = [];
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: string[],
     private dialogRef: MatDialogRef<ErrorDialog>
-  ) { }
+  ) {
+    for (const errObj of Object.values(data)) {
+      errObj['errorYears'].forEach((yr: string) => this.errors.push(`${errObj['message']} for the year: ${yr}`));
+    }
+  }
 
   closeDialog(): void {
     this.dialogRef.close();

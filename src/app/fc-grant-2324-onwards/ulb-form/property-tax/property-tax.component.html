@@ -13,16 +13,27 @@
         <div class="col-sm-12 for-radio" *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
             <div class="form-group">
                 <!-- [disabled]="yearItem?.controls?.readonly?.value" -->
-                <input *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
-                    onwheel="this.blur()"
-                    appNoUpDown
-                    step="any"
-                    [appDecimalLimit]="yearItem?.controls?.formFieldType?.value != 'number' ? null : yearItem?.controls?.decimalLimit?.value || 0" formControlName="value"
-                    class="form-control" [type]="yearItem?.controls?.formFieldType?.value"
-                    [readonly]="yearItem?.controls?.readonly?.value" [attr.disabled]="yearItem?.controls?.readonly?.value ? '' : null"
-                    [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && !hideErrors && (yearItem.dirty || yearItem.touched)}"
-                    placeholder="{{yearItem?.controls?.placeholder?.value}}" 
-                    appMinMaxRestriction [minValue]="yearItem?.controls?.min?.value" [maxValue]="yearItem?.controls?.max?.value" />
+                <span class="d-flex">
+                    <input 
+                        *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
+                        onwheel="this.blur()"
+                        appNoUpDown
+                        step="any"
+                        [appDecimalLimit]="yearItem?.controls?.formFieldType?.value != 'number' ? null : yearItem?.controls?.decimalLimit?.value || 0" formControlName="value"
+                        class="form-control"
+                        [type]="yearItem?.controls?.formFieldType?.value"
+                        [readonly]="yearItem?.controls?.readonly?.value"
+                        [attr.disabled]="yearItem?.controls?.readonly?.value ? '' : null"
+                        [ngClass]="{ 'is-invalid': yearItem.status == 'INVALID' && !hideErrors && (yearItem.dirty || yearItem.touched)}"
+                        placeholder="{{yearItem?.controls?.placeholder?.value}}" 
+                        appMinMaxRestriction
+                        [minValue]="yearItem?.controls?.min?.value"
+                        [maxValue]="yearItem?.controls?.max?.value"
+                        [matTooltip]="getErrorMessage(yearItem)"
+                    />
+                </span>
+                <!-- [matTooltip]="getErrorMessage(yearItem)" -->
+                <!-- <small class="text-danger">{{getErrorMessage(yearItem)}}</small> -->
                 <small class="focus-warning" *ngIf="yearItem?.controls?.formFieldType?.value == 'number' &&
                     yearItem?.controls?.value?.value == '0'">
                     contains "0" do you still want to continue?
