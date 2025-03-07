@@ -12,16 +12,28 @@
     <ng-template #treeNode let-yearItem="yearItem" let-yearIndex="yearIndex" let-hideErrors="hideErrors">
         <div class="col-sm-12 for-radio" *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
             <div class="form-group">
-                <input *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
-                    onwheel="this.blur()"
-                    appNoUpDown
-                    step="any"
-                    [appDecimalLimit]="yearItem?.controls?.formFieldType?.value != 'number' ? null : yearItem?.controls?.decimalLimit?.value || 0" formControlName="value"
-                    class="form-control" [type]="yearItem?.controls?.formFieldType?.value"
-                    [readonly]="yearItem?.controls?.readonly?.value" [disabled]="yearItem?.controls?.readonly?.value"
-                    [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && !hideErrors && (yearItem.dirty || yearItem.touched)}"
-                    placeholder="{{yearItem?.controls?.placeholder?.value}}" 
-                    appMinMaxRestriction [minValue]="yearItem?.controls?.min?.value" [maxValue]="yearItem?.controls?.max?.value" />
+                <!-- [disabled]="yearItem?.controls?.readonly?.value" -->
+                <span class="d-flex">
+                    <input 
+                        *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
+                        onwheel="this.blur()"
+                        appNoUpDown
+                        step="any"
+                        [appDecimalLimit]="yearItem?.controls?.formFieldType?.value != 'number' ? null : yearItem?.controls?.decimalLimit?.value || 0" formControlName="value"
+                        class="form-control"
+                        [type]="yearItem?.controls?.formFieldType?.value"
+                        [readonly]="yearItem?.controls?.readonly?.value"
+                        [attr.disabled]="yearItem?.controls?.readonly?.value ? '' : null"
+                        [ngClass]="{ 'is-invalid': yearItem.status == 'INVALID' && !hideErrors && (yearItem.dirty || yearItem.touched)}"
+                        placeholder="{{yearItem?.controls?.placeholder?.value}}" 
+                        appMinMaxRestriction
+                        [minValue]="yearItem?.controls?.min?.value"
+                        [maxValue]="yearItem?.controls?.max?.value"
+                        [matTooltip]="getErrorMessage(yearItem)"
+                    />
+                </span>
+                <!-- [matTooltip]="getErrorMessage(yearItem)" -->
+                <!-- <small class="text-danger">{{getErrorMessage(yearItem)}}</small> -->
                 <small class="focus-warning" *ngIf="yearItem?.controls?.formFieldType?.value == 'number' &&
                     yearItem?.controls?.value?.value == '0'">
                     contains "0" do you still want to continue?
@@ -55,7 +67,7 @@
                     [ngClass]="{'border-danger': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
                     <div class="d-flex w-100 px-2 justify-content-between">
                         <input matInput class="mat-date" formControlName="date" style="pointer-events: none;"
-                            [matDatepicker]="r_i" [disabled]="yearItem?.controls?.readonly?.value" [max]="currentDate"
+                            [matDatepicker]="r_i" [attr.disabled]="yearItem?.controls?.readonly?.value ? '' : null" [max]="currentDate" [min]="minDate"
                             placeholder="Choose a date" [attr.id]="  + r_i" />
                         <mat-datepicker-toggle matSuffix [disabled]="yearItem?.controls?.readonly?.value" [for]="r_i">
                         </mat-datepicker-toggle>
@@ -134,7 +146,7 @@
                             </th>
                         </tr>
 
-                        <tr *ngIf="yearName == '2024-25' && item?.value?.controls?.position?.value == '1.18'" class="table-warning text-center">
+                        <tr *ngIf="yearName !== '2023-24' && item?.value?.controls?.position?.value == '1.18'" class="table-warning text-center">
                             <td></td>
                             <td></td>
                             <td  [attr.colspan]="item?.value?.controls?.yearData?.value?.length">

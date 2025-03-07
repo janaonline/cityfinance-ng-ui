@@ -106,6 +106,12 @@ getYearName(yearId: string) {
   return this.getKeyByValue(this.designYearArray, yearId)
 }
 
+  // eg: Input: 2024-25, Output: 2023-24
+  getPrevYear(year: string) {
+    const [start, end] = year.split("-").map((e) => Number(e));
+    return `${start - 1}-${end - 1}`;
+  }
+
 getReviewType(designYear) {
   const year = this.getYearName(designYear);
   const yearSplit = Number(year.split('-')[0]);
