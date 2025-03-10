@@ -186,7 +186,7 @@
                      </div> -->
                 </div>
                 <span class="" [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled ) }">
-                    <input digitOnly [decimal]="question?.skipDigitOnlyValidation" type="number" class="form-control "
+                    <input onwheel="return false;" digitOnly [decimal]="question?.skipDigitOnlyValidation" type="number" class="form-control "
                         [appNumberLength]="question.max" placeholder="{{question.hint}}"
                         [ngClass]="{'invalid-border': question.errorMessage}" minlength="{{question.min}}"
                         maxlength="{{question.max}}" id="{{question.order}}"
@@ -967,7 +967,7 @@
                         'w-100': tablular,
                         'ms-2': !tablular }">
                     <div class="d-flex">
-                        <input digitOnly [decimal]="!(question?.title == 'Number of Projects Undertaken')" appDisableNagetive [appDecimalLimit]="question.allowDecimal == false ? 0 : 2"
+                        <input onwheel="return false;" digitOnly [decimal]="!(question?.title == 'Number of Projects Undertaken')" appDisableNagetive [appDecimalLimit]="question.allowDecimal == false ? 0 : 2"
                             type="number" class="form-control " [appMaxRange]="question"
                             [questionData]="questionData"
                             placeholder="{{question.hint}}" [ngClass]="{
@@ -1904,7 +1904,7 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="" [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled ) }">
-                        <input digitOnly [decimal]="question?.skipDigitOnlyValidation" type="number"
+                        <input onwheel="return false;" digitOnly [decimal]="question?.skipDigitOnlyValidation" type="number"
                             class="form-control " [appNumberLength]="question.max" placeholder="{{question.hint}}"
                             [ngClass]="{'invalid-border': question.errorMessage}" minlength="{{question.min}}"
                             maxlength="{{question.max}}" id="{{question.order}}"
