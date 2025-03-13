@@ -33,6 +33,7 @@ import { VideoGallaryComponent } from './video-gallary/video-gallary.component';
 import { GlobalPartModule } from 'src/app/global-part/global-part.module';
 import { NoUpDownDirective } from './property-tax/no-up-down.directive';
 import { MatDialogModule } from '@angular/material/dialog';
+import { FeedbackFormComponent } from './feedback-form/feedback-form.component';
 
 
 
@@ -49,7 +50,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ResourceComponent, 
     NoUpDownDirective,
     ErrorDialog,
-    PropertyTaxComponent, LoaderComponent, PreviewComponent, PfmsComponent, FourSlbComponent, DecimalLimitDirective, YearComparisionPipe, AllowedFileTypesPipe, FormErrorPipe, VideoGallaryComponent
+    PropertyTaxComponent, LoaderComponent, PreviewComponent, PfmsComponent, FourSlbComponent, DecimalLimitDirective, YearComparisionPipe, AllowedFileTypesPipe, FormErrorPipe, VideoGallaryComponent, FeedbackFormComponent
   ],
   imports: [
     CommonModule,
