@@ -683,20 +683,20 @@ export class PropertyTaxComponent implements OnInit {
 
     if (["", "0"].includes(A) || B == "") {
       return {
-        msg: `Property tax growth rate cannot be calculated for ${this.yearName}`,
+        msg: `Property tax growth rate cannot be calculated for ${this.commonServices.getPrevYear(this.yearName)}`,
         class: ''
       }
     }
     this.growthRatePercent = ((B - A) / A) * 100;
     if (this.growthRatePercent < this.stateGsdpGrowthRate) {
       return {
-        msg: `Property tax growth rate is less than State GSDP for ${this.yearName}`,
+        msg: `Property tax growth rate is less than State GSDP for ${this.commonServices.getPrevYear(this.yearName)}`,
         class: 'text-danger'
       }
     }
     else if (this.growthRatePercent >= this.stateGsdpGrowthRate) {
       return {
-        msg: `Property tax growth rate is greater than State GSDP for ${this.yearName}`,
+        msg: `Property tax growth rate is greater than State GSDP for ${this.commonServices.getPrevYear(this.yearName)}`,
         class: 'text-success'
       }
     }
@@ -754,6 +754,8 @@ export class PropertyTaxComponent implements OnInit {
         const dialogRef = this.dialog.open(ErrorDialog, { data: errorMessage });
 
         dialogRef.afterClosed().subscribe(() => {
+          const startYear = Number(this.yearName.slice(-2)) - 5; // Helper variable to find idx.
+
           for (let [key, value] of Object.entries(errorMessage)) {
             let replicaNo = null, childKey = null;
             if (key.includes('_')) [key, childKey, replicaNo] = key.split('_');
@@ -764,7 +766,7 @@ export class PropertyTaxComponent implements OnInit {
             // Check if the control is a FormGroup or FormArray
             if (control instanceof FormGroup || control instanceof FormArray) {
               for (const yr of value["errorYears"]) {
-                const idx = (Number(yr.slice(-2)) - 19).toString();
+                const idx = (Number(yr.slice(-2)) - startYear).toString();
                 const yearDataControl = control instanceof FormGroup
                   ? control.get('yearData')?.get(idx)
                   : control.controls[idx];
@@ -778,7 +780,7 @@ export class PropertyTaxComponent implements OnInit {
                 if (control?.value?.child?.length > 0) {
                   const childIdx = control?.value?.child?.findIndex((c: any) => c['key'] == childKey && c['replicaNumber'] == replicaNo).toString();
                   const childControl = control?.get('child')?.get(childIdx);
-                  const yearIdx = (Number(yr.slice(-2)) - 19).toString();
+                  const yearIdx = (Number(yr.slice(-2)) - startYear).toString();
                   const yearDataChildControl = childControl?.get('yearData')?.get(yearIdx);
                   yearDataChildControl?.setErrors({ validationError: value["message"] });
                 }
