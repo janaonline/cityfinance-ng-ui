@@ -34,6 +34,7 @@ import { GlobalPartModule } from 'src/app/global-part/global-part.module';
 import { NoUpDownDirective } from './property-tax/no-up-down.directive';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FeedbackFormComponent } from './feedback-form/feedback-form.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 
@@ -65,7 +66,8 @@ import { FeedbackFormComponent } from './feedback-form/feedback-form.component';
     MatIconModule,
     ReactiveFormsModule,
     GlobalPartModule,
-    MatDialogModule
-  ]
+    MatDialogModule,
+    MatProgressSpinnerModule 
+]
 })
 export class UlbFormModule { }

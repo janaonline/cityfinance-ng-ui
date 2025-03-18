@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
+import { FieldConfig, UtilityService } from 'src/app/shared/services/utility.service';
+import { UserUtility } from 'src/app/util/user/user';
+import { FeedbackService } from './feedback.service';
 
 @Component({
   selector: 'app-feedback-form',
@@ -7,30 +10,80 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./feedback-form.component.scss']
 })
 export class FeedbackFormComponent implements OnInit {
+  loggedInUserDetails = UserUtility.getUserLoggedInData().value;
+  isLoading: boolean = false;
+  isDataAvailable: boolean = false;
+  ulbFeedback: FormGroup = new FormGroup({});
+  fields: FieldConfig[] = [];
+  ulbId: string = this.loggedInUserDetails.role === 'ULB' ? this.loggedInUserDetails.ulb : '';
+  designYear: string = '606aafda4dff55e6c075d48f'; // TODO: make year dynamic.
+  currentFormStatus: number = -1;
 
-  myForm: FormGroup;
-  radioOptions = [
-    { value: 1, color: '#ff9999' }, // Light Red
-    { value: 2, color: '#99ccff' }, // Light Blue
-    { value: 3, color: '#99ff99' }, // Light Green
-    { value: 4, color: '#ffcc99' }, // Light Orange
-    { value: 5, color: '#ccccff' }  // Light Purple
-  ]; 
+  constructor(
+    private utilityService: UtilityService,
+    private feedbackService: FeedbackService,
+  ) { }
 
-  constructor(private fb: FormBuilder) {
-    this.myForm = this.fb.group({
-      selectedOption: [''], 
-      textarea1: [''], 
-      textarea2: ['']  
+  ngOnInit(): void {
+    this.getFields();
+  }
+
+  private getFields(): void {
+    this.isLoading = true;
+    this.feedbackService.getForm(this.designYear, this.ulbId).subscribe({
+      next: (res: any) => {
+        this.currentFormStatus = res.data.currentFormStatus;
+        this.fields = res.data.data;
+        this.ulbFeedback = this.utilityService.toFormGroup(this.fields);
+      },
+      error: (error) => {
+        console.error("Error in getFields(): ", error.message);
+        this.utilityService.swalPopup('Error!', 'getFields(): Unable to fetch form.', 'error');
+      },
+      complete: () => {
+        this.isDataAvailable = true;
+        this.isLoading = false;
+      }
     });
   }
 
-  submitForm() {
-    console.log(this.myForm.value);
+  public hasError(key: string, name: string): boolean {
+    const control = this.ulbFeedback.get(key) as FormControl;
+    return control.hasError(name) && (control.dirty || control.touched);
   }
 
-
-  ngOnInit(): void {
+  private markAllFieldsAsTouched(): void {
+    Object.keys(this.ulbFeedback.controls).forEach((field: string) => {
+      const control = this.ulbFeedback.get(field);
+      if (control) control.markAsTouched();
+    });
   }
 
+  public submitForm(): void {
+    if (this.loggedInUserDetails.role !== 'ULB') {
+      // this.utilityService.swalPopup('Error!', `submitForm(): user role must be ULB`, 'error');
+      return;
+    }
+
+    this.isLoading = true;
+    if (this.ulbFeedback.valid) {
+      this.feedbackService.submitForm(this.designYear, this.ulbFeedback.value).subscribe({
+        next: (res: any) => { },
+        error: (error) => {
+          this.isLoading = false;
+          console.error("Error in submitForm(): ", error);
+          this.utilityService.swalPopup('Error!', `submitForm(): ${error?.error?.message}`, 'error');
+        },
+        complete: () => {
+          this.isLoading = false;
+          this.utilityService.swalPopup('Success!', `Form Submitted successfully!`, 'success');
+          this.getFields();
+        }
+      })
+    } else {
+      this.markAllFieldsAsTouched();
+      this.utilityService.swalPopup('Validation Failed!', 'Please fill required fields!', 'error');
+      this.isLoading = false;
+    }
+  }
 }
