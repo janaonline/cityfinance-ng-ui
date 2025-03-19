@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { FieldConfig, UtilityService } from 'src/app/shared/services/utility.service';
 import { UserUtility } from 'src/app/util/user/user';
 import { FeedbackService } from './feedback.service';
@@ -16,13 +17,16 @@ export class FeedbackFormComponent implements OnInit {
   ulbFeedback: FormGroup = new FormGroup({});
   fields: FieldConfig[] = [];
   ulbId: string = this.loggedInUserDetails.role === 'ULB' ? this.loggedInUserDetails.ulb : '';
-  designYear: string = '606aafda4dff55e6c075d48f'; // TODO: make year dynamic.
+  designYear: string = '';
   currentFormStatus: number = -1;
 
   constructor(
     private utilityService: UtilityService,
     private feedbackService: FeedbackService,
-  ) { }
+    private route: ActivatedRoute,
+  ) {
+    this.designYear = this.route.parent.snapshot.paramMap.get('yearId');
+  }
 
   ngOnInit(): void {
     this.getFields();
