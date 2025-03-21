@@ -24,9 +24,9 @@ export class ResourcesDashboardService {
     this.showCard.next(val);
     return;
   }
-  getDataSets(year, type, category, state, ulb, globalName, skip: number = 0) {
+  getDataSets(year: string, type: string, category: string, state: string, ulb: string, ulbId = '', globalName = '', skip: number = 0) {
     return this.https.get(
-      `${environment.api.url}annual-accounts/datasets?year=${year}&type=${type}&category=${category}&state=${state}&ulb=${ulb}&globalName=${globalName}&skip=${skip}`
+      `${environment.api.url}annual-accounts/datasets?year=${year}&type=${type}&category=${category}&state=${state}&ulb=${ulb}&ulbId=${ulbId}&globalName=${globalName}&skip=${skip}`
     );
   }
   getSearchedData(filter) {

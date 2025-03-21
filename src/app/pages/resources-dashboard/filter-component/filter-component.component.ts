@@ -93,8 +93,7 @@ export class FilterComponentComponent implements OnInit {
   private initializeFormGroup(): void {
     this.filterForm1 = this.fb.group({
       state: [''],
-      ulbCtrl: [''],
-      ulbId: [''],
+      ulb: [''],
       contentType: [''],
       year: [''],
       // category: this.category,
@@ -113,12 +112,12 @@ export class FilterComponentComponent implements OnInit {
             .map((state: any) => ({ name: state.name, _id: state._id }));
         },
         error: (error) => { console.error('Error in getStates(): ', error.message) },
-        complete: () => { console.log("statesList", this.statesList) },
+        complete: () => { },
       });
   }
 
   private getUlbs() {
-    this.filterForm1.get('ulbCtrl').valueChanges
+    this.filterForm1.get('ulb').valueChanges
       .pipe(
         debounceTime(400),
         distinctUntilChanged(),
@@ -183,8 +182,8 @@ export class FilterComponentComponent implements OnInit {
   }
 
   public onFilterChange(): void {
-    const ulbId = this.filterForm1.value?.ulbCtrl?._id || '';
-    this.filterForm1.patchValue({ ulbId: ulbId }, { emitEvent: false });
+    // const ulbId = this.filterForm1.value?.ulb?._id || '';
+    // this.filterForm1.patchValue({ ulbId: ulbId }, { emitEvent: false });
 
     this.filterFormData.emit(this.filterForm1);
   }
@@ -192,8 +191,7 @@ export class FilterComponentComponent implements OnInit {
   public clearFilter(): void {
     this.filterForm1.reset({
       state: '',
-      ulbCtrl: '',
-      ulbId: '',
+      ulb: '',
       contentType: 'Raw Data PDF',
       year: this.filterInputData?.comp == 'dataSets' ? this.yearsList[0] : '',
       // category: this.category,
