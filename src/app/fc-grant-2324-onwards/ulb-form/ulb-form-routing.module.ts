@@ -14,6 +14,7 @@ import { ResourceComponent } from './resource/resource.component';
 import { TwentyEightSlbComponent } from './twenty-eight-slb/twenty-eight-slb.component';
 import { UlbFormComponent } from './ulb-form.component';
 import { VideoGallaryComponent } from './video-gallary/video-gallary.component';
+import { FeedbackFormComponent } from './feedback-form/feedback-form.component';
 
 const routes: Routes = [
   {
@@ -76,13 +77,17 @@ const routes: Routes = [
         component: VideoGallaryComponent,
       },
       {
+        path: "feedback",
+        component: FeedbackFormComponent,
+      },
+      {
         path: "utilisation-report/:id",
         component: DurComponent,
       },
       {
         path: "dur-dump-pdf/:stateId",
         component: DurDumpComponent,
-      },
+      }
     ],
   },
 ];
