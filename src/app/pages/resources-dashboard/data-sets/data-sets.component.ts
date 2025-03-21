@@ -127,9 +127,9 @@ export class DataSetsComponent implements OnInit {
   }
 
   // This method will be triggered when clearEvent is emitted from the child
-  clearEvent() {
-    this.isChecked = false;
-  }
+  // clearEvent() {
+  //   this.isChecked = false;
+  // }
 
   // Function of app-filter-component.
   filterData(e: any) {
