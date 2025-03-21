@@ -1,31 +1,29 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges
-} from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute } from "@angular/router";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
+import { catchError, debounceTime, distinctUntilChanged, switchMap, tap } from "rxjs/operators";
 import { CommonService } from "src/app/shared/services/common.service";
 import { FilterModelBoxComponent } from "../filter-model-box/filter-model-box.component";
 import { ResourcesDashboardService } from "../resources-dashboard.service";
+
+interface NamedEntity {
+  name: string,
+  _id: string,
+}
+
 @Component({
   selector: "app-filter-component",
   templateUrl: "./filter-component.component.html",
   styleUrls: ["./filter-component.component.scss"],
 })
-export class FilterComponentComponent implements OnInit, OnChanges {
+export class FilterComponentComponent implements OnInit {
   @Output() filterFormData = new EventEmitter<any>();
   @Output() clearEvent = new EventEmitter<any>();
 
 
   @Input() filterTabDataSet;
-  @Input() filterInputData;
   @Input() downloadValue;
   @Input() data;
   @Input() category;
@@ -75,6 +73,139 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     this.patchFilterValues(this.stateId, ulbId, ulbName, this.selectedValue, contentType);
   }
 
+  @Input() filterInputData: any;
+
+  filterForm1: FormGroup;
+  statesList: NamedEntity[];
+  filteredUlbs: Observable<NamedEntity[]>;
+  yearsList: string[];
+  staticYearsList = ['2019-20', '2018-19', '2017-18', '2016-17', '2015-16'];
+  contentType = ["Raw Data PDF", "Raw Data Excel", "Standardised Excel"];
+  isSearching: boolean;
+
+  ngOnInit() {
+    this.initializeFormGroup();
+    this.getStates();
+    this.getUlbs();
+    this.getYears();
+  }
+
+  private initializeFormGroup(): void {
+    this.filterForm1 = this.fb.group({
+      state: [''],
+      ulbCtrl: [''],
+      ulbId: [''],
+      contentType: [''],
+      year: [''],
+      // category: this.category,
+    });
+  }
+
+  private getStates(): void {
+    // const stateCode = this.route.snapshot.queryParamMap.get('stateCode');
+    this._commonServices
+      .fetchStateList()
+      .subscribe({
+        next: (res: any) => {
+          this.statesList = res
+            .filter((state: any) => !state.isUT)
+            .sort((a: any, b: any) => a.name.localeCompare(b.name))
+            .map((state: any) => ({ name: state.name, _id: state._id }));
+        },
+        error: (error) => { console.error('Error in getStates(): ', error.message) },
+        complete: () => { console.log("statesList", this.statesList) },
+      });
+  }
+
+  private getUlbs() {
+    this.filterForm1.get('ulbCtrl').valueChanges
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged(),
+        tap(() => this.isSearching = true),
+        switchMap(value => {
+          if (!value) return of([])
+
+          return this._commonServices
+            .postGlobalSearchData(
+              { ulb: value, contentType: this.filterForm1.value.contentType },
+              'ulb',
+              this.filterForm1.value.state
+            );
+        }),
+        catchError((error: any) => {
+          this.isSearching = false;
+          // TODO: add swal popup.
+          console.error("Error fetching ULBs:", error);
+          return of([]);
+        })
+      )
+      .subscribe((res: any) => {
+        this.isSearching = false;
+        this.filteredUlbs = res?.data?.map((ulb: any) => ({ name: ulb.name, _id: ulb._id })) || [];
+      });
+  }
+
+  public displayUlbName(ulb: NamedEntity): string {
+    return ulb ? ulb.name : '';
+  }
+
+  private getYears(): void {
+    if (this.filterInputData?.comp == 'dataSets') {
+      this._resourcesDashboardService.getAnnualAccountsYear()
+        .subscribe({
+          next: (res: any) => {
+            const uniqueYears = new Set([...res.afsYears, ...this.staticYearsList]);
+            this.yearsList = Array.from(uniqueYears);
+            this.yearsList.sort((a, b) => b.localeCompare(a));
+          },
+          error: (error) => { console.error('Error in getYears(): ', error.message) },
+          complete: () => {
+            this.filterForm1.patchValue({ year: this.yearsList[0] || '2023-24' }, { emitEvent: false });
+            this.filterForm1.patchValue({ contentType: 'Raw Data PDF' }, { emitEvent: false });
+          }
+        });
+    } else {
+      let header = this.filterInputData?.comp == 'report-publications'
+        ? "reports_&_publications"
+        : 'learning_center';
+
+      this._resourcesDashboardService.getYearsList(header)
+        .subscribe({
+          next: (res: any) => {
+            this.yearsList = res?.data || [];
+            this.yearsList.sort((a, b) => b.localeCompare(a));
+          },
+          error: (error) => { console.error('Error in getYears(): ', error.message) },
+          complete: () => { },
+        });
+    }
+  }
+
+  public onFilterChange(): void {
+    const ulbId = this.filterForm1.value?.ulbCtrl?._id || '';
+    this.filterForm1.patchValue({ ulbId: ulbId }, { emitEvent: false });
+
+    this.filterFormData.emit(this.filterForm1);
+  }
+
+  public clearFilter(): void {
+    this.filterForm1.reset({
+      state: '',
+      ulbCtrl: '',
+      ulbId: '',
+      contentType: 'Raw Data PDF',
+      year: this.filterInputData?.comp == 'dataSets' ? this.yearsList[0] : '',
+      // category: this.category,
+    }, { emitEvent: false });
+
+    this.onFilterChange();
+  }
+
+  public showData(): void {
+    console.log("form = ", this.filterForm1.value);
+  }
+
   stateList;
   ulbList;
   filterForm: FormGroup;
@@ -89,6 +220,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     "2021-22",
   ];
   cType = ["Raw Data PDF", "Raw Data Excel", "Standardised Excel"];
+
   // "Standardised Excel",
   // "Standardised PDF",
   filteredOptions: Observable<any[]>;
@@ -108,11 +240,11 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     });
   }
 
-  ngOnInit(): void {
-    console.log("daaaaa", this.filterInputData);
-    this.getStatesList();
-    // this.addYearsTillCurrent();
-  }
+  // ngOnInit(): void {
+  //   console.log("daaaaa", this.filterInputData);
+  //   this.getStatesList();
+  //   // this.addYearsTillCurrent();
+  // }
 
   onChange(event) {
     this.selectedValue = event.target.value;
@@ -309,34 +441,34 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     let currentYear = new Date().getFullYear();
 
     // API to get latest year - ULB with latest year afss data.
-    this._resourcesDashboardService.getAnnualAccountsYear()
-      .subscribe((res: any) => {
-        currentYear = parseInt(res.latestAfsYear.substring(0, 5)) + 1;
+    // this._resourcesDashboardService.getAnnualAccountsYear()
+    //   .subscribe((res: any) => {
+    //     currentYear = parseInt(res.latestAfsYear.substring(0, 5)) + 1;
 
-        // get the previous year which is presented in the year list
-        let lastYear = parseInt(this.yearList[this.yearList.length - 1]);
+    //     // get the previous year which is presented in the year list
+    //     let lastYear = parseInt(this.yearList[this.yearList.length - 1]);
 
-        // Generate and add years until the current year
-        while (lastYear <= currentYear) {
-          const formattedYear = `${lastYear - 1}-${String(lastYear).slice(2)}`;
+    //     // Generate and add years until the current year
+    //     while (lastYear <= currentYear) {
+    //       const formattedYear = `${lastYear - 1}-${String(lastYear).slice(2)}`;
 
-          // Check if the year is not already in the array
-          if (!this.yearList.includes(formattedYear)) {
-            // Add the year to the array
-            this.yearList.push(formattedYear);
-          }
+    //       // Check if the year is not already in the array
+    //       if (!this.yearList.includes(formattedYear)) {
+    //         // Add the year to the array
+    //         this.yearList.push(formattedYear);
+    //       }
 
-          // Move to the next year
-          lastYear++;
-        }
+    //       // Move to the next year
+    //       lastYear++;
+    //     }
 
-        // Reverse the array if needed
-        this.yearList.reverse();
+    //     // Reverse the array if needed
+    //     this.yearList.reverse();
 
-        // Set the latest year.
-        this.selectedValue = this.yearList[0];
+    //     // Set the latest year.
+    //     this.selectedValue = this.yearList[0];
 
-      });
+    //   });
 
   }
 }

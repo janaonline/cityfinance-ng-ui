@@ -59,8 +59,8 @@ export class ResourcesDashboardService {
     )
   }
 
-  getYearsList() {
-    return this.https.get(`${environment.api.url}resourceDashboard/allYears`)
+  getYearsList(header = 'learning_center', distinctValue = 'publishedYear') {
+    return this.https.get(`${environment.api.url}resourceDashboard/allYears/?header=${encodeURIComponent(header)}&distinctValue=${distinctValue}`);
   }
 
   getMunicipalityBondsRepositoryCategories() {
