@@ -327,6 +327,10 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
       this.questionData = setInitialQuestions(questionData.question);
 
       this.questionData?.forEach(parentQuestion => {
+        if (parentQuestion?.shortKey == 'linkPFMS' || parentQuestion?.shortKey == 'isUlbLinkedWithPFMS') {
+          parentQuestion.modelValue = parentQuestion.modelValue ? parentQuestion.modelValue : '1';
+          parentQuestion.isQuestionDisabled = true;
+        }
         parentQuestion?.childQuestionData?.forEach(childQuestions => {
           childQuestions?.forEach(childQuestion => {
             if (!childQuestion?.parent?.length) return childQuestion.visibility = true;
