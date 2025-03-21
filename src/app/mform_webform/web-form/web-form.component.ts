@@ -155,6 +155,10 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
   selectedYear:string="";
   pageIndex=0;
   @ViewChild('paginator') paginator: MatPaginator;
+  detectQUestionWithZeroValue:boolean
+  detectQUestionWithZeroReasonValue: boolean;
+  receivedDuringYrWithZeroReasonOueObj: any;
+  receivedDuringYrWithZeroOueObj: any;
   
   ngOnInit() {
     this.getQueryParams();
@@ -327,8 +331,31 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
       this.questionData = setInitialQuestions(questionData.question);
 
       this.questionData?.forEach(parentQuestion => {
+        if (parentQuestion?.shortKey == 'linkPFMS' || parentQuestion?.shortKey == 'isUlbLinkedWithPFMS') {
+          parentQuestion.modelValue = parentQuestion.modelValue ? parentQuestion.modelValue : '1';
+          parentQuestion.isQuestionDisabled = true;
+        }
         parentQuestion?.childQuestionData?.forEach(childQuestions => {
           childQuestions?.forEach(childQuestion => {
+            if(childQuestion.shortKey=='grantPosition___receivedDuringYr'){
+              this.detectQUestionWithZeroValue = parseInt(childQuestion.value)==0 ? true:false
+            }
+            if(childQuestion.shortKey=='grantPosition___receivedDuringYrWithZero'){
+              this.detectQUestionWithZeroReasonValue = parseInt(childQuestion.value)==3 ? this.detectQUestionWithZeroValue ? true: false :false;
+              this.receivedDuringYrWithZeroOueObj = childQuestion;
+              if(this.detectQUestionWithZeroValue){
+                this.receivedDuringYrWithZeroOueObj.validation.push(
+                  {
+                      "error_msg": "",
+                      "_id": "1"
+                  }
+              )
+             }
+            }
+            if(childQuestion.shortKey=='grantPosition___receivedDuringYrWithZeroReason'){
+             this.receivedDuringYrWithZeroReasonOueObj = childQuestion;
+            }
+
             if (!childQuestion?.parent?.length) return childQuestion.visibility = true;
             childQuestion.visibility = childQuestion?.parent?.every(skipableParnetObject => {
               const parent = childQuestions?.find(chi => chi?.order == skipableParnetObject?.order);
@@ -1032,6 +1059,15 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
     if (question.input_type === QUESTION_TYPE.CONSENT) {
       value.target.value = value.target.checked ? "1" : "2";
     }
+    if (question.shortKey == 'grantPosition___receivedDuringYr') {
+      this.detectQUestionWithZeroValue = parseInt(value.target.value) == 0 ? true : false;
+     if (parseInt(value.target.value) != 0)
+       this.detectQUestionWithZeroReasonValue = false;
+   }
+   if (question.shortKey == 'grantPosition___receivedDuringYrWithZero') {
+     this.detectQUestionWithZeroReasonValue = parseInt(value.target.value) == 3 ? true : false
+   }
+    question.value = question.modelValue;
     console.log('onChange', { question, value, option, skip })
     this.isFormSubmittedSuccessfully = false;
     this.hasUnsavedChanges = true;
@@ -1137,7 +1173,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
                   ? ''
                   : question.modelValue,
             value:
-              question.input_type == '2'
+              question.input_type == '2' 
                 ? question.modelValue
                 : question.answer_option && question.answer_option.length
                   ? question.modelValue
@@ -2579,11 +2615,16 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
         let startDate = item?.find(question => question.shortKey == 'startDate');
         let endDate = item?.find(question => question.shortKey == "completionDate");
         endDate["isQuestionDisabled"] = true;
+        if (['606aafda4dff55e6c075d48f'].includes(this.selectedYearId)) {
+          startDate.min = '2000-01-01';
+          endDate.max = '2026-04-30'
+        }
         if(startDate?.modelValue){
           let date = new Date(startDate?.modelValue);
           let day = (date.getDate() + 1).toString().padStart(2, "0");
          // endDate.max = (date.getFullYear()) + "-" + (date.getMonth() + 1).toString().padStart(2, "0") + "-" + day;
           endDate.min = (date.getFullYear()) + "-" + (date.getMonth() + 1).toString().padStart(2, "0") + "-" + day;
+          endDate.min = (date.getFullYear()) < 2020 ? '2020-04-30' : endDate.min
           console.log(endDate, this.questionData);
           endDate["isQuestionDisabled"] = false; 
         }

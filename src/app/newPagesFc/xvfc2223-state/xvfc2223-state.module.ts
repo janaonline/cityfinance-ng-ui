@@ -38,6 +38,7 @@ import { ButtonRendererComponent } from "./action-plan/delete-btn";
 import { GrantClaimsComponent } from './grant-claims/grant-claims.component';
 import { GrantClaimsDialogComponent } from './grant-claims/grant-claims-dialog/grant-claims-dialog.component';
 import { GlobalPartModule } from "src/app/global-part/global-part.module";
+import { DalgoComponent } from "src/app/shared/components/dalgo/dalgo.component";
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import { GlobalPartModule } from "src/app/global-part/global-part.module";
     StateformsModule,
     CollapseModule.forRoot(),
     AgGridModule.withComponents([ActionPlanComponent, AgGrid2223Component, CustomTooltipComponent]),
-    GlobalPartModule
+    GlobalPartModule,
+    DalgoComponent
   ],
 })
 export class Xvfc2223StateModule {}

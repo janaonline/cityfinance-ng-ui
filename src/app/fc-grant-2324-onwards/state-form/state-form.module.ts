@@ -47,6 +47,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { DalgoComponent } from 'src/app/shared/components/dalgo/dalgo.component';
 
 
 @NgModule({
@@ -95,6 +96,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatIconModule,
     ReactiveFormsModule,
     GlobalPartModule,
+    DalgoComponent
   ]
 })
 export class StateFormModule { }

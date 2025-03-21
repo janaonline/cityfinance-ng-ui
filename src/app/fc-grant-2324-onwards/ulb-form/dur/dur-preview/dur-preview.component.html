@@ -26,7 +26,7 @@
     </div>
     <div class="row se-r pd-row-n">
         <div class="col-sm-9 st-n">
-            <span>Name of State:- <span class="f-normal">{{ state }}</span></span>
+            <span>Name of State:- <span class="f-normal">{{ this.data.stateName }}</span></span>
         </div>
         <div class="col-sm-3 pdf-hide" style="text-align: right;">
             <button *ngIf="!parentData" id="donwloadButton" style="height: 36px; right: 0%; outline: none;" class="btn btn-primary btn-upload" (click)="clickedDownloadAsPDF(template)">
@@ -36,7 +36,7 @@
         <div class="col-sm-12 st-n">
             <span>
               Name of City/UA[MPC/NMPC]:-
-              <span class="f-normal">{{ ulb }}</span>
+              <span class="f-normal">{{ this.data.ulbName }}</span>
             </span>
         </div>
         <div class="col-sm-12 st-n m-top">
@@ -76,6 +76,25 @@
                             <sup>st</sup> & 2<sup>nd</sup> installment taken together ]
                         </td>
                         <td class="f-table">{{data.grantPosition.grantPosition___receivedDuringYr}}</td>
+                        <td class="f-table">x</td>
+                        <td class="f-table">x</td>
+                        <td class="f-table">x</td>
+                    </tr>
+                    <tr *ngIf="data.grantPosition.grantPosition___receivedDuringYrWithZero">
+                        <th scope="row" class="f-table">2a.</th>
+                        <td class="pd-r f-table" style="text-align: left; font-weight: 500;">15th F.C. Tied grant recevied for the year
+                            is zero, please select a reason from drop down.</td>
+                        <td class="f-table">
+                            {{grantPositionReceivedWithZeroReason[data.grantPosition.grantPosition___receivedDuringYrWithZero]}}</td>
+                        <td class="f-table">x</td>
+                        <td class="f-table">x</td>
+                        <td class="f-table">x</td>
+                    </tr>
+                    <tr *ngIf="data.grantPosition.grantPosition___receivedDuringYrWithZeroReason">
+                        <th scope="row" class="f-table">2b.</th>
+                        <td class="pd-r f-table" style="text-align: left; font-weight: 500;">Select reason for tied grants being zero
+                        </td>
+                        <td class="f-table">{{data.grantPosition.grantPosition___receivedDuringYrWithZeroReason || 'x'}}</td>
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>
