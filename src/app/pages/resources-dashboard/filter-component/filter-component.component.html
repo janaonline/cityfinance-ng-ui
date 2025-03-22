@@ -61,17 +61,11 @@
       <mat-label>Financial Year</mat-label>
       <mat-select formControlName="year">
         <mat-option
-          *ngIf="filterInputData?.comp != 'dataSets'"
-          (click)="onFilterChange()"
-          [value]="''"
-          >All Years</mat-option
-        >
-        <mat-option
           (click)="onFilterChange()"
           *ngFor="let year of yearsList"
           [value]="year"
         >
-          {{ year }}
+          {{ year ? year : "All Years" }}
         </mat-option>
       </mat-select>
     </mat-form-field>

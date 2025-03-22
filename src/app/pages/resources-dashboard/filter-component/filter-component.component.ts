@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
-import { forkJoin, Observable, of } from "rxjs";
+import { from, Observable, of } from "rxjs";
 import { catchError, debounceTime, distinctUntilChanged, switchMap, tap } from "rxjs/operators";
 import { CommonService } from "src/app/shared/services/common.service";
 import { ResourcesDashboardService } from "../resources-dashboard.service";
@@ -18,20 +18,6 @@ interface NamedEntity {
 })
 export class FilterComponentComponent implements OnInit {
 
-  constructor(
-    private fb: FormBuilder,
-    private _commonServices: CommonService,
-    private route: ActivatedRoute,
-    private _resourcesDashboardService: ResourcesDashboardService
-  ) {
-
-    // console.log('year = ', this.route.snapshot.queryParamMap.get('year'));
-    // console.log('ulbName = ', this.route.snapshot.queryParamMap.get('ulbName'));
-    // console.log('ulbId = ', this.route.snapshot.queryParamMap.get('ulbId'));
-    // console.log('state = ', this.route.snapshot.queryParamMap.get('state'));
-    // console.log('contentType = ', this.route.snapshot.queryParamMap.get('type'));
-  }
-
   @Input() filterInputData: any;
   @Input() downloadValue: boolean;
   @Output() filterFormData = new EventEmitter<any>();
@@ -45,13 +31,52 @@ export class FilterComponentComponent implements OnInit {
   contentType = ["Raw Data PDF", "Raw Data Excel", "Standardised Excel"];
   isSearching: boolean;
 
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private _commonServices: CommonService,
+    private _resourcesDashboardService: ResourcesDashboardService
+  ) {
+    const year = this.route.snapshot.queryParamMap.get('year');
+    const ulbName = this.route.snapshot.queryParamMap.get('ulbName');
+    const ulbId = this.route.snapshot.queryParamMap.get('ulbId');
+    const state = this.route.snapshot.queryParamMap.get('state');
+    const contentType = this.route.snapshot.queryParamMap.get('type');
+
+    if (year || ulbName || ulbId || state) {
+      this.filterForm = this.fb.group({
+        state: [state || ''],
+        ulb: [{ _id: ulbId || '', name: ulbName || '' }],
+        contentType: [contentType],
+        year: [year],
+        // category: this.category,
+      });
+      // this.onFilterChange();
+    } else this.initializeFormGroup();
+
+  }
+
   ngOnInit() {
-    forkJoin([
-      this.initializeFormGroup(),
-      this.getStates(),
-      this.getUlbs(),
-      this.getYears(),
-    ]).subscribe(() => { this.onFilterChange(); });
+    // this.initializeFormGroup();
+    const years$ = from(this.loadYears());
+
+    years$.subscribe({
+      next: (yearsResult) => {
+        this.yearsList = yearsResult;
+        this.loadStates();
+        this.loadUlbs();
+      },
+      error: (error) => { console.error('Error in ngOnInit(): ', error.message) },
+      complete: () => {
+        // If year and contentType is received from query params then don't update.
+        if (!this.filterForm.get('year')?.value)
+          this.filterForm.patchValue({ year: this.yearsList[0] }, { emitEvent: false });
+        if (!this.filterForm.get('contentType')?.value)
+          this.filterForm.patchValue({ contentType: 'Raw Data PDF' }, { emitEvent: false });
+
+        this.onFilterChange();
+      }
+    });
   }
 
   private initializeFormGroup(): void {
@@ -64,7 +89,7 @@ export class FilterComponentComponent implements OnInit {
     });
   }
 
-  private getStates(): void {
+  private loadStates(): void {
     this._commonServices
       .fetchStateList()
       .subscribe({
@@ -74,12 +99,11 @@ export class FilterComponentComponent implements OnInit {
             .sort((a: any, b: any) => a.name.localeCompare(b.name))
             .map((state: any) => ({ name: state.name, _id: state._id }));
         },
-        error: (error) => { console.error('Error in getStates(): ', error.message) },
-        complete: () => { },
+        error: (error) => { console.error('Error in loadStates(): ', error.message) },
       });
   }
 
-  private getUlbs() {
+  private loadUlbs(): void {
     this.filterForm.get('ulb').valueChanges
       .pipe(
         debounceTime(400),
@@ -97,7 +121,6 @@ export class FilterComponentComponent implements OnInit {
         }),
         catchError((error: any) => {
           this.isSearching = false;
-          // TODO: add swal popup.
           console.error("Error fetching ULBs:", error);
           return of([]);
         })
@@ -112,39 +135,36 @@ export class FilterComponentComponent implements OnInit {
     return ulb ? ulb.name : '';
   }
 
-  private getYears(): void {
-    if (this.filterInputData?.comp == 'dataSets') {
-      this._resourcesDashboardService.getAnnualAccountsYear()
-        .subscribe({
-          next: (res: any) => {
-            const uniqueYears = new Set([...res.afsYears, ...this.staticYearsList]);
-            this.yearsList = Array.from(uniqueYears);
-            this.yearsList.sort((a, b) => b.localeCompare(a));
-          },
-          error: (error) => { console.error('Error in getYears(): ', error.message) },
-          complete: () => {
-            this.filterForm.patchValue({ year: this.yearsList[0] || '2023-24' }, { emitEvent: false });
-            this.filterForm.patchValue({ contentType: 'Raw Data PDF' }, { emitEvent: false });
-          }
-        });
-    } else {
-      let header = this.filterInputData?.comp == 'report-publications'
-        ? "reports_&_publications"
+  private loadYears(): Promise<any> {
+    const header =
+      this.filterInputData?.comp === 'report-publications'
+        ? 'reports_&_publications'
         : 'learning_center';
 
-      this._resourcesDashboardService.getYearsList(header)
-        .subscribe({
-          next: (res: any) => {
-            this.yearsList = res?.data || [];
-            this.yearsList.sort((a, b) => b.localeCompare(a));
-          },
-          error: (error) => { console.error('Error in getYears(): ', error.message) },
-          complete: () => { },
-        });
-    }
+    return new Promise((resolve, reject) => {
+      const getYearsFn =
+        this.filterInputData?.comp === 'dataSets'
+          ? this._resourcesDashboardService.getAnnualAccountsYear()
+          : this._resourcesDashboardService.getYearsList(header);
+
+      getYearsFn.subscribe({
+        next: (res: any) => {
+          let years =
+            this.filterInputData?.comp === 'dataSets'
+              ? Array.from(new Set([...res.afsYears, ...this.staticYearsList]))
+              : (res?.data || []);
+
+          years = years.sort((a: string, b: string) => b.localeCompare(a));
+          this.yearsList = this.filterInputData?.comp === 'dataSets' ? years : [''].concat(years);
+          resolve(this.yearsList);
+        },
+        error: (error) => { reject('Failed to load years: ' + error.message); },
+      });
+    });
   }
 
   public onFilterChange(): void {
+    // console.log('filterForm = ', this.filterForm.value)
     this.filterFormData.emit(this.filterForm);
   }
 
@@ -158,10 +178,6 @@ export class FilterComponentComponent implements OnInit {
     }, { emitEvent: false });
 
     this.onFilterChange();
-  }
-
-  public showData(): void {
-    console.log("form = ", this.filterForm.value);
   }
 
   public initiateDownload(): void {
