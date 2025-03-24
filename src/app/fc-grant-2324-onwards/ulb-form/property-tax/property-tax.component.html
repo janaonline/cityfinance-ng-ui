@@ -146,7 +146,7 @@
                             </th>
                         </tr>
 
-                        <tr *ngIf="yearName !== '2023-24' && item?.value?.controls?.position?.value == '1.18'" class="table-warning text-center">
+                        <tr *ngIf="yearName !== '2023-24' && isNotiPtaxOrUlbResAvailable() && item?.value?.controls?.position?.value == '1.18'" class="table-warning text-center">
                             <td></td>
                             <td></td>
                             <td  [attr.colspan]="item?.value?.controls?.yearData?.value?.length">
