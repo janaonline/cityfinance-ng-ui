@@ -412,12 +412,12 @@ export class PropertyTaxComponent implements OnInit {
       }
 
     }
-
+    
     // Will be applicable from 2025-26
     if (!['2023-24', '2024-25'].includes(this.yearName)) {
       if (!this.stateGsdpGrowthRate)
         return swal("Info", "State GSDP data is not available. You cannot preview the form at this time, please save it as draft", "info");
-      if (!this.growthRatePercent)
+      if (this.growthRatePercent === undefined || this.growthRatePercent === null)
         return swal("Info", "Growth rate cannot be calculated, Please fill 'Total property tax collection (1.17)'", "info");
     }
 
