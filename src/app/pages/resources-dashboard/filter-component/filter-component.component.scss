@@ -10,8 +10,7 @@
   padding: 0 !important;
 }
 
-mat-select,
-mat-input {
+mat-select {
   font-weight: bold;
 }
 
@@ -30,6 +29,10 @@ mat-icon {
   transition: background-color 0.3s, color 0.3s;
   padding: 9px;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  margin: 4px;
 }
 
 .custom-button:hover {

@@ -1,9 +1,9 @@
 <div class="p-3 border border-1 border-secondary-subtle bg-light rounded">
   <h5 class="text-center fw-bold mb-4">Filter By:</h5>
-  <form [formGroup]="filterForm" class="row justify-content-evenly gap-2">
-    <mat-form-field class="col-auto p-0" appearance="outline">
+  <form [formGroup]="filterForm" class="row justify-content-evenly gap-2 mx-2">
+    <mat-form-field class="col p-0" appearance="outline">
       <mat-label>State Name</mat-label>
-      <mat-select formControlName="state">
+      <mat-select formControlName="state" (keyup.enter)="onFilterChange()">
         <mat-option value="''">All States</mat-option>
         <mat-option
           (click)="onFilterChange()"
@@ -15,15 +15,17 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field class="col-auto p-0" appearance="outline">
+    <mat-form-field class="col p-0" appearance="outline">
       <mat-label>ULB Name</mat-label>
       <input
+        class="fw-bold"
         type="text"
         placeholder="Search a ULB"
         aria-label="ulb name"
         matInput
         formControlName="ulb"
         [matAutocomplete]="auto"
+        (keyup.enter)="onFilterChange()"
       />
       <mat-autocomplete
         autoActiveFirstOption
@@ -42,11 +44,14 @@
 
     <mat-form-field
       *ngIf="filterInputData?.comp == 'dataSets'"
-      class="col-auto p-0"
+      class="col p-0"
       appearance="outline"
     >
       <mat-label>File Type</mat-label>
-      <mat-select formControlName="contentType">
+      <mat-select
+        formControlName="contentType"
+        (keyup.enter)="onFilterChange()"
+      >
         <mat-option
           (click)="onFilterChange()"
           *ngFor="let type of contentType"
@@ -57,9 +62,9 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field class="col-auto p-0" appearance="outline">
+    <mat-form-field class="col p-0" appearance="outline">
       <mat-label>Financial Year</mat-label>
-      <mat-select formControlName="year">
+      <mat-select formControlName="year" (keyup.enter)="onFilterChange()">
         <mat-option
           (click)="onFilterChange()"
           *ngFor="let year of yearsList"
@@ -70,28 +75,25 @@
       </mat-select>
     </mat-form-field>
 
-    <div class="col-auto p-0 mt-1">
-      <button
-        (click)="clearFilter()"
-        type="button"
-        class="col custom-button"
-        title="Clear selection(s)"
-      >
-        <span class="d-none d-lg-inline me-1">Clear All</span>
-        <mat-icon>highlight_off</mat-icon>
-      </button>
-    </div>
+    <button
+      (click)="clearFilter()"
+      type="button"
+      class="col custom-button"
+      title="Clear selection(s)"
+    >
+      <span class="d-none d-lg-inline me-1">Clear All</span>
+      <mat-icon>highlight_off</mat-icon>
+    </button>
 
-    <div class="col-auto p-0 mt-1" *ngIf="downloadValue">
-      <button
-        (click)="initiateDownload()"
-        type="button"
-        class="custom-button"
-        title="Download reports"
-      >
-        <span class="d-none d-lg-inline me-1">Download</span>
-        <span><mat-icon>save_alt</mat-icon></span>
-      </button>
-    </div>
+    <button
+      *ngIf="downloadValue"
+      (click)="initiateDownload()"
+      type="button"
+      class="col custom-button"
+      title="Download reports"
+    >
+      <span class="d-none d-lg-inline me-1">Download</span>
+      <span><mat-icon>save_alt</mat-icon></span>
+    </button>
   </form>
 </div>
