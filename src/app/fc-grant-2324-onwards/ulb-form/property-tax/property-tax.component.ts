@@ -686,20 +686,20 @@ export class PropertyTaxComponent implements OnInit {
 
     if (["", "0"].includes(A) || B == "") {
       return {
-        msg: `Property tax growth rate cannot be calculated for ${this.yearName}`,
+        msg: `Property tax growth rate cannot be calculated for ${this.commonServices.getPrevYear(this.yearName)}`,
         class: ''
       }
     }
     this.growthRatePercent = ((B - A) / A) * 100;
     if (this.growthRatePercent < this.stateGsdpGrowthRate) {
       return {
-        msg: `Property tax growth rate is less than State GSDP for ${this.yearName}`,
+        msg: `Property tax growth rate is less than State GSDP for ${this.commonServices.getPrevYear(this.yearName)}`,
         class: 'text-danger'
       }
     }
     else if (this.growthRatePercent >= this.stateGsdpGrowthRate) {
       return {
-        msg: `Property tax growth rate is greater than State GSDP for ${this.yearName}`,
+        msg: `Property tax growth rate is greater than State GSDP for ${this.commonServices.getPrevYear(this.yearName)}`,
         class: 'text-success'
       }
     }
