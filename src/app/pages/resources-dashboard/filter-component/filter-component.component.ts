@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
-import { from, Observable, of } from "rxjs";
-import { catchError, debounceTime, distinctUntilChanged, switchMap, tap } from "rxjs/operators";
+import { from, Observable, of, Subject } from "rxjs";
+import { catchError, debounceTime, distinctUntilChanged, switchMap, takeUntil, tap } from "rxjs/operators";
 import { CommonService } from "src/app/shared/services/common.service";
 import { ResourcesDashboardService } from "../resources-dashboard.service";
 
@@ -16,7 +16,7 @@ interface NamedEntity {
   templateUrl: "./filter-component.component.html",
   styleUrls: ["./filter-component.component.scss"],
 })
-export class FilterComponentComponent implements OnInit {
+export class FilterComponentComponent implements OnInit, OnDestroy {
 
   @Input() filterInputData: any;
   @Input() downloadValue: boolean;
@@ -30,6 +30,7 @@ export class FilterComponentComponent implements OnInit {
   staticYearsList = ['2019-20', '2018-19', '2017-18', '2016-17', '2015-16'];
   contentType = ["Raw Data PDF", "Raw Data Excel", "Standardised Excel"];
   isSearching: boolean;
+  unsubscribe$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -92,6 +93,7 @@ export class FilterComponentComponent implements OnInit {
   private loadStates(): void {
     this._commonServices
       .fetchStateList()
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res: any) => {
           this.statesList = res
@@ -106,6 +108,7 @@ export class FilterComponentComponent implements OnInit {
   private loadUlbs(): void {
     this.filterForm.get('ulb').valueChanges
       .pipe(
+        takeUntil(this.unsubscribe$),
         debounceTime(400),
         distinctUntilChanged(),
         tap(() => this.isSearching = true),
@@ -147,19 +150,21 @@ export class FilterComponentComponent implements OnInit {
           ? this._resourcesDashboardService.getAnnualAccountsYear()
           : this._resourcesDashboardService.getYearsList(header);
 
-      getYearsFn.subscribe({
-        next: (res: any) => {
-          let years =
-            this.filterInputData?.comp === 'dataSets'
-              ? Array.from(new Set([...res.afsYears, ...this.staticYearsList]))
-              : (res?.data || []);
+      getYearsFn
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe({
+          next: (res: any) => {
+            let years =
+              this.filterInputData?.comp === 'dataSets'
+                ? Array.from(new Set([...res.afsYears, ...this.staticYearsList]))
+                : (res?.data || []);
 
-          years = years.sort((a: string, b: string) => b.localeCompare(a));
-          this.yearsList = this.filterInputData?.comp === 'dataSets' ? years : [''].concat(years);
-          resolve(this.yearsList);
-        },
-        error: (error) => { reject('Failed to load years: ' + error.message); },
-      });
+            years = years.sort((a: string, b: string) => b.localeCompare(a));
+            this.yearsList = this.filterInputData?.comp === 'dataSets' ? years : [''].concat(years);
+            resolve(this.yearsList);
+          },
+          error: (error) => { reject('Failed to load years: ' + error.message); },
+        });
     });
   }
 
@@ -182,5 +187,10 @@ export class FilterComponentComponent implements OnInit {
 
   public initiateDownload(): void {
     this.isDownloadable.emit(true);
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }
