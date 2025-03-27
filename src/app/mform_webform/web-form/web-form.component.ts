@@ -327,6 +327,11 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
       this.questionData = setInitialQuestions(questionData.question);
 
       this.questionData?.forEach(parentQuestion => {
+        if (parentQuestion?.shortKey == 'linkPFMS' || parentQuestion?.shortKey == 'isUlbLinkedWithPFMS') {
+          parentQuestion.modelValue = parentQuestion.modelValue ? parentQuestion.modelValue : '1';
+          parentQuestion.value = parentQuestion.modelValue;
+          parentQuestion.isQuestionDisabled = true;
+        }
         parentQuestion?.childQuestionData?.forEach(childQuestions => {
           childQuestions?.forEach(childQuestion => {
             if (!childQuestion?.parent?.length) return childQuestion.visibility = true;
@@ -1398,7 +1403,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
     questionValue = [
       {
         type: event.target.files[0].type,
-        label: event.target.files[0].name,
+        label: event.target.files[0].name.replaceAll(",", "-"),
         file: event.target.files,
       },
     ];
@@ -1410,7 +1415,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
       [
         {
           type: event.target.files[0].type,
-          label: event.target.files[0].name,
+          label: event.target.files[0].name.replaceAll(",", "-"),
           file: event.target.files,
         },
       ],
@@ -1420,7 +1425,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
     let imageQuestionValue = [
       {
         type: event.target.files[0].type,
-        label: event.target.files[0].name,
+        label: event.target.files[0].name.replaceAll(",", "-"),
         file: event.target.files,
       },
     ];
