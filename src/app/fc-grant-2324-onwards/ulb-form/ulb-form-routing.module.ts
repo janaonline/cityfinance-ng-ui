@@ -13,6 +13,7 @@ import { PfmsComponent } from './pfms/pfms.component';
 import { FourSlbComponent } from './four-slb/four-slb.component';
 import { Ulb2223Guard } from 'src/app/shared2223/common-gaurds/ulb/ulb2223.guard';
 import { VideoGallaryComponent } from './video-gallary/video-gallary.component';
+import { FeedbackFormComponent } from './feedback-form/feedback-form.component';
 
 const routes: Routes = [
   {
@@ -74,6 +75,10 @@ const routes: Routes = [
         path: "video-gallary",
         component: VideoGallaryComponent,
       },
+      {
+        path: "feedback",
+        component: FeedbackFormComponent,
+      }
     ],
   },
 ];
