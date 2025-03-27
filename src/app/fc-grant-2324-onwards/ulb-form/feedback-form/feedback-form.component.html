@@ -1,0 +1,61 @@
+<div *ngIf="isLoading" class="custom-spinner-overlay">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="isDataAvailable" class="parent mx-auto my-3">
+  <form [formGroup]="ulbFeedback" (ngSubmit)="submitForm()" class="">
+    <p class="mb-1 mt-3 text-center">Rate your experience
+      <small *ngIf="ulbFeedback.get('rating').value">: {{ ulbFeedback.get('rating').value }}/ 5</small>
+    </p>
+
+    <!-- Radio Buttons -->
+    <div class="d-flex gap-3 justify-content-center">
+      <input type="radio" class="btn-check" name="rating" id="option1" value="1" formControlName="rating">
+      <label class="btn btn-secondary border-0 py-2 px-3" for="option1" style="background-color: #ea3b3b;">1</label>
+
+      <input type="radio" class="btn-check" name="rating" id="option2" value="2" formControlName="rating">
+      <label class="btn btn-secondary border-0 py-2 px-3" for="option2" style="background-color: #f59a0c;">2</label>
+
+      <input type="radio" class="btn-check" name="rating" id="option3" value="3" formControlName="rating">
+      <label class="btn btn-secondary border-0 py-2 px-3" for="option3" style="background-color: #feda0a;">3</label>
+
+      <input type="radio" class="btn-check" name="rating" id="option4" value="4" formControlName="rating">
+      <label class="btn btn-secondary border-0 py-2 px-3" for="option4" style="background-color: #5fdf70;">4</label>
+
+      <input type="radio" class="btn-check" name="rating" id="option5" value="5" formControlName="rating">
+      <label class="btn btn-secondary border-0 py-2 px-3" for="option5" style="background-color: #49b171;">5</label>
+    </div>
+
+    <ng-container ngProjectAs="mat-error" *ngFor="let validation of fields[0]['validations']">
+      <mat-error *ngIf="hasError('rating', validation.name)">
+        {{ validation.message }}
+      </mat-error>
+    </ng-container>
+
+    <!-- Textareas -->
+    <div class="mt-3">
+      <label for="benifitFromCf" class="mb-1">What is the main benefit you receive from
+        CityFinance?</label>
+      <textarea id="benifitFromCf" class="w-100 rounded" formControlName="benifitFromCf"></textarea>
+
+      <ng-container ngProjectAs="mat-error" *ngFor="let validation of fields[1]['validations']">
+        <mat-error *ngIf="hasError('benifitFromCf', validation.name)">
+          {{ validation.message }}
+        </mat-error>
+      </ng-container>
+    </div>
+    <div class="mt-3">
+      <label for="improveCf" class="mb-1">How can we improve CityFinance for you?</label>
+      <textarea id="improveCf" class="w-100 rounded" formControlName="improveCf"></textarea>
+
+      <ng-container ngProjectAs="mat-error" *ngFor="let validation of fields[2]['validations']">
+        <mat-error *ngIf="hasError('improveCf', validation.name)">
+          {{ validation.message }}
+        </mat-error>
+      </ng-container>
+    </div>
+
+    <button type="submit" class="btn btn-outline-primary mt-3" [disabled]="currentFormStatus == 3">SUBMIT</button>
+
+  </form>
+</div>
