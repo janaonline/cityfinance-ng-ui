@@ -384,6 +384,10 @@ export class PropertyTaxComponent implements OnInit {
     }, err => console.log(err));
   }
 
+  public isNotiPtaxOrUlbResAvailable() {
+    return this.notificationPropertyTaxCtrl.value.value == 'Yes' || this.ulbPassedResolPtaxCtrl.value.value == 'Yes';
+  }
+
   async onPreview() {
     if (!this.form.pristine) {
       const confirmed = await swal(
@@ -414,10 +418,10 @@ export class PropertyTaxComponent implements OnInit {
     }
 
     // Will be applicable from 2025-26
-    if (!['2023-24', '2024-25'].includes(this.yearName)) {
+    if (!['2023-24', '2024-25'].includes(this.yearName) && this.isNotiPtaxOrUlbResAvailable()) {
       if (!this.stateGsdpGrowthRate)
         return swal("Info", "State GSDP data is not available. You cannot preview the form at this time, please save it as draft", "info");
-      if (!this.growthRatePercent)
+      if (this.growthRatePercent === undefined || this.growthRatePercent === null)
         return swal("Info", "Growth rate cannot be calculated, Please fill 'Total property tax collection (1.17)'", "info");
     }
 
@@ -710,7 +714,7 @@ export class PropertyTaxComponent implements OnInit {
     if (sewerageChargesHeaders.includes(displayPriority) && this.doesColSewerageChargesCtrl.value.value !== 'Yes') { return false; }
 
     if (pTaxHeaders.includes(displayPriority)) {
-      if (this.notificationPropertyTaxCtrl.value.value == 'Yes' || this.ulbPassedResolPtaxCtrl.value.value == 'Yes') { return true; }
+      if (this.isNotiPtaxOrUlbResAvailable()) { return true; }
       else return false;
     }
 
