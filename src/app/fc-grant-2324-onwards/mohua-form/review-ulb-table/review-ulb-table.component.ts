@@ -93,6 +93,7 @@ export class ReviewUlbTableComponent implements OnInit {
   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
       this.stateList = res;
+      this.stateList = this.stateList.filter(state=>state.isUT==false)
     });
   }
   //get design year id from routes
