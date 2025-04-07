@@ -2,12 +2,13 @@
   <mat-spinner></mat-spinner>
 </div>
 
-<div *ngIf="isSubmitted" class="text-center mt-3">
-  <p class="text-primary">Feedback successfully submitted</p>
-</div>
-
 <div *ngIf="isDataAvailable" class="parent mx-auto my-3">
-  <form [formGroup]="ulbFeedback" (ngSubmit)="submitForm()" class="">
+  <form [formGroup]="ulbFeedback" (ngSubmit)="submitForm()">
+    <div *ngIf="currentFormStatus == 3" class="alert alert-success d-flex align-items-center gap-2" role="alert">
+      <mat-icon>check_circle</mat-icon>
+      Feedback successfully submitted!
+    </div>
+
     <p class="mb-2 mt-3 text-center">Rate your experience of City Finance
       <small *ngIf="ulbFeedback.get('rating').value">: {{ ulbFeedback.get('rating').value }}/ 5</small>
     </p>

@@ -1,5 +1,5 @@
 * {
-  font-family: Montserrat;
+  font-family: "Montserrat";
 }
 
 .parent {
@@ -16,6 +16,6 @@ mat-icon {
 }
 
 .btn-check:checked + .rating-label {
-  border: 2px solid black;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 1);
+  border: 2px solid darkslategray;
+  box-shadow: 0 0 10px rgb(67, 67, 67);
 }
