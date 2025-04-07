@@ -14,6 +14,7 @@ export class FeedbackFormComponent implements OnInit {
   loggedInUserDetails = UserUtility.getUserLoggedInData().value;
   isLoading: boolean = false;
   isDataAvailable: boolean = false;
+  isSubmitted: boolean = false;
   ulbFeedback: FormGroup = new FormGroup({});
   fields: FieldConfig[] = [];
   ulbId: string = this.loggedInUserDetails.role === 'ULB' ? this.loggedInUserDetails.ulb : '';
@@ -47,6 +48,11 @@ export class FeedbackFormComponent implements OnInit {
       complete: () => {
         this.isDataAvailable = true;
         this.isLoading = false;
+        
+        if (this.currentFormStatus = -1) {
+          // this.isSubmitted = false; 
+        this.isSubmitted = true;
+      }
       }
     });
   }
@@ -82,6 +88,7 @@ export class FeedbackFormComponent implements OnInit {
           this.isLoading = false;
           this.utilityService.swalPopup('Success!', `Form Submitted successfully!`, 'success');
           this.getFields();
+          this.isSubmitted = true;
         }
       })
     } else {
