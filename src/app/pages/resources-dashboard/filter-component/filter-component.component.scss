@@ -10,6 +10,14 @@
   padding: 0 !important;
 }
 
+::ng-deep .mat-form-field-flex {
+  height: 3rem !important;
+}
+
+::ng-deep .mat-form-field-infix {
+  margin-top: 5px !important;
+}
+
 mat-select {
   font-weight: bold;
 }
