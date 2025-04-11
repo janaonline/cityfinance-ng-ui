@@ -18,6 +18,10 @@
   margin-top: 5px !important;
 }
 
+::ng-deep .mat-form-field-label-wrapper {
+  top: -10px !important;
+}
+
 mat-select {
   font-weight: bold;
 }
@@ -41,6 +45,7 @@ mat-icon {
   align-items: center;
   font-weight: bold;
   margin: 4px;
+  max-width: 18rem;
 }
 
 .custom-button:hover {
