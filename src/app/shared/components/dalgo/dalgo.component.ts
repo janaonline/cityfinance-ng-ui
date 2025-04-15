@@ -14,7 +14,7 @@ import { SupersetService } from './superset.service';
 export class DalgoComponent implements OnInit, AfterViewInit {
 
   private readonly htmlElementId = 'mohua-superset-container';  // Element ID as a constant
-  private readonly supersetDomainUrl = 'https://janaagraha.dalgo.in/';
+  private readonly supersetDomainUrl = 'https://janaagraha.dalgo.org/';
 
   @Input() dashboardType = USER_TYPE.MoHUA;
   @Input() dashboardId = '6476518a-7dfd-4614-87c2-8a315c9ece25';
