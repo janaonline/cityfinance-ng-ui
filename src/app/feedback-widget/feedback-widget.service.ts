@@ -18,7 +18,7 @@ export class FeedbackWidgetService {
     "^/state-form(/.*)?$",
     "^/stateform2223(/.*)?$",
     "^/user(/.*)?$",
-    "^/rankings(/.*)?$",
+    "^\/rankings\/(?!home($|\/)).*$"
   ];
 
   constructor(private router: Router) {
@@ -38,7 +38,6 @@ export class FeedbackWidgetService {
         map((event: NavigationEnd) => event.urlAfterRedirects)
       )
       .subscribe((url) => {
-        console.log('url-----', url);
         if (!this.isExcludedRoute(url)) this.routerChange$.next(true);
         else this.routerChange$.next(false);
       });
