@@ -1437,6 +1437,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
         type: event.target.files[0].type,
         label: event.target.files[0].name.replaceAll(",", "-"),
         file: event.target.files,
+        
       },
     ];
     // console.log('questionValue', questionValue)
