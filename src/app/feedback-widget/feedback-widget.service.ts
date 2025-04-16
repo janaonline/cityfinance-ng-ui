@@ -9,6 +9,7 @@ import { filter, map } from "rxjs/operators";
 export class FeedbackWidgetService {
   private EXCLUDED_URLS = [
     "^/fc-home-page$",
+    "^/profile-update$",
     "^/fc_grant(/.*)?$",        
     "^/login(/.*)?$",
     "^/mohua(/.*)?$",
@@ -17,6 +18,9 @@ export class FeedbackWidgetService {
     "^/stateform(/.*)?$",
     "^/state-form(/.*)?$",
     "^/stateform2223(/.*)?$",
+    "^/ulbform(/.*)?$",
+    "^/ulbform2223(/.*)?$",
+    "^/ulb-form(/.*)?$",
     "^/user(/.*)?$",
     "^\/rankings\/(?!home($|\/)).*$"
   ];
