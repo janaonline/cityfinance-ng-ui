@@ -43,12 +43,12 @@
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6" [ngClass]="{'disableInputs': !isDisabled }">
                     <span class="fontStyle d-flex">
-                        <label (click)="clickYes()" [ngClass]="{'activeClassBottom': (f?.linkPFMS?.value == 'Yes' && isDisabled), 'greyInputs': (f?.linkPFMS?.value == 'Yes' && !isDisabled) }"
+                        <label (click)="clickYes()" [ngClass]="{'activeClassBottom': (f?.linkPFMS?.value == 'Yes' && !isLinkedPMFSDisabled), 'greyInputs': (f?.linkPFMS?.value == 'Yes' && isLinkedPMFSDisabled), 'disableInputs':isLinkedPMFSDisabled}"
                             class="customLabel form-control">
                             <input type="radio" value="Yes" formControlName="linkPFMS" [ngClass]="{ 'is-invalid': submitted && f.linkPFMS.errors }">
                             <span>Yes</span>
                     </label>
-                    <label (click)="clickNo()" class="customLabel ms-3 form-control" [ngClass]="{'activeClassBottom': (f?.linkPFMS?.value == 'No'  && isDisabled), 'greyInputs': (f?.linkPFMS?.value == 'No' && !isDisabled) }">
+                    <label (click)="clickNo()" class="customLabel ms-3 form-control" [ngClass]="{'activeClassBottom': (f?.linkPFMS?.value == 'No'  && isDisabled), 'greyInputs': (f?.linkPFMS?.value == 'No' && !isDisabled) ,'disableInputs':isLinkedPMFSDisabled}">
                             <input type="radio" value="No" formControlName="linkPFMS" [ngClass]="{ 'is-invalid': submitted && f.linkPFMS.errors }">
                             <span>No</span>
                         </label>
@@ -71,12 +71,12 @@
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6" [ngClass]="{'disableInputs': !isDisabled }">
                     <span class="fontStyle d-flex">
-                        <label (click)="linkedYes($event.target.value)" [ngClass]="{'activeClassBottom': (f?.isUlbLinkedWithPFMS?.value == 'Yes' && isDisabled), 'greyInputs': (f?.isUlbLinkedWithPFMS?.value == 'Yes' && !isDisabled) }"
+                        <label (click)="linkedYes($event.target.value)" [ngClass]="{'activeClassBottom': (f?.isUlbLinkedWithPFMS?.value == 'Yes' && !isLinkedPMFSDisabled), 'greyInputs': (f?.isUlbLinkedWithPFMS?.value == 'Yes' && isLinkedPMFSDisabled),'disableInputs':isLinkedPMFSDisabled }"
                             class="customLabel form-control">
                             <input type="radio" value="Yes" formControlName="isUlbLinkedWithPFMS" [ngClass]="{ 'is-invalid': submitted && f.isUlbLinkedWithPFMS.errors }">
                             <span>Yes</span>
                     </label>
-                    <label (click)="linkedNo($event.target.value)" class="customLabel form-control ms-3" [ngClass]="{'activeClassBottom': (f?.isUlbLinkedWithPFMS?.value == 'No' && isDisabled), 'greyInputs': (f?.isUlbLinkedWithPFMS?.value == 'No' && !isDisabled) }">
+                    <label (click)="linkedNo($event.target.value)" class="customLabel form-control ms-3" [ngClass]="{'activeClassBottom': (f?.isUlbLinkedWithPFMS?.value == 'No' && isDisabled), 'greyInputs': (f?.isUlbLinkedWithPFMS?.value == 'No' && !isDisabled),'disableInputs':isLinkedPMFSDisabled  }">
                             <input type="radio" value="No" formControlName="isUlbLinkedWithPFMS" [ngClass]="{ 'is-invalid': submitted && f.isUlbLinkedWithPFMS.errors }">
                             <span>No</span>
                         </label>
