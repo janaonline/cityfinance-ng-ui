@@ -46,6 +46,7 @@ import { VersionCheckService } from "./version-check.service";
 import { environment } from "src/environments/environment";
 import { GlobalPartModule } from "./global-part/global-part.module";
 // import { DalgoComponent } from "./shared/components/dalgo/dalgo.component";
+import { FeedbackWidgetComponent } from "./feedback-widget/feedback-widget.component";
 
 
 @NgModule({
@@ -111,6 +112,7 @@ import { GlobalPartModule } from "./global-part/global-part.module";
         UlbNotRegisteredComponent,
         NewHomeComponent,
         ProfileUpdateComponent,
+        FeedbackWidgetComponent
         // InrCurrencyPipe,
     ],
     bootstrap: [AppComponent]
