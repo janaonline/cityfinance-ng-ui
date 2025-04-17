@@ -252,6 +252,16 @@ export class PfmsComponent implements OnInit, OnDestroy {
           PFMSAccountNumber: '',
           ulb: this.ulbId,
           design_year: this.designYearId,
+          cert: this.formBuilder.group({
+            url: ["", Validators.required],
+            name: ["", Validators.required],
+          }),
+          otherDocs: this.formBuilder.group({
+            url: [""],
+            name: [""],
+          }),
+          isDraft: "",
+          status: "PENDING",
         });
         this.isApiInProgress = false;
         if (this.ulbData?.role !== "ULB") {
