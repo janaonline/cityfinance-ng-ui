@@ -1,6 +1,28 @@
 import { Injectable } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as FileSaver from "file-saver";
 import Swal from 'sweetalert2';
+
+
+interface Validator {
+  name: string;
+  validator: any;
+  message: string;
+}
+
+export interface FieldConfig {
+  required?: any;
+  label: string;
+  key: string;
+  formFieldType: string;
+  data?: any[];
+  value?: any;
+  validations?: Validator[];
+  showAsterisk: boolean;
+  options?: any[];
+  optionName?: string;
+  readonly: boolean;
+}
 
 @Injectable({
   providedIn: "root"
@@ -81,6 +103,55 @@ export class UtilityService {
         container: 'swal-container-on-top'  // Custom class for the container
       }
     });
+  }
+
+  public toFormGroup(questions: FieldConfig[]): FormGroup {
+    const group: any = {};
+    questions.forEach((question: FieldConfig) => {
+      const control = new FormControl(question.value || '', this.bindValidations(question.validations));
+      // Disable if readonly is true;
+      if (question.readonly) control.disable();
+
+      group[question.key] = control;
+    });
+    return new FormGroup(group);
+  }
+
+  private bindValidations(validations: any) {
+    if (validations && validations.length > 0) {
+      const validators: any = [];
+      validations.forEach((row: any) => {
+        switch (row.name) {
+          case 'required':
+            validators.push(Validators.required);
+            break;
+          case 'nullValidator':
+            validators.push(Validators.nullValidator);
+            break;
+          case 'pattern':
+            validators.push(Validators.pattern(row.validator));
+            break;
+          case 'min':
+            validators.push(Validators.min(row.validator));
+            break;
+          case 'max':
+            validators.push(Validators.max(row.validator));
+            break;
+          case 'minlength':
+            validators.push(Validators.minLength(row.validator));
+            break;
+          case 'maxlength':
+            validators.push(Validators.maxLength(row.validator));
+            break;
+          case 'email':
+            validators.push(Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'));
+            break;
+        }
+      });
+
+      return Validators.compose(validators);
+    }
+    return null;
   }
 
 }
