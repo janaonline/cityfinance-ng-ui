@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { from, Observable, of, Subject } from "rxjs";
@@ -15,6 +15,7 @@ interface NamedEntity {
   selector: "app-filter-component",
   templateUrl: "./filter-component.component.html",
   styleUrls: ["./filter-component.component.scss"],
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class FilterComponentComponent implements OnInit, OnDestroy {
 

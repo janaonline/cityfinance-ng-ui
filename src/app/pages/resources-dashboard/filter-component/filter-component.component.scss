@@ -2,24 +2,24 @@
   font-family: "Archivo";
 }
 
-::ng-deep .mat-form-field-flex {
+::ng-deep .custom-form-style .mat-form-field-flex {
   border: none !important;
 }
 
-::ng-deep .mat-form-field-wrapper {
+::ng-deep .custom-form-style .mat-form-field-wrapper {
   padding: 0 !important;
 }
 
-::ng-deep .mat-form-field-flex {
+::ng-deep .custom-form-style .mat-form-field-flex {
   height: 3rem !important;
 }
 
-::ng-deep .mat-form-field-infix {
+::ng-deep .custom-form-style .mat-form-field-infix {
   margin-top: 5px !important;
 }
 
-::ng-deep .mat-form-field-label-wrapper {
-  top: -10px !important;
+::ng-deep .custom-form-style .mat-form-field-label-wrapper {
+  top: -8px !important;
 }
 
 mat-select {
