@@ -6,13 +6,14 @@ import { catchError, filter } from 'rxjs/operators';
 
 import { Login_Logout } from '../util/logout.util';
 import { SweetAlert } from "sweetalert/typings/core";
+import { AuthService } from '../auth/auth.service';
 
 const swal: SweetAlert = require("sweetalert");
 @Injectable()
 export class CustomHttpInterceptor implements HttpInterceptor {
   routerNavigationSuccess = new Subject<any>();
 
-  constructor(private router: Router, private _router: Router) {
+  constructor(private router: Router, private _router: Router, private authService: AuthService) {
     this.initializeRequestCancelProccess();
   }
 
@@ -103,7 +104,8 @@ export class CustomHttpInterceptor implements HttpInterceptor {
   };
 
   private clearLocalStorage() {
-    localStorage.clear();
+    // localStorage.clear();
+    this.authService.clearLocalStorage();
     Login_Logout.logout();
   }
 }
