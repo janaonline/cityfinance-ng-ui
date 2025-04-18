@@ -161,7 +161,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.dataSubscription?.unsubscribe();
       let formData;
       let after22_23 = false;
-      if(this.designYear == this.years["2023-24"] || this.designYear == this.years["2024-25"]){
+      if (["606aafc14dff55e6c075d3ec", "606aafcf4dff55e6c075d424", "606aafda4dff55e6c075d48f", "67d7d136d3d038946a5239e9"].includes(this.designYear)) {
         after22_23 = true;
         formData = this.dropdownData?.find(({ formId }) => {
           return formId == this.formId;

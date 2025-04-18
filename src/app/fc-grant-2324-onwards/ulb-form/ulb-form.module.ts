@@ -13,7 +13,7 @@ import { TwentyEightSlbComponent } from './twenty-eight-slb/twenty-eight-slb.com
 import { TwentyEightSlbPreviewComponent } from './twenty-eight-slb/twenty-eight-slb-preview/twenty-eight-slb-preview.component';
 import { OverviewComponent } from './overview/overview.component';
 import { ResourceComponent } from './resource/resource.component';
-import { PropertyTaxComponent } from './property-tax/property-tax.component';
+import { ErrorDialog, PropertyTaxComponent } from './property-tax/property-tax.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -32,6 +32,9 @@ import { FormErrorPipe } from './property-tax/form-error.pipe';
 import { VideoGallaryComponent } from './video-gallary/video-gallary.component';
 import { GlobalPartModule } from 'src/app/global-part/global-part.module';
 import { NoUpDownDirective } from './property-tax/no-up-down.directive';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FeedbackFormComponent } from './feedback-form/feedback-form.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 
@@ -47,7 +50,8 @@ import { NoUpDownDirective } from './property-tax/no-up-down.directive';
     OverviewComponent, 
     ResourceComponent, 
     NoUpDownDirective,
-    PropertyTaxComponent, LoaderComponent, PreviewComponent, PfmsComponent, FourSlbComponent, DecimalLimitDirective, YearComparisionPipe, AllowedFileTypesPipe, FormErrorPipe, VideoGallaryComponent
+    ErrorDialog,
+    PropertyTaxComponent, LoaderComponent, PreviewComponent, PfmsComponent, FourSlbComponent, DecimalLimitDirective, YearComparisionPipe, AllowedFileTypesPipe, FormErrorPipe, VideoGallaryComponent, FeedbackFormComponent
   ],
   imports: [
     CommonModule,
@@ -61,7 +65,10 @@ import { NoUpDownDirective } from './property-tax/no-up-down.directive';
     MatTooltipModule,
     MatIconModule,
     ReactiveFormsModule,
-    GlobalPartModule
+    GlobalPartModule,
+    MatDialogModule,
+    MatDialogModule,
+    MatProgressSpinnerModule 
   ]
 })
 export class UlbFormModule { }

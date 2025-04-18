@@ -18,6 +18,8 @@ import { HttpEventType } from "@angular/common/http";
 import { SweetAlert } from "sweetalert/typings/core";
 import { staticFileKeys } from "src/app/util/staticFileConstant";
 import { ActivatedRoute } from "@angular/router";
+import { UtilityService } from "src/app/shared/services/utility.service";
+import { environment } from "src/environments/environment";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -35,6 +37,7 @@ export class CfAnnualAccountComponent
     public route: ActivatedRoute,
     public commonServicesCf: CommonServicesService,
     protected dataEntryService: DataEntryService,
+    private utilityService: UtilityService,
     
   ) {
     super(commonService, snackBar, matDialog, route, commonServicesCf, dataEntryService);
@@ -442,6 +445,12 @@ export class CfAnnualAccountComponent
       console.log(res.data);
       this.standardized_dataFile = res?.data?.url;
     })
+  }
+
+  public downloadExcel(): void {
+    const fileName = `Annual_Account_${this.selectedYear}`;
+    const url = environment.STORAGE_BASEURL + this.standardized_dataFile;
+    this.utilityService.fetchAndSaveFile(url, fileName);
   }
 
   getQueryParams() {
