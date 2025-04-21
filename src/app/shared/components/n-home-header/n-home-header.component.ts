@@ -185,17 +185,19 @@ export class NHomeHeaderComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((data) => {
-      this.globalLoaderService.showLoader();
-      this.homeHeaderService.submitDemoData(data).subscribe({
-        next: () => { 
-          this.utilityService.swalPopup("Sucess!", "We'll get back to you shortly!", "success");
-          this.globalLoaderService.stopLoader();
-        },
-        error: (error: Error) => {
-          console.error("Error in updating request demo data: ", error)
-          this.utilityService.swalPopup("Error!", "Failed to submit data!", "error");
-        },
-      });
+      if (data){
+        this.globalLoaderService.showLoader();
+        this.homeHeaderService.submitDemoData(data).subscribe({
+          next: () => { 
+            this.utilityService.swalPopup("Sucess!", "We'll get back to you shortly!", "success");
+            this.globalLoaderService.stopLoader();
+          },
+          error: (error: Error) => {
+            console.error("Error in updating request demo data: ", error)
+            this.utilityService.swalPopup("Error!", "Failed to submit data!", "error");
+          },
+        });
+      }
     });
   }
 
