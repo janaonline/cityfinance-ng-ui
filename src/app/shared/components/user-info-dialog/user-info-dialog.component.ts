@@ -1,8 +1,8 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { UtilityService } from '../../services/utility.service';
-import { DownloadUserInfoService } from './download-user-info.service';
+import { Component, Inject, OnInit } from "@angular/core";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { UtilityService } from "../../services/utility.service";
+import { DownloadUserInfoService } from "./download-user-info.service";
 
 interface Validator {
   name: string;
@@ -34,6 +34,8 @@ export class UserInfoDialogComponent implements OnInit {
     private utilityService: UtilityService
   ) { }
 
+  title: string = "Download";
+  desc: string = "Please enter your information below to download the file(s).";
   isLoading: boolean = false;
   fields: FieldConfig[] = [];
   userInfo: FormGroup = new FormGroup({});
@@ -44,18 +46,32 @@ export class UserInfoDialogComponent implements OnInit {
 
   private getFields(): void {
     this.isLoading = true;
-    this.downloadUserService.getUserInfoQuestions().subscribe((res: any) => {
-      this.fields = res.data;
-      this.userInfo = this.toFormGroup(this.fields);
-      this.isLoading = false;
-    });
+    this.downloadUserService
+      .getUserInfoQuestions(this.matDialogData?.moduleInfo?.endPoint)
+      .subscribe((res: any) => {
+        this.fields = res.data.data;
+        this.title = res.data.title || this.title;
+        this.desc = res.data.desc || this.desc;
+        this.userInfo = this.toFormGroup(this.fields);
+        this.isLoading = false;
+      });
   }
 
   public submitUserInfo(): void {
 
     if (this.userInfo.valid) {
-      localStorage.setItem('userInfo', JSON.stringify(this.userInfo.value));
-      const payload = { ...this.userInfo.value, ...this.matDialogData.downloadInfo };
+      let payload = { ...this.userInfo.value };
+
+      // If saveToLocalStorage is true then store data in localStorage.
+      if (this.matDialogData?.moduleInfo?.saveToLocalStorage) {
+        localStorage.setItem("userInfo", JSON.stringify(this.userInfo.value));
+
+        payload = {
+          ...this.userInfo.value,
+          ...this.matDialogData.downloadInfo,
+        };
+      }
+
       this.dialogRef.close(payload);
     } else {
       this.utilityService.swalPopup('Validation Failed!', 'Failed to download file!', 'error');
