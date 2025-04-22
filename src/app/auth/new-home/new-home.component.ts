@@ -174,6 +174,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
   exploreCardData = [
     {
       title: '',
+      id: 'financial-performance',
       label: 'Financial Performance Of Cities',
       text: 'Analyze and compare the financial performance of cities',
       icon: '../../../assets/new_dashBord_ftr_hdr/perf.svg',
@@ -182,6 +183,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     },
     {
       title: '',
+      id: 'improve-own-revenue',
       label: 'Improve Own Revenue',
       text: 'Explore own revenue sources of municipalities and identify revenue improvement strategies',
       icon: '../../../assets/new_dashBord_ftr_hdr/revenu.svg',
@@ -191,6 +193,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
 
     {
       title: '',
+      id: 'resources',
       label: 'Resources',
       text: 'Get access to a rich repository of resources to build your knowledge, and implement municipal finance reforms',
       icon: '../../../assets/new_dashBord_ftr_hdr/resoures/Group 15547.png',
@@ -199,6 +202,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     },
     {
       title: '',
+      id: 'service-level-benchmarks',
       label: 'Service Level Benchmarks',
       text: 'Track your city’s performance across five themes and 28 key indicators.',
       icon: '../../../assets/new_dashBord_ftr_hdr/slb/Group 15493.png',
@@ -207,6 +211,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     },
     {
       title: '',
+      id: 'XV-finance-commission-grants',
       label: 'XV Finance Commission Grants',
       text: 'Apply, review, recommend and track XV finance commission grants',
       icon: '../../../assets/new_dashBord_ftr_hdr/15fc.svg',
@@ -215,6 +220,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     },
     {
       title: '',
+      id: 'upload-annual-accounts',
       label: 'Upload Annual Accounts',
       text: 'Upload Annual Account Forms',
       icon: '../../../assets/new_dashBord_ftr_hdr/raisemny.svg',
