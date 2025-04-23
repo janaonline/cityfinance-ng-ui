@@ -207,3 +207,21 @@ padding: .5rem 1rem;
     position: relative;
     top: 4px;
 }
+
+.demo-btn {
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+    border-radius: 0.5rem;
+    border: 2px solid #E67E15;
+    color: #E67E15;
+    background: white;
+    font-weight: bold;
+    margin: 5px;
+    transition: background-color 0.4s ease, color 0.3s ease;
+}
+
+
+.demo-btn:hover {
+    color: white;
+    background-color: #E67E15;
+}

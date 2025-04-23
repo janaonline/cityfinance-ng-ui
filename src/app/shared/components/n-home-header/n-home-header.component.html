@@ -132,7 +132,7 @@
                           (canViewUserList || canViewULBSingUpListing)">Users</a>
                     </li>
                     <li *ngIf="!isLoggedIn" class="nav-item">
-                        <a class="nav-link" routerLinkActive="active" (click)="showRequestDemoPopup()">Request Demo</a>
+                        <button class='demo-btn' (click)="showRequestDemoPopup()">Request a Demo</button>
                     </li>
                     <!-- <li class="nav-item me-2 ms-2" *ngIf="isLoggedIn == false">
                       <button type="button" class="btn btn-login fw-bold" (click)="loginLogout('ranking')">Login for Rankings 2022</button>
@@ -262,7 +262,7 @@
                               ">Users</a>
                         </li>
                         <li *ngIf="!isLoggedIn" class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" (click)="showRequestDemoPopup()">Request Demo</a>
+                            <a class="nav-link" routerLinkActive="active" (click)="showRequestDemoPopup()">Request a Demo</a>
                         </li>
                     </ul>
                     <div class="row align-items-center fixed-bottom mx-3 mb-5">
