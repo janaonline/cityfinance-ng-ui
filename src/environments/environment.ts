@@ -16,8 +16,8 @@ if (window.location.hostname.includes("new-cityfinance")) {
   ///url = "http://localhost:8080/api/v1/";
   GoogleTagID = "G-MDPDTZFW0N";
 } else if (window.location.hostname.includes("staging")) {
-  url = "https://staging.cityfinance.in/api/v1/";
-  GoogleTagID = "G-MDPDTZFW0N";
+  url = "https://staging.cityfinance.in/api/v1/";  
+  GoogleTagID = "G-803HPPLFMM";
 } else if (
   window.location.hostname.includes("demo") ||
   window.location.hostname.includes("localhost")
