@@ -176,7 +176,7 @@ export class AccordionToTableComponent implements OnInit {
 
     return Promise.all(prmsArr).then((value) => {
       console.log("value", value);
-      // this.getFormValue();
+      this.getFormValue();
     });
   }
 
@@ -305,7 +305,7 @@ export class AccordionToTableComponent implements OnInit {
     this.bondIssuerItemData = datas.data;
     if(this.cityId){ this.bondIssuerItemData = datas.data.filter((e:any) => e.ulbId === this.cityId); }
 
-    if (this.state) {
+    if (this.queryParams['stateId']) {
       this.filterdData = this.bondIssuerItemData.filter(
         (elem: any) => elem.state == this.stateId
       );
@@ -423,7 +423,7 @@ export class AccordionToTableComponent implements OnInit {
     this.tableDataSource = rawData.map((val) => {
       let temp = {
         municipality: val.ulb == "" ? "NA" : val.ulb,
-        ulbType:
+        ulbType: this.ulbNameMapping==undefined ? "N/A" :
           this.ulbNameMapping[val.ulb]?.type == ""
             ? "NA"
             : this.ulbNameMapping.hasOwnProperty(val.ulb)
@@ -439,7 +439,7 @@ export class AccordionToTableComponent implements OnInit {
     });
     // this.StatesJS
     this.tableDataSource = this.tableDataSource.sort(
-      (a: any, b: any) => a.year - b.year
+      (a: any, b: any) => b.year - a.year
     );
     this.totalDataSource = this.tableDataSource;
     console.log(this.tableDataSource, "tableDataSource");
@@ -465,11 +465,13 @@ export class AccordionToTableComponent implements OnInit {
       let ulbList = this.allUlbList[stateCode?.properties?.ST_CODE];
       console.log("ulbList", ulbList.ulbs);
       this.stateUlbList = ulbList?.ulbs;
+      if(this.originalULBList && this.originalULBList.length>0){
       this.stateUlbList = this.originalULBList.filter((el) => {
-        return this.stateUlbList.some((f) => {
+        return ulbList.ulbs.filter((f) => {
           return f.name === el.name;
         });
       });
+    }
     } else {
       this.stateUlbList = [];
     }
