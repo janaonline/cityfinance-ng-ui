@@ -93,7 +93,7 @@ export class ReportsPublicationComponent implements OnInit {
   filterData(e){
     console.log('reports publications', e.value, this.stateIdsMap[e.value?.state])
     this.pdfInput.state = e.value?.state;
-    this.pdfInput.ulb = e.value.ulbId;
+    this.pdfInput.ulb = e.value?.ulb?._id || '';
     this.pdfInput.year = e.value.year
     this.getCardData()
     

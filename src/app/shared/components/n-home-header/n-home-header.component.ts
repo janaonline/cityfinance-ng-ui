@@ -142,7 +142,8 @@ export class NHomeHeaderComponent implements OnInit {
     }else if(type == 'logout'){
       this.authService.loginLogoutCheck.next(false);
       // this.newCommonService.setFormStatus2223.next(false);
-      localStorage.clear();
+      // localStorage.clear();
+      this.authService.clearLocalStorage();
       this.removeSessionItem();
       this.isLoggedIn = false;
       this._router.navigateByUrl("rankings/home");

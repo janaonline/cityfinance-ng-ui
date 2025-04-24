@@ -1,96 +1,99 @@
-<div class="row">
-  <div class="col-sm-12 f-h">
-    <div class="card-body">
-      <form [formGroup]="filterForm">
-        <div class="row">
-          <div class="col-lg-12 col-sm-12 col-12 text-center text-md-left">
-            <h5>
-              <a (click)="filterModel()" class="fil-btn fw-bold" style="text-decoration: none">
-                <span>
-                  <img src="../../../../assets/new_dashBord_ftr_hdr/filter.svg" alt="" />
-                </span>
-                <span> Filter by </span>
-              </a>
-            </h5>
-          </div>
-        </div>
-        <div class="row mt-4 responsiveFilterClass">
-          <div class="col-lg-12 col-sm-12 col-md-12 fl-form">
-            <div class="row">
+<div class="p-3 border border-1 border-secondary-subtle bg-light rounded">
+  <h5 class="text-center fw-bold mb-4">Filter By:</h5>
+  <form [formGroup]="filterForm" class="row justify-content-evenly gap-2 mx-2 custom-form-style">
+    <mat-form-field class="col p-0" appearance="outline">
+      <mat-label>State Name</mat-label>
+      <mat-select formControlName="state" (keyup.enter)="onFilterChange()">
+        <mat-option value="''">All States</mat-option>
+        <mat-option
+          (click)="onFilterChange()"
+          *ngFor="let state of statesList"
+          [value]="state._id"
+        >
+          {{ state.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-              <div class="col">
-                <angular2-multiselect class="" (onSelect)="onStateChange($event)"
-                  (onDeSelectAll)="onStateChange({_id: ''})" [data]="stateList" [formControl]="state"
-                  [settings]="dropdownSettings">
-                </angular2-multiselect>
-              </div>
+    <mat-form-field class="col p-0" appearance="outline">
+      <mat-label>ULB Name</mat-label>
+      <input
+        class="fw-bold"
+        type="text"
+        placeholder="Search a ULB"
+        aria-label="ulb name"
+        matInput
+        formControlName="ulb"
+        [matAutocomplete]="auto"
+        (keyup.enter)="onFilterChange()"
+      />
+      <mat-autocomplete
+        autoActiveFirstOption
+        #auto="matAutocomplete"
+        [displayWith]="displayUlbName"
+      >
+        <mat-option
+          (click)="onFilterChange()"
+          *ngFor="let ulb of filteredUlbs"
+          [value]="ulb"
+        >
+          {{ ulb.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
 
-              <div class="col">
-                <input type="text" class="p-2 bg-white fw-bold text-start border border-1 rounded border-secondary-subtle bg-white" placeholder="Search for ULB" matInput formControlName="ulb"
-                  [matAutocomplete]="auto">
-                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                  <a (click)="filterData('ulb', option)" *ngFor="let option of filteredOptions; let i = index"
-                    style="text-decoration: none">
-                    <mat-option [value]="option?.name">
-                      <span style="font-size: medium"> {{ option?.name }}</span>
-                    </mat-option>
-                  </a>
-                </mat-autocomplete>
-              </div>
+    <mat-form-field
+      *ngIf="filterInputData?.comp == 'dataSets'"
+      class="col p-0"
+      appearance="outline"
+    >
+      <mat-label>File Type</mat-label>
+      <mat-select
+        formControlName="contentType"
+        (keyup.enter)="onFilterChange()"
+      >
+        <mat-option
+          (click)="onFilterChange()"
+          *ngFor="let type of contentType"
+          [value]="type"
+        >
+          {{ type }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-              <div class="col" *ngIf="filterInputData?.comp == 'dataSets'">
-                <select name="selectedType" [(ngModel)]="selectedType" (change)="onChangeType($event)"
-                  formControlName="contentType" class="default-style">
-                  <option value="" disabled>File Type</option>
-                  <option *ngFor="let item of cType" [value]="item">
-                    {{ item }}
-                  </option>
-                </select>
-              </div>
+    <mat-form-field class="col p-0" appearance="outline">
+      <mat-label>Financial Year</mat-label>
+      <mat-select formControlName="year" (keyup.enter)="onFilterChange()">
+        <mat-option
+          (click)="onFilterChange()"
+          *ngFor="let year of yearsList"
+          [value]="year"
+        >
+          {{ year ? year : "All Years" }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-              <div class="col" *ngIf="
-                filterInputData?.comp == 'bestPractices' ||
-                filterInputData?.comp == 'dataSets' ||
-                filterInputData?.comp == 'report-publications'
-              ">
-                <select name="selectedValue" [(ngModel)]="selectedValue" (change)="onChange($event)"
-                  class="default-style" formControlName="year">
+    <button
+      (click)="clearFilter()"
+      type="button"
+      class="col custom-button"
+      title="Clear selection(s)"
+    >
+      <span class="d-none d-lg-inline me-1">Clear All</span>
+      <mat-icon>highlight_off</mat-icon>
+    </button>
 
-                  <option value="" disabled>Financial Year</option>
-                  <option *ngFor="let item of yearList" [value]="item"> {{ item }} </option>
-                  <!-- <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option> -->
-                </select>
-              </div>
-
-              <div class="col" [ngClass]="{
-                              'col-lg-5 col-md-5 col-sm-5':
-                                filterInputData?.comp == 'bestPractices'
-                            }">
-                <button (click)="clearAll()" type="button" class="button-custom default-style"
-                  title="Clear selection(s)">
-                  <span class="me-1 d-none d-lg-inline">Clear All</span>
-                  <!-- <i class="bi bi-x-circle fs  -6"></i> -->
-                  <mat-icon>highlight_off</mat-icon>
-                  <!-- <span> Clear All </span>
-                  <span style="padding-left: 6px; width: 12px">
-                    <img src="../../../../assets/new_dashBord_ftr_hdr/cancel.svg" alt="" />
-                  </span> -->
-                </button>
-              </div>
-
-              <div class="col" *ngIf="downloadValue">
-                <button (click)="initiateDownload()" type="button" class="button-custom default-style"
-                  title="Download reports">
-                  <span class="me-1 d-none d-lg-inline">Download</span>
-                  <!-- <i class="bi bi-download fs-6"></i> -->
-                  <span><mat-icon>save_alt</mat-icon></span>
-                </button>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
+    <button
+      *ngIf="downloadValue"
+      (click)="initiateDownload()"
+      type="button"
+      class="col custom-button"
+      title="Download reports"
+    >
+      <span class="d-none d-lg-inline me-1">Download</span>
+      <span><mat-icon>save_alt</mat-icon></span>
+    </button>
+  </form>
 </div>
