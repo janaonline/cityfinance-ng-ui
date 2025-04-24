@@ -10,3 +10,8 @@ mat-form-field {
 ::ng-deep .mat-form-field-flex {
   border: none !important;
 }
+
+mat-dialog-content {
+  max-height: 60vh;
+  overflow: auto;
+}
