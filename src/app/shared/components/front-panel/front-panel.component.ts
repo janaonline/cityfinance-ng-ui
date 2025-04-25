@@ -167,7 +167,7 @@ export class FrontPanelComponent implements OnInit, OnChanges {
         });
         const url = window.URL.createObjectURL(blob);
 
-        fileSaver.saveAs(blob, "dataAvaliable.xlsx");
+        fileSaver.saveAs(blob, "dataAvailable.xlsx");
       },
       (error) => {
         this._loaderService.stopLoader();
