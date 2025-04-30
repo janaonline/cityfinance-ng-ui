@@ -41,9 +41,14 @@ export class CommonPreviewTemplateComponent implements OnInit, OnChanges {
     display: none;
   }
   .header-p {
-    background-color: #047474;
+    background-color:#047474;
     height: 75px;
     text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    
   }
   .heading-p {
    color: #FFFFFF;
@@ -55,17 +60,25 @@ export class CommonPreviewTemplateComponent implements OnInit, OnChanges {
   .sub-h {
     font-weight: 700 !important;
     font-size: 14px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column; 
 }
 
 .form-h {
   font-size: 18px;
   font-weight: 700;
-  text-align: center;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
   }
 
   .card {
     padding: 5px 10px;
     background-color: #EBF5F5;
+    width: 200%;
   }
   .d-qus {
     display: inline-block;
@@ -87,6 +100,7 @@ export class CommonPreviewTemplateComponent implements OnInit, OnChanges {
   .mrTh {
     margin-top: 1.25rem;
   }
+  // under review by mouha
   .form-status {
     font-size: 10px !important;
     font-weight: 500 !important;
