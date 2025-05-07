@@ -1104,7 +1104,7 @@
                                 [accept]="question?.acceptableType" (change)="docsInputChangeHandler($event, question)"
                                 style="background-color: white !important; border-bottom: 0 !important">
                             <label class=" pointer-hand" for="customFile"
-                                [ngClass]="{'invalid-border': question.errorMessage}">Choose file</label>
+                                [ngClass]="{'invalid-border': question.errorMessage}">Choose file{{question.shortKey}}</label>
                         </div>
                         <div class="row" *ngIf="question?.selectedValue?.length">
                             <ng-container *ngFor="let file of question?.selectedValue">

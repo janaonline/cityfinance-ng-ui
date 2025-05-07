@@ -341,6 +341,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
               let selQues =    questionData.question.filter((que)=> que.shortKey =='grantPosition___fileUploadDuringYrWithZeroReason')
                   childQuestion.acceptableType = selQues[0].acceptableType;
                   childQuestion.acceptableFileType = selQues[0].acceptableType;
+                  childQuestion.type='11'
             }
             if(childQuestion.shortKey=='grantPosition___receivedDuringYr'){
               this.detectQUestionWithZeroValue = parseInt(childQuestion.value)==0 ? true:false
