@@ -1078,6 +1078,7 @@
 
             <!-- [ngClass]="{'col-sm-12': ( question.width == '100' || isOpenChevron ), 'col-sm-6': (question.width == '50' && !isOpenChevron ) || ( question.width == '25' && isOpenChevron ) , 'col-sm-3': ( question.width == '25' && !isOpenChevron ), 'custom-col-sm-2': ( question.width == '20' && !isOpenChevron ) }" -->
             <div class="common-font-family col-12" *ngSwitchCase="QUESTION_TYPE.FILE_UPLOAD">
+            <ng-container *ngIf="detectQUestionWithZeroValue || question.shortKey!='grantPosition___fileUploadDuringYrWithZeroReason'">
                 <div class="common-font-family d-flex align-items-baseline">
                     <div class="d-flex justify-content-between label-wrapper  my-2 py-1 ps-3 rounded w-75"
                         style="font-size: 90%; color: #6c757d;" *ngIf="!tablular">
@@ -1129,6 +1130,7 @@
                         </div>
                     </div>
                 </div>
+            </ng-container>
             </div>
 
             <!-- [ngClass]="{'col-sm-12': ( question.width == '100' || isOpenChevron ), 'col-sm-6': (question.width == '50' && !isOpenChevron ) || ( question.width == '25' && isOpenChevron ) , 'col-sm-3': ( question.width == '25' && !isOpenChevron ), 'invalid-border-class': ( question.errorMessage ), 'custom-col-sm-2': ( question.width == '20' && !isOpenChevron ) }" -->
