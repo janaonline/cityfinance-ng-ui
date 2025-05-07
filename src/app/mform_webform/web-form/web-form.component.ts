@@ -329,6 +329,10 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
       }));
 
       this.questionData = setInitialQuestions(questionData.question);
+        let selQues =    questionData.question.filter((que)=> que.shortKey =='grantPosition___fileUploadDuringYrWithZeroReason')
+           if(selQues.length>0){
+            this.questionData.push(selQues[0]);
+           }
 
       this.questionData?.forEach(parentQuestion => {
         if (parentQuestion?.shortKey == 'linkPFMS' || parentQuestion?.shortKey == 'isUlbLinkedWithPFMS') {
@@ -338,6 +342,11 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
         }
         parentQuestion?.childQuestionData?.forEach(childQuestions => {
           childQuestions?.forEach(childQuestion => {
+            if(childQuestion.shortKey=='grantPosition___fileUploadDuringYrWithZeroReason'){
+              let selQues =    questionData.question.filter((que)=> que.shortKey =='grantPosition___fileUploadDuringYrWithZeroReason')
+                  childQuestion.acceptableType = selQues[0].acceptableType;
+                  childQuestion.acceptableFileType = selQues[0].acceptableType;
+            }
             if(childQuestion.shortKey=='grantPosition___receivedDuringYr'){
               this.detectQUestionWithZeroValue = parseInt(childQuestion.value)==0 ? true:false
             }
@@ -1533,6 +1542,9 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
             );
 
             let updatableQuestion;
+             if(question.shortKey =='grantPosition___fileUploadDuringYrWithZeroReason'){
+               this.questionData.splice(8,1);
+             }
 
             this.questionData.forEach(parentQuestion => {
               if (parentQuestion.order == question.order) {
@@ -1541,6 +1553,13 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
                 parentQuestion?.childQuestionData?.forEach(childQuestions => {
                   childQuestions?.forEach(childQuestion => {
                     if (childQuestion.order == question.order) {
+                        if(childQuestion.shortKey =='grantPosition___fileUploadDuringYrWithZeroReason'){
+                          childQuestion['selectedValue'] = prepareImageObject;
+                          childQuestion['imgUrl'] = path;
+                          childQuestion['modelValue'] = path;
+                          childQuestion['value'] = questionValue;
+                          childQuestion['imgLabel'] = imgObject[0].label;
+                        }
                       updatableQuestion = childQuestion;
                     }
                   })
@@ -2194,21 +2213,25 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
     /* Finding the index of the question in the questionData array. */
     // let questionIndex = this.questionData.findIndex((ele: any) => ele?.order == questionorder);
     let updatableQuestion;
-
-    this.questionData.forEach(parentQuestion => {
-      if (parentQuestion.order == questionorder) {
-        updatableQuestion = parentQuestion;
-      } else {
-        parentQuestion?.childQuestionData?.forEach(childQuestions => {
-          childQuestions?.forEach(childQuestion => {
-            if (childQuestion.order == questionorder) {
-              updatableQuestion = childQuestion;
-            }
+      if(currentQuestion.shortKey =='grantPosition___fileUploadDuringYrWithZeroReason'){
+        updatableQuestion = currentQuestion;
+      }else{
+      this.questionData.forEach(parentQuestion => {
+        if (parentQuestion.order == questionorder) {
+          updatableQuestion = parentQuestion;
+        } else {
+          parentQuestion?.childQuestionData?.forEach(childQuestions => {
+            childQuestions?.forEach(childQuestion => {
+              if (childQuestion.order == questionorder) {
+                updatableQuestion = childQuestion;
+              }
+            })
           })
-        })
-      }
-      if (updatableQuestion) return;
-    })
+
+        }
+        if (updatableQuestion) return;
+      })
+    }
 
     updatableQuestion['modelValue'] = '';
     updatableQuestion['value'] = '';
