@@ -1081,7 +1081,7 @@
             <ng-container *ngIf="detectQUestionWithZeroValue || question.shortKey!='grantPosition.fileUploadDuringYrWithZeroReason'">
                 <div class="common-font-family d-flex align-items-baseline">
                     <div class="d-flex justify-content-between label-wrapper  my-2 py-1 ps-3 rounded w-75"
-                        style="font-size: 90%; color: #6c757d;" *ngIf="!tablular">
+                        [ngStyle]="question.shortKey!='grantPosition.fileUploadDuringYrWithZeroReason' && {'font-size': '90%'} && {'color': '#6c757d'}" *ngIf="!tablular">
                         <div class="{{question?.shortKey }}">
                             {{question.title}}
                             <span *ngIf="question.required" class="text-primary">*</span>
