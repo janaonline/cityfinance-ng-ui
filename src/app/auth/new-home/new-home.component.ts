@@ -232,7 +232,36 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
   ]
   noDataFound = false;
   recentSearchArray = [
-
+    {
+      "isActive": true,
+      "type": "ulb",
+      "__v": 0,
+      "count": 1,
+      "createdAt": "2022-06-18T01:43:12.527Z",
+      "modifiedAt": "2022-06-18T01:43:12.527Z",
+      "name": "Bruhat Bengaluru Mahanagara Palike",
+      "_id": "5f5610b3aab0f778b2d2cac0"
+  },
+  {
+      "isActive": true,
+      "type": "ulb",
+      "__v": 0,
+      "count": 1,
+      "createdAt": "2022-03-30T02:21:07.299Z",
+      "modifiedAt": "2022-03-30T02:21:07.299Z",
+      "name": "Greater Hyderabad Municipal Corporation",
+      "_id": "5eb5844f76a3b61f40ba069a"
+  },
+  {
+      "isActive": true,
+      "type": "ulb",
+      "__v": 0,
+      "count": 1,
+      "createdAt": "2021-12-23T05:30:46.475Z",
+      "modifiedAt": "2021-12-23T05:30:46.475Z",
+      "name": "Greater Mumbai Municipal Corporation",
+      "_id": "5eb5844f76a3b61f40ba0695"
+  }
   ];
   dummyData:any = [
     {
@@ -241,7 +270,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     }
   ]
   ngOnInit() {
-    this.loadRecentSearchValue();
+    // this.loadRecentSearchValue();
 
 
     const hUser = $("#countDownUser").data('value');
@@ -291,20 +320,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
 
   loadRecentSearchValue() {
     this._commonService.getRecentSearchValue().subscribe((res:any)=>{
-   //  console.log('recent search value', res);
-
-    //  for(let i=0; i<3; i++){
-    //    let obj = {
-    //      _id: res?.data[i]?._id,
-    //      name: res?.data[i]?.name,
-    //      type: 'ulb'
-    //    }
-    //    this.recentSearchArray[i] = obj ;
-
-    //  }
-    this.recentSearchArray = res?.data;
-    // console.log('ser array', this.recentSearchArray)
-
+       this.recentSearchArray = res?.data;
     },
     (error)=> {
    //   console.log('recent search error', error)
