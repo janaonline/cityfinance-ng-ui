@@ -579,7 +579,7 @@ export class CommonService {
     }
     this.userType = user;
   }
-  postGlobalSearchData(data: any, type, state) {
+  postGlobalSearchData(data: any, type='ulb', state='') {
     let dataString = {
       matchingWord: data,
     };
