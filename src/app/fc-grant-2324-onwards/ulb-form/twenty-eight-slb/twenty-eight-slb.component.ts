@@ -286,7 +286,7 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
       design_year: this.selectedYearId,
       status: isDraft ? 2 : 3,
       actualYear: this.actualYear,
-      targetYear: this.selectedYearId,
+      targetYear: this.selectedYearId == '606aafda4dff55e6c075d48f' ? '606aafcf4dff55e6c075d424' : this.selectedYearId,
       ulb: this.ulbId,
       formId: this.formId,
       data: finalData,

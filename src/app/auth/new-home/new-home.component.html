@@ -10,8 +10,8 @@
           <div class="ds-i-div">
             <span class="ds-info">Standardised, timely and credible financial information for
 
-              <span class="cities-count" [countUp]="dataForVisualization?.coveredUlbCount ? dataForVisualization?.coveredUlbCount : 3000" [options]="{startVal: 3000, duration: 5}">0
-              </span>+ cities of India </span>
+              <span class="cities-count" [countUp]="dataForVisualization?.coveredUlbCount ? dataForVisualization?.coveredUlbCount : 3000" [options]="{startVal: 3000, duration: .5}">
+              </span> cities of India </span>
           </div>
           <div class="g-filter-d">
             <form class="filter-form w-100">
@@ -46,18 +46,6 @@
               </button>
             </form>
           </div>
-          <div class="row mt-4">
-            <div class="col-lg-auto col-sm-12">
-              <span class="rec-text">Recent Searches:</span>
-            </div>
-            <div class="col">
-              <div class="ser-chip" *ngFor="let item of recentSearchArray">
-                <a style="text-decoration: none" (click)="dashboardNav(item)" class="centerSearchedValues">
-                  <span class="rec-text">{{ item?.name }}</span>
-                </a>
-              </div>
-            </div>
-          </div>
         </div>
 
         <!-- Commnted and given display: none for don't show ministers images -->
@@ -75,6 +63,18 @@
                 </div>
               </slide>
             </carousel>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4 text-center">
+          <span class="rec-text">Suggested Searches:</span>
+        </div>
+      <div class="row mt-2 text-center">
+        <div class="col">
+          <div class="ser-chip" *ngFor="let item of recentSearchArray">
+            <a style="text-decoration: none" (click)="dashboardNav(item)" class="centerSearchedValues">
+              <span class="rec-text">{{ item?.name }}</span>
+            </a>
           </div>
         </div>
       </div>
