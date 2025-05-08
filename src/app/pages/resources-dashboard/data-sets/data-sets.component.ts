@@ -33,6 +33,7 @@ export class DataSetsComponent implements OnInit {
   selectedUsersList = [];
   state: string;
   ulb: string;
+  ulbId: string;
   mobileFilterConfig: any = {
     isState: true,
     isUlb: true,
@@ -126,17 +127,19 @@ export class DataSetsComponent implements OnInit {
   }
 
   // This method will be triggered when clearEvent is emitted from the child
-  clearEvent() {
-    this.isChecked = false;
-  }
+  // clearEvent() {
+  //   this.isChecked = false;
+  // }
 
   // Function of app-filter-component.
   filterData(e: any) {
-    // console.log("filter -----> ", e);
-    this.year = e?.value?.year ?? this.year;
-    this.type = e?.value?.contentType ?? "Raw Data PDF";
+
+    this.year = e?.value?.year;
+    this.type = e?.value?.contentType;
     this.state = e?.value?.state;
-    this.ulb = e?.value?.ulb;
+    this.ulb = e?.value?.ulb?.name || '';
+    this.ulbId = e?.value?.ulb?._id || '';
+
     this.balData = [];
     this.selectedUsersList = [];
     this.skip = 0;
@@ -162,7 +165,7 @@ export class DataSetsComponent implements OnInit {
     // Load fies.
     try {
       this._resourcesDashboardService
-        .getDataSets(this.year, this.type, this.category, this.state, this.ulb, globalName, this.skip)
+        .getDataSets(this.year, this.type, this.category, this.state, this.ulb, this.ulbId, globalName, this.skip)
         .subscribe(
           (res: any) => {
             const dataLength = res.data.length;

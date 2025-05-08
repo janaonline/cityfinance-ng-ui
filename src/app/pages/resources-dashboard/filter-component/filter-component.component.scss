@@ -1,135 +1,54 @@
-.card-body {
-  background: #f7f7f7 0% 0% no-repeat padding-box;
-  border-radius: 10px;
-  opacity: 1;
-}
-
-// .form-select,
-// .form-control {
-//   font: normal normal 600 13px/14px "Archivo";
-//   letter-spacing: 0px;
-//   color: #000000;
-//   opacity: 1;
-// }
-
-.clearBtn {
-  border: 1px solid var(--unnamed-color-e67e15);
-  background: #ffffff 0% 0% no-repeat padding-box;
-  border: 1px solid #e67e15;
-  border-radius: 6px;
-  font: normal normal 600 12px/19px "Poppins";
-  letter-spacing: 0px;
-  color: #e67e15;
-  padding: 5px 10px;
-}
-
-::ng-deep .modal.show .modal-dialog {
-  margin: 0;
-  height: 100% !important;
-  max-width: 100% !important;
-  max-height: 100%;
-}
-
-::ng-deep .modal-content {
-  border-radius: 0;
-  border: none;
-}
-
-@media only screen and (min-width: 769px) {
-  .fil-btn {
-    pointer-events: none;
-  }
-
-  .f-h {
-    text-align: center !important;
-  }
-}
-
-@media only screen and (max-width: 768px) {
-  .fl-form {
-    display: none;
-  }
-
-  .responsiveFilterClass {
-    margin-top: 0px !important;
-  }
-}
-
-// .rowPdf {
-//   border-radius: 5px;
-//   border: 1px solid #ced4da;
-//   /* color: black; */
-//   width: 100%;
-//   // height: 65%;
-//   font-size: 0.9em;
-//   padding: 8px;
-//   font-weight: 600;
-// }
-
-// .rowLabel {
-//   font-size: 0.9em;
-//   margin-top: 1%;
-//   margin-right: 4%;
-// }
-
-
-// ::ng-deep .filter-component .cuppa-dropdown .selected-list {
-//   .c-btn {
-//     line-height: 1.5;
-//     font-size: 1rem;
-//     font-weight: 600;
-//     span:first-child {
-//       text-align: left;
-//       white-space: nowrap;
-//       overflow: hidden;
-//     }
-//   }
-//   border-radius: 5px;
-//   background: white;
-//   border: 1px solid #ced4da;
-// }
-
-// .input-wrapper {
-//   line-height: 1.5;
-//   font-size: 1rem;
-//   font-weight: 600
-// }
-
 * {
   font-family: "Archivo";
 }
 
-.material-icons {
-  font-family: "Material Icons";
-  vertical-align: middle !important;
+::ng-deep .custom-form-style .mat-form-field-flex {
+  border: none !important;
 }
 
-::ng-deep .selected-list {
-  border: none;
-  background-color: white
+::ng-deep .custom-form-style .mat-form-field-wrapper {
+  padding: 0 !important;
 }
 
-.default-style,
-::ng-deep .c-btn {
-  padding: 6px 14px;
-  font-size: 15px;
+::ng-deep .custom-form-style .mat-form-field-flex {
+  height: 3rem !important;
+}
+
+::ng-deep .custom-form-style .mat-form-field-infix {
+  margin-top: 5px !important;
+}
+
+::ng-deep .custom-form-style .mat-form-field-label-wrapper {
+  top: -8px !important;
+}
+
+mat-select {
   font-weight: bold;
-  font-family: "Archivo";
-  border-radius: 5px;
-  border: 1px solid gray;
-  height: 100%;
-  width: 100%;
 }
 
-.button-custom {
+mat-icon {
+  font-family: "Material Icons";
+  display: flex;
+  align-items: center;
+}
+
+.custom-button {
   border: 1px solid #e67e15;
+  border-radius: 5px;
   background-color: white;
   color: #e67e15;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
+  padding: 9px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  margin: 4px;
+  max-width: 18rem;
 }
 
-.button-custom:hover {
+.custom-button:hover {
   background-color: #e67e15;
   color: white;
 }

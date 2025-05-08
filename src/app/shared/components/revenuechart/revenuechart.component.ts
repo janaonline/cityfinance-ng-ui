@@ -1791,7 +1791,7 @@ export class RevenuechartComponent
       colour: "#25C7CE",
     };
     let other_receipt = {
-      _id: { lineItem: "Other Receipts" },
+      _id: { lineItem: "Income from Investment" },
       amount: 0,
       colour: "#00ff80",
     };

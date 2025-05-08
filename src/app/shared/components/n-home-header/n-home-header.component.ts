@@ -9,6 +9,12 @@ import { ACTIONS } from "src/app/util/access/actions";
 import { AccessChecker } from '../../../util/access/accessChecker';
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 import { environment } from "src/environments/environment";
+import { UserInfoDialogComponent } from "../user-info-dialog/user-info-dialog.component";
+import { MatDialog } from "@angular/material/dialog";
+import { HomeHeaderService } from "./home-header.service";
+import { UtilityService } from "../../services/utility.service";
+import { GlobalLoaderService } from "../../services/loaders/global-loader.service";
+
 @Component({
   selector: "app-n-home-header",
   templateUrl: "./n-home-header.component.html",
@@ -28,15 +34,20 @@ export class NHomeHeaderComponent implements OnInit {
   currentTextSize: any;
   canViewUserList = false;
   canViewULBSingUpListing = false;
-  constructor(public _router: Router, private authService: AuthService,
+  constructor(
+    public _router: Router,
+    private authService: AuthService,
     private newCommonService: NewCommonService,
-    ) {
+    private dialog: MatDialog,
+    private homeHeaderService: HomeHeaderService,
+    private utilityService: UtilityService,
+    private globalLoaderService: GlobalLoaderService,
+  ) {
     this.initializeAccessChecking();
     this._router.events.subscribe((event) => {
-
       this.isLoggedIn = this.authService.loggedIn();
       this.user = this.isLoggedIn ? this.user : null;
-      
+
       this.initializeAccessChecking();
 
       if (this.isLoggedIn) {
@@ -60,7 +71,7 @@ export class NHomeHeaderComponent implements OnInit {
 
   }
   private accessChecker = new AccessChecker();
- isProd: boolean = false;
+  isProd: boolean = false;
   ngOnInit(): void {
     this.isProd = environment?.isProduction;
     // this.authService.loginLogoutCheck.subscribe((res) => {
@@ -142,7 +153,8 @@ export class NHomeHeaderComponent implements OnInit {
     }else if(type == 'logout'){
       this.authService.loginLogoutCheck.next(false);
       // this.newCommonService.setFormStatus2223.next(false);
-      localStorage.clear();
+      // localStorage.clear();
+      this.authService.clearLocalStorage();
       this.removeSessionItem();
       this.isLoggedIn = false;
       this._router.navigateByUrl("rankings/home");
@@ -161,6 +173,36 @@ export class NHomeHeaderComponent implements OnInit {
     //   this._router.navigateByUrl("/home");
     // }
   }
+
+  public showRequestDemoPopup(): void {
+    // Frontend config flags for handling the module.
+    const moduleInfo = {
+      saveToLocalStorage: false,
+      endPoint: "request-demo/getDemoForm",
+    };
+    const downloadInfo = { module: "requestDemo" }; // Info about the file download for backend payload.
+    const dialogRef = this.dialog.open(UserInfoDialogComponent, {
+      data: { downloadInfo, moduleInfo },
+    });
+
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data){
+        this.globalLoaderService.showLoader();
+        this.homeHeaderService.submitDemoData(data).subscribe({
+          next: () => { 
+            this.utilityService.swalPopup("Sucess!", "We'll get back to you shortly!", "success");
+            this.globalLoaderService.stopLoader();
+          },
+          error: (error) => {
+            this.globalLoaderService.stopLoader();
+            console.error("Error in updating request demo data: ", error)
+            this.utilityService.swalPopup("Failed to submit data!", error?.error?.message, "error");
+          },
+        });
+      }
+    });
+  }
+
   isSticky = false;
   public screenHeight: any;
   elementPosition;
@@ -171,7 +213,7 @@ export class NHomeHeaderComponent implements OnInit {
   @HostListener('window:scroll', ['$event'])
   handleScrollTop() {
     const windowScroll = window.pageYOffset;
-   // console.log('topppppp', );
+    // console.log('topppppp', );
     if (window.pageYOffset >= this.elementPosition) {
       this.isSticky = true;
     }else{
