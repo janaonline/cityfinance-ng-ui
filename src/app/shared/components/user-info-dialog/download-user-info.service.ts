@@ -16,23 +16,25 @@ export class DownloadUserInfoService {
     public utilityService: UtilityService
   ) { }
 
-  public getUserInfoQuestions() {
-    return this.http.get(environment.api.url + 'file-download-log/userInfo');
+  public getUserInfoQuestions(endPoint: string) {
+    return this.http.get(environment.api.url + endPoint);
   }
 
   // Get user info before viewing/ downloading file (update that in db).
-  public openUserInfoDialog(fileDetails: any, module: string): Promise<boolean> {
-    const downloadInfo = { module: module, fileDownloaded: fileDetails };
+  public openUserInfoDialog(fileDetails: any, module: string): Promise<boolean> { 
+
+    const downloadInfo = { module: module, fileDownloaded: fileDetails }; // Info about the file download for backend payload.
+    const moduleInfo = { saveToLocalStorage: true, endPoint: 'file-download-log/userInfo' }; // Frontend config flags for handling the module.
     const userInfo = localStorage.getItem('userInfo');
 
     return new Promise((resolve) => {
       if (userInfo) {
-        const userData = { ...JSON.parse(userInfo), ...downloadInfo };
+        const userData = { ...JSON.parse(userInfo), ...downloadInfo};
         this.updateDownloadUserInfoToDb(userData)
           .then(() => resolve(true))
           .catch(() => resolve(false));
       } else {
-        const dialogRef = this.dialog.open(UserInfoDialogComponent, { data: { downloadInfo } });
+        const dialogRef = this.dialog.open(UserInfoDialogComponent, { data: { downloadInfo, moduleInfo } });
 
         dialogRef.afterClosed().subscribe((data) => {
           if (data) {

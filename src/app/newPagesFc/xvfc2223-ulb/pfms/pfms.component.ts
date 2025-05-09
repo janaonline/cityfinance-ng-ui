@@ -111,6 +111,7 @@ export class PfmsComponent implements OnInit, OnDestroy {
   previewData: any;
   next_router = "#";
   isDisabled: boolean = false;
+  isLinkedPMFSDisabled:boolean=true
   dataValue: any;
   uploadedFile: any;
   disableInputs: boolean = false;
@@ -245,6 +246,23 @@ export class PfmsComponent implements OnInit, OnDestroy {
       },
       (error) => {
         this.isDisabled = true;
+        this.registerForm = this.formBuilder.group({
+          linkPFMS: 'Yes',
+          isUlbLinkedWithPFMS: 'Yes',
+          PFMSAccountNumber: '',
+          ulb: this.ulbId,
+          design_year: this.designYearId,
+          cert: this.formBuilder.group({
+            url: ["", Validators.required],
+            name: ["", Validators.required],
+          }),
+          otherDocs: this.formBuilder.group({
+            url: [""],
+            name: [""],
+          }),
+          isDraft: "",
+          status: "PENDING",
+        });
         this.isApiInProgress = false;
         if (this.ulbData?.role !== "ULB") {
           this.isDisabled = false;
@@ -284,8 +302,8 @@ export class PfmsComponent implements OnInit, OnDestroy {
   patchValues() {
     console.log("this.dataValue", this.dataValue);
     this.registerForm.patchValue({
-      linkPFMS: this.dataValue?.data?.linkPFMS,
-      isUlbLinkedWithPFMS: this.dataValue?.data?.isUlbLinkedWithPFMS,
+      linkPFMS: this.dataValue?.data?.linkPFMS ? this.dataValue?.data?.linkPFMS : 'Yes',
+      isUlbLinkedWithPFMS: this.dataValue?.data?.isUlbLinkedWithPFMS ?  this.dataValue?.data?.isUlbLinkedWithPFMS:'Yes',
       PFMSAccountNumber: this.dataValue?.data?.PFMSAccountNumber,
       ulb: this.ulbId,
       design_year: this.designYearId,

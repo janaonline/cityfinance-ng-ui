@@ -45,6 +45,7 @@ import { GlobalErrorHandler } from "./global-error-handler.service";
 import { VersionCheckService } from "./version-check.service";
 import { environment } from "src/environments/environment";
 import { GlobalPartModule } from "./global-part/global-part.module";
+import { FeedbackWidgetComponent } from "./feedback-widget/feedback-widget.component";
 
 
 @NgModule({
@@ -109,6 +110,7 @@ import { GlobalPartModule } from "./global-part/global-part.module";
         UlbNotRegisteredComponent,
         NewHomeComponent,
         ProfileUpdateComponent,
+        FeedbackWidgetComponent
         // InrCurrencyPipe,
     ],
     bootstrap: [AppComponent]
