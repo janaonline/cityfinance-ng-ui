@@ -47,6 +47,7 @@ export class DurComponent implements OnInit, OnDestroy {
   financialYear: string = "";
   selectedYear: string = ""
   locationInvalid: boolean = false;
+  totalProjectInvalid :boolean = false;
 
   // bulk upload data
   ulbId: string = "";
@@ -294,6 +295,7 @@ export class DurComponent implements OnInit, OnDestroy {
 
   isFormValid(data) {
     this.locationInvalid = false;
+    this.totalProjectInvalid = false;
     const projectDetails = data?.finalData.find(item => item.shortKey == "projectDetails_tableView_addButton")?.nestedAnswer || [];
     const waterManagement = data?.finalData.find(item => item.shortKey == "waterManagement_tableView")?.nestedAnswer || [];
     const solidWasteManagement = data?.finalData.find(item => item.shortKey == "solidWasteManagement_tableView")?.nestedAnswer || [];
@@ -312,7 +314,13 @@ export class DurComponent implements OnInit, OnDestroy {
 
     for (let item of waterManagement) {
       const grantUtilised = item?.answerNestedData.find(item => item.shortKey == "wm_grantUtilised");
+      const totalNumberProject = item?.answerNestedData.find(item => item.shortKey == "wm_numberOfProjects");
       const totalProjectCost = item?.answerNestedData.find(item => item.shortKey == "wm_totalProjectCost");
+      if(grantUtilised.answer[0].value>0 && totalNumberProject.answer[0].value==0){
+        this.totalProjectInvalid = true;
+        return false;
+
+      } 
       if (grantUtilised.answer[0].value && totalProjectCost.answer[0].value &&
         (+grantUtilised.answer[0].value > +totalProjectCost.answer[0].value)
       ) {
@@ -323,7 +331,12 @@ export class DurComponent implements OnInit, OnDestroy {
 
     for (let item of solidWasteManagement) {
       const grantUtilised = item?.answerNestedData.find(item => item.shortKey == "sw_grantUtilised");
+      const totalNumberProject = item?.answerNestedData.find(item => item.shortKey == "sw_numberOfProjects");
       const totalProjectCost = item?.answerNestedData.find(item => item.shortKey == "sw_totalProjectCost");
+      if(grantUtilised.answer[0].value>0 && totalNumberProject.answer[0].value==0){
+        this.totalProjectInvalid = true;
+        return false;
+      } 
       if (grantUtilised.answer[0].value && totalProjectCost.answer[0].value &&
         (+grantUtilised.answer[0].value > +totalProjectCost.answer[0].value)
       ) {
@@ -356,7 +369,7 @@ export class DurComponent implements OnInit, OnDestroy {
       // else = confirmation popup then final submit, draft, cancel functionality.
       console.log("this.isFormValid(data)", this.isFormValid(data))
       if (!this.isFormValid(data)) {
-        let errMsg = this.locationInvalid ? "Please fill the lat/long or correct the lat/long values" : 'Please fill valid values in form';
+        let errMsg = this.locationInvalid ? "Please fill the lat/long or correct the lat/long values" : this.totalProjectInvalid ?  "Number of projects can not be 0" : 'Please fill valid values in form';
         return swal('Error', `${errMsg}`, 'error')
       } else {
         const userAction = await swal(

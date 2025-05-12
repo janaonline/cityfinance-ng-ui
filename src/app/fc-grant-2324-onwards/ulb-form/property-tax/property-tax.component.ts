@@ -684,7 +684,10 @@ export class PropertyTaxComponent implements OnInit {
 
     const B = collectIncludingCess?.find((year) => year.key == `FY${bYr}`)?.value;
     const A = collectIncludingCess?.find((year) => year.key == `FY${aYr}`)?.value;
-
+    
+    if (A == "") this.growthRatePercent = 0;
+    if (B == "") this.growthRatePercent = null;
+    
     if (["", "0"].includes(A) || B == "") {
       return {
         msg: `Property tax growth rate cannot be calculated for ${this.commonServices.getPrevYear(this.yearName)}`,

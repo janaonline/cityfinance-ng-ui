@@ -6,7 +6,7 @@ A brief description of what this project does and who it's for
 
 ## Tech Stack
 
-**Client:** Angular 11, Bootstrap 5
+**Client:** Angular 11, Bootstrap 5 
 
 **Server:** Node 12, NVM
 
