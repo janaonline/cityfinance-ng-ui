@@ -203,13 +203,43 @@ function getTitleProps(question: any, index: any) {
     width: question.width ? question.width : "50",
   };
 }
-
+let temp ={};
+let temp1 = {};
 const isRequired = (question: any) => {
+   if(question.shortKey== "grantPosition___receivedDuringYr" && question.modelValue =='0'){
+     temp['isValid'] = true;
+     temp['question']= question;
+   }
+   if(question.shortKey== "grantPosition___receivedDuringYrWithZero" && question.modelValue =='3'){
+     temp1['isValid'] =true;
+     temp1['question']= question;
+   }
+   if(question.shortKey== "grantPosition___receivedDuringYrWithZero" && temp['isValid']){
+     question.validation = [ {
+      "error_msg": "",
+      "_id": "1"
+   }]
+   temp['isValid'] = false;
+   }else{
+    if(question.shortKey== "grantPosition___receivedDuringYrWithZero" && temp['question']?.modelValue!='0')
+      question.validation = [];
+   }
+   if(question.shortKey== "grantPosition___receivedDuringYrWithZeroReason" && temp1['isValid']){
+    question.validation = [ {
+     "error_msg": "",
+     "_id": "1"
+  }]
+    temp1['isValid']= false;
+  }else{
+    if(question.shortKey== "grantPosition___receivedDuringYrWithZeroReason" && temp1['question']?.modelValue!='3')
+      question.validation = [];
+  }
   if (question.order.includes('.') && !question?.visibility) return false;
   if (question.visibility) {
     if (question.hasOwnProperty("visible")) return question.visible;
   }
-  if (question.validation) {
+
+  if ( question.validation && question.validation.length>0) {
     return Boolean(
       question.validation.find(
         (v: any) => v._id.toString() == VALIDATION.REQUIRED

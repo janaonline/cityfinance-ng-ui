@@ -84,7 +84,7 @@ const routes: Routes = [
         path: "dur-dump-pdf/:stateId",
         component: DurDumpComponent,
       },
-      {      
+      {
         path: "feedback",
         component: FeedbackFormComponent,
       }
