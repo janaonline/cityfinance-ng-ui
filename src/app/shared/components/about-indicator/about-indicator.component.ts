@@ -9,6 +9,7 @@ import {
 } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AboutService } from "./about.service";
+import { RevenuechartService } from "../revenuechart/revenuechart.service";
 
 @Component({
   selector: "app-about-indicator",
@@ -18,7 +19,8 @@ import { AboutService } from "./about.service";
 export class AboutIndicatorComponent implements OnInit, OnChanges {
   constructor(
     private _activatedRoute: ActivatedRoute,
-    private aboutService: AboutService
+    private aboutService: AboutService,
+    private revenuechartService:RevenuechartService
   ) {}
   panelOpenState = false;
   @Input()
@@ -84,9 +86,14 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
   cityId;
   lastOpenPanel;
   loading = false;
+  filterList:any=[];;
   ulbList = JSON.parse(localStorage.getItem("ulbList")).data;
   stateCode = JSON.parse(localStorage.getItem("ulbStateCodeMapping"));
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.revenuechartService.getSelectedULBList.subscribe((res:any)=>{
+      this.filterList= res;
+    })
+  }
   ulbsData = JSON.parse(localStorage.getItem("ulbMapping"));
   ngOnChanges(changes: SimpleChanges): void {
     console.log(
