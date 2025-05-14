@@ -16,6 +16,7 @@
       <div
         class="d-a mx-auto mb-3"
         [ngClass]="{ stickyClass: checkStickyValue == true }"
+        *ngIf="selectedFilterTab=='Data Availability'"
       >
         <!-- <span class="d-t"> -->
         Data Availability - {{ nationalDataAvailability }}%

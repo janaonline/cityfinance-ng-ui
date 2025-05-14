@@ -24,9 +24,9 @@ export class ResourcesDashboardService {
     this.showCard.next(val);
     return;
   }
-  getDataSets(year, type, category, state, ulb, globalName, skip: number = 0) {
+  getDataSets(year: string, type: string, category: string, state: string, ulb: string, ulbId = '', globalName = '', skip: number = 0) {
     return this.https.get(
-      `${environment.api.url}annual-accounts/datasets?year=${year}&type=${type}&category=${category}&state=${state}&ulb=${ulb}&globalName=${globalName}&skip=${skip}`
+      `${environment.api.url}annual-accounts/datasets?year=${year}&type=${type}&category=${category}&state=${state}&ulb=${ulb}&ulbId=${ulbId}&globalName=${globalName}&skip=${skip}`
     );
   }
   getSearchedData(filter) {
@@ -59,8 +59,8 @@ export class ResourcesDashboardService {
     )
   }
 
-  getYearsList() {
-    return this.https.get(`${environment.api.url}resourceDashboard/allYears`)
+  getYearsList(header = 'learning_center', distinctValue = 'publishedYear') {
+    return this.https.get(`${environment.api.url}resourceDashboard/allYears/?header=${encodeURIComponent(header)}&distinctValue=${distinctValue}`);
   }
 
   getMunicipalityBondsRepositoryCategories() {
@@ -71,5 +71,9 @@ export class ResourcesDashboardService {
   }
   getMunicipalityBondsRepositoryList(params) {
     return this.https.get(`${environment.api.url}municipalBondRepository/list`, { params });
+  }
+
+  getAnnualAccountsYear(auditType: string = 'unAudited') {
+    return this.https.get(`${environment.api.url}common/get-latest-aa-year/?auditType=${auditType}`);
   }
 }

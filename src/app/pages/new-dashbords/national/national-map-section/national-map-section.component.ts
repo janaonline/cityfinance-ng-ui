@@ -164,11 +164,12 @@ export class NationalMapSectionComponent
   national: any = { _id: "", name: "India" };
 
   ngOnInit(): void {
-    this.getNationalLevelMapData("2020-21");
+    //this.getNationalLevelMapData("2020-21");
+    this.getFinancialYearList();
     this.clearDistrictMapContainer();
     this.randomNumber = Math.round(Math.random());
-    this.getFinancialYearList();
-    this.getNationalTableData();
+    //this.getFinancialYearList();
+    //this.getNationalTableData();
     this.loadData();
     // this.subFilterFn("popCat");
     this.createNationalMapJson();
@@ -255,12 +256,14 @@ export class NationalMapSectionComponent
     this.selectedYear = event.target.value;
     this.nationalInput.financialYear = this.selectedYear;
     this.getNationalTableData();
-    // this.nationalMapService.setCurrentSelectYear({
-    //   data: event.target.value,
-    // });
+   
+    this._commonService.setSelectedFinancialYear(event.target.value)
     MapUtil.destroy(this.nationalLevelMap);
 
     this.getNationalLevelMapData(event.target.value);
+    this.nationalMapService.setCurrentSelectYear({
+      data: event.target.value,
+    });
   }
 
   convertMiniMapToOriginal(domId: string) {
@@ -299,11 +302,13 @@ export class NationalMapSectionComponent
     this.showLoader = true;
 
     this._loaderService.showLoader();
+    this.nationalInput.financialYear = this.selectedYear;
     this.nationalMapService.getNationalData(this.nationalInput).subscribe(
       (res: any) => {
         this._loaderService.stopLoader();
         this.showLoader = false;
         this.tableData = res?.data;
+        this.tableData.columns =  this.tableData.columns.filter(x=>{return x.display_name !='Urban Population Percentage'})
         this.dataAvailabilityvalue = Math.round(res?.dataAvailability);
         sessionStorage.setItem("dataAvail", res.dataAvailability);
         this.nationalMapService.setDataAvailabilityValue({
@@ -564,20 +569,28 @@ export class NationalMapSectionComponent
   getFinancialYearList() {
     this.nationalMapService.getNationalFinancialYear().subscribe((res: any) => {
       this.financialYearList = res?.data?.FYs;
+      //this.selectedYear = this.financialYearList[0];
+      this.selectedYear = "2021-22";
+      this.nationalInput.financialYear = this.selectedYear ;
+      this.getNationalTableData();
+      this.getNationalLevelMapData(this.selectedYear);
     });
   }
 
   resetFilter() {
     this.selectedYear = "2021-22";
+   //this.selectedYear  = this.financialYearList[0];
     this.onSelectingStateFromDropDown("");
     this.nationalInput = this.nationalInput;
-    this.getNationalLevelMapData(this.selectedYear);
+    MapUtil.destroy(this.nationalLevelMap);
+    this.nationalInput.financialYear = this.selectedYear;
     this.nationalMapService.setCurrentSelectYear({
-      data: this.selectedYear,
+      data: '2021-22',
     });
 
     this.subFilterFn("popCat");
-    // this.getNationalTableData();
+    this.getNationalLevelMapData(this.selectedYear);
+    this._commonService.setSelectedFinancialYear(this.selectedYear)
   }
 
   onSelectingStateFromDropDown(state: any | null) {
@@ -589,10 +602,11 @@ export class NationalMapSectionComponent
     this.AvailabilityTitle = state?.name;
     if (state) {
       this.nationalInput.stateId = state._id;
+      this.getNationalTableData();
     } else {
       this.nationalInput.stateId = "";
     }
-    this.getNationalTableData();
+   
     this.selectedStateCode = state?.code;
     this.selected_state = state ? state?.name : "India";
     if (this.selected_state === "India" && this.isMapOnMiniMapMode) {

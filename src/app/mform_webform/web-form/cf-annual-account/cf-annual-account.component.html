@@ -31,8 +31,24 @@
                     <!-- <div class="col-sm-12 mb-5 card p-3">{{formtitle}}</div> -->
                     <div class="p-3">
                         <div class="row" style="align-items: initial;">
-                            <ng-container *ngFor="let question of (( questionData | myfilter ) | tabWiseFilter : activeTab.title) ; trackBy:identity; let questionIndex = index" [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ question: question, questionIndex:questionIndex, value: [] }">
-                            </ng-container>
+                          <!-- questionresponse?.data[0]?.showOptionBox -->
+                          <ng-container
+                              *ngFor="
+                                let question of questionData
+                                  | myfilter
+                                  | tabWiseFilter : activeTab.title : [] : questionresponse?.data[0]?.showOptionBox;
+                                trackBy: identity;
+                                let questionIndex = index
+                              "
+                              [ngTemplateOutlet]="treeNode"
+                              [ngTemplateOutletContext]="{
+                                question: question,
+                                questionIndex: questionIndex,
+                                value: []
+                              }"
+                            >
+                              <!-- {{question | json}} -->
+                          </ng-container>
                         </div>
                     </div>
                 </div>
@@ -191,7 +207,7 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="" [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled ) }">
-                        <input digitOnly [decimal]="question?.skipDigitOnlyValidation" type="number" class="form-control " [appNumberLength]="question.max" placeholder="{{question.hint}}" [ngClass]="{'invalid-border': question.errorMessage}" 
+                        <input onwheel="return false;" digitOnly [decimal]="question?.skipDigitOnlyValidation" type="number" class="form-control " [appNumberLength]="question.max" placeholder="{{question.hint}}" [ngClass]="{'invalid-border': question.errorMessage}" 
                             id="{{question.order}}" [value]="question.modelValue ? question.modelValue : ''" (keyup)="onChange(question, $event)" [ngModelOptions]="{standalone: true}" (focus)="onFocusEvent(question.order)" [appRestrictFirstDigitAsZero]="true"
                             [readonly]="question?.isQuestionDisabled" [min]="question.minRange" [max]="question.maxRange" 
                             [appMinMaxRangeCheckOnPaste]="{minRange: question.minRange, maxRange: question.maxRange}" title=""/>
@@ -243,7 +259,7 @@
                     <div class="custom-file">
                       <span class="me-3" *ngIf="question?.shortKey == 'unAudited.standardized_data.excel' || question?.shortKey == 'audited.standardized_data.excel'">
                         <!-- href="https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/objects/annual_account_standardised_template.xlsx" -->
-                        <a class="btn btn-upload"  href="{{standardized_dataFile | toStorageUrl}}" target="_blank">
+                        <a class="btn btn-upload" (click)="downloadExcel()">
                           Download Template
                         </a>
                       </span>

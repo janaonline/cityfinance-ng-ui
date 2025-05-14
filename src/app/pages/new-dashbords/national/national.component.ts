@@ -39,10 +39,11 @@ export class NationalComponent implements OnInit {
   tabId: any = "61e150439ed0e8575c881028";
   component_name;
   tabIndex;
+  selectedFilterTab:any;
 
   nationalDataAvailability: Number;
   stateId: any;
-  yearValue: any = "2020-21";
+  yearValue: any = "2021-22";
   type: String = "national";
   cardInput = {
     ifPeople: false,
@@ -119,11 +120,14 @@ export class NationalComponent implements OnInit {
   ngOnInit(): void {
     this.dashboardLastUpdatedYear();
     this.getIndicatorData(this.stateId);
-    this.getCardsData();
+    //this.getCardsData();
     this.component_name = "National";
     let availData: any = sessionStorage.getItem("dataAvail");
 
     this.nationalDataAvailability = availData;
+    this.nationalMapService.currentSubTab.subscribe((res) => {
+      this.selectedFilterTab = res?.HeadTab;
+    });
     if (this.tabIndex == 0) {
       this.nationalMapService.dataAvailabilityVal.subscribe((res) => {
         console.log("newRes", res);
@@ -147,6 +151,7 @@ export class NationalComponent implements OnInit {
   }
 
   getCardsData() {
+    if(this.yearValue!=''){
     this.newDashboardService
       .dashboardInformation(false, "", "national", this.yearValue)
       .subscribe((res: any) => {
@@ -175,6 +180,7 @@ export class NationalComponent implements OnInit {
           obj.BalanceSheetSize,
         ];
       });
+    }
   }
 
   private fetchMinMaxFinancialYears() {

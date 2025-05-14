@@ -84,7 +84,7 @@
           <a
             type="button"
             style="text-decoration: none"
-            (click)="onSelectingStateFromDropDown(national)"
+            (click)="resetFilter()"
             >Reset Map To India</a
           >
         </div>
@@ -196,13 +196,14 @@
               <tr *ngFor="let row of tableData?.rows | slice:1">
                 <td
                   *ngFor="let column of tableData?.columns"
-                  class="{{ column?.key }}"
+                  class="{{ column?.key }}"  [ngClass]="{'all_ulbs':row.populationCategory=='All ULBs' || row.ulbType=='All ULBs'}"
                 >
                   {{ row[column.key] }}
                 </td>
               </tr>
             </tbody>
           </table>
+          <p class="all_ulbs">Data shown here includes Union Territories</p>
         </div>
         <div
           *ngIf="!tableData"

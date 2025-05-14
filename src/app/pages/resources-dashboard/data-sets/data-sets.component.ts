@@ -1,14 +1,17 @@
-import { Component, Inject, Input, OnInit, SimpleChange } from "@angular/core";
-import { ResourcesDashboardService } from "../resources-dashboard.service";
-import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
-import { ReportService } from "../../../dashboard/report/report.service";
-import * as FileSaver from "file-saver";
-import { environment } from "src/environments/environment";
-import { BalanceTabledialogComponent } from "src/app/shared/components/balance-table/balance-tabledialog/balance-tabledialog.component";
-import { MAT_SNACK_BAR_DATA, MatSnackBar } from '@angular/material/snack-bar';
+import { Component, Inject, OnInit } from "@angular/core";
 import { MatDialog } from '@angular/material/dialog';
-import { DownloadService } from "src/app/shared/services/download.zip.service";
+import { MAT_SNACK_BAR_DATA, MatSnackBar } from '@angular/material/snack-bar';
+import * as FileSaver from "file-saver";
 import { tap } from 'rxjs/operators';
+import { BalanceTabledialogComponent } from "src/app/shared/components/balance-table/balance-tabledialog/balance-tabledialog.component";
+import { DownloadUserInfoService } from "src/app/shared/components/user-info-dialog/download-user-info.service";
+import { DownloadService } from "src/app/shared/services/download.zip.service";
+import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
+import { environment } from "src/environments/environment";
+import { ReportService } from "../../../dashboard/report/report.service";
+import { ResourcesDashboardService } from "../resources-dashboard.service";
+import { UtilityService } from "src/app/shared/services/utility.service";
+import { forkJoin } from "rxjs";
 
 @Component({
   selector: "app-data-sets",
@@ -30,6 +33,7 @@ export class DataSetsComponent implements OnInit {
   selectedUsersList = [];
   state: string;
   ulb: string;
+  ulbId: string;
   mobileFilterConfig: any = {
     isState: true,
     isUlb: true,
@@ -57,7 +61,6 @@ export class DataSetsComponent implements OnInit {
   checkValue = false;
   downloadValue: boolean = false;
 
-  // Navinder's variables.
   skip: number = 0;
   loadMoreData: boolean = false;
   totalDocs: number = 0;
@@ -67,6 +70,7 @@ export class DataSetsComponent implements OnInit {
   isChecked: boolean = false;
   fileDownloadSuccess: string = "All set! Your file(s) have been successfully downloaded.";
   fileDownloadfail: string = "Oops! Failed to download file(s).";
+  module: string = "resources" // userInfo popup.
 
 
   constructor(
@@ -75,7 +79,9 @@ export class DataSetsComponent implements OnInit {
     public dialog: MatDialog,
     protected reportService: ReportService,
     private _snackBar: MatSnackBar,
-    private downloadService: DownloadService
+    private downloadService: DownloadService,
+    private userInfoService: DownloadUserInfoService,
+    private utilityService: UtilityService
   ) {
     this._resourcesDashboardService.castSearchedData.subscribe((data) => {
       this.learningToggle = data;
@@ -121,17 +127,19 @@ export class DataSetsComponent implements OnInit {
   }
 
   // This method will be triggered when clearEvent is emitted from the child
-  clearEvent() {
-    this.isChecked = false;
-  }
+  // clearEvent() {
+  //   this.isChecked = false;
+  // }
 
   // Function of app-filter-component.
   filterData(e: any) {
-    // console.log("filter -----> ", e);
-    this.year = e?.value?.year ?? "2020-21";
-    this.type = e?.value?.contentType ?? "Raw Data PDF";
+
+    this.year = e?.value?.year;
+    this.type = e?.value?.contentType;
     this.state = e?.value?.state;
-    this.ulb = e?.value?.ulb;
+    this.ulb = e?.value?.ulb?.name || '';
+    this.ulbId = e?.value?.ulb?._id || '';
+
     this.balData = [];
     this.selectedUsersList = [];
     this.skip = 0;
@@ -157,7 +165,7 @@ export class DataSetsComponent implements OnInit {
     // Load fies.
     try {
       this._resourcesDashboardService
-        .getDataSets(this.year, this.type, this.category, this.state, this.ulb, globalName, this.skip)
+        .getDataSets(this.year, this.type, this.category, this.state, this.ulb, this.ulbId, globalName, this.skip)
         .subscribe(
           (res: any) => {
             const dataLength = res.data.length;
@@ -165,8 +173,6 @@ export class DataSetsComponent implements OnInit {
             this.totalDocs += dataLength;
             this.balData = this.balData.concat(res.data);
             this.globalLoaderService.stopLoader();
-            // console.log("this.skip -----------> ", this.skip)
-            // console.log("this.totalDocs -----------> ", this.totalDocs)
 
             // Conditional logic
             if (dataLength === 10) {
@@ -194,9 +200,11 @@ export class DataSetsComponent implements OnInit {
     if (item.hasOwnProperty("section") && item.section == "standardised") {
       this.selectedUsersList = []
       this.selectedUsersList.push(item);
-      this.downloadStandardizedData(1);
-      this.openSnackBar(this.fileDownloadSuccess);
-      this.selectedUsersList = [];
+      this.downloadStandardizedData(true)
+        .then((isDownloaded) => {
+          if (isDownloaded) this.openSnackBar(this.fileDownloadSuccess);
+        });
+      // this.selectedUsersList = [];
       return;
     }
 
@@ -204,11 +212,20 @@ export class DataSetsComponent implements OnInit {
     const yearSplit = Number(item.year.split('-')[0]);
     // 2015-16 to 2018-19.
     if (yearSplit < 2019) {
-      if (item && item['fileUrl']) {
+      if (item['fileUrl']) {
         let target_file_url = environment.STORAGE_BASEURL + item['fileUrl'];
 
-        if (item.type === "pdf") window.open(target_file_url, '_blank');
-        if (item.type === "excel") this.fetchFile(target_file_url, item.fileName);
+        if (item.type === "pdf") {
+          // User info popup.
+          this.userInfoService.openUserInfoDialog([{ fileName: `${item['fileName']}_${this.type}` }], this.module)
+            .then((isDialogConfirmed) => {
+              if (isDialogConfirmed) window.open(target_file_url, '_blank');
+            });
+        }
+
+        // User info popup for excel is handled in fetchFile()
+        if (item.type == 'excel')
+          this.fetchFile(target_file_url, item.fileName);
 
       } else console.error("File URL is missing or invalid.");
 
@@ -218,14 +235,16 @@ export class DataSetsComponent implements OnInit {
     // 2019-20 onwards.
     this.globalLoaderService.showLoader();
     this.reportService.getReports(item._id, item.year, item.auditType).subscribe(
+
       (res) => {
         this.globalLoaderService.stopLoader();
         let type = 'notFound';
-        if (res && res["success"]) {
+        if (res["success"]) {
           this.allReports = res["data"];
           type = res["data"][item.type].length ? item.type : 'notFound';
         }
-        this.openDialog2(res["data"], type);
+
+        this.openDialog2(res["data"], type, { fileName: item.fileName, type: this.type, module: this.module });
       },
       (error) => {
         this.globalLoaderService.stopLoader();
@@ -235,9 +254,9 @@ export class DataSetsComponent implements OnInit {
   }
 
   // Dialog box which has all 6 files in popup.
-  openDialog2(data: any, fileType: string) {
+  openDialog2(data: any, fileType: string, ulbDetails: any) {
     const dialogRef = this.dialog.open(BalanceTabledialogComponent, {
-      data: { reportList: data, fileType: fileType },
+      data: { reportList: data, fileType, ulbDetails },
       width: "500px",
     });
 
@@ -256,15 +275,13 @@ export class DataSetsComponent implements OnInit {
 
   // Helper: Fetch file from URL -> Create blob -> download file.
   fetchFile(target_file_url: string, fileName: string) {
-    fetch(target_file_url)
-      .then((response) => {
-        if (!response.ok) { throw new Error("Response was not ok.") }
-        return response.blob();
-      })
-      .then((blob) => {
-        FileSaver.saveAs(blob, fileName);
-      })
-      .catch((error) => console.error("Error in fetching file: ", error));
+    // User info popup
+    this.userInfoService.openUserInfoDialog([{ fileName: `${fileName}_${this.type}` }], this.module)
+      .then((isDialogConfirmed) => {
+        if (isDialogConfirmed) {
+          this.utilityService.fetchAndSaveFile(target_file_url, fileName);
+        }
+      });
   }
 
   // Function to check/ uncheck ulb file from the table.
@@ -335,98 +352,105 @@ export class DataSetsComponent implements OnInit {
   }
 
   // Download standardized data - API will give excel.
-  downloadStandardizedData(event: any) {
-    if (event) {
-      // console.log("this.selectedUsersList ---> ", this.selectedUsersList);
-      for (let data of this.selectedUsersList) {
-        if (data.hasOwnProperty('section') && data['section'] == "standardised") {
-          this._resourcesDashboardService.getStandardizedExcel([data]).subscribe((res) => {
-            const blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-            FileSaver.saveAs(blob, data.fileName);
-            // console.log('File Download Done');
-            return;
-          }, (error) => { console.error("Unable to downalod standardized file: ", error) });
+  downloadStandardizedData(event: any): Promise<boolean> {
+    return new Promise((resolve) => {
+      if (event) {
+        const userInfoFiles = this.selectedUsersList.map((e) => { return { 'fileName': `${e.fileName}_${this.type}` } });
 
-          data.isSelected = false;
-        }
+        // User info popup.
+        this.userInfoService.openUserInfoDialog(userInfoFiles, this.module)
+          .then((isDialogConfirmed) => {
+            if (isDialogConfirmed) {
+
+              for (let data of this.selectedUsersList) {
+                if (data.hasOwnProperty('section') && data['section'] == "standardised") {
+                  this._resourcesDashboardService.getStandardizedExcel([data]).subscribe(
+                    (res) => {
+                      const blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+                      FileSaver.saveAs(blob, data.fileName);
+
+                      resolve(true);
+                    },
+                    (error) => { console.error("Unable to downalod standardized file: ", error); resolve(false); });
+
+                  data.isSelected = false;
+                }
+              }
+              this.uncheckSelections();
+            }
+          });
       }
-      this.selectedUsersList = [];
-    }
+    });
   }
 
-  // Download Raw pdf and raw excel.
   download(event: any) {
-    if (event) {
-      // console.log("event:.", event)
-      // console.log("from download: ", this.selectedUsersList);
 
-      // If selectedUsersList[0] is standardized - call downloadStandardizedData(). selectedUsersList[] has selected ulbs.
+    if (event) {
+
+      // Standardized files.
       if (
         this.selectedUsersList.length &&
         this.selectedUsersList[0].hasOwnProperty("section") &&
         this.selectedUsersList[0].section == "standardised"
       ) {
-        this.downloadStandardizedData(true);
+        this.downloadStandardizedData(true)
+          .then((isDownloaded) => {
+            if (isDownloaded) this.openSnackBar(this.fileDownloadSuccess);
+          });
         this.isChecked = false;
-        this.openSnackBar(this.fileDownloadSuccess);
         return;
       }
 
-      for (let data of this.selectedUsersList) {
 
-        // For docs which have file.url i.e 2015-16 to 2018-19 (Raw excel, Raw pdf)
-        if (data?.fileUrl) {
-          let target_file_url = environment.STORAGE_BASEURL + data['fileUrl'];;
+      // For docs which have file.url i.e 2015-16 to 2018-19 (Raw excel, Raw pdf)
+      if (['2015-16', '2016-17', '2017-18', '2018-19'].includes(this.year)) {
+        const userInfoFiles = this.selectedUsersList.map((e) => { return { 'fileName': `${e.fileName}_${this.type}` } });
 
-          // Fetch the file from URL.
-          this.fetchFile(target_file_url, data.fileName);
-          this.selectedUsersList = [];
-          data.isSelected = false;
-          this.isChecked = false;
-        }
-        else {
-          // console.log("from download: ", this.selectedUsersList);
-          let response = { pdf: [], excel: [] };
-          let files = [];
+        // User info popup.
+        this.userInfoService.openUserInfoDialog(userInfoFiles, this.module)
+          .then((isDialogConfirmed) => {
+            if (isDialogConfirmed) {
 
-          this.reportService.getReports(data._id, data.year, data.auditType).subscribe(
-            (res) => {
-              // this.globalLoaderService.stopLoader();
-              let type = 'notFound';
-              if (res && res["success"]) {
-                response = res["data"];
+              for (let data of this.selectedUsersList) {
+                if (data['fileUrl']) {
+                  let target_file_url = environment.STORAGE_BASEURL + data['fileUrl'];
+
+                  // Fetch the file from URL.
+                  this.utilityService.fetchAndSaveFile(target_file_url, data.fileName);
+                  data.isSelected = false;
+                  this.isChecked = false;
+                }
               }
-              // console.log("response ----------->", response)
-              if (data.type === "pdf") files = response?.pdf || [];
-              if (data.type === "excel") files = response?.excel || [];
 
-              files.forEach((ele) => {
-                let temp = ele.url;
-                ele.name = ele.name + '.' + temp.split(".")[1];
-                ele.url = environment.STORAGE_BASEURL + ele['url'];
-
-                // // TODO: To be removed: only for testing.
-                // if (data.type === "pdf") ele.url = 'https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/ULB/2024-25/annual_accounts/AP016/BalanceSheet-2023-24_5440cf6a-6ff0-45b0-ba09-013227a5a90a.pdf';
-                // if (data.type === "excel") ele.url = "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/ULB/2024-25/annual_accounts/AP016/BalanceSheet_2023-24_0715e2c2-8591-4ef0-80ce-e68ea2c9e9cf.xls";
-
-              })
-
-              // console.log("files ---->", files)
-              this.createZipAndSave(`${data.fileName}.zip`, files);
-            },
-            (error) => {
-              // this.globalLoaderService.stopLoader();
-              console.error("Found error in download(): ", error);
-              this.openSnackBar(this.fileDownloadfail);
               this.uncheckSelections();
-              return;
             }
-          );
-        }
+          });
       }
 
-      this.openSnackBar(this.fileDownloadSuccess);
-      this.uncheckSelections();
+      // 2019-20 onwards.
+      else {
+        const fetchData = (data: any) => this.reportService.getReports(data._id, data.year, data.auditType);
+        const userInfoFiles = this.selectedUsersList.map((e) => { return { 'fileName': `${e.fileName}.zip_${this.type}` } });
+
+        // User info popup.
+        this.userInfoService.openUserInfoDialog(userInfoFiles, this.module)
+          .then((isDialogConfirmed) => {
+            if (isDialogConfirmed) {
+
+              forkJoin(this.selectedUsersList.map(row => fetchData(row)))
+                .subscribe(result => {
+                  result.forEach((res, i) => {
+                    const currentData: any = this.selectedUsersList[i];
+                    const files = res['data'][currentData['type']].map((e: any) => { return { name: e.name, url: environment.STORAGE_BASEURL + e.url } });
+
+                    this.createZipAndSave(userInfoFiles[i].fileName + '.zip', files);
+                  });
+
+                  this.uncheckSelections();
+                });
+            }
+          });
+      }
     }
   }
 
@@ -437,6 +461,7 @@ export class DataSetsComponent implements OnInit {
         // console.log('download$ next: ', data);
       },
       complete: () => {
+        this.openSnackBar(this.fileDownloadSuccess);
         // console.log('download$ complete: ');
       },
       error: (error) => {
@@ -472,19 +497,6 @@ export class DataSetsComponent implements OnInit {
           return;
         }
       });
-
-
-    // const zip = new JSZip();
-
-    // files.forEach((file: any) => {
-    //   let target_file_url = environment.STORAGE_BASEURL + file['url'];;
-    //   let blobResponse: any = this.fetchFile(target_file_url, file.name, true);
-    //   zip.file(file.name, blobResponse);
-    // });
-
-    // zip.generateAsync({ type: 'blob' }).then((blob: any) => {
-    //   FileSaver.saveAs(blob, fileName);
-    // });
 
     return;
   }

@@ -80,6 +80,25 @@
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>
                     </tr>
+                    <tr *ngIf="data.grantPosition.grantPosition___receivedDuringYrWithZero">
+                        <th scope="row" class="f-table">2a.</th>
+                        <td class="pd-r f-table" style="text-align: left; font-weight: 500;">15th F.C. Tied grant recevied for the year
+                            is zero, please select a reason from drop down.</td>
+                        <td class="f-table">
+                            {{grantPositionReceivedWithZeroReason[data.grantPosition.grantPosition___receivedDuringYrWithZero]}}</td>
+                        <td class="f-table">x</td>
+                        <td class="f-table">x</td>
+                        <td class="f-table">x</td>
+                    </tr>
+                    <tr *ngIf="data.grantPosition.grantPosition___receivedDuringYrWithZeroReason">
+                        <th scope="row" class="f-table">2b.</th>
+                        <td class="pd-r f-table" style="text-align: left; font-weight: 500;">Select reason for tied grants being zero
+                        </td>
+                        <td class="f-table">{{data.grantPosition.grantPosition___receivedDuringYrWithZeroReason || 'x'}}</td>
+                        <td class="f-table">x</td>
+                        <td class="f-table">x</td>
+                        <td class="f-table">x</td>
+                    </tr>
                     <tr>
                         <th class="f-table" scope="row">3.</th>
                         <td class="pd-r f-table" style="text-align: left; font-weight: 500;">Expenditure incurred during the year</td>

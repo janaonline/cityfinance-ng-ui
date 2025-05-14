@@ -20,6 +20,7 @@ if (
 } else if (window.location.hostname.includes("uat")) {
   url = "https://uat.cityfinance.in/api/v1/";
 } else if (window.location.hostname.includes("staging")) {
+  GoogleTagID = "G-803HPPLFMM";
   url = "https://staging.cityfinance.in/api/v1/";
 } else if (window.location.hostname.includes("test")) {
   url = "https://test.cityfinance.in/api/v1/";

@@ -108,6 +108,7 @@ import { EndsWithPipe } from './pipes/ends-with.pipe';
 import { IncludesPipe } from './pipes/includes.pipe';
 import { GlobalPartModule } from "../global-part/global-part.module";
 import { CountUpDirective } from "./directives/count-up.directive";
+import { UserInfoDialogComponent } from './components/user-info-dialog/user-info-dialog.component';
 
 @NgModule({
     imports: [
@@ -141,7 +142,8 @@ import { CountUpDirective } from "./directives/count-up.directive";
         NgxPaginationModule,
         MatRadioModule,
         MdePopoverModule,
-        Shared2223Module,
+        // TODO: check for optimiztion
+        // Shared2223Module,
         // PdfViewerModule,
         MatPaginatorModule,
         GlobalPartModule
@@ -216,6 +218,7 @@ import { CountUpDirective } from "./directives/count-up.directive";
         EndsWithPipe,
         IncludesPipe,
         CountUpDirective,
+        UserInfoDialogComponent,
     ],
     exports: [
         JoinPipe,

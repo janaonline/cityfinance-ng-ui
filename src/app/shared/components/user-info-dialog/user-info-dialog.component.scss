@@ -1,0 +1,17 @@
+* {
+  font-family: "Montserrat", sans-serif !important;
+  font-weight: 500;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+::ng-deep .mat-form-field-flex {
+  border: none !important;
+}
+
+mat-dialog-content {
+  max-height: 60vh;
+  overflow: auto;
+}

@@ -163,7 +163,11 @@ tr {
   state;
   ulb;
   dialogRef;
-
+  grantPositionReceivedWithZeroReason: any = {
+    1: 'Legal issues',
+    2: 'Tender in process/delay',
+    3: 'Other reasons (Please specify)',
+  }
   ngOnInit(): void {
     this.calculateUtilizedAmt();
     if (this.userDetails.role == USER_TYPE.ULB) {
