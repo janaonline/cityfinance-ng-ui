@@ -354,14 +354,14 @@ export class DurComponent implements OnInit, OnDestroy {
       const selfDeclarationChecked = data?.finalData.find(item => item?.shortKey === "declaration" && item.answer?.[0].value == '1')?.answer?.[0].value;
       if (selfDeclarationChecked != '1') return swal('Error', 'Please check self declaration', 'error');
       const grantPositionData = data?.finalData?.find(obj => obj.shortKey === "grantPosition");
-      const expDuringYrObj = grantPositionData?.nestedAnswer[0]?.answerNestedData?.find(el => el.shortKey === "grantPosition___expDuringYr");
+      const expDuringYrObj = grantPositionData?.nestedAnswer[0]?.answerNestedData?.find(el=>el.shortKey === "grantPosition___expDuringYr");
 
-      if ((expDuringYrObj?.answer[0]?.value == 0)) {
+      if((expDuringYrObj?.answer[0]?.value == 0)){
         swal("Error", "The total expenditure incurred during the year cannot be 0", "error");
         return;
       }
       const projectDetails = data?.finalData.find(item => item.shortKey == "projectDetails_tableView_addButton")?.nestedAnswer || [];
-      if (projectDetails?.length == 0) {
+      if(projectDetails?.length == 0){
         swal("Error", "Number of projects can not be 0", "error");
         return;
       }
@@ -371,7 +371,7 @@ export class DurComponent implements OnInit, OnDestroy {
       if (!this.isFormValid(data)) {
         let errMsg = this.locationInvalid ? "Please fill the lat/long or correct the lat/long values" : this.totalProjectInvalid ?  "Number of projects can not be 0" : 'Please fill valid values in form';
         return swal('Error', `${errMsg}`, 'error')
-      } else {
+      }else{
         const userAction = await swal(
           "Confirmation !",
           `${this.finalSubmitMsg}`,
@@ -398,7 +398,7 @@ export class DurComponent implements OnInit, OnDestroy {
           this.finalSubmit(data, isDraft)
         }
         if (userAction == 'cancel') return;
-        if (userAction == 'submit') this.finalSubmit(data, isDraft)
+      if(userAction == 'submit') this.finalSubmit(data, isDraft)
       }
 
     };
@@ -468,8 +468,8 @@ export class DurComponent implements OnInit, OnDestroy {
       });
     }
   }
-  formDisable(res) {
-    if (!res) return;
+  formDisable(res){
+    if(!res) return;
     //  let resR = { ...res, statusId: 6} for testing only
     this.isButtonAvail = this.commonServices.formDisable(res, this.userData);
     console.log(this.isButtonAvail, 'this.isButtonAvail');
@@ -477,7 +477,7 @@ export class DurComponent implements OnInit, OnDestroy {
   }
 
   //f
-  getFinancialYear() {
+ getFinancialYear(){
     this.selectedYear = this.commonServices.getYearName(this.design_year);
     const [startYear, endYear] = this.selectedYear.split("-").map(Number);
     this.financialYear = `${startYear - 1}-${endYear - 1}`;
