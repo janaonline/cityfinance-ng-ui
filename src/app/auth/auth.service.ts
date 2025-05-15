@@ -26,14 +26,14 @@ export class AuthService {
       environment.api.url +
         `ledger/lastUpdated?ulb=${params?.ulb ?? ""}&state=${
           params?.state ?? ""
-        }`
+      }`
     );
   }
 
   getCityData(ulbId) {
     return this.http.get(
       environment.api.url +
-        `all-dashboard/people-information?type=ulb&ulb=${ulbId}`
+      `all-dashboard/people-information?type=ulb&ulb=${ulbId}`
     );
   }
   signin(user) {
@@ -66,12 +66,31 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.clear();
+    // localStorage.clear();
+    this.clearLocalStorage();
   }
   otpSignIn(body) {
     return this.http.post(`${environment.api.url}sendOtp`, body);
   }
   otpVerify(body) {
     return this.http.post(`${environment.api.url}verifyOtp`, body);
+  }
+
+  // Ensure "excludekeys" are preserved in local storage and not removed.
+  clearLocalStorage(excludeKeys = ['userInfo']) {
+    // Get all keys from localStorage
+    const allKeys = Object.keys(localStorage);
+
+    // Iterate over each key
+    allKeys.forEach(key => {
+      // Check if the key matches any exclusion criteria
+      const shouldExclude = excludeKeys.some(exclude => {
+        return key === exclude;
+      });
+
+      // If the key doesn't match any exclusion criteria, remove it
+      if (!shouldExclude) localStorage.removeItem(key);
+    });
+
   }
 }

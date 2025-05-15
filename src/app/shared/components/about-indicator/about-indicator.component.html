@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  <div *ngIf="cagr" class="row" [ngClass]="{'heading': positive,'heading2': !positive}">
+  <div *ngIf="cagr && ( filterList.length==0  || filterName !='revenue expenditure')" class="row" [ngClass]="{'heading': positive,'heading2': !positive}">
     <p class="mt-2 mb-2 thumbText"
     [ngClass]="{'thumbText': positive,'thumbText2': !positive}"
     >
@@ -19,7 +19,7 @@
       >
         <mat-expansion-panel-header style="background-color: #F5FAFF;">
           <mat-panel-title [ngClass]="{ activeIndicator: item.panelOpenState }">
-            {{ item.name }}
+            {{ item.name }} 
           </mat-panel-title>
         </mat-expansion-panel-header>
         <ng-container *ngIf="!loading">
@@ -28,9 +28,21 @@
               <span>Explore <strong style="cursor: pointer;" (click)="stepBtnClick(item)">{{item}}</strong> stats for {{ulbsData[cityId].name}}</span>
             </p>
           </ng-container>
-          <p id="{{parentIndex + item.name + childIndex }}" *ngFor="let innerItem of item.desc; let childIndex = index">{{
-            innerItem.text }}
+          <ng-container *ngIf="item.name =='Calculation' && filterList.length==0 ||  filterName !='revenue expenditure'">
+          <p id="{{parentIndex + item.name + childIndex }}" *ngFor="let innerItem of item.desc; let childIndex = index">
+            {{innerItem.text }}
           </p>
+          </ng-container>
+          <ng-container *ngIf="item.name !='Calculation'">
+            <p id="{{parentIndex + item.name + childIndex }}" *ngFor="let innerItem of item.desc; let childIndex = index">
+              {{innerItem.text }}
+            </p>
+            </ng-container>
+          <ng-container *ngIf="item.name =='Calculation' && filterList.length>0 && filterName =='revenue expenditure'">
+          <p>
+            {{item.desc[2].text }}
+          </p>
+          </ng-container>
         </ng-container>
         <ng-container *ngIf="loading">
           <mat-spinner style="margin-left: 11rem;" class="customLoader"></mat-spinner>

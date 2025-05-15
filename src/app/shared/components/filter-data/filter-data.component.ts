@@ -350,7 +350,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
             }
             this.createDataForUlbs(res["data"]["ulbData"], [
               ...new Set(body.ulb),
-            ]);
+            ],body.filterName);
           }
           if (showCagrIn.includes(this.selectedTab.toLowerCase()))
             this.calculateCagr(res["data"], this.hideElements);
@@ -415,7 +415,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
    return ulbWiseData;
   }
 
-  createDataForUlbs(res, ulbs) {
+  createDataForUlbs(res, ulbs,filterName) {
     let obj = {
       type: "bar",
       data: {
@@ -441,10 +441,14 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
                 let foundUlb = res.find(
                   (val) => val._id.financialYear == year && val._id.ulb == ulb || val._id.financialYear == year && val.ulbName == this.ulbMapping[ulb].name 
                 );
-                if (foundUlb)
+                if (foundUlb && filterName=='revenue_expenditure')
+                  innerObj.data.push(
+                    convertToCr(foundUlb.revenue, this.isPerCapita)
+                  );
+                 else if (foundUlb && filterName!='revenue_expenditure')
                   innerObj.data.push(
                     convertToCr(foundUlb.amount, this.isPerCapita)
-                  );
+                  ); 
                 else innerObj.data.push(0);
               });
               return innerObj;
@@ -1099,7 +1103,7 @@ console.log('new Data', newData.data.labels);
       colour: "#25C7CE",
     };
     let other_receipt = {
-      _id: { lineItem: "Other Receipts" },
+      _id: { lineItem: "Income from Investment" },
       amount: 0,
       colour: "#00ff80",
     };
