@@ -164,9 +164,9 @@ tr {
   ulb;
   dialogRef;
   grantPositionReceivedWithZeroReason: any = {
-    1: 'Reason 1',
-    2: 'Reason 2',
-    3: 'Others',
+    1: 'Legal issues',
+    2: 'Tender in process/delay',
+    3: 'Other reasons (Please specify)',
   }
   ngOnInit(): void {
     this.calculateUtilizedAmt();

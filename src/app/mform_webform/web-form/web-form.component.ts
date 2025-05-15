@@ -2228,7 +2228,6 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
               }
             })
           })
-
         }
         if (updatableQuestion) return;
       })
