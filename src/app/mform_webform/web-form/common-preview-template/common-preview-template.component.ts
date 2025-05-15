@@ -70,10 +70,13 @@ export class CommonPreviewTemplateComponent implements OnInit, OnChanges {
     flex-direction: column;
     
   }
-  .card {
-    padding: 5px 10px;
+
+.card {
     background-color: #EBF5F5;
-    width: 117%;
+    width: 200mm;
+    padding: 20px;
+    box-sizing: border-box;
+    page-break-after: always; /* for multi-page PDFs */
   }
   .d-qus {
     display: inline-block;
