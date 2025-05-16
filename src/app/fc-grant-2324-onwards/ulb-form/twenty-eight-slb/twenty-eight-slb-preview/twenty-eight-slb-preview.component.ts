@@ -32,28 +32,27 @@ export class TwentyEightSlbPreviewComponent implements OnInit {
     text-align: center;
 }
 .fieldHeading{
-  font-size: 15px !important;
   background-color: #047474;
   color: #FFFFFF;
 }
 .heading-p {
   color: #FFFFFF;
-  font-size: 24px !important;
+  font-size: 18px;
   padding-top: 1rem !important;
-  font-weight: 600 !important;
+  font-weight: 500;
 
 }
 .sub-h {
-font-weight: 600 !important;
-font-size: 17px !important;
+font-weight: 500 !important;
+font-size: 13px;
 }
 .headingClass{
-  font-weight: 600 !important;
-  font-size: 18px;
+  font-weight: 500 !important;
+  font-size: 12px;
 }
 .form-h {
-  font-size: 18px !important;
-  font-weight: 700 !important;
+  font-size: 18px;
+  font-weight: 700;
   text-align: center;
 }
 
@@ -66,13 +65,13 @@ font-size: 17px !important;
 }
 
 .form-status {
-  font-size: 15px;
+  font-size: 10px;
   margin-top: 10px;
 }
 
 .h-h {
   align-items: left;
-  font-size: 15px !important;
+  font-size: 10px !important;
   font-weight: 400;
 }
 
@@ -103,14 +102,14 @@ tr:nth-child(even) {
 .l-n {
   width: 100%;
   display: inline-block !important;
-  font-size: 15px !important;
+  font-size: 10px !important;
 }
 .l-a {
   display: inline-block !important;
-  font-size: 15px !important;
+  font-size: 10px !important;
 }
 .an-t {
-  font-size: 15px !important;
+  font-size: 10px !important;
 }
 .mt-2 {
   margin-top: 0.5rem !important;
@@ -118,12 +117,12 @@ tr:nth-child(even) {
 .l-n-d {
   width: 75%;
   display: inline-block !important;
-  font-size: 15px !important;
+  font-size: 10px !important;
 }
 .l-n-p {
   width: 35%;
   display: inline-block !important;
-  font-size: 15px !important;
+  font-size: 10px !important;
 }
 .fontClass {
   vertical-align: bottom !important;
