@@ -114,7 +114,7 @@ export class StateComponent implements OnInit {
                 break;
               case "area":
                 item.value =
-                  ((res.data[0].area / 1000).toFixed(0) || '0') + " Sq km";
+                  ((res.data[0].area).toFixed(0) || '0') + " Sq km";
                 break;
               case "Municipal_Corporation":
                 item.value = res.data[0].Municipal_Corporation || '0';
