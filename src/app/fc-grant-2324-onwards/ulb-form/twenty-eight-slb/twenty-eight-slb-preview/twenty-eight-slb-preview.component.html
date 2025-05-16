@@ -25,7 +25,7 @@
     </div>
     <div class="row">
         <div class="col-sm-12 form-h text-center">
-           <span style="font-size: 25px;">28 SLBs FORM</span> 
+            28 SLBs FORM
         </div>
     </div>
     <div class="row mt-2">
@@ -48,8 +48,8 @@
                                 
                             </tr>
                             <tr *ngFor="let item of lineItem?.value let i = index;" class="tableBorder">
-                                <th scope="row" class="h-h" style="font-size: 15px;">{{i + 1}}.</th>
-                                <th scope="row" class="l-n fontClass h-h tableBorder" style="font-size: 15px;">{{item?.question}}</th>
+                                <th scope="row" class="h-h">{{i + 1}}.</th>
+                                <th scope="row" class="l-n fontClass h-h tableBorder">{{item?.question}}</th>
                                 <td class="tableBorder">
                                     <div class="input-group h-h">
                                         <span class="d-i">{{(item?.actual?.value || item?.actual?.value === 0) ? item?.actual?.value : 'N/A'}}</span>
