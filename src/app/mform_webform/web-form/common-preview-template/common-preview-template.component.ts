@@ -41,53 +41,42 @@ export class CommonPreviewTemplateComponent implements OnInit, OnChanges {
     display: none;
   }
   .header-p {
-    background-color:#047474;
+    background-color: #047474;
     height: 75px;
     text-align: center;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    
   }
   .heading-p {
    color: #FFFFFF;
-   font-size: 25px;
+   font-size: 18px;
+   padding-top: 1rem !important;
    font-weight: 700;
+
   }
   .sub-h {
     font-weight: 700 !important;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .form-h {
- font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    
+  text-align: center;
   }
 
-.card {
+  .card {
+    padding: 5px 10px;
     background-color: #EBF5F5;
-    width: 200mm;
-    padding: 20px;
-    box-sizing: border-box;
-    page-break-after: always; /* for multi-page PDFs */
   }
   .d-qus {
     display: inline-block;
-    width: 65% !important;
-    font-size: 18px !important;
+    width: 60% !important;
+    font-size: 10px !important;
     font-weight: 500 !important;
   }
   .d-ans {
     display: inline-block;
-    width: 40% !important;
-    font-size: 18px !important;
+    width: 38% !important;
+    font-size: 10px !important;
   }
   .mrB {
     margin-bottom: 1rem;
@@ -98,9 +87,8 @@ export class CommonPreviewTemplateComponent implements OnInit, OnChanges {
   .mrTh {
     margin-top: 1.25rem;
   }
-  // under review by mouha
   .form-status {
-    font-size: 14px !important;
+    font-size: 10px !important;
     font-weight: 500 !important;
   }
   .score {
