@@ -120,7 +120,7 @@
                     </li>
                     <li class="nav-item" *ngIf="isLoggedIn && user?.email !== 'doe@cityfinance.in'">
                         <a *ngIf="user?.role == 'ULB' else rankingDashboard" class="nav-link" routerLinkActive="active"
-                        [routerLink]="'/rankings/ulb-form'">{{"Rankings'22 Form"}}</a>
+                            [routerLink]="'/rankings/ulb-form'">{{"Rankings'22 Form"}}</a>
                         <ng-template #rankingDashboard>
                             <a class="nav-link" routerLinkActive="active"
                                 [routerLink]="'/rankings/review-rankings-ulbform'">{{"Rankings'22 Dashboard"}}</a>
@@ -262,7 +262,8 @@
                               ">Users</a>
                         </li>
                         <li *ngIf="!isLoggedIn" class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" (click)="showRequestDemoPopup()">Request a Demo</a>
+                            <a class="nav-link" routerLinkActive="active" (click)="showRequestDemoPopup()">Request a
+                                Demo</a>
                         </li>
                     </ul>
                     <div class="row align-items-center fixed-bottom mx-3 mb-5">
@@ -280,12 +281,17 @@
             </div>
         </div>
     </nav>
-    <div class="ticker-wrap">
-<div class="ticker">
-  <div class="ticker__item">CityFinance will be under scheduled maintenance on Thu, May 20 from 20 PM to 24 PM.</div>
-  <div class="ticker__item">CityFinance will be under scheduled maintenance on Thu, May 20 from 20 PM to 24 PM.</div>
-  <div class="ticker__item">CityFinance will be under scheduled maintenance on Thu, May 20 from 20 PM to 24 PM.</div>
-	
-</div>
-</div>
+    <div style="overflow: hidden;">
+        <div class="ticker-wrap">
+            <div class="ticker">
+                <div class="ticker__item">CityFinance will be under scheduled maintenance on Thu, May 20 from 8 PM to 24
+                    PM.</div>
+                <div class="ticker__item">CityFinance will be under scheduled maintenance on Thu, May 20 from 8 PM to 24
+                    PM.</div>
+                <div class="ticker__item">CityFinance will be under scheduled maintenance on Thu, May 20 from 8 PM to 24
+                    PM.</div>
+
+            </div>
+        </div>
+    </div>
 </div>

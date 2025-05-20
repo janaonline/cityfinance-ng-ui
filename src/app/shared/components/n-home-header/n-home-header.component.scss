@@ -225,8 +225,7 @@ padding: .5rem 1rem;
     color: white;
     background-color: #E67E15;
 }
-
-@-webkit-keyframes ticker {
+ @-webkit-keyframes ticker {
   0% {
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
@@ -267,10 +266,6 @@ padding: .5rem 1rem;
   padding-right: 100%;
   box-sizing: content-box;
   -webkit-animation-iteration-count: infinite;
-  animation-iteration-count: infinite;
-  -webkit-animation-timing-function: linear;
-  animation-timing-function: linear;
-  -webkit-animation-name: ticker;
   animation-name: ticker;
   -webkit-animation-duration: 30s;
   animation-duration: 30s;
