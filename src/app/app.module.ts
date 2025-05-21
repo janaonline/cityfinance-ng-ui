@@ -46,6 +46,7 @@ import { VersionCheckService } from "./version-check.service";
 import { environment } from "src/environments/environment";
 import { GlobalPartModule } from "./global-part/global-part.module";
 import { FeedbackWidgetComponent } from "./feedback-widget/feedback-widget.component";
+import { MaintenanceComponent } from "./pages/maintenance/maintenance.component";
 
 
 @NgModule({
@@ -83,7 +84,8 @@ import { FeedbackWidgetComponent } from "./feedback-widget/feedback-widget.compo
         MatFormFieldModule,
         NgxGoogleAnalyticsModule.forRoot(environment.GoogleTagID),
         NgxGoogleAnalyticsRouterModule,
-        GlobalPartModule
+        GlobalPartModule,
+        MaintenanceComponent,
     ],
     schemas: [
         CUSTOM_ELEMENTS_SCHEMA

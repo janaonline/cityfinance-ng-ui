@@ -7,13 +7,21 @@ import { catchError, filter } from 'rxjs/operators';
 import { Login_Logout } from '../util/logout.util';
 import { SweetAlert } from "sweetalert/typings/core";
 import { AuthService } from '../auth/auth.service';
+import { MaintenanceService } from '../pages/maintenance/maintenance.service';
 
 const swal: SweetAlert = require("sweetalert");
 @Injectable()
 export class CustomHttpInterceptor implements HttpInterceptor {
   routerNavigationSuccess = new Subject<any>();
 
-  constructor(private router: Router, private _router: Router, private authService: AuthService) {
+  private ignoredUrls = [
+    '/common/maintenance',       // exact match
+    // Add more patterns or use RegExp if needed
+  ];
+
+  constructor(
+    private router: Router, private _router: Router,
+    private authService: AuthService, private maintenanceService: MaintenanceService) {
     this.initializeRequestCancelProccess();
   }
 
@@ -39,6 +47,13 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     }
     //headers =  headers.set("x-ms-blob-type", "BlockBlob")
     const authReq = req.clone({ headers });
+
+    // const shouldIgnore = this.ignoredUrls.some(url => req.url.includes(url));
+
+    // console.log("Request URL:", req.url, shouldIgnore  );
+    // if (shouldIgnore) {
+    //   return next.handle(req); // Skip modification
+    // }
     return next.handle(authReq).pipe(
       // takeUntil(this.routerNavigationSuccess),
       catchError(this.handleError)
@@ -78,7 +93,9 @@ export class CustomHttpInterceptor implements HttpInterceptor {
       case 503:
         this.clearLocalStorage();
         // swal('Error', err.error?.message ?? 'Something went wrong', 'error');
-        this.router.navigate(["maintenance"]);
+        // this.router.navigate(["maintenance"]);
+        this.maintenanceService.maintenanceSubject.next(true);
+        this.router.navigate(["home"]);
         break;
       case 440:
         this.clearLocalStorage();

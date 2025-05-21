@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { delay } from "rxjs/operators";
+import { delay, filter } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 
 import { IUserLoggedInDetails } from "./models/login/userLoggedInDetails";
@@ -13,6 +13,8 @@ import { CommonService } from "./shared/services/common.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { VersionCheckService } from "./version-check.service";
 import { GoogleAnalyticsService } from "ngx-google-analytics";
+import { MaintenanceService } from "./pages/maintenance/maintenance.service";
+import { NavigationStart, Router } from "@angular/router";
 // const swal: SweetAlert = require("sweetalert");
 const swal2 = require("sweetalert2");
 
@@ -28,6 +30,8 @@ export class AppComponent implements OnDestroy, OnInit {
   showLoader = false;
   sessionId: string;
   isEmbedModeEnable: boolean = false;
+  isMaintenance = false;
+
   constructor(
     public globalLoader: GlobalLoaderService,
     private sessionService: SessionService,
@@ -36,7 +40,9 @@ export class AppComponent implements OnDestroy, OnInit {
     private commonService: CommonService,
     private matSnackBar: MatSnackBar,
     private versionService: VersionCheckService,
-    private gaService: GoogleAnalyticsService
+    private gaService: GoogleAnalyticsService,
+    private maintenanceService: MaintenanceService,
+    private router: Router,
   ) {
 
     this.versionCheck()
@@ -77,7 +83,7 @@ export class AppComponent implements OnDestroy, OnInit {
 
 
   versionCheck() {
-    if(environment.isProduction) {
+    if (environment.isProduction) {
       this.versionService.initVersionCheck(environment.versionCheckURL);
     }
   }
@@ -90,6 +96,23 @@ export class AppComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
+
+    // this.router.events
+    //   .pipe(filter(event => event instanceof NavigationStart))
+    //   .subscribe(() => {
+    //     console.log('Navigation started', this.router.url);
+    //     this.checkMaintenance();
+    //   });
+    // this.checkMaintenance();
+    // Subscribe to changes from the BehaviorSubject for maintenance
+    this.maintenanceService.maintenance$.subscribe(value => {
+      this.isMaintenance = value;
+      console.log('Maintenance status changed:', this.isMaintenance);
+      if (this.isMaintenance) {
+        // this.checkMaintenance();
+      }
+    });
+
     //  this.callGenralAert();
     this.commonService.isEmbedModeEnable.subscribe(data => {
       console.log('isEmbedModeEnable', data)
@@ -97,6 +120,25 @@ export class AppComponent implements OnDestroy, OnInit {
         this.isEmbedModeEnable = data;
       }
     });
+    
+    this.getULBs();
+  }
+
+  checkMaintenance() {
+    this.maintenanceService.checkMaintenance().subscribe(res => {
+      this.isMaintenance = res.maintenance;
+
+      if (this.isMaintenance) {
+        // this.maintenanceService.pollUntilUp(5000).subscribe(response => {
+        //   if (!response.maintenance) {
+        //     location.reload(); // Server is back; reload full app
+        //   }
+        // });
+      }
+    });
+  }
+
+  getULBs() {
     this.commonService.getAllUlbs().subscribe(
       (res) => {
         localStorage.setItem("ulbList", JSON.stringify(res));
@@ -125,6 +167,7 @@ export class AppComponent implements OnDestroy, OnInit {
       (error) => { }
     );
   }
+
   ngOnDestroy(): void {
     this.sessionService.endSession(this.sessionId).subscribe((res) => { });
   }
