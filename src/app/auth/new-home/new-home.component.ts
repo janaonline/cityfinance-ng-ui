@@ -32,8 +32,8 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
 })
 
   }
-
-  
+    
+  coveredUlbCount: number = 0;
   @ViewChild('highlightContainer', { static: false }) private highlightContainer: ElementRef<HTMLDivElement>;
   isHighlightContainerScrolledIntoView: boolean;
   highlightNo: number = 0;
@@ -313,9 +313,9 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     })
 
     
-    this._commonService.dataForVisualizationCount.subscribe((res)=>{
-       this.dataForVisualization = res;
-    })
+    this._commonService.dataForVisualizationCount.subscribe((res) => {
+      if (!this.coveredUlbCount) this.coveredUlbCount = res.coveredUlbCount;
+    });
   }
 
   loadRecentSearchValue() {
