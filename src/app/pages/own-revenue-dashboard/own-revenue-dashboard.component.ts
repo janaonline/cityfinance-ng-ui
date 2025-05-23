@@ -417,7 +417,9 @@ compareStates = (a: any, b: any) => a && b && a._id === b._id;
   }
 
   get stateList() {
-    return Object.entries(this.stateIds).map(([_id, name]) => ({_id, name}))
+    return Object.entries(this.stateIds)
+      .map(([_id, name]) => ({ _id, name: name as string }))
+      .sort((a, b) => (a.name as string).localeCompare(b.name as string));
   }
   getUlbForAutoComplete(value, autoSelectUlb = false) {
     const stateId = this.filterGroup?.controls?.stateId?.value;
