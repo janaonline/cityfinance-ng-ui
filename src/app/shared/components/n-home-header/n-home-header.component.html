@@ -118,7 +118,7 @@
                     <li class="nav-item" *ngIf="isLoggedIn && user?.role === 'ULB'">
                         <a class="nav-link" href="/fc/xvifc-form">XVI FC Data Collection</a>
                     </li>
-                    <li class="nav-item" *ngIf="isLoggedIn && user?.email !== 'doe@cityfinance.in'">
+                    <li class="nav-item" *ngIf="isLoggedIn && isReadonlyUser()">
                         <a *ngIf="user?.role == 'ULB' else rankingDashboard" class="nav-link" routerLinkActive="active"
                             [routerLink]="'/rankings/ulb-form'">{{"Rankings'22 Form"}}</a>
                         <ng-template #rankingDashboard>
@@ -126,7 +126,7 @@
                                 [routerLink]="'/rankings/review-rankings-ulbform'">{{"Rankings'22 Dashboard"}}</a>
                         </ng-template>
                     </li>
-                    <li class="nav-item" *ngIf="user?.role !== 'PMU' && user?.email !== 'doe@cityfinance.in'">
+                    <li class="nav-item" *ngIf="user?.role !== 'PMU' && isReadonlyUser()">
                         <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/list/ULB']" *ngIf="isLoggedIn
                           &&
                           (canViewUserList || canViewULBSingUpListing)">Users</a>
