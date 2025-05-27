@@ -926,7 +926,8 @@ export class OwnRevenueDashboardComponent implements OnInit {
               this.tempDataHolder["list"]?.length
             ) {
               tempData.data.datasets[0].data.push(
-                Number(Math.round(value.amount / denom))
+                // Number(Math.round(value.amount / denom))
+                Number(Math.round(value.amount))
               );
             } else {
               tempData.data.datasets[0].data.push(
