@@ -6,7 +6,7 @@
             <img src="../../../../assets/form-icon/Icon material-close.svg">
         </a>
     </div>
-    <div class="col-sm-12 text-center heading-p">
+    <div class="col-sm-12 text-center heading-p" style="background-color: red;">
         <span style="display: block;">
           Submissions for 15th FC grant for FY {{preData?.year?.key}}
          </span>
@@ -21,8 +21,9 @@
       </p>
   </div>
   <div class="col-sm-6 text-end d-n">
-      <button id="donwloadButton" class="btn btn-upload hi" (click)="clickedDownloadAsPDF(templateSave)">Download as
-          PDF</button>
+      <!-- <button id="donwloadButton" class="btn btn-upload hi" (click)="clickedDownloadAsPDF(templateSave)">Download as
+          PDF</button> -->
+          <button id="donwloadButton" style="" class="btn btn-primary no-print" (click)="downloadPdf()">Download PDF</button>
   </div>
 </div>
   <!----------- form name --------->

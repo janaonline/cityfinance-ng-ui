@@ -4,6 +4,12 @@ import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/d
 import { CommonService } from '../common.service';
 import { CommonServicesService } from 'src/app/fc-grant-2324-onwards/fc-shared/service/common-services.service';
 import { ActivatedRoute } from '@angular/router';
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import htmlToPdfmake from 'html-to-pdfmake';
+import type { TDocumentDefinitions, PageSize } from 'pdfmake/interfaces';
+import * as html2pdf from 'html2pdf.js';
+(pdfMake as any).vfs = (pdfFonts as any).vfs;
 
 @Component({
   selector: 'app-common-preview-template',
@@ -32,6 +38,7 @@ export class CommonPreviewTemplateComponent implements OnInit, OnChanges {
   }
 
   @ViewChild("downloadTemp") _html: ElementRef;
+  @ViewChild("downloadTemp") downloadTemp: ElementRef;
   @ViewChild("templateSave") template;
   dialogRef;
   userData;
@@ -117,8 +124,139 @@ export class CommonPreviewTemplateComponent implements OnInit, OnChanges {
   this.formStatus = this.preData?.qusResponce?.data[0].status;
   }
 
+//  downloadPdf(): void {
+//   const docDefinition: TDocumentDefinitions = {
+//     content: [
+//       {
+//         table: {
+//           widths: ['*'],
+//           body: [
+//             [{
+//               text: 'Lorem Ipsum Paragraph 1',
+//               fillColor: '#047474',
+//               color: 'white',
+//               fontSize: 18,
+//               bold: true,
+//               alignment: 'center',
+//               margin: [0, 6, 0, 6]
+//             }]
+//           ]
+//         },
+//         layout: 'noBorders',
+//         margin: [0, 10, 0, 10]
+//       },
+//       {
+//         text: `Lorem ipsum dolor sit amet...`,
+//         margin: [0, 10, 0, 10]
+//       },
+//       {
+//         table: {
+//           widths: ['*'],
+//           body: [
+//             [{
+//               text: 'Lorem Ipsum Paragraph 2',
+//               fillColor: '#047474',
+//               color: 'white',
+//               fontSize: 18,
+//               bold: true,
+//               alignment: 'center',
+//               margin: [0, 6, 0, 6]
+//             }]
+//           ]
+//         },
+//         layout: 'noBorders',
+//         margin: [0, 10, 0, 10]
+//       },
+//       {
+//         text: `Duis aute irure dolor in reprehenderit...`,
+//         margin: [0, 10, 0, 0]
+//       }
+//     ]
+//   };
 
+//   pdfMake.createPdf(docDefinition).download('LoremIpsum.pdf');
+// }
 
+// downloadPdf(): void {
+//     const options = {
+//       margin: 0,
+//       filename: `Form_Submission_${this.preData?.year?.key || 'Document'}.pdf`,
+//       image: { type: 'jpeg', quality: 0.98 },
+//       html2canvas: {
+//         scale: 2,
+//         useCORS: true
+//       },
+//       jsPDF: {
+//         unit: 'in',
+//         format: 'a4',
+//         orientation: 'portrait'
+//       }
+//     };
+
+//     const content = this._html.nativeElement;
+
+//     html2pdf().set(options).from(content).save();
+//   }
+
+downloadPdf() {
+  const original = this._html.nativeElement;
+
+  // Clone the DOM
+  const clone = original.cloneNode(true) as HTMLElement;
+
+  // Add inline styles to cloned version
+  this.applyInlineStyles(clone);
+
+  const options = {
+    margin: 0,
+    filename: `Form_Submission_${this.preData?.year?.key || 'Document'}.pdf`,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true },
+    jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+  };
+
+  // Convert and download PDF
+  html2pdf().set(options).from(clone).save();
+}
+
+// Inject inline styles ONLY for PDF
+applyInlineStyles(root: HTMLElement) {
+  // Example 1: Style .header-p
+  root.querySelectorAll('.header-p').forEach(el => {
+    (el as HTMLElement).style.backgroundColor = '#047474';
+    (el as HTMLElement).style.height = '75px';
+    (el as HTMLElement).style.textAlign = 'center';
+  });
+
+  // Example 2: Style .heading-p
+  root.querySelectorAll('.heading-p').forEach(el => {
+    const elH = el as HTMLElement;
+    elH.style.color = '#FFFFFF';
+    elH.style.fontSize = '18px';
+    elH.style.paddingTop = '1rem';
+    elH.style.fontWeight = '700';
+  });
+
+  // Add more here as needed for .card, .form-status, etc.
+}
+//   downloadPdf() {
+//   const html = this._html.nativeElement.innerHTML;
+
+// const htmlWithoutImages = html.replace(/<img[^>]+src="[^"]*"[^>]*>/g, '');
+
+// const pdfContent = htmlToPdfmake(htmlWithoutImages);
+
+//   // Convert to pdfMake format
+//   // const pdfContent = htmlToPdfmake(html);
+
+//   const docDefinition: TDocumentDefinitions = {
+//     content: pdfContent,
+//     pageSize: 'A4' as PageSize,
+//     pageMargins: [40, 60, 40, 60] as [number, number, number, number]
+//   };
+
+//   pdfMake.createPdf(docDefinition).download(`Form_Submission_${this.preData?.year?.key || 'Document'}.pdf`);
+// }
   closeDialog(){
     this._matDialog.closeAll();
   }
