@@ -203,6 +203,11 @@ export class NHomeHeaderComponent implements OnInit {
     });
   }
 
+  readonly readonlyEmails = ['doe@cityfinance.in', 'cca-mohua@gov.in'];
+  isReadonlyUser(): boolean {
+    return !this.readonlyEmails.includes(this.user?.email);
+  }
+
   isSticky = false;
   public screenHeight: any;
   elementPosition;
