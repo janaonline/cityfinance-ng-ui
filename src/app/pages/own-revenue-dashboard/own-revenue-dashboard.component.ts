@@ -930,7 +930,8 @@ compareStates = (a: any, b: any) => a && b && a._id === b._id;
               this.tempDataHolder["list"]?.length
             ) {
               tempData.data.datasets[0].data.push(
-                Number(Math.round(value.amount / denom))
+                // Number(Math.round(value.amount / denom))
+                Number(Math.round(value.amount))
               );
             } else {
               tempData.data.datasets[0].data.push(

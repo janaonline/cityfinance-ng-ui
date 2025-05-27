@@ -145,6 +145,14 @@ export class CompareDialogComponent implements OnInit {
   selectedParameter = new FormControl();
 
   selectedStateValue(event: any) {
+     const alreadyExists = this.stateChipList.some(state => state._id === event._id);
+
+  if (alreadyExists) {
+    this.matSnackBar.open(`Already selected!`, '', {
+      duration: 3000
+    });
+    return;
+  }
     if (this.stateChipList.length == 10) {
       this.matSnackBar.open(`Max 10 can be selected!`, null, {
         duration: 6600,
