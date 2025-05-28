@@ -27,8 +27,7 @@ import { AuthService } from "../../auth.service";
 })
 export class DashboardMapSectionComponent
   extends ReUseableHeatMapComponent
-  implements OnInit, OnDestroy
-{
+  implements OnInit, OnDestroy {
   myForm: FormGroup;
   stateUlbData = JSON.parse(localStorage.getItem("ulbList"));
   selectedDistrictCode;
@@ -94,10 +93,10 @@ export class DashboardMapSectionComponent
       });
     }, 1000);
     this.initializeform();
+    this.fetchCreditRatingTotalCount();
     this.fetchStateList();
     this.fetchDataForVisualization();
     // this.fetchDataForVisualization();
-    this.fetchCreditRatingTotalCount();
     this.fetchBondIssueAmout();
     this.fetchMinMaxFinancialYears();
   }
@@ -106,7 +105,7 @@ export class DashboardMapSectionComponent
     totalMunicipalBonds?: number;
     totalULB?: number;
     coveredUlbCount?: number;
-    ulbDataCount?:any;
+    ulbDataCount?: any;
     loading: boolean;
   } = { loading: true };
   previousStateLayer: ILeafletStateClickEvent["sourceTarget"] | L.Layer = null;
@@ -145,9 +144,9 @@ export class DashboardMapSectionComponent
   };
   date: any;
   districtMap: L.Map;
-  highestYear:any;
-  highestDataAvailability:any;
-  dataAvailTooltip='';
+  highestYear: any;
+  highestDataAvailability: any;
+  dataAvailTooltip = '';
   private homePageSubscription: Subscription;
   ngOnDestroy(): void {
     this.homePageSubscription?.unsubscribe();
@@ -404,20 +403,22 @@ export class DashboardMapSectionComponent
         * available option are {closeOnClick: false, closeButton: true, autoClose: true }
         * if you know other option too please add into this object for future reference
         */
-        var popup = L.popup({closeButton: false, autoClose: true }).setContent(`${this._commonService.createCityTooltip(dataPoint)}`);
+        var popup = L.popup({ closeButton: false, autoClose: true }).setContent(`${this._commonService.createCityTooltip(dataPoint)}`);
         const marker = this.createDistrictMarker({
           ...dataPoint,
           icon: this.blueIcon,
         }).addTo(districtMap)
-        .bindPopup(popup);
+          .bindPopup(popup);
 
         /* Adding a mouseover and mouseout event to the marker. */
-        marker.on({ mouseover: () => {
+        marker.on({
+          mouseover: () => {
             this.mouseHoveredOnULB = dataPoint;
             marker.openPopup();
           }
         });
-        marker.on({ mouseout: () => {
+        marker.on({
+          mouseout: () => {
             this.mouseHoveredOnULB = null;
             marker.closePopup();
           }
@@ -602,10 +603,10 @@ export class DashboardMapSectionComponent
             highestData = item?.ulbs;
             this.highestYear = item?.year;
           }
-      }
-      this.highestDataAvailability = ((+highestData / +this.dataForVisualization?.totalULB) * 100).toFixed(0);
-       // this.highestYear = this.dataForVisualization?.ulbDataCount[0]?.year;
-       // this.highestDataAvailability = ((this.dataForVisualization?.ulbDataCount[0]?.ulbs / this.dataForVisualization?.totalULB) * 100).toFixed(0);
+        }
+        this.highestDataAvailability = ((+highestData / +this.dataForVisualization?.totalULB) * 100).toFixed(0);
+        // this.highestYear = this.dataForVisualization?.ulbDataCount[0]?.year;
+        // this.highestDataAvailability = ((this.dataForVisualization?.ulbDataCount[0]?.ulbs / this.dataForVisualization?.totalULB) * 100).toFixed(0);
       }
       this.dataAvailTooltip = '';
       this.dataForVisualization?.ulbDataCount?.forEach(element => {
