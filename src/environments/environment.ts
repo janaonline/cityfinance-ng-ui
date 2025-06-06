@@ -33,7 +33,7 @@ if (window.location.hostname.includes("new-cityfinance")) {
   GoogleTagID = "G-MDPDTZFW0N";
 }
 
-url = "http://localhost:8081/api/v1/"
+// url = "http://localhost:8080/api/v1/"
 //url = "http://192.168.201.96:8080/api/v1/"
 //url = "http://192.168.200.148:8080/api/v1/"
 
