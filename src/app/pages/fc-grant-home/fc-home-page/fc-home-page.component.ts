@@ -48,7 +48,7 @@ export class FcHomePageComponent extends BaseComponent implements OnInit {
      console.log(ulbRecord)
      this._profileService.getAccessYears().subscribe((res)=> {
      this.yearList = res['data'];
-     if (this.loggedInUserType === 'STATE') this.yearList = this.yearList.filter((item: any) => item.year != '2025-26');
+    //  if (this.loggedInUserType === 'STATE') this.yearList = this.yearList.filter((item: any) => item.year != '2025-26');
      console.log('year list data', this.yearList);
      },
      (err)=> {
