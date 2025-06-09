@@ -3,13 +3,6 @@
         <app-front-panel [showDataAvailable]="'true'" (dataAvailEmit)="setAvail($event)" (yearValue)="setYear(yearVal)" (changeInStateOrCity)="changeInDropDown($event)" style="padding: 0" [mapConfig]="mapData" [cardData]="revenueData" [data]="frontPanelData"
             [componentName]="'stateDB'"></app-front-panel>
     </div>
-    <div class="row pt-3">
-    <div class="col-sm-9" style="margin: auto;">
-      <div class="alert alert-success text-center" role="alert">
-        <a routerLink="/resources-dashboard/data-sets/income_statement">Download Budget Data</a>
-      </div>
-    </div>
-  </div>
     <div class="row p-1">
         <div class="text-center header">Dashboard</div>
     </div>
