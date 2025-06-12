@@ -832,7 +832,8 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
               incorrectProjects.add(project.forParentValue);
           }
 
-          Swal.fire(`Project no. ${[...incorrectProjects].join(', ')} has error(s). Kindly review and rectify them.`);
+          if (incorrectProjects?.size > 0)
+            Swal.fire(`Project no. ${[...incorrectProjects].join(', ')} has error(s). Kindly review and rectify them.`);
         }
         
       } else if (filterInvalidEnterAnswer.length > 0) {
