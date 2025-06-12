@@ -4,7 +4,7 @@
 
 thead {
     position: sticky;
-    top: 5px;
+    top: 50px;
 }
 
 .white {
@@ -99,8 +99,7 @@ tr:last-child {
     display: flex !important;
 }
 .fixed-ui-tb {
-    height: auto;
-    max-height: 36rem;
+    height: 36rem;
 
     .bg-white {
         width: 60rem;
@@ -145,16 +144,14 @@ tr:last-child {
 a {
     text-decoration-thickness: from-font;
 }
-.sn-no {
-    .table>thead>tr>th:first-child,
-    .table>tbody>tr>td:first-child,
-    .table>thead>tr>td:first-child {
-        width: 5rem !important;  
-        text-align: center !important;
-        
-      }
-}
 
+.table>thead>tr>th:first-child,
+.table>tbody>tr>td:first-child,
+.table>thead>tr>td:first-child {
+    width: 5rem !important;  
+    text-align: center !important;
+    
+  }
 .cur {
     cursor: default;
 }

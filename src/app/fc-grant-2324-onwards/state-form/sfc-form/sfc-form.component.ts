@@ -15,6 +15,7 @@ import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-load
 import { PreviewComponent } from './preview/preview.component';
 import { DateAdapter } from '@angular/material/core';
 import { CommonServicesService } from '../../fc-shared/service/common-services.service';
+import { awardPeriodValidator } from './custom-validators';
 const swal: SweetAlert = require("sweetalert");
 const swal2 = require("sweetalert2");
 
@@ -99,6 +100,8 @@ export class SfcFormComponent implements OnInit {
   };
 
   isActionSubmitted: boolean = false;
+  message: string;
+  showMessage: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -154,7 +157,8 @@ export class SfcFormComponent implements OnInit {
     this.loaderService.showLoader();
     this.sfcFormService.getForm(this.stateId, this.design_year).subscribe((res: any) => {
       this.loaderService.stopLoader();
-      console.log('response', res);
+      this.showMessage = res?.showMessage;
+      if (this.showMessage) this.message = res?.message;
       this.question = res?.data;
       this.tabs = res?.data?.tabs;
       this.status = res?.data?.status;
@@ -255,6 +259,7 @@ export class SfcFormComponent implements OnInit {
 
   getValidators(item, canApplyRequired = false, parent?) {
     return [
+      ...(item.type === "awardPeriod" ? [awardPeriodValidator] : []),
       ...(parent?.logic == 'sum' && item.modelName ? [Validators.pattern(new RegExp(item.value))] : []),
       ...(item.required && canApplyRequired ? [Validators.required] : []),
       ...(item.formFieldType == 'url' ? [Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')] : []),

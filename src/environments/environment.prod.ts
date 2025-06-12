@@ -5,8 +5,8 @@ let url = window.location.origin + "/api/v1/";
 let GoogleTagID: string;
 let isProduction: boolean = false;
 let versionCheckURL = window.location.origin + "/version.json";
-let STORAGE_BASEURL:string = 'https://jana-cityfinance-stg.s3.ap-south-1.amazonaws.com';
-let storageType:string = 'S3Url'; // "S3Url" for S3 storage type, for azure change this to 'BlobUrl'
+let STORAGE_BASEURL: string = 'https://jana-cityfinance-stg.s3.ap-south-1.amazonaws.com';
+let storageType: string = 'S3Url'; // "S3Url" for S3 storage type, for azure change this to 'BlobUrl'
 
 if (
   window.location.hostname.includes("demo") ||
@@ -22,6 +22,8 @@ if (
 } else if (window.location.hostname.includes("staging")) {
   GoogleTagID = "G-803HPPLFMM";
   url = "https://staging.cityfinance.in/api/v1/";
+} else if (window.location.hostname.includes("test")) {
+  url = "https://test.cityfinance.in/api/v1/";
 } else if (window.location.hostname.includes("new-cityfinance")) {
   url = "https://newcityfinanceapi.dhwaniris.in/api/v1/";
   // url = "http://localhost:8080/api/v1/";
@@ -35,6 +37,7 @@ if (
 export const environment = {
   performanceURL: "https://pas.org.in/web/ceptpas/iuppkpi?parameterAutoLoginLogin=guestulb9&parameterAutoLoginPassword=guestulb9@abc",
   production: true,
+  fcURL: window.location.origin + '/fc/',
   api: {
     url2: "https://cityfinance.in/",
     url1: "https://democityfinanceapi.dhwaniris.in/",

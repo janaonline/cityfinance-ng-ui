@@ -26,7 +26,7 @@ export class ComparisionFiltersComponent implements OnInit {
   ulbs = [];
 
   datasetsFilter = {};
-  noResultFound:boolean = false;
+
   constructor(
     private matDialog: MatDialog,
     private fiscalRankingService: FiscalRankingService,
@@ -45,20 +45,8 @@ export class ComparisionFiltersComponent implements OnInit {
   }
 
   search() {
-    const queryParams = {
-      q: this.query,
-      populationBucket: this.data?.ulb.populationBucket
-    }
-    this.fiscalRankingService.callGetMethod('scoring-fr/autocomplete-ulbs', queryParams).subscribe((res: any) => {
-      this.noResultFound = false;
-      this.searchResults = res?.ulbs;
-      console.log('this.searchResults', this.searchResults);
-      if(!this.searchResults.length){
-        this.searchResults.push({
-          name : `Search result for ${this.query} was not found in ${this.data?.bucketShortName} category`
-        });
-        this.noResultFound = true;
-      }
+    this.fiscalRankingService.searchUlb(this.query).subscribe((res: any) => {
+      this.searchResults = res.ulbs;
       this.menuTrigger.openMenu();
     })
   }

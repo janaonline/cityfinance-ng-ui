@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Pipe({
-  name: 'formError'
+  name: 'formError',
+  pure: false,
 })
 export class FormErrorPipe implements PipeTransform {
   transform(control: FormControl): string | null {
@@ -23,7 +24,7 @@ export class FormErrorPipe implements PipeTransform {
             return `The minimum value allowed is ${control.errors.min.min}`;
           // Add more cases for other error types as needed
           default:
-            return `Please provide a valid input. ${errorKey}`;
+            return `Please provide a valid input. ${control.errors[errorKey]}`;
         }
       }
     }

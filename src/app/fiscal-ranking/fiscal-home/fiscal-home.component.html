@@ -12,12 +12,12 @@
                                 <div class="col-sm-12">
                                     <h1 id="title-hd">City Finance <br> Rankings 2022</h1>
                                 </div>
-                                <div class="col-sm-12 mt-2 text-center" >
+                                <div class="col-sm-12 mt-2 text-center" style="">
                                     <span id="title-p">Celebrating the best financially performing cities of India.</span>
                                 </div>
                                 <div class="col-sm-12 text-center mt-4">
-                                    <div class="li1 ms-4" *ngFor="let item of iconresult" >
-                                        <img src="{{item.imageurl | toStorageUrl}}" class="bg-light p-3 tp-i-r" >
+                                    <div class="li1 ms-4" *ngFor="let item of iconresult" style="">
+                                        <img src={{item.imageurl}} class="bg-light p-3 tp-i-r" style="">
                                         <span class="ms-3 icon-txt">
                                             <span class="icon-p">{{item.text}}</span>
                                         <br>
@@ -63,21 +63,21 @@
             <div class="row g-0 justify-content-center text-center header-Pos-ic">
                 <div class="col-sm-12 iconsection">
                     <div class="d-flex justify-content-center h-pos">
-                        <div class="card cd-2" *ngFor="let item of fqCardData" >
+                        <div class="card cd-2" *ngFor="let item of fqCardData" style="">
                             <div class="row g-0 al-c my-auto">
-                                <div class="col-sm-3 w-n" >
+                                <div class="col-sm-3 w-n" style="">
                                     <div class="circle" *ngIf="item?.key != 'video'">
-                                        <img src="{{item?.image }}" class="bg-light tp-i-r-b" >
+                                        <img src={{item?.image}} class="bg-light tp-i-r-b" style="">
                                     </div>
                                     <div class="circle-v" *ngIf="item?.key == 'video'">
                                         <svg class="tp-i-r-video" xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 0 24 24" width="28px" fill="#7A7AF8">
                                         <path d="M0 0h24v24H0z" fill="none"/>
                                         <path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12zm-2-9H8v2h11V8zm0 4H8v2h11v-2zM7 8H5v2h2V8zm0 4H5v2h2v-2z"/>
                                         </svg>
-                                        <!-- <img src={{item?.image}} class="bg-light tp-i-r-video" > -->
+                                        <!-- <img src={{item?.image}} class="bg-light tp-i-r-video" style=""> -->
                                     </div>
                                 </div>
-                                <div class="col-sm-9 text-start w-t" >
+                                <div class="col-sm-9 text-start w-t" style="">
                                     <div class="card-body fq-c">
                                         <div class="cd-2-tl">{{item?.title}}</div>
                                         <div class="cd-2-dn" *ngIf="item?.key != 'video'">
@@ -115,10 +115,10 @@
     <div class="container-fluid p-0 m-0">
         <div class="cont">
             <div class="row g-0 d-flex justify-content-center">
-                <!-- <div class="card col-md-4 mx-3 shadow CardHover"  id="CardSize">
+                <!-- <div class="card col-md-4 mx-3 shadow CardHover" style="" id="CardSize">
                     <div class="row justify-content-between g-0 a-i-c my-auto">
                         <div class="col-4 col-sm-4 wd-4">
-                            <img src="../../../assets/M FIGMA/sh_narendra_modi_27.09 1.png" class="img-fluid rounded-start pm-img" >
+                            <img src="../../../assets/M FIGMA/sh_narendra_modi_27.09 1.png" class="img-fluid rounded-start pm-img" style="">
                         </div>
                         <div class="col-8 col-sm-8 wd-6">
                             <div class="card-body">
@@ -139,10 +139,10 @@
                     </div>
                 </div> -->
                 <!-- card2 -->
-                <div class="card col-md-4 mx-3 shadow CardHover"  id="CardSize" style="display: none;">
+                <div class="card col-md-4 mx-3 shadow CardHover" style="" id="CardSize">
                     <div class="row justify-content-between a-i-c g-0">
                         <div class="col-4 col-sm-4 wd-4">
-                            <img src="../../../assets/M FIGMA/Hardeep_Puri-480x480-removebg-preview 1.png" class="img-fluid rounded-start m-img" >
+                            <img src="../../../assets/M FIGMA/Hardeep_Puri-480x480-removebg-preview 1.png" class="img-fluid rounded-start m-img" style="">
                         </div>
                         <div class="col-8 col-sm-8 wd-6">
                             <div class="card-body">
@@ -176,7 +176,7 @@
             <div class="row d-flex justify-content-center cards-loop p-3">
                 <div class="col-md-4 col-lg-3 col-sm-5" *ngFor="let item of objresult">
                     <div class="card p-3 m-1 shadow cardB">
-                        <img src="{{item.imageurl | toStorageUrl}}" class="card-img-top" style="height: 100px; width: 100px;
+                        <img src={{item.imageurl}} class="card-img-top" style="height: 100px; width: 100px;
                       margin-left:18px;">
                         <div class="card-body ps-0 pe-0">
                             <div class="objectives-t mb-4">{{item.title}}</div>
@@ -203,7 +203,7 @@
                             <div class="card-body p-4">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <img src="{{data.imageurl | toStorageUrl}}" class="card-img-top" style="height:113px; width:113px;">
+                                        <img src={{data.imageurl}} class="card-img-top" style="height:113px; width:113px;">
                                     </div>
                                     <div class="col-sm-12 mt-5">
                                         <div class="title-assess">{{data.title}}</div>
@@ -239,7 +239,7 @@
         <!-- image and ULB -->
         <div class="container-fluid mr-t-b">
             <div class="h-p2 text-center mb3">
-                <h2  class="h-sl">How it works</h2>
+                <h2 style="" class="h-sl">How it works</h2>
             </div>
             <div class="row d-flex justify-content-center align-items-center mt-4 g-0 mb-4" #highlightContainer>
                 <div class="img-ulb col-md-5">
@@ -272,7 +272,7 @@
         </div>
         <!-- salient features -->
         <div class="w-100 mr-t-b" style="background-color: #1E5492;">
-            <div class="container sl-cnt" >
+            <div class="container sl-cnt" style="">
                 <div class="row g-0">
                     <div class="col-sm-12 ms-3">
                         <div class="h-p3">Salient Features</div>
@@ -287,7 +287,7 @@
                                         <span>{{data.title}}</span>
                                     </div>
                                     <div class="col-md-3">
-                                        <img src="{{data.imageurl | toStorageUrl}}" class="card-img-top img-fluid" style="height: 60px; width: 60px;">
+                                        <img src={{data.imageurl}} class="card-img-top img-fluid" style="height: 60px; width: 60px;">
                                     </div>
                                 </div>
                                 <div class="row mt-4">
@@ -312,7 +312,7 @@
             </div>
             <div class="row d-flex justify-content-center text-center p-3 g-0">
                 <div class="col-md-3" *ngFor="let data of rankresult">
-                    <div><img class="img-fluid r-icon"  height="20px" src="{{data.imageurl | toStorageUrl}}"></div>
+                    <div><img class="img-fluid r-icon" style="" height="20px" src={{data.imageurl}}></div>
                     <div class="body title-sp mt-2">
                         <span>{{data.title}}</span>
                     </div>
@@ -322,7 +322,7 @@
 
         <div class="mr-t-b mb-0">
             <div class="row d-flex justify-content-center m-0 p-0 g-0">
-                <div class="col-md-6 lst-d" >
+                <div class="col-md-6 lst-d" style="">
                     <div class="p-5">
                         <div class="h-p5">
                             <span class="">About
@@ -336,7 +336,7 @@
                             The City Finance platform serves as a national framework of standardized, timely and credible financial information on India’s cities (urban local bodies).<br> The platform hosts more than 8,400 audited annual accounts of nearly
                             3,000 municipalities (ULBs) in a standardized and comparable format.
                         </div>
-                        <a class="btn btn-exp" href="https://cityfinance.in/home" target="_blank" >Explore</a>
+                        <a class="btn btn-exp" href="https://cityfinance.in/home" target="_blank" style="">Explore</a>
                     </div>
                 </div>
 

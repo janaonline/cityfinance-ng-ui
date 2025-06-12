@@ -43,6 +43,7 @@ if (window.location.hostname.includes("new-cityfinance")) {
 export const environment = {
   performanceURL: "https://pas.org.in/web/ceptpas/iuppkpi?parameterAutoLoginLogin=guestulb9&parameterAutoLoginPassword=guestulb9@abc",
   production: false,
+  fcURL: window.location.origin + '/fc/',
   api: {
     url2: "https://cityfinance.in/",
     url: url,

@@ -37,6 +37,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
   compareDialogType = 2;
   preSelectedOwnRevenueDbParameter: string = "Own Revenue per Capita";
   deSelectStateObject = {_id: 'State Name'};
+compareStates = (a: any, b: any) => a && b && a._id === b._id;
 
   dropdownSettings = {
     singleSelection: true,
@@ -48,7 +49,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
     classes: "filter-component",
   };
 
-  state = new FormControl();
+  state = new FormControl(null);
   // propertyTaxVal: boolean = false;
   changeTab(type) {
     this._loaderService.showLoader();
@@ -416,7 +417,9 @@ export class OwnRevenueDashboardComponent implements OnInit {
   }
 
   get stateList() {
-    return Object.entries(this.stateIds).map(([_id, name]) => ({_id, name}))
+    return Object.entries(this.stateIds)
+      .map(([_id, name]) => ({ _id, name: name as string }))
+      .sort((a, b) => (a.name as string).localeCompare(b.name as string));
   }
   getUlbForAutoComplete(value, autoSelectUlb = false) {
     const stateId = this.filterGroup?.controls?.stateId?.value;
@@ -600,9 +603,10 @@ export class OwnRevenueDashboardComponent implements OnInit {
       ulb: "",
       ulbType: "ULB Type",
       populationCategory: "ULB Population Category",
-      // financialYear: "2020-21",
-      financialYear: this.yearList?.length ? this.yearList[0] : "2020-21",
+       financialYear: "2020-21",
+      // financialYear: this.yearList?.length ? this.yearList[0] : "2020-21",
     });
+    this.state.setValue(null); 
     this.allCalls();
   }
   pieChartLoading = true;
@@ -926,7 +930,8 @@ export class OwnRevenueDashboardComponent implements OnInit {
               this.tempDataHolder["list"]?.length
             ) {
               tempData.data.datasets[0].data.push(
-                Number(Math.round(value.amount / denom))
+                // Number(Math.round(value.amount / denom))
+                Number(Math.round(value.amount))
               );
             } else {
               tempData.data.datasets[0].data.push(
@@ -1204,11 +1209,22 @@ revenueExpenditureCopy.title = value?.totalUlbMeetExpense ?? 0;
     // },
   ];
 
-  onStateChange(state) {
-    console.log(state);
-    this.filterGroup.patchValue({ stateId: state._id })
-    this.filterData('state', '')
+  // onStateChange(state) {
+  //   console.log(state,'this is state');
+  //   this.filterGroup.patchValue({ stateId: state._id })
+  //   this.filterData('state', '')
+  // }
+  onStateChange(event: Event) {
+  const selectedState = this.state.value; // full state object
+  console.log(selectedState, 'this is state');
+
+  if (selectedState && selectedState._id) {
+    this.filterGroup.patchValue({ stateId: selectedState._id });
+    this.filterData('state', '');
+  } else {
+    this.filterGroup.patchValue({ stateId: null });
   }
+}
 
   downloadCSV(from) {
     this._loaderService.showLoader();

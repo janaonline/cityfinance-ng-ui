@@ -104,10 +104,26 @@
         <div class="col-md-12 d-flex pt-2 fl-form">
           <div class="d-flex flex-wrap">
             <div class="col-md-2 me-1">
-              <angular2-multiselect class="form-select" (onSelect)="onStateChange($event)"
+              <!-- <angular2-multiselect class="form-select" (onSelect)="onStateChange($event)"
                 (onDeSelectAll)="onStateChange(deSelectStateObject)" class="expo-drp-in ind-selct" [data]="stateList"
                 [formControl]="state" [settings]="dropdownSettings">
-              </angular2-multiselect>
+              </angular2-multiselect> -->
+           <select class="form-select expo-drp-in ind-selct"
+        [formControl]="state"
+        [compareWith]="compareStates"
+        (change)="onStateChange($event)">
+  
+  <!-- Must be first, and use ngValue=null -->
+  <option [ngValue]="null" selected>Select State</option>
+
+  <option *ngFor="let item of stateList" [ngValue]="item">
+    {{ item.name }}
+  </option>
+</select>
+
+<!-- <p>Selected: {{ state.value?.name || 'None' }}</p> -->
+
+              
             </div>
 
             <div class="col-md-2 mx-1">

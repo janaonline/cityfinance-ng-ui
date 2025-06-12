@@ -265,13 +265,9 @@ padding: .5rem 1rem;
   padding-right: 100%;
   box-sizing: content-box;
   -webkit-animation-iteration-count: infinite;
-  animation-iteration-count: infinite;
-  -webkit-animation-timing-function: linear;
-  animation-timing-function: linear;
-  -webkit-animation-name: ticker;
   animation-name: ticker;
-  -webkit-animation-duration: 40s;
-  animation-duration: 40s;
+  -webkit-animation-duration: 30s;
+  animation-duration: 30s;
 }
 .ticker-wrap .ticker__item {
   display: inline-block;

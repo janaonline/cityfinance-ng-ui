@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { BreadcrumbLink } from '../breadcrumb/breadcrumb.component';
 import { FiscalRankingService, UlbData } from '../fiscal-ranking.service';
-import { environment } from 'src/environments/environment';
 
 
 interface APIResponse {
@@ -27,38 +26,28 @@ export class UlbDetailsComponent implements OnInit {
 
   breadcrumbLinks: BreadcrumbLink[] = [
     {
-      // label: 'City Finance Ranking - Home',
-      label: 'Back to input form',
-      // url: '/rankings/home',
-     url: '/rankings/ulb-form'
+      label: 'City Finance Ranking - Home',
+      url: '/rankings/home'
     },
-    // {
-    //   label: 'Top rankings',
-    //   url: '/rankings/ulb-form'
-    //   // url: '/rankings/top-rankings'
-    // }
+    {
+      label: 'Top rankings',
+      url: '/rankings/top-rankings'
+    }
   ];
 
   data: APIResponse;
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private fiscalRankingService: FiscalRankingService,
-   // private _router: Router,
-  ) {
-    // if(environment?.isProduction) {
-    //    this._router.navigateByUrl('rankings/home')
-    //   }
-   }
+    private fiscalRankingService: FiscalRankingService
+  ) { }
 
   get ulbId() {
     return this.activatedRoute.snapshot.params.ulbId;
   }
 
-  userData:any;
+
   ngOnInit(): void {
-    this.userData = JSON.parse(localStorage.getItem("userData"));
-    if(this.userData?.role != "ULB") this.breadcrumbLinks[0].url = `/rankings/ulb-form/${this.ulbId}`
     this.breadcrumbLinks.push({
       label: 'ULB details',
       url: `/rankings/ulb/${this.ulbId}`,

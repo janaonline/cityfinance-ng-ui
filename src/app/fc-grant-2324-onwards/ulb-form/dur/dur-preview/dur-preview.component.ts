@@ -1,5 +1,5 @@
 import { Component, ElementRef, Inject, Input, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { QuestionnaireService } from 'src/app/pages/questionnaires/service/questionnaire.service';
 import { defaultDailogConfiuration } from 'src/app/pages/questionnaires/ulb/configs/common.config';
@@ -154,7 +154,7 @@ tr {
 }
   </style>`;
 
-  @Input()changeFromOutSide: any;
+  @Input() changeFromOutSide: any;
   totalWmAmount = 0;
   totalSwmAmount = 0;
   USER_TYPES = USER_TYPE;
@@ -170,15 +170,36 @@ tr {
   }
   ngOnInit(): void {
     this.calculateUtilizedAmt();
-    if (this.userDetails.role == USER_TYPE.ULB) {
-      this.state = this.userData.stateName;
-      this.ulb = this.userData.name;
-    } else {
-      this.state = sessionStorage.getItem("stateName");
-      this.ulb = sessionStorage.getItem("ulbName");
-    }
-console.log('preview data', this.data);
+    // if (this.userDetails.role == USER_TYPE.ULB) {
+    //   this.state = this.userData.stateName;
+    //   this.ulb = this.userData.name;
+    // } else {
+    //   this.state = sessionStorage.getItem("stateName");
+    //   this.ulb = sessionStorage.getItem("ulbName");
+    // }
 
+
+    // this.state = this.data?.ulbDetails?.stateName;
+    // this.ulb = this.data?.ulbDetails?.ulbName;
+    // console.log('preview data', this.state, this.ulb);
+
+    // console.log('preview data', this.data);
+
+  }
+
+  private getFileName(): string {
+    // let fileName = `${this.data.stateName}_${this.data.ulbCode || "_"}${this.data.ulbName}_2023-24_${this.data.formStatus || this.data.status}`;
+
+    let filename = [this.data.stateName, this.data.ulbCode, this.data.ulbName, this.data.formStatus || this.data.status].reduce((acc, curr, idx) => {
+      if (curr) {
+        if (idx == 0) return curr;
+        return acc + "_" + curr;
+      }
+      return acc;
+    }, "");
+    filename = filename.replace(/\s/g, "");
+
+    return filename;
   }
 
   downloadForm() {
@@ -189,8 +210,10 @@ console.log('preview data', this.data);
     this._questionnaireService.downloadPDF({ html }).subscribe(
       (res) => {
         // StateName_ULBName_FyYear_FormStatus 
-        let fileName = `${this.state}_${this.ulb}_2023-24_${this.data?.status}`;
-        fileName = fileName.replace(/\s/g, "");
+        // let fileName = `${this.state}_${this.ulb}_2023-24_${this.data?.status}`;
+        // TODO: set year dynamically
+        const fileName = this.getFileName();
+
         this.downloadFile(res.slice(0), "pdf", `${fileName}.pdf`);
         this.showLoader = false;
       },
@@ -252,7 +275,7 @@ console.log('preview data', this.data);
   dialogClose() {
     this._matDialog.closeAll();
   }
-  checkForYear(){
+  checkForYear() {
     return this.data?.selectedYear == "2024-25";
   }
 

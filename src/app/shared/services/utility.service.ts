@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as FileSaver from "file-saver";
 import Swal from 'sweetalert2';
 
-
 interface Validator {
   name: string;
   validator: any;

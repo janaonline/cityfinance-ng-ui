@@ -187,11 +187,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   routeToProperLocation(user: IUserLoggedInDetails) {
     if (this.loginType === 'XVIFC') {
       if ([USER_TYPE.XVIFC_STATE, USER_TYPE.XVIFC].includes(user.role)) {
-        window.location.href = window.location.origin + '/fc/admin/xvi-fc-review';
-        // window.location.href = 'http://localhost:4300/admin/xvi-fc-review';
+        window.location.href = environment.fcURL + 'admin/xvi-fc-review';
       } else if (user.role === USER_TYPE.ULB) {
-        window.location.href = window.location.origin + '/fc/xvifc-form';
-        // window.location.href = 'http://localhost:4300/xvifc-form';
+        window.location.href = environment.fcURL + 'xvifc-form';
       }
     } else {
       const rawPostLoginRoute =

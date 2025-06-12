@@ -67,8 +67,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ReactiveFormsModule,
     GlobalPartModule,
     MatDialogModule,
-    MatDialogModule,
     MatProgressSpinnerModule 
-  ]
+]
 })
 export class UlbFormModule { }
