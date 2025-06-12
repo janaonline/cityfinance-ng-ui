@@ -217,7 +217,7 @@ html,
 body {
     margin: 0;
     padding: 0;
-    // overflow-x: hidden;
+    overflow-x: hidden;
 }
 
 // * {
@@ -1434,3 +1434,9 @@ input[type=number] {
     background: rgba(0, 0, 0, 0.5);
     z-index: 1000;
   }
+
+  
+.info-block{
+    font-family: 'Montserrat';
+    color: #000;
+}
