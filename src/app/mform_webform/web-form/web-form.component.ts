@@ -50,6 +50,7 @@ import { MatPaginator } from '@angular/material/paginator';
 const swal: SweetAlert = require("sweetalert");
 import * as FileSaver from "file-saver";
 import { DataEntryService } from '../../dashboard/data-entry/data-entry.service';
+import Swal from 'sweetalert2';
 
 declare const $: any;
 
@@ -731,6 +732,17 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
     await submitForm(false, this.questionData).then((value: any) => {
       emptyError = value.filter((item: any) => item.visibility);
     });
+
+    if (this.form == 'dur') {
+      emptyError = emptyError.filter(error => {
+        const key = error.title?.toLowerCase();
+        return !(
+          key?.includes('15th fc tied grant status for the financial year') &&
+          !this.detectQUestionWithZeroValue
+        );
+      });
+    }
+
     console.log('emptyError', emptyError)
     if (isSaveAsDraft) {
       this.prepareFinalResponse(finalQuestionResponse, proposalName, isSaveAsDraft);
@@ -808,6 +820,19 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
         // });
         if(this.viewFormTemplate == 'dur'){
           this.openSnackBar(['One or more required fields are empty or contains invalid data. Please check your input for all fields or pages.'], 3000);
+          
+          const errorProjectDetails = emptyError.find(error => {
+            const key = error?.title.toLowerCase();
+            return key?.includes('project details as on');
+          })
+          
+          let incorrectProjects = new Set();
+          if (errorProjectDetails?.nestedQuestions.length > 0) {
+            for (const project of errorProjectDetails?.nestedQuestions) 
+              incorrectProjects.add(project.forParentValue);
+          }
+
+          Swal.fire(`Project no. ${[...incorrectProjects].join(', ')} has error(s). Kindly review and rectify them.`);
         }
         
       } else if (filterInvalidEnterAnswer.length > 0) {
@@ -1074,6 +1099,36 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
       this.detectQUestionWithZeroValue = parseInt(value.target.value) == 0 ? true : false;
      if (parseInt(value.target.value) != 0)
        this.detectQUestionWithZeroReasonValue = false;
+          
+     const fileUploadObj = this.questionData.find(
+        (ele) =>
+          ele.shortKey === "grantPosition.fileUploadDuringYrWithZeroReason"
+      );
+      if (this.detectQUestionWithZeroValue) {
+        fileUploadObj.validation = [
+          {
+            _id: "83",
+            error_msg: "",
+            value: "application/pdf",
+          },
+          {
+            _id: "1",
+            error_msg: "",
+          },
+          {
+            _id: "81",
+            error_msg: "",
+            value: "5120",
+          },
+          {
+            _id: "82",
+            error_msg: "",
+            value: "1",
+          },
+        ];
+      } else {
+        fileUploadObj.validation = [];
+      }
    }
    if (question.shortKey == 'grantPosition___receivedDuringYrWithZero') {
      this.detectQUestionWithZeroReasonValue = parseInt(value.target.value) == 3 ? true : false
