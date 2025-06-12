@@ -29,7 +29,7 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
   filteredUlbs: Observable<NamedEntity[]>;
   yearsList: string[];
   staticYearsList = ['2019-20', '2018-19', '2017-18', '2016-17', '2015-16'];
-  contentType = ["Raw Data PDF", "Raw Data Excel", "Standardised Excel"];
+  contentType = ["Raw Data PDF", "Raw Data Excel", "Standardised Excel", "Budget PDF"];
   isSearching: boolean;
   unsubscribe$ = new Subject<void>();
 
