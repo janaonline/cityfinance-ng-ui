@@ -1,4 +1,10 @@
 <div class="container">
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary mb-3" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p>Loading budget years...</p>
+  </div>
   <h2 class="text-center">Share the Budget Documents</h2>
 
   <!-- Intro text -->
@@ -39,6 +45,7 @@
       </div>
     </div>
   </div>
+
   <p
     *ngIf="doneYears.length > 0"
     class="text-left fw-bold mt-5"
@@ -68,10 +75,14 @@
                 type="url"
                 class="form-control rounded-pill bg-light border-0"
                 id="urlInput"
+                [value]="pastedUrl"
+                (input)="onUrlInputChange($event)"
                 placeholder="https://example.com"
               />
               <button
                 class="btn rounded-pill px-4"
+                (click)="saveUrl()"
+                [disabled]="!isValidUrl(pastedUrl)"
                 style="
                   background-color: #002f6c;
                   border-color: #002f6c;
@@ -96,39 +107,45 @@
           </h1>
         </div>
         <!-- Upload Box -->
-        <small class="text-danger">You can upload a single PDF</small>
+        <small class="text-danger">{{ uploadConfig.helpText }}</small>
         <div
           class="upload-box text-center py-4 px-3 mb-3 border rounded"
+          [ngStyle]="
+            isDragging
+              ? uploadConfig?.style?.dragOver
+              : uploadConfig?.style?.default
+          "
           (dragover)="onDragOver($event)"
           (dragleave)="onDragLeave($event)"
           (drop)="onFileDrop($event)"
           (click)="fileInput.click()"
           [class.drag-over]="isDragging"
-          style="border: 5px dashed #000000; cursor: pointer"
+          style="cursor: pointer"
         >
           <!-- Hidden input -->
           <input
             type="file"
             #fileInput
             id="fileInput"
-            [accept]="allowedFileTypeStr"
+            [accept]="uploadConfig?.input?.accept"
+            [multiple]="uploadConfig?.input?.multiple"
             (change)="onFileSelected($event)"
             hidden
           />
 
           <!-- Icon -->
           <img
-            src="https://cdn-icons-png.flaticon.com/128/337/337946.png"
-            alt=""
-            width="50"
+            [src]="uploadConfig?.icon?.url"
+            [style.width.px]="uploadConfig?.icon?.size || 50"
+            alt="Upload Icon"
           />
 
           <!-- Upload Text -->
-          <p class="fw-bold mt-2 mb-1">Upload consolidated PDF</p>
-          <small class="text-secondary">Drag and drop the file here.</small>
+          <p class="fw-bold mt-2 mb-1">{{ uploadConfig?.label }}</p>
+          <small class="text-secondary">{{ uploadConfig?.description }}</small>
         </div>
         <div class="d-flex justify-content-end">
-          <small class="text-secondary">Maximum size 20 MB.</small>
+          <small class="text-secondary">{{ uploadConfig?.maxSizeText }}</small>
         </div>
         <!-- Uploaded File Info -->
         <!-- <div *ngIf="uploadedFileName" class="small mt-2">
@@ -195,42 +212,84 @@
       <!-- Show file name if already uploaded -->
       <ng-template #fileDone class="card">
         <div class="d-flex align-items-center gap-2">
-          <img
-            src="https://cdn-icons-png.flaticon.com/128/337/337946.png"
-            alt="file"
-            width="24"
-            height="24"
-          />
-          <span>{{ sel.fileName || "budget.pdf" }}</span>
+          <!-- Conditional for PDF -->
+          <ng-container *ngIf="sel.files?.[0]?.type === 'pdf'; else urlBlock">
+            <!-- PDF icon -->
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/337/337946.png"
+              alt="PDF"
+              width="24"
+              height="24"
+            />
+            <!-- PDF link -->
+            <a
+              [href]="
+                'https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com' +
+                sel.files[0].url
+              "
+              target="_blank"
+              class="fw-bold text-decoration-none text-dark"
+              style="cursor: pointer"
+            >
+              {{ sel.displayName || sel.files[0].url }}
+            </a>
+          </ng-container>
+
+          <!-- Conditional for URL -->
+          <ng-template #urlBlock>
+            <!-- Link icon -->
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/7347/7347153.png"
+              alt="URL"
+              width="24"
+              height="24"
+            />
+            <!-- URL link -->
+            <a
+              [href]="sel.files?.[0]?.url"
+              target="_blank"
+              class="fw-bold text-decoration-none text-dark"
+              style="cursor: pointer"
+            >
+              {{ sel.files[0].url }}
+            </a>
+          </ng-template>
         </div>
-      </ng-template>  
+      </ng-template>
     </div>
   </ng-container>
+
   <div class="mt-4">
-  <h5 class="fw-bold mb-3">Q&amp;A</h5>
+    <h5 class="fw-bold mb-3">Q&amp;A</h5>
 
-  <div class="mb-3">
-    <p class="fw-bold mb-1">1. Why is the budget data being collected?</p>
-    <p class="mb-0">
-      City Finance strives to be the central platform for all financial data of city governments.
-      Voluntary sharing of budgets helps improve transparency.
-    </p>
-  </div>
+    <div class="mb-3">
+      <p class="fw-bold mb-1">1. Why is the budget data being collected?</p>
+      <p class="mb-0">
+        City Finance strives to be the central platform for all financial data
+        of city governments. Voluntary sharing of budgets helps improve
+        transparency.
+      </p>
+    </div>
 
-  <div class="mb-3">
-    <p class="fw-bold mb-1">2. What happens after the data is submitted?</p>
-    <p class="mb-0">
-      It does not impact grant disbursal under XC available on City Finance. The documents are <strong>not</strong> forwarded to the State Department.
-      The documents are checked for accuracy, and once verified, the data is made public.
-    </p>
-  </div>
+    <div class="mb-3">
+      <p class="fw-bold mb-1">2. What happens after the data is submitted?</p>
+      <p class="mb-0">
+        It does not impact grant disbursal under XC available on City Finance.
+        The documents are <strong>not</strong> forwarded to the State
+        Department. The documents are checked for accuracy, and once verified,
+        the data is made public.
+      </p>
+    </div>
 
-  <div class="mb-3">
-    <p class="fw-bold mb-1">3. What if I don't have budget data for some years?</p>
-    <p class="mb-0">
-      You can upload the years you have now and return later to complete the rest. There's no penalty for partial uploads,
-      but submitting all five years gives a more complete picture of your city's finances.
-    </p>
+    <div class="mb-3">
+      <p class="fw-bold mb-1">
+        3. What if I don't have budget data for some years?
+      </p>
+      <p class="mb-0">
+        You can upload the years you have now and return later to complete the
+        rest. There's no penalty for partial uploads, but submitting all five
+        years gives a more complete picture of your city's finances.
+      </p>
+    </div>
   </div>
-</div>
 </div>
