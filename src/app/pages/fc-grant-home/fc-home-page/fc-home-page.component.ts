@@ -4,6 +4,7 @@ import { ProfileService } from 'src/app/users/profile/service/profile.service';
 import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { Location } from '@angular/common';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-fc-home-page',
   templateUrl: './fc-home-page.component.html',
@@ -69,7 +70,46 @@ export class FcHomePageComponent extends BaseComponent implements OnInit {
   //     }
   //   });
   // }
-  setId(yearId){
+  setId(yearId) {
     sessionStorage.setItem("selectedYearId", yearId);
   }
+  onYearSelect(item: any): void {
+
+    this.setId(item.id);
+
+    // Trigger background navigation
+    this._router.navigate([item.url]);
+    // Check for 2024–25 or 2025–26
+    if (item.year === '2024-25' || item.year === '2025-26') {
+      const yearId = item.id;
+      Swal.fire({
+        title: 'Share your latest budget documents',
+        html: `
+        <p>Uploading your budget documents helps improve transparency and ensures your city’s data is complete and up to date on the platform.</p>
+        <p class="text-muted small">This step is OPTIONAL and can be done at any time.</p>
+      `,
+        imageUrl: 'https://cdn-icons-png.flaticon.com/512/2965/2965567.png', // Replace with your image
+        imageWidth: 128,
+        imageHeight: 128,
+        showCancelButton: true,
+        confirmButtonText: 'Upload now',
+        cancelButtonText: 'Dismiss',
+        reverseButtons: true,
+        customClass: {
+          confirmButton: 'btn btn-dark',
+          cancelButton: 'btn btn-outline-dark me-2'
+        },
+        buttonsStyling: false
+      }).then((result) => {
+        if (result.isConfirmed) if (result.isConfirmed) {
+          this._router.navigate([`/ulb-form/${yearId}/budget-documents`]);
+        }
+      });
+    } else {
+      // Regular navigation
+      this.setId(item.id);
+      this._router.navigate([item.url]);
+    }
+  }
+
 }

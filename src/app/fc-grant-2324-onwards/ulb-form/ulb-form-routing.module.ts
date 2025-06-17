@@ -15,6 +15,7 @@ import { TwentyEightSlbComponent } from './twenty-eight-slb/twenty-eight-slb.com
 import { UlbFormComponent } from './ulb-form.component';
 import { VideoGallaryComponent } from './video-gallary/video-gallary.component';
 import { FeedbackFormComponent } from './feedback-form/feedback-form.component';
+import { BudgetUploadComponent } from './budget-upload/budget-upload.component';
 
 const routes: Routes = [
   {
@@ -87,7 +88,11 @@ const routes: Routes = [
       {
         path: "dur-dump-pdf/:stateId",
         component: DurDumpComponent,
-      }
+      },{
+        path: "budget-documents",
+        component: BudgetUploadComponent,
+      },
+
     ],
   },
 ];

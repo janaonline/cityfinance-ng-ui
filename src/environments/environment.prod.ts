@@ -28,9 +28,9 @@ if (
   url = "https://newcityfinanceapi.dhwaniris.in/api/v1/";
   // url = "http://localhost:8080/api/v1/";
   GoogleTagID = "G-MDPDTZFW0N";
-} else if (window.location.origin === "https://cityfinance.in") {
+} else if (window.location.origin === "https://cityfinance.in" || window.location.origin === "https://www.cityfinance.in") {
   isProduction = true;
-  url = "https://cityfinance.in/api/v1/";
+  url = "https://www.cityfinance.in/api/v1/";
   GoogleTagID = "G-MDPDTZFW0N";
   STORAGE_BASEURL = 'https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com';
 }
@@ -39,7 +39,7 @@ export const environment = {
   production: true,
   fcURL: window.location.origin + '/fc/',
   api: {
-    url2: "https://cityfinance.in/",
+    url2: "https://www.cityfinance.in/",
     url1: "https://democityfinanceapi.dhwaniris.in/",
     url,
   },
