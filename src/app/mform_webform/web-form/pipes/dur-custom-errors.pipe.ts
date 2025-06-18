@@ -46,7 +46,7 @@ export class DurCustomErrorsPipe implements PipeTransform {
       const projectDetails = questionData.find(question => question.shortKey == 'projectDetails_tableView_addButton');
       const projectSum = this.getRowSum(projectDetails?.childQuestionData, 6);
       console.log('project details', expDuringYr, projectSum)
-      if (expDuringYr != projectSum) {
+      if (+expDuringYr != +(projectSum.toFixed(2))) {
         return 'Sum of all project wise expenditure amount does not match total expenditure amount provided in the XVFC summary section. Kindly recheck the amounts.';
       }
     }
