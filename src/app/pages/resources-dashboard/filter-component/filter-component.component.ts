@@ -32,6 +32,7 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
   contentType = ["Raw Data PDF", "Raw Data Excel", "Standardised Excel", "Budget PDF"];
   isSearching: boolean;
   unsubscribe$ = new Subject<void>();
+  pdfStatus = ['Audited', 'Unaudited'];
 
   constructor(
     private fb: FormBuilder,
@@ -44,6 +45,7 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
     const ulbId = this.route.snapshot.queryParamMap.get('ulbId');
     const state = this.route.snapshot.queryParamMap.get('state');
     const contentType = this.route.snapshot.queryParamMap.get('type');
+    const pdfStatus = this.route.snapshot.queryParamMap.get('pdf');
 
     if (year || ulbName || ulbId || state) {
       this.filterForm = this.fb.group({
@@ -51,6 +53,7 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
         ulb: [{ _id: ulbId || '', name: ulbName || '' }],
         contentType: [contentType],
         year: [year],
+        pdfStatus: [pdfStatus], // Added pdfStatus to the form
         // category: this.category,
       });
       // this.onFilterChange();
@@ -87,6 +90,7 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
       ulb: [''],
       contentType: [''],
       year: [''],
+      pdfStatus: [''], 
       // category: this.category,
     });
   }
@@ -180,6 +184,7 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
       ulb: '',
       contentType: 'Raw Data PDF',
       year: this.filterInputData?.comp == 'dataSets' ? this.yearsList[0] : '',
+      pdfStatus: '', 
       // category: this.category,
     }, { emitEvent: false });
 

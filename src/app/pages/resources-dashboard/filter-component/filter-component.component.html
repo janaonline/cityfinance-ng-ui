@@ -62,6 +62,26 @@
       </mat-select>
     </mat-form-field>
 
+    <mat-form-field
+      *ngIf="filterInputData?.comp == 'dataSets'"
+      class="col p-0"
+      appearance="outline"
+    >
+      <mat-label>Status</mat-label>
+      <mat-select
+        formControlName="pdfStatus"
+        (keyup.enter)="onFilterChange()"
+      >
+        <mat-option
+          (click)="onFilterChange()"
+          *ngFor="let pdf of pdfStatus"
+          [value]="pdf"
+        >
+          {{ pdf }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <mat-form-field class="col p-0" appearance="outline">
       <mat-label>Financial Year</mat-label>
       <mat-select formControlName="year" (keyup.enter)="onFilterChange()">
