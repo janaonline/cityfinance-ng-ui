@@ -1,0 +1,19 @@
+.icon-sm {
+  width: 30px;
+  height: 30px;
+}
+.upload-box {
+  background-color: #fdf4ec;
+  border: 1px dashed #f4b47f;
+  transition: background-color 0.2s ease;
+}
+
+.upload-box.drag-over {
+  background-color: #fae4d1;
+  border-color: #e58c43;
+}
+::ng-deep .snackbar-error {
+  background-color: #dc3545 !important;  // Bootstrap-style red
+  color: #fff;
+  font-weight: 500;
+}
