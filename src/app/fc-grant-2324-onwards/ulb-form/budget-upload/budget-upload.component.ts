@@ -266,12 +266,12 @@ export class BudgetUploadComponent implements OnInit {
         {
           designYearId: selected.designYearId,
           designYear: selected.fy.replace('FY ', ''),
-          source: 'ulb',
           currentFormStatus: 1,
           sequence: selected.sequence || 6,
           uploadedBy,
           files: [
             {
+              source: 'ulb',
               type: 'pdf',
               url: this.uploadedFilePath,
               name: this.uploadedFileName,
@@ -367,9 +367,10 @@ export class BudgetUploadComponent implements OnInit {
     const uploadedBy = userData?._id;
     const selected = this.selectedItem;
     const filePayload = {
+      source: 'ulb',
       type: 'url',
       url: this.pastedUrl,
-      name: 'dummy', // placeholder
+      name: this.pastedUrl,
       created_at: new Date().toISOString()
     };
 
