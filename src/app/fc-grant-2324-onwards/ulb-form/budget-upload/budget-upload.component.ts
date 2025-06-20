@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BudgetUploadService } from './budget-upload.service';
 import { GlobalLoaderService } from "../../../../app/shared/services/loaders/global-loader.service";
+import { environment } from "src/environments/environment";
+
 
 interface FYItem {
   fy: string;
@@ -20,35 +22,9 @@ interface FYItem {
   styleUrls: ['./budget-upload.component.scss']
 })
 export class BudgetUploadComponent implements OnInit {
+
   constructor(private http: HttpClient, private snackBar: MatSnackBar, private budgetuploadservice: BudgetUploadService, public _loaderService: GlobalLoaderService,) { }
   fyList: FYItem[];
-  // [
-  //     {
-  //       fy: 'FY 2021-22',
-  //       status: 'Done',
-  //       icon: 'https://cdn-icons-png.flaticon.com/128/5290/5290109.png'
-  //     },
-  //     {
-  //       fy: 'FY 2022-23',
-  //       status: 'Pending',
-  //       icon: 'https://cdn-icons-png.flaticon.com/128/8213/8213126.png'
-  //     },
-  //     {
-  //       fy: 'FY 2023-24',
-  //       status: 'Pending',
-  //       icon: 'https://cdn-icons-png.flaticon.com/128/8213/8213126.png'
-  //     },
-  //     {
-  //       fy: 'FY 2024-25',
-  //       status: 'Done',
-  //       icon: 'https://cdn-icons-png.flaticon.com/128/5290/5290109.png'
-  //     },
-  //      {
-  //       fy: 'FY 2025-26',
-  //       status: 'Done',
-  //       icon: 'https://cdn-icons-png.flaticon.com/128/5290/5290109.png'
-  //     },
-  //   ];
   selectedIdx = 0;                 // first year pre-selected
   allowedFileTypeStr = 'application/pdf';
   uploadedFileName: string | null = null;
@@ -82,9 +58,9 @@ export class BudgetUploadComponent implements OnInit {
             const hasFiles = item.files && item.files.length > 0;
             const file = hasFiles ? item.files[0] : null;
             const sequence = item.sequence;
-            const displayName = hasFiles
-              ? `CityReport_Budget_${item.designYear}.pdf`
-              : null;
+           const displayName = hasFiles
+  ? file.name  // use actual uploaded file name
+  : null;
             return {
               fy: fyLabel,
               status: hasFiles ? 'Done' : 'Pending',
@@ -96,6 +72,9 @@ export class BudgetUploadComponent implements OnInit {
               files: item.files,
               sequence: sequence,
               displayName: displayName,
+              fileUrl: hasFiles
+      ? environment.STORAGE_BASEURL + file.url
+      : null,
               fileName: file?.name || null,
             } as FYItem;
           });
@@ -141,7 +120,12 @@ export class BudgetUploadComponent implements OnInit {
   /** Handle card click */
   selectYear(i: number): void {
     this.selectedIdx = i;
-    this.uploadError = '';         // clear previous errors
+     this.uploadedFile = null;
+    this.uploadedFileName = null;
+    this.uploadedFileUrl = null;
+    this.isFileValid = false;
+    this.uploadError = '';  
+    this.pastedUrl = '';       // clear previous errors
   }
   get doneYears(): string[] {
     if (!this.fyList || !Array.isArray(this.fyList)) return [];
@@ -170,8 +154,8 @@ export class BudgetUploadComponent implements OnInit {
   /** File selected via input */
   onFileSelected(ev: Event): void {
 
-    const input = ev.target as HTMLInputElement;
-    const file = input.files?.[0];
+      const input = ev.target as HTMLInputElement;
+    const file =input.files?.[0];
     if (!file) return;
     const fileType = file.type;
     const fileSize = file.size;
@@ -266,12 +250,12 @@ export class BudgetUploadComponent implements OnInit {
         {
           designYearId: selected.designYearId,
           designYear: selected.fy.replace('FY ', ''),
-          source: 'ulb',
-          currentFormStatus: 1,
+          currentFormStatus: 3,
           sequence: selected.sequence || 6,
           uploadedBy,
           files: [
             {
+              source: 'ulb',
               type: 'pdf',
               url: this.uploadedFilePath,
               name: this.uploadedFileName,
@@ -367,9 +351,10 @@ export class BudgetUploadComponent implements OnInit {
     const uploadedBy = userData?._id;
     const selected = this.selectedItem;
     const filePayload = {
+      source: 'ulb',
       type: 'url',
       url: this.pastedUrl,
-      name: 'dummy', // placeholder
+      name: this.pastedUrl,
       created_at: new Date().toISOString()
     };
 
@@ -379,7 +364,7 @@ export class BudgetUploadComponent implements OnInit {
           designYearId: selected.designYearId,
           designYear: selected.fy.replace('FY ', ''),
           source: ulb,
-          currentFormStatus: 1,
+          currentFormStatus: 3,
           sequence: selected.sequence,
           uploadedBy: uploadedBy,
           files: [filePayload]

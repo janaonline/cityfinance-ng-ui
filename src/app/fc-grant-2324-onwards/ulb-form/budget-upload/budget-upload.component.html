@@ -223,10 +223,7 @@
             />
             <!-- PDF link -->
             <a
-              [href]="
-                'https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com' +
-                sel.files[0].url
-              "
+              [href]="sel.fileUrl"
               target="_blank"
               class="fw-bold text-decoration-none text-dark"
               style="cursor: pointer"
@@ -246,7 +243,7 @@
             />
             <!-- URL link -->
             <a
-              [href]="sel.files?.[0]?.url"
+              [href]="sel.fileUrl"
               target="_blank"
               class="fw-bold text-decoration-none text-dark"
               style="cursor: pointer"
