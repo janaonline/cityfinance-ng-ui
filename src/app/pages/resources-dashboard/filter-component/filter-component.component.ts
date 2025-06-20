@@ -28,10 +28,11 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
   statesList: NamedEntity[];
   filteredUlbs: Observable<NamedEntity[]>;
   yearsList: string[];
-  staticYearsList = ['2019-20', '2018-19', '2017-18', '2016-17', '2015-16'];
+  staticYearsList = ['2019-20', '2018-19', '2017-18', '2016-17', '2015-16','2025-26'];
   contentType = ["Raw Data PDF", "Raw Data Excel", "Standardised Excel", "Budget PDF"];
   isSearching: boolean;
   unsubscribe$ = new Subject<void>();
+  // auditType: string;
 
   constructor(
     private fb: FormBuilder,
@@ -72,7 +73,7 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
       complete: () => {
         // If year and contentType is received from query params then don't update.
         if (!this.filterForm.get('year')?.value)
-          this.filterForm.patchValue({ year: this.yearsList[0] }, { emitEvent: false });
+          this.filterForm.patchValue({ year: this.yearsList[1] }, { emitEvent: false });
         if (!this.filterForm.get('contentType')?.value)
           this.filterForm.patchValue({ contentType: 'Raw Data PDF' }, { emitEvent: false });
 
@@ -90,7 +91,32 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
       // category: this.category,
     });
   }
+  // make year dynamic based on contentType work in progress
+// private triggerUploadForBudgetPDF(): void {
+//  this.filterForm.get('contentType')?.valueChanges
+//   .pipe(
+//     takeUntil(this.unsubscribe$),
+//     distinctUntilChanged()
+//   )
+//   .subscribe((type: string) => {
+//     this.auditType = type; // 👈 directly set auditType to selected contentType
+// console.log('Selected contentType:', this.auditType);
+//     // Now call API with dynamic auditType
+//     this._resourcesDashboardService.getAnnualAccountsYear(this.auditType)
+//       .pipe(takeUntil(this.unsubscribe$))
+//       .subscribe({
+//         next: (res: any) => {
+//           const years = Array.from(new Set([...res.afsYears, ...this.staticYearsList])).sort((a, b) => b.localeCompare(a));
+//           this.yearsList = years;
+//           console.log('Years List:', this.yearsList[0]);
+//           this.filterForm.patchValue({ year: this.yearsList[0] }, { emitEvent: false });
+//         },
+//         error: (err) => console.error('Error fetching years:', err.message),
+//       });
+//   });
 
+
+// }
   private loadStates(): void {
     this._commonServices
       .fetchStateList()
@@ -179,7 +205,7 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
       state: '',
       ulb: '',
       contentType: 'Raw Data PDF',
-      year: this.filterInputData?.comp == 'dataSets' ? this.yearsList[0] : '',
+      year: this.filterInputData?.comp == 'dataSets' ? this.yearsList[1] : '',
       // category: this.category,
     }, { emitEvent: false });
 
