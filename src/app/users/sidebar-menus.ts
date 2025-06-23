@@ -169,6 +169,11 @@ export const defaultSideBarContents: { title: string; subMenus: ILink[] }[] = [
           });
         },
       },
+       {
+        title: "Budget Document Upload",
+        type: "link",
+        route: ["/user/data-upload/bulk-pdf"],
+      },
       {
         title: "Annual Accounts",
         type: "link",
