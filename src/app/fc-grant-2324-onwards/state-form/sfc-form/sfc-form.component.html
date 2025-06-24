@@ -245,8 +245,7 @@
     <div class="d-flex justify-content-end my-2" *ngIf="isButtonAvail">
         <div class="row w-100">
             <div class="col-sm-6">
-                <button class="btn btn-pre" [routerLink]="nextPreUrl?.backBtnRouter">
-                    &lt;- Previous Form </button>
+                <button class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
             </div>
             <div class="col-sm-6 d-flex justify-content-end">
                 <div class="d-inline-flex mr-1">
@@ -261,9 +260,7 @@
                     </button>
                 </div>
                 <div class="d-inline-flex ">
-                    <button [routerLink]="nextPreUrl?.nextBtnRouter" class="btn btn-next text-uppercase">
-                        Next Form -&gt;
-                    </button>
+                    <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
                 </div>
             </div>
         </div>

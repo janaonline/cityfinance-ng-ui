@@ -118,11 +118,17 @@ export class GtcPreviewComponent implements OnInit {
   userData;
   years;
   stateId;
-
+  yearIdToLabelMap: Record<string, string> = {
+    '606aafcf4dff55e6c075d424': '2024-25',
+    '606aafda4dff55e6c075d48f': '2025-26',
+    '606aafc14dff55e6c075d3ec': '2023-24',
+  };
   ngOnInit(): void {
     console.log("preview data", this.data);
   }
-
+  getYearLabel(yearId: string): string {
+    return this.yearIdToLabelMap[yearId] || 'Unknown Year';
+  }
   openDialog(template) {
     const dialogConfig = new MatDialogConfig();
     this.dialogRef = this._matDialog.open(template, dialogConfig);
