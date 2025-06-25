@@ -15,6 +15,7 @@ import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-load
 import { PreviewComponent } from './preview/preview.component';
 import { DateAdapter } from '@angular/material/core';
 import { CommonServicesService } from '../../fc-shared/service/common-services.service';
+import { awardPeriodValidator } from './custom-validators';
 const swal: SweetAlert = require("sweetalert");
 const swal2 = require("sweetalert2");
 
@@ -100,6 +101,8 @@ export class SfcFormComponent implements OnInit {
   };
 
   isActionSubmitted: boolean = false;
+  message: string;
+  showMessage: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -163,11 +166,14 @@ setRouter() {
     return !this.form.pristine;
   }
 
+  minValue: string = "2015-04-01";
+
   loadData() {
     this.loaderService.showLoader();
     this.sfcFormService.getForm(this.stateId, this.design_year).subscribe((res: any) => {
       this.loaderService.stopLoader();
-      console.log('response', res);
+      this.showMessage = res?.showMessage;
+      if (this.showMessage) this.message = res?.message;
       this.question = res?.data;
       this.tabs = res?.data?.tabs;
       this.status = res?.data?.status;
@@ -181,6 +187,51 @@ setRouter() {
       this.isLoader = false;
       this.canTakeAction = res?.data?.canTakeAction;
       this.formDisable(res?.data);
+
+      const dataControl = this.form.at(0).get("data.constitutionDate");
+      dataControl?.valueChanges.subscribe((value) => {
+        const constitutionDate = value?.yearData?.[0]?.date;
+
+        if (
+          constitutionDate &&
+          this.design_year === "606aafda4dff55e6c075d48f"
+        ) {
+          const dateObj = new Date(constitutionDate);
+
+          // Format date to 'dd-MM-yyyy'
+          const day = String(dateObj.getDate()).padStart(2, "0");
+          const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+          const year = dateObj.getFullYear();
+
+          this.minValue = `${year}-${month}-${day}`;
+
+          // Update award period validator
+          const minYear = year.toString();
+          const formGroup = this.form.at(0).get("data");
+          const awardPeriodControl = formGroup
+            .get("awardPeriod")
+            .get("yearData")
+            .get("0")
+            .get("value");
+
+          if (awardPeriodControl) {
+            // Set existing validatoins.
+            const baseValidators = this.getValidators(
+              { type: "awardPeriod" },
+              true
+            );
+
+            // Set new validations.
+            awardPeriodControl.setValidators([
+              ...baseValidators,
+              awardPeriodValidator(minYear),
+            ]);
+
+            // Trigger validation update
+            awardPeriodControl.updateValueAndValidity();
+          }
+        }
+      });
     }, err => {
       this.loaderService.stopLoader();
     });
@@ -268,6 +319,7 @@ setRouter() {
 
   getValidators(item, canApplyRequired = false, parent?) {
     return [
+      // ...(item.type === "awardPeriod" ? [awardPeriodValidator] : []),
       ...(parent?.logic == 'sum' && item.modelName ? [Validators.pattern(new RegExp(item.value))] : []),
       ...(item.required && canApplyRequired ? [Validators.required] : []),
       ...(item.formFieldType == 'url' ? [Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')] : []),

@@ -3,7 +3,10 @@
     </h5>
     <button class="btn btn-primary" (click)="onPreview()">Preview</button>
 </div>
-<small class="text-danger">All questions with * are mandatory</small>
+<small *ngIf="!showMessage" class="text-danger">All questions with * are mandatory</small>
+<div *ngIf="showMessage" class="alert alert-info" role="alert">
+    {{ message }}
+</div>
 
 <ng-template #treeNode let-yearItem="yearItem" let-yearIndex="yearIndex" let-hideErrors="hideErrors">
     <div class="col-sm-12 for-radio" *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
@@ -42,10 +45,18 @@
                 *ngIf="yearItem?.controls?.formFieldType?.value == 'date'"
                 [ngClass]="{'border-danger': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
                 <div class="d-flex w-100 px-2 justify-content-between">
-                    <input matInput class="mat-date" formControlName="date" style="pointer-events: none;"
-                        [matDatepicker]="r_i" [disabled]="yearItem?.controls?.readonly?.value"
-                        [min]="yearItem?.controls?.min?.value" [max]="yearItem?.controls?.max?.value"
-                        placeholder="Choose a date" [attr.id]="  + r_i" />
+                    <input
+                        matInput
+                        class="mat-date"
+                        formControlName="date"
+                        style="pointer-events: none;"
+                        [matDatepicker]="r_i"
+                        [disabled]="yearItem?.controls?.readonly?.value"
+                        [min]="yearItem?.controls?.type?.value === 'releaseDate' && design_year === '606aafda4dff55e6c075d48f' ? minValue : yearItem?.controls?.min?.value"
+                        [max]="yearItem?.controls?.max?.value"
+                        placeholder="Choose a date"
+                        [attr.id]="  + r_i" 
+                    />
                     <mat-datepicker-toggle matSuffix [disabled]="yearItem?.controls?.readonly?.value" [for]="r_i">
                     </mat-datepicker-toggle>
                 </div>
