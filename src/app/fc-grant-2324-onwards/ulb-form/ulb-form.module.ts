@@ -35,6 +35,7 @@ import { NoUpDownDirective } from './property-tax/no-up-down.directive';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FeedbackFormComponent } from './feedback-form/feedback-form.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { BudgetUploadComponent } from './budget-upload/budget-upload.component';
 
 
 
@@ -51,7 +52,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ResourceComponent, 
     NoUpDownDirective,
     ErrorDialog,
-    PropertyTaxComponent, LoaderComponent, PreviewComponent, PfmsComponent, FourSlbComponent, DecimalLimitDirective, YearComparisionPipe, AllowedFileTypesPipe, FormErrorPipe, VideoGallaryComponent, FeedbackFormComponent
+    PropertyTaxComponent, LoaderComponent, PreviewComponent, PfmsComponent, FourSlbComponent, DecimalLimitDirective, YearComparisionPipe, AllowedFileTypesPipe, FormErrorPipe, VideoGallaryComponent, FeedbackFormComponent, BudgetUploadComponent
   ],
   imports: [
     CommonModule,
