@@ -30,18 +30,18 @@ export class GtcPreviewComponent implements OnInit {
 }
 .heading-p {
     color: #FFFFFF;
-    font-size: 18px;
+    font-size: 25px;
     padding-top: 1rem !important;
     font-weight: 700;
 
 }
 .sub-h {
   font-weight: 600 !important;
-  font-size: 14px;
+  font-size: 18px;
 }
 
 .form-h {
-  font-size: 15px;
+  font-size: 20px !important;
   font-weight: 700;
   margin-bottom: 1rem;
   text-align: center;
@@ -62,17 +62,17 @@ export class GtcPreviewComponent implements OnInit {
     .qus-h {
       margin-bottom: .5rem;
       margin-top: .5rem;
-      font-size: 10px !important;
+      font-size: 18px !important;
     }
 
     .ans-h {
         margin-bottom: .5rem;
         margin-left: 1.2rem;
         margin-top: .5rem;
-        font-size: 10px !important;
+        font-size: 18px !important;
     }
     .l-h {
-      font-size: 12px !important;
+      font-size: 18px !important;
     }
     .m-r{
       margin-bottom: 1.5rem !important;
@@ -94,15 +94,15 @@ export class GtcPreviewComponent implements OnInit {
       margin-top: .5rem !important;
     }
     .td {
-      font-size: 6px;
+      font-size: 12px;
       border: 1px solid gray;
     }
     .th {
-      font-size: 6px;
+      font-size: 12px;
       text-align: left;
     }
       p{
-      font-size: 8px;
+      font-size: 12px;
       }
     </style>`;
   @ViewChild("gtcpre") _html: ElementRef;
