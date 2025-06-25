@@ -127,9 +127,9 @@ export class SfcFormComponent implements OnInit {
     this.loadData();
   }
 
+  yearsList = JSON.parse(localStorage.getItem("Years"));
   get uploadFolderName() {
-    const years = JSON.parse(localStorage.getItem("Years"));
-    const year = this.getKeyByValue(years, this.design_year);
+    const year = this.getKeyByValue(this.yearsList, this.design_year);
     return `${this.userData?.role}/${year}/sfc/${this.userData?.stateCode}`
   }
 
@@ -444,6 +444,7 @@ export class SfcFormComponent implements OnInit {
     const dialogRef = this.dialog.open(PreviewComponent, {
       id: 'UlbFisPreviewComponent',
       data: {
+        year: this.getKeyByValue(this.yearsList, this.design_year),
         showData: this.form.getRawValue(),
         financialYearTableHeader: this.financialYearTableHeader,
         specialHeaders: this.specialHeaders,
