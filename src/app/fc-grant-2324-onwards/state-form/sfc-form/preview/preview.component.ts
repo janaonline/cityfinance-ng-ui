@@ -50,36 +50,40 @@ export class PreviewComponent implements OnInit {
     }
     .heading-p {
         color: #FFFFFF;
-        font-size: 16px;
+        font-size: 25px;
         margin-top: 1rem;
         font-weight: 700;
     }
+    .sub-h {
+        font-weight: 600 !important;
+        font-size: 20px;
+   }    
     .pdf-hide{
       display : none;
     }
     .m-hed {
-        font-size: 10px;
+        font-size: 18px;
         margin-top: 1rem;
         font-weight: 500;
         margin-bottom: .5rem;
         text-align: center;
     }
     .f-label {
-      font-size: 10px;
-      margin-bottom: .5rem;
+      font-size: 18px;
+      margin-bottom: 1rem;
     }
     .yr-l {
       display : inline-block;
-      width: 50%;
-      font-size: 10px;
+      width: 40%;
+      font-size: 18px;
     }
     .yr-ans {
       display : inline-block;
-      width: 50%;
-      font-size: 10px;
+      width: 60%;
+      font-size: 18px;
     }
     .form-l {
-      font-size: 10px;
+      font-size: 18px;
       margin-bottom: .5rem;
     }
     .mb-1 {
@@ -93,10 +97,10 @@ export class PreviewComponent implements OnInit {
       margin-left: .5rem;
     }
     .td {
-      font-size: 10px;
+      font-size: 18px;
     }
     .th {
-      font-size: 10px;
+      font-size: 18px;
       text-align: left;
     }
     .table-gray {
