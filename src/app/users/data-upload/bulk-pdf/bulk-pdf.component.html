@@ -1,23 +1,54 @@
 <div class="container">
-    <div class="card ">
+    <div class="card">
         <h5 class="p-3">Budget Document Bulk Upload</h5>
-        <div class="card m-3 p-3 ">
+        <div class="card m-3 p-3">
             <p class="mb-1 fw-bold">Upload your budget documents in bulk</p>
             <p class="lh-1" style="font-size: 0.875rem; color: #008066">
-                You can upload multiple budget documents at once. Please ensure that the files are in PDF format and named according to the ulb id and financial year.
+                You can upload multiple budget documents at once. Please ensure that the
+                files are in PDF format and named according to the ulb id and financial
+                year.
             </p>
-           <p class="p-2 mb-2 fw-bold">Please select the financial year</p> 
+            <p class="p-2 mb-2 fw-bold">Please select the financial year</p>
             <div class="d-flex align-items-stretch gap-2">
-                <select class="form-select rounded-pill bg-light border-0">
-                    <option *ngFor="let year of financialYears" [value]="year">{{ year }}</option>
-                </select>
-                <button class="btn rounded-pill px-4" (click)="uploadBulkPdf()" style="background-color: #002f6c; border-color: #002f6c; color: #ffffff; white-space: nowrap;">
-                    Upload
-                </button>
+                <form [formGroup]="myForm" class="w-100">
+                    <select class="form-select rounded-pill bg-light border-0 mt-2 mb-3"
+                        formControlName="financialYear">
+                        <option *ngFor="let year of financialYears" [value]="year">
+                            {{ year }}
+                        </option>
+                    </select>
+                    <input type="file" class="form-control rounded-pill bg-light border-0"
+                        (change)="onFileSelected($event)" multiple accept=".pdf" formControlName="inputFiles" />
+                    <div class="form-text text-danger small mt-1 d-flex justify-content-end">Max 10 files allowed</div>
+                </form>
             </div>
-            <div class="form-text text-danger small mt-1">
-                Ensure that the files are named correctly and in PDF format.
+
+
+            <div *ngIf="selectedFiles">
+                <div>
+                    <p class="mt-3 mb-1 fw-bold" *ngIf="selectedFiles">Selected Files</p>
+                    <ul class="list-group">
+                        <li *ngFor="let file of selectedFiles"
+                            class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ file.name }}
+                            <!-- <button class="btn btn-danger btn-sm" (click)="removeFile(file)">Remove</button> -->
+                        </li>
+                    </ul>
+                </div>
+                <div class="d-flex justify-content-center gap-3 mt-4">
+                    <!-- Cancel Button: Bootstrap warning color -->
+                    <button class="btn btn-warning rounded-pill px-4" (click)="removeFile()">
+                        Clear all
+                    </button>
+
+                    <!-- Upload Button: Bootstrap primary color (dark blue) -->
+                    <button class="btn btn-primary rounded-pill px-4" (click)="submitBulkPDf(uploadData)">
+                        Submit
+                    </button>
+                </div>
             </div>
+
         </div>
+
     </div>
 </div>
