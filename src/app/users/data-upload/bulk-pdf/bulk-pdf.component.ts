@@ -114,6 +114,7 @@ export class BulkPdfComponent implements OnInit {
           timer: 2000,
           showConfirmButton: false,
         });
+        this._loaderService.stopLoader();
         return throwError(error); // Handle error
       })
     );
@@ -130,6 +131,7 @@ export class BulkPdfComponent implements OnInit {
           timer: 2000,
           showConfirmButton: false,
         });
+        this._loaderService.stopLoader();
       } else {
         this.fileNames = ulbIds; // Save or use the ULB IDs
         const fy = this.myForm.get('financialYear')?.value;
@@ -219,6 +221,7 @@ export class BulkPdfComponent implements OnInit {
               timer: 2000,
               showConfirmButton: false,
             });
+            this._loaderService.stopLoader();
           });
       }
     }
@@ -234,6 +237,7 @@ export class BulkPdfComponent implements OnInit {
         timer: 2000,
         showConfirmButton: false,
       });
+      this._loaderService.stopLoader();
       return;
     }
 
@@ -247,6 +251,7 @@ export class BulkPdfComponent implements OnInit {
           timer: 2000,
           showConfirmButton: false,
         });
+        
         this.removeFile(); // Reset selected files on error
         this._loaderService.stopLoader();
       },
