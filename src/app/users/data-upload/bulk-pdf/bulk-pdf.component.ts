@@ -161,6 +161,7 @@ export class BulkPdfComponent implements OnInit {
                 next: async (response: any) => {
                   try {
                     const signedUrl = response?.data?.[0]?.file_url;
+                    const fileKey = response?.data?.[0]?.path;
                     if (!signedUrl) {
                       return reject('Missing signed URL or fileKey');
                     }
@@ -181,7 +182,7 @@ export class BulkPdfComponent implements OnInit {
                             {
                               source: "dni",
                               type: "pdf",
-                              url: signedUrl,
+                              url: fileKey,
                               name: file.name,
                               created_at: new Date().toISOString(),
                             }
