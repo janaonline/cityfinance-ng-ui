@@ -66,6 +66,7 @@ export class BulkPdfComponent implements OnInit {
       });
       this.selectedFiles = ''; // Reset selected files if limit exceeded
       this.myForm.get('inputFiles')?.setValue(''); // Reset the form control
+      this._loaderService.stopLoader();
       return;
     }
 
