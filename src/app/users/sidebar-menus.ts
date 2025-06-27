@@ -156,7 +156,7 @@ export const defaultSideBarContents: { title: string; subMenus: ILink[] }[] = [
   //   ],
   // },
   {
-    title: "Temporary Links1",
+    title: "Temporary Links",
     subMenus: [
       {
         title: "ULB Bulk Upload",
