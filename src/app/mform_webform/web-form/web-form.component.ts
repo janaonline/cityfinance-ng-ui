@@ -832,7 +832,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
               incorrectProjects.add(project.forParentValue);
           }
 
-          if (incorrectProjects?.size > 0)
+          if (incorrectProjects?.size > 10)
             Swal.fire(`Project no. ${[...incorrectProjects].join(', ')} has error(s). Kindly review and rectify them.`);
         }
         
@@ -1096,6 +1096,9 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
     if (question.input_type === QUESTION_TYPE.CONSENT) {
       value.target.value = value.target.checked ? "1" : "2";
     }
+
+    // File upload feature was added by SA - Do that only if year is > 25-26.
+    if (['606aafda4dff55e6c075d48f'].includes(this.designYear)) {
     if (question.shortKey == 'grantPosition___receivedDuringYr') {
       this.detectQUestionWithZeroValue = parseInt(value.target.value) == 0 ? true : false;
      if (parseInt(value.target.value) != 0)
@@ -1135,6 +1138,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
      this.detectQUestionWithZeroReasonValue = parseInt(value.target.value) == 3 ? true : false
    }
     question.value = question.modelValue;
+  }
     console.log('onChange', { question, value, option, skip })
     this.isFormSubmittedSuccessfully = false;
     this.hasUnsavedChanges = true;

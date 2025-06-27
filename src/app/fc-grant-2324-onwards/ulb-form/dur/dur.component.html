@@ -9,9 +9,20 @@
       <option value="" selected>{{financialYear}}</option>
     </select>
   </div>
-  <app-web-form #webForm [viewFormTemplate]="'dur'" [form]="'dur'" [questionresponse]="questionresponse"
-    [isProjectLoaded]="isProjectLoaded" (submitQuestion)="onSubmit($event)" (onPreviewDUR)="onPreview()"
-    (nextPreBtn)="nextPreBtn($event)" (onLoadInParent)="loadInParent($event)" (updateInParent)="updateInParent($event)" [isButtonDisplay]="isButtonAvail">
+  <app-web-form 
+    #webForm
+    [viewFormTemplate]="'dur'"
+    [form]="'dur'"
+    [questionresponse]="questionresponse"
+    [isProjectLoaded]="isProjectLoaded"
+    (submitQuestion)="onSubmit($event)"
+    (onPreviewDUR)="onPreview()"
+    (nextPreBtn)="nextPreBtn($event)"
+    (onLoadInParent)="loadInParent($event)"
+    (updateInParent)="updateInParent($event)"
+    [isButtonDisplay]="isButtonAvail"
+    [designYear]="design_year"
+  >
   </app-web-form>
 
   <div class="">
