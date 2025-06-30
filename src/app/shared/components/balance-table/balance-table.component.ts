@@ -225,6 +225,7 @@ export class BalanceTableComponent
   ];
   ulbYears: any = [];
   currentUlbData: any;
+  auditType: string;
   onItemSelect(item: any) {
     console.log(item);
     console.log(this.selectedItems);
@@ -726,7 +727,7 @@ export class BalanceTableComponent
     } else if (this.reportGroup == "Income & Expenditure Statement") {
       category = "income"
     }
-    this._resourcesDashboardService.getDataSets(year, selected_file_type, category, "", this.ulbName, "").subscribe(res => {
+    this._resourcesDashboardService.getDataSets(year, selected_file_type, category, "", this.ulbName, "","",0,this.auditType).subscribe(res => {
       console.log(res['data'])
       if (res['data'].length == 0) {
         this.openDialog(res["data"], "notFound");

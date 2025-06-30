@@ -62,6 +62,26 @@
       </mat-select>
     </mat-form-field>
 
+    <mat-form-field
+      *ngIf="filterInputData?.comp == 'dataSets'"
+      class="col p-0"
+      appearance="outline"
+    >
+      <mat-label>Audit Status</mat-label>
+      <mat-select
+        formControlName="auditType"
+        (keyup.enter)="onFilterChange()"
+      >
+        <mat-option
+          (click)="onFilterChange()"
+          *ngFor="let type of auditType"
+          [value]="type"
+        >
+          {{ type }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <mat-form-field class="col p-0" appearance="outline">
       <mat-label>Financial Year</mat-label>
       <mat-select formControlName="year" (keyup.enter)="onFilterChange()">
