@@ -67,17 +67,17 @@
       class="col p-0"
       appearance="outline"
     >
-      <mat-label>Status</mat-label>
+      <mat-label>Audit Status</mat-label>
       <mat-select
-        formControlName="pdfStatus"
+        formControlName="auditType"
         (keyup.enter)="onFilterChange()"
       >
         <mat-option
           (click)="onFilterChange()"
-          *ngFor="let pdf of pdfStatus"
-          [value]="pdf"
+          *ngFor="let type of auditType"
+          [value]="type"
         >
-          {{ pdf }}
+          {{ type }}
         </mat-option>
       </mat-select>
     </mat-form-field>
