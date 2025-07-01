@@ -1,7 +1,7 @@
 <div class="p-3 border border-1 border-secondary-subtle bg-light rounded">
   <h5 class="text-center fw-bold mb-4">Filter By:</h5>
   <form [formGroup]="filterForm" class="row justify-content-evenly gap-2 mx-2 custom-form-style">
-    <mat-form-field class="col p-0" appearance="outline">
+    <mat-form-field class="col-md-2 col-sm-6 p-0" appearance="outline">
       <mat-label>State Name</mat-label>
       <mat-select formControlName="state" (keyup.enter)="onFilterChange()">
         <mat-option value="''">All States</mat-option>
@@ -15,7 +15,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field class="col p-0" appearance="outline">
+    <mat-form-field class="col-md-2 col-sm-6 p-0" appearance="outline">
       <mat-label>ULB Name</mat-label>
       <input
         class="fw-bold"
@@ -44,7 +44,7 @@
 
     <mat-form-field
       *ngIf="filterInputData?.comp == 'dataSets'"
-      class="col p-0"
+      class="col-md-2 col-sm-6 p-0"
       appearance="outline"
     >
       <mat-label>File Type</mat-label>
@@ -64,7 +64,7 @@
 
     <mat-form-field
       *ngIf="filterInputData?.comp == 'dataSets'"
-      class="col p-0"
+      class="col-md-2 col-sm-6 p-0"
       appearance="outline"
     >
       <mat-label>Audit Status</mat-label>
@@ -82,7 +82,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field class="col p-0" appearance="outline">
+    <mat-form-field class="col-md-2 col-sm-6 p-0" appearance="outline">
       <mat-label>Financial Year</mat-label>
       <mat-select formControlName="year" (keyup.enter)="onFilterChange()">
         <mat-option
@@ -94,16 +94,18 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-
-    <button
+   <div class="col-auto p-0 d-flex align-items-center">
+  <button
       (click)="clearFilter()"
       type="button"
-      class="col custom-button"
+      class="custom-button "
       title="Clear selection(s)"
     >
       <span class="d-none d-lg-inline me-1">Clear All</span>
       <mat-icon>highlight_off</mat-icon>
     </button>
+   </div>
+  
 
     <button
       *ngIf="downloadValue"
