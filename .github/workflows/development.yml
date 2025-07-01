@@ -34,7 +34,8 @@ jobs:
       run: |
           ssh -o StrictHostKeyChecking=no -i ssh_key ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }} "
           if [ -d /var/www/html/development-cicd/cityfinance-ng-ui/dist_live_server ]; then
-            mv /var/www/html/development-cicd/cityfinance-ng-ui/dist_live_server /var/www/html/development-cicd/cityfinance-ng-ui/bkp/dist_$(date +'%Y-%m-%d_%I.%M%p');
+            # mv /var/www/html/development-cicd/cityfinance-ng-ui/dist_live_server /var/www/html/development-cicd/cityfinance-ng-ui/bkp/dist_$(date +'%Y-%m-%d_%I.%M%p');
+            rm -R /var/www/html/development-cicd/cityfinance-ng-ui/dist_live_server;
           fi"
     - name: Copy dist files to server
       uses: appleboy/scp-action@master
