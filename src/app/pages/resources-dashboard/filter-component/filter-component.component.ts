@@ -212,8 +212,7 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
       state: '',
       ulb: '',
       contentType: 'Raw Data PDF',
-      // year: this.filterInputData?.comp == 'dataSets' ? this.yearsList[0] : '',
-      pdfStatus: '', 
+      auditType:'Unaudited',
       year: this.filterInputData?.comp == 'dataSets' ? this.yearsList[1] : '',
       // category: this.category,
     }, { emitEvent: false });
