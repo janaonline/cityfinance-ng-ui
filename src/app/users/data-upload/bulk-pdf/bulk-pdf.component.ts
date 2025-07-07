@@ -51,182 +51,118 @@ export class BulkPdfComponent implements OnInit {
       });
   }
 
-  onFileSelected($event: any): void {
-    this._loaderService.showLoader();
-    const files: FileList = $event.target.files;
-    this.selectedFiles = Array.from(files);
+async onFileSelected($event: any): Promise<void> {
+  this._loaderService.showLoader();
+  const files: FileList = $event.target.files;
+  this.selectedFiles = Array.from(files);
 
-    if (this.selectedFiles.length > 10) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Maximum 10 files can be selected at a time.",
-        timer: 2000,
-        showConfirmButton: false,
-      });
-      this.selectedFiles = ''; // Reset selected files if limit exceeded
-      this.myForm.get('inputFiles')?.setValue(''); // Reset the form control
-      this._loaderService.stopLoader();
-      return;
-    }
-
-    this.fileNames = this.selectedFiles.map((file: any) => file.name.split("_")[0]);
-    const ulbIds: string[] = [];
-    let hasError = false;
-    let completedCalls = 0;
-
-    // Step 1: Loop through files, get ULB IDs and prepare metadata
-    this.fileNames.forEach((code) => {
-      this.bulkPDFUploadService.getUlbList(code).subscribe({
-        next: (res) => {
-          completedCalls++;
-          if (!res || !res.data || res.data.length === 0) {
-            hasError = true;
-          } else {
-            ulbIds.push(res.data[0]._id);
-          }
-          // Only call checkFinalStatus when all files have been processed
-          this.checkFinalStatus(completedCalls, this.fileNames.length, hasError, ulbIds);
-        },
-        error: (error) => {
-          hasError = true;
-          completedCalls++;
-          this.checkFinalStatus(completedCalls, this.fileNames.length, hasError, ulbIds);
-        }
-      });
+  if (this.selectedFiles.length > 10) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Maximum 10 files can be selected at a time.",
+      timer: 2000,
+      showConfirmButton: false,
     });
+    this.selectedFiles = '';
+    this.myForm.get('inputFiles')?.setValue('');
+    this._loaderService.stopLoader();
+    return;
   }
 
+  this.fileNames = this.selectedFiles.map(file => file.name.split("_")[0]);
+  const ulbIds: string[] = [];
+  let hasError = false;
 
-
-  fyDatayear(yearsData: string): Observable<any> {
-    return this.bulkPDFUploadService.yearsData(yearsData).pipe(
-      tap(response => {
-        console.log("Response:", response);
-        // Process the response as needed
-      }),
-      catchError(error => {
-        console.error('Error fetching years data:', error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Failed to fetch years data.',
-          timer: 2000,
-          showConfirmButton: false,
-        });
-        this._loaderService.stopLoader();
-        return throwError(error); // Handle error
-      })
-    );
-  }
-
-  checkFinalStatus(completed: number, total: number, hasError: boolean, ulbIds: string[]) {
-    if (completed === total) {
-      if (hasError) {
-        this.removeFile();
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'One or more PDFs could not be matched to a valid ULB.',
-          timer: 2000,
-          showConfirmButton: false,
-        });
-        this._loaderService.stopLoader();
+  try {
+    // Step 1: Resolve ULB IDs synchronously
+    for (const code of this.fileNames) {
+      const ulbRes = await this.bulkPDFUploadService.getUlbList(code).toPromise();
+      if (!ulbRes?.data?.length) {
+        hasError = true;
+        break;
       } else {
-        this.fileNames = ulbIds; // Save or use the ULB IDs
-        const fy = this.myForm.get('financialYear')?.value;
-        this.fyDatayear(fy).subscribe({
-          next: (response) => {
-            this.fyData = response?.data || [];
-            console.log('Years Data:', this.fyData);
-            // Handle response (e.g., store or use the years data)
-          },
-          error: (error) => {
-            console.error('Error:', error);
-          }
-        });
-
-        // Step 2: Prepare upload data (metadata) without submitting
-        const uploadData: any[] = [];
-        const uploadTasks = this.selectedFiles.map((file, index) => {
-          return new Promise(async (resolve, reject) => {
-            try {
-              const fy = this.myForm.get('financialYear')?.value;
-              const ulbId = ulbIds[index];
-              const userDataStr = localStorage.getItem('userData');
-              const userData = userDataStr ? JSON.parse(userDataStr) : null;
-              const uploadedBy = userData?._id;
-
-              this.bulkPDFUploadService.getSignedUrl(file, fy).subscribe({
-                next: async (response: any) => {
-                  try {
-                    const signedUrl = response?.data?.[0]?.file_url;
-                    const fileKey = response?.data?.[0]?.path;
-                    if (!signedUrl) {
-                      return reject('Missing signed URL or fileKey');
-                    }
-
-                    await this.bulkPDFUploadService.uploadToS3(signedUrl, file);
-                    console.log(`File ${file.name} uploaded successfully to S3 for ULB ID: ${ulbId}`);
-                    console.log(this.fyData, 'fyData');
-                    const ulbData = {
-                      ulbId: ulbId,
-                      yearsData: [
-                        {
-                          designYearId: this.fyData?.designYearId,
-                          designYear: this.fyData?.designYear,
-                          currentFormStatus: 3,
-                          sequence: this.fyData?.sequence,
-                          uploadedBy: uploadedBy,
-                          files: [
-                            {
-                              source: "dni",
-                              type: "pdf",
-                              url: fileKey,
-                              name: file.name,
-                              created_at: new Date().toISOString(),
-                            }
-                          ]
-                        }
-                      ]
-                    };
-
-                    uploadData.push(ulbData);
-                    resolve({});
-
-                  } catch (uploadError) {
-                    reject(uploadError);
-                  }
-                },
-                error: (err) => reject(err)
-              });
-            } catch (outerError) {
-              reject(outerError);
-            }
-          });
-        });
-
-        // Step 3: After all uploads, save the metadata in this.uploadData
-        Promise.all(uploadTasks)
-          .then(() => {
-            console.log('All files processed. Metadata ready for submission.');
-            this.uploadData = uploadData; // Save metadata for later submission
-            this._loaderService.stopLoader();
-          })
-          .catch(error => {
-            console.error('❌ Upload failed for some files:', error);
-            Swal.fire({
-              icon: 'error',
-              title: 'Upload Failed',
-              text: 'One or more files failed to upload.',
-              timer: 2000,
-              showConfirmButton: false,
-            });
-            this._loaderService.stopLoader();
-          });
+        ulbIds.push(ulbRes.data[0]._id);
       }
     }
+
+    if (hasError) {
+      Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "unable to retrive data of one or more ULB codes",
+      timer: 2000,
+      showConfirmButton: false,
+    });
+      throw new Error("One or more ULB codes could not be resolved.");
+    }
+
+    // Step 2: Fetch financial year data
+    const fy = this.myForm.get('financialYear')?.value;
+    const fyRes = await this.bulkPDFUploadService.yearsData(fy).toPromise();
+    this.fyData = fyRes?.data;
+    if (!this.fyData) throw new Error("Year data not found");
+
+    // Step 3: Upload PDFs one by one and prepare metadata
+    const uploadData: any[] = [];
+    for (let i = 0; i < this.selectedFiles.length; i++) {
+      const file = this.selectedFiles[i];
+      const ulbId = ulbIds[i];
+      const userDataStr = localStorage.getItem('userData');
+      const uploadedBy = userDataStr ? JSON.parse(userDataStr)?._id : null;
+
+      const signedUrlRes:any = await this.bulkPDFUploadService.getSignedUrl(file, fy).toPromise();
+      console.log(signedUrlRes,'this is signed url response')
+      const signedUrl = signedUrlRes?.data?.[0]?.file_url;
+      const fileKey = signedUrlRes?.data?.[0]?.path;
+
+      if (!signedUrl || !fileKey) {
+        throw new Error(`Signed URL missing for file: ${file.name}`);
+      }
+
+      await this.bulkPDFUploadService.uploadToS3(signedUrl, file)
+
+      uploadData.push({
+        ulbId,
+        yearsData: [
+          {
+            designYearId: this.fyData?.designYearId,
+            designYear: this.fyData?.designYear,
+            currentFormStatus: 3,
+            sequence: this.fyData?.sequence,
+            uploadedBy,
+            files: [
+              {
+                source: "dni",
+                type: "pdf",
+                url: fileKey,
+                name: file.name,
+                created_at: new Date().toISOString(),
+              }
+            ]
+          }
+        ]
+      });
+    }
+
+    this.uploadData = uploadData;
+    console.log("✅ All files uploaded and metadata ready:", uploadData);
+    this._loaderService.stopLoader();
+
+  } catch (err) {
+    console.error("❌ Error during upload process:", err);
+    Swal.fire({
+      icon: 'error',
+      title: 'Upload Failed',
+      text: err.message || 'An error occurred while uploading files.',
+      timer: 2000,
+      showConfirmButton: false,
+    });
+    this.removeFile();
+    this._loaderService.stopLoader();
   }
+}
+
 
   submitBulkPDf(uploadData: any[]) {
     this._loaderService.showLoader();
