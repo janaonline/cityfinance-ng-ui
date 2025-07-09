@@ -2,17 +2,15 @@
     <div class="card">
         <h5 class="p-3">Budget Document Bulk Upload</h5>
         <div class="card m-3 p-3">
-            <p class="mb-1 fw-bold">Upload your budget documents in bulk</p>
-            <p class="lh-1" style="font-size: 0.875rem; color: #008066">
-                You can upload multiple budget documents at once. Please ensure that the
-                files are in PDF format and named according to the ulb id and financial
-                year.
+            <!-- <p class="mb-1 fw-bold">Upload your budget documents in bulk</p> -->
+            <p class="lh-1 fw-bold" style="font-size: 0.875rem; color: #ff0000">
+                Note: Please select the year before selecting files.
             </p>
             <p class="p-2 mb-2 fw-bold">Please select the financial year</p>
             <div class="d-flex align-items-stretch gap-2">
                 <form [formGroup]="myForm" class="w-100">
                     <select class="form-select rounded-pill bg-light border-0 mt-2 mb-3"
-                        formControlName="financialYear">
+                        formControlName="financialYear" (click)="checkFile()">
                         <option *ngFor="let year of financialYears" [value]="year">
                             {{ year }}
                         </option>

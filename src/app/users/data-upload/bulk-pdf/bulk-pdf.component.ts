@@ -51,6 +51,26 @@ export class BulkPdfComponent implements OnInit {
       });
   }
 
+ checkFile() {
+    if (this.myForm.get("inputFiles").value) {
+      Swal.fire({
+        title: "Selected file will be removed",
+        text: " Re-selecting the year will remove the selected file. Do you want to continue?",
+        icon: "question",
+        showDenyButton: true,
+        confirmButtonText: "Yes",
+        denyButtonText: `No`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          this.selectedFiles = "";
+      this.myForm.get("inputFiles")?.setValue("");
+        } else if (result.isDenied) {
+          
+        }
+      });
+    }
+  }
 async onFileSelected($event: any): Promise<void> {
   this._loaderService.showLoader();
   const files: FileList = $event.target.files;
