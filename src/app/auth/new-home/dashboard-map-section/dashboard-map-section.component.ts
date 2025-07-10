@@ -333,7 +333,7 @@ export class DashboardMapSectionComponent
       <div
     id="districtMapId"
     class="col-sm-12"
-    style="background-color: #F8F9FF; background-image: url('../../../../assets/Layer\ 1.png');
+    style="background-color: #F8F9FF; background-image: url('./assets/Layer\ 1.png');
     display: inline-block; width: 100%;height: ${height};"
   >
   </div>`;
