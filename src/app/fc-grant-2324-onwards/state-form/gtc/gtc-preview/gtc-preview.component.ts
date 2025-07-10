@@ -18,7 +18,7 @@ export class GtcPreviewComponent implements OnInit {
     // private newCommonService: NewCommonService
   ) {
     this.userData = JSON.parse(localStorage.getItem("userData"));
-    this.stateName = this.userData["stateName"];
+    this.stateName = sessionStorage.getItem('stateName');
     this.stateId = this.userData?.state;
     this.years = JSON.parse(localStorage.getItem("Years"));
   }
