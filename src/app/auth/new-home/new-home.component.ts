@@ -272,7 +272,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
   ngOnInit() {
     // this.loadRecentSearchValue();
 
-
+    this.coveredUlbCount = null;
     const hUser = $("#countDownUser").data('value');
     var hUserLess = hUser - 1000;
     const k = setInterval(function () {
@@ -313,9 +313,15 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     })
 
     
-    this._commonService.dataForVisualizationCount.subscribe((res) => {
-      if (!this.coveredUlbCount) this.coveredUlbCount = res.coveredUlbCount;
-    });
+    // this._commonService.dataForVisualizationCount.subscribe((res) => {
+    //   console.log(res.coveredUlbCount);
+    //   if (!this.coveredUlbCount) this.coveredUlbCount = res.coveredUlbCount;
+    // });
+     this._commonService.dataForVisualizationCount.subscribe((res) => {
+       if (res.coveredUlbCount && res.coveredUlbCount > 1000) {
+         this.coveredUlbCount = res.coveredUlbCount;
+       }
+     });
   }
 
   loadRecentSearchValue() {
