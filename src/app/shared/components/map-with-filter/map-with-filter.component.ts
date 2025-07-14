@@ -255,7 +255,8 @@ export class MapWithFilterComponent
       this.router.navigateByUrl(`/dashboard/state?stateId=${option._id}`);
     }
     if (option?.type == "ulb") {
-      this.router.navigateByUrl(`/dashboard/city?cityId=${option._id}`);
+      // this.router.navigateByUrl(`/dashboard/city?cityId=${option._id}`);
+      window.location.href = `/municipal-data/${option.slug}`
     }
   }
 
@@ -380,7 +381,8 @@ export class MapWithFilterComponent
               this.mapConfig?.code?.state
             ].ulbs?.find((value) => {
               console.log("innerValue", value);
-              this.router.navigateByUrl(`/dashboard/city?cityId=${value?._id}`);
+              // this.router.navigateByUrl(`/dashboard/city?cityId=${value?._id}`);
+              window.location.href = `/municipal-data/${value.slug}`
               return (
                 +value.location.lat === values["latlng"].lat &&
                 +value.location.lng === values["latlng"].lng
