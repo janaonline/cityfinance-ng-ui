@@ -67,7 +67,7 @@
                                       <td style="width: 9%;" class="icon">
                                           <div class="image-upload" style="display: inline-block;" [matTooltip]="checkErrorState(projectRow,'photos') ? 'No photos added' : null" [ngClass]="{'ph-error': checkErrorState(projectRow,'photos')}">
                                               <label class="file" [attr.for]="waterBodiesIndex + '' + projectIndex" [ngClass]="{'disableInputs': completeWaterRejData?.uaData[projectIndex]?.isDisabled }">
-                                              <img src="../../../../assets/form-icon/Icon feather-upload.svg">
+                                              <img src="./assets/form-icon/Icon feather-upload.svg">
                                           </label>
                                               <input style="display: none;" onclick="value = null;" [attr.id]="waterBodiesIndex + '' + projectIndex" type="file" 
                                               [ngClass]="{'disableInputs': completeWaterRejData?.uaData[projectIndex]?.isDisabled }"
@@ -91,7 +91,7 @@
                                               class="ms-2 h-4" type="text" min="1" pattern="^\d*(\.\d{0,6})?$" [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                           <a (click)="openMap(waterBodiesIndex,projectIndex,'waterBodies')" class="d-i" [ngClass]="{'disableInputs': completeWaterRejData?.uaData[projectIndex]?.isDisabled }" [tabindex]="getDisableRow(projectRow) ? -1 : 0"> 
                                               <mat-icon class="file" aria-hidden="false">
-                                                  <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
+                                                  <img src="./assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
                                               </mat-icon>
                                           </a>
                                       </td>
@@ -222,7 +222,7 @@
                                       <td class="icon">
                                           <a [ngClass]="{'anDisable': getDisableRow(projectRow), 'disableInputs': completeWaterRejData?.uaData[projectIndex]?.isDisabled}" (click)="deleteRow(projectIndex, waterBodiesIndex, 0, 'waterBodies')" class="d-i" [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                               <mat-icon aria-hidden="false">
-                                                  <img src="../../../../assets/form-icon/Icon material-delete.svg">
+                                                  <img src="./assets/form-icon/Icon material-delete.svg">
                                               </mat-icon>
                                           </a>
                                       </td>
@@ -271,7 +271,7 @@
                                               class="ms-2" type="text" min="1" pattern="^\d*(\.\d{0,6})?$" [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                           <a (click)="openMap(reuseWaterIndex,projectIndex,'reuseWater')" class="d-i" [ngClass]="{'disableInputs': completeWaterRejData?.uaData[projectIndex]?.isDisabled }" [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                               <mat-icon aria-hidden="false">
-                                                  <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
+                                                  <img src="./assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
                                               </mat-icon>
                                           </a>
                                       </td>
@@ -318,7 +318,7 @@
                                       <td class="iconSliAndReuse">
                                           <a [ngClass]="{'anDisable': getDisableRow(projectRow), 'disableInputs': completeWaterRejData?.uaData[projectIndex]?.isDisabled}"  (click)="deleteRow(projectIndex, reuseWaterIndex, 1, 'reuseWater')" class="d-i" [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                               <mat-icon aria-hidden="false">
-                                                  <img src="../../../../assets/form-icon/Icon material-delete.svg">
+                                                  <img src="./assets/form-icon/Icon material-delete.svg">
                                               </mat-icon>
                                           </a>
                                       </td>
@@ -344,7 +344,7 @@
                                     <th scope="col" width="{{itemTh?.width}}" *ngFor="let itemTh of waterRejRes?.tables[2]?.columns">
                                         <span>{{itemTh?.displayName}}</span><br *ngIf="itemTh?.key == 'location'">
                                         <span *ngIf="itemTh?.key == 'location'">Latitude and Longitude</span>
-                                        <span *ngIf="itemTh?.info"><img matTooltip="{{itemTh?.info}}" style="" class="infoIcon" src="../../../../assets/ulbform/info_black_24dp.svg"></span>
+                                        <span *ngIf="itemTh?.info"><img matTooltip="{{itemTh?.info}}" style="" class="infoIcon" src="./assets/ulbform/info_black_24dp.svg"></span>
                                     </th>
                                     <th scope="col"></th>
                                 </tr>
@@ -419,7 +419,7 @@
                                       <td class="iconSliAndReuse">
                                           <a [ngClass]="{'anDisable': getDisableRow(projectRow), 'disableInputs': completeWaterRejData?.uaData[projectIndex]?.isDisabled}" (click)="deleteRow(projectIndex, sliIndex, 2, 'serviceLevelIndicators')" class="d-i" [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                               <mat-icon aria-hidden="false">
-                                                  <img src="../../../../assets/form-icon/Icon material-delete.svg">
+                                                  <img src="./assets/form-icon/Icon material-delete.svg">
                                               </mat-icon>
                                           </a>
                                       </td>

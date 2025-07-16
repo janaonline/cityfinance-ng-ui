@@ -65,7 +65,7 @@
                         (B) Has the ULB linked its bank account with PFMS?<sup class="text-danger">*</sup>
                         <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The account should be for 15th FC."
                             matTooltipPosition="above">
-                            <img src="../../../../assets/ticks/info_black_18dp.svg">
+                            <img src="./assets/ticks/info_black_18dp.svg">
                         </span>
                     </span>
                 </div>
@@ -116,7 +116,7 @@
                     <label for="ipt" [ngClass]="{'customDisable': !isDisabled }">
                         <button class="btn btnUpload" (click)="ipt.click()"  [ngClass]="{'fadedClass': !isDisabled}">Upload
                             PDF
-                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                            <img src="./assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
                         </button>
                         <p class="errorMessege">{{errorMessege}}</p>
@@ -140,11 +140,11 @@
                 </div>
                 <div class="col-sm-2 filePadding">
                     <a href="{{  odfUrl | toStorageUrl}}" target="_blank">
-                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" />
+                        <img src="./assets/form-icon/download-pdf-icon.png" alt="" />
                     </a>
                     <span>
                         <a (click)="clearFile('cert')" style="margin-left: 4px;" [ngClass]="{'disableInputs': !isDisabled }">
-                            <img src = "../../../../assets/form-icon/close-red-icon.png" alt=""/>
+                            <img src = "./assets/form-icon/close-red-icon.png" alt=""/>
                         </a>
                     </span>
                 </div>
@@ -161,7 +161,7 @@
                         <!-- (click)="bs_excel1.click()" -->
                         <button class="btn btnUpload" (click)="ipt2.click()"  [ngClass]="{'fadedClass': !isDisabled }">Upload
                             PDF
-                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                            <img src="./assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
                         </button>
                         <p class="errorMessege">{{errorMessegeOther}}</p>
@@ -180,11 +180,11 @@
                 </div>
                 <div class="col-sm-2 col-md-2 col-lg-2 filePadding">
                     <a href="{{ odfUrl2 | toStorageUrl}}" target="_blank">
-                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                        <img src="./assets/form-icon/download-pdf-icon.png" alt="">
                     </a>
                     <span style="cursor:not-allowed;">
                         <a (click)="clearFile('otherDocs')" style="margin-left: 4px;" [ngClass]="{'disableInputs': !isDisabled }">
-                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                            <img src="./assets/form-icon/close-red-icon.png" alt="">
                         </a>
                     </span>
                 </div>
@@ -232,7 +232,7 @@
             <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
             <div class="text-right">
                 <a (click)="alertClose()">
-                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                    <img src="./assets/form-icon/close-red-icon.png">
                 </a>
             </div>
         </div>

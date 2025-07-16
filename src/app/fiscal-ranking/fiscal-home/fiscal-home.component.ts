@@ -59,11 +59,11 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
   }
 
   // emailFormControl = new FormControl('', [Validators.required, Validators.email]);
-  src = "../../../assets/M FIGMA/laurentiu-morariu-8XZTZIfuNrM-unsplash 1.jpg";
+  src = "./assets/M FIGMA/laurentiu-morariu-8XZTZIfuNrM-unsplash 1.jpg";
 
   fqCardData = [
     {
-      image: "../../../assets/M FIGMA/newDraft.png",
+      image: "./assets/M FIGMA/newDraft.png",
       title: "Final Guidelines",
       // text:`“These are draft guidelines. Please share feedback, if any,
       // before <span class="clr"> 15th January, 2023 </span> via email on <span class="mailId">rankings@cityfinance.in</span>” `,
@@ -76,7 +76,7 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
       key: 'draftGuidelines'
     },
     {
-      image: "../../../assets/M FIGMA/newBroch.png",
+      image: "./assets/M FIGMA/newBroch.png",
       title: "Brochure",
       text: "",
       // url: 'https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/FR_Module/Shared/City%20Finance%20Rankings%20%202022_Brochure.pdf',
@@ -87,33 +87,34 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
       section: 'download_file',
       key: 'brochure'
     },
+    // commented know more section for avoiding to view the video
+    // {
+    //   image: "./assets/M FIGMA/dvr_black_24dp.svg",
+    //   title: "Know more",
+    //   text: "",
+    //   videos : [
+    //     {
+    //       title: 'Click here for latest video',
+    //       url: `https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/FiscalRanking/knowMoreVideo_6b2e991a-1d08-433f-b566-a61f515cba53.mp4`,
+    //       key: 'newVideo',
+    //       isActive: true,
+    //       id: '1'
+    //     },
+    //     {
+    //       title: 'Click here for launch video',
+    //       url: `https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_Portal_Video_Go_Live_fc20cbd7-303f-4ef0-aa98-1b5e4c35dc19.mp4`,
+    //       key: 'oldVideo',
+    //       isActive: false,
+    //       id: '2'
+    //     }
+    //   ],
+    //   isModal: true,
+    //   icon_down: '',
+    //   section: 'play_video',
+    //   key: 'video'
+    // },
     {
-      image: "../../../assets/M FIGMA/dvr_black_24dp.svg",
-      title: "Know more",
-      text: "",
-      videos : [
-        {
-          title: 'Click here for latest video',
-          url: `https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/FiscalRanking/knowMoreVideo_6b2e991a-1d08-433f-b566-a61f515cba53.mp4`,
-          key: 'newVideo',
-          isActive: true,
-          id: '1'
-        },
-        {
-          title: 'Click here for launch video',
-          url: `https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_Portal_Video_Go_Live_fc20cbd7-303f-4ef0-aa98-1b5e4c35dc19.mp4`,
-          key: 'oldVideo',
-          isActive: false,
-          id: '2'
-        }
-      ],
-      isModal: true,
-      icon_down: '',
-      section: 'play_video',
-      key: 'video'
-    },
-    {
-      image: "../../../assets/M FIGMA/newDraft.png",
+      image: "./assets/M FIGMA/newDraft.png",
       title: "Contact Details",
       // text:`“These are draft guidelines. Please share feedback, if any,
       // before <span class="clr"> 15th January, 2023 </span> via email on <span class="mailId">rankings@cityfinance.in</span>” `,

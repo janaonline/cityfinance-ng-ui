@@ -95,7 +95,7 @@
                 <div class="col-4 py-3 d-flex justify-content-end">
                     <a
                         [href]="baseUrl + 'UA/get-mou-project/' + this.cityId + '?projects=' + row.projectId + '&csv=true'">
-                        <img class="icon mr-1" src="../../../../assets/excel.png">
+                        <img class="icon mr-1" src="./assets/excel.png">
                         <span>More Information</span>
                     </a>
                 </div>
@@ -108,13 +108,13 @@
                         <div [ngSwitch]="column.key">
                             <div style="cursor: pointer;" *ngSwitchCase="'creditRating'">
                                 <div (click)="onCreditRationClick(row[column.key])">
-                                    <img class="icon mr-1" src="../../../../assets/pdf.png">
+                                    <img class="icon mr-1" src="./assets/pdf.png">
                                     <span>{{ row[column.key]?.name }}</span>
                                 </div>
                             </div>
                             <div *ngSwitchCase="'projectReport'">
                                 <a [href]="row[column.key]?.url" *ngIf="row[column.key]?.url" target="_blank">
-                                    <img class="icon mr-1" src="../../../../assets/pdf.png">
+                                    <img class="icon mr-1" src="./assets/pdf.png">
                                     <span>{{ row[column.key]?.name }}</span>
                                 </a>
                             </div>

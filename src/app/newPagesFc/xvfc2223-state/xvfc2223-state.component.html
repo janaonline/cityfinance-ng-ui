@@ -19,7 +19,7 @@
                 <ng-container *ngFor="let menuItem of leftMenu | keyvalue : returnPostion">
                     <li class="out-f-h px-3 py-2 collapsable" *ngIf="(menuItem?.key?.split('_'))[0]">
                         <mat-icon class="pull-right" aria-hidden="false">
-                            <img src="../../../assets/form-icon/checked.svg">
+                            <img src="./assets/form-icon/checked.svg">
                         </mat-icon>
                         <span>
                             {{(menuItem?.key?.split('_'))[0]}}

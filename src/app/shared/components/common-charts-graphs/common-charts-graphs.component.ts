@@ -19,19 +19,19 @@ export class CommonChartsGraphsComponent implements OnInit, OnChanges {
   headerActionsBtn = [
     {
       name: "Share",
-      svg: "../../../../assets/CIty_detail_dashboard – 3/Layer 51.svg",
+      svg: "./assets/CIty_detail_dashboard – 3/Layer 51.svg",
      },
      {
       name: "Embed",
-      svg: "../../../../assets/CIty_detail_dashboard – 3/925895_embed_development_code_coding_dev_icon.svg",
+      svg: "./assets/CIty_detail_dashboard – 3/925895_embed_development_code_coding_dev_icon.svg",
      },
      {
       name: "Download",
-      svg: "../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
+      svg: "./assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
     },
     {
       name: "Expand",
-      svg: "../../../../assets/CIty_detail_dashboard – 3/Icon awesome-expand-arrows-alt.svg",
+      svg: "./assets/CIty_detail_dashboard – 3/Icon awesome-expand-arrows-alt.svg",
     }
 
 
