@@ -40,7 +40,7 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
     type: 6,
     title: "title",
     subTitle: "subTitle",
-    svg: `../../../../assets/7340549_e-commerce_online_shopping_ui_receipt_icon.svg`,
+    svg: `./assets/7340549_e-commerce_online_shopping_ui_receipt_icon.svg`,
     img: "",
     para: "",
     actionButtons: [

@@ -24,7 +24,7 @@ import { USER_TYPE } from 'src/app/models/user/userType';
 import { FiscalRankingService, MapData } from 'src/app/fiscal-ranking/fiscal-ranking.service';
 import { MunicipalityBudgetService } from '../municipality-budget.service';
 // import { EventEmitter } from "stream";
-// const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
+// const districtJson = require("./assets/jsonFile/state_boundries.json");
 // const districtJson = require('../../../../../assets/jsonFile/state_boundries.json');
 
 @Component({

@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-sm-12 text-end">
             <a (click)="close()">
-                <img width="22px" src="../../../../../assets/form-icon/cancel.svg" alt="">
+                <img width="22px" src="./assets/form-icon/cancel.svg" alt="">
             </a>
         </div>
         <div class="col-sm-12 text-center">
@@ -39,7 +39,7 @@
                                     <a class="btn btn-primary" (click)="uploadButtonClicked('A')"
                                     [ngClass]="{'fadedClass': isDisabled}">Upload
                                         PDF
-                                        <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                        <img src="./assets/form-icon/upload-pdf-icon.png" alt=""
                                             style="margin-left: 4px;">
                                     </a>
                                     <p class="errorMessege" *ngIf="errorMessegeStateAct">{{errorMessegeStateAct}}</p>
@@ -64,11 +64,11 @@
             </div>
             <div class="col-3 filePadding">
                 <a href="{{ stateActUrl | toStorageUrl}}" target="_blank">
-                    <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                    <img src="./assets/form-icon/download-pdf-icon.png" alt="">
                 </a>
                 <span>
                     <a (click)="clearFile('stateAct')" style="margin-left: 4px;" [ngClass]="{'disableInputs': isDisabled }">
-                        <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                        <img src="./assets/form-icon/close-red-icon.png" alt="">
                     </a>
                 </span>
             </div>

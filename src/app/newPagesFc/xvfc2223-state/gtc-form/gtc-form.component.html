@@ -33,7 +33,7 @@
                                     <!-- <button class="btn btn-primary" [disabled]="quesItem?.isDisableQues">Upload PDF*</button> -->
                                     <button [disabled]="quesItem?.isDisableQues" (click)="bs_pdf1.click()" class="btn btn-primary">Upload PDF
                                       <sup><span class="wh-s">*</span></sup>
-                                       <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
+                                       <img src="./assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
                                    </button>
                                     <input #bs_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'pdf', cIndex, qIndex, 'normal')" type="file" accept=".pdf" #file>
                                 </div>
@@ -49,11 +49,11 @@
                                 </div>
                                 <div class="mt-2" [ngClass]="{'col-sm-5' : !quesItem?.file?.progress, 'col-sm-2' : quesItem?.file?.progress}" *ngIf="quesItem?.file?.url != ''">
                                     <a href="{{ quesItem?.file?.url | toStorageUrl}}" target="_blank">
-                                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                                        <img src="./assets/form-icon/download-pdf-icon.png" alt="">
                                     </a>
                                     <span style="" [ngClass]="{'dis-card': quesItem?.isDisableQues}">
                                       <a (click)="clearFile('click',  cIndex, qIndex)"  style="margin-left: 4px;">
-                                        <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                                        <img src="./assets/form-icon/close-red-icon.png" alt="">
                                       </a>
                                     </span>
                                 </div>
@@ -104,7 +104,7 @@
                                             <div class="col-sm-6" style=" padding-left: 25px;">
                                                 <button [disabled]="quesItem?.canTakeAction == false" (click)="bs_pdfAct.click()" class="btn btn-primary">Upload PDF
                                               <sup><span class="wh-s">*</span></sup>
-                                               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
+                                               <img src="./assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
                                            </button>
                                                 <input #bs_pdfAct style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'pdf', cIndex, qIndex, 'action')" type="file" accept=".pdf" #file>
                                             </div>
@@ -120,11 +120,11 @@
                                             </div>
                                             <div class="mt-3" [ngClass]="{'col-sm-5' : !quesItem?.responseFile_mohua?.progress, 'col-sm-2' : quesItem?.responseFile_mohua?.progress}" *ngIf="quesItem?.responseFile_mohua?.url != ''">
                                                 <a href="{{quesItem?.responseFile_mohua?.url | toStorageUrl}}" target="_blank">
-                                                    <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                                                    <img src="./assets/form-icon/download-pdf-icon.png" alt="">
                                                 </a>
                                                 <span style="" [ngClass]="{'dis-card': !(quesItem?.canTakeAction)}">
                                               <a (click)="clearFileAction('click',  cIndex, qIndex)"  style="margin-left: 4px;">
-                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                                                <img src="./assets/form-icon/close-red-icon.png" alt="">
                                               </a>
                                             </span>
                                             </div>
@@ -161,7 +161,7 @@
             <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
             <div class="text-right">
                 <a (click)="alertClose()">
-                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                    <img src="./assets/form-icon/close-red-icon.png">
                 </a>
             </div>
         </div>

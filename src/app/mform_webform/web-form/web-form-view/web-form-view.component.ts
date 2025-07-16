@@ -3278,7 +3278,7 @@ export class WebFormViewComponent implements OnInit {
     },
   ];
   questionResponse:any;
-  noDataImg = '../../../../assets/images/no-image.jpg';
+  noDataImg = './assets/images/no-image.jpg';
   constructor(private commonFunction: CommonService) {}
 
   ngOnInit(): void {

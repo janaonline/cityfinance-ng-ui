@@ -311,15 +311,15 @@ export class RevenuechartComponent
   headerActions = [
     // {
     //   name: "expand",
-    //   svg: "../../../../assets/CIty_detail_dashboard – 3/Icon awesome-expand-arrows-alt.svg",
+    //   svg: "./assets/CIty_detail_dashboard – 3/Icon awesome-expand-arrows-alt.svg",
     // },
     {
       name: "Download",
-      svg: "../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
+      svg: "./assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
     },
     // {
     //   name: "share/embed",
-    //   svg: "../../../../assets/CIty_detail_dashboard – 3/Layer 51.svg",
+    //   svg: "./assets/CIty_detail_dashboard – 3/Layer 51.svg",
     // },
   ];
   @Input()

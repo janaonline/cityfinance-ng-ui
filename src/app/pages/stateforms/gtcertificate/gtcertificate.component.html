@@ -53,7 +53,7 @@
                                                               [ngClass]="{'anDisable': millionTiedDisable_2021 }">Upload
                                                               Pdf
                                                               <img
-                                                                src="../../../../assets/form-icon/upload-pdf-icon.png"
+                                                                src="./assets/form-icon/upload-pdf-icon.png"
                                                                 alt="" style="margin-left: 4px;">
                                                               </a>
                                                               </label>
@@ -119,12 +119,12 @@
                                                         <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
                                                             <ng-container *ngIf="millionTiedFileUrl_2021">
                                                                 <a href="{{ millionTiedFileUrl_2021 | toStorageUrl}}" target="_blank">
-                                                                    <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="height: 19px;">
+                                                                    <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="height: 19px;">
                                                                 </a>
                                                                 <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_millionTied_2021')"
                                                 [ngClass]="{'abDisable': millionTiedDisable_2021 }" style="margin-left: 4px;">
-                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                <img src="./assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
                                             </a>
                                         </span>
@@ -168,7 +168,7 @@
                                                             <label for="cind1">
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('B')"
                                             [ngClass]="{'anDisable': nonmillionTiedDisable_2021 }" >Upload Pdf
-                                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                            <img src="./assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
@@ -226,13 +226,13 @@
                                                         <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
                                                             <ng-container *ngIf="nonMillionTiedFileUrl_2021">
                                                                 <a href="{{ nonMillionTiedFileUrl_2021 | toStorageUrl }}" target="_blank">
-                                                                    <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                                                                    <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                                                                 </a>
                                                                 <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_nonMillionTied_2021')" style="margin-left: 3px;"
                                                 [ngClass]="{'abDisable': nonmillionTiedDisable_2021 }">
-                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                <img src="./assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
                                             </a>
                                         </span>
@@ -273,7 +273,7 @@
                                                             <label for="cinde1">
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('C')"
                                             [ngClass]="{'anDisable': nonmillionUntiedDisable_2021 }" >Upload Pdf
-                                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                            <img src="./assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
@@ -329,13 +329,13 @@
                                                         <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
                                                             <ng-container *ngIf="nonMillionUntiedFileUrl_2021">
                                                                 <a href="{{ nonMillionUntiedFileUrl_2021 | toStorageUrl }}" target="_blank">
-                                                                    <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                                                                    <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                                                                 </a>
                                                                 <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_nonMillionUntied_2021')"
                                                 style="margin-left: 3px;" [ngClass]="{'abDisable': nonmillionUntiedDisable_2021 }">
-                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                <img src="./assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
                                             </a>
                                         </span>
@@ -451,7 +451,7 @@
                                                             <label for="cin">
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('A')"
                                             [ngClass]="{'anDisable': millionTiedDisable }" >Upload Pdf
-                                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                            <img src="./assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
@@ -505,12 +505,12 @@
                                                         <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
                                                             <ng-container *ngIf="millionTiedFileUrl">
                                                                 <a href="{{ millionTiedFileUrl | toStorageUrl }}" target="_blank">
-                                                                    <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="height: 19px;">
+                                                                    <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="height: 19px;">
                                                                 </a>
                                                                 <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_millionTied')"
                                                 [ngClass]="{'abDisable': millionTiedDisable }" style="margin-left: 4px;">
-                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                <img src="./assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
                                             </a>
                                         </span>
@@ -550,7 +550,7 @@
                                                             <label for="cind">
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('B')"
                                             [ngClass]="{'anDisable': nonmillionTiedDisable }" >Upload Pdf
-                                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                            <img src="./assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
@@ -596,13 +596,13 @@
                                                         <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
                                                             <ng-container *ngIf="nonMillionTiedFileUrl">
                                                                 <a href="{{ nonMillionTiedFileUrl | toStorageUrl }}" target="_blank">
-                                                                    <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                                                                    <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                                                                 </a>
                                                                 <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_nonMillionTied')" style="margin-left: 3px;"
                                                 [ngClass]="{'abDisable': nonmillionTiedDisable }">
-                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                <img src="./assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
                                             </a>
                                         </span>
@@ -641,7 +641,7 @@
                                                             <label for="cinde">
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('C')"
                                             [ngClass]="{'anDisable': nonmillionUntiedDisable }" >Upload Pdf
-                                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                            <img src="./assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
@@ -686,13 +686,13 @@
                                                         <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
                                                             <ng-container *ngIf="nonMillionUntiedFileUrl">
                                                                 <a href="{{ nonMillionUntiedFileUrl | toStorageUrl}}" target="_blank">
-                                                                    <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                                                                    <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                                                                 </a>
                                                                 <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_nonMillionUntied')"
                                                 style="margin-left: 3px;" [ngClass]="{'abDisable': nonmillionUntiedDisable }">
-                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                <img src="./assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
                                             </a>
                                         </span>
@@ -803,7 +803,7 @@
                                                             <label for="cin2">
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('A')"
                                             [ngClass]="{'anDisable': millionTiedDisable_2122 }" >Upload Pdf
-                                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                            <img src="./assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
@@ -866,12 +866,12 @@
                                                         <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
                                                             <ng-container *ngIf="millionTiedFileUrl_2122">
                                                                 <a href="{{ millionTiedFileUrl_2122 | toStorageUrl }}" target="_blank">
-                                                                    <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="height: 19px;">
+                                                                    <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="height: 19px;">
                                                                 </a>
                                                                 <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_millionTied_2122')"
                                                 [ngClass]="{'abDisable': millionTiedDisable_2122 }" style="margin-left: 4px;">
-                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                <img src="./assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
                                             </a>
                                         </span>
@@ -913,7 +913,7 @@
                                                             <label for="cind2">
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('B')"
                                             [ngClass]="{'anDisable': nonmillionTiedDisable_2122 }" >Upload Pdf
-                                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                            <img src="./assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
@@ -970,13 +970,13 @@
                                                         <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
                                                             <ng-container *ngIf="nonMillionTiedFileUrl_2122">
                                                                 <a href="{{ nonMillionTiedFileUrl_2122 | toStorageUrl}}" target="_blank">
-                                                                    <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                                                                    <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                                                                 </a>
                                                                 <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_nonMillionTied_2122')" style="margin-left: 3px;"
                                                 [ngClass]="{'abDisable': nonmillionTiedDisable_2122 }">
-                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                <img src="./assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
                                             </a>
                                         </span>
@@ -1017,7 +1017,7 @@
                                                             <label for="cinde2">
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('C')"
                                             [ngClass]="{'anDisable': nonmillionUntiedDisable_2122 }" >Upload Pdf
-                                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                            <img src="./assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
@@ -1073,13 +1073,13 @@
                                                         <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
                                                             <ng-container *ngIf="nonMillionUntiedFileUrl_2122">
                                                                 <a href="{{ nonMillionUntiedFileUrl_2122 | toStorageUrl}}" target="_blank">
-                                                                    <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                                                                    <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                                                                 </a>
                                                                 <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_nonMillionUntied_2122')"
                                                 style="margin-left: 3px;" [ngClass]="{'abDisable': nonmillionUntiedDisable_2122 }">
-                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                <img src="./assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
                                             </a>
                                         </span>
@@ -1170,7 +1170,7 @@
             <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
             <div class="text-right">
                 <a (click)="alertClose()">
-                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                    <img src="./assets/form-icon/close-red-icon.png">
                 </a>
             </div>
         </div>
@@ -1192,7 +1192,7 @@
             <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
             <div class="text-right">
                 <a (click)="alertClose()">
-                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                    <img src="./assets/form-icon/close-red-icon.png">
                 </a>
             </div>
         </div>

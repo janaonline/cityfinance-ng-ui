@@ -1201,11 +1201,11 @@ revenueExpenditureCopy.title = value?.totalUlbMeetExpense ?? 0;
   headerActions = [
     {
       name: "Download",
-      svg: "../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
+      svg: "./assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
     },
     // {
     //   name: "Share/Embed",
-    //   svg: "../../../../assets/CIty_detail_dashboard – 3/Layer 51.svg",
+    //   svg: "./assets/CIty_detail_dashboard – 3/Layer 51.svg",
     // },
   ];
 
@@ -1297,7 +1297,7 @@ const revenueCollection = {
   title: "0 Cr",
   isLoading: true,
   subTitle: "Own Revenue Collections",
-  svg: "../../../assets/resources-das/north_east_green_24dp.svg",
+  svg: "./assets/resources-das/north_east_green_24dp.svg",
   percentage: "0%",
   color: "#22C667",
 };
@@ -1307,7 +1307,7 @@ const revenuePerCapita = {
   title: "0 Cr",
   isLoading: true,
   subTitle: "Own Revenue Per Capita",
-  svg: "../../../assets/resources-das/north_east_green_24dp.svg",
+  svg: "./assets/resources-das/north_east_green_24dp.svg",
   percentage: "0%",
   color: "#22C667",
 };
@@ -1317,7 +1317,7 @@ const revenueExpenditure = {
   title: "0",
   isLoading: true,
   subTitle: "Cities Where Own Revenue Meet Revenue Expenditure",
-  svg: "../../../assets/resources-das/south_west_red_24dp.svg",
+  svg: "./assets/resources-das/south_west_red_24dp.svg",
   percentage: "0%",
   color: "#E64E4E",
 };
@@ -1327,7 +1327,7 @@ const revenuePercentage = {
   title: "0%",
   isLoading: true,
   subTitle: "Own Revenue As A Percentage Of Revenue Expenditure",
-  svg: "../../../assets/resources-das/north_east_green_24dp.svg",
+  svg: "./assets/resources-das/north_east_green_24dp.svg",
   percentage: "0%",
   color: "#22C667",
 };
@@ -1368,7 +1368,7 @@ const porpertyCards = [
     type: "5",
     title: "0",
     subTitle: "Property Tax Revenue",
-    svg: "../../../assets/resources-das/north_east_green_24dp.svg",
+    svg: "./assets/resources-das/north_east_green_24dp.svg",
     percentage: "0%",
     color: "#22C667",
   },
@@ -1376,7 +1376,7 @@ const porpertyCards = [
     type: "5",
     title: "0",
     subTitle: "Property Tax Revenue Per Capita",
-    svg: "../../../assets/resources-das/north_east_green_24dp.svg",
+    svg: "./assets/resources-das/north_east_green_24dp.svg",
     percentage: "0%",
     color: "#22C667",
   },
@@ -1384,7 +1384,7 @@ const porpertyCards = [
     type: "5",
     title: "0",
     subTitle: "Property Tax To Own Revenue Percentage",
-    svg: "../../../assets/resources-das/north_east_green_24dp.svg",
+    svg: "./assets/resources-das/north_east_green_24dp.svg",
     percentage: "0%",
     color: "#22C667",
   },
@@ -1392,8 +1392,8 @@ const porpertyCards = [
 
 const green = "#22C667";
 const red = "#E64E4E";
-const upArrow = "../../../assets/resources-das/north_east_green_24dp.svg";
-const downArrow = "../../../assets/resources-das/south_west_red_24dp.svg";
+const upArrow = "./assets/resources-das/north_east_green_24dp.svg";
+const downArrow = "./assets/resources-das/south_west_red_24dp.svg";
 
 // let entries = Object.entries(data);
 // console.log('entries', JSON.parse(JSON.stringify(entries)));

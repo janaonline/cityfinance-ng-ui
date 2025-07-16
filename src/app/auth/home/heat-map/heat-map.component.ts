@@ -64,7 +64,7 @@ export class HeatMapComponent implements OnInit {
   ];
 
   yellowIcon = L.icon({
-    iconUrl: "../../../../assets/images/map-marker.svg",
+    iconUrl: "./assets/images/map-marker.svg",
     iconSize: [20, 20], // size of the icon
     iconAnchor: [20, 20], // point of the icon which will correspond to marker's location
   });

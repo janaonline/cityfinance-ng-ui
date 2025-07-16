@@ -22,7 +22,7 @@ import * as fileSaver from "file-saver";
 import { FiscalRankingService, MapData } from '../fiscal-ranking.service';
 import { USER_TYPE } from 'src/app/models/user/userType';
 // import { EventEmitter } from "stream";
-// const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
+// const districtJson = require("./assets/jsonFile/state_boundries.json");
 // const districtJson = require("../../../assets/jsonFile/state_boundries.json");
 
 @Component({
