@@ -55,12 +55,17 @@ export class BudgetUploadComponent implements OnInit {
           this.fyList = res.data.map((item: any) => {
             this.isLoading = false;
             const fyLabel = `FY ${item.designYear}`;
-            const hasFiles = item.files && item.files.length > 0;
-            const file = hasFiles ? item.files[0] : null;
+            const hasFiles = item.files && item.files.some(file => file.type === 'pdf');
+            const hasFilesType = item.files && item.files.length > 0;
+            const file = hasFilesType ? item.files[0] : null;
             const sequence = item.sequence;
-           const displayName = hasFiles
-  ? file.name  // use actual uploaded file name
-  : null;
+            const displayName = hasFilesType
+              ? file.name  // use actual uploaded file name
+              : null;
+            const fileType = hasFilesType
+              ? file.type  // use actual uploaded file name
+              : 'null';
+            // console.log('File Type:', fileType);
             return {
               fy: fyLabel,
               status: hasFiles ? 'Done' : 'Pending',
@@ -72,9 +77,10 @@ export class BudgetUploadComponent implements OnInit {
               files: item.files,
               sequence: sequence,
               displayName: displayName,
-              fileUrl: hasFiles
-      ? environment.STORAGE_BASEURL + file.url
-      : null,
+              fileUrl: hasFilesType
+                ? environment.STORAGE_BASEURL + file.url
+                : null,
+              fileType: fileType,
               fileName: file?.name || null,
             } as FYItem;
           });
@@ -120,11 +126,11 @@ export class BudgetUploadComponent implements OnInit {
   /** Handle card click */
   selectYear(i: number): void {
     this.selectedIdx = i;
-     this.uploadedFile = null;
+    this.uploadedFile = null;
     this.uploadedFileName = null;
     this.uploadedFileUrl = null;
     this.isFileValid = false;
-    this.uploadError = '';  
+    this.uploadError = '';
     this.pastedUrl = '';       // clear previous errors
   }
   get doneYears(): string[] {
@@ -154,8 +160,8 @@ export class BudgetUploadComponent implements OnInit {
   /** File selected via input */
   onFileSelected(ev: Event): void {
 
-      const input = ev.target as HTMLInputElement;
-    const file =input.files?.[0];
+    const input = ev.target as HTMLInputElement;
+    const file = input.files?.[0];
     if (!file) return;
     const fileType = file.type;
     const fileSize = file.size;
@@ -199,7 +205,7 @@ export class BudgetUploadComponent implements OnInit {
           this.uploadedFile = file;
           this.uploadedFileUrl = s3Data.file_url;
           this.uploadedFilePath = s3Data.path;
-          const originalAlias = s3Data.file_alias; 
+          const originalAlias = s3Data.file_alias;
           const trimmedName = originalAlias.split('_')[0] + '.pdf';
           this.uploadedFileName = trimmedName;
           this.isFileValid = true;
@@ -296,7 +302,9 @@ export class BudgetUploadComponent implements OnInit {
     link.rel = 'noopener';
     link.click();
   }
-
+  getPdfFiles(sel: any) {
+    return sel?.files?.filter(file => file.type === 'pdf') || [];
+  }
   removeUploadedFile(): void {
     this.uploadedFile = null;
     this.uploadedFileName = null;
