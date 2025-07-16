@@ -289,7 +289,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
   }
 
   handleDownloadError() {
-    swal('', "Error downloading the file", '');
+    swal('', "No ULB found", '');
   }
 
 
