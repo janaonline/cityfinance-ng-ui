@@ -59,11 +59,11 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
   }
 
   // emailFormControl = new FormControl('', [Validators.required, Validators.email]);
-  src = "../../../assets/M FIGMA/laurentiu-morariu-8XZTZIfuNrM-unsplash 1.jpg";
+  src = "./assets/M FIGMA/laurentiu-morariu-8XZTZIfuNrM-unsplash 1.jpg";
 
   fqCardData = [
     {
-      image: "../../../assets/M FIGMA/newDraft.png",
+      image: "./assets/M FIGMA/newDraft.png",
       title: "Final Guidelines",
       // text:`“These are draft guidelines. Please share feedback, if any,
       // before <span class="clr"> 15th January, 2023 </span> via email on <span class="mailId">rankings@cityfinance.in</span>” `,
@@ -76,7 +76,7 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
       key: 'draftGuidelines'
     },
     {
-      image: "../../../assets/M FIGMA/newBroch.png",
+      image: "./assets/M FIGMA/newBroch.png",
       title: "Brochure",
       text: "",
       // url: 'https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/FR_Module/Shared/City%20Finance%20Rankings%20%202022_Brochure.pdf',
@@ -89,7 +89,7 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
     },
     // commented know more section for avoiding to view the video
     // {
-    //   image: "../../../assets/M FIGMA/dvr_black_24dp.svg",
+    //   image: "./assets/M FIGMA/dvr_black_24dp.svg",
     //   title: "Know more",
     //   text: "",
     //   videos : [
@@ -114,7 +114,7 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
     //   key: 'video'
     // },
     {
-      image: "../../../assets/M FIGMA/newDraft.png",
+      image: "./assets/M FIGMA/newDraft.png",
       title: "Contact Details",
       // text:`“These are draft guidelines. Please share feedback, if any,
       // before <span class="clr"> 15th January, 2023 </span> via email on <span class="mailId">rankings@cityfinance.in</span>” `,

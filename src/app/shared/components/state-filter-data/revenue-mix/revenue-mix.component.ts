@@ -656,17 +656,17 @@ export class RevenueMixComponent implements OnInit {
   headerActions = [
     {
       name: "Download",
-      svg: "../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
+      svg: "./assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
     },
     {
       name: "Share/Embed",
-      svg: "../../../../assets/CIty_detail_dashboard – 3/Layer 51.svg",
+      svg: "./assets/CIty_detail_dashboard – 3/Layer 51.svg",
     },
   ];
   iFrameHeaderActions = [
     {
       name: "Download",
-      svg: "../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
+      svg: "./assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
     }
   ];
   embeddedRoute: string = 'state-mix';

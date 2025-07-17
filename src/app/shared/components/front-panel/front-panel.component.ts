@@ -282,7 +282,7 @@ const revenue = {
   type: 6,
   title: "revenue",
   subTitle: "revenue",
-  svg: `../../../../assets/7340549_e-commerce_online_shopping_ui_receipt_icon.svg`,
+  svg: `./assets/7340549_e-commerce_online_shopping_ui_receipt_icon.svg`,
   img: "",
   para: "",
   actionButtons: [
@@ -305,7 +305,7 @@ const expenditure = {
   type: 2,
   title: "expenditure",
   subTitle: "expenditure",
-  svg: `../../../../assets/7340549_e-commerce_online_shopping_ui_receipt_icon.svg`,
+  svg: `./assets/7340549_e-commerce_online_shopping_ui_receipt_icon.svg`,
   img: "",
   para: "",
   actionButtons: [
@@ -328,7 +328,7 @@ const assets = {
   type: 2,
   title: "assets",
   subTitle: "assets",
-  svg: `../../../../assets/7340549_e-commerce_online_shopping_ui_receipt_icon.svg`,
+  svg: `./assets/7340549_e-commerce_online_shopping_ui_receipt_icon.svg`,
   img: "",
   para: "",
   actionButtons: [
@@ -351,7 +351,7 @@ const tax_revenue = {
   type: 2,
   title: "tax_revenue",
   subTitle: "tax_revenue",
-  svg: `../../../../assets/7340549_e-commerce_online_shopping_ui_receipt_icon.svg`,
+  svg: `./assets/7340549_e-commerce_online_shopping_ui_receipt_icon.svg`,
   img: "",
   para: "",
   actionButtons: [
@@ -374,7 +374,7 @@ const liabilities = {
   type: 2,
   title: "liabilities",
   subTitle: "liabilities",
-  svg: `../../../../assets/7340549_e-commerce_online_shopping_ui_receipt_icon.svg`,
+  svg: `./assets/7340549_e-commerce_online_shopping_ui_receipt_icon.svg`,
   img: "",
   para: "",
   actionButtons: [
@@ -397,7 +397,7 @@ const grants = {
   type: 2,
   title: "grant",
   subTitle: "grant",
-  svg: `../../../../assets/7340549_e-commerce_online_shopping_ui_receipt_icon.svg`,
+  svg: `./assets/7340549_e-commerce_online_shopping_ui_receipt_icon.svg`,
   img: "",
   para: "",
   actionButtons: [

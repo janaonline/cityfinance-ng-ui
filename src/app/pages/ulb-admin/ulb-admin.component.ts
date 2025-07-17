@@ -14,8 +14,8 @@
 
 //   name ='';
 //   role='';
-//   ds_icon='../../../assets/ulbform/dh.png'
-//   ulb_icon ='../../../assets/ulbform/blue-ulb.png';
+//   ds_icon='./assets/ulbform/dh.png'
+//   ulb_icon ='./assets/ulbform/blue-ulb.png';
 //   constructor(
 //     private _router: Router,
 //     private modalService: BsModalService,
@@ -24,9 +24,9 @@
 //   ) {
 //     super();
 //   if(ActivateRoute){
-//     this.ulb_icon='../../../assets/ulbform/blue-ulb.png'
+//     this.ulb_icon='./assets/ulbform/blue-ulb.png'
 //   }else{
-//     this.ulb_icon='../../../assets/ulbform/blue-ulb.png'
+//     this.ulb_icon='./assets/ulbform/blue-ulb.png'
 //   }
 //     if(!this.loggedInUserType){
 //       this._router.navigate(["/home"]);
@@ -60,10 +60,10 @@
 //   }
 //   changeIcon(){
 //     console.log('pramod');
-//     this.ds_icon ='../../../assets/ulbform/blue-dh.png'
+//     this.ds_icon ='./assets/ulbform/blue-dh.png'
 //   }
 //   remIcon(){
-//     this.ds_icon ='../../../assets/ulbform/dh.png'
+//     this.ds_icon ='./assets/ulbform/dh.png'
 //   }
 
 // }

@@ -7,7 +7,7 @@
     "start": "ng serve",
     "local": "node --max_old_space_size=8120 ./node_modules/@angular/cli/bin/ng serve --configuration=local",
     "test": "ng test",
-    "build": "node --max_old_space_size=8120 ./node_modules/@angular/cli/bin/ng build --configuration production",
+    "build": "node --max_old_space_size=8120 ./node_modules/@angular/cli/bin/ng build --configuration production --base-href /v1/",
     "postbuild": "node ./build/post-build.js",
     "CITest": "ng test --watch=false --browsers ChromeHeadless",
     "lint": "ng lint",

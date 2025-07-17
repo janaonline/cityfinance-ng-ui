@@ -157,7 +157,8 @@ export class NHomeHeaderComponent implements OnInit {
       this.authService.clearLocalStorage();
       this.removeSessionItem();
       this.isLoggedIn = false;
-      this._router.navigateByUrl("rankings/home");
+      // this._router.navigateByUrl("rankings/home");
+      window.location.href = '/home';
     }else {
 
     }
