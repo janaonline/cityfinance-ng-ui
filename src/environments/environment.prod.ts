@@ -20,14 +20,15 @@ if (
 } else if (window.location.hostname.includes("uat")) {
   url = "https://uat.cityfinance.in/api/v1/";
 } else if (window.location.hostname.includes("staging")) {
+  GoogleTagID = "G-803HPPLFMM";
   url = "https://staging.cityfinance.in/api/v1/";
 } else if (window.location.hostname.includes("new-cityfinance")) {
   url = "https://newcityfinanceapi.dhwaniris.in/api/v1/";
   // url = "http://localhost:8080/api/v1/";
   GoogleTagID = "G-MDPDTZFW0N";
-} else if (window.location.origin === "https://cityfinance.in") {
+} else if (window.location.origin === "https://cityfinance.in" || window.location.origin === "https://www.cityfinance.in") {
   isProduction = true;
-  url = "https://cityfinance.in/api/v1/";
+  url = "https://www.cityfinance.in/api/v1/";
   GoogleTagID = "G-MDPDTZFW0N";
   STORAGE_BASEURL = 'https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com';
 }
@@ -35,7 +36,7 @@ export const environment = {
   performanceURL: "https://pas.org.in/web/ceptpas/iuppkpi?parameterAutoLoginLogin=guestulb9&parameterAutoLoginPassword=guestulb9@abc",
   production: true,
   api: {
-    url2: "https://cityfinance.in/",
+    url2: "https://www.cityfinance.in/",
     url1: "https://democityfinanceapi.dhwaniris.in/",
     url,
   },

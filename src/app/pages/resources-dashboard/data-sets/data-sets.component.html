@@ -22,9 +22,12 @@
 </div> -->
 
 <div class="filter-d mt-3 mb-3" *ngIf="dataReceived" id="top">
-    <app-filter-component (filterFormData)="filterData($event)" (clearEvent)="clearEvent()" [category]="category"
-        [filterInputData]="filterComponent" [downloadValue]="selectedUsersList.length" (download)="download($event)"
-        [filterTabDataSet]="true" [mobileFilterConfig]="mobileFilterConfig"></app-filter-component>
+    <app-filter-component 
+        (filterFormData)="filterData($event)"
+        (isDownloadable)="download($event)"
+        [filterInputData]="filterComponent"
+        [downloadValue]="selectedUsersList.length"
+    ></app-filter-component>
 </div>
 
 <div class="row" *ngIf="dataReceived">
@@ -90,11 +93,11 @@
             <span class="ms-1">Load More</span>
         </button>
     </div>
-    <div class="backArrow" *ngIf="loadMoreData" [ngClass]="{ 'blinker': isBlinking === true }">
+    <!-- <div class="backArrow" *ngIf="loadMoreData" [ngClass]="{ 'blinker': isBlinking === true }">
         <span class="p-2 lmBtn" role="button" (click)="getToTop()">
             <mat-icon style="vertical-align: middle;">arrow_upward</mat-icon>
         </span>
-    </div>
+    </div> -->
 </div>
 <!--
 <div class="row">

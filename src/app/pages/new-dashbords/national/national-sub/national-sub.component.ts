@@ -45,7 +45,7 @@ export class NationalSubComponent implements OnInit {
   popBtn = true;
   tableView = true;
   graphView = false;
-  barChartsLabels = ["<100k", "100K-500K", "500K-1M", "1M-4M", "4M+"];
+  barChartsLabels = ["4M+", "1M-4M", "500K-1M", "100K-500K", "<100k"];
 
   doughnutLabels = [];
   // doughnutLabels = [

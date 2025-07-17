@@ -1,26 +1,19 @@
-import { ModuleWithProviders, NgModule } from "@angular/core";
+import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { AuthModule } from "./auth/auth.module";
-import { HomeComponent } from "./auth/home/home.component";
 import { NewHomeComponent } from "./auth/new-home/new-home.component";
 import { UlbNotRegisteredComponent } from "./auth/ulb-not-registered/ulb-not-registered.component";
 import { ProfileUpdateComponent } from "./newPagesFc/profile-update/profile-update.component";
-import { AboutIndicatorComponent } from "./shared/components/about-indicator/about-indicator.component";
+import { MaintenanceComponent } from "./pages/maintenance/maintenance.component";
 import { CompareDialogComponent } from "./shared/components/compare-dialog/compare-dialog.component";
-import { RevenuechartComponent } from "./shared/components/revenuechart/revenuechart.component";
-import { WaterRejenuvationComponent } from "./shared/components/water-rejenuvation/water-rejenuvation.component";
-import { ProTTaxFormComponent } from "./shared/components/pro-t-tax-form/pro-t-tax-form.component"
-import { FiscalHomeComponent } from "./fiscal-ranking/fiscal-home/fiscal-home.component";
-import { FiscalRankingModule } from "./fiscal-ranking/fiscal-ranking.module";
 import { MunicipalityBondsProjectsComponent } from "./shared/components/municipality-bonds-projects/municipality-bonds-projects.component";
 import { MunicipalityBudgetComponent } from "./shared/components/municipality-budget/municipality-budget.component";
-import { DalgoComponent } from "./shared/components/dalgo/dalgo.component";
 
+import { ProTTaxFormComponent } from "./shared/components/pro-t-tax-form/pro-t-tax-form.component";
 export const appRouter: Routes = [
 
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: "home", component: NewHomeComponent },
-  { path: "dalgo", component: DalgoComponent },
+  { path: "maintenance", component: MaintenanceComponent },
   // { path: "oldhome", component: HomeComponent },
   // { path: "card", component: SharedCardComponent },
   // { path: "front", component: FrontPanelComponent },

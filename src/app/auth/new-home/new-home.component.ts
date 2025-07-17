@@ -32,8 +32,8 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
 })
 
   }
-
-  
+    
+  coveredUlbCount: number = 0;
   @ViewChild('highlightContainer', { static: false }) private highlightContainer: ElementRef<HTMLDivElement>;
   isHighlightContainerScrolledIntoView: boolean;
   highlightNo: number = 0;
@@ -174,6 +174,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
   exploreCardData = [
     {
       title: '',
+      id: 'financial-performance',
       label: 'Financial Performance Of Cities',
       text: 'Analyze and compare the financial performance of cities',
       icon: '../../../assets/new_dashBord_ftr_hdr/perf.svg',
@@ -182,6 +183,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     },
     {
       title: '',
+      id: 'improve-own-revenue',
       label: 'Improve Own Revenue',
       text: 'Explore own revenue sources of municipalities and identify revenue improvement strategies',
       icon: '../../../assets/new_dashBord_ftr_hdr/revenu.svg',
@@ -191,6 +193,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
 
     {
       title: '',
+      id: 'resources',
       label: 'Resources',
       text: 'Get access to a rich repository of resources to build your knowledge, and implement municipal finance reforms',
       icon: '../../../assets/new_dashBord_ftr_hdr/resoures/Group 15547.png',
@@ -199,6 +202,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     },
     {
       title: '',
+      id: 'service-level-benchmarks',
       label: 'Service Level Benchmarks',
       text: 'Track your city’s performance across five themes and 28 key indicators.',
       icon: '../../../assets/new_dashBord_ftr_hdr/slb/Group 15493.png',
@@ -207,6 +211,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     },
     {
       title: '',
+      id: 'XV-finance-commission-grants',
       label: 'XV Finance Commission Grants',
       text: 'Apply, review, recommend and track XV finance commission grants',
       icon: '../../../assets/new_dashBord_ftr_hdr/15fc.svg',
@@ -215,6 +220,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     },
     {
       title: '',
+      id: 'upload-annual-accounts',
       label: 'Upload Annual Accounts',
       text: 'Upload Annual Account Forms',
       icon: '../../../assets/new_dashBord_ftr_hdr/raisemny.svg',
@@ -226,7 +232,36 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
   ]
   noDataFound = false;
   recentSearchArray = [
-
+    {
+      "isActive": true,
+      "type": "ulb",
+      "__v": 0,
+      "count": 1,
+      "createdAt": "2022-06-18T01:43:12.527Z",
+      "modifiedAt": "2022-06-18T01:43:12.527Z",
+      "name": "Bruhat Bengaluru Mahanagara Palike",
+      "_id": "5f5610b3aab0f778b2d2cac0"
+  },
+  {
+      "isActive": true,
+      "type": "ulb",
+      "__v": 0,
+      "count": 1,
+      "createdAt": "2022-03-30T02:21:07.299Z",
+      "modifiedAt": "2022-03-30T02:21:07.299Z",
+      "name": "Greater Hyderabad Municipal Corporation",
+      "_id": "5eb5844f76a3b61f40ba069a"
+  },
+  {
+      "isActive": true,
+      "type": "ulb",
+      "__v": 0,
+      "count": 1,
+      "createdAt": "2021-12-23T05:30:46.475Z",
+      "modifiedAt": "2021-12-23T05:30:46.475Z",
+      "name": "Greater Mumbai Municipal Corporation",
+      "_id": "5eb5844f76a3b61f40ba0695"
+  }
   ];
   dummyData:any = [
     {
@@ -235,9 +270,9 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     }
   ]
   ngOnInit() {
-    this.loadRecentSearchValue();
+    // this.loadRecentSearchValue();
 
-
+    this.coveredUlbCount = null;
     const hUser = $("#countDownUser").data('value');
     var hUserLess = hUser - 1000;
     const k = setInterval(function () {
@@ -278,27 +313,20 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     })
 
     
-    this._commonService.dataForVisualizationCount.subscribe((res)=>{
-       this.dataForVisualization = res;
-    })
+    // this._commonService.dataForVisualizationCount.subscribe((res) => {
+    //   console.log(res.coveredUlbCount);
+    //   if (!this.coveredUlbCount) this.coveredUlbCount = res.coveredUlbCount;
+    // });
+     this._commonService.dataForVisualizationCount.subscribe((res) => {
+       if (res.coveredUlbCount && res.coveredUlbCount > 1000) {
+         this.coveredUlbCount = res.coveredUlbCount;
+       }
+     });
   }
 
   loadRecentSearchValue() {
     this._commonService.getRecentSearchValue().subscribe((res:any)=>{
-   //  console.log('recent search value', res);
-
-    //  for(let i=0; i<3; i++){
-    //    let obj = {
-    //      _id: res?.data[i]?._id,
-    //      name: res?.data[i]?.name,
-    //      type: 'ulb'
-    //    }
-    //    this.recentSearchArray[i] = obj ;
-
-    //  }
-    this.recentSearchArray = res?.data;
-    // console.log('ser array', this.recentSearchArray)
-
+       this.recentSearchArray = res?.data;
     },
     (error)=> {
    //   console.log('recent search error', error)

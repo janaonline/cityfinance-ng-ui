@@ -1,0 +1,21 @@
+* {
+  font-family: "Montserrat";
+}
+
+.parent {
+  max-width: 450px;
+}
+
+textarea {
+  height: 5rem;
+  padding: 0.5rem;
+}
+
+mat-icon {
+  font-family: "Material Icons";
+}
+
+.btn-check:checked + .rating-label {
+  border: 2px solid darkslategray;
+  box-shadow: 0 0 10px rgb(67, 67, 67);
+}

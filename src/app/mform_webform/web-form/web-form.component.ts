@@ -50,6 +50,7 @@ import { MatPaginator } from '@angular/material/paginator';
 const swal: SweetAlert = require("sweetalert");
 import * as FileSaver from "file-saver";
 import { DataEntryService } from '../../dashboard/data-entry/data-entry.service';
+import Swal from 'sweetalert2';
 
 declare const $: any;
 
@@ -155,6 +156,10 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
   selectedYear:string="";
   pageIndex=0;
   @ViewChild('paginator') paginator: MatPaginator;
+  detectQUestionWithZeroValue:boolean
+  detectQUestionWithZeroReasonValue: boolean;
+  receivedDuringYrWithZeroReasonOueObj: any;
+  receivedDuringYrWithZeroOueObj: any;
   
   ngOnInit() {
     this.getQueryParams();
@@ -325,6 +330,10 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
       }));
 
       this.questionData = setInitialQuestions(questionData.question);
+        let selQues =    questionData.question.filter((que)=> que.shortKey =='grantPosition.fileUploadDuringYrWithZeroReason')
+           if(selQues.length>0){
+            this.questionData.push(selQues[0]);
+           }
 
       this.questionData?.forEach(parentQuestion => {
         if (parentQuestion?.shortKey == 'linkPFMS' || parentQuestion?.shortKey == 'isUlbLinkedWithPFMS') {
@@ -334,6 +343,31 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
         }
         parentQuestion?.childQuestionData?.forEach(childQuestions => {
           childQuestions?.forEach(childQuestion => {
+            if(childQuestion.shortKey=='grantPosition.fileUploadDuringYrWithZeroReason'){
+              let selQues =    questionData.question.filter((que)=> que.shortKey =='grantPosition.fileUploadDuringYrWithZeroReason')
+                  childQuestion.acceptableType = selQues[0].acceptableType;
+                  childQuestion.acceptableFileType = selQues[0].acceptableType;
+                  childQuestion.type='11'
+            }
+            if(childQuestion.shortKey=='grantPosition___receivedDuringYr'){
+              this.detectQUestionWithZeroValue = parseInt(childQuestion.value)==0 ? true:false
+            }
+            if(childQuestion.shortKey=='grantPosition___receivedDuringYrWithZero'){
+              this.detectQUestionWithZeroReasonValue = parseInt(childQuestion.value)==3 ? this.detectQUestionWithZeroValue ? true: false :false;
+              this.receivedDuringYrWithZeroOueObj = childQuestion;
+              if(this.detectQUestionWithZeroValue){
+                this.receivedDuringYrWithZeroOueObj.validation.push(
+                  {
+                      "error_msg": "",
+                      "_id": "1"
+                  }
+              )
+             }
+            }
+            if(childQuestion.shortKey=='grantPosition___receivedDuringYrWithZeroReason'){
+             this.receivedDuringYrWithZeroReasonOueObj = childQuestion;
+            }
+
             if (!childQuestion?.parent?.length) return childQuestion.visibility = true;
             childQuestion.visibility = childQuestion?.parent?.every(skipableParnetObject => {
               const parent = childQuestions?.find(chi => chi?.order == skipableParnetObject?.order);
@@ -698,6 +732,17 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
     await submitForm(false, this.questionData).then((value: any) => {
       emptyError = value.filter((item: any) => item.visibility);
     });
+
+    if (this.form == 'dur') {
+      emptyError = emptyError.filter(error => {
+        const key = error.title?.toLowerCase();
+        return !(
+          key?.includes('15th fc tied grant status for the financial year') &&
+          !this.detectQUestionWithZeroValue
+        );
+      });
+    }
+
     console.log('emptyError', emptyError)
     if (isSaveAsDraft) {
       this.prepareFinalResponse(finalQuestionResponse, proposalName, isSaveAsDraft);
@@ -775,6 +820,20 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
         // });
         if(this.viewFormTemplate == 'dur'){
           this.openSnackBar(['One or more required fields are empty or contains invalid data. Please check your input for all fields or pages.'], 3000);
+          
+          const errorProjectDetails = emptyError.find(error => {
+            const key = error?.title.toLowerCase();
+            return key?.includes('project details as on');
+          })
+          
+          let incorrectProjects = new Set();
+          if (errorProjectDetails?.nestedQuestions.length > 0) {
+            for (const project of errorProjectDetails?.nestedQuestions) 
+              incorrectProjects.add(project.forParentValue);
+          }
+
+          if (incorrectProjects?.size > 10)
+            Swal.fire(`Project no. ${[...incorrectProjects].join(', ')} has error(s). Kindly review and rectify them.`);
         }
         
       } else if (filterInvalidEnterAnswer.length > 0) {
@@ -1037,6 +1096,49 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
     if (question.input_type === QUESTION_TYPE.CONSENT) {
       value.target.value = value.target.checked ? "1" : "2";
     }
+
+    // File upload feature was added by SA - Do that only if year is > 25-26.
+    if (['606aafda4dff55e6c075d48f'].includes(this.designYear)) {
+    if (question.shortKey == 'grantPosition___receivedDuringYr') {
+      this.detectQUestionWithZeroValue = parseInt(value.target.value) == 0 ? true : false;
+     if (parseInt(value.target.value) != 0)
+       this.detectQUestionWithZeroReasonValue = false;
+          
+     const fileUploadObj = this.questionData.find(
+        (ele) =>
+          ele.shortKey === "grantPosition.fileUploadDuringYrWithZeroReason"
+      );
+      if (this.detectQUestionWithZeroValue) {
+        fileUploadObj.validation = [
+          {
+            _id: "83",
+            error_msg: "",
+            value: "application/pdf",
+          },
+          {
+            _id: "1",
+            error_msg: "",
+          },
+          {
+            _id: "81",
+            error_msg: "",
+            value: "5120",
+          },
+          {
+            _id: "82",
+            error_msg: "",
+            value: "1",
+          },
+        ];
+      } else {
+        fileUploadObj.validation = [];
+      }
+   }
+   if (question.shortKey == 'grantPosition___receivedDuringYrWithZero') {
+     this.detectQUestionWithZeroReasonValue = parseInt(value.target.value) == 3 ? true : false
+   }
+    question.value = question.modelValue;
+  }
     console.log('onChange', { question, value, option, skip })
     this.isFormSubmittedSuccessfully = false;
     this.hasUnsavedChanges = true;
@@ -1142,7 +1244,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
                   ? ''
                   : question.modelValue,
             value:
-              question.input_type == '2'
+              question.input_type == '2' 
                 ? question.modelValue
                 : question.answer_option && question.answer_option.length
                   ? question.modelValue
@@ -1501,6 +1603,9 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
             );
 
             let updatableQuestion;
+             if(question.shortKey =='grantPosition.fileUploadDuringYrWithZeroReason'){
+               this.questionData.splice(8,1);
+             }
 
             this.questionData.forEach(parentQuestion => {
               if (parentQuestion.order == question.order) {
@@ -1509,6 +1614,13 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
                 parentQuestion?.childQuestionData?.forEach(childQuestions => {
                   childQuestions?.forEach(childQuestion => {
                     if (childQuestion.order == question.order) {
+                        if(childQuestion.shortKey =='grantPosition.fileUploadDuringYrWithZeroReason'){
+                          childQuestion['selectedValue'] = prepareImageObject;
+                          childQuestion['imgUrl'] = path;
+                          childQuestion['modelValue'] = path;
+                          childQuestion['value'] = questionValue;
+                          childQuestion['imgLabel'] = imgObject[0].label;
+                        }
                       updatableQuestion = childQuestion;
                     }
                   })
@@ -2162,21 +2274,24 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
     /* Finding the index of the question in the questionData array. */
     // let questionIndex = this.questionData.findIndex((ele: any) => ele?.order == questionorder);
     let updatableQuestion;
-
-    this.questionData.forEach(parentQuestion => {
-      if (parentQuestion.order == questionorder) {
-        updatableQuestion = parentQuestion;
-      } else {
-        parentQuestion?.childQuestionData?.forEach(childQuestions => {
-          childQuestions?.forEach(childQuestion => {
-            if (childQuestion.order == questionorder) {
-              updatableQuestion = childQuestion;
-            }
+      if(currentQuestion.shortKey =='grantPosition.fileUploadDuringYrWithZeroReason'){
+        updatableQuestion = currentQuestion;
+      }else{
+      this.questionData.forEach(parentQuestion => {
+        if (parentQuestion.order == questionorder) {
+          updatableQuestion = parentQuestion;
+        } else {
+          parentQuestion?.childQuestionData?.forEach(childQuestions => {
+            childQuestions?.forEach(childQuestion => {
+              if (childQuestion.order == questionorder) {
+                updatableQuestion = childQuestion;
+              }
+            })
           })
-        })
-      }
-      if (updatableQuestion) return;
-    })
+        }
+        if (updatableQuestion) return;
+      })
+    }
 
     updatableQuestion['modelValue'] = '';
     updatableQuestion['value'] = '';
@@ -2585,11 +2700,16 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
         let startDate = item?.find(question => question.shortKey == 'startDate');
         let endDate = item?.find(question => question.shortKey == "completionDate");
         endDate["isQuestionDisabled"] = true;
+        if (['606aafda4dff55e6c075d48f'].includes(this.selectedYearId)) {
+          startDate.min = '2000-01-01';
+          endDate.max = '2026-04-30'
+        }
         if(startDate?.modelValue){
           let date = new Date(startDate?.modelValue);
           let day = (date.getDate() + 1).toString().padStart(2, "0");
          // endDate.max = (date.getFullYear()) + "-" + (date.getMonth() + 1).toString().padStart(2, "0") + "-" + day;
           endDate.min = (date.getFullYear()) + "-" + (date.getMonth() + 1).toString().padStart(2, "0") + "-" + day;
+          endDate.min = (date.getFullYear()) < 2020 ? '2020-04-30' : endDate.min
           console.log(endDate, this.questionData);
           endDate["isQuestionDisabled"] = false; 
         }

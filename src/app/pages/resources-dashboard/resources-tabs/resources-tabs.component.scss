@@ -34,6 +34,10 @@ li>a.active {
     font: normal normal 600 14px/18px 'Montserrat';
     width: max-content;
 }
+// Hiding the third tab(E-learning) for now 
+.resources-tab li:nth-child(3) {
+    display: none;
+}
 
 .nav>li>a {
     padding: .8rem 2.5rem;

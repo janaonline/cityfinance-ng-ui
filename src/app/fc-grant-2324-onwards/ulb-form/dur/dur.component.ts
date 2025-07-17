@@ -29,7 +29,7 @@ export class DurComponent implements OnInit, OnDestroy {
    Alternatively, you can save as draft for now and submit it later.`
 
   userData = JSON.parse(localStorage.getItem("userData"));
-  
+
   questionresponse;
   isButtonAvail : boolean = false;
   // nextRouter:string = '';
@@ -48,6 +48,7 @@ export class DurComponent implements OnInit, OnDestroy {
   financialYear:string="";
   selectedYear:string=""
   locationInvalid:boolean = false;
+  totalProjectInvalid :boolean = false;
   constructor(
     private dialog: MatDialog,
     private durService: DurService,
@@ -55,7 +56,7 @@ export class DurComponent implements OnInit, OnDestroy {
     private commonServices: CommonServicesService,
     private router: Router,
     private route: ActivatedRoute
-  ) { 
+  ) {
     this.getNextPreUrl();
   }
 
@@ -71,9 +72,9 @@ export class DurComponent implements OnInit, OnDestroy {
     this.loadData();
   }
 
-  get design_year() { 
+  get design_year() {
     const yearId = this.route.parent.snapshot.paramMap.get('yearId');
-     this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId")
+    this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId")
     return this.selectedYearId;
   }
 
@@ -85,7 +86,7 @@ export class DurComponent implements OnInit, OnDestroy {
   get hasUnsavedChanges() {
     return this.webForm?.hasUnsavedChanges;
   }
- 
+
   loadData(loadProjects = false) {
     this.loaderService.showLoader();
     this.durService.getForm(this.ulbId, this.design_year).subscribe((res: any) => {
@@ -234,43 +235,56 @@ export class DurComponent implements OnInit, OnDestroy {
 
   isFormValid(data) {
     this.locationInvalid = false;
+    this.totalProjectInvalid = false;
     const projectDetails = data?.finalData.find(item => item.shortKey == "projectDetails_tableView_addButton")?.nestedAnswer || [];
     const waterManagement = data?.finalData.find(item => item.shortKey == "waterManagement_tableView")?.nestedAnswer || [];
     const solidWasteManagement = data?.finalData.find(item => item.shortKey == "solidWasteManagement_tableView")?.nestedAnswer || [];
     for (let project of projectDetails) {
+      const projectNumber = project?.forParentValue;
       const location = project?.answerNestedData.find(item => item.shortKey == "location");
       const cost = project?.answerNestedData.find(item => item.shortKey == "cost");
       const expenditure = project?.answerNestedData.find(item => item.shortKey == "expenditure");
       if (location.answer?.length == 0 || location.answer[0].value == "" || this.isLocationValid(location.answer[0].value)) {
         this.locationInvalid = true;
-        return false;
+        return {projectNumber, valid: false};
       }
       if (expenditure.answer[0].value && cost.answer[0].value && (+expenditure.answer[0].value > +cost.answer[0].value)) {
-        return false;
+        return {projectNumber, valid: false};
       }
     }
 
     for (let item of waterManagement) {
       const grantUtilised = item?.answerNestedData.find(item => item.shortKey == "wm_grantUtilised");
+      const totalNumberProject = item?.answerNestedData.find(item => item.shortKey == "wm_numberOfProjects");
       const totalProjectCost = item?.answerNestedData.find(item => item.shortKey == "wm_totalProjectCost");
-      if (grantUtilised.answer[0].value && totalProjectCost.answer[0].value && 
+      if(grantUtilised.answer[0].value>0 && totalNumberProject.answer[0].value==0){
+        this.totalProjectInvalid = true;
+        return {valid: false};
+
+      } 
+      if (grantUtilised.answer[0].value && totalProjectCost.answer[0].value &&
         (+grantUtilised.answer[0].value > +totalProjectCost.answer[0].value)
       ) {
         console.log('invalid', item);
-        return false;
+        return {valid: false};
       }
     }
 
     for (let item of solidWasteManagement) {
       const grantUtilised = item?.answerNestedData.find(item => item.shortKey == "sw_grantUtilised");
+      const totalNumberProject = item?.answerNestedData.find(item => item.shortKey == "sw_numberOfProjects");
       const totalProjectCost = item?.answerNestedData.find(item => item.shortKey == "sw_totalProjectCost");
-      if (grantUtilised.answer[0].value && totalProjectCost.answer[0].value && 
+      if(grantUtilised.answer[0].value>0 && totalNumberProject.answer[0].value==0){
+        this.totalProjectInvalid = true;
+        return {valid: false};
+      } 
+      if (grantUtilised.answer[0].value && totalProjectCost.answer[0].value &&
         (+grantUtilised.answer[0].value > +totalProjectCost.answer[0].value)
       ) {
-        return false;
+        return {valid: false};
       }
     }
-    return true;
+   return {valid: true};
   }
 
   async onSubmit(data) {
@@ -282,56 +296,57 @@ export class DurComponent implements OnInit, OnDestroy {
       if (selfDeclarationChecked != '1') return swal('Error', 'Please check self declaration', 'error');
       const grantPositionData = data?.finalData?.find(obj => obj.shortKey === "grantPosition");
       const expDuringYrObj = grantPositionData?.nestedAnswer[0]?.answerNestedData?.find(el=>el.shortKey === "grantPosition___expDuringYr");
-      
-     if((expDuringYrObj?.answer[0]?.value == 0)){
-       swal("Error", "The total expenditure incurred during the year cannot be 0", "error");
-       return;
-     }
-     const projectDetails = data?.finalData.find(item => item.shortKey == "projectDetails_tableView_addButton")?.nestedAnswer || [];
-     if(projectDetails?.length == 0){
+
+      if((expDuringYrObj?.answer[0]?.value == 0)){
+        swal("Error", "The total expenditure incurred during the year cannot be 0", "error");
+        return;
+      }
+      const projectDetails = data?.finalData.find(item => item.shortKey == "projectDetails_tableView_addButton")?.nestedAnswer || [];
+      if(projectDetails?.length == 0){
         swal("Error", "Number of projects can not be 0", "error");
         return;
-     } 
-     // if = validation check for all input,
-     // else = confirmation popup then final submit, draft, cancel functionality.
-     console.log("this.isFormValid(data)", this.isFormValid(data))
-     if (!this.isFormValid(data)) {
-      let errMsg = this.locationInvalid ? "Please fill the lat/long or correct the lat/long values" : 'Please fill valid values in form';
-      return swal('Error', `${errMsg}`, 'error')
-    }else{
-      const userAction = await swal(
-        "Confirmation !",
-        `${this.finalSubmitMsg}`,
-        "warning",
-        {
-          buttons: {
-            Submit: {
-              text: "Submit",
-              value: "submit",
-            },
-            Draft: {
-              text: "Save as Draft",
-              value: "draft",
-            },
-            Cancel: {
-              text: "Cancel",
-              value: "cancel",
-            },
-          },
-        }
-      );
-      if (userAction == 'draft') {
-        isDraft = true;
-        this.finalSubmit(data, isDraft)
       }
-      if (userAction == 'cancel') return;
+      // if = validation check for all input,
+      // else = confirmation popup then final submit, draft, cancel functionality.
+      console.log("this.isFormValid(data)", this.isFormValid(data))
+      const formValidObj = this.isFormValid(data);
+      if (!formValidObj?.valid) {
+        let errMsg = this.locationInvalid ? `Please fill the lat/long or correct the lat/long values for project no. ${formValidObj?.projectNumber}`  : this.totalProjectInvalid ?  "Number of projects can not be 0" : 'Please fill valid values in form';
+        return swal('Error', `${errMsg}`, 'error')
+      }else{
+        const userAction = await swal(
+          "Confirmation !",
+          `${this.finalSubmitMsg}`,
+          "warning",
+          {
+            buttons: {
+              Submit: {
+                text: "Submit",
+                value: "submit",
+              },
+              Draft: {
+                text: "Save as Draft",
+                value: "draft",
+              },
+              Cancel: {
+                text: "Cancel",
+                value: "cancel",
+              },
+            },
+          }
+        );
+        if (userAction == 'draft') {
+          isDraft = true;
+          this.finalSubmit(data, isDraft)
+        }
+        if (userAction == 'cancel') return;
       if(userAction == 'submit') this.finalSubmit(data, isDraft)
-    }
-  
+      }
+
     };
 
-    
-    
+
+
   }
   finalSubmit(data, isDraft){
     this.loaderService.showLoader();
@@ -351,7 +366,7 @@ export class DurComponent implements OnInit, OnDestroy {
       this.isFormFinalSubmit = true;
       if(!isDraft) {
         this.loadData(true);
-        
+
       }
       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
       console.log('data send');
@@ -397,46 +412,46 @@ export class DurComponent implements OnInit, OnDestroy {
   }
   formDisable(res){
     if(!res) return;
-  //  let resR = { ...res, statusId: 6} for testing only
+    //  let resR = { ...res, statusId: 6} for testing only
     this.isButtonAvail = this.commonServices.formDisable(res, this.userData);
     console.log(this.isButtonAvail, 'this.isButtonAvail');
-    
- }
 
- //f
- getFinancialYear(){
-  this.selectedYear = this.commonServices.getYearName(this.design_year);
-  const [startYear, endYear] = this.selectedYear.split("-").map(Number);
-  this.financialYear = `${startYear - 1}-${endYear - 1}`;
-  
- }
- get financial_year() {
-  const years = JSON.parse(localStorage.getItem("Years"));
-  return years?.[`${this.financialYear}`];
-}
-
- ngOnDestroy(): void {
-  this.leftMenuSubs.unsubscribe();
-}
-
- isLocationValid(location: string): boolean {
-  // Split the location string by comma
-  const values: string[] = location.split(',');
-
-  // Iterate through each value for checking error
-  for (const val of values) {
-      try {
-          if (!val || parseFloat(val.trim()) === 0) {
-              return true;
-          }
-      } catch (error) {
-        swal("Error", `${error?.message}`, "error")
-          continue;
-      }
   }
 
-  // If no error found, return false
-  return false;
-}
-  
+  //f
+ getFinancialYear(){
+    this.selectedYear = this.commonServices.getYearName(this.design_year);
+    const [startYear, endYear] = this.selectedYear.split("-").map(Number);
+    this.financialYear = `${startYear - 1}-${endYear - 1}`;
+
+  }
+  get financial_year() {
+    const years = JSON.parse(localStorage.getItem("Years"));
+    return years?.[`${this.financialYear}`];
+  }
+
+  ngOnDestroy(): void {
+    this.leftMenuSubs.unsubscribe();
+  }
+
+  isLocationValid(location: string): boolean {
+    // Split the location string by comma
+    const values: string[] = location.split(',');
+
+    // Iterate through each value for checking error
+    for (const val of values) {
+      try {
+        if (!val || parseFloat(val.trim()) === 0) {
+          return true;
+        }
+      } catch (error) {
+        swal("Error", `${error?.message}`, "error")
+        continue;
+      }
+    }
+
+    // If no error found, return false
+    return false;
+  }
+
 }

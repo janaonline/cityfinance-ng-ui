@@ -6,13 +6,14 @@ import { catchError, filter } from 'rxjs/operators';
 
 import { Login_Logout } from '../util/logout.util';
 import { SweetAlert } from "sweetalert/typings/core";
+import { AuthService } from '../auth/auth.service';
 
 const swal: SweetAlert = require("sweetalert");
 @Injectable()
 export class CustomHttpInterceptor implements HttpInterceptor {
   routerNavigationSuccess = new Subject<any>();
 
-  constructor(private router: Router, private _router: Router) {
+  constructor(private router: Router, private _router: Router, private authService: AuthService) {
     this.initializeRequestCancelProccess();
   }
 
@@ -69,11 +70,16 @@ export class CustomHttpInterceptor implements HttpInterceptor {
 
     switch (err.status) {
       case 401:
-      case 403:  
+      case 403:
         this.clearLocalStorage();
-        swal('Error', err?.error?.message ?? 'Something went wrong', 'error');
+        swal('Error', err.error?.message ?? 'Something went wrong', 'error');
         this.router.navigate(["fc_grant"]);
-        break; 
+        break;
+      case 503:
+        this.clearLocalStorage();
+        // swal('Error', err.error?.message ?? 'Something went wrong', 'error');
+        this.router.navigate(["maintenance"]);
+        break;
       case 440:
         this.clearLocalStorage();
         const url = !["/", ""].includes(this.router.url)
@@ -103,7 +109,8 @@ export class CustomHttpInterceptor implements HttpInterceptor {
   };
 
   private clearLocalStorage() {
-    localStorage.clear();
+    // localStorage.clear();
+    this.authService.clearLocalStorage();
     Login_Logout.logout();
   }
 }
