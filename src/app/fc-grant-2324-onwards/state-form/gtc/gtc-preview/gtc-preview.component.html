@@ -7,7 +7,7 @@
         </div>
         <div class="col-sm-12 text-center heading-p">
             <span style="display: block;">
-                Submissions for 15th FC grant for FY 2023-24
+                Submissions for 15th FC grant for FY {{ getYearLabel(data?.formdata[0]?.questions[0]?.year) }}
             </span>
 
             <span class="sub-h"> {{stateName}}</span>
@@ -46,7 +46,7 @@
                                                     {{question?.instlText}}
                                                 </div>
                                                 <div class="col-sm-12 ms-4 mt-2 ans-h"
-                                                    *ngIf="question?.year === '606aafcf4dff55e6c075d424'">
+                                                    *ngIf="question?.year === '606aafcf4dff55e6c075d424'||question?.year === '606aafda4dff55e6c075d48f'">
                                                     <span *ngIf="question?.file?.name"><a
                                                             href="{{ question?.file?.url | toStorageUrl}}"
                                                             target="_blank">{{question?.file?.name}}</a></span>
