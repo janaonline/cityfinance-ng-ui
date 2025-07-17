@@ -5,19 +5,18 @@
                     src="../../../../assets/form-icon/close_black_24dp.svg"></a>
         </div>
         <div class="col-sm-12 text-center heading-p">
-            <span style="display: block;">Submissions for 15th FC grant for FY 2024-25</span>
+            <span style="display: block;">Submissions for 15th FC grant for FY {{data.year || '2024-25'}}</span>
             <b class="sub-h" style="margin-top: .5rem;">{{stateName}}</b>
         </div>
     </div>
     <div class="row align-items-center" style="margin-top: 1rem;">
         <div class="col-sm-6">Status: {{ data?.additionalData?.statusText }}</div>
-        
+
         <div class="col-sm-6 text-end pdf-hide">
             <button id="donwloadButton" class="btn btn-primary" (click)="clickedDownloadAsPDF()">Download as
                 PDF</button>
         </div>
     </div>
-
     <div class="row mt-3 mb-3">
         <div class="col-sm-12">
             <div class="card mb-3" *ngFor="let tab of data?.showData; let rowIndex =index">
@@ -32,7 +31,8 @@
                             <ng-container *ngFor="let tabData of tab?.data | keyvalue: sortPosition; let y_i=index">
                                 <tr [ngClass]="['2.5', '5.13', '6.13'].includes('' + tabData?.value?.position)  ? 'table-gray' : 'table-main-heading'"
                                     *ngIf="data.specialHeaders[tabData?.value?.position]">
-                                    <th colspan="7" class="th">{{ data.specialHeaders[tabData?.value?.position].label }}</th>
+                                    <th colspan="7" class="th text-center" style="text-align: center;">{{ data.specialHeaders[tabData?.value?.position].label }}
+                                    </th>
                                 </tr>
 
                                 <tr class="table-gray"
@@ -47,7 +47,8 @@
                                     <td class="td" width="10%"
                                         *ngFor="let elem of tabData?.value?.yearData; let y_i=index">
                                         <span *ngIf="elem?.date">{{ elem?.date | date: 'dd/MM/yyyy' }}</span>
-                                        <span class="file-link" *ngIf="elem?.file"><a href="{{elem?.file?.url | toStorageUrl }}"
+                                        <span class="file-link" *ngIf="elem?.file"><a
+                                                href="{{elem?.file?.url | toStorageUrl }}"
                                                 target="_blank">{{elem?.file?.name}}</a></span>
                                         <span>{{
                                             elem?.isRupee
@@ -57,13 +58,13 @@
                                     </td>
                                 </tr>
                                 <tr *ngFor="let child of tabData?.value?.child; let r_i=index">
-                                    <th class="th" scope="row" width="5%">{{ child.position }}.{{ child?.replicaNumber }}</th>
+                                    <th class="th" scope="row" width="5%">{{ child.position }}.{{ child?.replicaNumber
+                                        }}</th>
                                     <th class="th" scope="row" width="45%">
                                         <div>{{ child.label }} ({{ child?.replicaNumber }})</div>
                                         <div>{{ child.value }}</div>
                                     </th>
-                                    <td class="td" width="10%"
-                                        *ngFor="let elem of child.yearData; let y_i=index">
+                                    <td class="td" width="10%" *ngFor="let elem of child.yearData; let y_i=index">
                                         <span *ngIf="elem?.date">{{ elem?.date | date: 'dd/MM/yyyy' }}</span>
                                         <span *ngIf="elem?.file"><a href="{{elem?.file?.url | toStorageUrl}}"
                                                 target="_blank">{{elem?.file?.name}}</a></span>

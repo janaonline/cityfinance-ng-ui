@@ -12,6 +12,7 @@ import { FinancialDataService } from '../services/financial-data.service';
 import { BulkEntryComponent } from './bulk-entry/bulk-entry.component';
 import { DataUploadRoutingModule } from './xvform-routing.module';
 import { GlobalPartModule } from 'src/app/global-part/global-part.module';
+import { BulkPdfComponent } from './bulk-pdf/bulk-pdf.component';
 
 // import { DataUploadActionComponent } from './data-upload-action/data-upload-action.component';
 @NgModule({
@@ -25,6 +26,6 @@ import { GlobalPartModule } from 'src/app/global-part/global-part.module';
     GlobalPartModule
   ],
   providers: [AccessChecker, FileUpload, UserUtility, FinancialDataService],
-  declarations: [BulkEntryComponent],
+  declarations: [BulkEntryComponent, BulkPdfComponent],
 })
 export class XVFormDashboard {}
