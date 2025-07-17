@@ -21,36 +21,19 @@
   <!-- Year selector & cards -->
   <div class="card p-3 shadow mt-3 border-0">
     <div class="row g-3 justify-content-center">
-      <div
-        *ngFor="let item of fyList; let i = index"
-        [ngClass]="colClass"
-        class="text-center cursor-pointer"
-      >
-        <div
-          class="card p-2 h-100 selectable-card"
-          (click)="selectYear(i)"
-          [class.shadow]="i === selectedIdx"
-          [class.border]="true"
-          [class.border-2]="i === selectedIdx"
-          [ngStyle]="i === selectedIdx ? { 'border-color': '#C7C7C7' } : {}"
-        >
+      <div *ngFor="let item of fyList; let i = index" [ngClass]="colClass" class="text-center cursor-pointer">
+        <div class="card p-2 h-100 selectable-card" (click)="selectYear(i)" [class.shadow]="i === selectedIdx"
+          [class.border]="true" [class.border-2]="i === selectedIdx"
+          [ngStyle]="i === selectedIdx ? { 'border-color': '#C7C7C7' } : {}">
           <h6 class="fw-semibold mb-2">{{ item.fy }}</h6>
-          <img
-            [src]="item.icon"
-            [alt]="item.status"
-            class="img-fluid icon-sm mx-auto d-block"
-          />
+          <img [src]="item.icon" [alt]="item.status" class="img-fluid icon-sm mx-auto d-block" />
           <p class="mb-0 small">{{ item.status }}</p>
         </div>
       </div>
     </div>
   </div>
 
-  <p
-    *ngIf="doneYears.length > 0"
-    class="text-left fw-bold mt-5"
-    style="color: #008066"
-  >
+  <p *ngIf="doneYears.length > 0" class="text-left fw-bold mt-5" style="color: #008066">
     We have your budget data for {{ doneYears.join(" and ") }} in the system.
   </p>
   <!-- ▼ Details panel for the selected year ▼ -->
@@ -60,7 +43,7 @@
       <!-- <p class="fs-10">Budget Document Upload</p> -->
       <!-- Show upload UI when status is Pending/Draft -->
       <div *ngIf="sel.status === 'Pending'; else fileDone" class="">
-        <div class="card p-3 shadow border-0">
+        <div class="card p-3 shadow border-0" *ngIf="sel.fileType === 'null'; else fileDone">
           <p class="mb-1 py-1 fw-bold">
             Do you publish your budget documents online?
           </p>
@@ -71,25 +54,14 @@
           <div class="mb-3">
             <p class="mb-1 py-1 fs-6 fw-bold">Paste URL</p>
             <div class="d-flex align-items-stretch gap-2">
-              <input
-                type="url"
-                class="form-control rounded-pill bg-light border-0"
-                id="urlInput"
-                [value]="pastedUrl"
-                (input)="onUrlInputChange($event)"
-                placeholder="https://example.com"
-              />
-              <button
-                class="btn rounded-pill px-4"
-                (click)="saveUrl()"
-                [disabled]="!isValidUrl(pastedUrl)"
-                style="
+              <input type="url" class="form-control rounded-pill bg-light border-0" id="urlInput" [value]="pastedUrl"
+                (input)="onUrlInputChange($event)" placeholder="https://example.com" />
+              <button class="btn rounded-pill px-4" (click)="saveUrl()" [disabled]="!isValidUrl(pastedUrl)" style="
                   background-color: #002f6c;
                   border-color: #002f6c;
                   color: #ffffff;
                   white-space: nowrap;
-                "
-              >
+                ">
                 Save
               </button>
             </div>
@@ -103,42 +75,23 @@
 
         <div>
           <h1 class="mt-5 mb-5 text-center fw-bold" style="color: #d7d9e0">
-            OR
+            AND
           </h1>
         </div>
         <!-- Upload Box -->
         <small class="text-danger">{{ uploadConfig.helpText }}</small>
-        <div
-          class="upload-box text-center py-4 px-3 mb-3 border rounded"
-          [ngStyle]="
+        <div class="upload-box text-center py-4 px-3 mb-3 border rounded" [ngStyle]="
             isDragging
               ? uploadConfig?.style?.dragOver
               : uploadConfig?.style?.default
-          "
-          (dragover)="onDragOver($event)"
-          (dragleave)="onDragLeave($event)"
-          (drop)="onFileDrop($event)"
-          (click)="fileInput.click()"
-          [class.drag-over]="isDragging"
-          style="cursor: pointer"
-        >
+          " (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onFileDrop($event)"
+          (click)="fileInput.click()" [class.drag-over]="isDragging" style="cursor: pointer">
           <!-- Hidden input -->
-          <input
-            type="file"
-            #fileInput
-            id="fileInput"
-            [accept]="uploadConfig?.input?.accept"
-            [multiple]="uploadConfig?.input?.multiple"
-            (change)="onFileSelected($event)"
-            hidden
-          />
+          <input type="file" #fileInput id="fileInput" [accept]="uploadConfig?.input?.accept"
+            [multiple]="uploadConfig?.input?.multiple" (change)="onFileSelected($event)" hidden />
 
           <!-- Icon -->
-          <img
-            [src]="uploadConfig?.icon?.url"
-            [style.width.px]="uploadConfig?.icon?.size || 50"
-            alt="Upload Icon"
-          />
+          <img [src]="uploadConfig?.icon?.url" [style.width.px]="uploadConfig?.icon?.size || 50" alt="Upload Icon" />
 
           <!-- Upload Text -->
           <p class="fw-bold mt-2 mb-1">{{ uploadConfig?.label }}</p>
@@ -155,32 +108,16 @@
           <div class="d-flex justify-content-between align-items-center">
             <!-- File icon + clickable name -->
             <div class="d-flex gap-2 align-items-center">
-              <img
-                src="https://cdn-icons-png.flaticon.com/128/337/337946.png"
-                alt="file"
-                width="24"
-                height="24"
-              />
-              <a
-                *ngIf="uploadedFileName"
-                (click)="previewUploadedFile()"
-                class="fw-bold text-decoration-none text-dark"
-                style="cursor: pointer"
-              >
+              <img src="https://cdn-icons-png.flaticon.com/128/337/337946.png" alt="file" width="24" height="24" />
+              <a *ngIf="uploadedFileName" (click)="previewUploadedFile()" class="fw-bold text-decoration-none text-dark"
+                style="cursor: pointer">
                 {{ uploadedFileName }}
               </a>
             </div>
 
             <!-- Remove icon -->
-            <img
-              src="https://cdn-icons-png.flaticon.com/128/458/458594.png"
-              width="20"
-              height="20"
-              alt="Remove"
-              (click)="removeUploadedFile()"
-              title="Remove file"
-              style="cursor: pointer"
-            />
+            <img src="https://cdn-icons-png.flaticon.com/128/458/458594.png" width="20" height="20" alt="Remove"
+              (click)="removeUploadedFile()" title="Remove file" style="cursor: pointer" />
           </div>
         </div>
 
@@ -194,16 +131,11 @@
           {{ uploadError }}
         </div>
         <div class="text-center">
-          <button
-            class="btn mt-3 px-4"
-            [disabled]="!isFileValid"
-            (click)="submitFile()"
-            style="
+          <button class="btn mt-3 px-4" [disabled]="!isFileValid" (click)="submitFile()" style="
               background-color: #002f6c;
               border-color: #002f6c;
               color: #ffffff;
-            "
-          >
+            ">
             Submit
           </button>
         </div>
@@ -213,41 +145,25 @@
       <ng-template #fileDone class="card">
         <div class="d-flex align-items-center gap-2">
           <!-- Conditional for PDF -->
-          <ng-container *ngIf="sel.files?.[0]?.type === 'pdf'; else urlBlock">
-            <!-- PDF icon -->
-            <img
-              src="https://cdn-icons-png.flaticon.com/128/337/337946.png"
-              alt="PDF"
-              width="24"
-              height="24"
-            />
-            <!-- PDF link -->
-            <a
-              [href]="sel.fileUrl"
-              target="_blank"
-              class="fw-bold text-decoration-none text-dark"
-              style="cursor: pointer"
-            >
-              {{ sel.displayName || sel.files[0].url }}
-            </a>
+          <ng-container *ngIf="getPdfFiles(sel).length > 0; else urlBlock">
+            <ng-contianer *ngFor="let file of getPdfFiles(sel)">
+              <img src="https://cdn-icons-png.flaticon.com/128/337/337946.png" alt="PDF" width="24" height="24" />
+
+              <!-- PDF Link -->
+              <a [href]="file.url" target="_blank" class="fw-bold text-decoration-none text-dark"
+                style="cursor: pointer">
+                {{ file.name || file.url }}
+              </a>
+            </ng-contianer>
           </ng-container>
 
           <!-- Conditional for URL -->
           <ng-template #urlBlock>
             <!-- Link icon -->
-            <img
-              src="https://cdn-icons-png.flaticon.com/128/7347/7347153.png"
-              alt="URL"
-              width="24"
-              height="24"
-            />
+            <img src="https://cdn-icons-png.flaticon.com/128/7347/7347153.png" alt="URL" width="24" height="24" />
             <!-- URL link -->
-            <a
-              [href]="sel.files[0].url"
-              target="_blank"
-              class="fw-bold text-decoration-none text-dark"
-              style="cursor: pointer"
-            >
+            <a [href]="sel.files[0].url" target="_blank" class="fw-bold text-decoration-none text-dark"
+              style="cursor: pointer">
               {{ sel.files[0].url }}
             </a>
           </ng-template>
