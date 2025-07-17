@@ -57,7 +57,7 @@ export class DalgoComponent implements OnInit, AfterViewInit {
   getSelectedYear() {
     const selectedYearId = sessionStorage.getItem("selectedYearId");
     const selectedYear = this.commonServices.getYearName(selectedYearId);
-    this.filters.push({ id: this.yearFilterId, column: 'year', value: selectedYear });
+    this.filters.push({ id: this.yearFilterId, column: 'Year', value: selectedYear });
   }
 
   getStateName() {
@@ -132,7 +132,7 @@ export class DalgoComponent implements OnInit, AfterViewInit {
         urlParams: { native_filters: nativeFilters } // Dynamic filters passed to Superset dashboard
       },
       iframeSandboxExtras: ['allow-top-navigation', 'allow-popups-to-escape-sandbox'] // Extra sandbox options for iframe
-
+      
     });
 
   }
