@@ -154,7 +154,7 @@
                                     <span class="sec-h">
                                    Component Wise Utilisation of Tied grants as on 31st March 2022<sup class="text-danger astr">*</sup>
                                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Information regarding utilization of the tied grants during the year, i.e. on 31st March 2021 has to be filled." matTooltipPosition="above" >
-                                    <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                    <img src="./assets/ticks/info_black_18dp.svg">
                                    </span>
                                     </span>
                                 </div>
@@ -171,12 +171,12 @@
                                                         <th scope="col" class="ct-name">Sector</th>
                                                         <th scope="col">Total Tied Grant Utilised on WM(INR in lakhs) As of 31st March 2022<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2022. The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled."
                                                                 matTooltipPosition="above">
-                                                    <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                                    <img src="./assets/ticks/info_black_18dp.svg">
                                                    </span> </th>
                                                         <th scope="col">Number of Projects Undertaken</th>
                                                         <th scope="col">Total Project Cost Involved(INR in lakhs)<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The total project cost for all project combined, as per DPR, to be mentioned. For Ex: if there are two projects, one for 100 Cr and another for 50 Cr, then combined cost i.e. 150 Cr will be entered in the total project cost."
                                                                 matTooltipPosition="above">
-                                                    <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                                    <img src="./assets/ticks/info_black_18dp.svg">
                                                    </span> </th>
 
                                                     </tr>
@@ -244,12 +244,12 @@
                                                         <th class="ct-name" scope="col">Sector</th>
                                                         <th scope="col">Total Tied Grant Utilised on SWM(INR in lakhs) As of 31st March 2022<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2022. The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled."
                                                                 matTooltipPosition="above">
-                                                    <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                                    <img src="./assets/ticks/info_black_18dp.svg">
                                                    </span> </th>
                                                         <th scope="col">Number of Projects Undertaken</th>
                                                         <th scope="col">Total Project Cost Involved(INR in lakhs)<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The total project cost for all project combined, as per DPR, to be mentioned. For Ex: if there are two projects, one for 100 Cr and another for 50 Cr, then combined cost i.e. 150 Cr will be entered in the total project cost."
                                                                 matTooltipPosition="above">
-                                                    <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                                    <img src="./assets/ticks/info_black_18dp.svg">
                                                    </span> </th>
 
                                                     </tr>
@@ -302,7 +302,7 @@
                                     <!-- project Details Table -->
                                     <div class="table-responsive mt-2">
                                         <p style="margin-left: 5px; font-weight: 500;">Project Details as on 31st March 2022<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="In the below table, the project details have to be filled in by the ULBs as on 31st March 2022." matTooltipPosition="above">
-                                    <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                    <img src="./assets/ticks/info_black_18dp.svg">
                                    </span> </p>
                                         <table class="table custom-position tableStriped">
                                             <thead>
@@ -313,12 +313,12 @@
                                                     <th scope="col">Co-ordinates<br>Latitude and Longitude</th>
                                                     <th scope="col">Total Project Cost<br> (INR in lakhs)
                                                         <div matTooltip="The total project cost is as per the DPR." matTooltipPosition="above" [matTooltipClass]="{'tool-tip' : true}">
-                                                            <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                                            <img src="./assets/ticks/info_black_18dp.svg">
                                                         </div>
                                                     </th>
                                                     <th scope="col">Amount of 15<sup>th</sup> FC Grants in Total Project Cost<br>(INR in lakhs)<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="This is the outlay from 15th FC grant out of the total project cost. For Ex: If project total cost is 100 Cr, out of which 80 Cr is sourced from AMRUT 2.0, rest 20 Cr is sourced from 15th FC tied grants, then 20 Cr should be entered here. Please do not enter the expenditure incurred."
                                                             matTooltipPosition="above">
-                                                <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                                <img src="./assets/ticks/info_black_18dp.svg">
                                                </span>
                                                     </th>
                                                     <th scope="col">% of 15<sup>th</sup> FC Grants in Total Project Cost<br></th>
@@ -378,7 +378,7 @@
                                                         <input type="text" class="t-i lt form-control" formControlName="long" [disabled]="isDisabled" appNSixDigitDecimaNumber>
                                                         <a (click)="openDialog(projectIndex)" [ngClass]="{'anDisable': isDisabled }">
                                                             <mat-icon aria-hidden="false" style="width: 10%; margin-left: 1%">
-                                                                <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
+                                                                <img src="./assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
                                                             </mat-icon>
                                                         </a>
                                                         <div *ngIf="tabelRows?.controls[projectIndex].controls?.location?.controls?.lat.invalid && isSubmitted" class="text-danger">
@@ -406,7 +406,7 @@
                                                     <td>
                                                         <a [ngClass]="{'anDisable': isDisabled }" (click)="deleteRow(projectIndex)" [disabled]="isDisabled">
                                                             <mat-icon aria-hidden="false">
-                                                                <img src="../../../../assets/form-icon/Icon material-delete.svg">
+                                                                <img src="./assets/form-icon/Icon material-delete.svg">
                                                             </mat-icon>
                                                         </a>
                                                     </td>
@@ -524,7 +524,7 @@
                 <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
                 <div class="text-right">
                     <a (click)="alertClose()">
-                        <img src="../../../../assets/form-icon/close-red-icon.png">
+                        <img src="./assets/form-icon/close-red-icon.png">
                     </a>
                 </div>
             </div>

@@ -53,11 +53,11 @@
                                 </div>
                                 <div class="mt-2" [ngClass]="{'col-sm-5' : !quesItem?.file?.progress, 'col-sm-2' : quesItem?.file?.progress}" *ngIf="quesItem?.file?.url != ''">
                                     <a href="{{quesItem?.file?.url | toStorageUrl}}" target="_blank">
-                                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                                        <img src="./assets/form-icon/download-pdf-icon.png" alt="">
                                     </a>
                                     <span style="" [ngClass]="{'dis-card': quesItem?.isDisableQues}">
                                     <a (click)="clearFile('click',  cIndex, qIndex)"  style="" class="ms-2">
-                                      <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                                      <img src="./assets/form-icon/close-red-icon.png" alt="">
                                     </a>
                                   </span>
                                 </div>

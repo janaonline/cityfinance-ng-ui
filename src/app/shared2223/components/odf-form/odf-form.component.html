@@ -52,7 +52,7 @@
                           >Upload
                           pdf
                           <img
-                            src="../../../../assets/form-icon/upload-pdf-icon.png"
+                            src="./assets/form-icon/upload-pdf-icon.png"
                             alt="" style="margin-left: 4px;">
                           </a>
                           <p class="errorMessege">{{errorMessege}}</p>
@@ -79,12 +79,12 @@
                 </div>
                 <div class="col-sm-2 col-md-2 col-lg-2 filePadding">
                     <a [href]="odfUrl | toStorageUrl" target="_blank" style="pointer-events: all;">
-                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                        <img src="./assets/form-icon/download-pdf-icon.png" alt="">
                     </a>
                     <span style="cursor:not-allowed;">
             <a (click)="clearFile()"
               style="margin-left: 4px;">
-              <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+              <img src="./assets/form-icon/close-red-icon.png" alt=""
               >
             </a>
         </span>
@@ -166,7 +166,7 @@
             <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
             <div class="text-right">
                 <a (click)="alertClose()">
-                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                    <img src="./assets/form-icon/close-red-icon.png">
                 </a>
             </div>
         </div>

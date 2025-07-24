@@ -49,7 +49,7 @@ export class AssessmentParameterComponent implements OnInit {
     //   description: `Resource Mobilization is a crucial parameter that evaluates the financial 
     //                 strength and growth potential of Urban Local Bodies (ULBs). Discover the significance of
     //                 resource mobilization, how it's assessed, and its impact on ULB rankings and urban development.`,
-    //   imgUrl : `../../../assets/fiscal-rankings/smart-industry-control-concept 1.png`,
+    //   imgUrl : `./assets/fiscal-rankings/smart-industry-control-concept 1.png`,
     //   questions: [
     //     {
     //       question: 'Why is Resource Mobilization Important?',
@@ -88,7 +88,7 @@ export class AssessmentParameterComponent implements OnInit {
     //     description: `Unveiling the Metrics Shaping Urban Financial Strength and How They're Scored. 
     //     Explore the assessment indicators that drive the financial health of Urban Local Bodies (ULBs) and understand the methodology behind their scoring.
     //      Gain insights into the significance of resource mobilization in urban development.`,
-    //     imgUrl: '../../../assets/fiscal-rankings/resMobTable.png'
+    //     imgUrl: './assets/fiscal-rankings/resMobTable.png'
     //   }
 
     //  },
@@ -100,7 +100,7 @@ export class AssessmentParameterComponent implements OnInit {
     //   subHeading: 'Fueling Urban Growth',
     //   description: `Explore the metrics that gauge Expenditure Performance and learn why it's a pivotal aspect for Urban Local Bodies (ULBs) across India.
     //   Understand how Expenditure Performance influences ULB rankings and delve into the scoring methodology.`,
-    //   imgUrl : `../../../assets/fiscal-rankings/business-people-analyzing-data-graphs-and-charts-displayed-on-the-digital-tablet-screen 1.png`,
+    //   imgUrl : `./assets/fiscal-rankings/business-people-analyzing-data-graphs-and-charts-displayed-on-the-digital-tablet-screen 1.png`,
     //   questions: [
     //     {
     //       question: 'Why is Expenditure Performance Important?',
@@ -138,7 +138,7 @@ export class AssessmentParameterComponent implements OnInit {
     //   description: `Unveiling the Metrics Shaping Urban Financial Strength and How They're Scored. 
     //   Explore the assessment indicators that drive the financial health of Urban Local Bodies (ULBs) and understand the methodology behind their scoring.
     //    Gain insights into the significance of resource mobilization in urban development.`,
-    //    imgUrl: '../../../assets/fiscal-rankings/expenTable.png'
+    //    imgUrl: './assets/fiscal-rankings/expenTable.png'
     // }
     //  },
     //  fiscalGovernance : {
@@ -148,7 +148,7 @@ export class AssessmentParameterComponent implements OnInit {
     //   subHeading: 'Fueling Urban Growth',
     //   description: `Explore the metrics that define Fiscal Governance and discover why it's a crucial aspect for Urban Local Bodies (ULBs) across India. 
     //   Gain insights into how Fiscal Governance influences ULB rankings and dive into the scoring methodology.`,
-    //   imgUrl : `../../../assets/fiscal-rankings/stack-of-money-coin-with-trading-graph-for-finance-investor-cryptocurrency-digital-economy 1.png`,
+    //   imgUrl : `./assets/fiscal-rankings/stack-of-money-coin-with-trading-graph-for-finance-investor-cryptocurrency-digital-economy 1.png`,
     //   questions: [
     //     {
     //       question: 'Why is Fiscal Governance Important?',
@@ -186,7 +186,7 @@ export class AssessmentParameterComponent implements OnInit {
     //   description: `Unveiling the Metrics Shaping Urban Financial Strength and How They're Scored. 
     //   Explore the assessment indicators that drive the financial health of Urban Local Bodies (ULBs) and understand the methodology behind their scoring.
     //    Gain insights into the significance of resource mobilization in urban development.`,
-    //   imgUrl: '../../../assets/fiscal-rankings/fiscalTable.png'
+    //   imgUrl: './assets/fiscal-rankings/fiscalTable.png'
     // }
 
     //  }

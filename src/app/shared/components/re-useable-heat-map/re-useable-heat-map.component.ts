@@ -93,7 +93,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
   });
 
   yellowIcon = L.icon({
-    iconUrl: "../../../../assets/location.png",
+    iconUrl: "./assets/location.png",
     iconSize: [30, 30],
     iconAnchor: [5, 5],
   });

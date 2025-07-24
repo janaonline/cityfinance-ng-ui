@@ -59,7 +59,7 @@
                     <div class="row" *ngIf="data?.unAudited?.submit_annual_accounts">
                         <div class="col-sm-12" style="padding-left: 2.5rem; margin-bottom: 1.5rem;">
                             <mat-icon aria-hidden="false" style="width: 16px;height: 16px;">
-                                <img src="../../../../assets/ulbform/info_black_24dp.svg">
+                                <img src="./assets/ulbform/info_black_24dp.svg">
                             </mat-icon> - PDFs are mandatory and Excels are Optional.
                         </div>
                     </div>
@@ -422,20 +422,20 @@
                                     <ng-container>
                                         <div *ngIf="data.unAudited.standardized_data?.excel?.url">
                                             <a href="{{ data.unAudited.standardized_data?.excel?.url | toStorageUrl}}" target="_blank">
-                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                                                <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                                             </a>
                                             <a [ngClass]="{cross: tab2dis && data.unAudited.submit_annual_accounts && provisionDisable,'p-none': tab2dis}" (click)="clearFile('unAudited')" style="margin-left: 3px;">
-                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                                <img src="./assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
                                             </a>
                                         </div>
 
                                         <div *ngIf="uploadErrors.unAudited.standardized_data.error">
                                             <a>
-                                                <img src="../../../../assets/form-icon/warning.png" alt="" style="margin-left: 1px; height: 19px;">
+                                                <img src="./assets/form-icon/warning.png" alt="" style="margin-left: 1px; height: 19px;">
                                             </a>
                                             <a [ngClass]="{cross: isDisabled && data.unAudited.submit_annual_accounts && provisionDisable}" (click)="fileChangeEvent(uploadErrors.unAudited.standardized_data.file,'unAudited')" style="margin-left: 3px;">
-                                                <img src="../../../../assets/form-icon/refresh.png" alt="" style="height: 13px;">
+                                                <img src="./assets/form-icon/refresh.png" alt="" style="height: 13px;">
                                             </a>
                                         </div>
                                     </ng-container>
@@ -498,7 +498,7 @@
                     <div class="row" *ngIf="data?.audited?.submit_annual_accounts">
                         <div class="col-sm-12" style="padding-left: 2.5rem; margin-top: .5rem; margin-bottom: 1.5rem;">
                             <mat-icon aria-hidden="false" style="width: 16px;height: 16px;">
-                                <img src="../../../../assets/ulbform/info_black_24dp.svg">
+                                <img src="./assets/ulbform/info_black_24dp.svg">
                             </mat-icon> - PDFs are mandatory and Excels are Optional.
                         </div>
                     </div>
@@ -951,20 +951,20 @@
                                     <ng-container>
                                         <div *ngIf="data.audited.standardized_data?.excel?.url">
                                             <a href="{{ data.audited.standardized_data?.excel?.url | toStorageUrl}}" target="_blank">
-                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                                                <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                                             </a>
                                             <a [ngClass]="{cross: tab1dis && data.audited.submit_annual_accounts && provisionDisable, 'p-none' : tab1dis}" (click)="clearFile('audited')" style="margin-left: 3px;">
-                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                                <img src="./assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
                                             </a>
                                         </div>
 
                                         <div *ngIf="uploadErrors.audited.standardized_data.error">
                                             <a>
-                                                <img src="../../../../assets/form-icon/warning.png" alt="" style="margin-left: 1px; height: 19px;">
+                                                <img src="./assets/form-icon/warning.png" alt="" style="margin-left: 1px; height: 19px;">
                                             </a>
                                             <a [ngClass]="{cross: tab1dis && data.audited.submit_annual_accounts && provisionDisable}" (click)="fileChangeEvent(uploadErrors.audited.standardized_data.file,'audited')" style="margin-left: 3px;">
-                                                <img src="../../../../assets/form-icon/refresh.png" alt="" style="height: 13px;">
+                                                <img src="./assets/form-icon/refresh.png" alt="" style="height: 13px;">
                                             </a>
                                         </div>
                                     </ng-container>
@@ -1023,7 +1023,7 @@
                 <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
                 <div class="text-right">
                     <a (click)="alertClose()">
-                        <img src="../../../../assets/form-icon/close-red-icon.png">
+                        <img src="./assets/form-icon/close-red-icon.png">
                     </a>
                 </div>
             </div>
@@ -1053,7 +1053,7 @@
                 <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
                 <div class="text-right">
                     <a (click)="alertClose()">
-                        <img src="../../../../assets/form-icon/close-red-icon.png">
+                        <img src="./assets/form-icon/close-red-icon.png">
                     </a>
                 </div>
             </div>

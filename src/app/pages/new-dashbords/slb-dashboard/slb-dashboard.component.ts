@@ -31,8 +31,8 @@ import { SlbDashboardService } from "./slb-dashboard.service";
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 import { NationalMapSectionService } from "../national/national-map-section/national-map-section.service";
 import { AuthService } from "src/app/auth/auth.service";
-// const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
-// const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
+// const districtJson = require("./assets/jsonFile/state_boundries.json");
+// const districtJson = require("./assets/jsonFile/state_boundries.json");
 
 @Component({
   selector: "app-slb-dashboard",
@@ -687,7 +687,7 @@ export class SlbDashboardComponent
       <div
     id="districtMapId"
     class="col-sm-12"
-    style="background-color: #F8F9FF; background-image: url('../../../../assets/Layer\ 1.png');
+    style="background-color: #F8F9FF; background-image: url('./assets/Layer\ 1.png');
     display: inline-block; width: 100%;height: ${height};"
   >
   </div>`;

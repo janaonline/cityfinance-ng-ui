@@ -84,7 +84,8 @@ export class SfcFormComponent implements OnInit {
   canTakeAction: boolean = false;
   leftMenuSubs: any;
   question: any;
-
+  nextRouter: string = '';
+  backRouter: string = '';
   actionPayload = {
     "responses": [
       {
@@ -125,8 +126,20 @@ export class SfcFormComponent implements OnInit {
       }
     });
     this.loadData();
+     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuState"));
+    this.setRouter();
   }
-
+setRouter() {
+    for (const key in this.sideMenuItem) {
+      this.sideMenuItem[key].forEach((element) => {
+        if (element?.url == "sfc-form") {
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
+         // this.formId = element?._id;
+        }
+      });
+    }
+  }
   yearsList = JSON.parse(localStorage.getItem("Years"));
   get uploadFolderName() {
     const year = this.getKeyByValue(this.yearsList, this.design_year);

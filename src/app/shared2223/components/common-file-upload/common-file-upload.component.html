@@ -2,7 +2,7 @@
     <div class="col-sm-5 q-n" style="width: 46%;">
         {{quesName}}<span class="text-danger" *ngIf="quesName != 'Supporting Document :'">*</span>
         <span *ngIf="itemObj?.tooltip != '' && quesName != 'Supporting Document :'" matTooltip="{{itemObj?.tooltip}}" matTooltipClass="tooltip-red" matTooltipPosition="above">
-          <img src="../../../../assets/ticks/info_black_18dp.svg">
+          <img src="./assets/ticks/info_black_18dp.svg">
         </span>
 
     </div>
@@ -27,7 +27,7 @@
         <div class="" *ngIf="quesType == 'file'">
             <button *ngIf="showPdf" [disabled]="isDisabled" (click)="bs_pdf1.click()" class="btn btn-primary">Upload PDF
               <sup><span class="wh-s" *ngIf="quesName != 'Supporting Document :'">*</span></sup>
-               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
+               <img src="./assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
            </button>
             <input #bs_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'pdf')" type="file" accept=".pdf" #file>
             <button *ngIf="showExcel" [disabled]="isDisabled" (click)="bs_excel1.click()" class="btn btn-primary ms-2">Upload
@@ -71,19 +71,19 @@
                 <ng-container>
                     <div *ngIf="data.pdf?.url">
                         <a href="{{data.pdf?.url | toStorageUrl}}" target="_blank">
-                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                            <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                         </a>
                         <a [ngClass]="{cross: isDisabled}" (click)="clearFile('pdf', 'click')" style="margin-left: 3px;">
-                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                            <img src="./assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
                         </a>
                     </div>
                     <div *ngIf="data.pdf?.error">
                         <a>
-                            <img src="../../../../assets/form-icon/warning.png" alt="" style="margin-left: 1px; height: 19px;">
+                            <img src="./assets/form-icon/warning.png" alt="" style="margin-left: 1px; height: 19px;">
                         </a>
                         <a [ngClass]="{cross: isDisabled}" (click)="fileChangeEvent(true,'pdf')" style="margin-left: 3px;">
-                            <img src="../../../../assets/form-icon/refresh.png" alt="" style="height: 13px;">
+                            <img src="./assets/form-icon/refresh.png" alt="" style="height: 13px;">
                         </a>
                     </div>
 
@@ -105,19 +105,19 @@
                 <ng-container>
                     <div *ngIf="data.excel?.url">
                         <a href="{{ data.excel?.url | toStorageUrl}}" target="_blank">
-                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                            <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                         </a>
                         <a [ngClass]="{cross: isDisabled}" (click)="clearFile('excel', 'click')" style="margin-left: 3px;">
-                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                            <img src="./assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
                         </a>
                     </div>
                     <div *ngIf="data.excel?.error">
                         <a>
-                            <img src="../../../../assets/form-icon/warning.png" alt="" style="margin-left: 1px; height: 19px;">
+                            <img src="./assets/form-icon/warning.png" alt="" style="margin-left: 1px; height: 19px;">
                         </a>
                         <a [ngClass]="{cross: isDisabled}" (click)="fileChangeEvent(true,'excel')" style="margin-left: 3px;">
-                            <img src="../../../../assets/form-icon/refresh.png" alt="" style="height: 13px;">
+                            <img src="./assets/form-icon/refresh.png" alt="" style="height: 13px;">
                         </a>
                     </div>
                 </ng-container>

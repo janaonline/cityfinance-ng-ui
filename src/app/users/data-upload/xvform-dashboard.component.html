@@ -34,13 +34,13 @@
             <button routerLink="/fc-home-page" class="btn btn-t" style="margin: 0; padding-left: 4px;
             padding-top: 4px;margin-bottom: 1%;">
               <mat-icon aria-hidden="false" style="font-size: 18px;">
-                <img src="../../../assets/homeIcon/home_white_18dp (1).svg">
+                <img src="./assets/homeIcon/home_white_18dp (1).svg">
             </mat-icon>Back
             </button>
             <div class="row">
               <div class="col-lg-3 col-md-3 col-sm-3">
                 <div class="card blue">
-                  <img src="../../../assets/images/card-icons/team.png" alt="Team" />
+                  <img src="./assets/images/card-icons/team.png" alt="Team" />
                   <p class="heading">Total Number of ULBs</p>
                   <span class="card-main-value" [ngClass]="{ 'loading-value': !cardData }">
           {{ cardData?.totalULB?.sum || "0" }}
@@ -85,7 +85,7 @@
               </div>
               <div class="col-lg-3 col-md-3 col-sm-3">
                 <div class="card pink">
-                  <img src="../../../assets/images/card-icons/team.png" alt="Team" />
+                  <img src="./assets/images/card-icons/team.png" alt="Team" />
                   <p class="heading">No of ULBs (Submitted)</p>
                   <span class="card-main-value" [ngClass]="{ 'loading-value': !cardData }">
           {{ cardData?.registeredUlb?.sum || 0 }}
@@ -129,7 +129,7 @@
               </div>
               <div class="col-lg-3 col-md-3 col-sm-3">
                 <div class="card green">
-                  <img src="../../../assets/images/card-icons/team.png" alt="Team" />
+                  <img src="./assets/images/card-icons/team.png" alt="Team" />
                   <p class="heading">Million Plus Cities (Submitted)</p>
                   <span class="card-main-value" [ngClass]="{ 'loading-value': !cardData }">
           {{ cardData?.registeredMillionPlus?.sum || 0 }}
@@ -176,7 +176,7 @@
               </div>
               <div class="col-lg-3 col-md-3 col-sm-3">
                 <div class="card yellow">
-                  <img src="../../../assets/images/card-icons/team.png" alt="Team" />
+                  <img src="./assets/images/card-icons/team.png" alt="Team" />
                   <p class="heading">Non-Million Cities (Submitted)</p>
                   <span class="card-main-value" [ngClass]="{ 'loading-value': !cardData }">
           {{ (cardData?.registeredNonMillionPlus)["sum"] || 0 }}
@@ -228,7 +228,7 @@
               <div class="row" style="margin-top: 2%;">
                 <div class="col-lg-auto">
                   <div class="card brown">
-                    <img src="../../../assets/images/card-icons/team.png" alt="Team" />
+                    <img src="./assets/images/card-icons/team.png" alt="Team" />
                     <p class="heading">Million Plus Cities (Total)</p>
                     <span class="card-main-value" [ngClass]="{ 'loading-value': !cardData }">
           {{ (cardData?.totalMillionPlus)["sum"] || 0 }}
@@ -280,7 +280,7 @@
                     </div>
                 </div>
                 <div class="card dark-green" style="margin-bottom: 0px;margin-top: 8%;">
-                  <img src="../../../assets/images/card-icons/team.png" alt="Team" />
+                  <img src="./assets/images/card-icons/team.png" alt="Team" />
                   <p class="heading">Non-Million Cities (Total)</p>
                   <span class="card-main-value" [ngClass]="{ 'loading-value': !cardData }">{{ (cardData?.totalNonMillionPlus)["sum"] || 0 }}</span
       >

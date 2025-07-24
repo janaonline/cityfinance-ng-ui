@@ -267,41 +267,41 @@ const data = {
 const TaxRevenue = {
   type: 2,
   subTitle: "Total Tax Revenue",
-  svg: `../../../../assets/file.svg`,
+  svg: `./assets/file.svg`,
   number: "0 Cr",
 };
 
 const OwnRevenue = {
   type: 2,
   subTitle: "Total Own Revenue",
-  svg: `../../../../assets/file.svg`,
+  svg: `./assets/file.svg`,
   number: "0 Cr",
 };
 
 const Grant = {
   type: 2,
   subTitle: "Total Grant",
-  svg: `../../../../assets/coinCuren.svg`,
+  svg: `./assets/coinCuren.svg`,
   number: "0 Cr",
 };
 
 const Revenue = {
   type: 2,
   subTitle: "Total Revenue",
-  svg: `../../../../assets/coinCuren.svg`,
+  svg: `./assets/coinCuren.svg`,
   number: "0 Cr",
 };
 
 const Expense = {
   type: 2,
   subTitle: "Total Expenditure",
-  svg: `../../../../assets/coinCuren.svg`,
+  svg: `./assets/coinCuren.svg`,
   number: "0 Cr",
 };
 const BalanceSheetSize = {
   type: 2,
   subTitle: "Total Balance Sheet Size",
-  svg: `../../../../assets/Group 15967.svg`,
+  svg: `./assets/Group 15967.svg`,
   number: "0 Cr",
 };
 
