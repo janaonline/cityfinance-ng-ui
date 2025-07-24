@@ -711,15 +711,15 @@ export class PropertyTaxComponent implements OnInit {
   canShowHeader(displayPriority: string) {
     const waterChargesHeaders = ['5.5', '5.11', '5.13', '5.17', '5.21', '5.25', '5.30', '5.31', '5.32'];
     const sewerageChargesHeaders = ['6.5', '6.11', '6.13', '6.17', '6.21', '6.25', '6.30', '6.31', '6.32'];
-    const pTaxHeaders = ['1.9', '1.17', '2.1', '2.5', '2.9', '2.13', '2.17', '2.21', '2.25', '3.1', '4.1'];
+    // const pTaxHeaders = ['1.9', '1.17', '2.1', '2.5', '2.9', '2.13', '2.17', '2.21', '2.25', '3.1', '4.1'];
 
     if (waterChargesHeaders.includes(displayPriority) && this.notificationWaterChargesCtrl.value.value !== 'Yes') { return false; }
     if (sewerageChargesHeaders.includes(displayPriority) && this.doesColSewerageChargesCtrl.value.value !== 'Yes') { return false; }
 
-    if (pTaxHeaders.includes(displayPriority)) {
-      if (this.isNotiPtaxOrUlbResAvailable()) { return true; }
-      else return false;
-    }
+    // if (pTaxHeaders.includes(displayPriority)) {
+    //   if (this.isNotiPtaxOrUlbResAvailable()) { return true; }
+    //   else return false;
+    // }
 
     return true;
   }
