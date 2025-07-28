@@ -76,7 +76,7 @@
                                       <td style="width: 9%;" class="icon">
                                           <div class="image-upload" style="display: inline-block;" [matTooltip]="checkErrorState(projectRow,'photos') ? 'No photos added' : null" [ngClass]="{'ph-error': checkErrorState(projectRow,'photos')}">
                                               <label class="file" [attr.for]="waterBodiesIndex + '' + projectIndex">
-                                              <img src="../../../../assets/form-icon/Icon feather-upload.svg">
+                                              <img src="./assets/form-icon/Icon feather-upload.svg">
                                           </label>
                                               <input style="display: none;" onclick="this.value = null;" [attr.id]="waterBodiesIndex + '' + projectIndex" type="file" [ngClass]="{'disableInputs': isDisabled }" accept=".png,.jpg,.jpeg" (change)="onFileChange($event,waterBodiesIndex,projectIndex)" required
                                                   multiple />
@@ -98,7 +98,7 @@
                                               style="margin-left: 1ch; height:4rem" type="text" min="1" pattern="^\d*(\.\d{0,6})?$">
                                           <a (click)="openMap(waterBodiesIndex,projectIndex,'waterBodies')" class="d-i" [ngClass]="{'disableInputs': isDisabled }">
                                               <mat-icon class="file" aria-hidden="false">
-                                                  <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
+                                                  <img src="./assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
                                               </mat-icon>
                                           </a>
                                       </td>
@@ -194,7 +194,7 @@
                                       <td class="icon">
                                           <a [ngClass]="{'anDisable': getDisableRow(projectRow), 'disableInputs': isDisabled}" (click)="deleteRow3(projectIndex, waterBodiesIndex)" class="d-i">
                                               <mat-icon aria-hidden="false">
-                                                  <img src="../../../../assets/form-icon/Icon material-delete.svg">
+                                                  <img src="./assets/form-icon/Icon material-delete.svg">
                                               </mat-icon>
                                           </a>
                                       </td>
@@ -257,7 +257,7 @@
                                               style="margin-left: 1pc;" type="text" min="1" pattern="^\d*(\.\d{0,6})?$">
                                           <a (click)="openMap(reuseWaterIndex,projectIndex,'reuseWater')" class="d-i" [ngClass]="{'disableInputs': isDisabled }">
                                               <mat-icon aria-hidden="false">
-                                                  <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
+                                                  <img src="./assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
                                               </mat-icon>
                                           </a>
                                       </td>
@@ -296,7 +296,7 @@
                                       <td class="iconSliAndReuse">
                                           <a [ngClass]="{'anDisable': getDisableRow(projectRow), 'disableInputs': isDisabled}" (click)="deleteRow1(projectIndex,reuseWaterIndex)" class="d-i">
                                               <mat-icon aria-hidden="false">
-                                                  <img src="../../../../assets/form-icon/Icon material-delete.svg">
+                                                  <img src="./assets/form-icon/Icon material-delete.svg">
                                               </mat-icon>
                                           </a>
                                       </td>
@@ -326,7 +326,7 @@
                                       <th scope="col">Project Name</th>
                                       <th scope="col">Physical Components
 
-                                          <img matTooltip="such as no. of tap connections, length of water pipeline to be laid, capacity of water treatment plan to be set up" style="width: 16px;height: 16px;" src="../../../../assets/ulbform/info_black_24dp.svg">
+                                          <img matTooltip="such as no. of tap connections, length of water pipeline to be laid, capacity of water treatment plan to be set up" style="width: 16px;height: 16px;" src="./assets/ulbform/info_black_24dp.svg">
 
                                       </th>
                                       <th scope="col">Indicator</th>
@@ -414,7 +414,7 @@
                                       <td class="iconSliAndReuse">
                                           <a [ngClass]="{'anDisable': getDisableRow(projectRow), 'disableInputs': isDisabled}" (click)="deleteRow2(projectIndex, sliIndex)" class="d-i">
                                               <mat-icon aria-hidden="false">
-                                                  <img src="../../../../assets/form-icon/Icon material-delete.svg">
+                                                  <img src="./assets/form-icon/Icon material-delete.svg">
                                               </mat-icon>
                                           </a>
                                       </td>
@@ -460,7 +460,7 @@
                                         <label for="ipt">
                                       <button class="btn btn-primary" (click)="ipt.click()" [disabled]="isDisabled">Upload
                                           PDF
-                                          <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                          <img src="./assets/form-icon/upload-pdf-icon.png" alt=""
                                               style="" class="ms-2">
                                       </button>
                                       <p class="errorMessege">{{errorMessegeStateAct}}</p>
@@ -487,12 +487,12 @@
                                     </div>
                                     <div class="col-1 filePadding">
                                         <a href="{{stateActUrl | toStorageUrl}}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                                            <img src="./assets/form-icon/download-pdf-icon.png" alt="">
                                         </a>
                                         <span>
 
                                   <a (click)="clearFile('stateAct')" style="margin-left: 4px;" [ngClass]="{'disableInputs': isDisabled }">
-                                      <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                                      <img src="./assets/form-icon/close-red-icon.png" alt="">
                                   </a>
                               </span>
                                     </div>
@@ -545,7 +545,7 @@
             <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
             <div class="text-right">
                 <a (click)="alertClose()">
-                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                    <img src="./assets/form-icon/close-red-icon.png">
                 </a>
             </div>
         </div>

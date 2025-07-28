@@ -48,7 +48,7 @@
                         <label for="ipt" [ngClass]="{'customDisable': isDisabled }">
                             <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': isDisabled}">Upload
                                 PDF
-                                <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                <img src="./assets/form-icon/upload-pdf-icon.png" alt=""
                                     style="margin-left: 4px;">
                             </a>
                             <p class="errorMessege">{{errorMessegeStateAct}}</p>
@@ -72,11 +72,11 @@
                     </div>
                     <div class="col-1 filePadding">
                         <a href="{{ stateActFileUrl | toStorageUrl}}" target="_blank">
-                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                            <img src="./assets/form-icon/download-pdf-icon.png" alt="">
                         </a>
                         <span>
                             <a (click)="clearFile('stateAct')" style="margin-left: 4px;" [ngClass]="{'disableInputs': isDisabled }">
-                                <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                                <img src="./assets/form-icon/close-red-icon.png" alt="">
                             </a>
                         </span>
                     </div>
@@ -91,7 +91,7 @@
                         </div>
                     </span>
                     <!-- <span>
-                            <img src="../../../../assets/ticks/info_black_18dp.svg">
+                            <img src="./assets/ticks/info_black_18dp.svg">
                         </span> -->
                 </div>
                 <!-- <div class="col-md-6 col-lg-6 col-sm-6">
@@ -149,7 +149,7 @@
             <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
             <div class="text-right">
                 <a (click)="alertClose()">
-                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                    <img src="./assets/form-icon/close-red-icon.png">
                 </a>
             </div>
         </div>

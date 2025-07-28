@@ -11,7 +11,8 @@ import { MunicipalityBudgetComponent } from "./shared/components/municipality-bu
 import { ProTTaxFormComponent } from "./shared/components/pro-t-tax-form/pro-t-tax-form.component";
 export const appRouter: Routes = [
 
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  // { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', component: NewHomeComponent },
   { path: "home", component: NewHomeComponent },
   { path: "maintenance", component: MaintenanceComponent },
   // { path: "oldhome", component: HomeComponent },

@@ -78,7 +78,7 @@
                                         <td [matTooltip]="checkErrorState(projectRow,'photos') ? 'No photos added' : null">
                                             <div class="image-upload" style="display: inline-block;" [ngClass]="{'falseVal br-red': checkErrorState(projectRow,'photos')}">
                                                 <label [ngClass]="{'anDisable' : (formDisable || disableUAs.includes(uas.value.ua) )}" class="file" [attr.for]="waterBodiesIndex + '' + projectIndex">
-                                                    <img src="../../../../assets/form-icon/Icon feather-upload.svg">
+                                                    <img src="./assets/form-icon/Icon feather-upload.svg">
 
                                                 </label>
                                                 <input style="display: none;" [attr.id]="waterBodiesIndex + '' + projectIndex" type="file" [ngClass]="{'anDisable' : formDisable}" accept=".png,.jpg,.jpeg" (change)="onFileChange($event,waterBodiesIndex,projectIndex)" onclick="value = null;" required multiple />
@@ -98,7 +98,7 @@
                                                 formControlName="long" style="margin-left: 1ch; height:4rem" type="text" min="1">
                                             <a [ngClass]="{'anDisable' : formDisable || disableUAs.includes(uas.value.ua)}" (click)="openMap(waterBodiesIndex,projectIndex,'waterBodies')">
                                                 <mat-icon class="file" aria-hidden="false">
-                                                    <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
+                                                    <img src="./assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
                                                 </mat-icon>
                                             </a>
                                         </td>
@@ -210,7 +210,7 @@
                                                 style="margin-left: 1pc;" type="text" min="1">
                                             <a [ngClass]="{'anDisable' : formDisable || disableUAs.includes(uas.value.ua)}" (click)="openMap(reuseWaterIndex,projectIndex,'reuseWater')">
                                                 <mat-icon aria-hidden="false">
-                                                    <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
+                                                    <img src="./assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
                                                 </mat-icon>
                                             </a>
                                         </td>
@@ -228,7 +228,7 @@
                                         <td *ngIf="1+reuseWaterIndex>1">
                                             <a [ngClass]="{'anDisable': formDisable || disableUAs.includes(uas.value.ua)}" (click)="deleteRow1(projectIndex,reuseWaterIndex)">
                                                 <mat-icon aria-hidden="false">
-                                                    <img src="../../../../assets/form-icon/Icon material-delete.svg">
+                                                    <img src="./assets/form-icon/Icon material-delete.svg">
                                                 </mat-icon>
                                             </a>
                                         </td>
@@ -253,7 +253,7 @@
                                         <th scope="col">Project Name</th>
                                         <th scope="col">Physical Components
 
-                                            <img matTooltip="such as no. of tap connections, length of water pipeline to be laid, capacity of water treatment plan to be set up" style="width: 16px;height: 16px;" src="../../../../assets/ulbform/info_black_24dp.svg">
+                                            <img matTooltip="such as no. of tap connections, length of water pipeline to be laid, capacity of water treatment plan to be set up" style="width: 16px;height: 16px;" src="./assets/ulbform/info_black_24dp.svg">
 
                                         </th>
                                         <th scope="col">Indicator</th>
@@ -310,7 +310,7 @@
                                         <td *ngIf="1+sliIndex>1">
                                             <a [ngClass]="{'anDisable': formDisable || disableUAs.includes(uas.value.ua)}" (click)="deleteRow2(projectIndex, sliIndex)">
                                                 <mat-icon aria-hidden="false">
-                                                    <img src="../../../../assets/form-icon/Icon material-delete.svg">
+                                                    <img src="./assets/form-icon/Icon material-delete.svg">
                                                 </mat-icon>
                                             </a>
                                         </td>
@@ -402,7 +402,7 @@
             <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
             <div class="text-right">
                 <a (click)="alertClose()">
-                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                    <img src="./assets/form-icon/close-red-icon.png">
                 </a>
             </div>
         </div>
@@ -424,7 +424,7 @@
             <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
             <div class="text-right">
                 <a (click)="alertClose()">
-                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                    <img src="./assets/form-icon/close-red-icon.png">
                 </a>
             </div>
         </div>

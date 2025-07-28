@@ -35,26 +35,26 @@ export class ELearningModuleComponent implements OnInit {
     {
       label: "Digitization of Properties Register",
       imgUrl:
-        "../../../../../assets/new_dashBord_ftr_hdr/shutterstock_546307051/shutterstock_546307051.png",
+        "./assets/new_dashBord_ftr_hdr/shutterstock_546307051/shutterstock_546307051.png",
       code: "first",
     },
 
     {
       label: "Valuation of Properties",
       imgUrl:
-        "../../../../../assets/new_dashBord_ftr_hdr/Group 15744/Group 15744.png",
+        "./assets/new_dashBord_ftr_hdr/Group 15744/Group 15744.png",
       code: "third",
     },
     {
       label: "Motivating Revenue Officials",
       imgUrl:
-        "../../../../../assets/new_dashBord_ftr_hdr/Group 15745/Group 15745.png",
+        "./assets/new_dashBord_ftr_hdr/Group 15745/Group 15745.png",
       code: "second",
     },
     // {
     //   label: "Motivating Revenue Officials",
     //   imgUrl:
-    //     "../../../../../assets/new_dashBord_ftr_hdr/Group 15745/Group 15745.png",
+    //     "./assets/new_dashBord_ftr_hdr/Group 15745/Group 15745.png",
     //   code: "fourth",
     // },
   ];

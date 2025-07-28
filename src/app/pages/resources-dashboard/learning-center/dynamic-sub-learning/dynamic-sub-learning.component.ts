@@ -26,7 +26,7 @@ export class DynamicSubLearningComponent implements OnInit {
         "It is imperative for all ULBs to discontinue manual records system at the earliest and move to an online billing and collection system which will improve transparency, set up an easy to administer process for tax officials, and enable easy compliance by taxpayers. The online system should enable electronic generation & distribution of bills to taxpayers as well as automatic payment reminders to defaulters via SMS/Email.Andhra Pradesh has seen success in building such a centrally run online portal for billing and collection. Delhi’s Municipal Corporations and Greater Chennai Corporation are also some examples where successful migration to an online system of billing and collection has been achieved. Tamil Nadu’s Municipal Corporations have also, migrated to Uniform Tree Information System (UTIS) – an online system of digital billing and collection – which enables online payments for property tax and other user charges and fees that are levied by the Municipal Corporations.",
       imgArr: [
         {
-          link: "../../../../../assets/resources-das/img-digitalBilling.png",
+          link: "./assets/resources-das/img-digitalBilling.png",
           text: "",
         },
         // {
@@ -54,25 +54,25 @@ export class DynamicSubLearningComponent implements OnInit {
         "Technology can radically transform collections in the immediate term. Combining technological and administrative interventions, as depicted in the figure below, can help in transforming the collection process and improving tax collections.",
       imgArr: [
         {
-          link: "../../../../../assets/resources-das/img-digitalBilling.png",
+          link: "./assets/resources-das/img-digitalBilling.png",
           text: "Step One: Creation of a single digital property register",
           description:
             "The creation of a single digital property register that integrates all Municipal databases and eventually integrates Municipal databases with State Stamp Duties and Registration Records and Electricity Department/Agency’s records is the backbone.",
         },
         {
-          link: "../../../../../assets/resources-das/img-digitalBilling.png",
+          link: "./assets/resources-das/img-digitalBilling.png",
           text: "Step Two: Integrated or Unified Billing of all Municipal Taxes and Charges",
           description:
             "Every household or commercial property is liable to not only pay property tax but also various other user charges such as water, sewerage, professional taxes (where levied), trade licence fees etc. Having a system of unified billing and collection for every household/commercial property – which means ‘One Household, One Collector’ – will help increase efficiency at the ULB/Agency level by avoiding duplication of efforts for billing and collection, as well as reduce the burden of compliance for citizens and establishments by establishing a single relationship with the Local Government.",
         },
         {
-          link: "../../../../../assets/resources-das/img-digitalBilling.png",
+          link: "./assets/resources-das/img-digitalBilling.png",
           text: "Step Three: Increase channels and modes of payments",
           description:
             "States/ULBs need to increase both channels (places where taxpayers can pay) and modes (type/options) for payment that are available to taxpayers. By enabling multiple payment channels – including payments at physical centres like ULB’s collection centres, bank branches, door-to-door collections by bill collectors; and online payments through the state or ULB’s website, as well as via payment portals like Google Pay, Paytm, Amazon Pay etc.<br><br><b> Bill Collectors/ Revenue Collectors for Door-to-door collection:</b><br><br>Provide Mobile Point of Sale (MPOS) Devices for enabling all modes of digital payments. With the necessary infrastructure in place for digital payments, including both increased modes and channels of digital payment, ULBs can also explore sending Payment Link Reminders through SMS/Whatsapp/Email. Besides augmenting digital payments, this would help reduce reliance on cash/cheque/DD collections and dependence on physical collection centres.<br><br><b>Payment Link Reminders:</b><br><br>Taxpayers should get alerts via SMS/Whatsapp/Email about pending dues. After clicking on the link, the taxpayer is directed straight to the payment gateway which displays the pending tax. Post payment, an online receipt is generated. The strategy can be used in a targeted fashion by focusing on taxpayers that have the highest arrears, have not paid their dues over 6 months etc.",
         },
         {
-          link: "../../../../../assets/resources-das/img-digitalBilling.png",
+          link: "./assets/resources-das/img-digitalBilling.png",
           text: "Step Four: De-linking the functions of assessment and billing & collections",
           description:
             "There is a strong case to delink assessment, and billing & collections, both from the perspective of internal controls (segregation of duties) and outsourcing / specialization. A unified cadre of collectors who focus on collections from specific categories of properties (residential, commercial, high value), or different categories of taxpayers (defaulters, and within that hard, soft buckets etc.), or by geography (by ward, by ULB), and who are enabled by MPOS with a map and timetabling, can deliver transformative results in collections and drive operational efficiencies within ULBs at a broader level.The success story of Ranchi Municipal Corporation, where there was a fourfold increase in collections between FY14-15 and FY17-18 post outsourcing of collection, merits serious evaluation for adoption. Several cities like Ludhiana and Amritsar have tackled the issue of staff deficit by outsourcing collection centres. They have created Citizen Facility Centers (CFC) in zonal offices responsible for filling the assessment forms of all walk-in taxpayers and collecting taxes through cash, online and digital channels.",
@@ -86,7 +86,7 @@ export class DynamicSubLearningComponent implements OnInit {
         "Stronger penal provisions in State/City Acts for defaulters will strengthen the hands of revenue officials in ensuring compliance by assessees. These provisions should also be combined with dissemination of defaulters’ list in public domain, for instance, at the ULB’s offices, collection centres, website, etc. and through the communication to the defaulter via demand notices.For instance, as per an amendment to the Chennai City Municipal Corporation Act, 1919, assessees who pay advance property tax, i.e. before October 15 of each year, will be given a 5% incentive (upto a maximum of Rs. 5,000/-) and payments made after October 15 of each year will attract a penalty of 2% p.a.Early bird discounts and late payment penalties have also shown positive results in Pune, Hyderabad and Delhi’s Municipal Corporations by boosting early payments by taxpayers which consequently has helped improve availability of cash flows throughout the year.International examples also showcase that a strong emphasis on improving administrative processes leads to an uptake in collections. For example, in Quezon City, Philippines, the Local Government Code provides for various enforcement provisions including seizure and auctioning of delinquent properties. To boost revenue collections, the Local Government has adopted a system of implementing enforcement provisions coupled with an incentives mechanism for taxpayers- discounts for early payment and penalties for late payment which led to more timely payments.",
       imgArr: [
         {
-          link: "../../../../../assets/resources-das/img-strongerPanel.png",
+          link: "./assets/resources-das/img-strongerPanel.png",
           text: "",
         },
       ],
@@ -101,7 +101,7 @@ export class DynamicSubLearningComponent implements OnInit {
       ],
       imgArr: [
         {
-          link: "../../../../../assets/resources-das/img-reporting2.png",
+          link: "./assets/resources-das/img-reporting2.png",
           text: "Figure: Current Landscape of Reporting Practices (good practices marked in green)",
         },
       ],
@@ -115,7 +115,7 @@ export class DynamicSubLearningComponent implements OnInit {
       ],
       imgArr: [
         {
-          link: "../../../../../assets/resources-das/img-reporting2.png",
+          link: "./assets/resources-das/img-reporting2.png",
           text: "Figure: Current Landscape of Reporting Practices (good practices marked in green)",
         },
       ],
@@ -129,7 +129,7 @@ export class DynamicSubLearningComponent implements OnInit {
       ],
       imgArr: [
         {
-          link: "../../../../../assets/resources-das/img-reporting2.png",
+          link: "./assets/resources-das/img-reporting2.png",
           text: "Figure: Current Landscape of Reporting Practices (good practices marked in green)",
         },
       ],
@@ -144,7 +144,7 @@ export class DynamicSubLearningComponent implements OnInit {
       ],
       imgArr: [
         {
-          link: "../../../../../assets/resources-das/valuation1.png",
+          link: "./assets/resources-das/valuation1.png",
           text: "Figure 1 Adopt capital value system and revise rates periodically",
         },
       ],
@@ -158,12 +158,12 @@ export class DynamicSubLearningComponent implements OnInit {
        which the property tax will increase and the criteria that will be used for deciding extent of
         increase. Ideally, for ease of administration, property tax should be increased periodically,
         to reflect latest guidance values published by the State, and consequent re-assessments.
-        <br> A <a href="../../../../../assets/excelfile/Property_tax_modelling_odisha.xlsx" target="_blank"> simulation of revision of values and rationalising property tax </a>periodically, shows potential to
+        <br> A <a href="./assets/excelfile/Property_tax_modelling_odisha.xlsx" target="_blank"> simulation of revision of values and rationalising property tax </a>periodically, shows potential to
         increase revenues - to meet with expenses towards creation of infrastructure to sustain urban development.`,
       ],
       imgArr: [
         {
-          link: "../../../../../assets/resources-das/valuation2.png",
+          link: "./assets/resources-das/valuation2.png",
           text: "Figure 2 Adopt capital value system and revise rates periodically",
         },
       ],
@@ -178,7 +178,7 @@ export class DynamicSubLearningComponent implements OnInit {
       ],
       imgArr: [
         {
-          link: "../../../../../assets/resources-das/enum3.png",
+          link: "./assets/resources-das/enum3.png",
           text: "Figure 1 Creation of a GIS based property tax register",
         },
       ],
@@ -191,7 +191,7 @@ export class DynamicSubLearningComponent implements OnInit {
       ],
       imgArr: [
         {
-          link: "../../../../../assets/resources-das/enum4.png",
+          link: "./assets/resources-das/enum4.png",
           text: "Figure 2 Periodic enumeration to update property tax register",
         },
       ],
@@ -204,7 +204,7 @@ export class DynamicSubLearningComponent implements OnInit {
       ],
       imgArr: [
         {
-          link: "../../../../../assets/resources-das/enum5.png",
+          link: "./assets/resources-das/enum5.png",
           text: "Figure 3 Assignment of unique property identification code and integration of property records of all departments",
         },
       ],
@@ -221,7 +221,7 @@ export class DynamicSubLearningComponent implements OnInit {
       ],
       imgArr: [
         {
-          link: "../../../../../assets/resources-das/image2-33.png",
+          link: "./assets/resources-das/image2-33.png",
           text: "Figure 1 Self-assessment mechanism",
         },
       ],
@@ -237,7 +237,7 @@ export class DynamicSubLearningComponent implements OnInit {
       ],
       imgArr: [
         {
-          link: "../../../../../assets/resources-das/image3-35.png",
+          link: "./assets/resources-das/image3-35.png",
           text: "Figure 2 Rule based property tax exemption",
         },
       ],
@@ -250,7 +250,7 @@ export class DynamicSubLearningComponent implements OnInit {
       ],
       imgArr: [
         {
-          link: "../../../../../assets/resources-das/image4-37.png",
+          link: "./assets/resources-das/image4-37.png",
           text: "Figure 3 Dispute redressal mechanism",
         },
       ],

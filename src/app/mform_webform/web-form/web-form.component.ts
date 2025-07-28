@@ -699,7 +699,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
       finalQuestionResponse = JSON.parse(JSON.stringify(data && data[0] && data[0]?.question));
       console.log('finalQuestionResponse', finalQuestionResponse)
       let obj = { finalQuestionResponse, name: this.proposalName };
-      if (obj.finalQuestionResponse?.length || ['606aafcf4dff55e6c075d424'].includes(this.designYear)) {
+      if (obj.finalQuestionResponse?.length || ['606aafda4dff55e6c075d48f','606aafcf4dff55e6c075d424'].includes(this.designYear)) {
         this.submitForm(obj.finalQuestionResponse, obj.name, isSaveAsDraft);
       }
     })

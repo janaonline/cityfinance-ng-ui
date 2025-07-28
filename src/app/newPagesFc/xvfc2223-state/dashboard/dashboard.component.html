@@ -11,7 +11,7 @@
                     <p>Total ULBs</p>
                 </div>
                 <div class="col-4 text-end">
-                    <img src="../../../../assets/dashboard-state/16-location.svg" alt="SVG" />
+                    <img src="./assets/dashboard-state/16-location.svg" alt="SVG" />
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@
                     <p>Non Million Cities</p>
                 </div>
                 <div class="col-4 text-end">
-                    <img src="../../../../assets/dashboard-state/XMLID_1248_.svg" alt="SVG" />
+                    <img src="./assets/dashboard-state/XMLID_1248_.svg" alt="SVG" />
                 </div>
             </div>
         </div>
@@ -37,7 +37,7 @@
                     <p>Million Plus UAs</p>
                 </div>
                 <div class="col-4 text-end">
-                    <img src="../../../../assets/dashboard-state/sustainable.svg" alt="SVG" />
+                    <img src="./assets/dashboard-state/sustainable.svg" alt="SVG" />
                 </div>
             </div>
         </div>
@@ -50,7 +50,7 @@
                     <p>ULBs in Million-Plus UAs</p>
                 </div>
                 <div class="col-4 text-end">
-                    <img src="../../../../assets/dashboard-state/16-location.svg" alt="SVG" />
+                    <img src="./assets/dashboard-state/16-location.svg" alt="SVG" />
                 </div>
             </div>
         </div>
@@ -131,13 +131,8 @@
                                         <p>25% Target<span><br><i class="fa fa-angle-down ms-2 mt-1"
                                                     style="font-size:16px;color:black"></i></span></p>
                                     </div>
-                                    <div *ngIf="item?.formName == 'Annual Accounts'" class="progress-bar"
-                                        role="progressbar" aria-label="cutOff"
-                                        [ngStyle]="{'width': item?.cutOff+'%' ,'background-color': 'rgb(219 219 219 / 20%)'}"
-                                        aria-valuenow="{{item?.cutOff}}" aria-valuemin="0" aria-valuemax="100">
-                                        <p class="customSpan"><img
-                                                src="../../../../assets/dashboard-state/track_changes_black_24dp.svg">
-                                        </p>
+                                    <div *ngIf="item?.formName == 'Annual Accounts'" class="progress-bar" role="progressbar" aria-label="cutOff" [ngStyle]="{'width': item?.cutOff+'%' ,'background-color': 'rgb(219 219 219 / 20%)'}" aria-valuenow="{{item?.cutOff}}" aria-valuemin="0" aria-valuemax="100">
+                                        <p class="customSpan"><img src="./assets/dashboard-state/track_changes_black_24dp.svg"></p>
                                     </div>
                                 </div>
                             </div>
@@ -145,7 +140,7 @@
                                 <p class="targetHundred">100% Target<span><br><i class="fa fa-angle-down"
                                             style="font-size:16px;color:black"></i></span></p>
                                 <p>
-                                    <img src="../../../../assets/dashboard-state/track_changes_black_24dp.svg">100%
+                                    <img src="./assets/dashboard-state/track_changes_black_24dp.svg">100%
                                 </p>
                             </div>
                         </div>
