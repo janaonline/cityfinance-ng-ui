@@ -4,7 +4,7 @@
 let url = window.location.origin + "/api/v1/";
 let GoogleTagID: string= "G-803HPPLFMM";
 let isProduction: boolean = false;
-let versionCheckURL = window.location.origin + "/version.json";
+let versionCheckURL = window.location.origin + "/v1/version.json";
 let STORAGE_BASEURL:string = 'https://jana-cityfinance-stg.s3.ap-south-1.amazonaws.com';
 let storageType:string = 'S3Url'; // "S3Url" for S3 storage type, for azure change this to 'BlobUrl'
 
