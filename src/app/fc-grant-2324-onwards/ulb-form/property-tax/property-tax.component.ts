@@ -385,7 +385,8 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   public isNotiPtaxOrUlbResAvailable() {
-    return this.notificationPropertyTaxCtrl.value.value == 'Yes' || this.ulbPassedResolPtaxCtrl.value.value == 'Yes';
+    // return this.notificationPropertyTaxCtrl.value.value == 'Yes' || this.ulbPassedResolPtaxCtrl.value.value == 'Yes';
+    return true;
   }
 
   async onPreview() {
@@ -685,7 +686,7 @@ export class PropertyTaxComponent implements OnInit {
     const B = collectIncludingCess?.find((year) => year.key == `FY${bYr}`)?.value;
     const A = collectIncludingCess?.find((year) => year.key == `FY${aYr}`)?.value;
     
-    if (A == "") this.growthRatePercent = 0;
+    if (["", "0"].includes(A)) this.growthRatePercent = 0;
     if (B == "") this.growthRatePercent = null;
     
     if (["", "0"].includes(A) || B == "") {
