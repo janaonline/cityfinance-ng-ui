@@ -73,7 +73,7 @@ export class BudgetUploadComponent implements OnInit {
                 ? 'https://cdn-icons-png.flaticon.com/128/5290/5290109.png'
                 : 'https://cdn-icons-png.flaticon.com/128/8213/8213126.png',
               designYearId: item.designYearId,
-              uploadedBy: item.uploadedBy,
+              // uploadedBy: item.uploadedBy,
               files: item.files,
               sequence: sequence,
               displayName: displayName,
@@ -242,6 +242,7 @@ export class BudgetUploadComponent implements OnInit {
     const userDataStr = localStorage.getItem('userData');
     const userData = userDataStr ? JSON.parse(userDataStr) : null;
     const ulb = userData?.ulb;
+    // Track uploadedBy only for buld uploads (MoHUA login).
     const uploadedBy = userData?._id;
 
     if (!ulb || !uploadedBy) {
@@ -256,16 +257,17 @@ export class BudgetUploadComponent implements OnInit {
         {
           designYearId: selected.designYearId,
           designYear: selected.fy.replace('FY ', ''),
-          currentFormStatus: 3,
+          // currentFormStatus: 3,
           sequence: selected.sequence || 6,
-          uploadedBy,
+          // uploadedBy,
           files: [
             {
               source: 'ulb',
               type: 'pdf',
               url: this.uploadedFilePath,
               name: this.uploadedFileName,
-              created_at: new Date().toISOString()
+              created_at: new Date().toISOString(),
+              currentFormStatus: 3,
             }
           ]
         }
@@ -356,14 +358,15 @@ export class BudgetUploadComponent implements OnInit {
     const userDataStr = localStorage.getItem('userData');
     const userData = userDataStr ? JSON.parse(userDataStr) : null;
     const ulb = userData?.ulb;
-    const uploadedBy = userData?._id;
+    // const uploadedBy = userData?._id;
     const selected = this.selectedItem;
     const filePayload = {
       source: 'ulb',
       type: 'url',
       url: this.pastedUrl,
       name: this.pastedUrl,
-      created_at: new Date().toISOString()
+      created_at: new Date().toISOString(),
+      currentFormStatus: 3,
     };
 
     const body = {
@@ -372,9 +375,9 @@ export class BudgetUploadComponent implements OnInit {
           designYearId: selected.designYearId,
           designYear: selected.fy.replace('FY ', ''),
           source: ulb,
-          currentFormStatus: 3,
+          // currentFormStatus: 3,
           sequence: selected.sequence,
-          uploadedBy: uploadedBy,
+          // uploadedBy: uploadedBy,
           files: [filePayload]
         }
       ]
