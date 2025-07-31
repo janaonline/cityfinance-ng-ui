@@ -7,6 +7,7 @@ import { MaintenanceComponent } from "./pages/maintenance/maintenance.component"
 import { CompareDialogComponent } from "./shared/components/compare-dialog/compare-dialog.component";
 import { MunicipalityBondsProjectsComponent } from "./shared/components/municipality-bonds-projects/municipality-bonds-projects.component";
 import { MunicipalityBudgetComponent } from "./shared/components/municipality-budget/municipality-budget.component";
+
 import { ProTTaxFormComponent } from "./shared/components/pro-t-tax-form/pro-t-tax-form.component";
 export const appRouter: Routes = [
 

@@ -19,6 +19,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { GlobalPartModule } from 'src/app/global-part/global-part.module';
 import { UrbanReformsIvComponent } from './urban-reforms-iv/urban-reforms-iv.component';
 import { DocumentsComponent } from './urban-reforms-iv/documents/documents.component';
+import { DalgoComponent } from 'src/app/shared/components/dalgo/dalgo.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { DocumentsComponent } from './urban-reforms-iv/documents/documents.compo
     PdfViewerModule,
     AngularMultiSelectModule,
     MatPaginatorModule,
-    GlobalPartModule
+    GlobalPartModule,
+    DalgoComponent
   ]
 })
 export class MohuaFormModule { }
