@@ -148,7 +148,7 @@ async onFileSelected($event: any): Promise<void> {
           {
             designYearId: this.fyData?.designYearId,
             designYear: this.fyData?.designYear,
-            currentFormStatus: 3,
+            // currentFormStatus: 3,
             sequence: this.fyData?.sequence,
             uploadedBy,
             files: [
@@ -158,6 +158,7 @@ async onFileSelected($event: any): Promise<void> {
                 url: fileKey,
                 name: file.name,
                 created_at: new Date().toISOString(),
+                currentFormStatus: 3,
               }
             ]
           }
@@ -166,7 +167,7 @@ async onFileSelected($event: any): Promise<void> {
     }
 
     this.uploadData = uploadData;
-    console.log("✅ All files uploaded and metadata ready:", uploadData);
+    // console.log("✅ All files uploaded and metadata ready:", uploadData);
     this._loaderService.stopLoader();
 
   } catch (err) {
