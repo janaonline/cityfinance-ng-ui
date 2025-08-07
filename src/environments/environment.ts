@@ -4,7 +4,7 @@ let url = "https://dev.cityfinance.in/api/v1/";
 // url = "https://cityfinance.in/api/v1/";
 let GoogleTagID: string= "G-803HPPLFMM";
 let isProduction: boolean = false;
-let versionCheckURL = window.location.origin + "/version.json";
+let versionCheckURL = window.location.origin + "/v1/version.json";
 let STORAGE_BASEURL = 'https://jana-cityfinance-stg.s3.ap-south-1.amazonaws.com';
 //https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com - s3 storage url prod
 let storageType: string = 'S3Url'; // // "S3Url" for S3 storage type, for azure change this to 'BlobUrl'
