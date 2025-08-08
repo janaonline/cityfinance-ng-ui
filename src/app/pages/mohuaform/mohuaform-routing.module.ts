@@ -14,8 +14,8 @@ const routes: Routes = [
     canActivate: [AuthMohuaGuard],
     children: [
       {
-        // path: "dashboard", component: MohuaDashboardComponent
-        path: "dashboard", component: DashbordComponent
+        path: "dashboard", component: MohuaDashboardComponent
+        // path: "dashboard", component: DashbordComponent
       },
       {
         path: "review-ulb", component: ReviewUlbComponent
