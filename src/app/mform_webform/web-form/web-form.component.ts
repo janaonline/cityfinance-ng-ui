@@ -156,10 +156,10 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
   selectedYear:string="";
   pageIndex=0;
   @ViewChild('paginator') paginator: MatPaginator;
-  detectQUestionWithZeroValue:boolean
+  detectQUestionWithZeroValue:boolean = false;
   detectQUestionWithZeroReasonValue: boolean;
-  receivedDuringYrWithZeroReasonOueObj: any;
-  receivedDuringYrWithZeroOueObj: any;
+  expDuringYrWithZeroReasonObj: any;
+  expDuringYrWithZeroObj: any;
   
   ngOnInit() {
     this.getQueryParams();
@@ -330,8 +330,9 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
       }));
 
       this.questionData = setInitialQuestions(questionData.question);
-        let selQues =    questionData.question.filter((que)=> que.shortKey =='grantPosition.fileUploadDuringYrWithZeroReason')
-           if(selQues.length>0){
+
+        let selQues = questionData.question.filter((que)=> que.shortKey.includes('expDuringYrfileUpload'))
+        if(selQues.length>0){
             this.questionData.push(selQues[0]);
            }
 
@@ -343,20 +344,21 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
         }
         parentQuestion?.childQuestionData?.forEach(childQuestions => {
           childQuestions?.forEach(childQuestion => {
-            if(childQuestion.shortKey=='grantPosition.fileUploadDuringYrWithZeroReason'){
-              let selQues =    questionData.question.filter((que)=> que.shortKey =='grantPosition.fileUploadDuringYrWithZeroReason')
+            if(childQuestion.shortKey.includes('expDuringYrfileUpload')){
+              let selQues =    questionData.question.filter((que)=> que.shortKey.includes('expDuringYrfileUpload'))
                   childQuestion.acceptableType = selQues[0].acceptableType;
                   childQuestion.acceptableFileType = selQues[0].acceptableType;
                   childQuestion.type='11'
             }
-            if(childQuestion.shortKey=='grantPosition___receivedDuringYr'){
+            
+            if(childQuestion.shortKey=='grantPosition___closingBal'){
               this.detectQUestionWithZeroValue = parseInt(childQuestion.value)==0 ? true:false
             }
-            if(childQuestion.shortKey=='grantPosition___receivedDuringYrWithZero'){
+            if(childQuestion.shortKey=='grantPosition___expDuringYrWithZero'){
               this.detectQUestionWithZeroReasonValue = parseInt(childQuestion.value)==3 ? this.detectQUestionWithZeroValue ? true: false :false;
-              this.receivedDuringYrWithZeroOueObj = childQuestion;
+              this.expDuringYrWithZeroObj = childQuestion;
               if(this.detectQUestionWithZeroValue){
-                this.receivedDuringYrWithZeroOueObj.validation.push(
+                this.expDuringYrWithZeroObj.validation.push(
                   {
                       "error_msg": "",
                       "_id": "1"
@@ -364,8 +366,8 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
               )
              }
             }
-            if(childQuestion.shortKey=='grantPosition___receivedDuringYrWithZeroReason'){
-             this.receivedDuringYrWithZeroReasonOueObj = childQuestion;
+            if(childQuestion.shortKey=='grantPosition___expDuringYrWithZeroReason'){
+             this.expDuringYrWithZeroReasonObj = childQuestion;
             }
 
             if (!childQuestion?.parent?.length) return childQuestion.visibility = true;
@@ -1098,17 +1100,12 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     // File upload feature was added by SA - Do that only if year is > 25-26.
-    if (['606aafda4dff55e6c075d48f'].includes(this.designYear)) {
-    if (question.shortKey == 'grantPosition___receivedDuringYr') {
+    if (['606aafcf4dff55e6c075d424', '606aafda4dff55e6c075d48f'].includes(this.designYear)) {
+    if (question.shortKey == 'grantPosition___closingBal') {
       this.detectQUestionWithZeroValue = parseInt(value.target.value) == 0 ? true : false;
-     if (parseInt(value.target.value) != 0)
-       this.detectQUestionWithZeroReasonValue = false;
           
-     const fileUploadObj = this.questionData.find(
-        (ele) =>
-          ele.shortKey === "grantPosition.fileUploadDuringYrWithZeroReason"
-      );
-      if (this.detectQUestionWithZeroValue) {
+     const fileUploadObj = this.questionData.find((ele) => ele.shortKey.includes("expDuringYrfileUpload") );
+      if (this.detectQUestionWithZeroValue && fileUploadObj) {
         fileUploadObj.validation = [
           {
             _id: "83",
@@ -1130,11 +1127,11 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
             value: "1",
           },
         ];
-      } else {
+      } else if (fileUploadObj) {
         fileUploadObj.validation = [];
       }
    }
-   if (question.shortKey == 'grantPosition___receivedDuringYrWithZero') {
+   if (question.shortKey == 'grantPosition___expDuringYrWithZero') {
      this.detectQUestionWithZeroReasonValue = parseInt(value.target.value) == 3 ? true : false
    }
     question.value = question.modelValue;
@@ -1603,7 +1600,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
             );
 
             let updatableQuestion;
-             if(question.shortKey =='grantPosition.fileUploadDuringYrWithZeroReason'){
+             if(question.shortKey.includes('expDuringYrfileUpload')){
                this.questionData.splice(8,1);
              }
 
@@ -1614,7 +1611,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
                 parentQuestion?.childQuestionData?.forEach(childQuestions => {
                   childQuestions?.forEach(childQuestion => {
                     if (childQuestion.order == question.order) {
-                        if(childQuestion.shortKey =='grantPosition.fileUploadDuringYrWithZeroReason'){
+                        if(childQuestion.shortKey.includes('expDuringYrfileUpload')){
                           childQuestion['selectedValue'] = prepareImageObject;
                           childQuestion['imgUrl'] = path;
                           childQuestion['modelValue'] = path;
@@ -2141,6 +2138,8 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
     allQuestionData = isNestedData ? childQuestionData : this.questionData;
     bodmasQuestionList = allQuestionData.filter((item: any) => item?.validation.some((item: { _id: any; }) => item._id == VALIDATION.EQUATION));
     console.log('bodmasQuestionList', bodmasQuestionList);
+    let zeroCounter = 0;
+
     if (bodmasQuestionList?.length) {
       for (const item of bodmasQuestionList) {
         let equationValidationData = JSON.parse(JSON.stringify(item.validation.find((valid: any) => valid._id == VALIDATION.EQUATION)));
@@ -2149,6 +2148,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
         console.log('orders', orders);
         orders.forEach((order: any) => {
           const questionValue = this.getQuestionValueForBodmas(order);
+          if (questionValue === '0') zeroCounter++;
           console.log('questionValue', questionValue, typeof (questionValue))
           equationValidationData['value'] = equationValidationData?.value.replace(
             order.shortKey,
@@ -2164,6 +2164,10 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
         item['selectedValue'] = [{ "label": "", "textValue": "", "value": equationValue }];
         item['modelValue'] = equationValue;
         item['value'] = equationValue;
+
+        if (equationValue === 0 && zeroCounter === 3) this.detectQUestionWithZeroValue = true;
+        else this.detectQUestionWithZeroValue = false;
+
       }
     }
   }
@@ -2274,7 +2278,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
     /* Finding the index of the question in the questionData array. */
     // let questionIndex = this.questionData.findIndex((ele: any) => ele?.order == questionorder);
     let updatableQuestion;
-      if(currentQuestion.shortKey =='grantPosition.fileUploadDuringYrWithZeroReason'){
+      if(currentQuestion.includes('expDuringYrfileUpload')){
         updatableQuestion = currentQuestion;
       }else{
       this.questionData.forEach(parentQuestion => {
