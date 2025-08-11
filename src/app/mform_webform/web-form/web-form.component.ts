@@ -51,6 +51,7 @@ const swal: SweetAlert = require("sweetalert");
 import * as FileSaver from "file-saver";
 import { DataEntryService } from '../../dashboard/data-entry/data-entry.service';
 import Swal from 'sweetalert2';
+const GRANT_POSITION = ["grantPosition___unUtilizedPrevYr", "grantPosition___receivedDuringYr", "grantPosition___expDuringYr", "grantPosition___closingBal"];
 
 declare const $: any;
 
@@ -160,7 +161,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
   detectQUestionWithZeroReasonValue: boolean;
   expDuringYrWithZeroReasonObj: any;
   expDuringYrWithZeroObj: any;
-  
+
   ngOnInit() {
     this.getQueryParams();
     if (
@@ -351,8 +352,14 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
                   childQuestion.type='11'
             }
             
-            if(childQuestion.shortKey=='grantPosition___closingBal'){
-              this.detectQUestionWithZeroValue = parseInt(childQuestion.value)==0 ? true:false
+            if(childQuestion.shortKey=='grantPosition___expDuringYr'){
+              let zeroCounter = 0;
+              for(const item of parentQuestion?.childQuestionData[0]) {
+                if (GRANT_POSITION.includes(item.shortKey) && item.value === '0') {
+                  zeroCounter++;
+                }
+              }
+              this.detectQUestionWithZeroValue = zeroCounter === 4 ? true:false;
             }
             if(childQuestion.shortKey=='grantPosition___expDuringYrWithZero'){
               this.detectQUestionWithZeroReasonValue = parseInt(childQuestion.value)==3 ? this.detectQUestionWithZeroValue ? true: false :false;
@@ -1099,7 +1106,6 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
       value.target.value = value.target.checked ? "1" : "2";
     }
 
-    // File upload feature was added by SA - Do that only if year is > 25-26.
     if (['606aafcf4dff55e6c075d424', '606aafda4dff55e6c075d48f'].includes(this.designYear)) {
     if (question.shortKey == 'grantPosition___closingBal') {
       this.detectQUestionWithZeroValue = parseInt(value.target.value) == 0 ? true : false;
