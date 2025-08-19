@@ -296,13 +296,14 @@ export class DurComponent implements OnInit, OnDestroy {
       if (selfDeclarationChecked != '1') return swal('Error', 'Please check self declaration', 'error');
       const grantPositionData = data?.finalData?.find(obj => obj.shortKey === "grantPosition");
       const expDuringYrObj = grantPositionData?.nestedAnswer[0]?.answerNestedData?.find(el=>el.shortKey === "grantPosition___expDuringYr");
+      const closingBal = grantPositionData?.nestedAnswer[0]?.answerNestedData?.find(el=>el.shortKey === "grantPosition___closingBal");
 
-      if((expDuringYrObj?.answer[0]?.value == 0)){
+      if(expDuringYrObj?.answer[0]?.value == 0 && closingBal?.answer[0]?.value != 0){
         swal("Error", "The total expenditure incurred during the year cannot be 0", "error");
         return;
       }
       const projectDetails = data?.finalData.find(item => item.shortKey == "projectDetails_tableView_addButton")?.nestedAnswer || [];
-      if(projectDetails?.length == 0){
+      if(projectDetails?.length == 0 && expDuringYrObj?.answer[0]?.value != 0){
         swal("Error", "Number of projects can not be 0", "error");
         return;
       }
