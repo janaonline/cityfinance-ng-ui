@@ -27,11 +27,11 @@ export class DurCustomErrorsPipe implements PipeTransform {
       if (wmSum + swmSum != expDuringYr) {
         return 'The total expenditure in the component wise grants must not exceed the amount of expenditure incurred during the year.'
       }
-      const closingBal = questionData.find(question => question.shortKey == "grantPosition")?.childQuestionData?.[0]
-      ?.find(question => question.shortKey == shortKey)?.modelValue;
-      if (expDuringYr == 0 && closingBal != 0) {
-        return ' The total expenditure incurred during the year can not be 0'
-      }
+      // const closingBal = questionData.find(question => question.shortKey == "grantPosition")?.childQuestionData?.[0]
+      // ?.find(question => question.shortKey == shortKey)?.modelValue;
+      // if (expDuringYr == 0 && closingBal != 0) {
+      //   return ' The total expenditure incurred during the year can not be 0'
+      // }
     }
 
     if (shortKey === 'grantPosition___closingBal') {
