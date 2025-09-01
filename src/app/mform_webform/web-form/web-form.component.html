@@ -1564,7 +1564,7 @@
          {{question.hint?question.hint:question.errorMessage}}
        </div> -->
 
-        <button class="btn btn-primary w-auto ms-2" *ngIf="!isProjectLoaded && question.shortKey && this.selectedYear !== '2025-26' | addButton"
+        <button class="btn btn-primary w-auto ms-2" *ngIf="form==='dur' && !isProjectLoaded && question.shortKey && this.selectedYear !== '2025-26' | addButton"
             (click)="loadInParent('projects')">Load Projects</button>
 
         <ng-container *ngIf="question?.childQuestionData?.length > 0">
