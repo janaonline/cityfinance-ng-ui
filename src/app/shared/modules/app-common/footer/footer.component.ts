@@ -55,4 +55,8 @@ export class FooterComponent implements OnInit {
       }
     );
   }
+
+  getNationalPageUrl() {
+    this._commonService.getNationalPageUrl();
+  }
 }

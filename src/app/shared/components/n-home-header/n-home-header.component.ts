@@ -14,6 +14,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { HomeHeaderService } from "./home-header.service";
 import { UtilityService } from "../../services/utility.service";
 import { GlobalLoaderService } from "../../services/loaders/global-loader.service";
+import { CommonService } from "../../services/common.service";
 
 @Component({
   selector: "app-n-home-header",
@@ -42,6 +43,7 @@ export class NHomeHeaderComponent implements OnInit {
     private homeHeaderService: HomeHeaderService,
     private utilityService: UtilityService,
     private globalLoaderService: GlobalLoaderService,
+    private commonService: CommonService
   ) {
     this.initializeAccessChecking();
     this._router.events.subscribe((event) => {
@@ -226,5 +228,9 @@ export class NHomeHeaderComponent implements OnInit {
       this.isSticky = false;
     }
 
+  }
+
+  getNationalPageUrl(){
+    this.commonService.getNationalPageUrl();
   }
 }

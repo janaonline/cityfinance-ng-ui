@@ -813,4 +813,8 @@ export class CommonService {
        }
     );
   }
+
+  getNationalPageUrl() {
+    window.location.href = `/municipal-data/national`
+  }
 }
