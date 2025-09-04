@@ -1,6 +1,5 @@
 <div class="container-fluid" *ngIf="isApiComplete">
-
-    <div *ngIf="['2024-25', '2025-26'].includes(selectedYear)" class="d-flex flex-wrap gap-2 justify-content-evenly my-4">
+    <div *ngIf="['2024-25', '2025-26'].includes(selectedYear) && isBeforeCutoff" class="d-flex flex-wrap gap-2 justify-content-evenly my-4">
         <div class="webinar-alert lh-sm" style="max-width: 400px;">
             <img src="./assets/webinar/sep-11-calendar.png" width="80" height="80" />
             <div>

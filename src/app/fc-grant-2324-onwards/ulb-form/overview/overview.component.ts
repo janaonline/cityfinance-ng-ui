@@ -124,6 +124,10 @@ export class OverviewComponent implements OnInit {
     },
   ];
 
+  today: Date = new Date();
+  cutoffDate: Date = new Date(Date.UTC(2025, 8, 11)); // September is month 8 (0-based)
+  isBeforeCutoff: boolean = false;
+
   @ViewChild("myIdentifier")
   myIdentifier: ElementRef;
   message:string = `State Governments to furnish Grant Transfer Certificate for the previous installment of grants in the prescribed format.`;
@@ -152,6 +156,14 @@ export class OverviewComponent implements OnInit {
   selectedYearId:string = "";
   selectedYear:string = "";
   ngOnInit(): void {
+    const todayUTC = new Date(
+    this.today.getUTCFullYear(),
+    this.today.getUTCMonth(),
+    this.today.getUTCDate()
+    );
+
+    this.isBeforeCutoff = todayUTC < this.cutoffDate;
+
     this.onResize();
   }
 
@@ -301,6 +313,13 @@ export class OverviewComponent implements OnInit {
        this.getSideBar(this.selectedYearId); 
     }
 
-    registerForEvent() {}
-    joinWaitlist() {}
+    registerForEvent() {
+      window.open("https://tally.so/r/3NaZWQ", "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    joinWaitlist() {
+      window.open("https://tally.so/r/npQ2Kb", "_blank", "noopener,noreferrer");
+      return;
+    }
 }
