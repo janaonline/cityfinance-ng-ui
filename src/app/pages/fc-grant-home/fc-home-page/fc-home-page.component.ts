@@ -105,38 +105,38 @@ if(role==="ULB"){
 const allHaveFiles = this.yearList2.every(
   (y: any) => !!y.files && Array.isArray(y.files) && y.files.length > 0
 );
-    if ((item.year === '2024-25' || item.year === '2025-26') && !allHaveFiles) {
-      const yearId = item.id;
-      Swal.fire({
-        // title: 'Share your latest budget documents',
-        html: `
-        <h5 class="text-center">Share your latest budget documents</h5>
-        <p class="small">Uploading your budget documents helps improve transparency and ensures your city’s data is complete and up to date on the platform.</p>
-        <span class="text-muted small">This step is OPTIONAL and can be done at any time.</span>
-      `,
-        imageUrl: 'https://images.unsplash.com/photo-1562240020-ce31ccb0fa7d?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // Replace with your image
-        imageWidth: 400,
-        imageHeight: 300,
-        showCancelButton: true,
-        confirmButtonText: 'Upload now',
-        cancelButtonText: 'Dismiss',
-        reverseButtons: true,
-        customClass: {
-          confirmButton: 'btn btn-dark',
-          cancelButton: 'btn btn-outline-dark me-2'
-        },
-        buttonsStyling: false
-      }).then((result) => {
-        if (result.isConfirmed) if (result.isConfirmed) {
-          this._router.navigate([`/ulb-form/${yearId}/budget-documents`]);
-        }
-      });
-    } 
-    else {
+    // if ((item.year === '2024-25' || item.year === '2025-26') && !allHaveFiles) {
+      // const yearId = item.id;
+      // Swal.fire({
+      //   // title: 'Share your latest budget documents',
+      //   html: `
+      //   <h5 class="text-center">Share your latest budget documents</h5>
+      //   <p class="small">Uploading your budget documents helps improve transparency and ensures your city’s data is complete and up to date on the platform.</p>
+      //   <span class="text-muted small">This step is OPTIONAL and can be done at any time.</span>
+      // `,
+      //   imageUrl: 'https://images.unsplash.com/photo-1562240020-ce31ccb0fa7d?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // Replace with your image
+      //   imageWidth: 400,
+      //   imageHeight: 300,
+      //   showCancelButton: true,
+      //   confirmButtonText: 'Upload now',
+      //   cancelButtonText: 'Dismiss',
+      //   reverseButtons: true,
+      //   customClass: {
+      //     confirmButton: 'btn btn-dark',
+      //     cancelButton: 'btn btn-outline-dark me-2'
+      //   },
+      //   buttonsStyling: false
+      // }).then((result) => {
+      //   if (result.isConfirmed) if (result.isConfirmed) {
+      //     this._router.navigate([`/ulb-form/${yearId}/budget-documents`]);
+      //   }
+      // });
+    // } 
+    // else {
       // Regular navigation
       this.setId(item.id);
       this._router.navigate([item.url]);
-    }
+    // }
 }
     // Trigger background navigation
     this._router.navigate([item.url]);
