@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams  } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs-compat';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { environment } from 'src/environments/environment';
 
@@ -119,5 +120,13 @@ getReviewType(designYear) {
   return reviewType;
 }
 
+  // Submit revenue-dashboard-webinar data
+   
+  public submitData(payload: any): Observable<Object> {
+    return this.http.post(
+      environment.api.url + "events/postData",
+      payload
+    );
+  }
 
 }

@@ -1,6 +1,11 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonServicesService } from '../../fc-shared/service/common-services.service';
+import { DownloadUserInfoService } from 'src/app/shared/components/user-info-dialog/download-user-info.service';
+import { MatDialog } from '@angular/material/dialog';
+import { UserInfoDialogComponent } from 'src/app/shared/components/user-info-dialog/user-info-dialog.component';
+import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
+import { UtilityService } from 'src/app/shared/services/utility.service';
 
 @Component({
   selector: 'app-overview',
@@ -12,7 +17,10 @@ export class OverviewComponent implements OnInit {
   constructor(
     // private router: Router,
     private route: ActivatedRoute,
-    private commonServices : CommonServicesService
+    private commonServices : CommonServicesService,
+    private dialog: MatDialog,
+    private globalLoaderService: GlobalLoaderService,
+    private utilityService: UtilityService,
   ) {
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.designYearArray = JSON.parse(localStorage.getItem("Years"));
@@ -314,8 +322,39 @@ export class OverviewComponent implements OnInit {
     }
 
     registerForEvent() {
-      window.open("https://tally.so/r/3NaZWQ", "_blank", "noopener,noreferrer");
-      return;
+      // window.open("https://tally.so/r/3NaZWQ", "_blank", "noopener,noreferrer");
+      // return;
+
+      // Frontend config flags for handling the module.
+      const moduleInfo = {
+        saveToLocalStorage: false,
+        endPoint: "events/getForm",
+      };
+      // Info about the file download for backend payload.
+      const downloadInfo = { module: "revenue-dashboard" };
+
+      const dialogRef = this.dialog.open(UserInfoDialogComponent, {
+        data: { downloadInfo, moduleInfo },
+      });
+
+      dialogRef.afterClosed().subscribe((data) => {
+        if (data) {
+          data.eventId = 'revenue-dashboard-11-sep-25';
+
+          this.globalLoaderService.showLoader();
+          this.commonServices.submitData(data).subscribe({
+            next: () => {
+              this.utilityService.swalPopup("Sucess!", "Request received!", "success");
+              this.globalLoaderService.stopLoader();
+            },
+            error: (error) => {
+              this.globalLoaderService.stopLoader();
+              console.error("Error in updating events data: ", error)
+              this.utilityService.swalPopup("Failed to submit data!", error?.error?.message, "error");
+            },
+          });
+        }
+      });
     }
 
     joinWaitlist() {
