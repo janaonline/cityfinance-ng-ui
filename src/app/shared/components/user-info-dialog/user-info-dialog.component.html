@@ -60,6 +60,12 @@
       </div>
     </ng-container>
   </div>
+
+  <div *ngIf="checkboxMsg" class="d-flex align-items-center">
+    <input type="checkbox" id="checkbox" [(ngModel)]="isChecked">
+    <label for="checkbox" class="ms-2 lh-sm" style="font-size: 0.80rem">{{checkboxMsg}}</label>
+  </div>
+
 </mat-dialog-content>
 
 <mat-dialog-actions class="px-5 mb-3 row justify-content-center gap-3">
@@ -67,7 +73,7 @@
     type="button"
     class="col-auto py-2 btn btn-secondary"
     (click)="submitUserInfo()"
-    [disabled]="userInfo.invalid"
+    [disabled]="checkboxMsg ? userInfo.invalid || !isChecked : userInfo.invalid"
   >
     Submit
   </button>
