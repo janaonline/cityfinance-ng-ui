@@ -157,3 +157,21 @@ svg {
 .w-d-25 {
   width: 25%;
 }
+
+.webinar-alert {
+  font-size: 14px;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  font-family: 'Montserrat';
+  background-color: hsl(35, 100%, 92%);
+  border: 1px solid hsla(30, 83%, 49%, 1);
+  border-radius: 6px;
+  padding: 2rem 2rem;
+}
+
+.webinar-span {
+  color: hsla(30, 83%, 49%, 1);
+  text-decoration: underline;
+  font-weight: bold;
+}
