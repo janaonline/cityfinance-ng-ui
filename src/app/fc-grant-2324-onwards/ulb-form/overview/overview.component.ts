@@ -300,4 +300,7 @@ export class OverviewComponent implements OnInit {
        this.selectedYear = this.commonServices.getYearName(this.selectedYearId);
        this.getSideBar(this.selectedYearId); 
     }
+
+    registerForEvent() {}
+    joinWaitlist() {}
 }
