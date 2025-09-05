@@ -124,8 +124,6 @@ export class OverviewComponent implements OnInit {
     },
   ];
 
-  today: Date = new Date();
-  cutoffDate: Date = new Date(Date.UTC(2025, 8, 11)); // September is month 8 (0-based)
   isBeforeCutoff: boolean = false;
 
   @ViewChild("myIdentifier")
@@ -156,13 +154,8 @@ export class OverviewComponent implements OnInit {
   selectedYearId:string = "";
   selectedYear:string = "";
   ngOnInit(): void {
-    const todayUTC = new Date(
-    this.today.getUTCFullYear(),
-    this.today.getUTCMonth(),
-    this.today.getUTCDate()
-    );
 
-    this.isBeforeCutoff = todayUTC < this.cutoffDate;
+    this.isBeforeCutoff = this.commonServices.isDateBefore11Sep();
 
     this.onResize();
   }
