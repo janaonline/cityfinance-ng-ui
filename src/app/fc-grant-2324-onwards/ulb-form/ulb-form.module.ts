@@ -36,6 +36,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { FeedbackFormComponent } from './feedback-form/feedback-form.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BudgetUploadComponent } from './budget-upload/budget-upload.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { Charts } from 'src/app/shared/components/charts/charts';
 
 
 
@@ -52,7 +54,7 @@ import { BudgetUploadComponent } from './budget-upload/budget-upload.component';
     ResourceComponent, 
     NoUpDownDirective,
     ErrorDialog,
-    PropertyTaxComponent, LoaderComponent, PreviewComponent, PfmsComponent, FourSlbComponent, DecimalLimitDirective, YearComparisionPipe, AllowedFileTypesPipe, FormErrorPipe, VideoGallaryComponent, FeedbackFormComponent, BudgetUploadComponent
+    PropertyTaxComponent, LoaderComponent, PreviewComponent, PfmsComponent, FourSlbComponent, DecimalLimitDirective, YearComparisionPipe, AllowedFileTypesPipe, FormErrorPipe, VideoGallaryComponent, FeedbackFormComponent, BudgetUploadComponent, DashboardComponent, Charts
   ],
   imports: [
     CommonModule,

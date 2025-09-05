@@ -15,6 +15,7 @@ import { Ulb2223Guard } from 'src/app/shared2223/common-gaurds/ulb/ulb2223.guard
 import { VideoGallaryComponent } from './video-gallary/video-gallary.component';
 import { FeedbackFormComponent } from './feedback-form/feedback-form.component';
 import { BudgetUploadComponent } from './budget-upload/budget-upload.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
   {
@@ -83,6 +84,10 @@ const routes: Routes = [
       {
         path: "budget-documents",
         component: BudgetUploadComponent,
+      },
+      {
+        path: "dashboard",
+        component: DashboardComponent,
       },
 
     ],

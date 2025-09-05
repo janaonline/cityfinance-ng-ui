@@ -1,0 +1,47 @@
+<!-- {{currentSelectedButtonKey}} {{subButton}} -->
+<div class="d-flex my-4 overflow-x-auto">
+    <button *ngFor="let btn of subButtons;" role="button" class="btn rounded-5 m-1 text-nowrap font-bold py-1 px-2"
+        [class.btn-secondary]="subButton === btn.key" [class.btn-outline-secondary]="subButton !== btn.key"
+        (click)="btnClick(btn.key)">
+        {{ btn.label }}
+    </button>
+</div>
+
+<ng-container *ngIf="isChartLoading; else elseBlock">
+    <app-pre-loader></app-pre-loader>
+    <app-pre-loader></app-pre-loader>
+    <app-pre-loader></app-pre-loader>
+</ng-container>
+
+<!-- Chart -->
+<ng-template #elseBlock>
+    <div class="d-flex flex-wrap justify-content-center gap-1">
+
+        <div *ngFor="let chartData of chartsData"
+            [ngClass]="chartData.chartType === 'barChart' ? 'flex-grow-1 overflow-x-auto' : ''">
+
+            <p *ngIf="chartData.chartType ==='gaugeChart'" class="custom-font-size-7 m-0 text-center">
+                {{chartData.datasets[0].label }}</p>
+
+            <div class="" [ngClass]="chartData.chartType">
+                <app-charts [chartConfig]="chartData"></app-charts>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Legends for pie, doughnut, gauge chart. -->
+    <div *ngIf="output?.legendColors?.length" class="d-flex flex-wrap mt-3 py-1 gap-2">
+
+        <div *ngFor="let label of output?.labels" class="custom-font-size-7 m-0 p-0 d-flex align-items-center">
+            <i class="bi bi-circle-fill fs-5" [ngStyle]="{ color: output?.legendColors?.[$index] }"></i>
+            &nbsp;
+            {{ label }}
+        </div>
+
+    </div>
+    <i class="custom-font-size-7 m-0 text-end text-secondary">Line items contributing less than 1% have been excluded to
+        enhance readability</i>
+
+
+</ng-template>

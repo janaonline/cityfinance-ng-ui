@@ -3,6 +3,8 @@ import { Injectable } from "@angular/core";
 import { Chart } from "chart.js";
 
 import { environment } from "../../../../environments/environment";
+import { Observable } from "rxjs/internal/Observable";
+import { IFinancialIndicatorRes, IFinancialIndicatorsChart } from "src/app/models/interface";
 
 @Injectable({
   providedIn: "root",
@@ -184,4 +186,9 @@ export class DashboardService {
   }
 
   // indicators?compUlb=&ulb=5dd24b8d91344e2300876c8b&type=water supply&indicatorName=coverage of water supply connections
+
+  // Get financial indicators data.
+  getFinancialIndicatorsChartData(body: IFinancialIndicatorsChart): Observable<IFinancialIndicatorRes> {
+    return this.httpClient.post<IFinancialIndicatorRes>(`${environment.api.url}dashboard/city/financial-indicators`, body);
+  }
 }

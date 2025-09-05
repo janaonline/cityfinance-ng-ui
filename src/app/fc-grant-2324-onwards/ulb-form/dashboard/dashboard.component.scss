@@ -1,0 +1,17 @@
+// .mixedChart,
+.barChart {
+    min-height: 500px;
+    min-width: 500px;
+    width: 100%;
+    height: 100%;
+    flex-grow: 1;
+    // border: 1px solid green;
+}
+
+.gaugeChart,
+.pieChart {
+    height: 227px;
+    width: 227px;
+
+    // border: 1px solid green;
+}
