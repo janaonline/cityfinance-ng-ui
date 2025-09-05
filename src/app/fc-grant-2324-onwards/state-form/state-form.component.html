@@ -29,7 +29,7 @@
               </div>
           </div>
 
-          <div *ngIf="['606aafcf4dff55e6c075d424', '606aafda4dff55e6c075d48f'].includes(selectedYearId) && isBeforeCutoff" class="webinar-alert lh-sm my-4 w-75 mx-auto">
+          <div *ngIf="['606aafcf4dff55e6c075d424', '606aafda4dff55e6c075d48f'].includes(selectedYearId) && isBeforeCutoff && this.userData.role === 'STATE'" class="webinar-alert lh-sm my-4 w-75 mx-auto">
             <img src="./assets/webinar/sep-11-calendar.png" width="80" height="80" />
             <div>
                 <p class="fw-bold p-0 mb-2">WEBINAR ALERT</p>
