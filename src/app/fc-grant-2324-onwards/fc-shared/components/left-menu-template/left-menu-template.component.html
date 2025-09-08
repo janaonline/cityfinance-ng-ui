@@ -23,7 +23,8 @@
                 </span>
             </li>
             <li *ngFor="let sideItem of menuItem?.value">
-                <a routerLinkActive="active" [routerLink]="sideItem?.url"
+                <a routerLinkActive="active"
+                    [routerLink]="sideItem?.url === 'dashboard' && role==='ULB'? revenueDashboardUrl : sideItem?.url"
                     class="nav-link d-flex justify-content-between link-light">
                     <div class="d-flex">
                         <mat-icon aria-hidden="false" class="svg-gt ml-2" style="flex: 0 0 15px;">
