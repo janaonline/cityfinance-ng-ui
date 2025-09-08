@@ -1,5 +1,6 @@
 import { KeyValue } from '@angular/common';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserUtility } from 'src/app/util/user/user';
 
 @Component({
@@ -10,7 +11,10 @@ import { UserUtility } from 'src/app/util/user/user';
 export class LeftMenuTemplateComponent implements OnInit, OnChanges {
   role: string;
   revenueDashboardUrl: string = '';
-  constructor() {
+  constructor(
+    private router: Router, 
+    private route: ActivatedRoute
+  ) {
     const user = new UserUtility().getLoggedInUserDetails();
     this.role = user.role;
     if (this.role === 'ULB') {
@@ -20,7 +24,7 @@ export class LeftMenuTemplateComponent implements OnInit, OnChanges {
   }
   @Input() leftMenu = {};
   @Input() isLeftMenu = false;
-  @Input() selectedYear="";
+  @Input() selectedYear = "";
   ngOnInit(): void {
 
   }
@@ -37,11 +41,19 @@ export class LeftMenuTemplateComponent implements OnInit, OnChanges {
     return val_1 > val_2 ? 1 : (val_2 > val_1 ? -1 : 0);
   }
 
-  ngOnChanges(changes:SimpleChanges){
-    if(changes?.isLeftMenu){
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes?.isLeftMenu) {
       this.isLeftMenu = changes?.isLeftMenu?.currentValue
     }
 
+  }
+
+  changeRoute(url: string) {
+    if (url === 'dashboard' && this.role === 'ULB') {
+      window.location.href = this.revenueDashboardUrl;
+    } else {
+     this.router.navigate([url], { relativeTo: this.route });
+    }
   }
 
 }
