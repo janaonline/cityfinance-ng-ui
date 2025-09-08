@@ -26,6 +26,9 @@ export class GtcComponent implements OnInit {
   it will become uneditable and will be sent to State for Review.
    Alternatively, you can save as draft for now and submit it later.`
   baseForm: any[];
+  sideMenuItem: any;
+   nextRouter: string = '';
+  backRouter: string = '';
   userData = JSON.parse(localStorage.getItem("userData"));
 
   constructor(
@@ -35,13 +38,13 @@ export class GtcComponent implements OnInit {
     private dataEntryService: DataEntryService,
     private commonServices: CommonServicesService,
     private activatedRoute: ActivatedRoute,
+    
   ) {
 
     setTimeout(() => {
       console.log('webForms', this.webForms);
     }, 4000)
   }
-
   get yearId() {
     return this.activatedRoute.parent.snapshot.paramMap.get('yearId');
   }
@@ -74,8 +77,20 @@ export class GtcComponent implements OnInit {
 
   ngOnInit(): void {
     this.getBaseForm();
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuState"));
+    this.setRouter();
   }
-
+setRouter() {
+    for (const key in this.sideMenuItem) {
+      this.sideMenuItem[key].forEach((element) => {
+        if (element?.url == "gtCertificate") {
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
+         // this.formId = element?._id;
+        }
+      });
+    }
+  }
   getBaseForm() {
     this.loaderService.showLoader();
     this.gtcService.getBaseForm(this.stateId, this.design_year).subscribe((res: any) => {

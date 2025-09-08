@@ -18,28 +18,28 @@ export class CommonStateDashboardComponent implements OnInit {
       {
         key: 'totalUlbs',
         label: 'Total ULBs',
-        icon: '../../../../assets/dashboard-state/16-location.svg',
+        icon: './assets/dashboard-state/16-location.svg',
         tooltip: '',
         value: '50'
       },
       {
         key: 'nonMillionCities',
         label: 'Non Million Cities',
-        icon: '../../../../assets/dashboard-state/XMLID_1248_.svg',
+        icon: './assets/dashboard-state/XMLID_1248_.svg',
         tooltip: '',
         value: '50'
       },
       {
         key: 'millionPlusUAs',
         label: 'Million Plus UAs',
-        icon: '../../../../assets/dashboard-state/sustainable.svg',
+        icon: './assets/dashboard-state/sustainable.svg',
         tooltip: '',
         value: '20'
       },
       {
         key: 'UlbInMillionPlusUA',
         label: 'ULBs in Million-Plus UAs',
-        icon: '../../../../assets/dashboard-state/16-location.svg',
+        icon: './assets/dashboard-state/16-location.svg',
         tooltip: '',
         value: '40'
       },

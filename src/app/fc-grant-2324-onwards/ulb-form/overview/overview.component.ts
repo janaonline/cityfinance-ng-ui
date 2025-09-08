@@ -39,7 +39,7 @@ export class OverviewComponent implements OnInit {
       link: "../grant-tra-certi",
       title: this.grantTransferTitle,
       tooltip: "tooltip",
-      image: "../../../../assets//ulbform/gtc.svg",
+      image: "./assets//ulbform/gtc.svg",
       permittedAccounts: [""],
       display: [""],
     },
@@ -49,7 +49,7 @@ export class OverviewComponent implements OnInit {
       link: "../utilisation-report",
       title: this.utilReportTitle,
       tooltip: "tooltip",
-      image: "../../../../assets/ulbform/dur.svg",
+      image: "./assets/ulbform/dur.svg",
       permittedAccounts: [""],
       display: [""],
     },
@@ -59,7 +59,7 @@ export class OverviewComponent implements OnInit {
       link: "../annual_acc",
       title: this.annualAccountsTitle,
       tooltip: "tooltip",
-      image: "../../../../assets/ulbform/aa.svg",
+      image: "./assets/ulbform/aa.svg",
       permittedAccounts: [""],
       display: [""],
     },
@@ -69,7 +69,7 @@ export class OverviewComponent implements OnInit {
       link: "../pfms_acc",
       title: "Provide details on PFMS Account Linkage",
       tooltip: "tooltip",
-      image: "../../../../assets//ulbform/lpa.svg",
+      image: "./assets//ulbform/lpa.svg",
       permittedAccounts: [""],
       display: [""],
     },
@@ -79,7 +79,7 @@ export class OverviewComponent implements OnInit {
       link: "../pto",
       title: `Furnish details on property tax collection procedures`,
       tooltip: "tooltip",
-      image: "../../../../assets/ulbform/aa.svg",
+      image: "./assets/ulbform/aa.svg",
       permittedAccounts: [""],
       display: [""],
     },
@@ -89,7 +89,7 @@ export class OverviewComponent implements OnInit {
       link: "../slb",
       title: "Fill details for Performance Condition",
       tooltip: "tooltip",
-      image: "../../../../assets/ulbform/slb.svg",
+      image: "./assets/ulbform/slb.svg",
       permittedAccounts: [""],
       display: [""],
     },
@@ -98,7 +98,7 @@ export class OverviewComponent implements OnInit {
     //   link: "../slbs",
     //   // title: "Million Plus City Challenge Fund",
     //   tooltip: "tooltip",
-    //   image: "../../../../assets/ulbform/mpccf.svg",
+    //   image: "./assets/ulbform/mpccf.svg",
     //   permittedAccounts: [""],
     //   display: [""],
     // },
@@ -108,7 +108,7 @@ export class OverviewComponent implements OnInit {
       link: "../odf",
       title: "Provide ODF rating certificate and other details",
       tooltip: "tooltip",
-      image: "../../../../assets/ulbform/plan for water and sanitation.svg",
+      image: "./assets/ulbform/plan for water and sanitation.svg",
       permittedAccounts: ["No"],
       display: ["None"],
     },
@@ -118,11 +118,13 @@ export class OverviewComponent implements OnInit {
       link: "../gfc",
       title: "Provide GFC rating certificate and other details",
       tooltip: "tooltip",
-      image: "../../../../assets/ulbform/plan for water and sanitation.svg",
+      image: "./assets/ulbform/plan for water and sanitation.svg",
       permittedAccounts: ["No"],
       display: ["None"],
     },
   ];
+
+  isBeforeCutoff: boolean = false;
 
   @ViewChild("myIdentifier")
   myIdentifier: ElementRef;
@@ -152,6 +154,9 @@ export class OverviewComponent implements OnInit {
   selectedYearId:string = "";
   selectedYear:string = "";
   ngOnInit(): void {
+
+    this.isBeforeCutoff = this.commonServices.isDateBefore11Sep();
+
     this.onResize();
   }
 
@@ -299,5 +304,15 @@ export class OverviewComponent implements OnInit {
        this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
        this.selectedYear = this.commonServices.getYearName(this.selectedYearId);
        this.getSideBar(this.selectedYearId); 
+    }
+
+    registerForEvent() {
+      window.open("https://tally.so/r/3NaZWQ", "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    joinWaitlist() {
+      window.open("https://tally.so/r/npQ2Kb", "_blank", "noopener,noreferrer");
+      return;
     }
 }

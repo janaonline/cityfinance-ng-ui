@@ -1,4 +1,13 @@
 <div class="bg-white">
+    <div class="row info-block">
+    <div class="col-sm-12">
+      <div class="alert alert-info text-center" role="alert">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
+  <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6"/>
+</svg> NEW ON CITY FINANCE: 10,000+ budget documents of 2,000 cities(FY 2020-2024) are now available for download. <a routerLink="/resources-dashboard/data-sets/income_statement">Click here to access files.</a>
+      </div>
+    </div>
+  </div>
     <section class="d-lg-block d-none py-2 border-bottom">
         <div class="container" style="max-width: 94%">
             <div class="row">
@@ -34,8 +43,8 @@
               <span class="city">city</span>
               <span class="fy">finance.in</span>
           </a> -->
-            <a class="navbar-brand" routerLinkActive="active" routerLink="/home" [ngClass]="sticky ? 'show' : ''">
-                <!-- <img src="../../../../assets/M FIGMA/city-finance-ranking.png" alt=""> -->
+            <a class="navbar-brand" href="/" [ngClass]="sticky ? 'show' : ''">
+                <!-- <img src="./assets/M FIGMA/city-finance-ranking.png" alt=""> -->
                 <span class="city" style="font-size: 2rem;">city</span>
                 <span class="fy" style="font-size: 2rem; color: #1D5290; font-weight: bold;">finance</span>
             </a>
@@ -44,7 +53,7 @@
                     <li class="nav-item">
                         <a class="navbar-brand cityLogo" aria-current="page" routerLinkActive="active"
                             routerLink="/rankings/home">
-                            <img style="height: 28px;" src="../../../../assets/M FIGMA/city-finance-ranking.png" alt="">
+                            <img style="height: 28px;" src="./assets/M FIGMA/city-finance-ranking.png" alt="">
                             <!-- <span class="city">city</span>
                             <span class="fy">finance.in</span> -->
                         </a>
@@ -83,8 +92,11 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li>
+                                <!-- <a class="dropdown-item"
+                                    routerLink="municipal-data/national">National
+                                    Performance</a> -->
                                 <a class="dropdown-item"
-                                    routerLink="/dashboard/national/61e150439ed0e8575c881028">National
+                                    (click)="getNationalPageUrl()">National
                                     Performance</a>
                             </li>
                             <li>
@@ -119,15 +131,15 @@
                     <li class="nav-item" *ngIf="isLoggedIn && user?.role === 'ULB'">
                         <a class="nav-link" href="/fc/xvifc-form">XVI FC Data Collection</a>
                     </li>
-                    <li class="nav-item" *ngIf="isLoggedIn && user?.email !== 'doe@cityfinance.in'">
+                    <li class="nav-item" *ngIf="isLoggedIn && isReadonlyUser()">
                         <a *ngIf="user?.role == 'ULB' else rankingDashboard" class="nav-link" routerLinkActive="active"
-                        [routerLink]="'/rankings/ulb-form'">{{"Rankings'22 Form"}}</a>
+                            [routerLink]="'/rankings/ulb-form'">{{"Rankings'22 Form"}}</a>
                         <ng-template #rankingDashboard>
                             <a class="nav-link" routerLinkActive="active"
                                 [routerLink]="'/rankings/review-rankings-ulbform'">{{"Rankings'22 Dashboard"}}</a>
                         </ng-template>
                     </li>
-                    <li class="nav-item" *ngIf="user?.role !== 'PMU' && user?.email !== 'doe@cityfinance.in'">
+                    <li class="nav-item" *ngIf="user?.role !== 'PMU' && isReadonlyUser()">
                         <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/list/ULB']" *ngIf="isLoggedIn
                           &&
                           (canViewUserList || canViewULBSingUpListing)">Users</a>
@@ -263,7 +275,8 @@
                               ">Users</a>
                         </li>
                         <li *ngIf="!isLoggedIn" class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" (click)="showRequestDemoPopup()">Request a Demo</a>
+                            <a class="nav-link" routerLinkActive="active" (click)="showRequestDemoPopup()">Request a
+                                Demo</a>
                         </li>
                     </ul>
                     <div class="row align-items-center fixed-bottom mx-3 mb-5">
@@ -281,4 +294,17 @@
             </div>
         </div>
     </nav>
+    <!-- <div style="overflow: hidden;">
+        <div class="ticker-wrap">
+            <div class="ticker">
+                <div class="ticker__item">CityFinance will be under scheduled maintenance on Thu, May 20 from 8 PM to 11:59 PM
+                    .</div>
+                <div class="ticker__item">CityFinance will be under scheduled maintenance on Thu, May 20 from 8 PM to 11:59 PM
+                    .</div>
+                <div class="ticker__item">CityFinance will be under scheduled maintenance on Thu, May 20 from 8 PM to 11:59 PM
+                    .</div>
+
+            </div>
+        </div>
+    </div> -->
 </div>

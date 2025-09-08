@@ -70,3 +70,6 @@ the user is redirected to that particular page. Otherwise, they are redirected t
 ### NOTE
 
 This needs to be changed. The implementation done above is not scalable enough to be used in every modules / pages, and not easy to maintain for long term.
+
+
+<!-- Security scan triggered at 2025-09-02 04:39:51 -->

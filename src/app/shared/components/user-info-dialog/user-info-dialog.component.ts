@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from "@angular/core";
+import { Component, Inject, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { UtilityService } from "../../services/utility.service";
@@ -27,6 +27,8 @@ interface FieldConfig {
   styleUrls: ['./user-info-dialog.component.scss']
 })
 export class UserInfoDialogComponent implements OnInit {
+  @ViewChild('checkbox') checkbox: HTMLElement;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public matDialogData: any,
     private downloadUserService: DownloadUserInfoService,
@@ -39,6 +41,8 @@ export class UserInfoDialogComponent implements OnInit {
   isLoading: boolean = false;
   fields: FieldConfig[] = [];
   userInfo: FormGroup = new FormGroup({});
+  checkboxMsg: string = '';
+  isChecked: boolean = false;
 
   ngOnInit(): void {
     this.getFields();
@@ -52,6 +56,7 @@ export class UserInfoDialogComponent implements OnInit {
         this.fields = res.data.data;
         this.title = res.data.title || this.title;
         this.desc = res.data.desc || this.desc;
+        this.checkboxMsg = res.data.checkboxMsg || this.checkboxMsg;
         this.userInfo = this.toFormGroup(this.fields);
         this.isLoading = false;
       });

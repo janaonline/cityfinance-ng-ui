@@ -285,7 +285,7 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
     let pTag = document.getElementById(index + item.name + elementIndex);
     pTag.innerHTML = "";
     let imgTag = document.createElement("img");
-    imgTag.src = "../../assets/formula.png";
+    imgTag.src = "./assets/formula.png";
     pTag.appendChild(imgTag);
   }
   stateUlbMapping = JSON.parse(localStorage.getItem("ulbStateCodeMapping"));

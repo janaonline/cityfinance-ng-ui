@@ -27,8 +27,10 @@ export class DurCustomErrorsPipe implements PipeTransform {
       if (wmSum + swmSum != expDuringYr) {
         return 'The total expenditure in the component wise grants must not exceed the amount of expenditure incurred during the year.'
       }
-      if (expDuringYr == 0) {
-        return ' The total expenditure incurred during the year cannot be 0'
+      const closingBal = questionData.find(question => question.shortKey == "grantPosition")?.childQuestionData?.[0]
+      ?.find(question => question.shortKey == shortKey)?.modelValue;
+      if (expDuringYr == 0 && closingBal != 0) {
+        return ' The total expenditure incurred during the year can not be 0'
       }
     }
 
@@ -46,7 +48,7 @@ export class DurCustomErrorsPipe implements PipeTransform {
       const projectDetails = questionData.find(question => question.shortKey == 'projectDetails_tableView_addButton');
       const projectSum = this.getRowSum(projectDetails?.childQuestionData, 6);
       console.log('project details', expDuringYr, projectSum)
-      if (expDuringYr != projectSum) {
+      if (+expDuringYr != +(projectSum.toFixed(2))) {
         return 'Sum of all project wise expenditure amount does not match total expenditure amount provided in the XVFC summary section. Kindly recheck the amounts.';
       }
     }

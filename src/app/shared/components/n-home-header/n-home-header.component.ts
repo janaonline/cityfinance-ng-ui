@@ -14,6 +14,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { HomeHeaderService } from "./home-header.service";
 import { UtilityService } from "../../services/utility.service";
 import { GlobalLoaderService } from "../../services/loaders/global-loader.service";
+import { CommonService } from "../../services/common.service";
 
 @Component({
   selector: "app-n-home-header",
@@ -42,6 +43,7 @@ export class NHomeHeaderComponent implements OnInit {
     private homeHeaderService: HomeHeaderService,
     private utilityService: UtilityService,
     private globalLoaderService: GlobalLoaderService,
+    private commonService: CommonService
   ) {
     this.initializeAccessChecking();
     this._router.events.subscribe((event) => {
@@ -157,7 +159,8 @@ export class NHomeHeaderComponent implements OnInit {
       this.authService.clearLocalStorage();
       this.removeSessionItem();
       this.isLoggedIn = false;
-      this._router.navigateByUrl("rankings/home");
+      // this._router.navigateByUrl("rankings/home");
+      window.location.href = '/home';
     }else {
 
     }
@@ -203,6 +206,11 @@ export class NHomeHeaderComponent implements OnInit {
     });
   }
 
+  readonly readonlyEmails = ['doe@cityfinance.in', 'cca-mohua@gov.in'];
+  isReadonlyUser(): boolean {
+    return !this.readonlyEmails.includes(this.user?.email);
+  }
+
   isSticky = false;
   public screenHeight: any;
   elementPosition;
@@ -220,5 +228,9 @@ export class NHomeHeaderComponent implements OnInit {
       this.isSticky = false;
     }
 
+  }
+
+  getNationalPageUrl(){
+    this.commonService.getNationalPageUrl();
   }
 }

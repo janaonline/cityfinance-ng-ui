@@ -114,7 +114,7 @@ export class StateComponent implements OnInit {
                 break;
               case "area":
                 item.value =
-                  ((res.data[0].area / 1000).toFixed(0) || '0') + " Sq km";
+                  ((res.data[0].area).toFixed(0) || '0') + " Sq km";
                 break;
               case "Municipal_Corporation":
                 item.value = res.data[0].Municipal_Corporation || '0';
@@ -211,7 +211,7 @@ const data = {
   stateId: "",
   date: "",
   desc: "Summary of key state demographics and municipal (urban) indicators",
-  link: "dashboard/national/61e150439ed0e8575c881028",
+  link: "municipal-data/national",
   linkName: "National Dashboard",
   dataIndicators: [
     {
@@ -267,41 +267,41 @@ const data = {
 const TaxRevenue = {
   type: 2,
   subTitle: "Total Tax Revenue",
-  svg: `../../../../assets/file.svg`,
+  svg: `./assets/file.svg`,
   number: "0 Cr",
 };
 
 const OwnRevenue = {
   type: 2,
   subTitle: "Total Own Revenue",
-  svg: `../../../../assets/file.svg`,
+  svg: `./assets/file.svg`,
   number: "0 Cr",
 };
 
 const Grant = {
   type: 2,
   subTitle: "Total Grant",
-  svg: `../../../../assets/coinCuren.svg`,
+  svg: `./assets/coinCuren.svg`,
   number: "0 Cr",
 };
 
 const Revenue = {
   type: 2,
   subTitle: "Total Revenue",
-  svg: `../../../../assets/coinCuren.svg`,
+  svg: `./assets/coinCuren.svg`,
   number: "0 Cr",
 };
 
 const Expense = {
   type: 2,
   subTitle: "Total Expenditure",
-  svg: `../../../../assets/coinCuren.svg`,
+  svg: `./assets/coinCuren.svg`,
   number: "0 Cr",
 };
 const BalanceSheetSize = {
   type: 2,
   subTitle: "Total Balance Sheet Size",
-  svg: `../../../../assets/Group 15967.svg`,
+  svg: `./assets/Group 15967.svg`,
   number: "0 Cr",
 };
 

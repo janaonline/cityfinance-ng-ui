@@ -11,7 +11,7 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
   selector: 'app-button-renderer',
   template: `
     <button class='btn btn-del' type="button"  (click)="onClick($event)">
-        <img src="../../../../assets/form-icon/Icon material-delete.svg">
+        <img src="./assets/form-icon/Icon material-delete.svg">
     </button>
     `
 })

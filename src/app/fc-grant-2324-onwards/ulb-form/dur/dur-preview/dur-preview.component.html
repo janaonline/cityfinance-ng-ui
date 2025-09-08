@@ -4,7 +4,7 @@
             <div class="row" style="margin: 0;">
                 <div class="col-sm-12 text-r pdf-hide" *ngIf="!parentData" style="text-align: right;">
                     <!-- <mat-icon aria-hidden="false">
-                      <img src="../../../../../assets/form-icon/Icon material-close.svg">
+                      <img src="./assets/form-icon/Icon material-close.svg">
                   </mat-icon> -->
                     <i class="fa fa-times" style="color: #fff; cursor: pointer;
                   font-size: 24px; " aria-hidden="true" (click)="dialogClose()"></i>
@@ -80,29 +80,28 @@
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>
                     </tr>
-                    <tr *ngIf="data.grantPosition.grantPosition___receivedDuringYrWithZero">
-                        <th scope="row" class="f-table">2a.</th>
-                        <td class="pd-r f-table" style="text-align: left; font-weight: 500;">15th F.C. Tied grant recevied for the year
-                            is zero, please select a reason from drop down.</td>
-                        <td class="f-table">
-                            {{grantPositionReceivedWithZeroReason[data.grantPosition.grantPosition___receivedDuringYrWithZero]}}</td>
-                        <td class="f-table">x</td>
-                        <td class="f-table">x</td>
-                        <td class="f-table">x</td>
-                    </tr>
-                    <tr *ngIf="data.grantPosition.grantPosition___receivedDuringYrWithZeroReason">
-                        <th scope="row" class="f-table">2b.</th>
-                        <td class="pd-r f-table" style="text-align: left; font-weight: 500;">Select reason for tied grants being zero
-                        </td>
-                        <td class="f-table">{{data.grantPosition.grantPosition___receivedDuringYrWithZeroReason || 'x'}}</td>
-                        <td class="f-table">x</td>
-                        <td class="f-table">x</td>
-                        <td class="f-table">x</td>
-                    </tr>
                     <tr>
                         <th class="f-table" scope="row">3.</th>
                         <td class="pd-r f-table" style="text-align: left; font-weight: 500;">Expenditure incurred during the year</td>
                         <td class="f-table">{{data.grantPosition.grantPosition___expDuringYr}}</td>
+                        <td class="f-table">x</td>
+                        <td class="f-table">x</td>
+                        <td class="f-table">x</td>
+                    </tr>
+                    <tr *ngIf="data.grantPosition.grantPosition___expDuringYrWithZero">
+                        <th scope="row" class="f-table">3a.</th>
+                        <td class="pd-r f-table" style="text-align: left; font-weight: 500;">Expenditure incurred for the year is zero, please select a reason from drop down.</td>
+                        <td class="f-table">
+                            {{grantPositionReceivedWithZeroReason[data.grantPosition.grantPosition___expDuringYrWithZero]}}</td>
+                        <td class="f-table">x</td>
+                        <td class="f-table">x</td>
+                        <td class="f-table">x</td>
+                    </tr>
+                    <tr *ngIf="data.grantPosition.grantPosition___expDuringYrWithZeroReason">
+                        <th scope="row" class="f-table">3b.</th>
+                        <td class="pd-r f-table" style="text-align: left; font-weight: 500;">Select reason for expenditure incurred being zero
+                        </td>
+                        <td class="f-table">{{data.grantPosition.grantPosition___expDuringYrWithZeroReason || 'x'}}</td>
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>
@@ -301,7 +300,7 @@
             <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
             <div class="text-right">
                 <a (click)="alertClose()">
-                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                    <img src="./assets/form-icon/close-red-icon.png">
                 </a>
             </div>
         </div>

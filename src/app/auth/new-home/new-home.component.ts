@@ -32,8 +32,8 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
 })
 
   }
-
-  
+    
+  coveredUlbCount: number = 0;
   @ViewChild('highlightContainer', { static: false }) private highlightContainer: ElementRef<HTMLDivElement>;
   isHighlightContainerScrolledIntoView: boolean;
   highlightNo: number = 0;
@@ -100,7 +100,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
 
   slides = [
     {
-      image: "../../../assets/new_dashBord_ftr_hdr/modiji.png",
+      image: "./assets/new_dashBord_ftr_hdr/modiji.png",
       text: `"It’s our mission to strengthen our cities to meet the challenges of 21st century"`,
       name: "Narendra Modi",
       designation: "Hon’ble Prime Minister of India",
@@ -108,7 +108,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
       textCls: "p-t",
     },
     {
-      image: "../../../assets/new_dashBord_ftr_hdr/puriji.png",
+      image: "./assets/new_dashBord_ftr_hdr/puriji.png",
       text: `"Municipalities need to lay a foundation of robust financial management for both,
        enhancing own revenues, as well as tapping the capital market through municipal bonds"`,
       name: "Hardeep Singh Puri",
@@ -177,7 +177,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
       id: 'financial-performance',
       label: 'Financial Performance Of Cities',
       text: 'Analyze and compare the financial performance of cities',
-      icon: '../../../assets/new_dashBord_ftr_hdr/perf.svg',
+      icon: './assets/new_dashBord_ftr_hdr/perf.svg',
       // hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
       link:'/dashboard/national'
     },
@@ -186,7 +186,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
       id: 'improve-own-revenue',
       label: 'Improve Own Revenue',
       text: 'Explore own revenue sources of municipalities and identify revenue improvement strategies',
-      icon: '../../../assets/new_dashBord_ftr_hdr/revenu.svg',
+      icon: './assets/new_dashBord_ftr_hdr/revenu.svg',
       // hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
       link:'/own-revenue-dashboard'
     },
@@ -196,7 +196,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
       id: 'resources',
       label: 'Resources',
       text: 'Get access to a rich repository of resources to build your knowledge, and implement municipal finance reforms',
-      icon: '../../../assets/new_dashBord_ftr_hdr/resoures/Group 15547.png',
+      icon: './assets/new_dashBord_ftr_hdr/resoures/Group 15547.png',
       // hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
       link:'/resources-dashboard/learning-center/toolkits'
     },
@@ -205,7 +205,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
       id: 'service-level-benchmarks',
       label: 'Service Level Benchmarks',
       text: 'Track your city’s performance across five themes and 28 key indicators.',
-      icon: '../../../assets/new_dashBord_ftr_hdr/slb/Group 15493.png',
+      icon: './assets/new_dashBord_ftr_hdr/slb/Group 15493.png',
       // hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
       link:'/dashboard/slb'
     },
@@ -214,7 +214,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
       id: 'XV-finance-commission-grants',
       label: 'XV Finance Commission Grants',
       text: 'Apply, review, recommend and track XV finance commission grants',
-      icon: '../../../assets/new_dashBord_ftr_hdr/15fc.svg',
+      icon: './assets/new_dashBord_ftr_hdr/15fc.svg',
       // hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
       link:'/login'
     },
@@ -223,7 +223,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
       id: 'upload-annual-accounts',
       label: 'Upload Annual Accounts',
       text: 'Upload Annual Account Forms',
-      icon: '../../../assets/new_dashBord_ftr_hdr/raisemny.svg',
+      icon: './assets/new_dashBord_ftr_hdr/raisemny.svg',
       // hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
       link:'/upload-annual-accounts'
     },
@@ -272,7 +272,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
   ngOnInit() {
     // this.loadRecentSearchValue();
 
-
+    this.coveredUlbCount = null;
     const hUser = $("#countDownUser").data('value');
     var hUserLess = hUser - 1000;
     const k = setInterval(function () {
@@ -313,9 +313,15 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     })
 
     
-    this._commonService.dataForVisualizationCount.subscribe((res)=>{
-       this.dataForVisualization = res;
-    })
+    // this._commonService.dataForVisualizationCount.subscribe((res) => {
+    //   console.log(res.coveredUlbCount);
+    //   if (!this.coveredUlbCount) this.coveredUlbCount = res.coveredUlbCount;
+    // });
+     this._commonService.dataForVisualizationCount.subscribe((res) => {
+       if (res.coveredUlbCount && res.coveredUlbCount > 1000) {
+         this.coveredUlbCount = res.coveredUlbCount;
+       }
+     });
   }
 
   loadRecentSearchValue() {

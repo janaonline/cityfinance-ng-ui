@@ -3,7 +3,10 @@
     </h5>
     <button class="btn btn-primary" (click)="onPreview()">Preview</button>
 </div>
-<small class="text-danger">All questions with * are mandatory</small>
+<small *ngIf="!showMessage" class="text-danger">All questions with * are mandatory</small>
+<div *ngIf="showMessage" class="alert alert-info" role="alert">
+    {{ message }}
+</div>
 
 <ng-template #treeNode let-yearItem="yearItem" let-yearIndex="yearIndex" let-hideErrors="hideErrors">
     <div class="col-sm-12 for-radio" *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
@@ -42,10 +45,18 @@
                 *ngIf="yearItem?.controls?.formFieldType?.value == 'date'"
                 [ngClass]="{'border-danger': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
                 <div class="d-flex w-100 px-2 justify-content-between">
-                    <input matInput class="mat-date" formControlName="date" style="pointer-events: none;"
-                        [matDatepicker]="r_i" [disabled]="yearItem?.controls?.readonly?.value"
-                        [min]="yearItem?.controls?.min?.value" [max]="yearItem?.controls?.max?.value"
-                        placeholder="Choose a date" [attr.id]="  + r_i" />
+                    <input
+                        matInput
+                        class="mat-date"
+                        formControlName="date"
+                        style="pointer-events: none;"
+                        [matDatepicker]="r_i"
+                        [disabled]="yearItem?.controls?.readonly?.value"
+                        [min]="yearItem?.controls?.type?.value === 'releaseDate' && design_year === '606aafda4dff55e6c075d48f' ? minValue : yearItem?.controls?.min?.value"
+                        [max]="yearItem?.controls?.max?.value"
+                        placeholder="Choose a date"
+                        [attr.id]="  + r_i" 
+                    />
                     <mat-datepicker-toggle matSuffix [disabled]="yearItem?.controls?.readonly?.value" [for]="r_i">
                     </mat-datepicker-toggle>
                 </div>
@@ -63,7 +74,7 @@
                                 File
                             </div>
                             <div class="col-sm-6 text-end">
-                                <img src="../../../assets/circle/cloud_upload_black_24dp.svg">
+                                <img src="./assets/circle/cloud_upload_black_24dp.svg">
                             </div>
                         </div>
                     </button>
@@ -78,7 +89,7 @@
                     <a *ngIf="!yearItem?.controls?.readonly?.value"
                         (click)="uploadFile($event, yearItem?.controls?.file, true)" class="w-10"
                         [ngClass]="{'pe-none': isDisabled}">
-                        <img src="../../../assets/form-icon/close_black_24dp.svg">
+                        <img src="./assets/form-icon/close_black_24dp.svg">
                     </a>
                 </div>
                 <div class="col-sm-12 text-center w-70">
@@ -234,8 +245,7 @@
     <div class="d-flex justify-content-end my-2" *ngIf="isButtonAvail">
         <div class="row w-100">
             <div class="col-sm-6">
-                <button class="btn btn-pre" [routerLink]="nextPreUrl?.backBtnRouter">
-                    &lt;- Previous Form </button>
+                <button class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
             </div>
             <div class="col-sm-6 d-flex justify-content-end">
                 <div class="d-inline-flex mr-1">
@@ -250,9 +260,7 @@
                     </button>
                 </div>
                 <div class="d-inline-flex ">
-                    <button [routerLink]="nextPreUrl?.nextBtnRouter" class="btn btn-next text-uppercase">
-                        Next Form -&gt;
-                    </button>
+                    <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
                 </div>
             </div>
         </div>

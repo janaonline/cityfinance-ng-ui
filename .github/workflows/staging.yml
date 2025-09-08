@@ -35,8 +35,8 @@ jobs:
     - name: Rename existing dist_live_server folder on server
       run: |
           ssh -o StrictHostKeyChecking=no -i ssh_key ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }} "
-          if [ -d /var/www/html/staging-cicd/citifinance-ng-ui/dist_live_server ]; then
-            mv /var/www/html/staging-cicd/citifinance-ng-ui/dist_live_server /var/www/html/staging-cicd/citifinance-ng-ui/dist_$(date +'%Y-%m-%d_%I.%M%p');
+          if [ -d /var/www/html/staging-cicd/cityfinance-ng-ui/dist_live_server ]; then
+            mv /var/www/html/staging-cicd/cityfinance-ng-ui/dist_live_server /var/www/html/staging-cicd/cityfinance-ng-ui/bkp/dist_$(date +'%Y-%m-%d_%I.%M%p');
           fi"
     - name: Copy dist files to server
       uses: appleboy/scp-action@master
@@ -46,12 +46,12 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}  # Add your server SSH private key as a secret
         port: 22
         source: "dist/*"  # Adjust this path based on your project structure
-        target: "/var/www/html/staging-cicd/citifinance-ng-ui/"  # Specify the destination path on your server
+        target: "/var/www/html/staging-cicd/cityfinance-ng-ui/"  # Specify the destination path on your server
     - name: Rename current build dist folder to dist_live_server on server
       run: |
             ssh -o StrictHostKeyChecking=no -i ssh_key ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }} "
-            if [ -d /var/www/html/staging-cicd/citifinance-ng-ui/dist ]; then
-              mv /var/www/html/staging-cicd/citifinance-ng-ui/dist /var/www/html/staging-cicd/citifinance-ng-ui/dist_live_server;
+            if [ -d /var/www/html/staging-cicd/cityfinance-ng-ui/dist ]; then
+              mv /var/www/html/staging-cicd/cityfinance-ng-ui/dist /var/www/html/staging-cicd/cityfinance-ng-ui/dist_live_server;
             fi"
     - name: Send acknowledgment to Microsoft Teams
       run: |
@@ -59,4 +59,4 @@ jobs:
                 "text": "Cityfinance-ng-ui : Deployment successful on staging server!"
               }' ${{ secrets.TEAMS_WEBHOOK_URL }}
     # - name: Deploy to server
-    #   run: scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r ${{ github.workspace }}/dist/* ${{ secrets.SERVER_USERNAME }}:${{ secrets.SERVER_PASSWORD }}@${{ secrets.SERVER_IP }}:/var/www/html/dev-jana/citifinance-ng-ui/dist/
+    #   run: scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r ${{ github.workspace }}/dist/* ${{ secrets.SERVER_USERNAME }}:${{ secrets.SERVER_PASSWORD }}@${{ secrets.SERVER_IP }}:/var/www/html/dev-jana/cityfinance-ng-ui/dist/

@@ -211,7 +211,7 @@ export class DataSetsComponent implements OnInit {
     // View Raw PDF and Raw Excel.
     const yearSplit = Number(item.year.split('-')[0]);
     // 2015-16 to 2018-19.
-    if (yearSplit < 2019) {
+    if (yearSplit < 2019 || item.section === "budgetPdf") {
       if (item['fileUrl']) {
         let target_file_url = environment.STORAGE_BASEURL + item['fileUrl'];
 
@@ -386,13 +386,13 @@ export class DataSetsComponent implements OnInit {
   download(event: any) {
 
     if (event) {
+      let section = null;
+      if (this.selectedUsersList.length && this.selectedUsersList[0].hasOwnProperty("section")) {
+        section = this.selectedUsersList[0].section;
+      }
 
       // Standardized files.
-      if (
-        this.selectedUsersList.length &&
-        this.selectedUsersList[0].hasOwnProperty("section") &&
-        this.selectedUsersList[0].section == "standardised"
-      ) {
+      if (section === 'standardised') {
         this.downloadStandardizedData(true)
           .then((isDownloaded) => {
             if (isDownloaded) this.openSnackBar(this.fileDownloadSuccess);
@@ -401,9 +401,8 @@ export class DataSetsComponent implements OnInit {
         return;
       }
 
-
-      // For docs which have file.url i.e 2015-16 to 2018-19 (Raw excel, Raw pdf)
-      if (['2015-16', '2016-17', '2017-18', '2018-19'].includes(this.year)) {
+      // For docs which have file.url i.e 2015-16 to 2018-19 (Raw excel, Raw pdf) + Budget PDF.
+      if (['2015-16', '2016-17', '2017-18', '2018-19'].includes(this.year) || section === 'budgetPdf') {
         const userInfoFiles = this.selectedUsersList.map((e) => { return { 'fileName': `${e.fileName}_${this.type}` } });
 
         // User info popup.

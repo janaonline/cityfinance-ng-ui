@@ -119,7 +119,7 @@ formDataChange?.status == 'PENDING' && formDataChange?.isDraft == false">
                         <label for="cin4">
                         <a class="btn btn-primary" [ngClass]="{'dis-cls' : actBtnDis}" (click)="uploadButtonClicked('A')">Upload
                             PDF
-                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                            <img src="./assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
                         </a>
                         <p class="errorMessege" *ngIf="errorMessegeCommonAction">{{errorMessegeCommonAction}}</p>
@@ -143,12 +143,12 @@ formDataChange?.status == 'PENDING' && formDataChange?.isDraft == false">
                     </div>
                     <div class="col-sm-4 filePadding">
                         <a href="{{stateActUrl | toStorageUrl }}" target="_blank">
-                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                            <img src="./assets/form-icon/download-pdf-icon.png" alt="">
                         </a>
                         <span>
                         <a (click)="clearFile('stateAct')" style="margin-left: 4px;"
                         [ngClass]="{'dis-cls' : actBtnDis}">
-                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                            <img src="./assets/form-icon/close-red-icon.png" alt="">
                         </a>
                     </span>
                     </div>

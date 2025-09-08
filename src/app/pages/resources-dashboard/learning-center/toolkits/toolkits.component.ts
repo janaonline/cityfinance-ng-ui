@@ -33,7 +33,7 @@ export class ToolkitsComponent implements OnInit {
     {
       label: "Digital Property Tax Toolkit",
       imgUrl:
-        "../../../../assets/new_dashBord_ftr_hdr/shutterstock_546307051/shutterstock_546307051.png",
+        "./assets/new_dashBord_ftr_hdr/shutterstock_546307051/shutterstock_546307051.png",
       link: "",
     },
   ];

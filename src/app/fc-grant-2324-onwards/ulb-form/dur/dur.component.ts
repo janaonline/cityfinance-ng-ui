@@ -240,15 +240,16 @@ export class DurComponent implements OnInit, OnDestroy {
     const waterManagement = data?.finalData.find(item => item.shortKey == "waterManagement_tableView")?.nestedAnswer || [];
     const solidWasteManagement = data?.finalData.find(item => item.shortKey == "solidWasteManagement_tableView")?.nestedAnswer || [];
     for (let project of projectDetails) {
+      const projectNumber = project?.forParentValue;
       const location = project?.answerNestedData.find(item => item.shortKey == "location");
       const cost = project?.answerNestedData.find(item => item.shortKey == "cost");
       const expenditure = project?.answerNestedData.find(item => item.shortKey == "expenditure");
       if (location.answer?.length == 0 || location.answer[0].value == "" || this.isLocationValid(location.answer[0].value)) {
         this.locationInvalid = true;
-        return false;
+        return {projectNumber, valid: false};
       }
       if (expenditure.answer[0].value && cost.answer[0].value && (+expenditure.answer[0].value > +cost.answer[0].value)) {
-        return false;
+        return {projectNumber, valid: false};
       }
     }
 
@@ -258,14 +259,14 @@ export class DurComponent implements OnInit, OnDestroy {
       const totalProjectCost = item?.answerNestedData.find(item => item.shortKey == "wm_totalProjectCost");
       if(grantUtilised.answer[0].value>0 && totalNumberProject.answer[0].value==0){
         this.totalProjectInvalid = true;
-        return false;
+        return {valid: false};
 
       } 
       if (grantUtilised.answer[0].value && totalProjectCost.answer[0].value &&
         (+grantUtilised.answer[0].value > +totalProjectCost.answer[0].value)
       ) {
         console.log('invalid', item);
-        return false;
+        return {valid: false};
       }
     }
 
@@ -275,15 +276,15 @@ export class DurComponent implements OnInit, OnDestroy {
       const totalProjectCost = item?.answerNestedData.find(item => item.shortKey == "sw_totalProjectCost");
       if(grantUtilised.answer[0].value>0 && totalNumberProject.answer[0].value==0){
         this.totalProjectInvalid = true;
-        return false;
+        return {valid: false};
       } 
       if (grantUtilised.answer[0].value && totalProjectCost.answer[0].value &&
         (+grantUtilised.answer[0].value > +totalProjectCost.answer[0].value)
       ) {
-        return false;
+        return {valid: false};
       }
     }
-    return true;
+   return {valid: true};
   }
 
   async onSubmit(data) {
@@ -295,21 +296,23 @@ export class DurComponent implements OnInit, OnDestroy {
       if (selfDeclarationChecked != '1') return swal('Error', 'Please check self declaration', 'error');
       const grantPositionData = data?.finalData?.find(obj => obj.shortKey === "grantPosition");
       const expDuringYrObj = grantPositionData?.nestedAnswer[0]?.answerNestedData?.find(el=>el.shortKey === "grantPosition___expDuringYr");
+      const closingBal = grantPositionData?.nestedAnswer[0]?.answerNestedData?.find(el=>el.shortKey === "grantPosition___closingBal");
 
-      if((expDuringYrObj?.answer[0]?.value == 0)){
+      if(expDuringYrObj?.answer[0]?.value == 0 && closingBal?.answer[0]?.value != 0){
         swal("Error", "The total expenditure incurred during the year cannot be 0", "error");
         return;
       }
       const projectDetails = data?.finalData.find(item => item.shortKey == "projectDetails_tableView_addButton")?.nestedAnswer || [];
-      if(projectDetails?.length == 0){
+      if(projectDetails?.length == 0 && expDuringYrObj?.answer[0]?.value != 0){
         swal("Error", "Number of projects can not be 0", "error");
         return;
       }
       // if = validation check for all input,
       // else = confirmation popup then final submit, draft, cancel functionality.
       console.log("this.isFormValid(data)", this.isFormValid(data))
-      if (!this.isFormValid(data)) {
-        let errMsg = this.locationInvalid ? "Please fill the lat/long or correct the lat/long values" : this.totalProjectInvalid ?  "Number of projects can not be 0" : 'Please fill valid values in form';
+      const formValidObj = this.isFormValid(data);
+      if (!formValidObj?.valid) {
+        let errMsg = this.locationInvalid ? `Please fill the lat/long or correct the lat/long values for project no. ${formValidObj?.projectNumber}`  : this.totalProjectInvalid ?  "Number of projects can not be 0" : 'Please fill valid values in form';
         return swal('Error', `${errMsg}`, 'error')
       }else{
         const userAction = await swal(

@@ -9,9 +9,9 @@
           </div>
           <div class="ds-i-div">
             <span class="ds-info">Standardised, timely and credible financial information for
-
-              <span class="cities-count" [countUp]="dataForVisualization?.coveredUlbCount ? dataForVisualization?.coveredUlbCount : 3000" [options]="{startVal: 3000, duration: .5}">
-              </span> cities of India </span>
+              <span class="cities-count" *ngIf="coveredUlbCount" [countUp]="coveredUlbCount"
+                [options]="{ startVal: 3800, duration: 5 }">
+            </span> cities of India </span>
           </div>
           <div class="g-filter-d">
             <form class="filter-form w-100">
@@ -66,8 +66,8 @@
         </div>
       </div>
       <div class="row mt-4 text-center">
-          <span class="rec-text">Suggested Searches:</span>
-        </div>
+        <span class="rec-text">Suggested Searches:</span>
+      </div>
       <div class="row mt-2 text-center">
         <div class="col">
           <div class="ser-chip" *ngFor="let item of recentSearchArray">
@@ -105,13 +105,16 @@
     </div>
   </div>
 
+  <!-- <div class="container">
+    <app-dalgo [dashboardId]="'463904ae-53e5-4e86-8f41-314ad84fe11b'"></app-dalgo>
+  </div> -->
   <div class="container-fluid mr-t-b factsheet-bg" style="display: none;">
     <div class="h-p2 text-center mb3">
       <h2 class="h-sl">Factsheet</h2>
     </div>
     <div class="row d-flex justify-content-center align-items-center mt-4 g-0 mb-4" #highlightContainer>
       <div class="img-ulb col-md-3">
-        <img src="../../../assets/images/Fact-sheet-left.png" class="rounded">
+        <img src="./assets/images/Fact-sheet-left.png" class="rounded">
       </div>
       <div class="col-md-9 ps-3">
         <ul class="autoplay-items">
@@ -243,11 +246,11 @@
                   <div class="d-flex justify-content-center align-items-center pt-2">
                     <a href="https://www.janaagraha.org/home/" target="_blank">
                       <!-- <img
-                        src="../../../assets/new_dashBord_ftr_hdr/logo-for-web1/logo-for-web1.png"
+                        src="./assets/new_dashBord_ftr_hdr/logo-for-web1/logo-for-web1.png"
                         alt=""
                         class="img-fluid"
                       /> -->
-                      <img src="../../../assets/M FIGMA/janagraha 1.png" alt="" class="img-fluid">
+                      <img src="./assets/M FIGMA/janagraha 1.png" alt="" class="img-fluid">
                     </a>
                   </div>
 
@@ -257,7 +260,7 @@
                   <p class="text-center partner-title">Knowledge Partner</p>
                   <div class="d-flex justify-content-center align-items-center pt-2">
                     <a href="https://www.magc.in/" target="_blank">
-                      <img style="height:30px" src="../../../assets/new_dashBord_ftr_hdr/magc.png" alt=""
+                      <img style="height:30px" src="./assets/new_dashBord_ftr_hdr/magc.png" alt=""
                         class="img-fluid" />
                     </a>
 
@@ -270,7 +273,7 @@
                   <div class="d-flex justify-content-center align-items-center text-center">
                     <a href="https://dhwaniris.com/" target="_blank">
                       <img width="75%"
-                        src="../../../assets/new_dashBord_ftr_hdr/Dhwani-Logo_Versions-e1533798168980/dhLogo.png" alt=""
+                        src="./assets/new_dashBord_ftr_hdr/Dhwani-Logo_Versions-e1533798168980/dhLogo.png" alt=""
                         class="img-fluid" />
                     </a>
 
@@ -285,14 +288,14 @@
                 <p class="text-center col-12 partner-title">Supported by</p>
                 <div class="col-3 d-flex justify-content-center align-items-center r-brdr">
                   <a href="https://www.omidyarnetwork.in/" target="_blank">
-                    <img src="../../../assets/new_dashBord_ftr_hdr/Omidyar_Network_logo.png" alt="" class="img-fluid" />
+                    <img src="./assets/new_dashBord_ftr_hdr/Omidyar_Network_logo.png" alt="" class="img-fluid" />
                   </a>
                   <!-- <div class="vr"></div> -->
                 </div>
 
                 <div class="col-3 d-flex justify-content-center align-items-center r-brdr">
                   <a href="https://www.gatesfoundation.org/" target="_blank">
-                    <img src="../../../assets/new_dashBord_ftr_hdr/BMGF.png" alt="" class="img-fluid" />
+                    <img src="./assets/new_dashBord_ftr_hdr/BMGF.png" alt="" class="img-fluid" />
                   </a>
                   <!-- <div class="vr"></div> -->
                 </div>
@@ -300,16 +303,16 @@
                 <div class="col-3 d-flex justify-content-center align-items-center ps-3 r-brdr">
                   <a href="https://crdf.org.in/center/cwas" target="_blank">
                     <!-- <img
-                      src="../../../assets/new_dashBord_ftr_hdr/shakti-logo/shakti-logo.png"
+                      src="./assets/new_dashBord_ftr_hdr/shakti-logo/shakti-logo.png"
                       alt=""
                       class="img-fluid"
                     /> -->
-                    <img src="../../../assets/white logo stacked june 22 v3.png" alt="" width="80%" class="img-fluid" />
+                    <img src="./assets/white logo stacked june 22 v3.png" alt="" width="80%" class="img-fluid" />
                   </a>
                 </div>
                 <div class="col-3 d-flex justify-content-center align-items-center ps-3">
                   <a href="https://www.worldbank.org" target="_blank">
-                    <img src="../../../assets/world-bank-logo.svg" alt="" width="100%" class="img-fluid" />
+                    <img src="./assets/world-bank-logo.svg" alt="" width="100%" class="img-fluid" />
                   </a>
                 </div>
               </div>
