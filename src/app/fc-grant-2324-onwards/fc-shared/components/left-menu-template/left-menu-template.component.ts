@@ -9,8 +9,14 @@ import { UserUtility } from 'src/app/util/user/user';
 })
 export class LeftMenuTemplateComponent implements OnInit, OnChanges {
   role: string;
+  revenueDashboardUrl: string = '';
   constructor() {
-    this.role = new UserUtility().getLoggedInUserDetails().role;
+    const user = new UserUtility().getLoggedInUserDetails();
+    this.role = user.role;
+    if (this.role === 'ULB') {
+      const ulbId = user.ulb;
+      this.revenueDashboardUrl = `/ulb/${ulbId}/revenue`;
+    }
   }
   @Input() leftMenu = {};
   @Input() isLeftMenu = false;
