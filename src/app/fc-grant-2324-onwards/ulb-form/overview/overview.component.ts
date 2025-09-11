@@ -124,7 +124,6 @@ export class OverviewComponent implements OnInit {
     },
   ];
 
-  isBeforeCutoff: boolean = false;
 
   @ViewChild("myIdentifier")
   myIdentifier: ElementRef;
@@ -154,9 +153,6 @@ export class OverviewComponent implements OnInit {
   selectedYearId:string = "";
   selectedYear:string = "";
   ngOnInit(): void {
-
-    this.isBeforeCutoff = this.commonServices.isDateBefore11Sep();
-
     this.onResize();
   }
 
