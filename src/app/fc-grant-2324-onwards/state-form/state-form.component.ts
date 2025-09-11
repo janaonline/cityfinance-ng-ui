@@ -69,10 +69,7 @@ export class StateFormComponent implements OnInit {
   isLeftMenu:boolean = false;
   selectedYearId: string = ""
   selectedYear:string = "";
-  isBeforeCutoff: boolean = false;
   ngOnInit(): void {
-    this.isBeforeCutoff = this.commonServices.isDateBefore11Sep();
-
    // this.leftMenu = JSON.parse(localStorage.getItem("leftMenuULB"));
    this.stateFormId = sessionStorage.getItem("Stateform_id");
    this.path = sessionStorage.getItem("path2");
