@@ -1,4 +1,23 @@
 <div class="container-fluid" *ngIf="isApiComplete">
+    <div *ngIf="['2024-25', '2025-26'].includes(selectedYear) && isBeforeCutoff && this.userData?.role=='ULB'" class="d-flex flex-wrap gap-2 justify-content-evenly my-4">
+        <div class="webinar-alert lh-sm" style="max-width: 400px;">
+            <img src="./assets/webinar/sep-11-calendar.png" width="80" height="80" />
+            <div>
+                <p class="fw-bold p-0 mb-2">WEBINAR ALERT</p>
+                Join our webinar on Sep 11, 2025 for a deep dive into revenue performance.
+                <div role="button" class="webinar-span" (click)="registerForEvent()">Register for event.</div>
+            </div>
+        </div>
+        <div class="webinar-alert lh-sm" style="max-width: 400px;">
+            <img src="./assets/webinar/coming-soon.png" width="70" height="80" />
+            <div>
+                <p class="fw-bold p-0 mb-2">ANALYTICS DASHBOARD</p>
+                See and benchmark your own revenue performance.
+                <div role="button" class="webinar-span" (click)="joinWaitlist()">Join the waitlist.</div>
+            </div>
+        </div>
+    </div>
+
   <div class="row header mt-2">
       <div class="col-sm-12 col-lg-12 col-md-12 header2">
         <div *ngIf="selectedYear=='2025-26' && this.userData?.role=='ULB'" class="alert alert-success" role="alert">

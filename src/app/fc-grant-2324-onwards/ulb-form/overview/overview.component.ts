@@ -124,6 +124,8 @@ export class OverviewComponent implements OnInit {
     },
   ];
 
+  isBeforeCutoff: boolean = false;
+
   @ViewChild("myIdentifier")
   myIdentifier: ElementRef;
   message:string = `State Governments to furnish Grant Transfer Certificate for the previous installment of grants in the prescribed format.`;
@@ -152,6 +154,9 @@ export class OverviewComponent implements OnInit {
   selectedYearId:string = "";
   selectedYear:string = "";
   ngOnInit(): void {
+
+    this.isBeforeCutoff = this.commonServices.isDateBefore11Sep();
+
     this.onResize();
   }
 
@@ -299,5 +304,15 @@ export class OverviewComponent implements OnInit {
        this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
        this.selectedYear = this.commonServices.getYearName(this.selectedYearId);
        this.getSideBar(this.selectedYearId); 
+    }
+
+    registerForEvent() {
+      window.open("https://tally.so/r/3NaZWQ", "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    joinWaitlist() {
+      window.open("https://tally.so/r/npQ2Kb", "_blank", "noopener,noreferrer");
+      return;
     }
 }
