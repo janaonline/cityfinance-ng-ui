@@ -17,7 +17,8 @@ export class DalgoComponent implements OnInit, AfterViewInit {
   private readonly supersetDomainUrl = 'https://janaagraha.dalgo.org/';
 
   @Input() dashboardType = USER_TYPE.MoHUA;
-  @Input() dashboardId = '6476518a-7dfd-4614-87c2-8a315c9ece25';
+  // @Input() dashboardId = '6476518a-7dfd-4614-87c2-8a315c9ece25';
+  @Input() dashboardId = 'a154d39e-1048-4bfe-98cb-8177b32a5086';
 
   @Input() isToExpandFilters = true
 
@@ -38,6 +39,7 @@ export class DalgoComponent implements OnInit, AfterViewInit {
       this.yearFilterId = 'NATIVE_FILTER-lNqf-pfM93';
       this.stateFilterId = 'NATIVE_FILTER-oiRM7rNPPU';
       this.dashboardId = '463904ae-53e5-4e86-8f41-314ad84fe11b';
+      // this.dashboardId = 'a154d39e-1048-4bfe-98cb-8177b32a5086';
       this.getStateName();
     } else if (this.dashboardType == USER_TYPE.MoHUA) {
       // this.yearFilterId = 'NATIVE_FILTER-MgsHyuye2m';
@@ -132,7 +134,7 @@ export class DalgoComponent implements OnInit, AfterViewInit {
         urlParams: { native_filters: nativeFilters } // Dynamic filters passed to Superset dashboard
       },
       iframeSandboxExtras: ['allow-top-navigation', 'allow-popups-to-escape-sandbox'] // Extra sandbox options for iframe
-      
+
     });
 
   }
