@@ -192,7 +192,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         window.location.href = environment.fcURL + 'xvifc-form';
       }
     } else if (this.loginType === 'state-dashboard') {
-      this.router.navigate(['/dalgo-state-dashboard']);
+      this.router.navigate(['/state-dashboard']);
     } else {
       const rawPostLoginRoute =
         sessionStorage.getItem("postLoginNavigation") || "home";
