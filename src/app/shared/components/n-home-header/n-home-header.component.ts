@@ -148,6 +148,8 @@ export class NHomeHeaderComponent implements OnInit {
       this._router.navigateByUrl("/fc_grant");
     } else if (type == 'XVIFC') {
       this._router.navigateByUrl("/login/xvi-fc");
+    } else if (type == 'state-dashboard') {
+      this._router.navigateByUrl("/login/state-dashboard");
     } else if (type == 'ranking') {
       this._router.navigateByUrl("/rankings/login");
     } else if (type == 'logout') {

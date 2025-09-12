@@ -1,0 +1,71 @@
+<section class="container">
+    <header class="mb-4">
+        <h1 class="h3 fw-bold">Dashboard Overview</h1>
+        <p class="intro text-muted">This dashboard provides a graphical representation of revenue and expenditure line
+            items from <strong>FY 2019–20 to FY 2022–23</strong>. The data is based on submissions from various cities,
+            with extrapolated values where direct data was unavailable.</p>
+    </header>
+
+    <!-- Key insights (cards) -->
+    <section class="row g-3 mb-4">
+        <div class="col-12 col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title h6">National-level</h2>
+                    <p class="card-text mb-0">Summary of demographics and municipal (urban) indicators.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title h6">State-level</h2>
+                    <p class="card-text mb-0">Summary of demographics and municipal (urban) indicators at the state
+                        level.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title h6">ULB-type-level</h2>
+                    <p class="card-text mb-0">(Urban Local Body) summary of demographics and municipal (urban)
+                        indicators.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Capabilities / actions -->
+    <section class="mb-4">
+        <h3 class="h6">The dashboard enables users to:</h3>
+        <ul class="list-group list-group-flush mt-2">
+            <li class="list-group-item">Compare the progress of one city against another</li>
+            <li class="list-group-item">Benchmark states against other states</li>
+            <li class="list-group-item">Understand trends and performance over the selected years</li>
+        </ul>
+    </section>
+
+    <!-- Default year -->
+    <section class="mb-4">
+        <p class="mb-0">By default, the dashboard displays data for the year <span class="default-year">2019–20</span>.
+        </p>
+    </section>
+
+    <!-- Optional: quick summary card -->
+    <section class="row">
+        <div class="col-12 col-lg-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h4 class="h6">Notes</h4>
+                    <p class="small text-muted mb-0">Data spans FY 2019–20 through FY 2022–23 and uses extrapolation
+                        where city-level inputs were not available. Use filters in the dashboard to change year,
+                        geography (national/state/ULB-type), and compare cities or states side-by-side.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <app-dalgo [dashboardType]="'STATE'" [isToExpandFilters]="false"></app-dalgo>
+</section>

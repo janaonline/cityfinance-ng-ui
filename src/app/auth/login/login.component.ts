@@ -115,8 +115,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.loginType = localStorage.getItem('loginType') || '15thFC';
     this.fcEmail = '15fcgrant@cityfinance.in';
-    if (this.loginType === 'XVIFC') {
-      this.fcEmail = '16fcgrant@cityfinance.in';
+    if (['XVIFC', 'state-dashboard'].includes(this.loginType)) {
+      if (this.loginType === 'XVIFC') this.fcEmail = '16fcgrant@cityfinance.in';
       // this.onSelectingUserType(USER_TYPE.ULB);
       this.onSelectingUserType('ALL');
     }
@@ -193,6 +193,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         window.location.href = window.location.origin + '/fc/xvifc-form';
         // window.location.href = 'http://localhost:4300/xvifc-form';
       }
+    } else if (this.loginType === 'state-dashboard') {
+      this.router.navigate(['/dalgo-state-dashboard']);
     } else {
       const rawPostLoginRoute =
         sessionStorage.getItem("postLoginNavigation") || "home";
