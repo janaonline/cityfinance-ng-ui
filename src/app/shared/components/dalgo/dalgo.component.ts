@@ -39,6 +39,7 @@ export class DalgoComponent implements OnInit, AfterViewInit {
       this.yearFilterId = 'NATIVE_FILTER-lNqf-pfM93';
       this.stateFilterId = 'NATIVE_FILTER-oiRM7rNPPU';
       this.dashboardId = '463904ae-53e5-4e86-8f41-314ad84fe11b';
+      // this.dashboardId = 'a154d39e-1048-4bfe-98cb-8177b32a5086';
       this.getStateName();
     } else if (this.dashboardType == USER_TYPE.MoHUA) {
       // this.yearFilterId = 'NATIVE_FILTER-MgsHyuye2m';

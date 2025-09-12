@@ -1,5 +1,5 @@
 <section class="container">
-    <header class="mb-4">
+    <header class="mb-4 mt-4">
         <h1 class="h3 fw-bold">Dashboard Overview</h1>
         <p class="intro text-muted">This dashboard provides a graphical representation of revenue and expenditure line
             items from <strong>FY 2019–20 to FY 2022–23</strong>. The data is based on submissions from various cities,
@@ -55,7 +55,7 @@
     </section>
 
     <!-- Optional: quick summary card -->
-    <section class="row">
+    <!-- <section class="row">
         <div class="col-12 col-lg-6">
             <div class="card border-0 shadow-sm">
                 <div class="card-body">
@@ -66,6 +66,8 @@
                 </div>
             </div>
         </div>
-    </section>
-    <app-dalgo [dashboardType]="'STATE'" [isToExpandFilters]="false"></app-dalgo>
+    </section> -->
+    <div class="mb-5">
+        <app-dalgo [dashboardType]="'STATE_DASHBOARD'" [isToExpandFilters]="false"></app-dalgo>
+    </div>
 </section>
