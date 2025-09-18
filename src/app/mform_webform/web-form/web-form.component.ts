@@ -51,7 +51,7 @@ const swal: SweetAlert = require("sweetalert");
 import * as FileSaver from "file-saver";
 import { DataEntryService } from '../../dashboard/data-entry/data-entry.service';
 import Swal from 'sweetalert2';
-const GRANT_POSITION = ["grantPosition___unUtilizedPrevYr", "grantPosition___receivedDuringYr", "grantPosition___expDuringYr", "grantPosition___closingBal"];
+// const GRANT_POSITION = ["grantPosition___unUtilizedPrevYr", "grantPosition___receivedDuringYr", "grantPosition___expDuringYr", "grantPosition___closingBal"];
 
 declare const $: any;
 
@@ -353,13 +353,16 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
             }
             
             if(childQuestion.shortKey=='grantPosition___expDuringYr'){
-              let zeroCounter = 0;
-              for(const item of parentQuestion?.childQuestionData[0]) {
-                if (GRANT_POSITION.includes(item.shortKey) && item.value === '0') {
-                  zeroCounter++;
-                }
-              }
-              this.detectQUestionWithZeroValue = zeroCounter === 4 ? true:false;
+              // let zeroCounter = 0;
+              // for(const item of parentQuestion?.childQuestionData[0]) {
+              //   if (GRANT_POSITION.includes(item.shortKey) && item.value === '0') {
+              //     zeroCounter++;
+              //   }
+              // }
+              // this.detectQUestionWithZeroValue = zeroCounter === 4 ? true:false;
+              
+              this.detectQUestionWithZeroValue = childQuestion.value == '0' ? true : false;
+
             }
             if(childQuestion.shortKey=='grantPosition___expDuringYrWithZero'){
               this.detectQUestionWithZeroReasonValue = parseInt(childQuestion.value)==3 ? this.detectQUestionWithZeroValue ? true: false :false;
@@ -1107,7 +1110,8 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     if (['606aafcf4dff55e6c075d424', '606aafda4dff55e6c075d48f'].includes(this.designYear)) {
-    if (question.shortKey == 'grantPosition___closingBal') {
+    // if (question.shortKey == 'grantPosition___closingBal') {
+    if (question.shortKey == 'grantPosition___expDuringYr') {
       this.detectQUestionWithZeroValue = parseInt(value.target.value) == 0 ? true : false;
           
      const fileUploadObj = this.questionData.find((ele) => ele.shortKey.includes("expDuringYrfileUpload") );
@@ -2144,7 +2148,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
     allQuestionData = isNestedData ? childQuestionData : this.questionData;
     bodmasQuestionList = allQuestionData.filter((item: any) => item?.validation.some((item: { _id: any; }) => item._id == VALIDATION.EQUATION));
     console.log('bodmasQuestionList', bodmasQuestionList);
-    let zeroCounter = 0;
+    // let zeroCounter = 0;
 
     if (bodmasQuestionList?.length) {
       for (const item of bodmasQuestionList) {
@@ -2154,7 +2158,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
         console.log('orders', orders);
         orders.forEach((order: any) => {
           const questionValue = this.getQuestionValueForBodmas(order);
-          if (questionValue === '0') zeroCounter++;
+          // if (questionValue === '0') zeroCounter++;
           console.log('questionValue', questionValue, typeof (questionValue))
           equationValidationData['value'] = equationValidationData?.value.replace(
             order.shortKey,
@@ -2171,8 +2175,8 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
         item['modelValue'] = equationValue;
         item['value'] = equationValue;
 
-        if (equationValue === 0 && zeroCounter === 3) this.detectQUestionWithZeroValue = true;
-        else this.detectQUestionWithZeroValue = false;
+        // if (equationValue === 0 && zeroCounter === 3) this.detectQUestionWithZeroValue = true;
+        // else this.detectQUestionWithZeroValue = false;
 
       }
     }
@@ -2284,7 +2288,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
     /* Finding the index of the question in the questionData array. */
     // let questionIndex = this.questionData.findIndex((ele: any) => ele?.order == questionorder);
     let updatableQuestion;
-      if(currentQuestion.includes('expDuringYrfileUpload')){
+      if(currentQuestion.shortKey.includes('expDuringYrfileUpload')){
         updatableQuestion = currentQuestion;
       }else{
       this.questionData.forEach(parentQuestion => {

@@ -119,17 +119,17 @@ getReviewType(designYear) {
   return reviewType;
 }
 
-  isDateBefore11Sep() {
-    const today: Date = new Date();
-    const cutoffDate: Date = new Date(Date.UTC(2025, 8, 11)); // September is month 8 (0-based)
+  // isDateBefore11Sep() {
+  //   const today: Date = new Date();
+  //   const cutoffDate: Date = new Date(Date.UTC(2025, 8, 11)); // September is month 8 (0-based)
 
-    const todayUTC = new Date(
-      today.getUTCFullYear(),
-      today.getUTCMonth(),
-      today.getUTCDate()
-    );
+  //   const todayUTC = new Date(
+  //     today.getUTCFullYear(),
+  //     today.getUTCMonth(),
+  //     today.getUTCDate()
+  //   );
 
-    return todayUTC < cutoffDate;
-  }
+  //   return todayUTC < cutoffDate;
+  // }
 
 }
