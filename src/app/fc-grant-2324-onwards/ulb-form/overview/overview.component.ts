@@ -303,7 +303,8 @@ export class OverviewComponent implements OnInit {
     }
 
     registerForEvent() {
-      window.open("https://tally.so/r/3NaZWQ", "_blank", "noopener,noreferrer");
+      // window.open("https://tally.so/r/3NaZWQ", "_blank", "noopener,noreferrer");
+      window.open("https://tally.so/r/mBvPZA", "_blank", "noopener,noreferrer");
       return;
     }
 
