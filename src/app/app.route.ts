@@ -8,6 +8,7 @@ import { CompareDialogComponent } from "./shared/components/compare-dialog/compa
 import { MunicipalityBondsProjectsComponent } from "./shared/components/municipality-bonds-projects/municipality-bonds-projects.component";
 import { MunicipalityBudgetComponent } from "./shared/components/municipality-budget/municipality-budget.component";
 import { ProTTaxFormComponent } from "./shared/components/pro-t-tax-form/pro-t-tax-form.component";
+import { AuthGuard } from "./security/auth-guard.service";
 export const appRouter: Routes = [
 
   // { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -105,6 +106,7 @@ export const appRouter: Routes = [
   },
   {
     path: "state-dashboard",
+    canActivate: [AuthGuard],
     loadComponent: () => import("./pages/state-dashboard-dalgo/state-dashboard-dalgo.component").then(m => m.StateDashboardDalgoComponent),
     // loadChildren: () =>
     //   import("./pages/state-dashboard-dalgo/state-dashboard-dalgo.component").then((m) => m.StateDashboardDalgoComponent),
