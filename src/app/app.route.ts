@@ -9,6 +9,7 @@ import { MunicipalityBondsProjectsComponent } from "./shared/components/municipa
 import { MunicipalityBudgetComponent } from "./shared/components/municipality-budget/municipality-budget.component";
 
 import { ProTTaxFormComponent } from "./shared/components/pro-t-tax-form/pro-t-tax-form.component";
+import { AuthGuard } from "./security/auth-guard.service";
 export const appRouter: Routes = [
 
   // { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -100,10 +101,22 @@ export const appRouter: Routes = [
       import("./auth/login/login.module").then((m) => m.LoginModule),
   },
   {
-    path: "login/xvi-fc",
+    path: "login/:loginType",
     loadChildren: () =>
       import("./auth/login/login.module").then((m) => m.LoginModule),
   },
+  {
+    path: "state-dashboard",
+    canActivate: [AuthGuard],
+    loadComponent: () => import("./pages/state-dashboard-dalgo/state-dashboard-dalgo.component").then(m => m.StateDashboardDalgoComponent),
+    // loadChildren: () =>
+    //   import("./pages/state-dashboard-dalgo/state-dashboard-dalgo.component").then((m) => m.StateDashboardDalgoComponent),
+  },
+  // {
+  //   path: "login/xvi-fc",
+  //   loadChildren: () =>
+  //     import("./auth/login/login.module").then((m) => m.LoginModule),
+  // },
   {
     path: "register",
     loadChildren: () =>
@@ -249,7 +262,7 @@ export const appRouter: Routes = [
   { path: "**", redirectTo: "home" },
 ];
 @NgModule({
-  imports: [RouterModule.forRoot(appRouter,{
+  imports: [RouterModule.forRoot(appRouter, {
     scrollPositionRestoration: 'enabled'
   })],
   exports: [RouterModule]

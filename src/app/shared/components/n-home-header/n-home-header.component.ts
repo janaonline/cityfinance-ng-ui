@@ -89,7 +89,7 @@ export class NHomeHeaderComponent implements OnInit {
     let getTextSize = JSON.parse(localStorage.getItem("myLSkey"));
     if (getTextSize) this.setFontSize(getTextSize.currentTextSize);
   }
-  initializeAccessChecking(){
+  initializeAccessChecking() {
     this.canViewUserList = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.USERLIST,
       action: ACTIONS.VIEW,
@@ -143,16 +143,16 @@ export class NHomeHeaderComponent implements OnInit {
   }
   // routerLink="/fc-home-page";
   loginLogout(type) {
-    localStorage.setItem('loginType',type);
-    if(type == '15thFC'){
+    localStorage.setItem('loginType', type);
+    if (type == '15thFC') {
       this._router.navigateByUrl("/fc_grant");
-    } 
-    else if(type == 'XVIFC'){
+    } else if (type == 'XVIFC') {
       this._router.navigateByUrl("/login/xvi-fc");
-    } 
-    else if(type == 'ranking'){
+    } else if (type == 'state-dashboard') {
+      this._router.navigateByUrl("/login/state-dashboard");
+    } else if (type == 'ranking') {
       this._router.navigateByUrl("/rankings/login");
-    }else if(type == 'logout'){
+    } else if (type == 'logout') {
       this.authService.loginLogoutCheck.next(false);
       // this.newCommonService.setFormStatus2223.next(false);
       // localStorage.clear();
@@ -161,7 +161,7 @@ export class NHomeHeaderComponent implements OnInit {
       this.isLoggedIn = false;
       // this._router.navigateByUrl("rankings/home");
       window.location.href = '/home';
-    }else {
+    } else {
 
     }
     // if (this.btnName == "Login for 15th FC Grants") {
@@ -189,10 +189,10 @@ export class NHomeHeaderComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((data) => {
-      if (data){
+      if (data) {
         this.globalLoaderService.showLoader();
         this.homeHeaderService.submitDemoData(data).subscribe({
-          next: () => { 
+          next: () => {
             this.utilityService.swalPopup("Sucess!", "We'll get back to you shortly!", "success");
             this.globalLoaderService.stopLoader();
           },
@@ -224,13 +224,13 @@ export class NHomeHeaderComponent implements OnInit {
     // console.log('topppppp', );
     if (window.pageYOffset >= this.elementPosition) {
       this.isSticky = true;
-    }else{
+    } else {
       this.isSticky = false;
     }
 
   }
 
-  getNationalPageUrl(){
+  getNationalPageUrl() {
     this.commonService.getNationalPageUrl();
   }
 }
