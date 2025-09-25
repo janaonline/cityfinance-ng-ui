@@ -22,13 +22,25 @@
 </div> -->
 
 <div class="filter-d mt-3 mb-3" *ngIf="dataReceived" id="top">
-    <app-filter-component 
-        (filterFormData)="filterData($event)"
-        (isDownloadable)="download($event)"
-        [filterInputData]="filterComponent"
-        [downloadValue]="selectedUsersList.length"
-    ></app-filter-component>
+    <app-filter-component (filterFormData)="filterData($event)" (isDownloadable)="download($event)"
+        [filterInputData]="filterComponent" [downloadValue]="selectedUsersList.length"></app-filter-component>
 </div>
+
+<!-- Upsell / Info banner -->
+<mat-card class="info-banner">
+    <mat-card-content class="">
+        <div class="mb-3">
+            <div class="fw-bold mb-1">UPGRADE TO STATE BUNDLE</div>
+            <div class="text-muted">
+                Get comprehensive data for all cities of a State. Perfect for complete state analysis.
+            </div>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="btn btn-outline-primary">Create state bundle</button>
+            <!-- <button class="btn btn-outline-primary">Dismiss</button> -->
+        </div>
+    </mat-card-content>
+</mat-card>
 
 <div class="row" *ngIf="dataReceived">
     <div class="d-name">You can Download Upto 5 files</div>

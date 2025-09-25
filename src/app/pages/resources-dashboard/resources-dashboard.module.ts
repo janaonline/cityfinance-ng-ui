@@ -43,6 +43,7 @@ import { EnumerationComponent } from "./learning-center/enumeration/enumeration.
 import { MunicipalBondRepositoryComponent } from './learning-center/municipal-bond-repository/municipal-bond-repository.component';
 import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
 import { GlobalPartModule } from "src/app/global-part/global-part.module";
+import { MatCardModule } from "@angular/material/card";
 @NgModule({
   declarations: [
     ResourcesDashboardComponent,
@@ -86,10 +87,11 @@ import { GlobalPartModule } from "src/app/global-part/global-part.module";
     MatDialogModule,
     SlickCarouselModule,
     // PdfViewerModule,
-    GlobalPartModule
+    GlobalPartModule,
+    MatCardModule
   ],
   exports: [FilterComponentComponent, FilterModelBoxComponent],
   providers: [MunicipalLawsComponent],
   bootstrap: [ScorePerComponent],
 })
-export class ResourcesDashboardModule {}
+export class ResourcesDashboardModule { }
