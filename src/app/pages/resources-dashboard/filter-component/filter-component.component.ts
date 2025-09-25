@@ -92,6 +92,33 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
     });
   }
 
+  // make year dynamic based on contentType work in progress
+  // private triggerUploadForBudgetPDF(): void {
+  //  this.filterForm.get('contentType')?.valueChanges
+  //   .pipe(
+  //     takeUntil(this.unsubscribe$),
+  //     distinctUntilChanged()
+  //   )
+  //   .subscribe((type: string) => {
+  //     this.auditType = type; // 👈 directly set auditType to selected contentType
+  // console.log('Selected contentType:', this.auditType);
+  //     // Now call API with dynamic auditType
+  //     this._resourcesDashboardService.getAnnualAccountsYear(this.auditType)
+  //       .pipe(takeUntil(this.unsubscribe$))
+  //       .subscribe({
+  //         next: (res: any) => {
+  //           const years = Array.from(new Set([...res.afsYears, ...this.staticYearsList])).sort((a, b) => b.localeCompare(a));
+  //           this.yearsList = years;
+  //           console.log('Years List:', this.yearsList[0]);
+  //           this.filterForm.patchValue({ year: this.yearsList[0] }, { emitEvent: false });
+  //         },
+  //         error: (err) => console.error('Error fetching years:', err.message),
+  //       });
+  //   });
+
+
+  // }
+
   private loadStates(): void {
     this._commonServices
       .fetchStateList()
