@@ -71,7 +71,8 @@ export class DataSetsComponent implements OnInit {
   fileDownloadSuccess: string = "All set! Your file(s) have been successfully downloaded.";
   fileDownloadfail: string = "Oops! Failed to download file(s).";
   module: string = "resources" // userInfo popup.
-
+  showStateBundleDiv: boolean = false;
+  isStateBundleRequested: boolean = false;
 
   constructor(
     private _resourcesDashboardService: ResourcesDashboardService,
@@ -139,6 +140,12 @@ export class DataSetsComponent implements OnInit {
     this.state = e?.value?.state;
     this.ulb = e?.value?.ulb?.name || '';
     this.ulbId = e?.value?.ulb?._id || '';
+
+    if (this.state) this.showStateBundleDiv = true;
+    else {
+      this.showStateBundleDiv = false;
+      this.isStateBundleRequested = false;
+    }
 
     this.balData = [];
     this.selectedUsersList = [];
@@ -515,6 +522,22 @@ export class DataSetsComponent implements OnInit {
   id(id: any, selectedYear: string) {
     throw new Error("Method not implemented.");
   }
+
+  // User is interested to create state bundle.
+  isStateBundle() {
+    this.isStateBundleRequested = true;
+  }
+
+  // User requested to create state bundle.
+  createStateBundle() {
+    console.log("Download data!");
+  }
+
+  dismissStateBundle() {
+    this.isStateBundleRequested = false;
+    this.showStateBundleDiv = false;
+  }
+
 }
 
 // Snackbar Component.
