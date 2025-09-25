@@ -19,8 +19,13 @@ interface NamedEntity {
 })
 export class FilterComponentComponent implements OnInit, OnDestroy {
 
+
+  favoriteSeason: string;
+  seasons: string[] = ['Winter', 'Spring', 'Summer', 'Autumn'];
+
   @Input() filterInputData: any;
   @Input() downloadValue: boolean;
+  @Input() createStateBundle: boolean = false;
   @Output() filterFormData = new EventEmitter<any>();
   @Output() isDownloadable = new EventEmitter<boolean>();
 
@@ -29,10 +34,41 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
   filteredUlbs: Observable<NamedEntity[]>;
   yearsList: string[];
   staticYearsList = ['2019-20', '2018-19', '2017-18', '2016-17', '2015-16', '2025-26'];
-  contentType = ["Raw Data PDF", "Raw Data Excel", "Standardised Excel", "Budget PDF"];
+  // contentType = ["Raw Data PDF", "Raw Data Excel", "Standardised Excel", "Budget PDF"];
   isSearching: boolean;
   unsubscribe$ = new Subject<void>();
   // auditType: string;
+  contentType = [
+    {
+      value: 'rawPdf',
+      key: 'Raw Data PDF',
+      label: 'Data submitted by ULBs',
+      description: 'in PDF',
+      isActive: true,
+    },
+    {
+      value: 'rawExcel',
+      key: 'Raw Data Excel',
+      label: 'Data submitted by ULBs',
+      description: 'in Excel',
+      isActive: true,
+    },
+    {
+      value: 'standardizedExcel',
+      key: 'Standardised Excel',
+      label: 'Data standardized by City Finance',
+      description: 'in Excel',
+      isActive: false,
+    },
+    {
+      value: 'budget',
+      key: 'Budget PDF',
+      label: 'Budget data submitted by ULBs',
+      description: 'in PDF',
+      isActive: true,
+    }
+  ];
+  disableForStateBundle = ['rawExcel', 'standardizedExcel'];
 
   constructor(
     private fb: FormBuilder,

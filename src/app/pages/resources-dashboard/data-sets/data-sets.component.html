@@ -3,15 +3,17 @@
     </app-resources-tabs>
 </div> -->
 <div class="row" *ngIf="dataReceived">
-    <p *ngIf="searchedValue !='' && searchedValue">
-        <b>{{ learningCount }}</b> Search results for ‘{{ searchedValue }}’ in Datasets
-    </p>
+  <p *ngIf="searchedValue != '' && searchedValue">
+    <b>{{ learningCount }}</b> Search results for ‘{{ searchedValue }}’ in
+    Datasets
+  </p>
 </div>
 <div class="col-sm-12 mb-3" *ngIf="noDataa">
-    <img class="rounded mx-auto d-block" src="assets/images/sad.svg" />
-    <p class="noData">
-        Sorry we couldn’t find any matches for ‘{{ searchedValue }}’. Please try searching with another term.
-    </p>
+  <img class="rounded mx-auto d-block" src="assets/images/sad.svg" />
+  <p class="noData">
+    Sorry we couldn’t find any matches for ‘{{ searchedValue }}’. Please try
+    searching with another term.
+  </p>
 </div>
 <!-- <div class="container container-cnt" *ngIf="dataReceived">
     <div class="row" style="margin: 0 auto">
@@ -22,111 +24,148 @@
 </div> -->
 
 <div class="filter-d mt-3 mb-3" *ngIf="dataReceived" id="top">
-    <app-filter-component (filterFormData)="filterData($event)" (isDownloadable)="download($event)"
-        [filterInputData]="filterComponent" [downloadValue]="selectedUsersList.length"></app-filter-component>
+  <app-filter-component
+    (filterFormData)="filterData($event)"
+    (isDownloadable)="download($event)"
+    [filterInputData]="filterComponent"
+    [downloadValue]="selectedUsersList.length"
+    [createStateBundle]="isStateBundleRequested"
+  ></app-filter-component>
 </div>
 
 <!-- Upsell / Info banner -->
 <mat-card *ngIf="showStateBundleDiv" class="info-banner">
-    <mat-card-content class="">
-        <div class="mb-3">
-            <div class="fw-bold mb-1">UPGRADE TO STATE BUNDLE</div>
-            <div class="text-muted">
-                Get comprehensive data for all cities of a State. Perfect for complete state analysis.
-            </div>
-        </div>
-        <div class="d-flex gap-2">
-            <button class="btn btn-outline-primary" (click)="isStateBundle()">Create state bundle</button>
-            <button class="btn btn-outline-primary" (click)="dismissStateBundle()">Dismiss</button>
-        </div>
-    </mat-card-content>
+  <mat-card-content class="">
+    <div class="mb-3">
+      <div class="fw-bold mb-1">UPGRADE TO STATE BUNDLE</div>
+      <div class="text-muted">
+        Get comprehensive data for all cities of a State. Perfect for complete
+        state analysis.
+      </div>
+    </div>
+    <div class="d-flex gap-2">
+      <button class="btn btn-outline-primary" (click)="isStateBundle()">
+        Create state bundle
+      </button>
+      <button class="btn btn-outline-primary" (click)="dismissStateBundle()">
+        Dismiss
+      </button>
+    </div>
+  </mat-card-content>
 </mat-card>
 
 <div class="row" *ngIf="dataReceived && !isStateBundleRequested">
-    <div class="d-name">You can Download Upto 5 files</div>
-    <div class="col-sm-12 col-12 mb-3">
-        <div class="cd-r">
-            <div class="card-body cd-h">
-                <div class="row">
-                    <div class="col-sm-1 col-1">
-                        <!-- <p>{{isChecked}}</p> -->
-                        <mat-checkbox [(ngModel)]="isChecked" (change)="masterToggle($event)"> </mat-checkbox>
-                    </div>
-                    <div class="col-sm-8 col-7">
-                        <span> Document Name</span>
-                    </div>
-                    <div class="col-sm-3 col-4">
-                        <span>Updated on</span>
-                    </div>
-                </div>
-            </div>
-            <div class="empty" *ngIf="balData.length == 0">No Data Found</div>
-            <div *ngIf="balData.length > 0">
-                <ng-container *ngFor="let item of balData; let i = index">
-                    <div class="card-body cd-repeat" *ngIf="item.fileName">
-                        <!-- <p>{{item | json}}</p> -->
-                        <div class="row align-items-md-center pointer" (click)="getReport(item)">
-                            <div class="col-sm-1 col-1">
-                                <mat-checkbox matTooltip="Select to download" (click)="$event.stopPropagation()"
-                                    (change)="toggleRowSelection($event, item, i)" [checked]="item.isSelected"
-                                    [disabled]="item.isDisabled">
-                                </mat-checkbox>
-                            </div>
-                            <div class="col-sm-8 d-name col-8 cursor-pointer" matTooltip="Click to View">
-                                <div class="row align-items-center">
-                                    <div class="col-auto">
-                                        <span *ngIf="item?.type == 'pdf'" class="text-danger">
-                                            <img src="./assets/pdf.svg" alt="PDF Icon" class="icon-size">
-                                        </span>
-                                        <span *ngIf="item?.type == 'excel'" class="text-success">
-                                            <img src="./assets/excel.svg" alt="Excel Icon" class="icon-size">
-                                        </span>
-                                    </div>
-                                    <div class="col">
-                                        <span>{{ item?.fileName }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-3 d-date col-3">
-                                <!-- {{i+1}} -->
-                                <span>{{ item?.modifiedAt | date: "yyyy-MM-dd" }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </ng-container>
-            </div>
+  <div class="d-name">You can Download Upto 5 files</div>
+  <div class="col-sm-12 col-12 mb-3">
+    <div class="cd-r">
+      <div class="card-body cd-h">
+        <div class="row">
+          <div class="col-sm-1 col-1">
+            <!-- <p>{{isChecked}}</p> -->
+            <mat-checkbox
+              [(ngModel)]="isChecked"
+              (change)="masterToggle($event)"
+            >
+            </mat-checkbox>
+          </div>
+          <div class="col-sm-8 col-7">
+            <span> Document Name</span>
+          </div>
+          <div class="col-sm-3 col-4">
+            <span>Updated on</span>
+          </div>
         </div>
+      </div>
+      <div class="empty" *ngIf="balData.length == 0">No Data Found</div>
+      <div *ngIf="balData.length > 0">
+        <ng-container *ngFor="let item of balData; let i = index">
+          <div class="card-body cd-repeat" *ngIf="item.fileName">
+            <!-- <p>{{item | json}}</p> -->
+            <div
+              class="row align-items-md-center pointer"
+              (click)="getReport(item)"
+            >
+              <div class="col-sm-1 col-1">
+                <mat-checkbox
+                  matTooltip="Select to download"
+                  (click)="$event.stopPropagation()"
+                  (change)="toggleRowSelection($event, item, i)"
+                  [checked]="item.isSelected"
+                  [disabled]="item.isDisabled"
+                >
+                </mat-checkbox>
+              </div>
+              <div
+                class="col-sm-8 d-name col-8 cursor-pointer"
+                matTooltip="Click to View"
+              >
+                <div class="row align-items-center">
+                  <div class="col-auto">
+                    <span *ngIf="item?.type == 'pdf'" class="text-danger">
+                      <img
+                        src="./assets/pdf.svg"
+                        alt="PDF Icon"
+                        class="icon-size"
+                      />
+                    </span>
+                    <span *ngIf="item?.type == 'excel'" class="text-success">
+                      <img
+                        src="./assets/excel.svg"
+                        alt="Excel Icon"
+                        class="icon-size"
+                      />
+                    </span>
+                  </div>
+                  <div class="col">
+                    <span>{{ item?.fileName }}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3 d-date col-3">
+                <!-- {{i+1}} -->
+                <span>{{ item?.modifiedAt | date : "yyyy-MM-dd" }}</span>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
     </div>
-    <div class="col-sm-12 text-center mb-3" *ngIf="loadMoreData">
-        <button class="btn lmBtn" (click)="getData()">
-            <span class="material-icons" style="vertical-align: middle">
-                refresh
-            </span>
-            <span class="ms-1">Load More</span>
-        </button>
-    </div>
-    <!-- <div class="backArrow" *ngIf="loadMoreData" [ngClass]="{ 'blinker': isBlinking === true }">
+  </div>
+  <div class="col-sm-12 text-center mb-3" *ngIf="loadMoreData">
+    <button class="btn lmBtn" (click)="getData()">
+      <span class="material-icons" style="vertical-align: middle">
+        refresh
+      </span>
+      <span class="ms-1">Load More</span>
+    </button>
+  </div>
+  <!-- <div class="backArrow" *ngIf="loadMoreData" [ngClass]="{ 'blinker': isBlinking === true }">
         <span class="p-2 lmBtn" role="button" (click)="getToTop()">
             <mat-icon style="vertical-align: middle;">arrow_upward</mat-icon>
         </span>
     </div> -->
 </div>
 
-<div *ngIf="isStateBundleRequested" class="mb-5" style="font-family: Montserrat;">
-    <!-- Selection summary -->
-    <div class="rounded p-3 px-4 mb-4 bg-success-subtle border border-success">
-        <div class="text-center fw-bold">114 files selected</div>
-        <div class="text-center text-muted small">Estimated size: 38&nbsp;MB</div>
-        <div class="text-center text-muted small fw-bold mt-2">You’ll receive your dataset by email in about 20
-            minutes.</div>
+<div
+  *ngIf="isStateBundleRequested && !disableForStateBundle.includes(this.type)"
+  class="mb-5"
+  style="font-family: Montserrat"
+>
+  <!-- Selection summary -->
+  <div class="rounded p-3 px-4 mb-4 bg-success-subtle border border-success">
+    <div class="text-center fw-bold">114 files selected</div>
+    <div class="text-center text-muted small">Estimated size: 38&nbsp;MB</div>
+    <div class="text-center text-muted small fw-bold mt-2">
+      You’ll receive your dataset by email in about 20 minutes.
     </div>
+  </div>
 
-    <!-- Primary CTA -->
-    <div class="text-center">
-        <button class="btn btn-outline-primary px-4 py-2" (click)="submitForm()">
-            Email me the files
-        </button>
-    </div>
+  <!-- Primary CTA -->
+  <div class="text-center">
+    <button class="btn btn-outline-primary px-4 py-2" (click)="submitForm()">
+      Email me the files
+    </button>
+  </div>
 </div>
 <!--
 <div class="row">

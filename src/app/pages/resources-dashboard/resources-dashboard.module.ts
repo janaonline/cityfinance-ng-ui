@@ -44,6 +44,7 @@ import { MunicipalBondRepositoryComponent } from './learning-center/municipal-bo
 import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
 import { GlobalPartModule } from "src/app/global-part/global-part.module";
 import { MatCardModule } from "@angular/material/card";
+import { MatRadioModule } from "@angular/material/radio";
 @NgModule({
   declarations: [
     ResourcesDashboardComponent,
@@ -88,7 +89,8 @@ import { MatCardModule } from "@angular/material/card";
     SlickCarouselModule,
     // PdfViewerModule,
     GlobalPartModule,
-    MatCardModule
+    MatCardModule,
+    MatRadioModule,
   ],
   exports: [FilterComponentComponent, FilterModelBoxComponent],
   providers: [MunicipalLawsComponent],

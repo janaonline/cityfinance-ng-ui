@@ -100,3 +100,47 @@
     </button>
   </form>
 </div>
+
+<!-- *ngIf="!(createStateBundle && disableForStateBundle.includes(option?.value))" -->
+
+<div *ngIf="filterInputData?.comp == 'dataSets'">
+  <h6 class="fw-bold mt-3 my-2">Choose Data Format:</h6>
+  <form [formGroup]="filterForm" class="row mb-4">
+    <mat-radio-group
+      formControlName="contentType"
+      class="row w-100 justify-content-center"
+    >
+      <ng-container *ngFor="let option of contentType">
+        <div class="col-12 col-md-3">
+          <mat-card
+            class="h-100 border bg-light card-hover"
+            [class.bg-custom-gray]="
+              createStateBundle && disableForStateBundle.includes(option?.value)
+            "
+          >
+            <mat-card-content class="d-flex gap-2 align-items-center h-100">
+              <mat-radio-button
+                [value]="option.key"
+                class="pt-1"
+                [disabled]="
+                  createStateBundle &&
+                  disableForStateBundle.includes(option?.value)
+                "
+              >
+              </mat-radio-button>
+              <div class="px-0">
+                <div class="fw-semibold">
+                  {{ option.label }}
+                  <br />
+                  <span class="text-muted small">
+                    ({{ option.description }})</span
+                  >
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-container>
+    </mat-radio-group>
+  </form>
+</div>

@@ -73,6 +73,7 @@ export class DataSetsComponent implements OnInit {
   module: string = "resources" // userInfo popup.
   showStateBundleDiv: boolean = false;
   isStateBundleRequested: boolean = false;
+  disableForStateBundle = ['Raw Data Excel', 'Standardised Excel'];
 
   constructor(
     private _resourcesDashboardService: ResourcesDashboardService,
@@ -526,6 +527,10 @@ export class DataSetsComponent implements OnInit {
   // User is interested to create state bundle.
   isStateBundle() {
     this.isStateBundleRequested = true;
+    if (this.disableForStateBundle.includes(this.type)) {
+      this.openSnackBar('Please choose valid data format!')
+      return;
+    }
   }
 
   // User requested to create state bundle.
