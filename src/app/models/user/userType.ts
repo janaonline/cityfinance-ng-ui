@@ -8,5 +8,6 @@ export enum USER_TYPE {
   "STATE_DASHBOARD" = "STATE_DASHBOARD",
   "XVIFC" = "XVIFC",
   "PARTNER" = "PARTNER",
-  "PMU" = "PMU"
+  "PMU" = "PMU",
+  "AFS_ADMIN" = "AFS_ADMIN",
 }
