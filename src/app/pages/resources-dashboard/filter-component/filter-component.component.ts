@@ -235,7 +235,9 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
 
   public onFilterChange(): void {
     // console.log('filterForm = ', this.filterForm.value)
-    this.filterFormData.emit(this.filterForm);
+    setTimeout(() => {
+      this.filterFormData.emit(this.filterForm);
+    }, 1);
   }
 
   public clearFilter(): void {

@@ -102,7 +102,7 @@
 </div>
 
 <!-- *ngIf="!(createStateBundle && disableForStateBundle.includes(option?.value))" -->
-
+<!-- {{ this.filterForm.get("contentType").value }} -->
 <div *ngIf="filterInputData?.comp == 'dataSets'">
   <h6 class="fw-bold mt-3 my-2">Choose Data Format:</h6>
   <form [formGroup]="filterForm" class="row mb-4">
@@ -126,6 +126,7 @@
                   createStateBundle &&
                   disableForStateBundle.includes(option?.value)
                 "
+                (change)="onFilterChange()"
               >
               </mat-radio-button>
               <div class="px-0">
