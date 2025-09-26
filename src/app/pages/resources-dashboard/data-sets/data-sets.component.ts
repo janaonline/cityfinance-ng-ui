@@ -533,7 +533,12 @@ export class DataSetsComponent implements OnInit {
 
   // User is interested to create state bundle - Email is not yet clicked - Has option to dismiss.
   createStateBundle() {
-    this.isStateBundleRequested = true;
+    // Simulate api call - remove setTimout - add api
+    this.globalLoaderService.showLoader();
+    setTimeout(() => {
+      this.isStateBundleRequested = true;
+      this.globalLoaderService.stopLoader();
+    }, 1500);
     if (this.disableForStateBundle.includes(this.type)) {
       this.openSnackBar('Please choose valid data format!')
       return;
@@ -547,9 +552,12 @@ export class DataSetsComponent implements OnInit {
     this.userInfoService.openUserInfoDialog([{ fileName: `bulkDownload_${state}_${this.type}` }], this.module)
       .then((isDialogConfirmed) => {
         if (isDialogConfirmed) {
+          // Simulate api call - remove setTimout - add api
+          this.globalLoaderService.showLoader();
           setTimeout(() => {
-            console.log("Email the link!")
-            this.openSnackBar('Download link has be sent!')
+            console.log("Email the link!");
+            this.openSnackBar('Dummy text: Download link has be sent!');
+            this.globalLoaderService.stopLoader()
           }, 2000);
         }
       });
