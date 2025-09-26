@@ -2,16 +2,18 @@ import { Component, Inject, OnInit } from "@angular/core";
 import { MatDialog } from '@angular/material/dialog';
 import { MAT_SNACK_BAR_DATA, MatSnackBar } from '@angular/material/snack-bar';
 import * as FileSaver from "file-saver";
-import { tap } from 'rxjs/operators';
+import { forkJoin } from "rxjs";
+import { take, tap } from 'rxjs/operators';
+import { IState } from "src/app/models/state/state";
 import { BalanceTabledialogComponent } from "src/app/shared/components/balance-table/balance-tabledialog/balance-tabledialog.component";
 import { DownloadUserInfoService } from "src/app/shared/components/user-info-dialog/download-user-info.service";
+import { CommonService } from "src/app/shared/services/common.service";
 import { DownloadService } from "src/app/shared/services/download.zip.service";
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
+import { UtilityService } from "src/app/shared/services/utility.service";
 import { environment } from "src/environments/environment";
 import { ReportService } from "../../../dashboard/report/report.service";
 import { ResourcesDashboardService } from "../resources-dashboard.service";
-import { UtilityService } from "src/app/shared/services/utility.service";
-import { forkJoin } from "rxjs";
 
 @Component({
   selector: "app-data-sets",
@@ -60,7 +62,7 @@ export class DataSetsComponent implements OnInit {
   type: string;
   checkValue = false;
   downloadValue: boolean = false;
-  auditType: string ; // Default value for auditType
+  auditType: string; // Default value for auditType
   skip: number = 0;
   loadMoreData: boolean = false;
   totalDocs: number = 0;
@@ -71,7 +73,11 @@ export class DataSetsComponent implements OnInit {
   fileDownloadSuccess: string = "All set! Your file(s) have been successfully downloaded.";
   fileDownloadfail: string = "Oops! Failed to download file(s).";
   module: string = "resources" // userInfo popup.
+  showStateBundleDiv: boolean = false;
+  isStateBundleRequested: boolean = false;
+  disableForStateBundle = ['Raw Data Excel', 'Standardised Excel'];
 
+  statesList: Record<string, IState> = {};
 
   constructor(
     private _resourcesDashboardService: ResourcesDashboardService,
@@ -81,7 +87,8 @@ export class DataSetsComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private downloadService: DownloadService,
     private userInfoService: DownloadUserInfoService,
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
+    private _commonServices: CommonService,
   ) {
     this._resourcesDashboardService.castSearchedData.subscribe((data) => {
       this.learningToggle = data;
@@ -104,6 +111,7 @@ export class DataSetsComponent implements OnInit {
     this.filterComponent = {
       comp: "dataSets",
     };
+    this.loadStates();
   }
 
   // ngOnChanges(changes: SimpleChange) {
@@ -139,6 +147,12 @@ export class DataSetsComponent implements OnInit {
     this.state = e?.value?.state;
     this.ulb = e?.value?.ulb?.name || '';
     this.ulbId = e?.value?.ulb?._id || '';
+
+    if (this.state) this.showStateBundleDiv = true;
+    else {
+      this.showStateBundleDiv = false;
+      this.isStateBundleRequested = false;
+    }
     this.auditType = e?.value?.auditType; // Default to 'unAudited' if not provided
     this.balData = [];
     this.selectedUsersList = [];
@@ -165,7 +179,7 @@ export class DataSetsComponent implements OnInit {
     // Load fies.
     try {
       this._resourcesDashboardService
-        .getDataSets(this.year, this.type, this.category, this.state, this.ulb, this.ulbId, globalName, this.skip,this.auditType)
+        .getDataSets(this.year, this.type, this.category, this.state, this.ulb, this.ulbId, globalName, this.skip, this.auditType)
         .subscribe(
           (res: any) => {
             const dataLength = res.data.length;
@@ -500,6 +514,61 @@ export class DataSetsComponent implements OnInit {
     return;
   }
 
+  // Load States.
+  private loadStates(): void {
+    this._commonServices
+      .fetchStateList()
+      .pipe(take(1))
+      .subscribe({
+        next: (res: IState[]) => {
+          res.map((state: IState) => {
+            if (!(state._id in this.statesList)) {
+              this.statesList[state._id] = state;
+            }
+          });
+        },
+        error: (error) => { console.error('Error in loadStates(): ', error.message) },
+      });
+  }
+
+  // User is interested to create state bundle - Email is not yet clicked - Has option to dismiss.
+  createStateBundle() {
+    // Simulate api call - remove setTimout - add api
+    this.globalLoaderService.showLoader();
+    setTimeout(() => {
+      this.isStateBundleRequested = true;
+      this.globalLoaderService.stopLoader();
+    }, 1500);
+    if (this.disableForStateBundle.includes(this.type)) {
+      this.openSnackBar('Please choose valid data format!')
+      return;
+    }
+  }
+
+  // User requested to create state bundle - Email files is clicked.
+  sendStateBundle() {
+    // User info popup.
+    const state = this.statesList[this.state]?.name || this.state;
+    this.userInfoService.openUserInfoDialog([{ fileName: `bulkDownload_${state}_${this.type}` }], this.module)
+      .then((isDialogConfirmed) => {
+        if (isDialogConfirmed) {
+          // Simulate api call - remove setTimout - add api
+          this.globalLoaderService.showLoader();
+          setTimeout(() => {
+            console.log("Email the link!");
+            this.openSnackBar('Dummy text: Download link has be sent!');
+            this.globalLoaderService.stopLoader()
+          }, 2000);
+        }
+      });
+  }
+
+  // Dismiss state bundle.
+  dismissStateBundle() {
+    this.isStateBundleRequested = false;
+    this.showStateBundleDiv = false;
+  }
+
   // TODO: Remove below code if not used.
   noData = false;
   disabledValue = false;
@@ -515,6 +584,7 @@ export class DataSetsComponent implements OnInit {
   id(id: any, selectedYear: string) {
     throw new Error("Method not implemented.");
   }
+
 }
 
 // Snackbar Component.

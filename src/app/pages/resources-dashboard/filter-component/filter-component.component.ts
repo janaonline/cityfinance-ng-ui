@@ -19,8 +19,13 @@ interface NamedEntity {
 })
 export class FilterComponentComponent implements OnInit, OnDestroy {
 
+
+  favoriteSeason: string;
+  seasons: string[] = ['Winter', 'Spring', 'Summer', 'Autumn'];
+
   @Input() filterInputData: any;
   @Input() downloadValue: boolean;
+  @Input() createStateBundle: boolean = false;
   @Output() filterFormData = new EventEmitter<any>();
   @Output() isDownloadable = new EventEmitter<boolean>();
 
@@ -28,13 +33,44 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
   statesList: NamedEntity[];
   filteredUlbs: Observable<NamedEntity[]>;
   yearsList: string[];
-  staticYearsList = ['2019-20', '2018-19', '2017-18', '2016-17', '2015-16','2025-26'];
-  contentType = ["Raw Data PDF", "Raw Data Excel", "Standardised Excel", "Budget PDF"];
+  staticYearsList = ['2019-20', '2018-19', '2017-18', '2016-17', '2015-16', '2025-26'];
+  // contentType = ["Raw Data PDF", "Raw Data Excel", "Standardised Excel", "Budget PDF"];
   auditType = ["Audited", "Unaudited"];
   isSearching: boolean;
   unsubscribe$ = new Subject<void>();
   pdfStatus = ['Audited', 'Unaudited'];
   // auditType: string;
+  contentType = [
+    {
+      value: 'rawPdf',
+      key: 'Raw Data PDF',
+      label: 'Data submitted by ULBs',
+      description: 'in PDF',
+      isActive: true,
+    },
+    {
+      value: 'rawExcel',
+      key: 'Raw Data Excel',
+      label: 'Data submitted by ULBs',
+      description: 'in Excel',
+      isActive: true,
+    },
+    {
+      value: 'standardizedExcel',
+      key: 'Standardised Excel',
+      label: 'Data standardized by City Finance',
+      description: 'in Excel',
+      isActive: false,
+    },
+    {
+      value: 'budget',
+      key: 'Budget PDF',
+      label: 'Budget data submitted by ULBs',
+      description: 'in PDF',
+      isActive: true,
+    }
+  ];
+  disableForStateBundle = ['rawExcel', 'standardizedExcel'];
 
   constructor(
     private fb: FormBuilder,
@@ -49,7 +85,7 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
     const contentType = this.route.snapshot.queryParamMap.get('type');
     const auditType = this.route.snapshot.queryParamMap.get('auditType');
 
-    if (year || ulbName || ulbId || state ) {
+    if (year || ulbName || ulbId || state) {
       this.filterForm = this.fb.group({
         state: [state || ''],
         ulb: [{ _id: ulbId || '', name: ulbName || '' }],
@@ -98,32 +134,34 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
       // category: this.category,
     });
   }
+
   // make year dynamic based on contentType work in progress
-// private triggerUploadForBudgetPDF(): void {
-//  this.filterForm.get('contentType')?.valueChanges
-//   .pipe(
-//     takeUntil(this.unsubscribe$),
-//     distinctUntilChanged()
-//   )
-//   .subscribe((type: string) => {
-//     this.auditType = type; // 👈 directly set auditType to selected contentType
-// console.log('Selected contentType:', this.auditType);
-//     // Now call API with dynamic auditType
-//     this._resourcesDashboardService.getAnnualAccountsYear(this.auditType)
-//       .pipe(takeUntil(this.unsubscribe$))
-//       .subscribe({
-//         next: (res: any) => {
-//           const years = Array.from(new Set([...res.afsYears, ...this.staticYearsList])).sort((a, b) => b.localeCompare(a));
-//           this.yearsList = years;
-//           console.log('Years List:', this.yearsList[0]);
-//           this.filterForm.patchValue({ year: this.yearsList[0] }, { emitEvent: false });
-//         },
-//         error: (err) => console.error('Error fetching years:', err.message),
-//       });
-//   });
+  // private triggerUploadForBudgetPDF(): void {
+  //  this.filterForm.get('contentType')?.valueChanges
+  //   .pipe(
+  //     takeUntil(this.unsubscribe$),
+  //     distinctUntilChanged()
+  //   )
+  //   .subscribe((type: string) => {
+  //     this.auditType = type; // 👈 directly set auditType to selected contentType
+  // console.log('Selected contentType:', this.auditType);
+  //     // Now call API with dynamic auditType
+  //     this._resourcesDashboardService.getAnnualAccountsYear(this.auditType)
+  //       .pipe(takeUntil(this.unsubscribe$))
+  //       .subscribe({
+  //         next: (res: any) => {
+  //           const years = Array.from(new Set([...res.afsYears, ...this.staticYearsList])).sort((a, b) => b.localeCompare(a));
+  //           this.yearsList = years;
+  //           console.log('Years List:', this.yearsList[0]);
+  //           this.filterForm.patchValue({ year: this.yearsList[0] }, { emitEvent: false });
+  //         },
+  //         error: (err) => console.error('Error fetching years:', err.message),
+  //       });
+  //   });
 
 
-// }
+  // }
+
   private loadStates(): void {
     this._commonServices
       .fetchStateList()
@@ -204,7 +242,9 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
 
   public onFilterChange(): void {
     // console.log('filterForm = ', this.filterForm.value)
-    this.filterFormData.emit(this.filterForm);
+    setTimeout(() => {
+      this.filterFormData.emit(this.filterForm);
+    }, 1);
   }
 
   public clearFilter(): void {
@@ -212,7 +252,7 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
       state: '',
       ulb: '',
       contentType: 'Raw Data PDF',
-      auditType:'Unaudited',
+      auditType: 'Unaudited',
       year: this.filterInputData?.comp == 'dataSets' ? this.yearsList[1] : '',
       // category: this.category,
     }, { emitEvent: false });

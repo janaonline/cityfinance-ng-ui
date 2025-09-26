@@ -1,6 +1,9 @@
 <div class="p-3 border border-1 border-secondary-subtle bg-light rounded">
   <h5 class="text-center fw-bold mb-4">Filter By:</h5>
-  <form [formGroup]="filterForm" class="row justify-content-evenly gap-2 mx-2 custom-form-style">
+  <form
+    [formGroup]="filterForm"
+    class="row justify-content-evenly gap-2 mx-2 custom-form-style"
+  >
     <mat-form-field class="col-md-2 col-sm-6 p-0" appearance="outline">
       <mat-label>State Name</mat-label>
       <mat-select formControlName="state" (keyup.enter)="onFilterChange()">
@@ -41,7 +44,7 @@
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
-
+    <!-- 
     <mat-form-field
       *ngIf="filterInputData?.comp == 'dataSets'"
       class="col-md-2 col-sm-6 p-0"
@@ -60,7 +63,7 @@
           {{ type }}
         </mat-option>
       </mat-select>
-    </mat-form-field>
+    </mat-form-field> -->
 
     <mat-form-field
       *ngIf="filterInputData?.comp == 'dataSets'"
@@ -68,10 +71,7 @@
       appearance="outline"
     >
       <mat-label>Audit Status</mat-label>
-      <mat-select
-        formControlName="auditType"
-        (keyup.enter)="onFilterChange()"
-      >
+      <mat-select formControlName="auditType" (keyup.enter)="onFilterChange()">
         <mat-option
           (click)="onFilterChange()"
           *ngFor="let type of auditType"
@@ -82,7 +82,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field class="col-md-2 col-sm-6 p-0" appearance="outline">
+    <mat-form-field class="col p-0" appearance="outline">
       <mat-label>Financial Year</mat-label>
       <mat-select formControlName="year" (keyup.enter)="onFilterChange()">
         <mat-option
@@ -94,18 +94,17 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-   <div class="col-auto p-0 d-flex align-items-center">
-  <button
-      (click)="clearFilter()"
-      type="button"
-      class="custom-button "
-      title="Clear selection(s)"
-    >
-      <span class="d-none d-lg-inline me-1">Clear All</span>
-      <mat-icon>highlight_off</mat-icon>
-    </button>
-   </div>
-  
+    <div class="col-auto p-0 d-flex align-items-center">
+      <button
+        (click)="clearFilter()"
+        type="button"
+        class="custom-button"
+        title="Clear selection(s)"
+      >
+        <span class="d-none d-lg-inline me-1">Clear All</span>
+        <mat-icon>highlight_off</mat-icon>
+      </button>
+    </div>
 
     <button
       *ngIf="downloadValue"
@@ -117,5 +116,50 @@
       <span class="d-none d-lg-inline me-1">Download</span>
       <span><mat-icon>save_alt</mat-icon></span>
     </button>
+  </form>
+</div>
+
+<!-- *ngIf="!(createStateBundle && disableForStateBundle.includes(option?.value))" -->
+<!-- {{ this.filterForm.get("contentType").value }} -->
+<div *ngIf="filterInputData?.comp == 'dataSets'">
+  <h6 class="fw-bold mt-3 my-2">Choose Data Format:</h6>
+  <form [formGroup]="filterForm" class="row mb-4">
+    <mat-radio-group
+      formControlName="contentType"
+      class="row w-100 justify-content-center"
+    >
+      <ng-container *ngFor="let option of contentType">
+        <div class="col-12 col-md-3">
+          <mat-card
+            class="h-100 border bg-light card-hover"
+            [class.bg-custom-gray]="
+              createStateBundle && disableForStateBundle.includes(option?.value)
+            "
+          >
+            <mat-card-content class="d-flex gap-2 align-items-center h-100">
+              <mat-radio-button
+                [value]="option.key"
+                class="pt-1"
+                [disabled]="
+                  createStateBundle &&
+                  disableForStateBundle.includes(option?.value)
+                "
+                (change)="onFilterChange()"
+              >
+              </mat-radio-button>
+              <div class="px-0">
+                <div class="fw-semibold">
+                  {{ option.label }}
+                  <br />
+                  <span class="text-muted small">
+                    ({{ option.description }})</span
+                  >
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-container>
+    </mat-radio-group>
   </form>
 </div>
