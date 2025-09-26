@@ -44,7 +44,7 @@
       </div>
     </div>
     <div class="d-flex gap-2">
-      <button class="btn btn-outline-primary" (click)="isStateBundle()">
+      <button class="btn btn-outline-primary" (click)="createStateBundle()">
         Create state bundle
       </button>
       <button class="btn btn-outline-primary" (click)="dismissStateBundle()">
@@ -162,7 +162,10 @@
 
   <!-- Primary CTA -->
   <div class="text-center">
-    <button class="btn btn-outline-primary px-4 py-2" (click)="submitForm()">
+    <button
+      class="btn btn-outline-primary px-4 py-2"
+      (click)="sendStateBundle()"
+    >
       Email me the files
     </button>
   </div>

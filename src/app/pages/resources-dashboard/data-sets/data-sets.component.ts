@@ -2,16 +2,18 @@ import { Component, Inject, OnInit } from "@angular/core";
 import { MatDialog } from '@angular/material/dialog';
 import { MAT_SNACK_BAR_DATA, MatSnackBar } from '@angular/material/snack-bar';
 import * as FileSaver from "file-saver";
-import { tap } from 'rxjs/operators';
+import { forkJoin } from "rxjs";
+import { take, tap } from 'rxjs/operators';
+import { IState } from "src/app/models/state/state";
 import { BalanceTabledialogComponent } from "src/app/shared/components/balance-table/balance-tabledialog/balance-tabledialog.component";
 import { DownloadUserInfoService } from "src/app/shared/components/user-info-dialog/download-user-info.service";
+import { CommonService } from "src/app/shared/services/common.service";
 import { DownloadService } from "src/app/shared/services/download.zip.service";
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
+import { UtilityService } from "src/app/shared/services/utility.service";
 import { environment } from "src/environments/environment";
 import { ReportService } from "../../../dashboard/report/report.service";
 import { ResourcesDashboardService } from "../resources-dashboard.service";
-import { UtilityService } from "src/app/shared/services/utility.service";
-import { forkJoin } from "rxjs";
 
 @Component({
   selector: "app-data-sets",
@@ -75,6 +77,8 @@ export class DataSetsComponent implements OnInit {
   isStateBundleRequested: boolean = false;
   disableForStateBundle = ['Raw Data Excel', 'Standardised Excel'];
 
+  statesList: Record<string, IState> = {};
+
   constructor(
     private _resourcesDashboardService: ResourcesDashboardService,
     public globalLoaderService: GlobalLoaderService,
@@ -83,7 +87,8 @@ export class DataSetsComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private downloadService: DownloadService,
     private userInfoService: DownloadUserInfoService,
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
+    private _commonServices: CommonService,
   ) {
     this._resourcesDashboardService.castSearchedData.subscribe((data) => {
       this.learningToggle = data;
@@ -106,6 +111,7 @@ export class DataSetsComponent implements OnInit {
     this.filterComponent = {
       comp: "dataSets",
     };
+    this.loadStates();
   }
 
   // ngOnChanges(changes: SimpleChange) {
@@ -508,6 +514,53 @@ export class DataSetsComponent implements OnInit {
     return;
   }
 
+  // Load States.
+  private loadStates(): void {
+    this._commonServices
+      .fetchStateList()
+      .pipe(take(1))
+      .subscribe({
+        next: (res: IState[]) => {
+          res.map((state: IState) => {
+            if (!(state._id in this.statesList)) {
+              this.statesList[state._id] = state;
+            }
+          });
+        },
+        error: (error) => { console.error('Error in loadStates(): ', error.message) },
+      });
+  }
+
+  // User is interested to create state bundle - Email is not yet clicked - Has option to dismiss.
+  createStateBundle() {
+    this.isStateBundleRequested = true;
+    if (this.disableForStateBundle.includes(this.type)) {
+      this.openSnackBar('Please choose valid data format!')
+      return;
+    }
+  }
+
+  // User requested to create state bundle - Email files is clicked.
+  sendStateBundle() {
+    // User info popup.
+    const state = this.statesList[this.state]?.name || this.state;
+    this.userInfoService.openUserInfoDialog([{ fileName: `bulkDownload_${state}_${this.type}` }], this.module)
+      .then((isDialogConfirmed) => {
+        if (isDialogConfirmed) {
+          setTimeout(() => {
+            console.log("Email the link!")
+            this.openSnackBar('Download link has be sent!')
+          }, 2000);
+        }
+      });
+  }
+
+  // Dismiss state bundle.
+  dismissStateBundle() {
+    this.isStateBundleRequested = false;
+    this.showStateBundleDiv = false;
+  }
+
   // TODO: Remove below code if not used.
   noData = false;
   disabledValue = false;
@@ -522,25 +575,6 @@ export class DataSetsComponent implements OnInit {
 
   id(id: any, selectedYear: string) {
     throw new Error("Method not implemented.");
-  }
-
-  // User is interested to create state bundle.
-  isStateBundle() {
-    this.isStateBundleRequested = true;
-    if (this.disableForStateBundle.includes(this.type)) {
-      this.openSnackBar('Please choose valid data format!')
-      return;
-    }
-  }
-
-  // User requested to create state bundle.
-  createStateBundle() {
-    console.log("Download data!");
-  }
-
-  dismissStateBundle() {
-    this.isStateBundleRequested = false;
-    this.showStateBundleDiv = false;
   }
 
 }
