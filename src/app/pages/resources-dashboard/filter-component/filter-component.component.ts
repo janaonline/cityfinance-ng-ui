@@ -323,7 +323,7 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
     const email = '';
 
     // User info popup.
-    const state = this.statesList[this.getValue('state')]?.name || this.getValue('state');
+    const state = this.statesObj[this.getValue('state')]?.name || this.getValue('state');
     this.userInfoService.openUserInfoDialog([{ fileName: `bulkDownload_${state}_${this.getValue('contentType')}` }], this.module)
       .then((isDialogConfirmed) => {
         if (isDialogConfirmed) {
@@ -335,7 +335,7 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
           this._resourcesDashboardService.initiateStateBundleZipDownload(
             this.getValue('state'),
             this.getValue('year'),
-            this.getValue('ulb')?._id,
+            '',
             this.getValue('contentType'),
             'audited',
             email,
