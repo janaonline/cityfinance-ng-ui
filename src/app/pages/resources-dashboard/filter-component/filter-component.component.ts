@@ -35,8 +35,10 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
   yearsList: string[];
   staticYearsList = ['2019-20', '2018-19', '2017-18', '2016-17', '2015-16', '2025-26'];
   // contentType = ["Raw Data PDF", "Raw Data Excel", "Standardised Excel", "Budget PDF"];
+  auditType = ["Audited", "Unaudited"];
   isSearching: boolean;
   unsubscribe$ = new Subject<void>();
+  pdfStatus = ['Audited', 'Unaudited'];
   // auditType: string;
   contentType = [
     {
@@ -81,6 +83,7 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
     const ulbId = this.route.snapshot.queryParamMap.get('ulbId');
     const state = this.route.snapshot.queryParamMap.get('state');
     const contentType = this.route.snapshot.queryParamMap.get('type');
+    const auditType = this.route.snapshot.queryParamMap.get('auditType');
 
     if (year || ulbName || ulbId || state) {
       this.filterForm = this.fb.group({
@@ -88,6 +91,7 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
         ulb: [{ _id: ulbId || '', name: ulbName || '' }],
         contentType: [contentType],
         year: [year],
+        auditType: [auditType],
         // category: this.category,
       });
       // this.onFilterChange();
@@ -112,6 +116,8 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
           this.filterForm.patchValue({ year: this.yearsList[1] }, { emitEvent: false });
         if (!this.filterForm.get('contentType')?.value)
           this.filterForm.patchValue({ contentType: 'Raw Data PDF' }, { emitEvent: false });
+        if (!this.filterForm.get('auditType')?.value)
+          this.filterForm.patchValue({ auditType: 'Unaudited' }, { emitEvent: false });
 
         this.onFilterChange();
       }
@@ -124,6 +130,7 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
       ulb: [''],
       contentType: [''],
       year: [''],
+      auditType: [''],
       // category: this.category,
     });
   }
@@ -245,6 +252,7 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
       state: '',
       ulb: '',
       contentType: 'Raw Data PDF',
+      auditType: '',
       year: this.filterInputData?.comp == 'dataSets' ? this.yearsList[1] : '',
       // category: this.category,
     }, { emitEvent: false });

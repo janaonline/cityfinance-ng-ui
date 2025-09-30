@@ -62,7 +62,7 @@ export class DataSetsComponent implements OnInit {
   type: string;
   checkValue = false;
   downloadValue: boolean = false;
-
+  auditType: string; // Default value for auditType
   skip: number = 0;
   loadMoreData: boolean = false;
   totalDocs: number = 0;
@@ -153,7 +153,7 @@ export class DataSetsComponent implements OnInit {
       this.showStateBundleDiv = false;
       this.isStateBundleRequested = false;
     }
-
+    this.auditType = e?.value?.auditType; // Default to 'unAudited' if not provided
     this.balData = [];
     this.selectedUsersList = [];
     this.skip = 0;
@@ -179,7 +179,7 @@ export class DataSetsComponent implements OnInit {
     // Load fies.
     try {
       this._resourcesDashboardService
-        .getDataSets(this.year, this.type, this.category, this.state, this.ulb, this.ulbId, globalName, this.skip)
+        .getDataSets(this.year, this.type, this.category, this.state, this.ulb, this.ulbId, globalName, this.skip, this.auditType)
         .subscribe(
           (res: any) => {
             const dataLength = res.data.length;
