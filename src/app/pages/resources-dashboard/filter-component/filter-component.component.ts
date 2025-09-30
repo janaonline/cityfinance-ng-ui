@@ -41,11 +41,11 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
   yearsList: string[];
   staticYearsList = ['2019-20', '2018-19', '2017-18', '2016-17', '2015-16', '2025-26'];
   // contentType = ["Raw Data PDF", "Raw Data Excel", "Standardised Excel", "Budget PDF"];
-  auditType = ["Audited", "Unaudited"];
+  // auditType = ["Audited", "Unaudited"];
   isSearching: boolean;
   unsubscribe$ = new Subject<void>();
   pdfStatus = ['Audited', 'Unaudited'];
-  // auditType: string;
+  auditType: string;
   contentType = [
     {
       value: 'rawPdf',
@@ -84,6 +84,7 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
   statesObj: Record<string, IState> = {};
   module: string = "resources" // userInfo popup.
   showStateBundleDiv: boolean = false;
+  showSuccessDiv: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -320,8 +321,6 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
 
   // User requested to create state bundle - Email files is clicked.
   sendStateBundle() {
-    const email = '';
-
     // User info popup.
     const state = this.statesObj[this.getValue('state')]?.name || this.getValue('state');
     this.userInfoService.openUserInfoDialog([{ fileName: `bulkDownload_${state}_${this.getValue('contentType')}` }], this.module)
@@ -343,9 +342,11 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
             next: (res) => {
               // console.log("response: ", res);
               this.openSnackBar('A download link will be sent to your email shortly!');
+              this.showSuccessDiv = true;
               this.globalLoaderService.stopLoader()
             },
             error: (error) => {
+              this.showSuccessDiv = false;
               this.openSnackBar('Failed to initiate the download process!');
               console.error("Error: ", error);
               this.globalLoaderService.stopLoader()
