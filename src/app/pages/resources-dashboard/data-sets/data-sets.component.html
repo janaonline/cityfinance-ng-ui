@@ -24,13 +24,9 @@
 </div> -->
 
 <div class="filter-d mt-3 mb-3" *ngIf="dataReceived" id="top">
-  <app-filter-component
-    (filterFormData)="filterData($event)"
-    (isDownloadable)="download($event)"
-    (isStateBundleRequestedOutput)="isStateBundleRequestedOutput($event)"
-    [filterInputData]="filterComponent"
-    [downloadValue]="selectedUsersList.length"
-  ></app-filter-component>
+  <app-filter-component (filterFormData)="filterData($event)" (isDownloadable)="download($event)"
+    (isStateBundleRequestedOutput)="isStateBundleRequestedOutput($event)" [filterInputData]="filterComponent"
+    [downloadValue]="selectedUsersList.length"></app-filter-component>
 </div>
 
 <!-- Upsell / Info banner -->
@@ -63,10 +59,7 @@
         <div class="row">
           <div class="col-sm-1 col-1">
             <!-- <p>{{isChecked}}</p> -->
-            <mat-checkbox
-              [(ngModel)]="isChecked"
-              (change)="masterToggle($event)"
-            >
+            <mat-checkbox [(ngModel)]="isChecked" (change)="masterToggle($event)">
             </mat-checkbox>
           </div>
           <div class="col-sm-8 col-7">
@@ -82,39 +75,21 @@
         <ng-container *ngFor="let item of balData; let i = index">
           <div class="card-body cd-repeat" *ngIf="item.fileName">
             <!-- <p>{{item | json}}</p> -->
-            <div
-              class="row align-items-md-center pointer"
-              (click)="getReport(item)"
-            >
+            <div class="row align-items-md-center pointer" (click)="getReport(item)">
               <div class="col-sm-1 col-1">
-                <mat-checkbox
-                  matTooltip="Select to download"
-                  (click)="$event.stopPropagation()"
-                  (change)="toggleRowSelection($event, item, i)"
-                  [checked]="item.isSelected"
-                  [disabled]="item.isDisabled"
-                >
+                <mat-checkbox matTooltip="Select to download" (click)="$event.stopPropagation()"
+                  (change)="toggleRowSelection($event, item, i)" [checked]="item.isSelected"
+                  [disabled]="item.isDisabled">
                 </mat-checkbox>
               </div>
-              <div
-                class="col-sm-8 d-name col-8 cursor-pointer"
-                matTooltip="Click to View"
-              >
+              <div class="col-sm-8 d-name col-8 cursor-pointer" matTooltip="Click to View">
                 <div class="row align-items-center">
                   <div class="col-auto">
                     <span *ngIf="item?.type == 'pdf'" class="text-danger">
-                      <img
-                        src="./assets/pdf.svg"
-                        alt="PDF Icon"
-                        class="icon-size"
-                      />
+                      <img src="./assets/pdf.svg" alt="PDF Icon" class="icon-size" />
                     </span>
                     <span *ngIf="item?.type == 'excel'" class="text-success">
-                      <img
-                        src="./assets/excel.svg"
-                        alt="Excel Icon"
-                        class="icon-size"
-                      />
+                      <img src="./assets/excel.svg" alt="Excel Icon" class="icon-size" />
                     </span>
                   </div>
                   <div class="col">
@@ -147,13 +122,13 @@
     </div> -->
 </div>
 
-<div
+<!-- <div
   *ngIf="isStateBundleRequested && !disableForStateBundle.includes(this.type)"
   class="mb-5"
   style="font-family: Montserrat"
->
-  <!-- Selection summary -->
-  <!-- <div class="rounded p-3 px-4 mb-4 bg-success-subtle border border-success">
+> -->
+<!-- Selection summary -->
+<!-- <div class="rounded p-3 px-4 mb-4 bg-success-subtle border border-success">
     <div class="text-center fw-bold">114 files selected</div>
     <div class="text-center text-muted small">Estimated size: 38&nbsp;MB</div>
     <div class="text-center text-muted small fw-bold mt-2">
@@ -161,8 +136,8 @@
     </div>
   </div> -->
 
-  <!-- Primary CTA -->
-  <div class="text-center">
+<!-- Primary CTA -->
+<!-- <div class="text-center">
     <button
       class="btn btn-outline-primary px-4 py-2"
       (click)="sendStateBundle()"
@@ -170,7 +145,7 @@
       Email me the files
     </button>
   </div>
-</div>
+</div> -->
 <!--
 <div class="row">
     <div class="col-sm-12">

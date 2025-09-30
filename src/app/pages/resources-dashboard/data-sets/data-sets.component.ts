@@ -550,22 +550,44 @@ export class DataSetsComponent implements OnInit {
   // }
 
   // User requested to create state bundle - Email files is clicked.
-  sendStateBundle() {
-    // User info popup.
-    const state = this.statesList[this.state]?.name || this.state;
-    this.userInfoService.openUserInfoDialog([{ fileName: `bulkDownload_${state}_${this.type}` }], this.module)
-      .then((isDialogConfirmed) => {
-        if (isDialogConfirmed) {
-          // Simulate api call - remove setTimout - add api
-          this.globalLoaderService.showLoader();
-          setTimeout(() => {
-            console.log("Email the link!");
-            this.openSnackBar('Dummy text: Download link has be sent!');
-            this.globalLoaderService.stopLoader()
-          }, 2000);
-        }
-      });
-  }
+  // sendStateBundle() {
+  //   const email = '';
+
+  //   // User info popup.
+  //   const state = this.statesList[this.state]?.name || this.state;
+  //   this.userInfoService.openUserInfoDialog([{ fileName: `bulkDownload_${state}_${this.type}` }], this.module)
+  //     .then((isDialogConfirmed) => {
+  //       if (isDialogConfirmed) {
+  //         this.globalLoaderService.showLoader();
+
+  //         this._resourcesDashboardService.initiateStateBundleZipDownload(
+  //           this.state,
+  //           this.year,
+  //           this.ulbId,
+  //           this.type,
+  //           'audited',
+  //           email,
+  //         ).subscribe({
+  //           next: (res) => {
+  //             console.log("response: ", res);
+  //             this.openSnackBar('A download link will be sent to your email shortly!');
+  //             this.globalLoaderService.stopLoader()
+  //           },
+  //           error: (error) => {
+  //             this.openSnackBar('Failed to initiate the download process!');
+  //             console.error("Error: ", error);
+  //             this.globalLoaderService.stopLoader()
+  //           }
+  //         })
+
+  //         // setTimeout(() => {
+  //         //   console.log("Email the link!");
+  //         //   this.openSnackBar('A download link will be sent to your email shortly!');
+  //         //   this.globalLoaderService.stopLoader()
+  //         // }, 2000);
+  //       }
+  //     });
+  // }
 
   // // Dismiss state bundle.
   // dismissStateBundle() {

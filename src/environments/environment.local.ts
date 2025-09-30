@@ -45,6 +45,7 @@ export const environment = {
   api: {
     url2: "https://cityfinance.in/",
     url: url,
+    urlV2: 'http://localhost:8001/api/v2/',
   },
   reCaptcha: {
     siteKey: "6LcT9_gUAAAAANrZM5TNnE4OEEC46iFDfcAHZ8lD",

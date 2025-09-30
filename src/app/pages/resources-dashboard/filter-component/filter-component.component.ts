@@ -76,7 +76,7 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
       isActive: true,
     }
   ];
-  disableForStateBundle = ['rawExcel', 'standardizedExcel'];
+  // disableForStateBundle = ['rawExcel', 'standardizedExcel'];
 
   disableForStateBundle2 = ['Raw Data Excel', 'Standardised Excel'];
   isStateBundleRequested: boolean = false;
@@ -299,18 +299,19 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
     this.isDownloadable.emit(true);
   }
 
-  private getValue(key: string) {
+  getValue(key: string) {
     return this.filterForm.get(`${key}`)?.value;
   }
 
   createStateBundle() {
     // Simulate api call - remove setTimout - add api
-    this.globalLoaderService.showLoader();
-    setTimeout(() => {
-      this.isStateBundleRequested = true;
-      this.emitStateBundleValue();
-      this.globalLoaderService.stopLoader();
-    }, 1500);
+    // this.globalLoaderService.showLoader();
+    // setTimeout(() => {
+    this.isStateBundleRequested = true;
+    this.emitStateBundleValue();
+    //   this.globalLoaderService.stopLoader();
+    // }, 1500);
+
     if (this.disableForStateBundle2.includes(this.getValue('contentType'))) {
       this.openSnackBar('Please choose valid data format!')
       return;
@@ -319,18 +320,43 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
 
   // User requested to create state bundle - Email files is clicked.
   sendStateBundle() {
+    const email = '';
+
     // User info popup.
     const state = this.statesList[this.getValue('state')]?.name || this.getValue('state');
     this.userInfoService.openUserInfoDialog([{ fileName: `bulkDownload_${state}_${this.getValue('contentType')}` }], this.module)
       .then((isDialogConfirmed) => {
         if (isDialogConfirmed) {
-          // Simulate api call - remove setTimout - add api
+          const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+          const email = userInfo.email;
+          if (!email) throw new Error("Email is required!");
           this.globalLoaderService.showLoader();
-          setTimeout(() => {
-            console.log("Email the link!");
-            this.openSnackBar('Dummy text: Download link has be sent!');
-            this.globalLoaderService.stopLoader()
-          }, 2000);
+
+          this._resourcesDashboardService.initiateStateBundleZipDownload(
+            this.getValue('state'),
+            this.getValue('year'),
+            this.getValue('ulb')?._id,
+            this.getValue('contentType'),
+            'audited',
+            email,
+          ).subscribe({
+            next: (res) => {
+              // console.log("response: ", res);
+              this.openSnackBar('A download link will be sent to your email shortly!');
+              this.globalLoaderService.stopLoader()
+            },
+            error: (error) => {
+              this.openSnackBar('Failed to initiate the download process!');
+              console.error("Error: ", error);
+              this.globalLoaderService.stopLoader()
+            }
+          })
+
+          // setTimeout(() => {
+          //   console.log("Email the link!");
+          //   this.openSnackBar('A download link will be sent to your email shortly!');
+          //   this.globalLoaderService.stopLoader()
+          // }, 2000);
         }
       });
   }
