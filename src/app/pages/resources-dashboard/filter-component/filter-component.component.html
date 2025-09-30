@@ -138,7 +138,16 @@
 <div *ngIf="isStateBundleRequested && !disableForStateBundle2.includes(getValue('contentType'))" class="mb-5"
   style="font-family: Montserrat">
   <!-- Selection summary -->
-  <div class="rounded p-3 px-4 mb-4 bg-success-subtle border border-success">
+  <div class="rounded p-3 px-4 mb-4 border bg-light">
+    <h6 class="fw-bold my-1">Note:</h6>
+    <ul class="small">
+      <li>Dummy text: To be changed.</li>
+      <li>A verification link will be sent to your email ID. Once verificed you will receive the donwload
+        link in 30 mins.</li>
+    </ul>
+  </div>
+
+  <div *ngIf="showSuccessDiv" class="rounded p-3 px-4 mb-4 bg-success-subtle border border-success">
     <!-- <div class="text-center fw-bold">114 files selected</div>
     <div class="text-center text-muted small">Estimated size: 38&nbsp;MB</div> -->
     <div class="text-center small fw-bold">
