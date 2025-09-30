@@ -119,8 +119,27 @@
   </form>
 </div>
 
-<!-- *ngIf="!(createStateBundle && disableForStateBundle.includes(option?.value))" -->
-<!-- {{ this.filterForm.get("contentType").value }} -->
+<!-- Upsell / Info banner -->
+<mat-card *ngIf="showStateBundleDiv" class="info-banner">
+  <mat-card-content class="">
+    <div class="mb-3">
+      <div class="fw-bold mb-1">UPGRADE TO STATE BUNDLE</div>
+      <div class="text-muted">
+        Get comprehensive data for all cities of a State. Perfect for complete
+        state analysis.
+      </div>
+    </div>
+    <div class="d-flex gap-2">
+      <button class="btn btn-outline-primary" (click)="createStateBundle()">
+        Create state bundle
+      </button>
+      <button class="btn btn-outline-primary" (click)="dismissStateBundle()">
+        Dismiss
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>
+
 <div *ngIf="filterInputData?.comp == 'dataSets'">
   <h6 class="fw-bold mt-3 my-2">Choose Data Format:</h6>
   <form [formGroup]="filterForm" class="row mb-4">
@@ -133,7 +152,8 @@
           <mat-card
             class="h-100 border bg-light card-hover"
             [class.bg-custom-gray]="
-              createStateBundle && disableForStateBundle.includes(option?.value)
+              isStateBundleRequested &&
+              disableForStateBundle.includes(option?.value)
             "
           >
             <mat-card-content class="d-flex gap-2 align-items-center h-100">
@@ -141,7 +161,7 @@
                 [value]="option.key"
                 class="pt-1"
                 [disabled]="
-                  createStateBundle &&
+                  isStateBundleRequested &&
                   disableForStateBundle.includes(option?.value)
                 "
                 (change)="onFilterChange()"

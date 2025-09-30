@@ -1,9 +1,14 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute } from "@angular/router";
 import { from, Observable, of, Subject } from "rxjs";
 import { catchError, debounceTime, distinctUntilChanged, switchMap, takeUntil, tap } from "rxjs/operators";
+import { IState } from "src/app/models/state/state";
+import { DownloadUserInfoService } from "src/app/shared/components/user-info-dialog/download-user-info.service";
 import { CommonService } from "src/app/shared/services/common.service";
+import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
+import { SnackBarComponent } from "../data-sets/data-sets.component";
 import { ResourcesDashboardService } from "../resources-dashboard.service";
 
 interface NamedEntity {
@@ -25,9 +30,10 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
 
   @Input() filterInputData: any;
   @Input() downloadValue: boolean;
-  @Input() createStateBundle: boolean = false;
+  // @Input() createStateBundle: boolean = false;
   @Output() filterFormData = new EventEmitter<any>();
   @Output() isDownloadable = new EventEmitter<boolean>();
+  @Output() isStateBundleRequestedOutput = new EventEmitter<boolean>();
 
   filterForm: FormGroup;
   statesList: NamedEntity[];
@@ -72,11 +78,21 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
   ];
   disableForStateBundle = ['rawExcel', 'standardizedExcel'];
 
+  disableForStateBundle2 = ['Raw Data Excel', 'Standardised Excel'];
+  isStateBundleRequested: boolean = false;
+  durationInSeconds: number = 3;
+  statesObj: Record<string, IState> = {};
+  module: string = "resources" // userInfo popup.
+  showStateBundleDiv: boolean = false;
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private _commonServices: CommonService,
-    private _resourcesDashboardService: ResourcesDashboardService
+    private _resourcesDashboardService: ResourcesDashboardService,
+    private globalLoaderService: GlobalLoaderService,
+    private _snackBar: MatSnackBar,
+    private userInfoService: DownloadUserInfoService,
   ) {
     const year = this.route.snapshot.queryParamMap.get('year');
     const ulbName = this.route.snapshot.queryParamMap.get('ulbName');
@@ -161,19 +177,32 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
 
 
   // }
-
   private loadStates(): void {
     this._commonServices
       .fetchStateList()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
-        next: (res: any) => {
-          this.statesList = res
-            .filter((state: any) => !state.isUT)
-            .sort((a: any, b: any) => a.name.localeCompare(b.name))
-            .map((state: any) => ({ name: state.name, _id: state._id }));
+        next: (res: IState[]) => {
+          // Filter out UTs
+          const filteredStates = res.filter((state: IState) => !state.isUT);
+
+          // Create sorted array
+          this.statesList = filteredStates
+            .slice()
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map((state) => ({ name: state.name, _id: state._id }));
+
+          // Create object map
+          this.statesObj = {};
+          filteredStates.forEach((state: IState) => {
+            if (!(state._id in this.statesObj)) {
+              this.statesObj[state._id] = state;
+            }
+          });
         },
-        error: (error) => { console.error('Error in loadStates(): ', error.message) },
+        error: (error) => {
+          console.error('Error in loadStates(): ', error.message);
+        },
       });
   }
 
@@ -242,6 +271,12 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
 
   public onFilterChange(): void {
     // console.log('filterForm = ', this.filterForm.value)
+    if (this.getValue('state')) this.showStateBundleDiv = true;
+    else {
+      this.showStateBundleDiv = false;
+      this.isStateBundleRequested = false;
+      this.emitStateBundleValue();
+    }
     setTimeout(() => {
       this.filterFormData.emit(this.filterForm);
     }, 1);
@@ -262,6 +297,62 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
 
   public initiateDownload(): void {
     this.isDownloadable.emit(true);
+  }
+
+  private getValue(key: string) {
+    return this.filterForm.get(`${key}`)?.value;
+  }
+
+  createStateBundle() {
+    // Simulate api call - remove setTimout - add api
+    this.globalLoaderService.showLoader();
+    setTimeout(() => {
+      this.isStateBundleRequested = true;
+      this.emitStateBundleValue();
+      this.globalLoaderService.stopLoader();
+    }, 1500);
+    if (this.disableForStateBundle2.includes(this.getValue('contentType'))) {
+      this.openSnackBar('Please choose valid data format!')
+      return;
+    }
+  }
+
+  // User requested to create state bundle - Email files is clicked.
+  sendStateBundle() {
+    // User info popup.
+    const state = this.statesList[this.getValue('state')]?.name || this.getValue('state');
+    this.userInfoService.openUserInfoDialog([{ fileName: `bulkDownload_${state}_${this.getValue('contentType')}` }], this.module)
+      .then((isDialogConfirmed) => {
+        if (isDialogConfirmed) {
+          // Simulate api call - remove setTimout - add api
+          this.globalLoaderService.showLoader();
+          setTimeout(() => {
+            console.log("Email the link!");
+            this.openSnackBar('Dummy text: Download link has be sent!');
+            this.globalLoaderService.stopLoader()
+          }, 2000);
+        }
+      });
+  }
+
+  // Dismiss state bundle.
+  dismissStateBundle() {
+    this.isStateBundleRequested = false;
+    this.emitStateBundleValue();
+    this.showStateBundleDiv = false;
+  }
+
+  // Emit state bundle change to parent
+  emitStateBundleValue() {
+    this.isStateBundleRequestedOutput.emit(this.isStateBundleRequested);
+  }
+
+  // Dialog box more than 30 files are loaded.
+  openSnackBar(text: string) {
+    this._snackBar.openFromComponent(SnackBarComponent, {
+      duration: this.durationInSeconds * 1000,
+      data: { text }
+    });
   }
 
   ngOnDestroy(): void {

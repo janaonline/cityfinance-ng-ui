@@ -73,7 +73,7 @@ export class DataSetsComponent implements OnInit {
   fileDownloadSuccess: string = "All set! Your file(s) have been successfully downloaded.";
   fileDownloadfail: string = "Oops! Failed to download file(s).";
   module: string = "resources" // userInfo popup.
-  showStateBundleDiv: boolean = false;
+  // showStateBundleDiv: boolean = false;
   isStateBundleRequested: boolean = false;
   disableForStateBundle = ['Raw Data Excel', 'Standardised Excel'];
 
@@ -148,11 +148,11 @@ export class DataSetsComponent implements OnInit {
     this.ulb = e?.value?.ulb?.name || '';
     this.ulbId = e?.value?.ulb?._id || '';
 
-    if (this.state) this.showStateBundleDiv = true;
-    else {
-      this.showStateBundleDiv = false;
-      this.isStateBundleRequested = false;
-    }
+    // if (this.state) this.showStateBundleDiv = true;
+    // else {
+    //   this.showStateBundleDiv = false;
+    //   this.isStateBundleRequested = false;
+    // }
     this.auditType = e?.value?.auditType; // Default to 'unAudited' if not provided
     this.balData = [];
     this.selectedUsersList = [];
@@ -514,6 +514,10 @@ export class DataSetsComponent implements OnInit {
     return;
   }
 
+  isStateBundleRequestedOutput($event: boolean) {
+    this.isStateBundleRequested = $event;
+  }
+
   // Load States.
   private loadStates(): void {
     this._commonServices
@@ -532,18 +536,18 @@ export class DataSetsComponent implements OnInit {
   }
 
   // User is interested to create state bundle - Email is not yet clicked - Has option to dismiss.
-  createStateBundle() {
-    // Simulate api call - remove setTimout - add api
-    this.globalLoaderService.showLoader();
-    setTimeout(() => {
-      this.isStateBundleRequested = true;
-      this.globalLoaderService.stopLoader();
-    }, 1500);
-    if (this.disableForStateBundle.includes(this.type)) {
-      this.openSnackBar('Please choose valid data format!')
-      return;
-    }
-  }
+  // createStateBundle() {
+  //   // Simulate api call - remove setTimout - add api
+  //   this.globalLoaderService.showLoader();
+  //   setTimeout(() => {
+  //     this.isStateBundleRequested = true;
+  //     this.globalLoaderService.stopLoader();
+  //   }, 1500);
+  //   if (this.disableForStateBundle.includes(this.type)) {
+  //     this.openSnackBar('Please choose valid data format!')
+  //     return;
+  //   }
+  // }
 
   // User requested to create state bundle - Email files is clicked.
   sendStateBundle() {
@@ -563,11 +567,11 @@ export class DataSetsComponent implements OnInit {
       });
   }
 
-  // Dismiss state bundle.
-  dismissStateBundle() {
-    this.isStateBundleRequested = false;
-    this.showStateBundleDiv = false;
-  }
+  // // Dismiss state bundle.
+  // dismissStateBundle() {
+  //   this.isStateBundleRequested = false;
+  //   this.showStateBundleDiv = false;
+  // }
 
   // TODO: Remove below code if not used.
   noData = false;
