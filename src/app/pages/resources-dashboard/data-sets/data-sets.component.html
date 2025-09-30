@@ -27,14 +27,14 @@
   <app-filter-component
     (filterFormData)="filterData($event)"
     (isDownloadable)="download($event)"
+    (isStateBundleRequestedOutput)="isStateBundleRequestedOutput($event)"
     [filterInputData]="filterComponent"
     [downloadValue]="selectedUsersList.length"
-    [createStateBundle]="isStateBundleRequested"
   ></app-filter-component>
 </div>
 
 <!-- Upsell / Info banner -->
-<mat-card *ngIf="showStateBundleDiv" class="info-banner">
+<!-- <mat-card *ngIf="showStateBundleDiv" class="info-banner">
   <mat-card-content class="">
     <div class="mb-3">
       <div class="fw-bold mb-1">UPGRADE TO STATE BUNDLE</div>
@@ -52,8 +52,9 @@
       </button>
     </div>
   </mat-card-content>
-</mat-card>
+</mat-card> -->
 
+<!-- {{ dataReceived }} {{ !isStateBundleRequested }} -->
 <div class="row" *ngIf="dataReceived && !isStateBundleRequested">
   <div class="d-name">You can Download Upto 5 files</div>
   <div class="col-sm-12 col-12 mb-3">
