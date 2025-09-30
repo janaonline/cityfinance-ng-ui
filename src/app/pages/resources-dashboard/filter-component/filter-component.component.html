@@ -47,7 +47,7 @@
     <!-- 
     <mat-form-field
       *ngIf="filterInputData?.comp == 'dataSets'"
-      class="col p-0"
+      class="col-md-2 col-sm-6 p-0"
       appearance="outline"
     >
       <mat-label>File Type</mat-label>
@@ -94,22 +94,23 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-
+    <!-- <div class="col-auto p-0 d-flex align-items-center"> -->
     <button
       (click)="clearFilter()"
       type="button"
-      class="col custom-button"
+      class="col-auto custom-button"
       title="Clear selection(s)"
     >
       <span class="d-none d-lg-inline me-1">Clear All</span>
       <mat-icon>highlight_off</mat-icon>
     </button>
+    <!-- </div> -->
 
     <button
       *ngIf="downloadValue"
       (click)="initiateDownload()"
       type="button"
-      class="col custom-button"
+      class="col-auto custom-button"
       title="Download reports"
     >
       <span class="d-none d-lg-inline me-1">Download</span>
