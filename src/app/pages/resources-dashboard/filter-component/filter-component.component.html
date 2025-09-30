@@ -120,7 +120,10 @@
 </div>
 
 <!-- Upsell / Info banner -->
-<mat-card *ngIf="showStateBundleDiv" class="info-banner">
+<mat-card
+  *ngIf="filterInputData?.comp == 'dataSets' && showStateBundleDiv"
+  class="info-banner"
+>
   <mat-card-content class="">
     <div class="mb-3">
       <div class="fw-bold mb-1">UPGRADE TO STATE BUNDLE</div>
