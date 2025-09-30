@@ -1,10 +1,8 @@
 import { Injectable } from "@angular/core";
 
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { BehaviorSubject, Subject } from "rxjs";
 
-import { Chart } from "chart.js";
-import { Observable } from "rxjs/internal/Observable";
 
 import { environment } from "../../../environments/environment";
 @Injectable({
@@ -75,5 +73,26 @@ export class ResourcesDashboardService {
 
   getAnnualAccountsYear(auditType: string = 'unAudited') {
     return this.https.get(`${environment.api.url}common/get-latest-aa-year/?auditType=${auditType}`);
+  }
+
+  initiateStateBundleZipDownload(
+    state: string,
+    year: string,
+    ulb: string = '',
+    downloadType: string = 'rawPdf',
+    auditType: string = 'audited',
+    email: string,
+  ) {
+    if (!email) throw new Error("Email is required");
+
+    let params = new HttpParams();
+    if (ulb) params = params.set('ulb', ulb);
+    if (state) params = params.set('state', state);
+    if (year) params = params.set('year', year);
+    if (auditType) params = params.set('auditType', auditType);
+    if (downloadType) params = params.set('downloadType', downloadType);
+    if (email) params = params.set('email', email);
+
+    return this.https.get(`${environment.api.urlV2}resources-section/data-sets/zip`, { params });
   }
 }
