@@ -45,6 +45,7 @@ import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
 import { GlobalPartModule } from "src/app/global-part/global-part.module";
 import { MatCardModule } from "@angular/material/card";
 import { MatRadioModule } from "@angular/material/radio";
+import { TooltipModule } from "ngx-bootstrap/tooltip";
 @NgModule({
   declarations: [
     ResourcesDashboardComponent,
@@ -91,6 +92,7 @@ import { MatRadioModule } from "@angular/material/radio";
     GlobalPartModule,
     MatCardModule,
     MatRadioModule,
+    TooltipModule
   ],
   exports: [FilterComponentComponent, FilterModelBoxComponent],
   providers: [MunicipalLawsComponent],
