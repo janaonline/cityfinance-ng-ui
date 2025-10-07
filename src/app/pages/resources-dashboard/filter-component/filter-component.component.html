@@ -93,7 +93,7 @@
       </div>
     </div>
     <div class="d-flex gap-2">
-      <button class="btn btn-outline-primary" (click)="createStateBundle()">
+      <button class="custom-btn" (click)="createStateBundle()">
         Create state bundle
       </button>
       <button class="btn btn-outline-primary" (click)="dismissStateBundle()">
@@ -109,34 +109,38 @@
     <mat-radio-group formControlName="contentType" class="row w-100 justify-content-center">
       <ng-container *ngFor="let option of contentType">
         <div class="col-12 col-md-3">
-          <mat-card class="h-100 border bg-light card-hover" [class.bg-custom-gray]="
+          <span
+            [tooltip]="isStateBundleRequested && disableForStateBundle2.includes(option?.key)? 'Dummy text: Create state bundle unavailable' : null"
+            container="body">
+            <mat-card class="h-100 border bg-light card-hover" [class.bg-custom-gray]="
               isStateBundleRequested &&
               disableForStateBundle2.includes(option?.key)
             ">
-            <mat-card-content class="d-flex gap-2 align-items-center h-100">
-              <mat-radio-button [value]="option.key" class="pt-1" [disabled]="
+              <mat-card-content class="d-flex gap-2 align-items-center h-100">
+                <mat-radio-button [value]="option.key" class="pt-1" [disabled]="
                   isStateBundleRequested &&
                   disableForStateBundle2.includes(option?.key)
                 " (change)="onFilterChange()">
-              </mat-radio-button>
-              <div class="px-0">
-                <div class="fw-semibold">
-                  {{ option.label }}
-                  <br />
-                  <span class="text-muted small">
-                    ({{ option.description }})</span>
+                </mat-radio-button>
+                <div class="px-0">
+                  <div class="fw-semibold">
+                    {{ option.label }}
+                    <br />
+                    <span class="text-muted small">
+                      ({{ option.description }})</span>
+                  </div>
                 </div>
-              </div>
-            </mat-card-content>
-          </mat-card>
+              </mat-card-content>
+            </mat-card>
+          </span>
         </div>
       </ng-container>
     </mat-radio-group>
   </form>
 </div>
 
-<div *ngIf="isStateBundleRequested && !disableForStateBundle2.includes(getValue('contentType'))" class="mb-5"
-  style="font-family: Montserrat">
+<div id="email-me" *ngIf="isStateBundleRequested && !disableForStateBundle2.includes(getValue('contentType'))"
+  class="mb-5" style="font-family: Montserrat">
   <!-- Selection summary -->
   <div class="rounded p-3 px-4 mb-4 border bg-light">
     <h6 class="fw-bold my-1">Note:</h6>
@@ -151,6 +155,7 @@
     <!-- <div class="text-center fw-bold">114 files selected</div>
     <div class="text-center text-muted small">Estimated size: 38&nbsp;MB</div> -->
     <div class="text-center small fw-bold">
+      <p *ngIf="email">Email sent to: {{email}}</p>
       Success! Your email ID has been verified, and your state bundle is being prepared. We'll email you the files in
       about 20 minutes.
     </div>
@@ -158,8 +163,10 @@
 
   <!-- Primary CTA -->
   <div class="text-center">
-    <button class="btn btn-outline-primary px-4 py-2" (click)="sendStateBundle()">
-      Email me the files
-    </button>
+    <span [tooltip]="showSuccessDiv ? 'Please check your email after sometime' : null" container="body">
+      <button class="custom-btn px-4 py-2" [disabled]="showSuccessDiv" (click)="sendStateBundle()">
+        Email me the files
+      </button>
+    </span>
   </div>
 </div>

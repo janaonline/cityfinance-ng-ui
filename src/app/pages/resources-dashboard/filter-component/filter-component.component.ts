@@ -85,6 +85,7 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
   module: string = "resources" // userInfo popup.
   showStateBundleDiv: boolean = false;
   showSuccessDiv: boolean = false;
+  email: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -305,13 +306,17 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
   }
 
   createStateBundle() {
-    // Simulate api call - remove setTimout - add api
-    // this.globalLoaderService.showLoader();
-    // setTimeout(() => {
     this.isStateBundleRequested = true;
+    this.showSuccessDiv = false;
     this.emitStateBundleValue();
-    //   this.globalLoaderService.stopLoader();
-    // }, 1500);
+
+    setTimeout(() => {
+      document.getElementById("email-me").scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "nearest"
+      });
+    });
 
     if (this.disableForStateBundle2.includes(this.getValue('contentType'))) {
       this.openSnackBar('Please choose valid data format!')
@@ -327,23 +332,24 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
       .then((isDialogConfirmed) => {
         if (isDialogConfirmed) {
           const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-          const email = userInfo.email;
-          if (!email) throw new Error("Email is required!");
+          this.email = userInfo.email;
+          if (!this.email) throw new Error("Email is required!");
           this.globalLoaderService.showLoader();
 
           this._resourcesDashboardService.initiateStateBundleZipDownload(
             this.getValue('state'),
             this.getValue('year'),
-            '',
+            this.getValue('ulb')?._id,
             this.getValue('contentType'),
             'audited',
-            email,
+            this.email,
           ).subscribe({
             next: (res) => {
               // console.log("response: ", res);
               this.openSnackBar('A download link will be sent to your email shortly!');
               this.showSuccessDiv = true;
-              this.globalLoaderService.stopLoader()
+              this.globalLoaderService.stopLoader();
+              // this.dismissStateBundle();
             },
             error: (error) => {
               this.showSuccessDiv = false;
