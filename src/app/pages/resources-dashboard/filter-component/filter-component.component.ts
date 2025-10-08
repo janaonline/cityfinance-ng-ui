@@ -1,10 +1,13 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
+import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute } from "@angular/router";
 import { from, Observable, of, Subject } from "rxjs";
 import { catchError, debounceTime, distinctUntilChanged, switchMap, takeUntil, tap } from "rxjs/operators";
+import { AuthService } from "src/app/auth/auth.service";
 import { IState } from "src/app/models/state/state";
+import { OtpDialogComponent } from "src/app/shared/components/otp-dialog/otp-dialog.component";
 import { DownloadUserInfoService } from "src/app/shared/components/user-info-dialog/download-user-info.service";
 import { CommonService } from "src/app/shared/services/common.service";
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
@@ -95,6 +98,8 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
     private globalLoaderService: GlobalLoaderService,
     private _snackBar: MatSnackBar,
     private userInfoService: DownloadUserInfoService,
+    private authService: AuthService,
+    private dialog: MatDialog,
   ) {
     const year = this.route.snapshot.queryParamMap.get('year');
     const ulbName = this.route.snapshot.queryParamMap.get('ulbName');
@@ -324,6 +329,12 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
     }
   }
 
+  testdialog() {
+    this.dialog.open(OtpDialogComponent, {
+      minWidth: 500,
+    })
+  }
+
   // User requested to create state bundle - Email files is clicked.
   sendStateBundle() {
     // User info popup.
@@ -344,8 +355,14 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
             'audited',
             this.email,
           ).subscribe({
-            next: (res) => {
-              // console.log("response: ", res);
+            next: (res: { success: boolean, jobId: string }) => {
+              if (!res.success || !res.jobId) {
+                this.authService.clearLocalStorageKey('userInfo');
+                this.globalLoaderService.stopLoader();
+                this.openSnackBar('Kindly verfiy your email id.');
+                return;
+              }
+
               this.openSnackBar('A download link will be sent to your email shortly!');
               this.showSuccessDiv = true;
               this.globalLoaderService.stopLoader();

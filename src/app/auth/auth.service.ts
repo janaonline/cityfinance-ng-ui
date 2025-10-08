@@ -14,7 +14,7 @@ export class AuthService {
   // public expirationDate = this.helper.getTokenExpirationDate(myRawToken);
   // public isExpired = this.helper.isTokenExpired(myRawToken);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   loginLogoutCheck = new Subject<any>();
   authenticateUser(user) {
@@ -24,8 +24,7 @@ export class AuthService {
   getLastUpdated(params?) {
     return this.http.get(
       environment.api.url +
-        `ledger/lastUpdated?ulb=${params?.ulb ?? ""}&state=${
-          params?.state ?? ""
+      `ledger/lastUpdated?ulb=${params?.ulb ?? ""}&state=${params?.state ?? ""
       }`
     );
   }
@@ -91,6 +90,10 @@ export class AuthService {
       // If the key doesn't match any exclusion criteria, remove it
       if (!shouldExclude) localStorage.removeItem(key);
     });
+  }
 
+  // Remove specific key from local storage.
+  clearLocalStorageKey(key: string) {
+    localStorage.removeItem(key);
   }
 }
