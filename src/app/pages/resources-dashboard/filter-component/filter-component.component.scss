@@ -1,5 +1,7 @@
 * {
-  font-family: "Archivo";
+  // font-family: "Archivo";
+  font-family: "Montserrat";
+  font-weight: 500;
 }
 
 ::ng-deep .custom-form-style .mat-form-field-flex {
@@ -51,4 +53,53 @@ mat-icon {
 .custom-button:hover {
   background-color: #e67e15;
   color: white;
+}
+
+.card-hover {
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 8px;
+}
+
+.card-hover:hover {
+  background-color: rgb(237, 236, 236);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.bg-custom-gray {
+  color: gray;
+  cursor: not-allowed;
+}
+
+.info-banner {
+  background-color: #e9edf5;
+  font-family: "Montserrat";
+  font-size: 1.5rem;
+  margin: 2rem 0rem;
+}
+
+.bg-success-subtle {
+  background-color: #d1e7dd;
+}
+
+span[tooltip] {
+  display: inline-block;
+  cursor: not-allowed;
+}
+
+.custom-btn {
+  border-radius: 0.5rem;
+  border: 0;
+  background-color: hsla(220, 62%, 25%, 1);
+  color: white;
+}
+
+.custom-btn:hover {
+  background-color: hsl(220, 61%, 21%);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.custom-btn:disabled {
+  cursor: not-allowed;
+  background-color: hsla(220, 61%, 21%, 0.612);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

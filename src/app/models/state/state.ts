@@ -5,4 +5,5 @@ export interface IState {
   code?: string;
   regionalName?: string;
   totalUlbs?: number;
+  isUT?: boolean;
 }

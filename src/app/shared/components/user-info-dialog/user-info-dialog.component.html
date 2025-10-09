@@ -16,11 +16,7 @@
   <div class="row">
     <ng-container *ngFor="let field of fields">
       <div class="col-md-6">
-        <mat-form-field
-          [appearance]="'outline'"
-          class="mt-2"
-          [formGroup]="userInfo"
-        >
+        <mat-form-field [appearance]="'outline'" class="mt-2" [formGroup]="userInfo">
           <!-- Label -->
           <mat-label for="field.key">
             {{ field.label }}
@@ -30,19 +26,11 @@
           </mat-label>
 
           <!-- input box -->
-          <input
-            matInput
-            [formControlName]="field.key"
-            [id]="field.key"
-            [type]="field.formFieldType"
-            [readonly]="readonly"
-          />
+          <input matInput [formControlName]="field.key" [id]="field.key" [type]="field.formFieldType"
+            [readonly]="readonly" />
 
           <!-- validations -->
-          <ng-container
-            ngProjectAs="mat-error"
-            *ngFor="let validation of field.validations"
-          >
+          <ng-container ngProjectAs="mat-error" *ngFor="let validation of field.validations">
             <mat-error *ngIf="hasError(field.key, validation.name)">
               {{ validation.message }}
             </mat-error>
@@ -68,20 +56,15 @@
 
 </mat-dialog-content>
 
+<p *ngIf="message" class="border bg-light rounded-2 p-3 my-2 mx-5">{{message}}</p>
+<!-- <re-captcha (resolved)="resolveCaptcha($event)" [siteKey]="reCaptcha.siteKey"></re-captcha> -->
+
 <mat-dialog-actions class="px-5 mb-3 row justify-content-center gap-3">
-  <button
-    type="button"
-    class="col-auto py-2 btn btn-secondary"
-    (click)="submitUserInfo()"
-    [disabled]="checkboxMsg ? userInfo.invalid || !isChecked : userInfo.invalid"
-  >
+  <button type="button" class="col-auto py-2 btn btn-secondary" (click)="submit()"
+    [disabled]="checkboxMsg ? userInfo.invalid || !isChecked : userInfo.invalid">
     Submit
   </button>
-  <button
-    mat-dialog-close
-    type="button"
-    class="col-auto py-2 btn btn btn-outline-secondary"
-  >
+  <button mat-dialog-close type="button" class="col-auto py-2 btn btn btn-outline-secondary">
     Cancel
   </button>
 </mat-dialog-actions>

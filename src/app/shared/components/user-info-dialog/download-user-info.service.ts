@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
-import { UserInfoDialogComponent } from './user-info-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { UtilityService } from '../../services/utility.service';
+import { UserInfoDialogComponent } from './user-info-dialog.component';
 
 @Injectable({
   providedIn: 'root'
@@ -21,15 +22,16 @@ export class DownloadUserInfoService {
   }
 
   // Get user info before viewing/ downloading file (update that in db).
-  public openUserInfoDialog(fileDetails: any, module: string): Promise<boolean> { 
+  public openUserInfoDialog(fileDetails: any, module: string): Promise<boolean> {
 
     const downloadInfo = { module: module, fileDownloaded: fileDetails }; // Info about the file download for backend payload.
     const moduleInfo = { saveToLocalStorage: true, endPoint: 'file-download-log/userInfo' }; // Frontend config flags for handling the module.
-    const userInfo = localStorage.getItem('userInfo');
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    // console.log('service: ', userInfo)
 
     return new Promise((resolve) => {
-      if (userInfo) {
-        const userData = { ...JSON.parse(userInfo), ...downloadInfo};
+      if (userInfo && userInfo.isEmailVerified) {
+        const userData = { ...userInfo, ...downloadInfo };
         this.updateDownloadUserInfoToDb(userData)
           .then(() => resolve(true))
           .catch(() => resolve(false));
