@@ -86,10 +86,13 @@
 <mat-card *ngIf="filterInputData?.comp == 'dataSets' && showStateBundleDiv" class="info-banner">
   <mat-card-content class="">
     <div class="mb-3">
-      <div class="fw-bold mb-1">UPGRADE TO STATE BUNDLE</div>
+      <!-- <div class="fw-bold mb-1">UPGRADE TO STATE BUNDLE</div> -->
+      <div class="fw-bold mb-1">NEED DATA FOR ALL CITIES IN {{getStateName() || 'STATE' | uppercase}}?</div>
       <div class="text-muted">
-        Get comprehensive data for all cities of a State. Perfect for complete
-        state analysis.
+        Instead of downloading files one at a time, access {{getStateName() || 'STATE'}}'s data in one
+        go. <br>
+        Get all the ULB files for {{getStateName() || 'STATE'}}, neatly zipped and sent to your email
+        address as a download link.
       </div>
     </div>
     <div class="d-flex gap-2">
@@ -108,9 +111,9 @@
   <form [formGroup]="filterForm" class="row mb-4">
     <mat-radio-group formControlName="contentType" class="row w-100 justify-content-center">
       <ng-container *ngFor="let option of contentType">
-        <div class="col-12 col-md-3">
+        <div class="col-12 col-md-3" *ngIf="getActiveStatus(option.key)">
           <span
-            [tooltip]="isStateBundleRequested && disableForStateBundle2.includes(option?.key)? 'Dummy text: Create state bundle unavailable' : null"
+            [tooltip]="isStateBundleRequested && disableForStateBundle2.includes(option?.key)? option.tooltip : null"
             container="body">
             <mat-card class="h-100 border bg-light card-hover" [class.bg-custom-gray]="
               isStateBundleRequested &&
@@ -143,21 +146,28 @@
   class="mb-5" style="font-family: Montserrat">
   <!-- Selection summary -->
   <div class="rounded p-3 px-4 mb-4 border bg-light">
-    <h6 class="fw-bold my-1">Note:</h6>
-    <ul class="small">
-      <li>Dummy text: To be changed.</li>
-      <li>A verification link will be sent to your email ID. Once verificed you will receive the donwload
-        link in 30 mins.</li>
-    </ul>
+    <h6 class="fw-bold my-1">How this works?</h6>
+    <ol *ngIf="email; else elseBlock" class="small">
+      <li>Your email ID <a [href]="'mailto:'+email">{{email}}</a> is already verified. </li>
+      <li>Your download link will be sent to your inbox within 30 minutes. The link will be valid for 30 days.</li>
+    </ol>
+    <ng-template #elseBlock>
+      <ol class="small">
+        <li>We'll send an OTP to your email. Please enter the OTP to confirm.</li>
+        <li>After verification, your download link will be ready within 30 minutes.</li>
+        <li>Download files anytime within 30 days.</li>
+      </ol>
+    </ng-template>
+
+    <p>Issues with OTP or getting the email? Write to <a href="mailto:updates@cityfinance.in">updates@cityfinance.in</a>
+    </p>
   </div>
 
   <div *ngIf="showSuccessDiv" class="rounded p-3 px-4 mb-4 bg-success-subtle border border-success">
     <!-- <div class="text-center fw-bold">114 files selected</div>
     <div class="text-center text-muted small">Estimated size: 38&nbsp;MB</div> -->
     <div class="text-center small fw-bold">
-      <p *ngIf="email">Email sent to: {{email}}</p>
-      Success! Your email ID has been verified, and your state bundle is being prepared. We'll email you the files in
-      about 20 minutes.
+      Success! Your state bundle is being prepared. We'll email you the files in about 30 minutes.
     </div>
   </div>
 
