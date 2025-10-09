@@ -100,7 +100,9 @@ export class NHomeHeaderComponent implements OnInit {
     });
   }
 
-
+  blogsPage() {
+    window.open('https://blog.cityfinance.in/', '_blank');
+  }
   setFontSize(size) {
     console.log('setFontSize', size)
     // this.size= size;
