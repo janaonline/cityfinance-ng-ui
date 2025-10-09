@@ -67,23 +67,4 @@ export class DownloadUserInfoService {
 
   }
 
-  public sendOtp(email: string, isVerified: boolean = true) {
-    if (!email) throw new Error("Email is mandatory!");
-
-    const tempRes = {
-      success: true,
-      message: 'Email is verfied!',
-      isEmailVerified: true,
-    };
-
-    const tempResOtp = {
-      success: true,
-      message: 'OTP sent to your email!',
-      isEmailVerified: false,
-      otp: 123456
-    }
-    if (isVerified) return of(tempRes);
-    else return of(tempResOtp);
-  }
-
 }

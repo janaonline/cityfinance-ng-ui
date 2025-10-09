@@ -2,7 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Subscription, timer } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
 import { UtilityService } from '../../services/utility.service';
+import { EmailVerification } from '../user-info-dialog/user-info-dialog.component';
 
 const TIMER = 5;
 
@@ -22,15 +24,18 @@ export class OtpDialogComponent implements OnInit {
     Validators.maxLength(6),
     Validators.pattern(/^\d+$/)
   ]);
+  email: string = '';
 
   constructor(
     private utilityService: UtilityService,
     @Inject(MAT_DIALOG_DATA) public matDialogData: any,
     private dialogRef: MatDialogRef<OtpDialogComponent>,
+    private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
     this.startResendTimer();
+    this.email = this.matDialogData.email;
   }
 
   get showOtpError(): boolean {
@@ -38,7 +43,6 @@ export class OtpDialogComponent implements OnInit {
   }
 
   resendOtp() {
-    // console.log("Resend code");
     this.startResendTimer();
   }
 
@@ -48,18 +52,19 @@ export class OtpDialogComponent implements OnInit {
       return;
     }
 
-    // this.showResendOtp = false;
-
-    setTimeout(() => {
-      if (Number(this.otp.value) === 123456) {
-        this.dialogRef.close({ isOtpVerified: true, success: true, message: 'OTP Verified Successfully!' })
-        this.utilityService.swalPopup('OTP Verified Successfully!', '', 'success');
-      } else {
-        this.dialogRef.close({ isOtpVerified: false, success: false, message: 'Incorrect OTP!' })
-        this.utilityService.swalPopup('Incorrect OTP!', '', 'error');
+    this.authService.verifyOtp(this.email, this.otp.value).subscribe({
+      next: (res: EmailVerification) => {
+        // console.log({ res })
+        this.dialogRef.close(res)
+        this.utilityService.swalPopup('Success!', res.message, 'success');
+      },
+      error: (error: any) => {
+        // console.error('error', error)
+        const errMsg = error?.error?.message || 'Invalid OTP!';
+        this.utilityService.swalPopup('Error', errMsg, 'error');
         this.showResendOtp = true
       }
-    }, 1000);
+    })
   }
 
   startResendTimer() {
