@@ -329,12 +329,6 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
     }
   }
 
-  testdialog() {
-    this.dialog.open(OtpDialogComponent, {
-      minWidth: 500,
-    })
-  }
-
   // User requested to create state bundle - Email files is clicked.
   sendStateBundle() {
     // User info popup.
@@ -355,22 +349,25 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
             'audited',
             this.email,
           ).subscribe({
-            next: (res: { success: boolean, jobId: string }) => {
-              if (!res.success || !res.jobId) {
-                this.authService.clearLocalStorageKey('userInfo');
-                this.globalLoaderService.stopLoader();
-                this.openSnackBar('Kindly verfiy your email id.');
-                return;
-              }
+            next: (res: { message: string }) => {
+              // if (!res.jobId) {
+              //   this.authService.clearLocalStorageKey('userInfo');
+              //   this.globalLoaderService.stopLoader();
+              //   this.openSnackBar('Kindly verfiy your email id.');
+              //   return;
+              // }
 
-              this.openSnackBar('A download link will be sent to your email shortly!');
+              const message = 'A download link will be sent to your email shortly!'
+              this.openSnackBar(res.message || message);
               this.showSuccessDiv = true;
               this.globalLoaderService.stopLoader();
               // this.dismissStateBundle();
             },
             error: (error) => {
               this.showSuccessDiv = false;
-              this.openSnackBar('Failed to initiate the download process!');
+              const message = 'Failed to initiate the download process!';
+              this.authService.clearLocalStorageKey('userInfo');
+              this.openSnackBar(error.message || message);
               console.error("Error: ", error);
               this.globalLoaderService.stopLoader()
             }

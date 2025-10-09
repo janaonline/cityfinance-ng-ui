@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Subscription, timer } from 'rxjs';
 import { UtilityService } from '../../services/utility.service';
 
@@ -26,7 +26,7 @@ export class OtpDialogComponent implements OnInit {
   constructor(
     private utilityService: UtilityService,
     @Inject(MAT_DIALOG_DATA) public matDialogData: any,
-    // private dialogRef: MatDialogRef<OtpDialogComponent>,
+    private dialogRef: MatDialogRef<OtpDialogComponent>,
   ) { }
 
   ngOnInit(): void {
@@ -38,7 +38,7 @@ export class OtpDialogComponent implements OnInit {
   }
 
   resendOtp() {
-    console.log("Resend code");
+    // console.log("Resend code");
     this.startResendTimer();
   }
 
@@ -48,12 +48,14 @@ export class OtpDialogComponent implements OnInit {
       return;
     }
 
-    this.showResendOtp = false;
+    // this.showResendOtp = false;
 
     setTimeout(() => {
       if (Number(this.otp.value) === 123456) {
+        this.dialogRef.close({ isOtpVerified: true, success: true, message: 'OTP Verified Successfully!' })
         this.utilityService.swalPopup('OTP Verified Successfully!', '', 'success');
       } else {
+        this.dialogRef.close({ isOtpVerified: false, success: false, message: 'Incorrect OTP!' })
         this.utilityService.swalPopup('Incorrect OTP!', '', 'error');
         this.showResendOtp = true
       }

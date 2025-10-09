@@ -1,7 +1,9 @@
 import { Component, Inject, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { AuthService } from "src/app/auth/auth.service";
 import { UtilityService } from "../../services/utility.service";
+import { OtpDialogComponent } from "../otp-dialog/otp-dialog.component";
 import { DownloadUserInfoService } from "./download-user-info.service";
 
 interface Validator {
@@ -33,7 +35,9 @@ export class UserInfoDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public matDialogData: any,
     private downloadUserService: DownloadUserInfoService,
     private dialogRef: MatDialogRef<UserInfoDialogComponent>,
-    private utilityService: UtilityService
+    private dialog: MatDialog,
+    private utilityService: UtilityService,
+    private authService: AuthService,
   ) { }
 
   title: string = "Download";
@@ -43,9 +47,18 @@ export class UserInfoDialogComponent implements OnInit {
   userInfo: FormGroup = new FormGroup({});
   checkboxMsg: string = '';
   isChecked: boolean = false;
+  module: string = '';
+  message: string = '';
+
+  // public reCaptcha = {
+  //   show: true,
+  //   siteKey: environment.reCaptcha.siteKey,
+  //   userGeneratedKey: null,
+  // };
 
   ngOnInit(): void {
     this.getFields();
+    this.module = this.matDialogData?.downloadInfo?.module;
   }
 
   private getFields(): void {
@@ -62,14 +75,49 @@ export class UserInfoDialogComponent implements OnInit {
       });
   }
 
-  public submitUserInfo(): void {
+  public submit() {
+    this.message = '';
 
     if (this.userInfo.valid) {
       let payload = { ...this.userInfo.value };
 
+      this.downloadUserService.sendOtp(payload.email, false).subscribe({
+        next: (res) => {
+          if (res.isEmailVerified) {
+            this.submitUserInfo(res.isEmailVerified);
+          } else {
+            const otpDialog = this.dialog.open(OtpDialogComponent, { minWidth: 500 });
+            otpDialog.afterClosed().subscribe((data) => {
+              // console.log("After dialog closed data: ", data);
+              this.message = data.message;
+
+              // OTP is verified.
+              if (data.isOtpVerified) {
+                this.submitUserInfo(true);
+              } else {
+                this.authService.clearLocalStorageKey('userInfo');
+              }
+            })
+          }
+        },
+        error: (error) => {
+          console.error('Failed to validate OTP!');
+          this.message = error.message;
+          this.utilityService.swalPopup('Error', error.message, 'error');
+        }
+      })
+    }
+  }
+
+  public submitUserInfo(isEmailVerified: boolean = false): void {
+
+    if (this.userInfo.valid) {
+      let payload = { ...this.userInfo.value, isEmailVerified };
+      // console.log({ payload })
+
       // If saveToLocalStorage is true then store data in localStorage.
       if (this.matDialogData?.moduleInfo?.saveToLocalStorage) {
-        localStorage.setItem("userInfo", JSON.stringify(this.userInfo.value));
+        localStorage.setItem("userInfo", JSON.stringify(payload));
 
         payload = {
           ...this.userInfo.value,
@@ -135,4 +183,24 @@ export class UserInfoDialogComponent implements OnInit {
     return (this.userInfo.get(key) as FormControl).hasError(name);
   }
 
+  // TODO: ON HOLD.
+  // private resetCaptcha() {
+  //   this.reCaptcha.show = false;
+  //   this.reCaptcha.userGeneratedKey = null;
+  //   // this.passwordRequestForm.controls.captcha.reset();
+  //   setTimeout(() => {
+  //     this.reCaptcha.show = true;
+  //   }, 500);
+  // }
+
+  // resolveCaptcha(keyGenerated: string) {
+  //   this.reCaptcha.userGeneratedKey = keyGenerated;
+  //   this.authService.verifyCaptcha(keyGenerated).subscribe((res) => {
+
+  //     if (!res["success"]) {
+  //       this.resetCaptcha();
+  //     }
+
+  //   });
+  // }
 }
