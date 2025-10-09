@@ -11,7 +11,6 @@ interface Validator {
   validator: any;
   message: string;
 }
-
 interface FieldConfig {
   required?: any;
   label: string;
@@ -21,6 +20,14 @@ interface FieldConfig {
   value?: any;
   validations?: Validator[];
   showAsterisk?: boolean;
+}
+
+export interface EmailVerification {
+  isOtpSent: boolean;
+  isOtpVerified: boolean;
+  isEmailVerified: boolean;
+  isUnsubscribed: boolean;
+  message: string;
 }
 
 @Component({
@@ -81,12 +88,13 @@ export class UserInfoDialogComponent implements OnInit {
     if (this.userInfo.valid) {
       let payload = { ...this.userInfo.value };
 
-      this.downloadUserService.sendOtp(payload.email, false).subscribe({
-        next: (res) => {
+      this.authService.sendOtp(payload.email).subscribe({
+        next: (res: EmailVerification) => {
           if (res.isEmailVerified) {
             this.submitUserInfo(res.isEmailVerified);
           } else {
-            const otpDialog = this.dialog.open(OtpDialogComponent, { minWidth: 500 });
+            const data = { email: payload.email };
+            const otpDialog = this.dialog.open(OtpDialogComponent, { data, minWidth: 500 });
             otpDialog.afterClosed().subscribe((data) => {
               // console.log("After dialog closed data: ", data);
               this.message = data.message;

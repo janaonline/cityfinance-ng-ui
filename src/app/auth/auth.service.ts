@@ -96,4 +96,16 @@ export class AuthService {
   clearLocalStorageKey(key: string) {
     localStorage.removeItem(key);
   }
+
+  public sendOtp(email: string) {
+    if (!email) throw new Error("Email is mandatory!");
+
+    return this.http.post(`${environment.api.urlV2}email/sendOtp`, { email });
+  }
+
+  public verifyOtp(email: string, otp: string) {
+    if (!email || !otp) throw new Error("Email or OTP is missing!");
+
+    return this.http.post(`${environment.api.urlV2}email/verifyOtp`, { email, otp });
+  }
 }
