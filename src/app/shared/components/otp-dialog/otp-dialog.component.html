@@ -1,0 +1,35 @@
+<h1 mat-dialog-title class="text-center">
+    <span class="d-block w-100 h-100">
+        <mat-icon class="text-success fs-1"> email</mat-icon>
+    </span>
+    Please check your email
+</h1>
+
+<mat-form-field class="col p-0 w-100 border-0 custom-form-style" appearance="outline">
+    <mat-label for="otp">6 digit code</mat-label>
+    <!-- input box -->
+    <input matInput [formControl]="otp" id="otp" [readonly]="readonly" maxlength="6" />
+
+    <!-- Error messages shown here -->
+    <mat-error class="mt-3" *ngIf="showOtpError">
+        OTP must be a valid 6-digit number.
+    </mat-error>
+</mat-form-field>
+
+<small class="d-block text-end mt-3 fst-italic" *ngIf="showResendOtp">
+    Didn't get the code?
+    <span *ngIf="counter>0; else showResendLink">Resend code in {{counter}} sec(s)</span>
+    <ng-template #showResendLink>
+        <u class="text-primary resendCode" (click)="resendOtp()">Resend code.</u>
+    </ng-template>
+
+</small>
+
+<mat-dialog-actions class="px-5 my-2 row justify-content-center gap-3">
+    <button type="button" class="col-auto py-2 btn btn-secondary" [disabled]="otp.invalid" (click)="verify()">
+        Verify
+    </button>
+    <button mat-dialog-close type="button" class="col-auto py-2 btn btn btn-outline-secondary">
+        Cancel
+    </button>
+</mat-dialog-actions>

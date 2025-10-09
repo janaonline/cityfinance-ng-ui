@@ -109,6 +109,7 @@ import { IncludesPipe } from './pipes/includes.pipe';
 import { GlobalPartModule } from "../global-part/global-part.module";
 import { CountUpDirective } from "./directives/count-up.directive";
 import { UserInfoDialogComponent } from './components/user-info-dialog/user-info-dialog.component';
+import { OtpDialogComponent } from './components/otp-dialog/otp-dialog.component';
 
 @NgModule({
     imports: [
@@ -219,6 +220,7 @@ import { UserInfoDialogComponent } from './components/user-info-dialog/user-info
         IncludesPipe,
         CountUpDirective,
         UserInfoDialogComponent,
+        OtpDialogComponent,
     ],
     exports: [
         JoinPipe,

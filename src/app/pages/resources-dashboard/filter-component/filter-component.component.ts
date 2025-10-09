@@ -1,9 +1,11 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
+import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute } from "@angular/router";
 import { from, Observable, of, Subject } from "rxjs";
 import { catchError, debounceTime, distinctUntilChanged, switchMap, takeUntil, tap } from "rxjs/operators";
+import { AuthService } from "src/app/auth/auth.service";
 import { IState } from "src/app/models/state/state";
 import { DownloadUserInfoService } from "src/app/shared/components/user-info-dialog/download-user-info.service";
 import { CommonService } from "src/app/shared/services/common.service";
@@ -46,38 +48,6 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
   unsubscribe$ = new Subject<void>();
   pdfStatus = ['Audited', 'Unaudited'];
   auditType: string;
-  contentType = [
-    {
-      value: 'rawPdf',
-      key: 'Raw Data PDF',
-      label: 'Data submitted by ULBs',
-      description: 'in PDF',
-      isActive: true,
-    },
-    {
-      value: 'rawExcel',
-      key: 'Raw Data Excel',
-      label: 'Data submitted by ULBs',
-      description: 'in Excel',
-      isActive: true,
-    },
-    {
-      value: 'standardizedExcel',
-      key: 'Standardised Excel',
-      label: 'Data standardized by City Finance',
-      description: 'in Excel',
-      isActive: false,
-    },
-    {
-      value: 'budget',
-      key: 'Budget PDF',
-      label: 'Budget data submitted by ULBs',
-      description: 'in PDF',
-      isActive: true,
-    }
-  ];
-  // disableForStateBundle = ['rawExcel', 'standardizedExcel'];
-
   disableForStateBundle2 = ['Raw Data Excel', 'Standardised Excel'];
   isStateBundleRequested: boolean = false;
   durationInSeconds: number = 3;
@@ -86,6 +56,40 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
   showStateBundleDiv: boolean = false;
   showSuccessDiv: boolean = false;
   email: string = '';
+  contentType = [
+    {
+      value: 'rawPdf',
+      key: 'Raw Data PDF',
+      label: 'Data submitted by ULBs',
+      description: 'in PDF',
+      isActive: true,
+      tooltip: '',
+    },
+    {
+      value: 'rawExcel',
+      key: 'Raw Data Excel',
+      label: 'Data submitted by ULBs',
+      description: 'in Excel',
+      isActive: false,
+      tooltip: '',
+    },
+    {
+      value: 'standardizedExcel',
+      key: 'Standardised Excel',
+      label: 'Data standardized into NMAM format',
+      description: 'in Excel',
+      isActive: true,
+      tooltip: 'Currently under development.',
+    },
+    {
+      value: 'budget',
+      key: 'Budget PDF',
+      label: 'Budget data submitted by ULBs',
+      description: 'in PDF',
+      isActive: true,
+      tooltip: '',
+    }
+  ];
 
   constructor(
     private fb: FormBuilder,
@@ -95,6 +99,8 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
     private globalLoaderService: GlobalLoaderService,
     private _snackBar: MatSnackBar,
     private userInfoService: DownloadUserInfoService,
+    private authService: AuthService,
+    private dialog: MatDialog,
   ) {
     const year = this.route.snapshot.queryParamMap.get('year');
     const ulbName = this.route.snapshot.queryParamMap.get('ulbName');
@@ -306,6 +312,11 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
   }
 
   createStateBundle() {
+    const userInfo = this.getUserInfo();
+    if (userInfo && userInfo.email) {
+      this.email = userInfo.email;
+    }
+
     this.isStateBundleRequested = true;
     this.showSuccessDiv = false;
     this.emitStateBundleValue();
@@ -324,15 +335,24 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
     }
   }
 
+  getStateName(): string {
+    return this.statesObj[this.getValue('state')]?.name;
+  }
+
+  getUserInfo() {
+    return JSON.parse(localStorage.getItem('userInfo'));
+  }
+
   // User requested to create state bundle - Email files is clicked.
   sendStateBundle() {
     // User info popup.
-    const state = this.statesObj[this.getValue('state')]?.name || this.getValue('state');
+    const state = this.getStateName() || this.getValue('state');
     this.userInfoService.openUserInfoDialog([{ fileName: `bulkDownload_${state}_${this.getValue('contentType')}` }], this.module)
       .then((isDialogConfirmed) => {
         if (isDialogConfirmed) {
-          const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+          const userInfo = this.getUserInfo();
           this.email = userInfo.email;
+
           if (!this.email) throw new Error("Email is required!");
           this.globalLoaderService.showLoader();
 
@@ -344,16 +364,25 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
             'audited',
             this.email,
           ).subscribe({
-            next: (res) => {
-              // console.log("response: ", res);
-              this.openSnackBar('A download link will be sent to your email shortly!');
+            next: (res: { message: string }) => {
+              // if (!res.jobId) {
+              //   this.authService.clearLocalStorageKey('userInfo');
+              //   this.globalLoaderService.stopLoader();
+              //   this.openSnackBar('Kindly verfiy your email id.');
+              //   return;
+              // }
+
+              const message = 'A download link will be sent to your email shortly!'
+              this.openSnackBar(res.message || message);
               this.showSuccessDiv = true;
               this.globalLoaderService.stopLoader();
               // this.dismissStateBundle();
             },
             error: (error) => {
               this.showSuccessDiv = false;
-              this.openSnackBar('Failed to initiate the download process!');
+              const message = 'Failed to initiate the download process!';
+              this.authService.clearLocalStorageKey('userInfo');
+              this.openSnackBar(error.message || message);
               console.error("Error: ", error);
               this.globalLoaderService.stopLoader()
             }
@@ -386,6 +415,12 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
       duration: this.durationInSeconds * 1000,
       data: { text }
     });
+  }
+
+  // Hide card if key === 'Raw Data Excel'
+  getActiveStatus(key: string) {
+    if (key === 'Raw Data Excel' && this.isStateBundleRequested) return false;
+    return true;
   }
 
   ngOnDestroy(): void {
