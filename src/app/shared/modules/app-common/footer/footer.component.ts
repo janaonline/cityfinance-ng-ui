@@ -24,39 +24,42 @@ export class FooterComponent implements OnInit {
       .getWebsiteVisitCount()
       .subscribe((res) => (this.totalUsersVisit = res));
   }
-  routerNav(navlink){
-     console.log(navlink);
+  routerNav(navlink) {
+    console.log(navlink);
   }
   address = ` Director, AMRUT <br />
   Ministry of Housing and Urban Affairs <br />
   210 C, Nirman Bhawan, Maulana Azad Road <br />
   New Delhi-110011`;
-  mailId='mailto:contact@cityfinance.in';
+  mailId = 'mailto:contact@cityfinance.in';
   mailLabel = 'contact@cityfinance.in';
-  getPageDetails(){
+  getPageDetails() {
     this.router.events.subscribe((event) => {
       let urlArray;
       if (event instanceof NavigationEnd) {
         urlArray = event.url.split("/");
         if (urlArray.includes("rankings")) {
-         this.address = `Nirman Bhawan, <br /> New Delhi 110001`;
-         this.mailId='mailto:rankings@cityfinance.in';
+          this.address = `Nirman Bhawan, <br /> New Delhi 110001`;
+          this.mailId = 'mailto:rankings@cityfinance.in';
           this.mailLabel = 'rankings@cityfinance.in';
         }
-         else {
+        else {
           this.address = ` Director, AMRUT <br />
           Ministry of Housing and Urban Affairs <br />
           210 C, Nirman Bhawan, Maulana Azad Road <br />
           New Delhi-110011`;
-          this.mailId='mailto:contact@cityfinance.in';
+          this.mailId = 'mailto:contact@cityfinance.in';
           this.mailLabel = 'contact@cityfinance.in';
         }
       }
-      }
+    }
     );
   }
 
   getNationalPageUrl() {
     this._commonService.getNationalPageUrl();
+  }
+  blogPage() {
+    window.open('https://blog.cityfinance.in/', '_blank');
   }
 }

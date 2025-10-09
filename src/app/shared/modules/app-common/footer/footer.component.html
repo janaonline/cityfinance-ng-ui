@@ -1,34 +1,24 @@
 <div class="footer-wrappper home-footer py-5" style="position:relative">
-    <div class="container">
-        <div class="row">
-            <!-- new footer started here -->
-            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                <h6 style="margin-top: -1rem !important">
-                    <a class="foot-links" routerLink="/home" style="text-decoration: none"><span class="city">city</span><span class="fy">finance.in</span></a
-          >
+  <div class="container">
+    <div class="row">
+      <!-- new footer started here -->
+      <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+        <h6 style="margin-top: -1rem !important">
+          <a class="foot-links" routerLink="/home" style="text-decoration: none"><span class="city">city</span><span
+              class="fy">finance.in</span></a>
         </h6>
         <h6 class="foot-links">
-          <a
-            style="text-decoration: none"
-            href="/"
-            >Cityfinance.in</a
-          >
+          <a style="text-decoration: none" href="/">Cityfinance.in</a>
           <span class="foot-links lh-base">
             serves as a national framework of standardized, timely and credible
             financial information on India’s cities, beginning with urban local
             bodies. It facilitates benchmarking, comparison and peer learning
-            between cities on a range of financial indicators. </span
-          ><br />
+            between cities on a range of financial indicators. </span><br />
         </h6>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
         <h6>
-          <a
-            class="foot-links"
-            style="color: #ff9922"
-            href="/"
-            >Home</a
-          >
+          <a class="foot-links" style="color: #ff9922" href="/">Home</a>
         </h6>
         <h6>
           <!-- <a
@@ -37,30 +27,22 @@
             routerLink="municipal-data/national"
             >Financial</a
           > -->
-          <a
-            class="foot-links"
-            style="color: #ff9922"
-            (click)="getNationalPageUrl()"
-            >Financial</a
-          >
+          <a class="foot-links" style="color: #ff9922" (click)="getNationalPageUrl()">Financial</a>
         </h6>
         <h6>
-          <a
-            class="foot-links"
-            style="color: #ff9922"
-            routerLink="/own-revenue-dashboard"
-            >Own Revenue Performance</a
-          >
+          <a class="foot-links" style="color: #ff9922" routerLink="/own-revenue-dashboard">Own Revenue Performance</a>
         </h6>
         <h6>
-          <a class="foot-links" style="color: #ff9922" routerLink="/dashboard/slb"
-            >Service Level Benchmarks Performance</a
-          >
+          <a class="foot-links" style="color: #ff9922" routerLink="/dashboard/slb">Service Level Benchmarks
+            Performance</a>
         </h6>
         <!-- <h6><a class="foot-links" style="color: #FF9922;">Infrastructure Borrowings</a></h6> -->
-                <h6>
-                    <a class="foot-links" style="color: #ff9922" routerLink="/resources-dashboard/learning-center/toolkits">Resources</a
-          >
+        <h6>
+          <a class="foot-links" style="color: #ff9922"
+            routerLink="/resources-dashboard/learning-center/toolkits">Resources</a>
+        </h6>
+        <h6>
+          <a class="foot-links" style="color: #ff9922" (click)="blogPage()">Blog</a>
         </h6>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
@@ -74,14 +56,9 @@
       <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 email-sec">
         <h4>
           Email: <br />
-          <a
-            class="foot-links"
-            href="{{mailId}}"
-            style="color: #ff9922"
-            >{{mailLabel}}
+          <a class="foot-links" href="{{mailId}}" style="color: #ff9922">{{mailLabel}}
             <!-- contact@cityfinance.in -->
-            </a
-          >
+          </a>
         </h4>
         <br />
 
@@ -89,32 +66,29 @@
           Connect With Us: <br />
           <div style="margin-top: 5px">
             <a href="https://www.facebook.com/mohua.india" target="blank">
-              <img
-                src="./assets/new_dashBord_ftr_hdr/fb.svg"
-                alt=""
-              />
+              <img src="./assets/new_dashBord_ftr_hdr/fb.svg" alt="" />
             </a> &nbsp;&nbsp;
-                    <a href="https://twitter.com/MoHUA_India" target="blank">
-                        <img src="./assets/new_dashBord_ftr_hdr/twitter.svg" alt="" />
-                    </a>
-                    &nbsp;&nbsp;
-                    <a href="https://www.linkedin.com/company/mohua/" target="blank">
-                        <img src="./assets/new_dashBord_ftr_hdr/linkdin.svg" alt="" />
-                    </a>
-                    &nbsp;&nbsp;<br />
-            </div>
+            <a href="https://twitter.com/MoHUA_India" target="blank">
+              <img src="./assets/new_dashBord_ftr_hdr/twitter.svg" alt="" />
+            </a>
+            &nbsp;&nbsp;
+            <a href="https://www.linkedin.com/company/mohua/" target="blank">
+              <img src="./assets/new_dashBord_ftr_hdr/linkdin.svg" alt="" />
+            </a>
+            &nbsp;&nbsp;<br />
+          </div>
         </div>
-    </div>
-    <div class="col-md-12 col-xs-12 col-lg-12">
+      </div>
+      <div class="col-md-12 col-xs-12 col-lg-12">
         <div class="visit-count">
-            <i class="fa fa-users" aria-hidden="true" style="margin-right: 6px">
+          <i class="fa fa-users" aria-hidden="true" style="margin-right: 6px">
           </i>
-            <span class="foot-links">Visitors: {{ totalUsersVisit }} </span>
+          <span class="foot-links">Visitors: {{ totalUsersVisit }} </span>
         </div>
-    </div>
+      </div>
 
-    <!-- ----------old footer---------- -->
-    <!-- <div class="col-xs-6 col-md-4 col-lg-3">
+      <!-- ----------old footer---------- -->
+      <!-- <div class="col-xs-6 col-md-4 col-lg-3">
                 <div>
                     Director, AMRUT <br /> Ministry of Housing and Urban Affairs <br /> 210 C,
                      Nirman Bhawan, Maulana Azad Road <br /> New Delhi-110011
@@ -141,6 +115,6 @@
           ></a> &nbsp; &nbsp;
                 </div>
             </div> -->
-</div>
-</div>
+    </div>
+  </div>
 </div>
