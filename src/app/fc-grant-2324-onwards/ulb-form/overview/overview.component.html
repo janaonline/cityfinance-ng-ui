@@ -1,10 +1,11 @@
 <div class="container-fluid" *ngIf="isApiComplete">
-    <div *ngIf="['2024-25', '2025-26'].includes(selectedYear) && this.userData?.role=='ULB'" class="d-flex flex-wrap gap-2 justify-content-evenly my-4">
+    <div *ngIf="['2024-25', '2025-26'].includes(selectedYear) && this.userData?.role=='ULB'"
+        class="d-flex flex-wrap gap-2 justify-content-evenly my-4">
         <div class="webinar-alert lh-sm" style="max-width: 400px;">
             <img src="./assets/webinar/calendar.png" width="80" height="80" />
             <div>
                 <p class="fw-bold p-0 mb-2">WEBINAR ALERT</p>
-                Join our webinar on Oct 9, 2025 for a deep dive into revenue performance.
+                Join our webinar on Oct 30th, 2025 for a deep dive into revenue performance.
                 <div role="button" class="webinar-span" (click)="registerForEvent()">Register for event.</div>
             </div>
         </div>
@@ -18,133 +19,145 @@
         </div>
     </div>
 
-  <div class="row header mt-2">
-      <div class="col-sm-12 col-lg-12 col-md-12 header2">
-        <div *ngIf="selectedYear=='2025-26' && this.userData?.role=='ULB'" class="alert alert-success" role="alert">
-            <span class="btn rounded-pill btn-danger" style="pointer-events: none;">NEW</span>
-            Your opinion matters.&nbsp;<a routerLink="../../../ulb-form/606aafda4dff55e6c075d48f/feedback"
-                class="alert-link">Take a 2 minute survey</a>&nbsp;and help us improve the platform.
+    <div class="row header mt-2">
+        <div class="col-sm-12 col-lg-12 col-md-12 header2">
+            <div *ngIf="selectedYear=='2025-26' && this.userData?.role=='ULB'" class="alert alert-success" role="alert">
+                <span class="btn rounded-pill btn-danger" style="pointer-events: none;">NEW</span>
+                Your opinion matters.&nbsp;<a routerLink="../../../ulb-form/606aafda4dff55e6c075d48f/feedback"
+                    class="alert-link">Take a 2 minute survey</a>&nbsp;and help us improve the platform.
+            </div>
         </div>
-      </div>
-  </div>
-  <div class="row mb-3 mt-3">
-      <div class="col-sm-12">
-          <div class="card">
-              <div class="card-body o-text">
-                  {{overviewText}}
-              </div>
-          </div>
-      </div>
-      <!-- <button class="demoBtn">View Demo</button> -->
-  </div>
-  <div class="row" id="myIdentifier" #myIdentifier>
-      <div class="col-sm-12">
-          <div class="card">
-              <div class="card-body">
-                  <div class="row">
-                      <div class="col-sm-12 h-p">
-                          Requirements for 15th FC Grants for FY {{selectedYear}}
-                      </div>
-                      <div class="col-sm-12 a-s d-none">
-                          Application Status -{{status}}
-                      </div>
-                      <div class="col-sm-12 mt-2 d-none">
-                          <div class="progressBar">
-                              <div class="progress">
-                                  <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" [ngStyle]="{ width: percentage + '%' }" aria-valuemax="100">
-                                      {{percentage.toFixed(0)}}%</div>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="container-cnt">
-                          <div class="row titleCards w-100">
-                              <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="!cardFit">
-                                  <!-- [ngStyle]="{'width': width+'px'}" -->
-                                  <div class="row" style="">
-                                      <div class="col-sm"  [ngClass]="{'d-n' : (index >= 5), 'w-d-20': (cardsOverview?.length > 4), 'w-d-25': (cardsOverview?.length < 5)}" *ngFor="let slide of cardsOverview; let index=index">
-                                         
-                                          <div *ngIf="index < 5">
-                                              <a [routerLink]="'../' + slide?.link">
-                                                  <div class="card  individualCard" style="" [style.margin-bottom]="index != val ? '42px' : '0'" (mouseenter)="onHover(index, cardsOverview[index].title, cardsOverview[index].key, slide)" (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
+    </div>
+    <div class="row mb-3 mt-3">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body o-text">
+                    {{overviewText}}
+                </div>
+            </div>
+        </div>
+        <!-- <button class="demoBtn">View Demo</button> -->
+    </div>
+    <div class="row" id="myIdentifier" #myIdentifier>
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12 h-p">
+                            Requirements for 15th FC Grants for FY {{selectedYear}}
+                        </div>
+                        <div class="col-sm-12 a-s d-none">
+                            Application Status -{{status}}
+                        </div>
+                        <div class="col-sm-12 mt-2 d-none">
+                            <div class="progressBar">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0"
+                                        [ngStyle]="{ width: percentage + '%' }" aria-valuemax="100">
+                                        {{percentage.toFixed(0)}}%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-cnt">
+                            <div class="row titleCards w-100">
+                                <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="!cardFit">
+                                    <!-- [ngStyle]="{'width': width+'px'}" -->
+                                    <div class="row" style="">
+                                        <div class="col-sm"
+                                            [ngClass]="{'d-n' : (index >= 5), 'w-d-20': (cardsOverview?.length > 4), 'w-d-25': (cardsOverview?.length < 5)}"
+                                            *ngFor="let slide of cardsOverview; let index=index">
+
+                                            <div *ngIf="index < 5">
+                                                <a [routerLink]="'../' + slide?.link">
+                                                    <div class="card  individualCard" style=""
+                                                        [style.margin-bottom]="index != val ? '42px' : '0'"
+                                                        (mouseenter)="onHover(index, cardsOverview[index].title, cardsOverview[index].key, slide)"
+                                                        (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
         index == 0 ?' linear-gradient(#73C557, #3A632C)': index == 1  ? 'linear-gradient(#42C9F6, #21657B)': index == 2 ?
         'linear-gradient(#F16831, #793419)': index == 3 ? 'linear-gradient(#FDCB2E, #7F6617)' :
         index == 4 ? 'linear-gradient(#549D5E, #2A4F2F)' : index == 5 ? 'linear-gradient(#E71368, #740A34)' : index == 6 ?
         'linear-gradient(#9D198B, #4F0D46)' : 'linear-gradient(#73C557, #3A632C)' }">
-                                                      <img [src]="slide?.image | toStorageUrl" height="22" width="27" />
-                                                      <div>
-                                                          <!-- class="card-body" -->
-                                                          <h5 class="card-title"> {{slide['title']}} </h5>
+                                                        <img [src]="slide?.image | toStorageUrl" height="22"
+                                                            width="27" />
+                                                        <div>
+                                                            <!-- class="card-body" -->
+                                                            <h5 class="card-title"> {{slide['title']}} </h5>
 
-                                                      </div>
-                                                  </div>
+                                                        </div>
+                                                    </div>
 
-                                              </a>
-                                          </div>
-                                      </div>
+                                                </a>
+                                            </div>
+                                        </div>
 
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                      <div class="row">
-                          <div class="col-sm-12 col-md-12 col-lg-12">
-                              <div class="message " [ngStyle]="{ 'background-image': i==1 ? 'linear-gradient(#73C557, #3A632C)' :
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <div class="message "
+                                    [ngStyle]="{ 'background-image': i==1 ? 'linear-gradient(#73C557, #3A632C)' :
                           i==2 ? 'linear-gradient(#42C9F6, #21657B)' : i==3 ? 'linear-gradient(#F16831, #793419)': i==4 ?
                           'linear-gradient(#FDCB2E, #7F6617)' : i==5?
                           'linear-gradient(#549D5E, #2A4F2F)': i==6? 'linear-gradient(#E71368, #740A34)' : i==7 ? 'linear-gradient(#9D198B, #4F0D46)' : 'linear-gradient(#73C557, #3A632C)' } ">
-                                  {{message}}
-                              </div>
-                          </div>
-                      </div>
-                      <div class="container-cnt">
-                          <div class="row titleCards w-100">
-                              <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="!cardFit">
-                                  <!-- [ngStyle]="{'width': width+'px'}" -->
-                                  <div class="row">
-                                      <div class="col-sm-3" [ngClass]="{'d-n' : (index < 5)}" *ngFor="let slide of cardsOverview; let index=index">
+                                    {{message}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-cnt">
+                            <div class="row titleCards w-100">
+                                <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="!cardFit">
+                                    <!-- [ngStyle]="{'width': width+'px'}" -->
+                                    <div class="row">
+                                        <div class="col-sm-3" [ngClass]="{'d-n' : (index < 5)}"
+                                            *ngFor="let slide of cardsOverview; let index=index">
 
-                                          <div *ngIf="index >= 5">
-                                              <a [routerLink]="'../' + slide?.link">
-                                                  <div class="card  individualCard" (mouseenter)="onHover(index, cardsOverview[index].title, cardsOverview[index].key, slide)" (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
+                                            <div *ngIf="index >= 5">
+                                                <a [routerLink]="'../' + slide?.link">
+                                                    <div class="card  individualCard"
+                                                        (mouseenter)="onHover(index, cardsOverview[index].title, cardsOverview[index].key, slide)"
+                                                        (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
         index == 0 ?' linear-gradient(#73C557, #3A632C)': index == 1  ? 'linear-gradient(#42C9F6, #21657B)': index == 2 ?
         'linear-gradient(#F16831, #793419)': index == 3 ? 'linear-gradient(#FDCB2E, #7F6617)' :
         index == 4 ? 'linear-gradient(#549D5E, #2A4F2F)' : index == 5 ? 'linear-gradient(#E71368, #740A34)' : index == 6 ?
         'linear-gradient(#9D198B, #4F0D46)' : 'linear-gradient(#73C557, #3A632C)' }">
 
-                                                      <img [src]="slide?.image | toStorageUrl" height="22" width="27" />
-                                                      <div>
-                                                          <!-- class="card-body" -->
-                                                          <h5 class="card-title"> {{slide['title']}} </h5>
+                                                        <img [src]="slide?.image | toStorageUrl" height="22"
+                                                            width="27" />
+                                                        <div>
+                                                            <!-- class="card-body" -->
+                                                            <h5 class="card-title"> {{slide['title']}} </h5>
 
-                                                      </div>
-                                                  </div>
+                                                        </div>
+                                                    </div>
 
-                                              </a>
-                                          </div>
-                                      </div>
+                                                </a>
+                                            </div>
+                                        </div>
 
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-  </div>
+    </div>
 
-  <div class="row mt-4 mb-3">
-      <div class="col-sm-6 d-none">
-          <button class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
-      </div>
-      <div class="col-sm-12 text-end">
-          <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
-      </div>
-  </div>
+    <div class="row mt-4 mb-3">
+        <div class="col-sm-6 d-none">
+            <button class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
+        </div>
+        <div class="col-sm-12 text-end">
+            <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
+        </div>
+    </div>
 </div>
 
 <div class="loader" *ngIf="!isApiComplete">
-  <app-form-loader></app-form-loader>
-  </div>
+    <app-form-loader></app-form-loader>
+</div>
