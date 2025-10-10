@@ -313,7 +313,7 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
 
   createStateBundle() {
     const userInfo = this.getUserInfo();
-    if (userInfo && userInfo.email) {
+    if (userInfo && userInfo.email && userInfo.isEmailVerified) {
       this.email = userInfo.email;
     }
 
@@ -347,11 +347,13 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
   sendStateBundle() {
     // User info popup.
     const state = this.getStateName() || this.getValue('state');
-    this.userInfoService.openUserInfoDialog([{ fileName: `bulkDownload_${state}_${this.getValue('contentType')}` }], this.module)
+    const fileName = `bulkDownload_${state}_${this.getValue('year')}_${this.getValue('contentType')}`;
+    this.userInfoService.openUserInfoDialog([{ fileName }], this.module)
       .then((isDialogConfirmed) => {
         if (isDialogConfirmed) {
           const userInfo = this.getUserInfo();
           this.email = userInfo.email;
+          const userName = userInfo.userName;
 
           if (!this.email) throw new Error("Email is required!");
           this.globalLoaderService.showLoader();
@@ -363,6 +365,7 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
             this.getValue('contentType'),
             'audited',
             this.email,
+            userName
           ).subscribe({
             next: (res: { message: string }) => {
               // if (!res.jobId) {
