@@ -70,7 +70,8 @@
           </div>
         </div>
       </div>
-      <div class="empty" *ngIf="balData.length == 0">No Data Found</div>
+      <div class="empty" *ngIf="balData.length == 0">No data available for the selected filter. Please select different
+        option(s) to display result.</div>
       <div *ngIf="balData.length > 0">
         <ng-container *ngFor="let item of balData; let i = index">
           <div class="card-body cd-repeat" *ngIf="item.fileName">

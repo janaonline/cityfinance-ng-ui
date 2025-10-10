@@ -90,6 +90,7 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
       tooltip: '',
     }
   ];
+  message: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -313,7 +314,7 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
 
   createStateBundle() {
     const userInfo = this.getUserInfo();
-    if (userInfo && userInfo.email) {
+    if (userInfo && userInfo.email && userInfo.isEmailVerified) {
       this.email = userInfo.email;
     }
 
@@ -347,11 +348,13 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
   sendStateBundle() {
     // User info popup.
     const state = this.getStateName() || this.getValue('state');
-    this.userInfoService.openUserInfoDialog([{ fileName: `bulkDownload_${state}_${this.getValue('contentType')}` }], this.module)
+    const fileName = `bulkDownload_${state}_${this.getValue('year')}_${this.getValue('contentType')}`;
+    this.userInfoService.openUserInfoDialog([{ fileName }], this.module)
       .then((isDialogConfirmed) => {
         if (isDialogConfirmed) {
           const userInfo = this.getUserInfo();
           this.email = userInfo.email;
+          const userName = userInfo.userName;
 
           if (!this.email) throw new Error("Email is required!");
           this.globalLoaderService.showLoader();
@@ -363,6 +366,7 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
             this.getValue('contentType'),
             'audited',
             this.email,
+            userName
           ).subscribe({
             next: (res: { message: string }) => {
               // if (!res.jobId) {
@@ -373,26 +377,20 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
               // }
 
               const message = 'A download link will be sent to your email shortly!'
-              this.openSnackBar(res.message || message);
+              // this.openSnackBar(res.message || message);
+              this.message = res.message || message;
               this.showSuccessDiv = true;
               this.globalLoaderService.stopLoader();
               // this.dismissStateBundle();
             },
             error: (error) => {
               this.showSuccessDiv = false;
-              const message = 'Failed to initiate the download process!';
+              const message = error.error.message || 'Failed to initiate the download process!';
+              this.openSnackBar(message);
               this.authService.clearLocalStorageKey('userInfo');
-              this.openSnackBar(error.message || message);
-              console.error("Error: ", error);
               this.globalLoaderService.stopLoader()
             }
           })
-
-          // setTimeout(() => {
-          //   console.log("Email the link!");
-          //   this.openSnackBar('A download link will be sent to your email shortly!');
-          //   this.globalLoaderService.stopLoader()
-          // }, 2000);
         }
       });
   }

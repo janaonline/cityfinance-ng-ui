@@ -6,7 +6,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { UtilityService } from '../../services/utility.service';
 import { EmailVerification } from '../user-info-dialog/user-info-dialog.component';
 
-const TIMER = 5;
+const TIMER = 60;
 
 @Component({
   selector: 'app-otp-dialog',
@@ -43,7 +43,16 @@ export class OtpDialogComponent implements OnInit {
   }
 
   resendOtp() {
-    this.startResendTimer();
+    this.authService.sendOtp(this.email).subscribe({
+      next: () => {
+        this.startResendTimer();
+      },
+      error: (error) => {
+        const errMsg = error.error.message || 'Failed to send OTP';
+        this.utilityService.swalPopup('Error', errMsg, 'error');
+        console.error({ error })
+      }
+    });
   }
 
   verify() {

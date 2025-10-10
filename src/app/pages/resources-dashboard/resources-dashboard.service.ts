@@ -82,6 +82,7 @@ export class ResourcesDashboardService {
     downloadType: string = 'rawPdf',
     auditType: string = 'audited',
     email: string,
+    userName: string = 'User',
   ) {
     if (!email) throw new Error("Email is required");
 
@@ -92,6 +93,7 @@ export class ResourcesDashboardService {
     if (auditType) params = params.set('auditType', auditType);
     if (downloadType) params = params.set('downloadType', downloadType);
     if (email) params = params.set('email', email);
+    if (userName) params = params.set('userName', userName);
 
     return this.https.get(`${environment.api.urlV2}resources-section/data-sets/zip`, { params });
   }
