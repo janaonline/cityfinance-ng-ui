@@ -385,10 +385,9 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
             },
             error: (error) => {
               this.showSuccessDiv = false;
-              const message = 'Failed to initiate the download process!';
+              const message = error.error.message || 'Failed to initiate the download process!';
+              this.openSnackBar(message);
               this.authService.clearLocalStorageKey('userInfo');
-              this.openSnackBar(error.message || message);
-              console.error("Error: ", error);
               this.globalLoaderService.stopLoader()
             }
           })
