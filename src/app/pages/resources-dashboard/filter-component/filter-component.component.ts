@@ -90,6 +90,7 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
       tooltip: '',
     }
   ];
+  message: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -376,7 +377,8 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
               // }
 
               const message = 'A download link will be sent to your email shortly!'
-              this.openSnackBar(res.message || message);
+              // this.openSnackBar(res.message || message);
+              this.message = res.message || message;
               this.showSuccessDiv = true;
               this.globalLoaderService.stopLoader();
               // this.dismissStateBundle();
@@ -390,12 +392,6 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
               this.globalLoaderService.stopLoader()
             }
           })
-
-          // setTimeout(() => {
-          //   console.log("Email the link!");
-          //   this.openSnackBar('A download link will be sent to your email shortly!');
-          //   this.globalLoaderService.stopLoader()
-          // }, 2000);
         }
       });
   }
