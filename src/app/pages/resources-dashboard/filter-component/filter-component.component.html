@@ -5,11 +5,7 @@
       <mat-label>State Name</mat-label>
       <mat-select formControlName="state" (keyup.enter)="onFilterChange()">
         <mat-option value="''">All States</mat-option>
-        <mat-option
-          (click)="onFilterChange()"
-          *ngFor="let state of statesList"
-          [value]="state._id"
-        >
+        <mat-option (click)="onFilterChange()" *ngFor="let state of statesList" [value]="state._id">
           {{ state.name }}
         </mat-option>
       </mat-select>
@@ -17,34 +13,18 @@
 
     <mat-form-field class="col p-0" appearance="outline">
       <mat-label>ULB Name</mat-label>
-      <input
-        class="fw-bold"
-        type="text"
-        placeholder="Search a ULB"
-        aria-label="ulb name"
-        matInput
-        formControlName="ulb"
-        [matAutocomplete]="auto"
-        (keyup.enter)="onFilterChange()"
-      />
-      <mat-autocomplete
-        autoActiveFirstOption
-        #auto="matAutocomplete"
-        [displayWith]="displayUlbName"
-      >
-        <mat-option
-          (click)="onFilterChange()"
-          *ngFor="let ulb of filteredUlbs"
-          [value]="ulb"
-        >
+      <input class="fw-bold" type="text" placeholder="Search a ULB" aria-label="ulb name" matInput formControlName="ulb"
+        [matAutocomplete]="auto" (keyup.enter)="onFilterChange()" />
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayUlbName">
+        <mat-option (click)="onFilterChange()" *ngFor="let ulb of filteredUlbs" [value]="ulb">
           {{ ulb.name }}
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
-
+    <!-- 
     <mat-form-field
       *ngIf="filterInputData?.comp == 'dataSets'"
-      class="col p-0"
+      class="col-md-2 col-sm-6 p-0"
       appearance="outline"
     >
       <mat-label>File Type</mat-label>
@@ -60,40 +40,143 @@
           {{ type }}
         </mat-option>
       </mat-select>
-    </mat-form-field>
+    </mat-form-field> -->
+
+    <!-- <mat-form-field
+      *ngIf="filterInputData?.comp == 'dataSets'"
+      class="col p-0"
+      appearance="outline"
+    >
+      <mat-label>Audit Status</mat-label>
+      <mat-select formControlName="auditType" (keyup.enter)="onFilterChange()">
+        <mat-option
+          (click)="onFilterChange()"
+          *ngFor="let type of auditType"
+          [value]="type"
+        >
+          {{ type }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field> -->
 
     <mat-form-field class="col p-0" appearance="outline">
       <mat-label>Financial Year</mat-label>
       <mat-select formControlName="year" (keyup.enter)="onFilterChange()">
-        <mat-option
-          (click)="onFilterChange()"
-          *ngFor="let year of yearsList"
-          [value]="year"
-        >
+        <mat-option (click)="onFilterChange()" *ngFor="let year of yearsList" [value]="year">
           {{ year ? year : "All Years" }}
         </mat-option>
       </mat-select>
     </mat-form-field>
-
-    <button
-      (click)="clearFilter()"
-      type="button"
-      class="col custom-button"
-      title="Clear selection(s)"
-    >
+    <!-- <div class="col-auto p-0 d-flex align-items-center"> -->
+    <button (click)="clearFilter()" type="button" class="col-auto custom-button" title="Clear selection(s)">
       <span class="d-none d-lg-inline me-1">Clear All</span>
       <mat-icon>highlight_off</mat-icon>
     </button>
+    <!-- </div> -->
 
-    <button
-      *ngIf="downloadValue"
-      (click)="initiateDownload()"
-      type="button"
-      class="col custom-button"
-      title="Download reports"
-    >
+    <button *ngIf="downloadValue" (click)="initiateDownload()" type="button" class="col-auto custom-button"
+      title="Download reports">
       <span class="d-none d-lg-inline me-1">Download</span>
       <span><mat-icon>save_alt</mat-icon></span>
     </button>
   </form>
+</div>
+
+<!-- Upsell / Info banner -->
+<mat-card *ngIf="filterInputData?.comp == 'dataSets' && showStateBundleDiv" class="info-banner">
+  <mat-card-content class="">
+    <div class="mb-3">
+      <!-- <div class="fw-bold mb-1">UPGRADE TO STATE BUNDLE</div> -->
+      <div class="fw-bold mb-1">NEED DATA FOR ALL CITIES IN {{getStateName() || 'STATE' | uppercase}}?</div>
+      <div class="text-muted">
+        Instead of downloading files one at a time, access {{getStateName() || 'STATE'}}'s data in one
+        go. <br>
+        Get all the ULB files for {{getStateName() || 'STATE'}}, neatly zipped and sent to your email
+        address as a download link.
+      </div>
+    </div>
+    <div class="d-flex gap-2">
+      <button class="custom-btn" (click)="createStateBundle()">
+        Create state bundle
+      </button>
+      <button class="btn btn-outline-primary" (click)="dismissStateBundle()">
+        Dismiss
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<div *ngIf="filterInputData?.comp == 'dataSets'">
+  <h6 class="fw-bold mt-3 my-2">Choose Data Format:</h6>
+  <form [formGroup]="filterForm" class="row mb-4">
+    <mat-radio-group formControlName="contentType" class="row w-100 justify-content-center">
+      <ng-container *ngFor="let option of contentType">
+        <div class="col-12 col-md-3" *ngIf="getActiveStatus(option.key)">
+          <span
+            [tooltip]="isStateBundleRequested && disableForStateBundle2.includes(option?.key)? option.tooltip : null"
+            container="body">
+            <mat-card class="h-100 border bg-light card-hover" [class.bg-custom-gray]="
+              isStateBundleRequested &&
+              disableForStateBundle2.includes(option?.key)
+            ">
+              <mat-card-content class="d-flex gap-2 align-items-center h-100">
+                <mat-radio-button [value]="option.key" class="pt-1" [disabled]="
+                  isStateBundleRequested &&
+                  disableForStateBundle2.includes(option?.key)
+                " (change)="onFilterChange()">
+                </mat-radio-button>
+                <div class="px-0">
+                  <div class="fw-semibold">
+                    {{ option.label }}
+                    <br />
+                    <span class="text-muted small">
+                      ({{ option.description }})</span>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </span>
+        </div>
+      </ng-container>
+    </mat-radio-group>
+  </form>
+</div>
+
+<div id="email-me" *ngIf="isStateBundleRequested && !disableForStateBundle2.includes(getValue('contentType'))"
+  class="mb-5" style="font-family: Montserrat">
+  <!-- Selection summary -->
+  <div class="rounded p-3 px-4 mb-4 border bg-light">
+    <h6 class="fw-bold my-1">How this works?</h6>
+    <ol *ngIf="email; else elseBlock" class="small">
+      <li>Your email ID <a [href]="'mailto:'+email">{{email}}</a> is already verified. </li>
+      <li>Your download link will be sent to your inbox within 30 minutes. The link will be valid for 30 days.</li>
+    </ol>
+    <ng-template #elseBlock>
+      <ol class="small">
+        <li>We'll send an OTP to your email. Please enter the OTP to confirm.</li>
+        <li>After verification, your download link will be ready within 30 minutes.</li>
+        <li>Download files anytime within 30 days.</li>
+      </ol>
+    </ng-template>
+
+    <p>Issues with OTP or getting the email? Write to <a href="mailto:updates@cityfinance.in">updates@cityfinance.in</a>
+    </p>
+  </div>
+
+  <div *ngIf="showSuccessDiv" class="rounded p-3 px-4 mb-4 bg-success-subtle border border-success">
+    <!-- <div class="text-center fw-bold">114 files selected</div>
+    <div class="text-center text-muted small">Estimated size: 38&nbsp;MB</div> -->
+    <div class="text-center small fw-bold">
+      {{message}}
+    </div>
+  </div>
+
+  <!-- Primary CTA -->
+  <div class="text-center">
+    <span [tooltip]="showSuccessDiv ? 'Please check your email after sometime' : null" container="body">
+      <button class="custom-btn px-4 py-2" [disabled]="showSuccessDiv" (click)="sendStateBundle()">
+        Email me the files
+      </button>
+    </span>
+  </div>
 </div>

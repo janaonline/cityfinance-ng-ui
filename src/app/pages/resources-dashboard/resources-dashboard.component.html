@@ -11,39 +11,21 @@
           <form class="filter-forms w-100">
             <div class="row">
               <div class="col-9 pe-0">
-                <input
-                  type="text"
-                  placeholder="Type here..."
-                  [formControl]="resourcesFilter"
-                  [matAutocomplete]="auto"
-                  class="fl-input form-control"
-                  (keyup.enter)="searchFilter(resourcesFilter.value)"
-                />
+                <input type="text" placeholder="Type here..." [formControl]="resourcesFilter" [matAutocomplete]="auto"
+                  class="fl-input form-control" (keyup.enter)="searchFilter(resourcesFilter.value)" />
               </div>
               <div class="col-3 p-0">
-                <button
-                  type="button"
-                  class="btn btnFilter"
-                  *ngIf="search"
-                  (click)="searchFilter(resourcesFilter.value)"
-                >
+                <button type="button" class="btn btnFilter" *ngIf="search"
+                  (click)="searchFilter(resourcesFilter.value)">
                   Search
                 </button>
-                <button
-                  type="button"
-                  class="btn btnFilter"
-                  *ngIf="crossIcon"
-                  (click)="crossButton()"
-                >
+                <button type="button" class="btn btnFilter" *ngIf="crossIcon" (click)="crossButton()">
                   <i class="fa fa-close" style="font-size: 25px"></i>
                 </button>
               </div>
               <div class="col-12">
                 <mat-autocomplete #auto="matAutocomplete">
-                  <mat-option
-                    *ngFor="let resource of filteredResources | async"
-                    [value]="resource"
-                  >
+                  <mat-option *ngFor="let resource of filteredResources | async" [value]="resource">
                     {{ resource }}
                   </mat-option>
                 </mat-autocomplete>
@@ -64,18 +46,10 @@
 <!-- </div> -->
 
 <div class="container container-cnt mt-n">
-  <a
-    (click)="activeCard(cardIndex, cardData)"
-    routerLink="{{ card?.link }}"
-    class="center-aTag mx-xl-auto"
-    *ngFor="let card of cardData; let cardIndex = index"
-  >
-    <app-shared-card
-      [data]="card"
-      [links]="card?.link"
-      [cardStyle]="cardStyle"
-      [cardActive]="card.activeCard"
-    ></app-shared-card>
+  <a (click)="activeCard(cardIndex, cardData)" routerLink="{{ card?.link }}" class="center-aTag mx-xl-auto"
+    *ngFor="let card of cardData; let cardIndex = index">
+    <app-shared-card [data]="card" [links]="card?.link" [cardStyle]="cardStyle"
+      [cardActive]="card.activeCard"></app-shared-card>
   </a>
 
   <!-- <div class="card" > -->
@@ -87,13 +61,13 @@
         </a>
     </div> -->
 </div>
-      <div class="row pt-3 info-block">
+<!-- <div class="row pt-3 info-block">
     <div class="col-sm-11 mx-auto">
       <div class="alert alert-info text-center" role="alert">
         <strong>Looking for budget files?</strong> Select “Budget PDF” in the file type filter and choose a financial year.
       </div>
     </div>
-  </div>
+  </div> -->
 <div class="container mt-3">
   <router-outlet></router-outlet>
 </div>

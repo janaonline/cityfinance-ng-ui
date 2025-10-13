@@ -225,6 +225,7 @@ export class BalanceTableComponent
   ];
   ulbYears: any = [];
   currentUlbData: any;
+  auditType: string;
   onItemSelect(item: any) {
     console.log(item);
     console.log(this.selectedItems);
@@ -719,27 +720,27 @@ export class BalanceTableComponent
   }
 
   allReports: any = [];
-  getReport_pastYears(year,selected_file_type) {
+  getReport_pastYears(year, selected_file_type) {
     let category
     if (this.reportGroup == "Balance Sheet") {
       category = "balance"
     } else if (this.reportGroup == "Income & Expenditure Statement") {
       category = "income"
     }
-    this._resourcesDashboardService.getDataSets(year, selected_file_type, category, "", this.ulbName, "").subscribe(res => {
+    this._resourcesDashboardService.getDataSets(year, selected_file_type, category, "", this.ulbName, "", "", 0, this.auditType).subscribe(res => {
       console.log(res['data'])
       if (res['data'].length == 0) {
         this.openDialog(res["data"], "notFound");
       } else {
         let target_file_url = environment.STORAGE_BASEURL + res['data'][0]['fileUrl'];
-         window.open(target_file_url)
+        window.open(target_file_url)
       }
     })
   }
   getReport(selectedYear: string, fileType: string) {
     const yearSplit = Number(selectedYear.split('-')[0]);
     if (yearSplit < 2019) {
-      this.getReport_pastYears(selectedYear,fileType);
+      this.getReport_pastYears(selectedYear, fileType);
       return
     }
     this._loaderService.showLoader();
