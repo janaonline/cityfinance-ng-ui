@@ -1,50 +1,52 @@
 <div class="container-fluid">
   <!-- form contents -->
   <div class="row">
-      <!-- left menu -->
-      <div class="col-sm-2 ps-0">
-        <div class="" *ngIf="isLeftMenu">
-          <app-left-menu-template [leftMenu]="leftMenu" [isLeftMenu]="isLeftMenu" [selectedYear]="selectedYear"></app-left-menu-template>
+    <!-- left menu -->
+    <div class="col-sm-2 ps-0">
+      <div class="" *ngIf="isLeftMenu">
+        <app-left-menu-template [leftMenu]="leftMenu" [isLeftMenu]="isLeftMenu"
+          [selectedYear]="selectedYear"></app-left-menu-template>
+      </div>
+    </div>
+    <div class="col-sm-10">
+      <div class="row" *ngIf="loggedInUserType !== userTypes.STATE && path">
+        <div class="col-sm-12 br-cd">
+          <a type="button" (click)="backStatePage()" class="breadLink">
+            &laquo;
+            State Review
+          </a>
         </div>
       </div>
-      <div class="col-sm-10">
-        <div class="row" *ngIf="loggedInUserType !== userTypes.STATE && path">
-          <div class="col-sm-12 br-cd">
-              <a type="button" (click)="backStatePage()" class="breadLink">
-                  &laquo;
-                  State Review
-              </a>
-          </div>
-         </div>
-          <!-- form header details eg, ulb, state name, and role -->
-          <div class="row mt-3">
-              <div class="col-sm-12 text-center">
-                <div class="m-head fw-bold" *ngIf="loggedInUserType === userTypes.ADMIN ||
+      <!-- form header details eg, ulb, state name, and role -->
+      <div class="row mt-3">
+        <div class="col-sm-12 text-center">
+          <div class="m-head fw-bold" *ngIf="loggedInUserType === userTypes.ADMIN ||
                 loggedInUserType === userTypes.MoHUA">{{userData?.role}}
-              </div>
-                <div class="m-head">
-                  {{stateName}}
-                </div>
-
-              </div>
+          </div>
+          <div class="m-head">
+            {{stateName}}
           </div>
 
-          <div *ngIf="['606aafcf4dff55e6c075d424', '606aafda4dff55e6c075d48f'].includes(selectedYearId) && this.userData.role === 'STATE'" class="webinar-alert lh-sm my-4 w-75 mx-auto">
-            <img src="./assets/webinar/calendar.png" width="80" height="80" />
-            <div>
-                <p class="fw-bold p-0 mb-2">WEBINAR ALERT</p>
-                Explore Urban Metrics: Webinar on Oct 8. Decode city finances, compare across states.
-                <div role="button" class="webinar-span" (click)="registerForEvent()">Sign up now.</div>
-            </div>
-          </div>
-
-          <!-- form  -->
-          <div class="row">
-              <div class="col-sm-12">
-                  <router-outlet></router-outlet>
-              </div>
-          </div>
+        </div>
       </div>
+
+      <div
+        *ngIf="['606aafcf4dff55e6c075d424', '606aafda4dff55e6c075d48f'].includes(selectedYearId) && this.userData.role === 'STATE'"
+        class="webinar-alert lh-sm my-4 w-75 mx-auto">
+        <img src="./assets/webinar/calendar.png" width="80" height="80" />
+        <div>
+          <p class="fw-bold p-0 mb-2">WEBINAR ALERT</p>
+          Explore Urban Metrics: Webinar on Oct 29th. Decode city finances, compare across states.
+          <div role="button" class="webinar-span" (click)="registerForEvent()">Sign up now.</div>
+        </div>
+      </div>
+
+      <!-- form  -->
+      <div class="row">
+        <div class="col-sm-12">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-
