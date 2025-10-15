@@ -185,7 +185,11 @@ export class LoginComponent implements OnInit, OnDestroy {
    * NOTE: This method must be called only post login.
    */
   routeToProperLocation(user: IUserLoggedInDetails) {
-    if (this.loginType === 'XVIFC') {
+    if (user.role === USER_TYPE.AFS_ADMIN) {
+       window.location.href = window.location.origin + '/afs-dashboard';
+      //window.location.href = 'http://localhost:4300/afs-dashboard';
+    }
+    else if (this.loginType === 'XVIFC') {
       if ([USER_TYPE.XVIFC_STATE, USER_TYPE.XVIFC].includes(user.role)) {
         window.location.href = environment.fcURL + 'admin/xvi-fc-review';
       } else if (user.role === USER_TYPE.ULB) {
