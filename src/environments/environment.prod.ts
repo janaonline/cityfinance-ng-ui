@@ -18,6 +18,7 @@ if (window.location.origin === "https://cityfinance.in" || window.location.origi
 export const environment = {
   performanceURL: "https://pas.org.in/web/ceptpas/iuppkpi?parameterAutoLoginLogin=guestulb9&parameterAutoLoginPassword=guestulb9@abc",
   production: true,
+  fcURL: window.location.origin + '/fc/',
   api: {
     url2: "https://www.cityfinance.in/",
     url1: "https://democityfinanceapi.dhwaniris.in/",
