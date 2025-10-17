@@ -186,7 +186,7 @@ export class LoginComponent implements OnInit, OnDestroy {
    */
   routeToProperLocation(user: IUserLoggedInDetails) {
     if (user.role === USER_TYPE.AFS_ADMIN) {
-       window.location.href = window.location.origin + '/afs-dashboard';
+      window.location.href = environment.fcURL + 'afs-dashboard';
       //window.location.href = 'http://localhost:4300/afs-dashboard';
     }
     else if (this.loginType === 'XVIFC') {
