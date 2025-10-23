@@ -200,7 +200,7 @@ export class SlbsComponent implements OnInit, OnDestroy {
           res["data"] && res["data"][0] ? res["data"][0] : {};
         this.preFilledWaterManagement.history = null;
         if (res['data'].length > 0) {
-          this.blankDataQus = res['data'][0]['blank'] ? res['data'][0]['blank'] : null;
+          this.blankDataQus = res['data'][0]['blank'];
           if (res['data'][0]['blank']) {
             this.clickAnswer = false
           } else {
@@ -449,7 +449,7 @@ export class SlbsComponent implements OnInit, OnDestroy {
   clickAnswer = null;
   answer(ans) {
     this.clickAnswer = ans;
-    this.blankDataQus = ans;
+    this.blankDataQus = !ans;
     console.log(ans)
   }
   checkIfCompletedOrNot(value) {
