@@ -1,12 +1,5 @@
-* {
+*:not(.fa) {
     font-family: Montserrat;
-}
-
-mat-icon {
-    font-family: "Material Icons";
-    font-size: 36px;
-    height: 36px;
-    width: 36px;
 }
 
 ::ng-deep .custom-form-style .mat-form-field-flex {
