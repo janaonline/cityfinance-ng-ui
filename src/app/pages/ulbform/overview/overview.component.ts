@@ -24,6 +24,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
   forms = [];
   count = 0;
   percentage = 0;
+  percentMessage = '';
   status = "";
   isMillionPlus;
   USER_TYPE = USER_TYPE;
@@ -185,6 +186,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
           sessionStorage.setItem("masterForm", JSON.stringify(res["response"]));
           this.stateName = res["response"]["stateName"];
           this.percentage = Number(res["percentage"]);
+          this.percentMessage = res['percentMessage'];
           this.annualStatus =
             res["response"]["steps"]["annualAccounts"]["status"];
           this.forms[0] = res["response"]?.steps?.annualAccounts?.isSubmit;
