@@ -1,9 +1,11 @@
-<h1 mat-dialog-title class="text-center">
+<div mat-dialog-title class="text-center">
     <span class="d-block w-100 h-100">
-        <mat-icon class="text-success fs-1"> email</mat-icon>
+        <!-- <mat-icon class="text-success fs-1"> email</mat-icon> -->
+        <i class="fa fa-exclamation-triangle text-warning fs-1" aria-hidden="true"></i>
     </span>
-    Please check your email
-</h1>
+    <h1 class="fw-bold mb-0 fs-4">Don't close this tab.</h1>
+    <small class="mt-1">Please check your email and enter the 6-digit code to continue.</small>
+</div>
 
 <mat-form-field class="col p-0 w-100 border-0 custom-form-style" appearance="outline">
     <mat-label for="otp">6 digit code</mat-label>
