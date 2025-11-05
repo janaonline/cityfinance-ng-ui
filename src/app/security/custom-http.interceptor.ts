@@ -7,14 +7,28 @@ import { catchError, filter } from 'rxjs/operators';
 import { Login_Logout } from '../util/logout.util';
 import { SweetAlert } from "sweetalert/typings/core";
 import { AuthService } from '../auth/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 const swal: SweetAlert = require("sweetalert");
 @Injectable()
 export class CustomHttpInterceptor implements HttpInterceptor {
   routerNavigationSuccess = new Subject<any>();
 
-  constructor(private router: Router, private _router: Router, private authService: AuthService) {
+  constructor(private router: Router, private _router: Router, private authService: AuthService,
+    private matSnackBar: MatSnackBar,
+  ) {
     this.initializeRequestCancelProccess();
+    // matSnackBar.openFromTemplate( );
+    // this.showError();
+  }
+
+  showError(message?: string) {
+    this.matSnackBar.open(message ? message : 'Something went wrong', '', {
+      duration: 10000,
+      panelClass: ['snack-error'],
+      horizontalPosition: 'right',
+      verticalPosition: 'top'
+    });
   }
 
   intercept(
@@ -62,6 +76,17 @@ export class CustomHttpInterceptor implements HttpInterceptor {
       .subscribe(this.routerNavigationSuccess);
   }
 
+  logoutRedirection() {
+    this.clearLocalStorage();
+    if (localStorage.getItem("loginType") === "state-dashboard") {
+      this.router.navigate(["login/state-dashboard"]);
+    } else if (localStorage.getItem("loginType") === "XVIFC") {
+      this.router.navigate(["login/xvi-fc"]);
+    } else {
+      this.router.navigate(["fc_grant"]);
+    }
+  }
+
   private handleError = (err: HttpErrorResponse) => {
     /**
      * @description 401 means usre need to be logged in to access this api. Therefore, redirect the user
@@ -70,16 +95,12 @@ export class CustomHttpInterceptor implements HttpInterceptor {
 
     switch (err.status) {
       case 401:
+        this.showError(err.error?.message);
+        this.logoutRedirection();
+        break;
       case 403:
         swal('Error', err.error?.message ?? 'Something went wrong', 'error');
-        if (localStorage.getItem("loginType") === "state-dashboard") {
-          this.router.navigate(["login/state-dashboard"]);
-        } else if (localStorage.getItem("loginType") === "XVIFC") {
-          this.router.navigate(["login/xvi-fc"]);
-        } else {
-          this.clearLocalStorage();
-          this.router.navigate(["fc_grant"]);
-        }
+        this.logoutRedirection();
         break;
       case 503:
         this.clearLocalStorage();
