@@ -8,4 +8,6 @@ export interface IUserLoggedInDetails {
   role: USER_TYPE;
   state?: ObjectID;
   ulb?: ObjectID;
+  stateName?: string;
+  ulbName?: string;
 }

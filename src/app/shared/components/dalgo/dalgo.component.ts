@@ -3,6 +3,9 @@ import { embedDashboard } from '@superset-ui/embedded-sdk';
 import { CommonServicesService } from 'src/app/fc-grant-2324-onwards/fc-shared/service/common-services.service';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { SupersetService } from './superset.service';
+import { UserUtility } from 'src/app/util/user/user';
+import { IUserLoggedInDetails } from 'src/app/models/login/userLoggedInDetails';
+
 
 @Component({
   selector: 'app-dalgo',
@@ -30,16 +33,16 @@ export class DalgoComponent implements OnInit, AfterViewInit {
 
   stateFilterId: string;
   yearFilterId: string;
+  loggedInUserDetails: IUserLoggedInDetails = UserUtility.getUserLoggedInData().value;
 
   constructor(private supersetService: SupersetService,
     private commonServices: CommonServicesService,) { }
 
   ngOnInit(): void {
     if (this.dashboardType === USER_TYPE.STATE) {
-      this.yearFilterId = 'NATIVE_FILTER-lNqf-pfM93';
-      this.stateFilterId = 'NATIVE_FILTER-oiRM7rNPPU';
-      this.dashboardId = '463904ae-53e5-4e86-8f41-314ad84fe11b';
-      // this.dashboardId = 'a154d39e-1048-4bfe-98cb-8177b32a5086';
+      this.yearFilterId = 'NATIVE_FILTER-Qf-mSNkTRDvomJI4EyBI-';
+      this.stateFilterId = 'NATIVE_FILTER-pujpprBkzEJmUBPcbpGpa';
+      this.dashboardId = '996010ee-7ea4-48d8-9b19-df8ec1774e7b';
       this.getStateName();
     } else if (this.dashboardType === USER_TYPE.MoHUA) {
       // this.yearFilterId = 'NATIVE_FILTER-MgsHyuye2m';
@@ -68,11 +71,12 @@ export class DalgoComponent implements OnInit, AfterViewInit {
   }
 
   getStateName() {
-    let stateName = localStorage.getItem("state_name");
+    // let stateName = localStorage.getItem("state_name");
+    let stateName = this.loggedInUserDetails?.stateName;
     if (!stateName || stateName === 'undefined') {
       stateName = sessionStorage.getItem("stateName");
     }
-    this.filters.push({ id: this.stateFilterId, column: 'state', value: stateName });
+    this.filters.push({ id: this.stateFilterId, column: 'state_name', value: stateName });
   }
 
   /**
@@ -115,14 +119,11 @@ export class DalgoComponent implements OnInit, AfterViewInit {
       return this.supersetService.getGuestToken(requestBody).toPromise();
     };
 
-
-
-
     // If doesnt need any filter uncomment below to empty the filter array. 
     //filters = [];
 
     // Generate the native filters string by calling the function and applying it to the filters array
-    const nativeFilters = `(${this.generateNativeFilters(this.filters)})`
+    const nativeFilters = `(${this.generateNativeFilters(this.filters)})`;
 
     // Call embedDashboard to embed the Superset dashboard with specified configurations
     embedDashboard({
@@ -213,7 +214,5 @@ export class DalgoComponent implements OnInit, AfterViewInit {
   generateNativeFilters(filters: { id: string; column: string; value: string }[]): string {
     return filters.map(({ id, column, value }) => `${id}:(__cache:(label:'${value}',validateStatus:!f,value:!('${value}')),extraFormData:(filters:!((col:${column},op:IN,val:!('${value}')))),filterState:(label:'${value}',validateStatus:!f,value:!('${value}')),id:${id},ownState:())`).join(',');
   }
-
-
 
 }
