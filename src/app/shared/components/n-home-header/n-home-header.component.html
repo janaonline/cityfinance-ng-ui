@@ -140,7 +140,8 @@
                     <li class="nav-item" *ngIf="isLoggedIn && user?.role === 'ULB'">
                         <a class="nav-link" href="/fc/xvifc-form">XVI FC Data Collection</a>
                     </li>
-                    <li class="nav-item" *ngIf="isLoggedIn && user?.role === 'STATE_DASHBOARD'">
+                    <li class="nav-item"
+                        *ngIf="isLoggedIn && user?.role === 'STATE_DASHBOARD' || user?.role === 'STATE'">
                         <a class="nav-link" routerLinkActive="active" [routerLink]="'/state-dashboard'">State
                             Dashboard</a>
                     </li>

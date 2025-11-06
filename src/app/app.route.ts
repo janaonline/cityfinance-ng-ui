@@ -108,8 +108,11 @@ export const appRouter: Routes = [
     path: "state-dashboard",
     canActivate: [AuthGuard],
     loadComponent: () => import("./pages/state-dashboard-dalgo/state-dashboard-dalgo.component").then(m => m.StateDashboardDalgoComponent),
-    // loadChildren: () =>
-    //   import("./pages/state-dashboard-dalgo/state-dashboard-dalgo.component").then((m) => m.StateDashboardDalgoComponent),
+  },
+  {
+    path: "state-dashboard/view",
+    canActivate: [AuthGuard],
+    loadComponent: () => import("./pages/state-dashboard-dalgo/dalgo-view/dalgo-view.component").then(m => m.DalgoViewComponent),
   },
   // {
   //   path: "login/xvi-fc",
