@@ -142,7 +142,9 @@
   </form>
 </div>
 
-<div id="email-me" *ngIf="isStateBundleRequested && !disableForStateBundle2.includes(getValue('contentType'))"
+<!-- If files are shared via email -->
+<div id="email-me"
+  *ngIf="!isEmailFiles() && isStateBundleRequested && !disableForStateBundle2.includes(getValue('contentType'))"
   class="mb-5" style="font-family: Montserrat">
   <!-- Selection summary -->
   <div class="rounded p-3 px-4 mb-4 border bg-light">
@@ -173,9 +175,50 @@
 
   <!-- Primary CTA -->
   <div class="text-center">
-    <span [tooltip]="showSuccessDiv ? 'Please check your email after sometime' : null" container="body">
+    <span container="body">
       <button class="custom-btn px-4 py-2" [disabled]="showSuccessDiv" (click)="sendStateBundle()">
         Email me the files
+      </button>
+    </span>
+  </div>
+</div>
+
+<!-- If files are downloaded on portal. -->
+<div id="email-me"
+  *ngIf="isEmailFiles() && isStateBundleRequested && !disableForStateBundle2.includes(getValue('contentType'))"
+  class="mb-5" style="font-family: Montserrat">
+  <!-- Selection summary -->
+  <div class="rounded p-3 px-4 mb-4 border bg-light">
+    <h6 class="fw-bold my-1">How this works?</h6>
+    <ol *ngIf="email; else elseBlock" class="small">
+      <li>Your email ID <a [href]="'mailto:'+email">{{email}}</a> is already verified. </li>
+      <li>You will be able to download dump now. (TEXT CHANGE)</li>
+    </ol>
+    <ng-template #elseBlock>
+      <ol class="small">
+        <li>We'll send an OTP to your email. Please enter the OTP to confirm.</li>
+        <li>After verification, your NMAM format file will get downloded (TEXT CHANGE)</li>
+        <li>Download files anytime within 30 days. (TEXT CHANGE)</li>
+      </ol>
+    </ng-template>
+
+    <p>Issues with OTP or getting the email? Write to <a href="mailto:updates@cityfinance.in">updates@cityfinance.in</a>
+    </p>
+  </div>
+
+  <div *ngIf="showSuccessDiv" class="rounded p-3 px-4 mb-4 bg-success-subtle border border-success">
+    <!-- <div class="text-center fw-bold">114 files selected</div>
+    <div class="text-center text-muted small">Estimated size: 38&nbsp;MB</div> -->
+    <div class="text-center small fw-bold">
+      {{message}}
+    </div>
+  </div>
+
+  <!-- Primary CTA -->
+  <div class="text-center">
+    <span container="body">
+      <button class="custom-btn px-4 py-2" [disabled]="showSuccessDiv" (click)="sendStateBundle()">
+        Download
       </button>
     </span>
   </div>

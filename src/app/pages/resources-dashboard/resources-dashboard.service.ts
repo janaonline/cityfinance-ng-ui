@@ -97,4 +97,19 @@ export class ResourcesDashboardService {
 
     return this.https.get(`${environment.api.urlV2}resources-section/data-sets/zip`, { params });
   }
+
+  getLedgerDump(stateCode: string, year: string, module: string) {
+    let params = new HttpParams();
+    if (!stateCode) throw new Error("stateCode is required");
+    if (!year) throw new Error("year is required");
+    if (!module) throw new Error("module is required");
+
+    params = params.set('financialData', true);
+    params = params.set('isStandardizable', true);
+    params = params.set('financialData', true);
+    params = params.set('stateCode', stateCode);
+    params = params.set('year', year);
+    params = params.set('module', module);
+    return this.https.get(`${environment.api.url}ledger/getLedgerDump?`, { params, responseType: 'blob' });
+  }
 }

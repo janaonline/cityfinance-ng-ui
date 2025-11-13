@@ -26,7 +26,7 @@
 <div class="filter-d mt-3 mb-3" *ngIf="dataReceived" id="top">
   <app-filter-component (filterFormData)="filterData($event)" (isDownloadable)="download($event)"
     (isStateBundleRequestedOutput)="isStateBundleRequestedOutput($event)" [filterInputData]="filterComponent"
-    [downloadValue]="selectedUsersList.length"></app-filter-component>
+    [downloadValue]="selectedUsersList.length" [tableLen]="balData.length"></app-filter-component>
 </div>
 
 <!-- Upsell / Info banner -->
