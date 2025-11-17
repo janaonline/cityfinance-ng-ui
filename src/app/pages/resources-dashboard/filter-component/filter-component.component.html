@@ -108,10 +108,10 @@
 
 <div *ngIf="filterInputData?.comp == 'dataSets'">
   <h6 class="fw-bold mt-3 my-2">Choose Data Format:</h6>
-  <form [formGroup]="filterForm" class="row mb-4">
+  <form [formGroup]="filterForm" class="row mb-4 justify-content-center">
     <mat-radio-group formControlName="contentType" class="row w-100 justify-content-center">
       <ng-container *ngFor="let option of contentType">
-        <div class="col-12 col-md-3" *ngIf="getActiveStatus(option.key)">
+        <div class="col-12 col-md-3 my-2" *ngIf="getActiveStatus(option.key)">
           <span
             [tooltip]="isStateBundleRequested && disableForStateBundle2.includes(option?.key)? option.tooltip : null"
             container="body">
