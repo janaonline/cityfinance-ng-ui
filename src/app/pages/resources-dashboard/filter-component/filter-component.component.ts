@@ -6,13 +6,13 @@ import { ActivatedRoute } from "@angular/router";
 import { from, Observable, of, Subject } from "rxjs";
 import { catchError, debounceTime, distinctUntilChanged, switchMap, takeUntil, tap } from "rxjs/operators";
 import { AuthService } from "src/app/auth/auth.service";
+import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
 import { IState } from "src/app/models/state/state";
 import { DownloadUserInfoService } from "src/app/shared/components/user-info-dialog/download-user-info.service";
 import { CommonService } from "src/app/shared/services/common.service";
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 import { SnackBarComponent } from "../data-sets/data-sets.component";
 import { ResourcesDashboardService } from "../resources-dashboard.service";
-import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
 const BULK_DOWNLOAD = 'bulkDownload';
 const DOWNLOAD_ON_PORTAL = ['Standardised Excel'];
 interface NamedEntity {
@@ -361,64 +361,67 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
       this.message = 'No data available for the selected filter. Please select different option(s) to proceed with the download';
       this.showSuccessDiv = true;
     } else {
-      this._resourcesDashboardService.getLedgerDump(
-        this.getStateCode(),
-        this.getValue('year'),
-        BULK_DOWNLOAD
-      ).subscribe({
-        next: (blob) => {
-          this.globalLoaderService.showLoader();
-          const fileName = `${state}_${this.getValue('year')}_${this.getValue('contentType')}`;
-          this.dataEntryService.downloadFileFromBlob(blob, fileName)
-          this.globalLoaderService.stopLoader();
-        }
-      })
-      // this.userInfoService.openUserInfoDialog([{ fileName }], this.module)
-      //   .then((isDialogConfirmed) => {
-      //     if (isDialogConfirmed) {
-      //       const userInfo = this.getUserInfo();
-      //       this.email = userInfo.email;
-      //       const userName = userInfo.userName;
+      this.userInfoService.openUserInfoDialog([{ fileName }], this.module)
+        .then((isDialogConfirmed) => {
+          if (isDialogConfirmed) {
+            const userInfo = this.getUserInfo();
+            this.email = userInfo.email;
+            const userName = userInfo.userName;
 
-      //       if (!this.email) throw new Error("Email is required!");
-      //       this.globalLoaderService.showLoader();
+            if (!this.email) throw new Error("Email is required!");
+            this.globalLoaderService.showLoader();
 
-      //       this._resourcesDashboardService.initiateStateBundleZipDownload(
-      //         this.getValue('state'),
-      //         this.getValue('year'),
-      //         this.getValue('ulb')?._id,
-      //         this.getValue('contentType'),
-      //         'audited',
-      //         this.email,
-      //         userName
-      //       ).subscribe({
-      //         next: (res: { message: string }) => {
-      //           // if (!res.jobId) {
-      //           //   this.authService.clearLocalStorageKey('userInfo');
-      //           //   this.globalLoaderService.stopLoader();
-      //           //   this.openSnackBar('Kindly verfiy your email id.');
-      //           //   return;
-      //           // }
+            // Download on portal.
+            if (DOWNLOAD_ON_PORTAL.includes(this.getValue('contentType'))) {
+              this._resourcesDashboardService.getLedgerDump(
+                this.getStateCode(),
+                this.getValue('year'),
+                BULK_DOWNLOAD
+              ).subscribe({
+                next: (blob) => {
+                  const fileName = `${state}_${this.getValue('year')}_${this.getValue('contentType')}`;
+                  this.dataEntryService.downloadFileFromBlob(blob, fileName);
+                  this.handleSuccess('File Downloaded Successfully!');
+                },
+                error: (error) => this.handleError(error)
+              })
+            } else {
+              // Email files.
+              this._resourcesDashboardService.initiateStateBundleZipDownload(
+                this.getValue('state'),
+                this.getValue('year'),
+                this.getValue('ulb')?._id,
+                this.getValue('contentType'),
+                'audited',
+                this.email,
+                userName
+              ).subscribe({
+                next: (res: { message: string }) => {
+                  const message = 'A download link will be sent to your email shortly!';
+                  this.handleSuccess(res.message || message);
+                },
+                error: (error) => this.handleError(error)
+              })
+            }
 
-      //           const message = 'A download link will be sent to your email shortly!'
-      //           // this.openSnackBar(res.message || message);
-      //           this.message = res.message || message;
-      //           this.showSuccessDiv = true;
-      //           this.globalLoaderService.stopLoader();
-      //           // this.dismissStateBundle();
-      //         },
-      //         error: (error) => {
-      //           this.showSuccessDiv = false;
-      //           const message = error.error.message || 'Failed to initiate the download process!';
-      //           this.openSnackBar(message);
-      //           this.authService.clearLocalStorageKey('userInfo');
-      //           this.globalLoaderService.stopLoader()
-      //         }
-      //       })
-      //     }
-      //   });
+          }
+        });
     }
 
+  }
+
+  private handleError(error) {
+    this.showSuccessDiv = false;
+    const message = error.error.message || 'Failed to initiate the download process!';
+    this.openSnackBar(message);
+    this.authService.clearLocalStorageKey('userInfo');
+    this.globalLoaderService.stopLoader()
+  }
+
+  private handleSuccess(msg: string) {
+    this.message = msg;
+    this.showSuccessDiv = true;
+    this.globalLoaderService.stopLoader();
   }
 
   // Dismiss state bundle.

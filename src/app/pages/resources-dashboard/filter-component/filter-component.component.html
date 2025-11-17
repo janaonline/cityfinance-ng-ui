@@ -144,7 +144,7 @@
 
 <!-- If files are shared via email -->
 <div id="email-me"
-  *ngIf="!isEmailFiles() && isStateBundleRequested && !disableForStateBundle2.includes(getValue('contentType'))"
+  *ngIf="isEmailFiles() && isStateBundleRequested && !disableForStateBundle2.includes(getValue('contentType'))"
   class="mb-5" style="font-family: Montserrat">
   <!-- Selection summary -->
   <div class="rounded p-3 px-4 mb-4 border bg-light">
@@ -185,7 +185,7 @@
 
 <!-- If files are downloaded on portal. -->
 <div id="email-me"
-  *ngIf="isEmailFiles() && isStateBundleRequested && !disableForStateBundle2.includes(getValue('contentType'))"
+  *ngIf="!isEmailFiles() && isStateBundleRequested && !disableForStateBundle2.includes(getValue('contentType'))"
   class="mb-5" style="font-family: Montserrat">
   <!-- Selection summary -->
   <div class="rounded p-3 px-4 mb-4 border bg-light">
