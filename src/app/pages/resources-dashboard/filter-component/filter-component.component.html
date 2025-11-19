@@ -192,13 +192,12 @@
     <h6 class="fw-bold my-1">How this works?</h6>
     <ol *ngIf="email; else elseBlock" class="small">
       <li>Your email ID <a [href]="'mailto:'+email">{{email}}</a> is already verified. </li>
-      <li>You will be able to download dump now. (TEXT CHANGE)</li>
+      <li>Your file will download instantly.</li>
     </ol>
     <ng-template #elseBlock>
       <ol class="small">
         <li>We'll send an OTP to your email. Please enter the OTP to confirm.</li>
-        <li>After verification, your NMAM format file will get downloded (TEXT CHANGE)</li>
-        <li>Download files anytime within 30 days. (TEXT CHANGE)</li>
+        <li>After verification, your file will download instantly.</li>
       </ol>
     </ng-template>
 
