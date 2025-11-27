@@ -307,7 +307,8 @@ export class OverviewComponent implements OnInit {
     // window.open("https://tally.so/r/mBvPZA", "_blank", "noopener,noreferrer");
     // window.open("https://tally.so/r/wLRvvy", "_blank", "noopener,noreferrer");
     // window.open("https://tally.so/r/wgyzxl", "_blank", "noopener,noreferrer");
-    window.open("https://tally.so/r/aQNxEX", "_blank", "noopener,noreferrer");
+    // window.open("https://tally.so/r/aQNxEX", "_blank", "noopener,noreferrer");
+    window.open("https://tally.so/r/J91z47", "_blank", "noopener,noreferrer");
     return;
   }
 
