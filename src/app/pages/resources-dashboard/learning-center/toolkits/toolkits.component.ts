@@ -36,6 +36,11 @@ export class ToolkitsComponent implements OnInit {
         "./assets/new_dashBord_ftr_hdr/shutterstock_546307051/shutterstock_546307051.png",
       link: "",
     },
+    {
+      label: "Credit Rating Toolkit",
+      imgUrl: "./assets/new_dashBord_ftr_hdr/shutterstock_546307051/shutterstock_546307051.png",
+      link: "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/resource/Credit_Rating_Toolkit_9e632781-2a23-493e-a66f-8a2f2fe390fd.pdf",
+    },
   ];
 
   subTabData = [
@@ -102,12 +107,17 @@ export class ToolkitsComponent implements OnInit {
   openScorePer(card) {
     if (card.label == "Municipal Borrowing Readiness Toolkit") {
       return (this.showIframe = true);
+    } else if (card.label == "Digital Property Tax Toolkit") {
+      this.resources_services.tooltikCardShow.next(false);
+      this.isCardShow = false;
+      this.router.navigateByUrl(
+        "resources-dashboard/learning-center/toolkits/introduction"
+      );
+    } else if (card.link) {
+      this.resources_services.tooltikCardShow.next(true);
+      this.isCardShow = true;
+      window.open(card.link)
     }
-    this.resources_services.tooltikCardShow.next(false);
-    this.isCardShow = false;
-    this.router.navigateByUrl(
-      "resources-dashboard/learning-center/toolkits/introduction"
-    );
     // setTimeout(()=> {
     //   if(!this.isCardShow){
     //     let intro =  document.getElementById('id_0');
