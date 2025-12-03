@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { CommonService } from 'src/app/shared/services/common.service';
+const DEFAULT_ADDRESS = `Ministry of Housing and Urban Affairs</br>
+Sankalp Bhawan, GPOA-2</br>
+Pt. Ravi Shankar Shukla Lane</br>
+New Delhi-110001`;
 
 @Component({
   selector: "app-footer",
@@ -27,10 +31,7 @@ export class FooterComponent implements OnInit {
   routerNav(navlink) {
     console.log(navlink);
   }
-  address = ` Director, AMRUT <br />
-  Ministry of Housing and Urban Affairs <br />
-  210 C, Nirman Bhawan, Maulana Azad Road <br />
-  New Delhi-110011`;
+  address = DEFAULT_ADDRESS;
   mailId = 'mailto:contact@cityfinance.in';
   mailLabel = 'contact@cityfinance.in';
   getPageDetails() {
@@ -44,10 +45,7 @@ export class FooterComponent implements OnInit {
           this.mailLabel = 'rankings@cityfinance.in';
         }
         else {
-          this.address = ` Director, AMRUT <br />
-          Ministry of Housing and Urban Affairs <br />
-          210 C, Nirman Bhawan, Maulana Azad Road <br />
-          New Delhi-110011`;
+          this.address = DEFAULT_ADDRESS;
           this.mailId = 'mailto:contact@cityfinance.in';
           this.mailLabel = 'contact@cityfinance.in';
         }
