@@ -38,7 +38,7 @@ export class ToolkitsComponent implements OnInit {
     },
     {
       label: "Credit Rating Toolkit",
-      imgUrl: "./assets/new_dashBord_ftr_hdr/shutterstock_546307051/shutterstock_546307051.png",
+      imgUrl: "./assets/new_dashBord_ftr_hdr/shutterstock_546307051/credit-rating-report.png",
       link: "https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/resource/Credit_Rating_Toolkit_9e632781-2a23-493e-a66f-8a2f2fe390fd.pdf",
     },
   ];
