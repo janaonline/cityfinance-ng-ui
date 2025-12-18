@@ -139,7 +139,8 @@ export class StateFormComponent implements OnInit {
     // window.open("https://tally.so/r/npgjLJ", "_blank", "noopener,noreferrer");
     // window.open("https://tally.so/r/wA1AAy", "_blank", "noopener,noreferrer");
     // window.open("https://tally.so/r/3xkzEy", "_blank", "noopener,noreferrer");
-    window.open("https://tally.so/r/7RlDv0", "_blank", "noopener,noreferrer");
+    // window.open("https://tally.so/r/7RlDv0", "_blank", "noopener,noreferrer");
+    window.open("https://tally.so/r/jaZ1xa", "_blank", "noopener,noreferrer");
     return;
   }
 

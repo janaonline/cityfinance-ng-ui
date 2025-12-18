@@ -48,6 +48,8 @@ export class UserInfoDialogComponent implements OnInit {
   ) { }
 
   title: string = "Download";
+  downloadInfoTitle: string = "Your personal information is safe.";
+  downloadInfoDese: string = "We request these details to understand our user base and shape future improvements. You might hear from us a few times a year with product updates or invitations to give feedback.";
   desc: string = "Please enter your information below to download the file(s).";
   isLoading: boolean = false;
   fields: FieldConfig[] = [];
