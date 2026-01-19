@@ -1,12 +1,13 @@
 <div class="container-fluid" *ngIf="isApiComplete">
     <div *ngIf="['2024-25', '2025-26'].includes(selectedYear) && this.userData?.role=='ULB'"
         class="d-flex flex-wrap gap-2 justify-content-evenly my-4">
-        <div class="webinar-alert lh-sm" style="max-width: 400px;">
-            <img src="./assets/webinar/calendar.png" width="80" height="80" />
+        <div *ngIf="isWebinarAlert" class="webinar-alert lh-sm" style="max-width: 400px;">
+            <img [src]="webinarAlert.imgUrl[0]" width="80" height="80" />
             <div>
-                <p class="fw-bold p-0 mb-2">WEBINAR ALERT</p>
-                Join our webinar on Jan 7<sup>th</sup>, 2025 for a deep dive into revenue performance.
-                <div role="button" class="webinar-span" (click)="registerForEvent()">Register for event.</div>
+                <p class="fw-bold p-0 mb-2">{{webinarAlert.title}}</p>
+                {{webinarAlert.desc}}
+                <div role="button" class="webinar-span" (click)="registerForEvent()">{{webinarAlert.buttonLabels[0]}}
+                </div>
             </div>
         </div>
         <div class="webinar-alert lh-sm" style="max-width: 400px;">
