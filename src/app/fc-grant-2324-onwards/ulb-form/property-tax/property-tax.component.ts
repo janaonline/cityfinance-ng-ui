@@ -73,7 +73,7 @@ export class PropertyTaxComponent implements OnInit {
   stateGsdpGrowthRate: number;
   growthRatePercent: number = null;
   currentDate = new Date();
-  minDate = new Date('01-01-1990');
+  minDate = new Date('01-01-1910');
   formSubmitted = false;
   specialHeaders: { [key: number]: string[] } = {};
   validators = {};
@@ -684,10 +684,10 @@ export class PropertyTaxComponent implements OnInit {
 
     const B = collectIncludingCess?.find((year) => year.key == `FY${bYr}`)?.value;
     const A = collectIncludingCess?.find((year) => year.key == `FY${aYr}`)?.value;
-    
+
     if (["", "0"].includes(A)) this.growthRatePercent = 0;
     if (B == "") this.growthRatePercent = null;
-    
+
     if (["", "0"].includes(A) || B == "") {
       return {
         msg: `Property tax growth rate cannot be calculated for ${this.commonServices.getPrevYear(this.yearName)}`,
