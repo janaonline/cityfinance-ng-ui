@@ -30,14 +30,12 @@
         </div>
       </div>
 
-      <div
-        *ngIf="['606aafcf4dff55e6c075d424', '606aafda4dff55e6c075d48f'].includes(selectedYearId) && this.userData.role === 'STATE'"
-        class="webinar-alert lh-sm my-4 w-75 mx-auto">
-        <img src="./assets/webinar/calendar.png" width="80" height="80" />
+      <div *ngIf="isWebinarAlert" class="webinar-alert lh-sm my-4 w-75 mx-auto">
+        <img [src]="webinarAlert.imgUrl[0]" width="80" height="80" />
         <div>
-          <p class="fw-bold p-0 mb-2">WEBINAR ALERT</p>
-          Explore Urban Metrics: Webinar on Jan 8<sup>th</sup>. Decode city finances, compare across states.
-          <div role="button" class="webinar-span" (click)="registerForEvent()">Sign up now.</div>
+          <p class="fw-bold p-0 mb-2">{{webinarAlert.title}}</p>
+          {{webinarAlert.desc}}
+          <div role="button" class="webinar-span" (click)="registerForEvent()">{{webinarAlert.buttonLabels[0]}}</div>
         </div>
       </div>
 
