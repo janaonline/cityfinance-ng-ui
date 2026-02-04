@@ -258,69 +258,21 @@ this._loaderService.showLoader()
    * Get Digitized Excel Reports/ Data.
    * List of excel URLs digitized under AFS Digitization Project.
    */
-  getDigitizedExcelReports(ulbId: string, financialYear: string, auditType = "audited") {
-    return new Observable(observer => {
-      setTimeout(() => {
-        observer.next({
-          "timestamp": 1770104186,
-          "success": true,
-          "msg": "Success.",
-          "message": "Success.",
-          "data": {
-            // "pdf": [
-            //   {
-            //     "name": "Balance Sheet",
-            //     "url": "/ULB/2023-24/annual_accounts/AP008/BS_2022-23_b3c4245b-b1ad-4a47-8708-b02c4b067635.pdf"
-            //   },
-            //   {
-            //     "name": "Schedules To Balance Sheet",
-            //     "url": "/ULB/2023-24/annual_accounts/AP008/Balance_sheet_schedule_22-23_2b3ae0d5-0c5b-483b-9973-5469b0ad1868.pdf"
-            //   },
-            //   {
-            //     "name": "Income And Expenditure",
-            //     "url": "/ULB/2023-24/annual_accounts/AP008/Income_and_Expenditure_Statement_22-23_07067070-b1d8-4904-bfea-0048066e5419.pdf"
-            //   },
-            //   {
-            //     "name": "Schedules To Income And Expenditure",
-            //     "url": "/ULB/2023-24/annual_accounts/AP008/Income_and_Expenditure_schedule_22-23_507e6c8c-6d0c-4312-aaf2-8ad277e5af9b.pdf"
-            //   },
-            //   {
-            //     "name": "Cash Flow Statement",
-            //     "url": "/ULB/2023-24/annual_accounts/AP008/CF_2022-23_7e7fd30b-7800-4386-90f2-eafbd46bb861.pdf"
-            //   }
-            // ],
-            "excel": [
-              {
-                "name": "Balance Sheet",
-                "url": "/ULB/2023-24/annual_accounts/AP008/BS_2022-23_2d1f9702-b996-4e68-a851-b8206cb8479d.xlsx"
-              },
-              {
-                "name": "Schedules To Balance Sheet",
-                "url": "/ULB/2023-24/annual_accounts/AP008/BS_SHEDULES_2022-23_67c25673-1d80-477a-802a-4610d737e5b7.xlsx"
-              },
-              {
-                "name": "Income And Expenditure",
-                "url": "/ULB/2023-24/annual_accounts/AP008/IE_2022-23_59920b7f-eea9-439b-b514-a07c799d0cc1.xlsx"
-              },
-              {
-                "name": "Schedules To Income And Expenditure",
-                "url": "/ULB/2023-24/annual_accounts/AP008/IE_SHEDULES_2022-23_9872fb36-21f5-432e-9324-cb3edf4f08d6.xlsx"
-              },
-              {
-                "name": "Cash Flow Statement",
-                "url": "/ULB/2023-24/annual_accounts/AP008/CASH_FLOW_2022-23_NEW_85ca4f45-b959-4690-8ee1-3a3f0c7bd110.xlsx"
-              }
-            ],
-            "type": "audited"
-          }
-        });
-        observer.complete();
-      }, 500);
+  getDigitizedExcelReports(ulbId: string, financialYear: string, auditType: string, fileType: string) {
+    // Validate required params
+    if (!ulbId || !financialYear || !auditType || !fileType) {
+      throw new Error('Missing required query parameters for digitized excel reports');
+    }
+
+    const params = new HttpParams({
+      fromObject: {
+        ulbId,
+        year: financialYear,
+        auditType,
+        fileType,
+      },
     });
-    // let params = new HttpParams();
-    // if (auditType) params = params.set('auditType', auditType);
-    // if (financialYear) params = params.set('financialYear', financialYear);
-    // if (ulbId) params = params.set('ulbId', ulbId);
-    // return this.http.get(`${environment.api.urlV2}afs-digitization/afs-excel`, { params });
+
+    return this.http.get(`${environment.api.urlV2}afs-digitization/afs-excel-report`, { params });
   }
 }

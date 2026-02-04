@@ -213,7 +213,13 @@ export class DataSetsComponent implements OnInit {
   // If type is 'Digitized Excel' -> call getDigitizedExcelList()
   private getUlbListSubscription(globalName = ''): Observable<any> {
     return this.type === this.DIGITIZED_EXCEL_TYPE
-      ? this._resourcesDashboardService.getDigitizedExcelList()
+      ? this._resourcesDashboardService.getDigitizedExcelList(
+          this.year,
+          this.type,
+          this.state,
+          this.ulbId,
+          this.skip,
+      )
       : this._resourcesDashboardService.getDataSets(
           this.year,
           this.type,
@@ -229,10 +235,10 @@ export class DataSetsComponent implements OnInit {
 
   // Decide which API to call based on 'type'.
   // If type is 'Digitized Excel' -> call getDigitizedExcelReports()
-  private getUlbDataSetSubscription(_id: string, year: string, auditType: string): Observable<any> {
+  private getUlbDataSetSubscription(item): Observable<any> {
     return this.type === this.DIGITIZED_EXCEL_TYPE
-      ? this.reportService.getDigitizedExcelReports(_id, year, auditType)
-      : this.reportService.getReports(_id, year, auditType);
+      ? this.reportService.getDigitizedExcelReports(item._id, item.year, item.auditType, item.fileType)
+      : this.reportService.getReports(item._id, item.year, item.auditType);
   }
 
   // Display the files.
@@ -276,7 +282,7 @@ export class DataSetsComponent implements OnInit {
     // 2019-20 onwards.
     // If type is Digitized Excel get data from AFS Digitization Project.
     this.globalLoaderService.showLoader();
-    const subscription = this.getUlbDataSetSubscription(item._id, item.year, item.auditType);
+    const subscription = this.getUlbDataSetSubscription(item);
     subscription.subscribe(
       (res) => {
         this.globalLoaderService.stopLoader();

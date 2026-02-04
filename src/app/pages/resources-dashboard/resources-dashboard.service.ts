@@ -117,139 +117,16 @@ export class ResourcesDashboardService {
    * Get Digitized Excel List.
    * List of excel digitized under AFS Digitization Project.
    */
-  getDigitizedExcelList(): Observable<any> {
-    return new Observable(observer => {
-      setTimeout(() => {
-        observer.next({
-          "success": true,
-          "data": [
-            {
-              "_id": "5dd24729437ba31f7eb42e94",
-              "auditType": "unAudited",
-              "fileName": "Andhra Pradesh_Chittoor Municipal Corporation_2022-23_ocr_unAudited",
-              "fileUrl": null,
-              "modifiedAt": "2023-05-15T06:12:04.513Z",
-              "state": "Andhra Pradesh",
-              "type": "excel",
-              "ulbId": "5dd24729437ba31f7eb42e94",
-              "ulbName": "Chittoor Municipal Corporation",
-              "year": "2022-23"
-            },
-            {
-              "_id": "5dd24729437ba31f7eb42e94",
-              "auditType": "audited",
-              "fileName": "Andhra Pradesh_Chittoor Municipal Corporation_2022-23_ocr_outsourced",
-              "fileUrl": null,
-              "modifiedAt": "2024-09-21T11:33:23.857Z",
-              "state": "Andhra Pradesh",
-              "type": "excel",
-              "ulbId": "5dd24729437ba31f7eb42e94",
-              "ulbName": "Chittoor Municipal Corporation",
-              "year": "2022-23"
-            },
-            {
-              "_id": "5dd24729437ba31f7eb42e98",
-              "auditType": "unAudited",
-              "fileName": "Rajasthan_Taranagar Municipality_2022-23_ocr_unAudited",
-              "fileUrl": null,
-              "modifiedAt": "2024-01-17T07:33:07.764Z",
-              "state": "Rajasthan",
-              "type": "excel",
-              "ulbId": "5dd24729437ba31f7eb42e98",
-              "ulbName": "Taranagar Municipality",
-              "year": "2022-23"
-            },
-            {
-              "_id": "5dd24729437ba31f7eb42e98",
-              "auditType": "audited",
-              "fileName": "Rajasthan_Taranagar Municipality_2022-23_ocr_outsourced",
-              "fileUrl": null,
-              "modifiedAt": "2025-01-18T08:59:48.176Z",
-              "state": "Rajasthan",
-              "type": "excel",
-              "ulbId": "5dd24729437ba31f7eb42e98",
-              "ulbName": "Taranagar Municipality",
-              "year": "2022-23"
-            },
-            {
-              "_id": "5dd24729437ba31f7eb42e99",
-              "auditType": "unAudited",
-              "fileName": "Andhra Pradesh_Narasarao Peta Municipality_2022-23_ocr_unAudited",
-              "fileUrl": null,
-              "modifiedAt": "2023-05-13T15:27:02.305Z",
-              "state": "Andhra Pradesh",
-              "type": "excel",
-              "ulbId": "5dd24729437ba31f7eb42e99",
-              "ulbName": "Narasarao Peta Municipality",
-              "year": "2022-23"
-            },
-            {
-              "_id": "5dd24729437ba31f7eb42e99",
-              "auditType": "audited",
-              "fileName": "Andhra Pradesh_Narasarao Peta Municipality_2022-23_ocr_audited",
-              "fileUrl": null,
-              "modifiedAt": "2024-06-28T11:42:49.920Z",
-              "state": "Andhra Pradesh",
-              "type": "excel",
-              "ulbId": "5dd24729437ba31f7eb42e99",
-              "ulbName": "Narasarao Peta Municipality",
-              "year": "2022-23"
-            },
-            {
-              "_id": "5dd24729437ba31f7eb42e9c",
-              "auditType": "unAudited",
-              "fileName": "Andhra Pradesh_Hindupur Municipality_2022-23_ocr_unAudited",
-              "fileUrl": null,
-              "modifiedAt": "2023-05-13T10:10:17.401Z",
-              "state": "Andhra Pradesh",
-              "type": "excel",
-              "ulbId": "5dd24729437ba31f7eb42e9c",
-              "ulbName": "Hindupur Municipality",
-              "year": "2022-23"
-            },
-            {
-              "_id": "5dd24729437ba31f7eb42e9c",
-              "auditType": "audited",
-              "fileName": "Andhra Pradesh_Hindupur Municipality_2022-23_ocr_audited",
-              "fileUrl": null,
-              "modifiedAt": "2024-09-17T12:43:54.731Z",
-              "state": "Andhra Pradesh",
-              "type": "excel",
-              "ulbId": "5dd24729437ba31f7eb42e9c",
-              "ulbName": "Hindupur Municipality",
-              "year": "2022-23"
-            },
-            {
-              "_id": "5dd24729437ba31f7eb42e9d",
-              "auditType": "unAudited",
-              "fileName": "Andhra Pradesh_Narsipatnam Municipality_2022-23_ocr_unAudited",
-              "fileUrl": null,
-              "modifiedAt": "2023-05-15T11:13:04.584Z",
-              "state": "Andhra Pradesh",
-              "type": "excel",
-              "ulbId": "5dd24729437ba31f7eb42e9d",
-              "ulbName": "Narsipatnam Municipality",
-              "year": "2022-23"
-            },
-            {
-              "_id": "5dd24729437ba31f7eb42e9d",
-              "auditType": "audited",
-              "fileName": "Andhra Pradesh_Narsipatnam Municipality_2022-23_ocr_audited",
-              "fileUrl": null,
-              "modifiedAt": "2024-05-15T14:53:13.060Z",
-              "state": "Andhra Pradesh",
-              "type": "excel",
-              "ulbId": "5dd24729437ba31f7eb42e9d",
-              "ulbName": "Narsipatnam Municipality",
-              "year": "2022-23"
-            }
-          ]
-        });
-        observer.complete();
-      }, 500);
-    });
+  getDigitizedExcelList(year, type, state, ulbId, skip): Observable<any> {
+    if (!year || !type) throw Error("year and type are required");
 
-    // let params = new HttpParams();
-    // return this.https.get(`${environment.api.urlV2}afs-digitization/afs-list`, { params });
+    let params = new HttpParams();
+    params = params.set('year', year);
+    // params = params.set('type', type);
+    if (state) params = params.set('stateId', state);
+    if (ulbId) params = params.set('ulbId', ulbId);
+    if (skip !== null && skip !== undefined) params = params.set('skip', skip);
+
+    return this.https.get(`${environment.api.urlV2}afs-digitization/afs-list`, { params });
   }
 }
