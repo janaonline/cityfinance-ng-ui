@@ -69,13 +69,17 @@ export class UtilityService {
     // Show a popup to indicate that the file is being downloaded
     const swalInstance = this.swalLoader();
 
+    // Extract extension safely (handles query params)
+    const cleanUrl = target_file_url.split('?')[0];
+    const extension = cleanUrl.substring(cleanUrl.lastIndexOf('.')) || '';
+
     fetch(target_file_url)
       .then((response) => {
         if (!response.ok) { throw new Error("Response was not ok.") }
         return response.blob();
       })
       .then((blob) => {
-        FileSaver.saveAs(blob, fileName);
+        FileSaver.saveAs(blob, `${fileName}${extension}`);
         swalInstance.close(); // Close the "Downloading..." popup
         this.swalPopup('File Downloaded', 'File has been downloaded successfully!', 'success');
       })
