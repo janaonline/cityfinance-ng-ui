@@ -94,13 +94,7 @@ export class StateFormComponent implements OnInit {
     this.stateFormId = sessionStorage.getItem("Stateform_id");
     this.path = sessionStorage.getItem("path2");
 
-    const webinarAlert = sessionStorage.getItem(this.webinarKey);
-    if (webinarAlert) {
-      this.webinarAlert = JSON.parse(webinarAlert);
-      this.isWebinarAlert = this.showWebinarAlert();
-    } else {
-      this.getWebinarLink();
-    }
+    this.getWebinarLink();
   }
 
   getLeftMenu() {
@@ -165,18 +159,13 @@ export class StateFormComponent implements OnInit {
   private getWebinarLink() {
     this.commonServices.getWebinarLink(this.webinarKey).subscribe({
       next: (res) => {
-        this.webinarAlert = res.data;
         if (!res.data || Object.keys(res.data).length <= 0) {
           this.isWebinarAlert = false;
           return;
         }
-
+        
+        this.webinarAlert = res.data;
         this.isWebinarAlert = this.showWebinarAlert();
-        if (this.isWebinarAlert) {
-          sessionStorage.setItem(this.webinarKey, JSON.stringify(this.webinarAlert));
-        } else {
-          sessionStorage.removeItem(this.webinarKey);
-        }
       },
       error: () => console.error("Failed to get webinar link")
     })
