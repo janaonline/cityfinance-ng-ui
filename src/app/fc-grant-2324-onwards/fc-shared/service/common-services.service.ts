@@ -1,8 +1,28 @@
 import { HttpClient, HttpParams  } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { environment } from 'src/environments/environment';
+
+export interface WebinarAlert {
+  webinarId: string;
+  title: string;
+  desc: string;
+  eventStatus: number;
+  startAt: string;
+  endAt: string;
+  redirectionLink: string;
+  formId: string;
+  buttonLabels: string[];
+  imgUrl: string[];
+}
+
+interface WebinarResponse {
+  success: boolean;
+  message: string;
+  data: WebinarAlert;
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -118,6 +138,21 @@ getReviewType(designYear) {
   const reviewType = yearSplit >= 2023 ? 'new_review' : 'old_review';
   return reviewType;
 }
+
+  showWebinarAlert(webinarStartDate: string, eventStatus: number): boolean {
+    const currentDate = new Date();
+    const startAt = new Date(webinarStartDate);
+    return eventStatus == 1 && currentDate <= startAt;
+  }
+
+  getWebinarLink(eventId: string): Observable<WebinarResponse> {
+    if (!eventId) {
+      return;
+    }
+
+    const url = environment.api.urlV2 + `events/${eventId}`;
+    return this.http.get<WebinarResponse>(url);
+  }
 
   // isDateBefore11Sep() {
   //   const today: Date = new Date();
