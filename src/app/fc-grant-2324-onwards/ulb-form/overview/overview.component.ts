@@ -172,14 +172,7 @@ export class OverviewComponent implements OnInit {
   selectedYear: string = "";
   ngOnInit(): void {
     this.onResize();
-
-    const webinarAlert = sessionStorage.getItem("ulb_webinar_alert");
-    if (webinarAlert) {
-      this.webinarAlert = JSON.parse(webinarAlert);
-      this.isWebinarAlert = true;
-    } else {
-      this.getWebinarLink();
-    }
+    this.getWebinarLink();
   }
 
   setRouter() {
@@ -331,18 +324,13 @@ export class OverviewComponent implements OnInit {
   private getWebinarLink() {
     this.commonServices.getWebinarLink(this.webinarKey).subscribe({
       next: (res) => {
-        this.webinarAlert = res.data;
         if (!res.data || Object.keys(res.data).length <= 0) {
           this.isWebinarAlert = false;
           return;
         }
-
+        
+        this.webinarAlert = res.data;
         this.isWebinarAlert = this.commonServices.showWebinarAlert(this.webinarAlert.startAt, this.webinarAlert.eventStatus);
-        if (this.isWebinarAlert) {
-          sessionStorage.setItem(this.webinarKey, JSON.stringify(this.webinarAlert));
-        } else {
-          sessionStorage.removeItem(this.webinarKey);
-        }
       },
       error: () => console.error("Failed to get webinar link")
     })
