@@ -18,7 +18,7 @@
   color: #0f1f40;
   /* height: 3rem; */
   display: -webkit-box !important;
-  -webkit-line-clamp: 3 !important;
+  -webkit-line-clamp: 1 !important;
   -webkit-box-orient: vertical !important;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -85,4 +85,23 @@
   background-color: #f7f7f7;
   overflow-wrap: unset;
   justify-content: start;
+}
+.publishCard {
+  height: 100%; /* all grid columns same height */
+}
+
+.publish-card-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  cursor: pointer;
+}
+.publish-card-body img {
+  flex-grow: 1;
+}
+.card-image {
+  height: 200px;
+  width: 100%;
+  object-fit: contain;
+  border: 1px solid #ddd;
 }
