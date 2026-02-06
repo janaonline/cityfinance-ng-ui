@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { BehaviorSubject, Subject } from "rxjs";
+import { BehaviorSubject, Observable, of, Subject } from "rxjs";
 
 
 import { environment } from "../../../environments/environment";
@@ -111,5 +111,22 @@ export class ResourcesDashboardService {
     params = params.set('year', year);
     params = params.set('module', module);
     return this.https.get(`${environment.api.url}ledger/getLedgerDump?`, { params, responseType: 'blob' });
+  }
+
+  /**
+   * Get Digitized Excel List.
+   * List of excel digitized under AFS Digitization Project.
+   */
+  getDigitizedExcelList(year, type, state, ulbId, skip): Observable<any> {
+    if (!year || !type) throw Error("year and type are required");
+
+    let params = new HttpParams();
+    params = params.set('year', year);
+    // params = params.set('type', type);
+    if (state) params = params.set('stateId', state);
+    if (ulbId) params = params.set('ulbId', ulbId);
+    if (skip !== null && skip !== undefined) params = params.set('skip', skip);
+
+    return this.https.get(`${environment.api.urlV2}afs-digitization/afs-list`, { params });
   }
 }

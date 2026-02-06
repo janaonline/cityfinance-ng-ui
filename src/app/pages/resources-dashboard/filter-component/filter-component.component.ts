@@ -51,6 +51,7 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
   pdfStatus = ['Audited', 'Unaudited'];
   auditType: string;
   disableForStateBundle2 = ['Raw Data Excel'];
+  disableCards = ['Raw Data Excel', 'Digitized Excel'];
   isStateBundleRequested: boolean = false;
   durationInSeconds: number = 3;
   statesObj: Record<string, IState> = {};
@@ -64,15 +65,20 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
       key: 'Raw Data PDF',
       label: 'Data submitted by ULBs',
       description: 'in PDF',
-      isActive: true,
       tooltip: '',
     },
+    // {
+    //   value: 'rawExcel',
+    //   key: 'Raw Data Excel',
+    //   label: 'Data submitted by ULBs',
+    //   description: 'in Excel',
+    //   tooltip: '',
+    // },
     {
-      value: 'rawExcel',
-      key: 'Raw Data Excel',
-      label: 'Data submitted by ULBs',
+      value: 'digitizedExcel',
+      key: 'Digitized Excel',
+      label: 'ULB submitted documents digitized using OCR-AI methods',
       description: 'in Excel',
-      isActive: false,
       tooltip: '',
     },
     {
@@ -80,7 +86,6 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
       key: 'Standardised Excel',
       label: 'Data standardized into NMAM format',
       description: 'in Excel',
-      isActive: true,
       tooltip: 'Currently under development.',
     },
     {
@@ -88,7 +93,6 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
       key: 'Budget PDF',
       label: 'Budget data submitted by ULBs',
       description: 'in PDF',
-      isActive: true,
       tooltip: '',
     }
   ];
@@ -444,9 +448,9 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
     });
   }
 
-  // Hide card if key === 'Raw Data Excel'
+  // Hide card if key is in disableCards[] - when create state bundle is requested.
   getActiveStatus(key: string) {
-    if (key === 'Raw Data Excel' && this.isStateBundleRequested) return false;
+    if (this.disableCards.includes(key) && this.isStateBundleRequested) return false;
     return true;
   }
 

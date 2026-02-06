@@ -1,3 +1,7 @@
+<div *ngIf="infoMsg" class="alert alert-info" role="alert">
+  {{infoMsg}}
+</div>
+
 <div class="row" *ngIf="fileType == 'pdf' && reports?.pdf.length">
   <h5 class="">PDF</h5>
   <div class="mb-2" *ngFor="let pdf of reports?.pdf">
@@ -39,7 +43,7 @@
   </div>
 </div>
 <div class="mb-2 float-right fst-italic" *ngIf="fileType !== 'notFound'">
-  Source: {{ reports.type === 'audited' ? 'Audited': 'Provisional'}} File(s) submitted by ULB
+  {{ sourceMsg }}
 </div>
 <div *ngIf="fileType == 'notFound'" style="text-align: center; margin-top: 30px; margin-bottom: 30px">
   <img src="./assets/images/sad.svg" height="82px" width="89px" />

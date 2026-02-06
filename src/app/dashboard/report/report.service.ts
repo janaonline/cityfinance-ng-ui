@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { IDetailedReportResponse } from '../../../app/models/detailedReport/detailedReportResponse';
@@ -252,5 +252,27 @@ this._loaderService.showLoader()
 
   getReports(ulbId: string, financialYear: string, auditType: string = "") {
     return this.http.get(`${environment.api.url}ledger/ulb-financial-data/files/${ulbId}?financialYear=${financialYear}&auditType=${auditType}`);
+  }
+
+  /**
+   * Get Digitized Excel Reports/ Data.
+   * List of excel URLs digitized under AFS Digitization Project.
+   */
+  getDigitizedExcelReports(ulbId: string, financialYear: string, auditType: string, fileType: string) {
+    // Validate required params
+    if (!ulbId || !financialYear || !auditType || !fileType) {
+      throw new Error('Missing required query parameters for digitized excel reports');
+    }
+
+    const params = new HttpParams({
+      fromObject: {
+        ulbId,
+        year: financialYear,
+        auditType,
+        fileType,
+      },
+    });
+
+    return this.http.get(`${environment.api.urlV2}afs-digitization/afs-excel-report`, { params });
   }
 }

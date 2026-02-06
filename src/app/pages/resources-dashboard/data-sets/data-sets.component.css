@@ -151,3 +151,14 @@ th {
 /* .bg-success-subtle {
   background-color: #d1e7dd;
 } */
+
+
+.ocr-alert {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-family: "Montserrat";
+  font-weight: 500;
+}

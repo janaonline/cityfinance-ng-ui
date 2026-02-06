@@ -14,6 +14,7 @@ import { UtilityService } from "src/app/shared/services/utility.service";
 import { environment } from "src/environments/environment";
 import { ReportService } from "../../../dashboard/report/report.service";
 import { ResourcesDashboardService } from "../resources-dashboard.service";
+import { Observable } from "rxjs-compat";
 
 @Component({
   selector: "app-data-sets",
@@ -41,7 +42,7 @@ export class DataSetsComponent implements OnInit {
     isUlb: true,
     isContentType: true,
     isYear: true,
-    useFor: "resourcesDashboard"
+    useFor: "resourcesDashboard",
   };
   storageBaseUrl: string = environment?.STORAGE_BASEURL;
   allReports: any;
@@ -75,7 +76,8 @@ export class DataSetsComponent implements OnInit {
   module: string = "resources" // userInfo popup.
   // showStateBundleDiv: boolean = false;
   isStateBundleRequested: boolean = false;
-  disableForStateBundle = ['Raw Data Excel', 'Standardised Excel'];
+  // disableForStateBundle = ["Raw Data Excel", "Standardised Excel"];
+  DIGITIZED_EXCEL_TYPE: string = "Digitized Excel";
 
   statesList: Record<string, IState> = {};
 
@@ -178,34 +180,65 @@ export class DataSetsComponent implements OnInit {
 
     // Load fies.
     try {
-      this._resourcesDashboardService
-        .getDataSets(this.year, this.type, this.category, this.state, this.ulb, this.ulbId, globalName, this.skip, this.auditType)
-        .subscribe(
-          (res: any) => {
-            const dataLength = res.data.length;
-            // Common actions
-            this.totalDocs += dataLength;
-            this.balData = this.balData.concat(res.data);
-            this.globalLoaderService.stopLoader();
+      const subscription = this.getUlbListSubscription(globalName);
+      subscription.subscribe(
+        (res: any) => {
+          const dataLength = res.data.length;
+          // Common actions
+          this.totalDocs += dataLength;
+          this.balData = this.balData.concat(res.data);
+          this.globalLoaderService.stopLoader();
 
-            // Conditional logic
-            if (dataLength === 10) {
-              this.loadMoreData = true;
-              this.skip += 10;
-            } else {
-              this.loadMoreData = false;
-            }
-
-            return;
-          },
-          (err) => {
-            this.globalLoaderService.stopLoader();
-            console.error("Error in fetching data: ", err.message);
+          // Conditional logic
+          if (dataLength === 10) {
+            this.loadMoreData = true;
+            this.skip += 10;
+          } else {
+            this.loadMoreData = false;
           }
-        );
+
+          return;
+        },
+        (err) => {
+          this.globalLoaderService.stopLoader();
+          console.error("Error in fetching data: ", err.message);
+        },
+      );
     } catch (err) {
       this.globalLoaderService.stopLoader();
     }
+  }
+
+  // Decide which API to call based on 'type'.
+  // If type is 'Digitized Excel' -> call getDigitizedExcelList()
+  private getUlbListSubscription(globalName = ''): Observable<any> {
+    return this.type === this.DIGITIZED_EXCEL_TYPE
+      ? this._resourcesDashboardService.getDigitizedExcelList(
+          this.year,
+          this.type,
+          this.state,
+          this.ulbId,
+          this.skip,
+      )
+      : this._resourcesDashboardService.getDataSets(
+          this.year,
+          this.type,
+          this.category,
+          this.state,
+          this.ulb,
+          this.ulbId,
+          globalName,
+          this.skip,
+          this.auditType,
+        );
+  }
+
+  // Decide which API to call based on 'type'.
+  // If type is 'Digitized Excel' -> call getDigitizedExcelReports()
+  private getUlbDataSetSubscription(item): Observable<any> {
+    return this.type === this.DIGITIZED_EXCEL_TYPE
+      ? this.reportService.getDigitizedExcelReports(item._id, item.year, item.auditType, item.fileType)
+      : this.reportService.getReports(item._id, item.year, item.auditType);
   }
 
   // Display the files.
@@ -247,9 +280,10 @@ export class DataSetsComponent implements OnInit {
     }
 
     // 2019-20 onwards.
+    // If type is Digitized Excel get data from AFS Digitization Project.
     this.globalLoaderService.showLoader();
-    this.reportService.getReports(item._id, item.year, item.auditType).subscribe(
-
+    const subscription = this.getUlbDataSetSubscription(item);
+    subscription.subscribe(
       (res) => {
         this.globalLoaderService.stopLoader();
         let type = 'notFound';
