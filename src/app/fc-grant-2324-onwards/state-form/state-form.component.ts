@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommonServicesService } from '../fc-shared/service/common-services.service';
+import { CommonServicesService, WebinarAlert } from '../fc-shared/service/common-services.service';
 import { UserUtility } from 'src/app/util/user/user';
 import { ProfileService } from 'src/app/users/profile/service/profile.service';
 import { CommonService } from 'src/app/shared/services/common.service';
@@ -69,10 +69,32 @@ export class StateFormComponent implements OnInit {
   isLeftMenu: boolean = false;
   selectedYearId: string = ""
   selectedYear: string = "";
+
+  webinarAlert: WebinarAlert = {
+    "webinarId": "state_webinar_alert",
+    "title": "WEBINAR ALERT",
+    "desc": "Explore Urban Metrics: Webinar on Jan 27th. Decode city finances, compare across states.",
+    "eventStatus": 1,
+    "startAt": "2026-01-27T05:30:00.000Z",
+    "endAt": "2026-01-27T06:30:00.000Z",
+    "redirectionLink": "https://tally.so/r/jaZ1xa",
+    "formId": "",
+    "buttonLabels": [
+      "Sign up now."
+    ],
+    "imgUrl": [
+      "./assets/webinar/calendar.png"
+    ]
+  }
+  isWebinarAlert: boolean = false;
+  readonly webinarKey: string = "state_webinar_alert";
+
   ngOnInit(): void {
     // this.leftMenu = JSON.parse(localStorage.getItem("leftMenuULB"));
     this.stateFormId = sessionStorage.getItem("Stateform_id");
     this.path = sessionStorage.getItem("path2");
+
+    this.getWebinarLink();
   }
 
   getLeftMenu() {
@@ -134,13 +156,31 @@ export class StateFormComponent implements OnInit {
     });
   }
 
+  private getWebinarLink() {
+    this.commonServices.getWebinarLink(this.webinarKey).subscribe({
+      next: (res) => {
+        if (!res.data || Object.keys(res.data).length <= 0) {
+          this.isWebinarAlert = false;
+          return;
+        }
+        
+        this.webinarAlert = res.data;
+        this.isWebinarAlert = this.showWebinarAlert();
+      },
+      error: () => console.error("Failed to get webinar link")
+    })
+  }
+
+  private showWebinarAlert(): boolean {
+    return this.commonServices.showWebinarAlert(this.webinarAlert.startAt, this.webinarAlert.eventStatus) &&
+      ['606aafcf4dff55e6c075d424', '606aafda4dff55e6c075d48f'].includes(this.selectedYearId) &&
+      this.userData.role === 'STATE';
+  }
+
   registerForEvent() {
-    // window.open("https://tally.so/r/nP7obe", "_blank", "noopener,noreferrer");
-    // window.open("https://tally.so/r/npgjLJ", "_blank", "noopener,noreferrer");
-    // window.open("https://tally.so/r/wA1AAy", "_blank", "noopener,noreferrer");
-    // window.open("https://tally.so/r/3xkzEy", "_blank", "noopener,noreferrer");
-    // window.open("https://tally.so/r/7RlDv0", "_blank", "noopener,noreferrer");
-    window.open("https://tally.so/r/jaZ1xa", "_blank", "noopener,noreferrer");
+    if (!this.webinarAlert.redirectionLink) return;
+
+    window.open(this.webinarAlert.redirectionLink, "_blank", "noopener,noreferrer");
     return;
   }
 
