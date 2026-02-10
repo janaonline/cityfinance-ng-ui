@@ -178,9 +178,13 @@ export class DownloadService {
                         subscriber.next(zipStatus);
                     } else {
                         this.zip(zipStatus.body.map(x => {
+                            const extension = this.getFileExtension(
+                                x.downloadModel?.name,
+                                x.downloadModel?.url
+                            );
                             return {
                                 fileData: x.downloaded as Blob,
-                                fileName: x.downloadModel.name
+                                fileName: `${x.downloadModel.name}${extension}`
                             };
                         })).subscribe({
                             next: (data) => {
@@ -267,5 +271,21 @@ export class DownloadService {
             event.type === HttpEventType.DownloadProgress ||
             event.type === HttpEventType.UploadProgress
         );
+    }
+
+    private getFileExtension(fileName?: string, url?: string): string {
+        if (fileName && fileName.includes('.')) {
+            return fileName.substring(fileName.lastIndexOf('.'));
+        }
+
+        if (url) {
+            const cleanUrl = url.split('?')[0];
+            const index = cleanUrl.lastIndexOf('.');
+            if (index !== -1) {
+                return cleanUrl.substring(index);
+            }
+        }
+
+        return ''; // fallback (no extension)
     }
 }
