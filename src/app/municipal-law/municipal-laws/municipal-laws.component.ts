@@ -132,7 +132,7 @@ export class MunicipalLawsComponent implements OnInit {
   }
   fetchMunicipalLawJSONFile() {
     this.http
-      .get("../assets/files/municipal-laws.json")
+      .get("../assets/jsonFile/municipal-laws.json")
       .subscribe((data: any[]) => {
         this.list = data;
       });
