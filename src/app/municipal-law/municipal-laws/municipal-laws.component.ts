@@ -29,7 +29,7 @@ export class MunicipalLawsComponent implements OnInit {
     protected _authService: AuthService,
     protected router: Router,
     private geoService: GeographicalService
-  ) {}
+  ) { }
 
   mapGeoData: FeatureCollection<
     Geometry,
@@ -91,7 +91,7 @@ export class MunicipalLawsComponent implements OnInit {
         text: "Proceed to Login",
         callback: () => {
           sessionStorage.setItem("postLoginNavigation", this.router.url);
-          this.router.navigate(["/", "login"],{ queryParams: { user: 'USER' } } );
+          this.router.navigate(["/", "login"], { queryParams: { user: 'USER' } });
         },
       },
       cancel: { text: "Cancel" },
@@ -132,7 +132,7 @@ export class MunicipalLawsComponent implements OnInit {
   }
   fetchMunicipalLawJSONFile() {
     this.http
-      .get("./assets/jsonFile/municipal-laws.json")
+      .get("./assets/files/municipal-laws.json")
       .subscribe((data: any[]) => {
         this.list = data;
       });
@@ -424,7 +424,7 @@ export class MunicipalLawsComponent implements OnInit {
     this.showComparisionPage();
   }
 
-  showStateComparison(item, state: string) {}
+  showStateComparison(item, state: string) { }
 
   compareAllStates() {
     this.selectedStates = ["criteria"];
