@@ -16,7 +16,7 @@ if (window.location.origin === "https://cityfinance.in" || window.location.origi
   STORAGE_BASEURL = 'https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com';
 }
 export const environment = {
-  performanceURL: "https://pas.org.in/web/ceptpas/iuppkpi?parameterAutoLoginLogin=guestulb9&parameterAutoLoginPassword=guestulb9@abc",
+  performanceURL: "https://pas.org.in/web/ceptpas/iuppkpi",
   production: true,
   fcURL: window.location.origin + '/fc/',
   api: {
