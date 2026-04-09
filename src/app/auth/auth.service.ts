@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { JwtHelperService } from "@auth0/angular-jwt";
-import { Subject } from "rxjs";
+import { Observable, Subject } from "rxjs";
 
 import { environment } from "../../environments/environment";
 
@@ -58,8 +58,8 @@ export class AuthService {
     return !this.helper.isTokenExpired(this.getToken());
   }
 
-  verifyCaptcha(recaptcha: string) {
-    return this.http.post(`${environment.api.url}captcha_validate`, {
+  verifyCaptcha(recaptcha: string): Observable<{ success: boolean, message: string }> {
+    return this.http.post<{ success: boolean, message: string }>(`${environment.api.url}captcha_validate`, {
       recaptcha,
     });
   }
