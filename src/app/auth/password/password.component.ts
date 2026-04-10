@@ -128,6 +128,10 @@ export class PasswordComponent implements OnInit {
   }
 
   resolveCaptcha(keyGenerated: string) {
+    if (!keyGenerated) {
+      return;
+    }
+
     this.errorMessage = '';
 
     this.authService.verifyCaptcha(keyGenerated).subscribe({
