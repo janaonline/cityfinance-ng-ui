@@ -180,7 +180,7 @@ export class FiscalLoginComponent implements OnInit {
     this.gaService.gtag('event', 'login', gData);
     this.authService.loginLogoutCheck.next(true);
     if (res && res["token"]) {
-      localStorage.setItem("id_token", JSON.stringify(res["token"]));
+      this.authService.storeTokens(res);
       localStorage.setItem("Years", JSON.stringify(res["allYears"]));
 
       if (res["user"]?.role == "STATE") {
@@ -197,6 +197,7 @@ export class FiscalLoginComponent implements OnInit {
       this.routeToProperLocation();
     } else {
       localStorage.removeItem("id_token");
+      localStorage.removeItem("refresh_token");
     }
   }
 

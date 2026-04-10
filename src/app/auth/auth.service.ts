@@ -7,6 +7,9 @@ import { environment } from "../../environments/environment";
 
 @Injectable()
 export class AuthService {
+  private readonly accessTokenStorageKey = "id_token";
+  private readonly refreshTokenStorageKey = "refresh_token";
+  private readonly refreshTokenUrl = `${environment.api.url}refresh_token`;
   public badCredentials: Subject<boolean> = new Subject<boolean>();
 
   public helper = new JwtHelperService();
@@ -39,6 +42,12 @@ export class AuthService {
     return this.http.post(environment.api.url + "login", user);
   }
 
+  refreshAccessToken() {
+    const refreshToken = this.getRefreshToken();
+
+    return this.http.post(this.refreshTokenUrl, { refreshToken });
+  }
+
   signup(newUser) {
     return this.http.post(environment.api.url + "register", newUser);
   }
@@ -48,14 +57,68 @@ export class AuthService {
   }
 
   getToken() {
-    return localStorage.getItem("id_token");
+    return this.getAccessToken();
+  }
+
+  getAccessToken() {
+    return this.parseStoredToken(localStorage.getItem(this.accessTokenStorageKey));
+  }
+
+  getRefreshToken() {
+    return this.parseStoredToken(
+      localStorage.getItem(this.refreshTokenStorageKey)
+    );
+  }
+
+  storeTokens(authResponse: any) {
+    const accessToken = this.extractAccessToken(authResponse);
+    const refreshToken = this.extractRefreshToken(authResponse);
+
+    if (accessToken) {
+      localStorage.setItem(
+        this.accessTokenStorageKey,
+        JSON.stringify(accessToken)
+      );
+    } else {
+      localStorage.removeItem(this.accessTokenStorageKey);
+    }
+
+    if (refreshToken) {
+      localStorage.setItem(
+        this.refreshTokenStorageKey,
+        JSON.stringify(refreshToken)
+      );
+    }
+  }
+
+  extractAccessToken(authResponse: any) {
+    return authResponse?.token ?? authResponse?.accessToken ?? authResponse?.access_token ?? authResponse?.data?.token;
+  }
+
+  extractRefreshToken(authResponse: any) {
+    return (
+      authResponse?.refreshToken ??
+      authResponse?.refresh_token ??
+      authResponse?.data?.refreshToken ??
+      authResponse?.data?.refresh_token
+    );
+  }
+
+  isRefreshRequest(url: string) {
+    return url === this.refreshTokenUrl;
   }
 
   /**
    * @description Checks if user is logged in or not.
    */
   loggedIn() {
-    return !this.helper.isTokenExpired(this.getToken());
+    const token = this.getToken();
+
+    if (!token) {
+      return false;
+    }
+
+    return !this.helper.isTokenExpired(token);
   }
 
   verifyCaptcha(recaptcha: string) {
@@ -107,5 +170,17 @@ export class AuthService {
     if (!email || !otp) throw new Error("Email or OTP is missing!");
 
     return this.http.post(`${environment.api.urlV2}email/verifyOtp`, { email, otp });
+  }
+
+  private parseStoredToken(token: string | null) {
+    if (!token) {
+      return null;
+    }
+
+    try {
+      return JSON.parse(token);
+    } catch {
+      return token;
+    }
   }
 }
