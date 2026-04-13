@@ -12,6 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 const swal: SweetAlert = require("sweetalert");
 @Injectable()
 export class CustomHttpInterceptor implements HttpInterceptor {
+  private readonly retryHeader = 'x-auth-retry';
   private isRefreshing = false;
   private readonly refreshedAccessToken$ = new BehaviorSubject<string | null>(null);
   routerNavigationSuccess = new Subject<any>();
@@ -37,7 +38,7 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (req.body instanceof File && req.method === "PUT") {
+    if ((req.body instanceof File || req.body instanceof FormData) && req.method === "PUT") {
       return next.handle(req);
     }
 
@@ -56,13 +57,17 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     let headers = req.headers;
 
     if (!req.headers.has("Accept")) {
-      headers = req.headers.set("Content-Type", "application/json");
+      headers = headers.set("Accept", "application/json");
+    }
+    if (!req.headers.has("Content-Type") && !(req.body instanceof FormData) && !(req.body instanceof File)) {
+      headers = headers.set("Content-Type", "application/json");
     }
     if (sessionID) {
       headers = headers.set("sessionId", sessionID);
     }
-    if (accessToken) {
+    if (accessToken && !this.authService.isAuthRequest(req.url)) {
       headers = headers.set("x-access-token", accessToken);
+      headers = headers.set("Authorization", `Bearer ${accessToken}`);
     }
 
     return req.clone({ headers });
@@ -73,12 +78,11 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const refreshToken = this.authService.getRefreshToken();
-
     if (
       err.status === 401 &&
-      refreshToken &&
-      !this.authService.isRefreshRequest(req.url)
+      !req.headers.has(this.retryHeader) &&
+      !this.authService.isAuthRequest(req.url) &&
+      this.authService.canAttemptSilentRefresh()
     ) {
       return this.handle401Error(req, next);
     }
@@ -94,9 +98,11 @@ export class CustomHttpInterceptor implements HttpInterceptor {
       this.isRefreshing = true;
       this.refreshedAccessToken$.next(null);
 
-      return this.authService.refreshAccessToken().pipe(
+      return this.authService.refreshToken().pipe(
         switchMap((response: any) => {
-          const accessToken = this.authService.extractAccessToken(response);
+          const accessToken =
+            this.authService.extractAccessToken(response) ??
+            this.authService.getAccessToken();
 
           if (!accessToken) {
             return this.handleError(
@@ -109,7 +115,9 @@ export class CustomHttpInterceptor implements HttpInterceptor {
 
           this.authService.storeTokens(response);
           this.refreshedAccessToken$.next(accessToken);
-          return next.handle(this.addDefaultHeaders(req, accessToken));
+          return next.handle(
+            this.markRetriedRequest(this.addDefaultHeaders(req, accessToken))
+          );
         }),
         catchError((refreshError: HttpErrorResponse) => this.handleError(refreshError)),
         finalize(() => {
@@ -121,8 +129,16 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     return this.refreshedAccessToken$.pipe(
       filter((token) => !!token),
       take(1),
-      switchMap((token) => next.handle(this.addDefaultHeaders(req, token)))
+      switchMap((token) =>
+        next.handle(this.markRetriedRequest(this.addDefaultHeaders(req, token)))
+      )
     );
+  }
+
+  private markRetriedRequest(req: HttpRequest<any>) {
+    return req.clone({
+      headers: req.headers.set(this.retryHeader, "true"),
+    });
   }
 
   initializeRequestCancelProccess() {

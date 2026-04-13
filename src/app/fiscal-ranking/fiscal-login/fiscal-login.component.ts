@@ -159,7 +159,7 @@ export class FiscalLoginComponent implements OnInit {
       const body = { ...this.loginForm.value, type: 'fiscalRankings' };
       body["email"] = body["email"].trim();
       this.loginForm.disable();
-      this.authService.signin(body).subscribe(
+      this.authService.login(body).subscribe(
         (res) => this.onSuccessfullLogin(res),
         (error) => {
           this.onLoginError(error);
@@ -181,6 +181,7 @@ export class FiscalLoginComponent implements OnInit {
     this.authService.loginLogoutCheck.next(true);
     if (res && res["token"]) {
       this.authService.storeTokens(res);
+      this.authService.setCurrentUser(res["user"] || null);
       localStorage.setItem("Years", JSON.stringify(res["allYears"]));
 
       if (res["user"]?.role == "STATE") {
@@ -196,8 +197,7 @@ export class FiscalLoginComponent implements OnInit {
 
       this.routeToProperLocation();
     } else {
-      localStorage.removeItem("id_token");
-      localStorage.removeItem("refresh_token");
+      this.authService.clearLocalStorage();
     }
   }
 
