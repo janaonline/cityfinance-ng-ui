@@ -17,6 +17,7 @@ export class MapDialogComponent implements OnInit {
     types: [],
     componentRestrictions: { country: "IN" },
   };
+  isGoogleMapsConfigured = false;
   zoom: number = 15;
   latitude: number;
   longitude: number;
@@ -27,6 +28,9 @@ export class MapDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.isGoogleMapsConfigured = Boolean(
+      (window as any).google && (window as any).google.maps
+    );
     console.log(this.data);
     const { latitude, longitude } = this.data;
     if (latitude && longitude) {

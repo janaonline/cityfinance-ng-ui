@@ -56,6 +56,8 @@ import { ScrollTablePipe } from './directive-and-pipes/scroll-table.pipe';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { GlobalPartModule } from 'src/app/global-part/global-part.module';
 
+const googleMapsApiKey =
+  ((window as any).__env && (window as any).__env.googleMapsApiKey) || '';
 
 @NgModule({
   declarations: [
@@ -116,7 +118,7 @@ import { GlobalPartModule } from 'src/app/global-part/global-part.module';
     MatSnackBarModule,
     GooglePlaceModule,
     AgmCoreModule.forRoot({
-      apiKey: "AIzaSyBum81Liii93xQ3JerXGozwDmNSutlZHro&libraries",
+      apiKey: googleMapsApiKey,
       libraries: ["places"],
     }),
     ButtonsModule.forRoot(),
