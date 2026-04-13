@@ -2,7 +2,7 @@
     <div class="text-center mt-3">
         <span><b>ENTER PROJECT LOCATION</b></span>
     </div>
-    <div class="container-fluid">
+    <div class="container-fluid" *ngIf="isGoogleMapsConfigured; else mapsDisabled">
         <div class="row">
             <label class="col-md-1"> Search </label>
             <input class="col-md-5" ngx-google-places-autocomplete [options]="options"
@@ -20,5 +20,14 @@
         </mat-card>
         <button class="btn btn-primary pull-right mt-3" (click)="onSubmit()">Submit</button>
     </div>
+    <ng-template #mapsDisabled>
+        <div class="alert alert-warning mt-3 mb-0">
+            Google Maps is not configured for this environment.
+            Use Google Maps in a separate tab and enter the latitude/longitude manually.
+        </div>
+        <a class="btn btn-primary mt-3" href="https://www.google.com/maps" rel="noopener noreferrer" target="_blank">
+            Open Google Maps
+        </a>
+    </ng-template>
 </div>
 
