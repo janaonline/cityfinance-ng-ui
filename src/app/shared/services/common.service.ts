@@ -13,6 +13,7 @@ import { ULBsStatistics } from "src/app/models/statistics/ulbsStatistics";
 import { IULB } from "src/app/models/ulb";
 import { USER_TYPE } from "src/app/models/user/userType";
 import { HttpUtility } from "src/app/util/httpUtil";
+import { AuthService } from "src/app/auth/auth.service";
 
 import { IStateULBCoveredResponse } from "../models/stateUlbConvered";
 import { IULBWithPopulationResponse } from "../models/ulbsForMapResponse";
@@ -45,7 +46,8 @@ export class CommonService {
   constructor(
     private http: HttpClient,
     private sanitizer: DomSanitizer,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private authService: AuthService
   ) {}
 
   private searchItem : BehaviorSubject<any> = new BehaviorSubject([]);
@@ -367,10 +369,7 @@ export class CommonService {
   }
 
   getULBListApi(body) {
-    body["token"] = localStorage
-      .getItem("id_token")
-      .replace('"', "")
-      .replace('"', "");
+    body["token"] = this.authService.getAccessToken() || "";
     body["csv"] = true;
     let params = new HttpParams();
     if (body.registration === "Yes") {

@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AuthService } from 'src/app/auth/auth.service';
 import { HttpUtility } from 'src/app/util/httpUtil';
 
 import { UserProfile } from '../../users/profile/model/user-profile';
@@ -10,7 +11,7 @@ import { environment } from './../../../environments/environment';
 })
 export class UserService {
   private httpUtil = new HttpUtility();
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   getProfile() {
     return this.http.get(environment.api.url + "users/profile");
@@ -60,10 +61,7 @@ export class UserService {
     }
     delete body["skip"];
 
-    body["token"] = localStorage
-      .getItem("id_token")
-      .replace('"', "")
-      .replace('"', "");
+    body["token"] = this.authService.getAccessToken() || "";
     body["csv"] = true;
     let params = new HttpParams();
     console.log('csv params', body, params);

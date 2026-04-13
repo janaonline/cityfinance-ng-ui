@@ -139,7 +139,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       const body = { ...this.loginForm.value, type };
       body["email"] = body["email"].trim();
       this.loginForm.disable();
-      this.authService.signin(body).subscribe(
+      this.authService.login(body).subscribe(
         (res) => this.onSuccessfullLogin(res),
         (error) => {
           this.onLoginError(error);
@@ -161,6 +161,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.authService.loginLogoutCheck.next(true);
     if (res && res["token"]) {
       this.authService.storeTokens(res);
+      this.authService.setCurrentUser(res["user"] || null);
       localStorage.setItem("Years", JSON.stringify(res["allYears"]));
 
       if (res["user"]?.role == "STATE") {
@@ -176,8 +177,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
       this.routeToProperLocation(res["user"]);
     } else {
-      localStorage.removeItem("id_token");
-      localStorage.removeItem("refresh_token");
+      this.authService.clearLocalStorage();
     }
   }
 
