@@ -18,7 +18,7 @@
 //     BrowserAnimationsModule,
 //     GooglePlaceModule,
 //     AgmCoreModule.forRoot({
-//       apiKey : 'AIzaSyBum81Liii93xQ3JerXGozwDmNSutlZHro&libraries',
+//       apiKey : 'GOOGLE_MAPS_API_KEY',
 //       libraries : ['places']
 //     }),
 //     MatCardModule
