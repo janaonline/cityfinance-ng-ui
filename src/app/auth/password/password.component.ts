@@ -25,6 +25,7 @@ interface CaptchaObj {
   styleUrls: ["./password.component.scss"],
 })
 export class PasswordComponent implements OnInit {
+  private readonly otpLength = 4;
   public passwordRequestForm: FormGroup;
   public otpPasswordRequestForm: FormGroup;
   public passwordResetForm: FormGroup;
@@ -276,7 +277,12 @@ export class PasswordComponent implements OnInit {
     });
 
     this.otpPasswordRequestForm = this.fb.group({
-      otp: ["", Validators.required],
+      otp: ["", [
+        Validators.required,
+        Validators.minLength(this.otpLength),
+        Validators.maxLength(this.otpLength),
+        Validators.pattern(new RegExp(`^\\d{${this.otpLength}}$`)),
+      ]],
       password: [
         "",
         [
