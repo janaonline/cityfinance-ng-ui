@@ -21,6 +21,13 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent implements OnInit, OnDestroy {
+  private readonly otpLength = 4;
+  private readonly otpValidators = [
+    Validators.required,
+    Validators.minLength(this.otpLength),
+    Validators.maxLength(this.otpLength),
+    Validators.pattern(new RegExp(`^\\d{${this.otpLength}}$`)),
+  ];
   loginDetails = [
     {
       role: "ULB",
@@ -102,9 +109,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loginForm = this.fb.group({
       email: ["", Validators.required],
-      password: ["", Validators.required],
+      password: [""],
       otp: [""],
     });
+    this.enablePasswordMode();
     this.authService.badCredentials.subscribe((res) => {
       this.badCredentials = res;
     });
@@ -129,6 +137,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   login() {
     this.loginError = null;
     this.submitted = true;
+    this.enablePasswordMode();
     if (this.reCaptcha.show && !this.reCaptcha.userGeneratedKey) {
       this.loginError = "Login Failed. You must validate that you are human.";
       return;
@@ -260,6 +269,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     sessionStorage.removeItem("postLoginNavigation");
   }
+
   onSelectingUserType(value) {
     if (this.directLogin) {
       value = "USER";
@@ -289,10 +299,12 @@ export class LoginComponent implements OnInit, OnDestroy {
         ]);
         break;
     }
+    this.loginForm.controls["email"].updateValueAndValidity();
   }
 
   otpLogin() {
     this.loginError = null;
+    this.enableOtpMode();
     const body = { ...this.loginForm.value };
     body["email"] = body["email"].trim();
     this.ulbCode = body["email"];
@@ -310,6 +322,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   otpLoginSubmit() {
     this.loginError = null;
+    this.enableOtpMode();
     if (this.reCaptcha.show && !this.reCaptcha.userGeneratedKey) {
       this.loginError = "Login Failed. You must validate that you are human.";
       return;
@@ -325,6 +338,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   change() {
     this.isOtpLogin = false;
     this.countDown = null;
+    this.enablePasswordMode();
   }
 
   startCountDown(form = null) {
@@ -406,6 +420,21 @@ export class LoginComponent implements OnInit, OnDestroy {
   // alertForload(){
   //   swal("IMPORTANT", `Due to the sudden surge in usage, users can experience portal access issues. We are working to resolve this issue and appreciate your cooperation in this regard. For any queries related to 15th FC reach out to 15fcgrant@cityfinance.in.`, 'warning')
   // }
+
+  private enablePasswordMode() {
+    this.loginForm.controls["password"].setValidators([Validators.required]);
+    this.loginForm.controls["otp"].clearValidators();
+    this.loginForm.controls["otp"].setValue("", { emitEvent: false });
+    this.loginForm.controls["password"].updateValueAndValidity();
+    this.loginForm.controls["otp"].updateValueAndValidity();
+  }
+
+  private enableOtpMode() {
+    this.loginForm.controls["password"].clearValidators();
+    this.loginForm.controls["otp"].setValidators(this.otpValidators);
+    this.loginForm.controls["password"].updateValueAndValidity();
+    this.loginForm.controls["otp"].updateValueAndValidity();
+  }
 }
 
 @Pipe({

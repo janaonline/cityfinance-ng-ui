@@ -6,62 +6,78 @@
                 <div class="bg-white card sign-in">
                     <div *ngIf="!isOtpLogin">
                         <ng-template #userType>
-                            <app-user-type-confirmation (userTypeSelected)="onSelectingUserType($event)"></app-user-type-confirmation>
+                            <app-user-type-confirmation
+                                (userTypeSelected)="onSelectingUserType($event)"></app-user-type-confirmation>
                         </ng-template>
                         <div class="card-body" *ngIf="selectedUserType; else userType">
                             <h5 class="text-center formTitle"><b>Sign In</b></h5>
                             <form [formGroup]="loginForm" (ngSubmit)="login()">
                                 <mat-form-field appearance="outline">
                                     <mat-label>{{ loginSet.loginName }}</mat-label>
-                                    <input matInput type="email" placeholder="{{ loginSet.loginName }}" formControlName="email" [ngClass]="{ 'is-invalid': submitted && lf.email.errors }" />
+                                    <input matInput type="email" placeholder="{{ loginSet.loginName }}"
+                                        formControlName="email"
+                                        [ngClass]="{ 'is-invalid': submitted && lf.email.errors }" />
                                 </mat-form-field>
                                 <br />
                                 <div class="forget-password">
                                     <mat-form-field appearance="outline">
                                         <mat-label>Password</mat-label>
-                                        <input matInput [type]="hide ? 'password' : 'text'" placeholder="Enter password" formControlName="password" [ngClass]="{
+                                        <input matInput [type]="hide ? 'password' : 'text'" placeholder="Enter password"
+                                            formControlName="password" [ngClass]="{
                         'is-invalid': submitted && lf.password.errors
                       }" />
-                                        <mat-icon matSuffix (click)="hide = !hide">{{ hide ? "visibility" : "visibility_off" }}
+                                        <mat-icon matSuffix (click)="hide = !hide">{{ hide ? "visibility" :
+                                            "visibility_off" }}
                                         </mat-icon>
                                     </mat-form-field>
 
                                     <div class="forget text-end">
-                                        <a class="text-decoration-none" style="color: #337ab7 ;" [routerLink]="['../password', 'request']" [queryParams]="{userType:selectedUserType}" (click)="passwordUser(selectedUserType)">Forgot
-                      password?</a>
+                                        <a class="text-decoration-none" style="color: #337ab7 ;"
+                                            [routerLink]="['../password', 'request']"
+                                            [queryParams]="{userType:selectedUserType}"
+                                            (click)="passwordUser(selectedUserType)">Forgot
+                                            password?</a>
                                     </div>
                                 </div>
 
-                                <re-captcha *ngIf="reCaptcha.show" (resolved)="resolveCaptcha($event)" [siteKey]="reCaptcha.siteKey">
+                                <re-captcha *ngIf="reCaptcha.show" (resolved)="resolveCaptcha($event)"
+                                    [siteKey]="reCaptcha.siteKey">
                                 </re-captcha>
                                 <span *ngIf="noCodeError" class="text-danger pull-left">{{loginSet.loginName }}</span>
-                                <span *ngIf="otpVerificationMessage" class="text-primary pull-left">{{emailVerificationMessage }}</span>
+                                <span *ngIf="otpVerificationMessage"
+                                    class="text-primary pull-left">{{emailVerificationMessage }}</span>
                                 <p *ngIf="loginError" class="error-message mt-1 text-left">
                                     <span [innerHtml]="loginError"></span>
                                 </p>
 
                                 <div class="signbtn-wrapper">
-                                    <button type="submit" class="btn btn-primary btn-block login-btn" [ngClass]="{ 'loading-button': loginForm.disabled }">
-                    Sign In
-                  </button>
+                                    <button type="submit" class="btn btn-primary btn-block login-btn"
+                                        [ngClass]="{ 'loading-button': loginForm.disabled }">
+                                        Sign In
+                                    </button>
                                 </div>
                             </form>
                             <div class="signbtn-wrapper">
                                 <div class="strike">
                                     <span>Or</span>
                                 </div>
-                                <button class="btn-block login-btn btn-otp" style="font-weight: 450; color: rgb(80, 80, 252);" (click)="startCountDown(loginForm)">
-                  Get OTP on your phone and email
-                </button>
+                                <button class="btn-block login-btn btn-otp"
+                                    style="font-weight: 450; color: rgb(80, 80, 252);"
+                                    (click)="startCountDown(loginForm)">
+                                    Get OTP on your phone and email
+                                </button>
                             </div>
                             <a *ngIf="selectedUserType === 'ULB'" [routerLink]="['/ulb-not-registered']"><span>Not
-                  Registered?</span></a>
+                                    Registered?</span></a>
                             <a *ngIf="selectedUserType === 'USER'" class="text-decoration-none" style="color: #337ab7;"
-                               (click)="help = true" mat-raised-button color="primary" [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="click" #popoverTrigger="mdePopoverTrigger">
-                Need Help?
-              </a>
+                                (click)="help = true" mat-raised-button color="primary"
+                                [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="click"
+                                #popoverTrigger="mdePopoverTrigger">
+                                Need Help?
+                            </a>
 
-                            <mde-popover mdePopoverOffsetX="19" mdePopoverOffsetY="-55" #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false">
+                            <mde-popover mdePopoverOffsetX="19" mdePopoverOffsetY="-55" #appPopover="mdePopover"
+                                [mdePopoverOverlapTrigger]="false">
                                 <div class="mat-card pop1">
                                     <div class="mat-card-content pop2">
                                         Please write to us at {{fcEmail}}
@@ -71,10 +87,14 @@
 
                             <br>
                             <!-- style="margin-left: 8em;" style="display: grid" -->
-                            <div *ngIf="help"  class="col-md-12 d-flex justify-content-center align-items-center flex-column">
-                                <a class="text-decoration-none" style="margin-left: 2em; color: #337ab7;">Not Registered?</a>
-                                <a class="text-decoration-none" style="margin-left: 2em; color: #337ab7;">Update Email ID?</a>
-                                <a class="text-decoration-none" style="margin-left: 9em; color: #337ab7;">Can not Access 15th FC Module?</a>
+                            <div *ngIf="help"
+                                class="col-md-12 d-flex justify-content-center align-items-center flex-column">
+                                <a class="text-decoration-none" style="margin-left: 2em; color: #337ab7;">Not
+                                    Registered?</a>
+                                <a class="text-decoration-none" style="margin-left: 2em; color: #337ab7;">Update Email
+                                    ID?</a>
+                                <a class="text-decoration-none" style="margin-left: 9em; color: #337ab7;">Can not Access
+                                    15th FC Module?</a>
                             </div>
                         </div>
                     </div>
@@ -85,23 +105,30 @@
                             </h4>
                             <hr class="Sepline" />
                             <div>
-                                <span style="font-size:0.875rem;font-weight: 700;"><b>An OTP has been sent to {{ otpCreads?.mobile }} and
-                    {{ otpCreads?.email }} </b><a [routerLink]="['/ulb-not-registered']" [click]="onChangeNumber()"
-                    *ngIf="selectedUserType === 'ULB'">Change?</a></span>
+                                <span style="font-size:0.875rem;font-weight: 700;"><b>An OTP has been sent to {{
+                                        otpCreads?.mobile }} and
+                                        {{ otpCreads?.email }} </b><a [routerLink]="['/ulb-not-registered']"
+                                        [click]="onChangeNumber()" *ngIf="selectedUserType === 'ULB'">Change?</a></span>
                             </div>
                             <div *ngIf="selectedUserType === 'ULB'">
-                                <span><b>Census Code/ ULB Code-{{ ulbCode }} </b><a (click)="change()">Change?</a></span>
+                                <span><b>Census Code/ ULB Code-{{ ulbCode }} </b><a
+                                        (click)="change()">Change?</a></span>
                             </div>
                             <br />
                             <form [formGroup]="loginForm" (ngSubmit)="otpLoginSubmit()">
                                 <div class="forget-password">
                                     <a class="pull-right" (click)="startCountDown()">Resend OTP?
-                    <a *ngIf="counterTimer">{{ counter }} Sec</a>
+                                        <a *ngIf="counterTimer">{{ counter }} Sec</a>
                                     </a>
                                     <mat-form-field appearance="outline">
                                         <mat-label>Enter OTP</mat-label>
-                                        <input matInput type="text" formControlName="otp" placeholder="Enter OTP" />
+                                        <input matInput type="text" formControlName="otp"
+                                            placeholder="Enter 4-digit OTP" maxlength="4" inputmode="numeric" />
                                     </mat-form-field>
+                                    <div class="otp-error text-danger"
+                                        *ngIf="lf.otp.invalid && (lf.otp.dirty || lf.otp.touched)">
+                                        Enter a valid 4-digit OTP.
+                                    </div>
                                 </div>
 
                                 <p *ngIf="loginError" class="error-message mt-1 text-left">
@@ -109,17 +136,18 @@
                                 </p>
 
                                 <div class="signbtn-wrapper">
-                                    <button type="submit" class="btn btn-primary btn-block login-btn">
-                    Sign In
-                  </button>
+                                    <button type="submit" class="btn btn-primary btn-block login-btn"
+                                        [disabled]="lf.otp.invalid">
+                                        Sign In
+                                    </button>
                                 </div>
                                 <div class="signbtn-wrapper">
                                     <div class="strike">
                                         <span>Or</span>
                                     </div>
                                     <button class="btn-block login-btn" (click)="change()">
-                    Sign in with your password
-                  </button>
+                                        Sign in with your password
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -133,7 +161,7 @@
 
                 <P>For clarifications/ questions, please email us at
                     <br />
-                    <a [href]="'mailto:'+fcEmail" >{{fcEmail}}</a>.
+                    <a [href]="'mailto:'+fcEmail">{{fcEmail}}</a>.
                 </P>
                 <p>We will respond to you within 24 hours.</p>
             </div>
