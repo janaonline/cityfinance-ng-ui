@@ -34,8 +34,12 @@ export class GoogleMapComponent implements OnInit {
   zoom;
 
   getLocation;
+  isGoogleMapsConfigured = false;
 
   ngOnInit() {
+    this.isGoogleMapsConfigured = Boolean(
+      (window as any).google && (window as any).google.maps
+    );
     this.getLocation = this.UtiReportService.getLocation() != null ? this.UtiReportService.getLocation() : this.locationFromOutSide;
     if (this.getLocation !== null) {
       this.latitude = parseFloat (this.getLocation.lat);

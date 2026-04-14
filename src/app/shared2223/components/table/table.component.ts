@@ -21,6 +21,7 @@ import { SweetAlert } from "sweetalert/typings/core";
 import { environment } from "src/environments/environment";
 import { Subscription } from "rxjs";
 import { CommonServicesService } from "src/app/fc-grant-2324-onwards/fc-shared/service/common-services.service";
+import { AuthService } from "src/app/auth/auth.service";
 
 const swal: SweetAlert = require("sweetalert");
 
@@ -36,7 +37,8 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     private _commonService2324: CommonServicesService,
     private _fb: FormBuilder,
     public dialog: MatDialog,
-    private stateServices: State2223Service
+    private stateServices: State2223Service,
+    private authService: AuthService
   ) {
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.initializeFilterForm();
@@ -485,7 +487,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     return design_year["2022-23"];
   }
   getToken() {
-    return JSON.parse(localStorage.getItem("id_token"));
+    return this.authService.getAccessToken();
   }
 
   viewUlbForm(data) {

@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { IUserLoggedInDetails } from 'src/app/models/login/userLoggedInDetails';
+import { AuthService } from 'src/app/auth/auth.service';
 
 import { environment } from '../../../../environments/environment';
 import { IULBTypeListResponse } from '../../../models/ulbs/type';
@@ -15,11 +16,10 @@ import { IULBProfileData } from '../model/ulb-profile';
 })
 export class ProfileService {
   httpUtil = new HttpUtility();
-  constructor(private _htttp: HttpClient) {}
+  constructor(private _htttp: HttpClient, private authService: AuthService) {}
 
   public getUserLoggedInId() {
-    const id = localStorage.getItem("id_token");
-    return id;
+    return this.authService.getAccessToken();
   }
 
   public getUserProfile(queryParams: {}) {
@@ -157,10 +157,7 @@ export class ProfileService {
     }
     delete body["skip"];
 
-    body["token"] = localStorage
-      .getItem("id_token")
-      .replace('"', "")
-      .replace('"', "");
+    body["token"] = this.authService.getAccessToken() || "";
     body["csv"] = true;
     let params = new HttpParams();
 

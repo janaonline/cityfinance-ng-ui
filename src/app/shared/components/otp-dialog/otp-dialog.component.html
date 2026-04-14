@@ -4,17 +4,17 @@
         <i class="fa fa-exclamation-triangle text-warning fs-1" aria-hidden="true"></i>
     </span>
     <h1 class="fw-bold mb-0 fs-4">Don't close this tab.</h1>
-    <small class="mt-1">Please check your email and enter the 6-digit code to continue.</small>
+    <small class="mt-1">Please check your email and enter the 4-digit code to continue.</small>
 </div>
 
 <mat-form-field class="col p-0 w-100 border-0 custom-form-style" appearance="outline">
-    <mat-label for="otp">6 digit code</mat-label>
+    <mat-label for="otp">4 digit code</mat-label>
     <!-- input box -->
-    <input matInput [formControl]="otp" id="otp" [readonly]="readonly" maxlength="6" />
+    <input matInput [formControl]="otp" id="otp" [readonly]="readonly" maxlength="4" inputmode="numeric" />
 
     <!-- Error messages shown here -->
     <mat-error class="mt-3" *ngIf="showOtpError">
-        OTP must be a valid 6-digit number.
+        OTP must be a valid 4-digit number.
     </mat-error>
 </mat-form-field>
 

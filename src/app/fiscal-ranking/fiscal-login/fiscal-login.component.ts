@@ -23,6 +23,13 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ['./fiscal-login.component.scss']
 })
 export class FiscalLoginComponent implements OnInit {
+  private readonly otpLength = 4;
+  private readonly otpValidators = [
+    Validators.required,
+    Validators.minLength(this.otpLength),
+    Validators.maxLength(this.otpLength),
+    Validators.pattern(new RegExp(`^\\d{${this.otpLength}}$`)),
+  ];
   loginDetails = [
     {
       role: "ULB",
@@ -128,9 +135,10 @@ export class FiscalLoginComponent implements OnInit {
   ngOnInit() {
     this.loginForm = this.fb.group({
       email: ["", Validators.required],
-      password: ["", Validators.required],
+      password: [""],
       otp: [""],
     });
+    this.enablePasswordMode();
     this.authService.badCredentials.subscribe((res) => {
       this.badCredentials = res;
     });
@@ -149,6 +157,7 @@ export class FiscalLoginComponent implements OnInit {
   login() {
     this.loginError = null;
     this.submitted = true;
+    this.enablePasswordMode();
     if (this.reCaptcha.show && !this.reCaptcha.userGeneratedKey) {
       this.loginError = "Login Failed. You must validate that you are human.";
       return;
@@ -159,7 +168,7 @@ export class FiscalLoginComponent implements OnInit {
       const body = { ...this.loginForm.value, type: 'fiscalRankings' };
       body["email"] = body["email"].trim();
       this.loginForm.disable();
-      this.authService.signin(body).subscribe(
+      this.authService.login(body).subscribe(
         (res) => this.onSuccessfullLogin(res),
         (error) => {
           this.onLoginError(error);
@@ -180,7 +189,8 @@ export class FiscalLoginComponent implements OnInit {
     this.gaService.gtag('event', 'login', gData);
     this.authService.loginLogoutCheck.next(true);
     if (res && res["token"]) {
-      localStorage.setItem("id_token", JSON.stringify(res["token"]));
+      this.authService.storeTokens(res);
+      this.authService.setCurrentUser(res["user"] || null);
       localStorage.setItem("Years", JSON.stringify(res["allYears"]));
 
       if (res["user"]?.role == "STATE") {
@@ -196,7 +206,7 @@ export class FiscalLoginComponent implements OnInit {
 
       this.routeToProperLocation();
     } else {
-      localStorage.removeItem("id_token");
+      this.authService.clearLocalStorage();
     }
   }
 
@@ -293,11 +303,13 @@ export class FiscalLoginComponent implements OnInit {
         ]);
         break;
     }
+    this.loginForm.controls["email"].updateValueAndValidity();
   }
 
   otpLogin() {
     this.loginError = null;
     this.submitted = true;
+    this.enableOtpMode();
     const body = { ...this.loginForm.value };
     body["email"] = body["email"] ? body["email"].trim() : null;
     this.ulbCode = body["email"];
@@ -315,6 +327,7 @@ export class FiscalLoginComponent implements OnInit {
 
   otpLoginSubmit() {
     this.loginError = null;
+    this.enableOtpMode();
     if (this.reCaptcha.show && !this.reCaptcha.userGeneratedKey) {
       this.loginError = "Login Failed. You must validate that you are human.";
       return;
@@ -330,6 +343,7 @@ export class FiscalLoginComponent implements OnInit {
   change() {
     this.isOtpLogin = false;
     this.countDown = null;
+    this.enablePasswordMode();
   }
 
   startCountDown(form = null) {
@@ -419,10 +433,26 @@ export class FiscalLoginComponent implements OnInit {
     item.selected = true;
     this.onSelectingUserType(item);
     this.loginError = null;
+    this.enablePasswordMode();
   }
   // alertForload() {
   //   swal("IMPORTANT", `Due to the sudden surge in usage, users can experience portal access issues. We are working to resolve this issue and appreciate your cooperation in this regard. For any queries related to CFR reach out to rankings@cityfinance.in.`, 'warning')
   // }
+
+  private enablePasswordMode() {
+    this.loginForm.controls["password"].setValidators([Validators.required]);
+    this.loginForm.controls["otp"].clearValidators();
+    this.loginForm.controls["otp"].setValue("", { emitEvent: false });
+    this.loginForm.controls["password"].updateValueAndValidity();
+    this.loginForm.controls["otp"].updateValueAndValidity();
+  }
+
+  private enableOtpMode() {
+    this.loginForm.controls["password"].clearValidators();
+    this.loginForm.controls["otp"].setValidators(this.otpValidators);
+    this.loginForm.controls["password"].updateValueAndValidity();
+    this.loginForm.controls["otp"].updateValueAndValidity();
+  }
 }
 
 @Pipe({

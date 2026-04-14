@@ -111,6 +111,9 @@ import { CountUpDirective } from "./directives/count-up.directive";
 import { UserInfoDialogComponent } from './components/user-info-dialog/user-info-dialog.component';
 import { OtpDialogComponent } from './components/otp-dialog/otp-dialog.component';
 
+const googleMapsApiKey =
+    ((window as any).__env && (window as any).__env.googleMapsApiKey) || "";
+
 @NgModule({
     imports: [
         ButtonsModule.forRoot(),
@@ -135,7 +138,7 @@ import { OtpDialogComponent } from './components/otp-dialog/otp-dialog.component
         GooglePlaceModule,
         BsDropdownModule.forRoot(),
         AgmCoreModule.forRoot({
-            apiKey: "AIzaSyBum81Liii93xQ3JerXGozwDmNSutlZHro&libraries",
+            apiKey: googleMapsApiKey,
             libraries: ["places"],
         }),
         MatCardModule,
