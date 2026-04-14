@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
 import { AuthService } from "src/app/auth/auth.service";
@@ -13,6 +13,7 @@ import { NewCommonService } from "src/app/shared2223/services/new-common.service
 import { SweetAlert } from "sweetalert/typings/core";
 import { GoogleAnalyticsService } from "ngx-google-analytics";
 import { IUserLoggedInDetails } from "src/app/models/login/userLoggedInDetails";
+import { RecaptchaComponent } from "ng-recaptcha";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -70,7 +71,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public emailVerificationMessage: string;
   otpVerificationMessage: boolean = false;
   public reCaptcha = {
-    show: false,
+    show: true,
     siteKey: environment.reCaptcha.siteKey,
     userGeneratedKey: null,
   };
@@ -78,6 +79,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   directLogin = false;
   loginType: string;
   fcEmail: string;
+
+  @ViewChild(RecaptchaComponent) captchaRef!: RecaptchaComponent;
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -111,6 +114,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       email: ["", Validators.required],
       password: [""],
       otp: [""],
+      captcha: ["", Validators.required],
     });
     this.enablePasswordMode();
     this.authService.badCredentials.subscribe((res) => {
@@ -138,8 +142,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loginError = null;
     this.submitted = true;
     this.enablePasswordMode();
-    if (this.reCaptcha.show && !this.reCaptcha.userGeneratedKey) {
+    if (!this.reCaptcha.userGeneratedKey) {
       this.loginError = "Login Failed. You must validate that you are human.";
+      this.loginForm.controls.captcha.markAsTouched();
       return;
     }
 
@@ -250,21 +255,31 @@ export class LoginComponent implements OnInit, OnDestroy {
   private onLoginError(error) {
     this.loginForm.enable();
     this.loginError = error.error["message"] || "Server Error";
-    if (error.error.errors && error.error.errors.loginAttempts >= 3) {
-      this.reCaptcha.show = true;
-    }
+    this.resetCaptcha();
   }
 
-  resolveCaptcha(keyGenerated: string) {
+  resolveCaptcha(keyGenerated: string | null) {
+    if (!keyGenerated) {
+      this.resetCaptcha();
+      return;
+    }
+
+    this.loginError = null;
     this.reCaptcha.userGeneratedKey = keyGenerated;
-    this.authService.verifyCaptcha(keyGenerated).subscribe((res) => {
-      if (!res["success"]) {
-        this.reCaptcha.show = false;
-        this.reCaptcha.userGeneratedKey = null;
-        setTimeout(() => {
-          this.reCaptcha.show = true;
-        }, 500);
-      }
+    this.authService.verifyCaptcha(keyGenerated).subscribe({
+      next: (res) => {
+        if (!res["success"]) {
+          this.loginError = "Captcha verification failed. Please try again.";
+          this.resetCaptcha();
+          return;
+        }
+
+        this.loginForm.controls.captcha.setValue(keyGenerated);
+      },
+      error: () => {
+        this.loginError = "Captcha verification failed. Please try again.";
+        this.resetCaptcha();
+      },
     });
   }
 
@@ -325,8 +340,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   otpLoginSubmit() {
     this.loginError = null;
     this.enableOtpMode();
-    if (this.reCaptcha.show && !this.reCaptcha.userGeneratedKey) {
+    if (!this.reCaptcha.userGeneratedKey) {
       this.loginError = "Login Failed. You must validate that you are human.";
+      this.loginForm.controls.captcha.markAsTouched();
       return;
     }
     const body = { ...this.loginForm.value };
@@ -355,6 +371,12 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.noCodeError = false;
       }, 1500);
 
+      return true;
+    }
+
+    if (!this.reCaptcha.userGeneratedKey) {
+      this.loginError = "Please complete the captcha verification first.";
+      this.loginForm.controls.captcha.markAsTouched();
       return true;
     }
 
@@ -436,6 +458,15 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loginForm.controls["otp"].setValidators(this.otpValidators);
     this.loginForm.controls["password"].updateValueAndValidity();
     this.loginForm.controls["otp"].updateValueAndValidity();
+  }
+
+  private resetCaptcha() {
+    this.reCaptcha.userGeneratedKey = null;
+    this.loginForm?.controls?.captcha.reset();
+
+    if (this.captchaRef) {
+      this.captchaRef.reset();
+    }
   }
 }
 

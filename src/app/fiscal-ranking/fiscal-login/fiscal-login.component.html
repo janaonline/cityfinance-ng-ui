@@ -105,8 +105,13 @@
                                     </div>
                                 </div>
 
-                                <re-captcha *ngIf="reCaptcha.show" (resolved)="resolveCaptcha($event)" [siteKey]="reCaptcha.siteKey">
-                                </re-captcha>
+                                <div class="captcha-block">
+                                    <re-captcha *ngIf="reCaptcha.show" (resolved)="resolveCaptcha($event)" [siteKey]="reCaptcha.siteKey">
+                                    </re-captcha>
+                                    <div class="captcha-error" *ngIf="submitted && loginForm.controls.captcha.invalid && !loginError">
+                                        Please complete the captcha verification.
+                                    </div>
+                                </div>
                                 <span *ngIf="noCodeError" class="text-danger pull-left">{{loginSet.loginName }} is requried.</span>
                                 <span *ngIf="otpVerificationMessage" class="text-primary pull-left">{{emailVerificationMessage }}</span>
                                 <p *ngIf="loginError" class="error-message mt-1 text-left">
