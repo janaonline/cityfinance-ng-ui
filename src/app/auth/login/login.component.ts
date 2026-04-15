@@ -22,7 +22,7 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  private readonly otpLength = 4;
+  readonly otpLength = 4;
   private readonly otpValidators = [
     Validators.required,
     Validators.minLength(this.otpLength),

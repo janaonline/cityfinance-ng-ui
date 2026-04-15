@@ -7,7 +7,7 @@ import { UtilityService } from '../../services/utility.service';
 import { EmailVerification } from '../user-info-dialog/user-info-dialog.component';
 
 const TIMER = 60;
-const OTP_LENGTH = 4;
+const OTP_LENGTH = 6;
 
 @Component({
   selector: 'app-otp-dialog',
@@ -15,6 +15,7 @@ const OTP_LENGTH = 4;
   styleUrls: ['./otp-dialog.component.scss']
 })
 export class OtpDialogComponent implements OnInit {
+  otpLength: number = OTP_LENGTH;
   readonly: boolean = false;
   showResendOtp: boolean = false;
   counter: number = TIMER;

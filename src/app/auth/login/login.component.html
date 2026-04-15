@@ -129,11 +129,11 @@
                                     <mat-form-field appearance="outline">
                                         <mat-label>Enter OTP</mat-label>
                                         <input matInput type="text" formControlName="otp"
-                                            placeholder="Enter 4-digit OTP" maxlength="4" inputmode="numeric" />
+                                            [placeholder]="'Enter ' + otpLength + '-digit OTP'" [attr.maxlength]="otpLength" inputmode="numeric" />
                                     </mat-form-field>
                                     <div class="otp-error text-danger"
                                         *ngIf="lf.otp.invalid && (lf.otp.dirty || lf.otp.touched)">
-                                        Enter a valid 4-digit OTP.
+                                        Enter a valid {{ otpLength }}-digit OTP.
                                     </div>
                                 </div>
 
