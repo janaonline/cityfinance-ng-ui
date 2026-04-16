@@ -459,12 +459,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   private resetCaptcha() {
+    console.log("resetting captcha");
     this.reCaptcha.userGeneratedKey = null;
     this.loginForm?.controls?.captcha.reset();
 
-    if (this.captchaRef) {
-      this.captchaRef.reset();
-    }
+    this.reCaptcha.show = false;
+    setTimeout(() => {
+      this.reCaptcha.show = true;
+    }, 500);
   }
 }
 

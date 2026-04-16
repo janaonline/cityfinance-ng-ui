@@ -45,6 +45,9 @@ export class BalanceTabledialogComponent implements OnInit {
   public openFile(fileInfo: any): void {
     let target_file_url = environment.STORAGE_BASEURL + fileInfo["url"];
 
+    if (fileInfo["url"] && fileInfo["url"].toLowerCase().startsWith('https://')) {
+      target_file_url = fileInfo["url"];
+    }
     // User info popup.
     if (this.ulbDetails && ["resources"].includes(this.ulbDetails["module"])) {
       const fileName = `${this.ulbDetails["fileName"]}_${this.ulbDetails["type"]}_${fileInfo["name"]}.${this.fileType}`;
