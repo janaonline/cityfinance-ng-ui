@@ -55,6 +55,7 @@ import { ScrollTableDirective } from './directive-and-pipes/scroll-table.directi
 import { ScrollTablePipe } from './directive-and-pipes/scroll-table.pipe';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { GlobalPartModule } from 'src/app/global-part/global-part.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 const googleMapsApiKey =
   ((window as any).__env && (window as any).__env.googleMapsApiKey) || '';
@@ -126,7 +127,8 @@ const googleMapsApiKey =
     FormsModule,
     ScrollingModule,
     MatPaginatorModule,
-    GlobalPartModule
+    GlobalPartModule,
+    SharedModule,
   ],
   exports: [
     MyFilterPipe,

@@ -82,9 +82,12 @@
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
                                     <ng-container *ngIf="gtFileUrl">
-                                        <a href="{{ gtFileUrl | toStorageUrl}}" target="_blank">
+                                        <!-- <a href="{{ gtFileUrl | toStorageUrl}}" target="_blank">
                                             <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
+                                        </a> -->
+                                        <a [appSignedUrl]="gtFileUrl" target="_blank" rel="noopener noreferrer">
+                                            <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
                                         </a>
                                         <a (click)="clearFiles()" style="margin-left: 3px;" [ngClass]="{'anDisable': formDisable }">
                                             <img src="./assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">

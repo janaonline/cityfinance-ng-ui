@@ -678,7 +678,7 @@
       >
         {{ question.question }}
         <div style="display: flex; flex-wrap: wrap; margin-top: 0.5rem">
-          <a
+          <!-- <a
             style="display: inline !important"
             *ngIf="
               data?.solidWasteManagement?.documents &&
@@ -687,6 +687,19 @@
             "
             [href]="data?.solidWasteManagement?.documents[question.key][0]?.url | toStorageUrl"
             target="_blank"
+          >
+            {{ data?.solidWasteManagement?.documents[question.key][0].name }}
+          </a> -->
+          <a
+            style="display: inline !important"
+            *ngIf="
+              data?.solidWasteManagement?.documents &&
+              data?.solidWasteManagement?.documents[question.key] &&
+              data?.solidWasteManagement?.documents[question.key][0]
+            "
+            [appSignedUrl]="data?.solidWasteManagement?.documents[question.key][0]?.url"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             {{ data?.solidWasteManagement?.documents[question.key][0].name }}
           </a>
@@ -832,7 +845,7 @@
           {{ question.question }} <br />
 
           <div style="display: flex; flex-wrap: wrap; margin-top: 0.5rem">
-            <a
+            <!-- <a
               style="display: inline !important"
               *ngIf="
                 data?.millionPlusCities?.documents &&
@@ -841,6 +854,19 @@
               "
               [href]="data?.millionPlusCities?.documents[question.key][0]?.url | toStorageUrl"
               target="_blank"
+            >
+              {{ data?.millionPlusCities?.documents[question.key][0].name }}
+            </a> -->
+            <a
+              style="display: inline !important"
+              *ngIf="
+                data?.millionPlusCities?.documents &&
+                data?.millionPlusCities?.documents[question.key] &&
+                data?.millionPlusCities?.documents[question.key][0]
+              "
+              [appSignedUrl]="data?.millionPlusCities?.documents[question.key][0]?.url"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               {{ data?.millionPlusCities?.documents[question.key][0].name }}
             </a>

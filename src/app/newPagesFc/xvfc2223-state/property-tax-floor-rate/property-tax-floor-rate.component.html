@@ -47,9 +47,13 @@
                     </div>
                 </div>
                 <div class="col-2 filePadding">
-                    <a href="{{ stateActFileUrl | toStorageUrl}}" target="_blank">
+                    <!-- <a href="{{ stateActFileUrl | toStorageUrl}}" target="_blank">
                         <img src="./assets/form-icon/download-pdf-icon.png" alt="">
+                    </a> -->
+                    <a [appSignedUrl]="stateActFileUrl" target="_blank" rel="noopener noreferrer">
+                        <img src="./assets/form-icon/download-pdf-icon.png" alt=""> 
                     </a>
+
                     <span [ngClass]="{'customDisable': isDisabled }">
                         <a (click)="clearFile('stateAct')" style="margin-left: 4px;">
                             <img src="./assets/form-icon/close-red-icon.png" alt="">
@@ -111,9 +115,13 @@
                     </div>
                 </div>
                 <div class="col-2 filePadding">
-                    <a href="{{ minimumUrl | toStorageUrl}}" target="_blank">
+                    <!-- <a href="{{ minimumUrl | toStorageUrl}}" target="_blank">
+                        <img src="./assets/form-icon/download-pdf-icon.png" alt="">
+                    </a> -->
+                    <a [appSignedUrl]="minimumUrl" target="_blank" rel="noopener noreferrer">
                         <img src="./assets/form-icon/download-pdf-icon.png" alt="">
                     </a>
+
                     <span [ngClass]="{'customDisable': isDisabled }">
                         <a (click)="clearFile('minimumFloor')" style="margin-left: 4px;">
                             <img src="./assets/form-icon/close-red-icon.png" alt="">
@@ -152,7 +160,10 @@
                     </div>
                 </div>
                 <div class="col-2 filePadding">
-                    <a href="{{ruleUrl | toStorageUrl}}" target="_blank">
+                    <!-- <a href="{{ruleUrl | toStorageUrl}}" target="_blank">
+                        <img src="./assets/form-icon/download-pdf-icon.png" alt="">
+                    </a> -->
+                    <a [appSignedUrl]="ruleUrl" target="_blank" rel="noopener noreferrer">
                         <img src="./assets/form-icon/download-pdf-icon.png" alt="">
                     </a>
                     <span [ngClass]="{'customDisable': isDisabled }">
@@ -237,7 +248,10 @@
                     </div>
                 </div>
                 <div class="col-2 filePadding">
-                    <a href="{{ extantActDocFileUrl | toStorageUrl}}" target="_blank">
+                    <!-- <a href="{{ extantActDocFileUrl | toStorageUrl}}" target="_blank">
+                        <img src="./assets/form-icon/download-pdf-icon.png" alt="">
+                    </a> -->
+                    <a [appSignedUrl]="extantActDocFileUrl" target="_blank" rel="noopener noreferrer">
                         <img src="./assets/form-icon/download-pdf-icon.png" alt="">
                     </a>
                     <span [ngClass]="{'customDisable': isDisabled }">

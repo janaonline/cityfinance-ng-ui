@@ -1110,11 +1110,17 @@
                             <ng-container *ngFor="let file of question?.selectedValue">
                                 <p class="col-8 file-name mt-2" *ngIf="file?.value && (question?.shortKey != 'cert_declaration')">{{ file?.label }}</p>
                                 <div class="col-2 mt-2" *ngIf="file?.value">
-                                    <a target="_blank" href="{{file?.value | toStorageUrl}}">
+                                    <!-- <a target="_blank" href="{{file?.value | toStorageUrl}}">
                                         <span
                                             class="file-icon position-relative pointer-hand material-icons {{ file?.label }}"
                                             matTooltip="Click to view the file, Name: {{file?.label}}"
                                             matTooltipClass="tooltip-red">
+                                            cloud_download
+                                        </span>
+                                    </a> -->
+                                    <a target="_blank" [appSignedUrl]="file?.value" rel="noopener noreferrer">
+                                        <span class="file-icon position-relative pointer-hand material-icons {{ file?.label }}"
+                                            matTooltip="Click to view the file, Name: {{file?.label}}" matTooltipClass="tooltip-red">
                                             cloud_download
                                         </span>
                                     </a>
@@ -1862,8 +1868,11 @@
                 <div class="col-sm-12 mt-3">
                     <span *ngFor="let file of question?.selectedValue" class="mb-3 ms-2">
                         <ng-container *ngIf="file?.value">
-                            <a matTooltip="Click to view the file" class="f-name" target="_blank"
-                                href="{{file?.value | toStorageUrl}}">{{file?.label}}</a>
+                            <!-- <a matTooltip="Click to view the file" class="f-name" target="_blank"
+                                href="{{file?.value | toStorageUrl}}">{{file?.label}}</a> -->
+                            <a matTooltip="Click to view the file" class="f-name" target="_blank" [appSignedUrl]="file?.value" rel="noopener noreferrer">
+                                {{file?.label}}
+                            </a>
                             <span class="material-icons file-icon-cross pointer-hand"
                                 [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled ) }"
                                 matTooltip="Remove the upload file"
