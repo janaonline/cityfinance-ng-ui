@@ -1,27 +1,27 @@
-import { Component, OnInit, HostListener, ViewChild, ElementRef } from "@angular/core";
-import { NavigationEnd, Router, Event } from "@angular/router";
-import { UserUtility } from "src/app/util/user/user";
-import { Login_Logout } from "src/app/util/logout.util";
-import { IUserLoggedInDetails } from "src/app/models/login/userLoggedInDetails";
-import { AuthService } from "src/app/auth/auth.service";
-import { MODULES_NAME } from "src/app/util/access/modules";
-import { ACTIONS } from "src/app/util/access/actions";
-import { AccessChecker } from '../../../util/access/accessChecker';
-import { NewCommonService } from "src/app/shared2223/services/new-common.service";
-import { environment } from "src/environments/environment";
-import { UserInfoDialogComponent } from "../user-info-dialog/user-info-dialog.component";
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { HomeHeaderService } from "./home-header.service";
-import { UtilityService } from "../../services/utility.service";
-import { GlobalLoaderService } from "../../services/loaders/global-loader.service";
+import { NavigationEnd, Router } from "@angular/router";
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
+import { AuthService } from "src/app/auth/auth.service";
+import { IUserLoggedInDetails } from "src/app/models/login/userLoggedInDetails";
+import { NewCommonService } from "src/app/shared2223/services/new-common.service";
+import { ACTIONS } from "src/app/util/access/actions";
+import { MODULES_NAME } from "src/app/util/access/modules";
+import { environment } from "src/environments/environment";
+import { AccessChecker } from '../../../util/access/accessChecker';
 import { CommonService } from "../../services/common.service";
+import { GlobalLoaderService } from "../../services/loaders/global-loader.service";
+import { UtilityService } from "../../services/utility.service";
+import { UserInfoDialogComponent } from "../user-info-dialog/user-info-dialog.component";
+import { HomeHeaderService } from "./home-header.service";
 
 @Component({
   selector: "app-n-home-header",
   templateUrl: "./n-home-header.component.html",
   styleUrls: ["./n-home-header.component.scss"],
 })
-export class NHomeHeaderComponent implements OnInit {
+export class NHomeHeaderComponent implements OnInit, OnDestroy {
   loggedInUserDetails;
   loggedInUserType;
   btnName = "Login for 15th FC Grants";
@@ -35,6 +35,8 @@ export class NHomeHeaderComponent implements OnInit {
   currentTextSize: any;
   canViewUserList = false;
   canViewULBSingUpListing = false;
+  private destroy$ = new Subject<void>();
+
   constructor(
     public _router: Router,
     private authService: AuthService,
@@ -46,31 +48,27 @@ export class NHomeHeaderComponent implements OnInit {
     private commonService: CommonService
   ) {
     this.initializeAccessChecking();
-    this._router.events.subscribe((event) => {
-      this.isLoggedIn = this.authService.loggedIn();
-      this.user = this.isLoggedIn ? this.user : null;
-
-      this.initializeAccessChecking();
-
-      if (this.isLoggedIn) {
-        UserUtility.getUserLoggedInData().subscribe((value) => {
-          this.user = value;
-        });
+    this._router.events.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.initializeAccessChecking();
       }
+    });
+
+    // Subscribe to session state for reactive UI updates
+    this.authService.sessionState$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((sessionState) => {
+      this.isLoggedIn = sessionState.isAuthenticated;
+      this.user = sessionState.user;
+
       if (this.isLoggedIn) {
         this.btnName = "Logout";
       } else {
         this.btnName = "Login for 15th FC Grants";
       }
     });
-
-    // if (this.isLoggedIn) {
-    //   UserUtility.getUserLoggedInData().subscribe((value) => {
-    //     this.user = value;
-    //   });
-    // }
-
-
   }
   private accessChecker = new AccessChecker();
   isProd: boolean = false;
@@ -234,5 +232,10 @@ export class NHomeHeaderComponent implements OnInit {
 
   getNationalPageUrl() {
     this.commonService.getNationalPageUrl();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
