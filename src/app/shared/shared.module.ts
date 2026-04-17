@@ -110,6 +110,7 @@ import { GlobalPartModule } from "../global-part/global-part.module";
 import { CountUpDirective } from "./directives/count-up.directive";
 import { UserInfoDialogComponent } from './components/user-info-dialog/user-info-dialog.component';
 import { OtpDialogComponent } from './components/otp-dialog/otp-dialog.component';
+import { SignedUrlDirective } from "./directives/signed-url.directive";
 
 const googleMapsApiKey =
     ((window as any).__env && (window as any).__env.googleMapsApiKey) || "";
@@ -224,6 +225,7 @@ const googleMapsApiKey =
         CountUpDirective,
         UserInfoDialogComponent,
         OtpDialogComponent,
+        SignedUrlDirective,
     ],
     exports: [
         JoinPipe,
@@ -276,6 +278,7 @@ const googleMapsApiKey =
         AutoCompleteComponent,
         EndsWithPipe,
         CountUpDirective,
+        SignedUrlDirective,
     ],
     providers: [FinancialDataService]
 })

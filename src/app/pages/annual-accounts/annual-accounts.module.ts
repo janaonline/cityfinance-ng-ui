@@ -39,7 +39,8 @@ import { GlobalPartModule } from "src/app/global-part/global-part.module";
     MatDialogModule,
     MatTooltipModule,
     MatIconModule,
-    GlobalPartModule
+    GlobalPartModule,
+    SharedModule,
   ],
   declarations: [AnnualAccountsCreateComponent, DateFormatPipe],
   exports: [AnnualAccountsCreateComponent],

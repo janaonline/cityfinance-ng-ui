@@ -71,9 +71,13 @@
                         </div>
                     </div>
                     <div class="col-1 filePadding">
-                        <a href="{{ stateActFileUrl | toStorageUrl}}" target="_blank">
+                        <!-- <a href="{{ stateActFileUrl | toStorageUrl}}" target="_blank">
+                            <img src="./assets/form-icon/download-pdf-icon.png" alt="">
+                        </a> -->
+                        <a [appSignedUrl]="stateActFileUrl" target="_blank">
                             <img src="./assets/form-icon/download-pdf-icon.png" alt="">
                         </a>
+
                         <span>
                             <a (click)="clearFile('stateAct')" style="margin-left: 4px;" [ngClass]="{'disableInputs': isDisabled }">
                                 <img src="./assets/form-icon/close-red-icon.png" alt="">

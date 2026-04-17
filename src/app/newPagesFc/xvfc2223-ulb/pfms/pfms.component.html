@@ -139,7 +139,10 @@
                     </div>
                 </div>
                 <div class="col-sm-2 filePadding">
-                    <a href="{{  odfUrl | toStorageUrl}}" target="_blank">
+                    <!-- <a href="{{  odfUrl | toStorageUrl}}" target="_blank">
+                        <img src="./assets/form-icon/download-pdf-icon.png" alt="" />
+                    </a> -->
+                    <a [appSignedUrl]="odfUrl" target="_blank" rel="noopener noreferrer">
                         <img src="./assets/form-icon/download-pdf-icon.png" alt="" />
                     </a>
                     <span>
@@ -179,9 +182,13 @@
                     </div>
                 </div>
                 <div class="col-sm-2 col-md-2 col-lg-2 filePadding">
-                    <a href="{{ odfUrl2 | toStorageUrl}}" target="_blank">
+                    <!-- <a href="{{ odfUrl2 | toStorageUrl}}" target="_blank">
+                        <img src="./assets/form-icon/download-pdf-icon.png" alt="">
+                    </a> -->
+                    <a [appSignedUrl]="odfUrl2" target="_blank" rel="noopener noreferrer">
                         <img src="./assets/form-icon/download-pdf-icon.png" alt="">
                     </a>
+
                     <span style="cursor:not-allowed;">
                         <a (click)="clearFile('otherDocs')" style="margin-left: 4px;" [ngClass]="{'disableInputs': !isDisabled }">
                             <img src="./assets/form-icon/close-red-icon.png" alt="">

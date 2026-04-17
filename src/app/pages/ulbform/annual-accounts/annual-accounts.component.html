@@ -120,9 +120,11 @@
                 </div>
                 <div class="col-sm-12" *ngIf="data.unAudited.submit_standardized_data">
                     <div class="col-sm-2 center" style="padding: 0;">
-                        <a class="btn btn22" href="{{standardized_dataFile | toStorageUrl}}" target="_blank">
+                        <!-- <a class="btn btn22" href="{{standardized_dataFile | toStorageUrl}}" target="_blank">
                             Download Template
-                        </a>
+                        </a> -->
+                        <a class="btn btn22" [appSignedUrl]="standardized_dataFile" target="_blank" rel="noopener noreferrer">
+                            Download Template </a>                            
                     </div>
 
                     <div class="col-sm-2 center">
@@ -158,10 +160,14 @@
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
                                     <ng-container>
                                         <div *ngIf="data.unAudited.standardized_data?.excel?.url">
-                                            <a href="{{ data.unAudited.standardized_data?.excel?.url | toStorageUrl}}" target="_blank">
+                                            <!-- <a href="{{ data.unAudited.standardized_data?.excel?.url | toStorageUrl}}" target="_blank">
                                                 <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
+                                            </a> -->
+                                            <a [appSignedUrl]="data.unAudited.standardized_data?.excel?.url" target="_blank" rel="noopener noreferrer">
+                                                <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
                                             </a>
+
                                             <a [ngClass]="{cross: isDisabled && data.unAudited.submit_annual_accounts && provisionDisable}" (click)="clearFile('unAudited')" style="margin-left: 3px;">
                                                 <img src="./assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
                                             </a>
@@ -278,9 +284,11 @@
                     <div class="col-sm-2 center" style="padding: 0;">
                         
                         <!-- href="https://democityfinanceapi.dhwaniris.in/assets/files/Standardized%20Data_Format.xlsx" -->
-                        <a class="btn btn22" href="{{standardized_dataFile | toStorageUrl}}"  target="_blank">
+                        <!-- <a class="btn btn22" href="{{standardized_dataFile | toStorageUrl}}"  target="_blank">
                             Download Template
-                        </a>
+                        </a> -->
+                        <a class="btn btn22" [appSignedUrl]="standardized_dataFile" target="_blank" rel="noopener noreferrer">
+                            Download Template </a>
                     </div>
                     <div class="col-sm-2 center">
                         <button (click)="ques2.click()" class="btn btn2" [disabled]="isDisabled && data.audited.submit_annual_accounts && auditedDisable">Upload EXCEL
@@ -315,10 +323,14 @@
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
                                     <ng-container>
                                         <div *ngIf="data.audited.standardized_data?.excel.url">
-                                            <a href="{{ data.audited.standardized_data?.excel.url | toStorageUrl}}" target="_blank">
+                                            <!-- <a href="{{ data.audited.standardized_data?.excel.url | toStorageUrl}}" target="_blank">
                                                 <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
+                                            </a> -->
+                                            <a [appSignedUrl]="data.audited.standardized_data?.excel.url" target="_blank" rel="noopener noreferrer">
+                                                <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
                                             </a>
+
                                             <a [ngClass]="{cross: isDisabled && data.audited.submit_annual_accounts && auditedDisable}" (click)="clearFile('audited')" style="margin-left: 3px;">
                                                 <img src="./assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
                                             </a>

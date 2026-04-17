@@ -36,6 +36,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { FeedbackFormComponent } from './feedback-form/feedback-form.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BudgetUploadComponent } from './budget-upload/budget-upload.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 
@@ -68,7 +69,8 @@ import { BudgetUploadComponent } from './budget-upload/budget-upload.component';
     ReactiveFormsModule,
     GlobalPartModule,
     MatDialogModule,
-    MatProgressSpinnerModule 
+    MatProgressSpinnerModule,
+    SharedModule,
 ]
 })
 export class UlbFormModule { }

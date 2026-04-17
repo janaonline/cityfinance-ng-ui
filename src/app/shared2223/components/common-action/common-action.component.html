@@ -44,7 +44,8 @@ formDataChange?.status == 'PENDING' && formDataChange?.isDraft == false">
                         Document:
                     </div>
                     <div class="col-sm-9">
-                        <a target="_blank" href="{{formDataChange?.responseFile_state?.url | toStorageUrl}} ">{{formDataChange?.responseFile_state?.name}}</a>
+                        <!-- <a target="_blank" href="{{formDataChange?.responseFile_state?.url | toStorageUrl}} ">{{formDataChange?.responseFile_state?.name}}</a> -->
+                        <a target="_blank" [appSignedUrl]="formDataChange?.responseFile_state?.url" rel="noopener noreferrer">{{formDataChange?.responseFile_state?.name}}</a>
                     </div>
                 </div>
             </div>
@@ -69,7 +70,8 @@ formDataChange?.status == 'PENDING' && formDataChange?.isDraft == false">
                         Document:
                     </div>
                     <div class="col-sm-9">
-                        <a target="_blank" href="{{formDataChange?.responseFile_mohua?.url | toStorageUrl}} ">{{formDataChange?.responseFile_mohua?.name}}</a>
+                        <!-- <a target="_blank" href="{{formDataChange?.responseFile_mohua?.url | toStorageUrl}} ">{{formDataChange?.responseFile_mohua?.name}}</a> -->
+                        <a target="_blank" [appSignedUrl]="formDataChange?.responseFile_mohua?.url" rel="noopener noreferrer">{{formDataChange?.responseFile_mohua?.name}}</a>
                     </div>
                 </div>
             </div>
@@ -142,9 +144,13 @@ formDataChange?.status == 'PENDING' && formDataChange?.isDraft == false">
                         </div>
                     </div>
                     <div class="col-sm-4 filePadding">
-                        <a href="{{stateActUrl | toStorageUrl }}" target="_blank">
+                        <!-- <a href="{{stateActUrl | toStorageUrl }}" target="_blank">
+                            <img src="./assets/form-icon/download-pdf-icon.png" alt="">
+                        </a> -->
+                        <a [appSignedUrl]="stateActUrl" target="_blank" rel="noopener noreferrer">
                             <img src="./assets/form-icon/download-pdf-icon.png" alt="">
                         </a>
+
                         <span>
                         <a (click)="clearFile('stateAct')" style="margin-left: 4px;"
                         [ngClass]="{'dis-cls' : actBtnDis}">
