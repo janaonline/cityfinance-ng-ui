@@ -170,7 +170,7 @@
         <div class="row mb-2">
           <div class="col-md-12" *ngIf="anyDcoumentUploaded">
             <h3>Documents:</h3>
-            <div *ngIf="
+            <!-- <div *ngIf="
                 filteredData.documents.financial_year_2015_16?.pdf.length > 0 ||
                 filteredData.documents.financial_year_2015_16?.excel.length > 0
               ">
@@ -249,7 +249,88 @@
               " [href]="
                 filteredData.documents.financial_year_2019_20.excel[0].url | toStorageUrl
               " target="_blank"><b>view excel</b></a>
-            </div>
+            </div> -->
+          
+            <div *ngIf="
+            filteredData.documents.financial_year_2015_16?.pdf.length > 0 ||
+            filteredData.documents.financial_year_2015_16?.excel.length > 0
+            ">
+            <label>Financial year 2015-16:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a *ngIf="
+                filteredData.documents.financial_year_2015_16.pdf.length > 0
+              " [appSignedUrl]="
+                filteredData.documents.financial_year_2015_16.pdf[0].url
+              " target="_blank" rel="noopener noreferrer"><b>view pdf</b></a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a *ngIf="
+                filteredData.documents.financial_year_2015_16.excel.length > 0
+              " [appSignedUrl]="
+                filteredData.documents.financial_year_2015_16.excel[0].url
+              " target="_blank" rel="noopener noreferrer"><b>view excel</b></a>
+          </div>
+          <div *ngIf="
+              filteredData.documents.financial_year_2016_17?.pdf.length > 0 ||
+              filteredData.documents.financial_year_2016_17?.excel.length > 0
+            ">
+            <label>Financial year 2016-17:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a *ngIf="
+                filteredData.documents.financial_year_2016_17.pdf.length > 0
+              " [appSignedUrl]="
+                filteredData.documents.financial_year_2016_17.pdf[0].url
+              " target="_blank" rel="noopener noreferrer"><b>view pdf</b></a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a *ngIf="
+                filteredData.documents.financial_year_2016_17.excel.length > 0
+              " [appSignedUrl]="
+                filteredData.documents.financial_year_2016_17.excel[0].url
+              " target="_blank" rel="noopener noreferrer"><b>view excel</b></a>
+          </div>
+          <div *ngIf="
+              filteredData.documents.financial_year_2017_18?.pdf.length > 0 ||
+              filteredData.documents.financial_year_2017_18?.excel.length > 0
+            ">
+            <label>Financial year 2017-18:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a *ngIf="
+                filteredData.documents.financial_year_2017_18.pdf.length > 0
+              " [appSignedUrl]="
+                filteredData.documents.financial_year_2017_18.pdf[0].url
+              " target="_blank" rel="noopener noreferrer"><b>view pdf</b></a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a *ngIf="
+                filteredData.documents.financial_year_2017_18.excel.length > 0
+              " [appSignedUrl]="
+                filteredData.documents.financial_year_2017_18.excel[0].url
+              " target="_blank" rel="noopener noreferrer"><b>view excel</b></a>
+          </div>
+          <div *ngIf="
+              filteredData.documents.financial_year_2018_19?.pdf.length > 0 ||
+              filteredData.documents.financial_year_2018_19?.excel.length > 0
+            ">
+            <label>Financial year 2018-19:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a *ngIf="
+                filteredData.documents.financial_year_2018_19.pdf.length > 0
+              " [appSignedUrl]="
+                filteredData.documents.financial_year_2018_19.pdf[0].url
+              " target="_blank" rel="noopener noreferrer"><b>view pdf</b></a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a *ngIf="
+                filteredData.documents.financial_year_2018_19.excel.length > 0
+              " [appSignedUrl]="
+                filteredData.documents.financial_year_2018_19.excel[0].url
+              " target="_blank" rel="noopener noreferrer"><b>view excel</b></a>
+          </div>
+          <div *ngIf="
+            filteredData.documents.financial_year_2019_20?.pdf.length > 0 ||
+            filteredData.documents.financial_year_2019_20?.excel.length > 0
+          ">
+            <label>Financial year 2019-20:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a *ngIf="
+              filteredData.documents.financial_year_2019_20.pdf.length > 0
+            " [appSignedUrl]="
+              filteredData.documents.financial_year_2019_20.pdf[0].url
+            " target="_blank" rel="noopener noreferrer"><b>view pdf</b></a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a *ngIf="
+              filteredData.documents.financial_year_2019_20.excel.length > 0
+            " [appSignedUrl]="
+              filteredData.documents.financial_year_2019_20.excel[0].url
+            " target="_blank" rel="noopener noreferrer"><b>view excel</b></a>
+          </div>
           </div>
         </div>
       </div>

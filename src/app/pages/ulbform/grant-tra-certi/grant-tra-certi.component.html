@@ -15,7 +15,9 @@
                     </pdf-viewer>
                 </div>
                 <h5 class="card-title " style="text-align: center;  font-size: 18px; ">
-                    <a href="{{number.pdfUrl | toStorageUrl}}" target="_blank">{{number.name}}</a></h5>
+                    <!-- <a href="{{number.pdfUrl | toStorageUrl}}" target="_blank">{{number.name}}</a> -->
+                    <a [appSignedUrl]="number.pdfUrl" target="_blank" rel="noopener noreferrer">{{number.name}}</a>
+                </h5>
             </div>
 
 

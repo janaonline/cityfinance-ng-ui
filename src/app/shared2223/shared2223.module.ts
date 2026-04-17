@@ -39,6 +39,7 @@ import { NumericInputDirective } from './directive/numeric-input.directive';
 import { PmuApprovalPopupComponent } from './components/pmu-approval-popup/pmu-approval-popup.component';
 import { ScrollToTopComponent } from './components/scroll-to-top/scroll-to-top.component';
 import { GlobalPartModule } from "../global-part/global-part.module";
+import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -81,7 +82,8 @@ import { GlobalPartModule } from "../global-part/global-part.module";
     MdePopoverModule,
     MatRadioModule,
     MatDatepickerModule,
-    GlobalPartModule
+    GlobalPartModule,
+    SharedModule,
   ],
   exports: [
     OdfFormComponent,

@@ -198,9 +198,13 @@
                                         State Supporting Document :
                                     </div>
                                     <div class="col-sm-8">
-                                        <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_state?.url" href="{{data?.unAudited?.responseFile_state?.url | toStorageUrl}}">
+                                        <!-- <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_state?.url" href="{{data?.unAudited?.responseFile_state?.url | toStorageUrl}}">
                                 {{data?.unAudited?.responseFile_state?.name}}
-                              </a>
+                              </a> -->
+                                <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_state?.url"
+                                    [appSignedUrl]="data?.unAudited?.responseFile_state?.url" rel="noopener noreferrer">
+                                    {{data?.unAudited?.responseFile_state?.name}} </a>
+                                    
                                         <span *ngIf="!data?.unAudited?.responseFile_state?.url">N/A</span>
                                     </div>
                                 </div>
@@ -209,9 +213,12 @@
                                         MoHUA Supporting Document :
                                     </div>
                                     <div class="col-sm-8">
-                                        <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_mohua?.url" href="{{ data?.unAudited?.responseFile_mohua?.url | toStorageUrl}}">
+                                        <!-- <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_mohua?.url" href="{{ data?.unAudited?.responseFile_mohua?.url | toStorageUrl}}">
                               {{data?.unAudited?.responseFile_mohua?.name}}
-                            </a>
+                            </a> -->
+                                        <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_mohua?.url"
+                                            [appSignedUrl]="data?.unAudited?.responseFile_mohua?.url" rel="noopener noreferrer">
+                                            {{data?.unAudited?.responseFile_mohua?.name}} </a>
                                         <span *ngIf="!data?.unAudited?.responseFile_mohua?.url">N/A</span>
                                     </div>
                                 </div>
@@ -291,9 +298,12 @@
                                             State Supporting Document :
                                         </div>
                                         <div class="col-sm-8">
-                                            <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_state?.url" href="{{data?.unAudited?.responseFile_state?.url | toStorageUrl}}">
+                                            <!-- <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_state?.url" href="{{data?.unAudited?.responseFile_state?.url | toStorageUrl}}">
                                         {{data?.unAudited?.responseFile_state?.name}}
-                                      </a>
+                                      </a> -->
+                                            <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_state?.url"
+                                                [appSignedUrl]="data?.unAudited?.responseFile_state?.url" rel="noopener noreferrer">
+                                                {{data?.unAudited?.responseFile_state?.name}} </a>
                                             <span *ngIf="!data?.unAudited?.responseFile_state?.url">N/A</span>
                                         </div>
                                     </div>
@@ -302,9 +312,12 @@
                                             MoHUA Supporting Document :
                                         </div>
                                         <div class="col-sm-8">
-                                            <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_mohua?.url" href="{{data?.unAudited?.responseFile_mohua?.url | toStorageUrl}}">
+                                            <!-- <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_mohua?.url" href="{{data?.unAudited?.responseFile_mohua?.url | toStorageUrl}}">
                                       {{data?.unAudited?.responseFile_mohua?.name}}
-                                    </a>
+                                    </a> -->
+                                            <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_mohua?.url"
+                                                [appSignedUrl]="data?.unAudited?.responseFile_mohua?.url" rel="noopener noreferrer">
+                                                {{data?.unAudited?.responseFile_mohua?.name}} </a>
                                             <span *ngIf="!data?.unAudited?.responseFile_mohua?.url">N/A</span>
                                         </div>
                                     </div>
@@ -383,9 +396,13 @@
                         <div class="row" *ngIf="data?.unAudited?.submit_standardized_data">
                             <div class="col-sm-12 ms-3">
                                 <!-- https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/objects/3b01a260-ef92-43a6-a68a-9f3643089bbd.xlsx -->
-                                <a class="btn btn-primary" href="{{standardized_dataFile | toStorageUrl}}" target="_blank">
+                                <!-- <a class="btn btn-primary" href="{{standardized_dataFile | toStorageUrl}}" target="_blank">
                                   Download Template
+                                </a> -->
+                                <a class="btn btn-primary" href="assets/standardized_template.xlsx" target="_blank">
+                                    Download Template
                                 </a>
+
                                 <button (click)="ques21.click()" [disabled]="tab2dis" class="btn btn-primary ms-3">Upload EXCEL
                                   <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                                       data-height="16"></span>
@@ -421,10 +438,14 @@
                                 <div class="col-sm-2 col-lg-2 col-md-2">
                                     <ng-container>
                                         <div *ngIf="data.unAudited.standardized_data?.excel?.url">
-                                            <a href="{{ data.unAudited.standardized_data?.excel?.url | toStorageUrl}}" target="_blank">
+                                            <!-- <a href="{{ data.unAudited.standardized_data?.excel?.url | toStorageUrl}}" target="_blank">
                                                 <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
+                                            </a> -->
+                                            <a [appSignedUrl]="data.unAudited.standardized_data?.excel?.url" target="_blank" rel="noopener noreferrer">
+                                                <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
                                             </a>
+
                                             <a [ngClass]="{cross: tab2dis && data.unAudited.submit_annual_accounts && provisionDisable,'p-none': tab2dis}" (click)="clearFile('unAudited')" style="margin-left: 3px;">
                                                 <img src="./assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
                                             </a>
@@ -678,9 +699,12 @@
                                             State Supporting Document :
                                         </div>
                                         <div class="col-sm-8">
-                                            <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_state?.url" href="{{data?.audited?.responseFile_state?.url | toStorageUrl}}">
+                                            <!-- <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_state?.url" href="{{data?.audited?.responseFile_state?.url | toStorageUrl}}">
                                   {{data?.audited?.responseFile_state?.name}}
-                                </a>
+                                </a> -->
+                                            <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_state?.url"
+                                                [appSignedUrl]="data?.audited?.responseFile_state?.url" rel="noopener noreferrer">
+                                                {{data?.audited?.responseFile_state?.name}} </a>
                                             <span *ngIf="!data?.audited?.responseFile_state?.url">N/A</span>
                                         </div>
                                     </div>
@@ -689,9 +713,12 @@
                                             MoHUA Supporting Document :
                                         </div>
                                         <div class="col-sm-8">
-                                            <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_mohua?.url" href="{{data?.audited?.responseFile_mohua?.url | toStorageUrl}}">
+                                            <!-- <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_mohua?.url" href="{{data?.audited?.responseFile_mohua?.url | toStorageUrl}}">
                                 {{data?.audited?.responseFile_mohua?.name}}
-                              </a>
+                              </a> -->
+                                            <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_mohua?.url"
+                                                [appSignedUrl]="data?.audited?.responseFile_mohua?.url" rel="noopener noreferrer">
+                                                {{data?.audited?.responseFile_mohua?.name}} </a>
                                             <span *ngIf="!data?.audited?.responseFile_mohua?.url">N/A</span>
                                         </div>
                                     </div>
@@ -821,9 +848,11 @@
                                             State Supporting Document :
                                         </div>
                                         <div class="col-sm-8">
-                                            <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_state?.url" href="{{ data?.audited?.responseFile_state?.url | toStorageUrl}}">
+                                            <!-- <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_state?.url" href="{{ data?.audited?.responseFile_state?.url | toStorageUrl}}">
                                       {{data?.audited?.responseFile_state?.name}}
-                                    </a>
+                                    </a> -->
+                                            <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_state?.url" href="{{ data?.audited?.responseFile_state?.url | toStorageUrl}}">
+                                                {{data?.audited?.responseFile_state?.name}} </a>
                                             <span *ngIf="!data?.audited?.responseFile_state?.url">N/A</span>
                                         </div>
                                     </div>
@@ -832,9 +861,12 @@
                                             MoHUA Supporting Document :
                                         </div>
                                         <div class="col-sm-8">
-                                            <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_mohua?.url" href="{{ data?.audited?.responseFile_mohua?.url | toStorageUrl}}">
+                                            <!-- <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_mohua?.url" href="{{ data?.audited?.responseFile_mohua?.url | toStorageUrl}}">
                                     {{data?.audited?.responseFile_mohua?.name}}
-                                  </a>
+                                  </a> -->
+                                            <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_mohua?.url" [appSignedUrl]="data?.audited?.responseFile_mohua?.url" rel="noopener noreferrer">
+                                                {{data?.audited?.responseFile_mohua?.name}} </a>
+                                    
                                             <span *ngIf="!data?.audited?.responseFile_mohua?.url">N/A</span>
                                         </div>
                                     </div>
@@ -911,9 +943,12 @@
 
                         <div class="row mt-3" *ngIf="data?.audited?.submit_standardized_data">
                             <div class="col-sm-12 ms-3">
-                                <a class="btn btn-primary" href="{{standardized_dataFile | toStorageUrl}}" target="_blank">
+                                <!-- <a class="btn btn-primary" href="{{standardized_dataFile | toStorageUrl}}" target="_blank">
                                 Download Template
-                            </a>
+                            </a> -->
+                                <a class="btn btn-primary" [appSignedUrl]="standardized_dataFile" target="_blank" rel="noopener noreferrer">
+                                    Download Template
+                                </a>
                                 <!-- https://democityfinanceapi.dhwaniris.in/assets/files/Standardized%20Data_Format.xlsx -->
 
                                 <button (click)="ques2.click()" class="btn btn-primary ms-3" [disabled]="tab1dis">Upload EXCEL
@@ -950,10 +985,14 @@
                                 <div class="col-sm-2 col-lg-2 col-md-2">
                                     <ng-container>
                                         <div *ngIf="data.audited.standardized_data?.excel?.url">
-                                            <a href="{{ data.audited.standardized_data?.excel?.url | toStorageUrl}}" target="_blank">
+                                            <!-- <a href="{{ data.audited.standardized_data?.excel?.url | toStorageUrl}}" target="_blank">
                                                 <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
-                                            </a>
+                                            </a> -->
+                                                <a [appSignedUrl]="data.audited.standardized_data?.excel?.url" target="_blank" rel="noopener noreferrer">
+                                                    <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                                                </a>
+
                                             <a [ngClass]="{cross: tab1dis && data.audited.submit_annual_accounts && provisionDisable, 'p-none' : tab1dis}" (click)="clearFile('audited')" style="margin-left: 3px;">
                                                 <img src="./assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
                                             </a>

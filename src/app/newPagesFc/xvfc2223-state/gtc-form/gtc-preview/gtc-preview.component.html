@@ -43,7 +43,8 @@
                                             {{qusItem?.question}}
                                         </div>
                                         <div class="col-sm-12 ms-4 mt-2 ans-h">
-                                            <span *ngIf="qusItem?.file?.name"><a href="{{ qusItem?.file?.url | toStorageUrl}}" target="_blank">{{qusItem?.file?.name}}</a></span>
+                                            <!-- <span *ngIf="qusItem?.file?.name"><a href="{{ qusItem?.file?.url | toStorageUrl}}" target="_blank">{{qusItem?.file?.name}}</a></span> -->
+                                            <span *ngIf="qusItem?.file?.name"><a [appSignedUrl]="qusItem?.file?.url" target="_blank" rel="noopener noreferrer">{{qusItem?.file?.name}}</a></span>
                                             <span *ngIf="qusItem?.file?.name == ''">N/A</span>
                                         </div>
                                     </div>

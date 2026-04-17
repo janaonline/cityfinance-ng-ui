@@ -47,9 +47,14 @@
                                                 </div>
                                                 <div class="col-sm-12 ms-4 mt-2 ans-h"
                                                     *ngIf="question?.year === '606aafcf4dff55e6c075d424'||question?.year === '606aafda4dff55e6c075d48f'">
-                                                    <span *ngIf="question?.file?.name"><a
+                                                    <span *ngIf="question?.file?.name">
+                                                        <!-- <a
                                                             href="{{ question?.file?.url | toStorageUrl}}"
-                                                            target="_blank">{{question?.file?.name}}</a></span>
+                                                            target="_blank">{{question?.file?.name}}</a> -->
+                                                            <a [appSignedUrl]="question?.file?.url" target="_blank" rel="noopener noreferrer">
+                                                                {{ question?.file?.name }}
+                                                            </a>
+                                                        </span>
                                                     <span *ngIf="question?.file?.name == ''">N/A</span>
                                                 </div>
                                                 <app-installment-preview [questionresponse]="question?.questionresponse"

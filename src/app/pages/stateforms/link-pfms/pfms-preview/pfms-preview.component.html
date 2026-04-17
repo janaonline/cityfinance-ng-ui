@@ -39,7 +39,10 @@
                         </div>
                         <div *ngIf="data?.excel.name" class="col-sm-6 ans-h">
                             Excel-
-                            <a target="_blank" href="{{data?.excel.url | toStorageUrl}}">
+                            <!-- <a target="_blank" href="{{data?.excel.url | toStorageUrl}}">
+                                {{data?.excel.name}}
+                            </a> -->
+                            <a [appSignedUrl]="data?.excel.url" target="_blank" rel="noopener noreferrer">
                                 {{data?.excel.name}}
                             </a>
                         </div>
