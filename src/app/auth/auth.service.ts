@@ -231,8 +231,8 @@ export class AuthService {
     );
   }
 
-  verifyCaptcha(recaptcha: string): Observable<{ success: boolean, message: string }> {
-    return this.http.post<{ success: boolean, message: string }>(`${environment.api.url}captcha_validate`, {
+  verifyCaptcha(recaptcha: string) {
+    return this.http.post(`${environment.api.url}captcha_validate`, {
       recaptcha,
     });
   }
