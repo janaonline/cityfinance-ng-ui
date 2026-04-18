@@ -238,17 +238,15 @@ export class AuthService {
   }
 
   logout() {
-    const request$ = this.http
+    return this.http
       .post(this.logoutUrl, {}, { withCredentials: true })
-      .pipe(catchError(() => of(null)), shareReplay(1));
-
-    request$.subscribe({
-      next: () => { },
-      error: () => { },
-    });
-
-    this.clearLocalStorage();
-    return request$;
+      .pipe(
+        catchError(() => of(null)),
+        finalize(() => {
+          this.clearLocalStorage();
+        }),
+        shareReplay(1)
+      );
   }
 
   otpSignIn(body) {
