@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AuthService } from 'src/app/auth/auth.service';
 import { HttpUtility } from 'src/app/util/httpUtil';
 import { JSONUtility } from 'src/app/util/jsonUtil';
 
@@ -9,7 +10,10 @@ import { environment } from '../../../environments/environment';
   providedIn: "root",
 })
 export class FinancialDataService {
-  constructor(private httpClient: HttpClient) { }
+  constructor(
+    private httpClient: HttpClient,
+    private authService: AuthService
+  ) { }
   public selectedFinancialRequest = null;
   public financialYears = null;
 
@@ -94,10 +98,7 @@ export class FinancialDataService {
   }
 
   getFinancialDataListApi(body = {}) {
-    body["token"] = localStorage
-      .getItem("id_token")
-      .replace('"', "")
-      .replace('"', "");
+    body["token"] = this.authService.getAccessToken() || "";
     body["csv"] = true;
     let params = new HttpParams();
     Object.keys(body).forEach((key) => {
@@ -112,10 +113,7 @@ export class FinancialDataService {
   }
 
   getXVFcFormDataListApi(body = {}) {
-    body["token"] = localStorage
-      .getItem("id_token")
-      .replace('"', "")
-      .replace('"', "");
+    body["token"] = this.authService.getAccessToken() || "";
     body["csv"] = true;
     let params = new HttpParams();
     Object.keys(body).forEach((key) => {

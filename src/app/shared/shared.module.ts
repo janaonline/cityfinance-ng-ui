@@ -110,6 +110,10 @@ import { GlobalPartModule } from "../global-part/global-part.module";
 import { CountUpDirective } from "./directives/count-up.directive";
 import { UserInfoDialogComponent } from './components/user-info-dialog/user-info-dialog.component';
 import { OtpDialogComponent } from './components/otp-dialog/otp-dialog.component';
+import { SignedUrlDirective } from "./directives/signed-url.directive";
+
+const googleMapsApiKey =
+    ((window as any).__env && (window as any).__env.googleMapsApiKey) || "";
 
 @NgModule({
     imports: [
@@ -135,7 +139,7 @@ import { OtpDialogComponent } from './components/otp-dialog/otp-dialog.component
         GooglePlaceModule,
         BsDropdownModule.forRoot(),
         AgmCoreModule.forRoot({
-            apiKey: "AIzaSyBum81Liii93xQ3JerXGozwDmNSutlZHro&libraries",
+            apiKey: googleMapsApiKey,
             libraries: ["places"],
         }),
         MatCardModule,
@@ -221,6 +225,7 @@ import { OtpDialogComponent } from './components/otp-dialog/otp-dialog.component
         CountUpDirective,
         UserInfoDialogComponent,
         OtpDialogComponent,
+        SignedUrlDirective,
     ],
     exports: [
         JoinPipe,
@@ -273,6 +278,7 @@ import { OtpDialogComponent } from './components/otp-dialog/otp-dialog.component
         AutoCompleteComponent,
         EndsWithPipe,
         CountUpDirective,
+        SignedUrlDirective,
     ],
     providers: [FinancialDataService]
 })

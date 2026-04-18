@@ -6,10 +6,10 @@ import { USER_TYPE } from 'src/app/models/user/userType';
 import { State2223Service } from 'src/app/newPagesFc/xvfc2223-state/state-services/state2223.service';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
+import { AuthService } from 'src/app/auth/auth.service';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { FiscalRankingService, FormWiseData, MapData, removeFalsy, Table } from '../fiscal-ranking.service';
 import { TrackingHistoryTableComponent } from './tracking-history-table/tracking-history-table.component';
-import { AuthService } from 'src/app/auth/auth.service';
 
 const tables: Table[] = [
   {
@@ -75,13 +75,8 @@ export class ReviewUlbTableComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog,
     private fiscalRankingService: FiscalRankingService,
-    private authService: AuthService,
-    private _commonService: CommonService) {
-      this.userData = JSON.parse(localStorage.getItem("userData"));
-      if (!this.authService.loggedIn() || this.userData?.role == "ULB") {
-        this.router.navigate(["rankings/home"]);
-        return;
-      }
+    private _commonService: CommonService,
+    private authService: AuthService) {
   }
   ngOnInit(): void {
     this.filterForm = this._fb.group({
@@ -187,7 +182,7 @@ export class ReviewUlbTableComponent implements OnInit {
   }
 
   getToken() {
-    return JSON.parse(localStorage.getItem("id_token"));
+    return this.authService.getAccessToken();
   }
 
   keepOriginalOrder = (a, b) => a.key;
@@ -335,5 +330,4 @@ export class ReviewUlbTableComponent implements OnInit {
   ];
   columnNamesList = ["S No.", "ULB Name", "Census Code", "State Name", "Population Category", "ULB Data Submitted (%)", "PMU Verification Progress (Approved,Rejected)", "Status", "Action"];
 }
-
 

@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { delay } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 
+import { AuthService } from "./auth/auth.service";
 import { IUserLoggedInDetails } from "./models/login/userLoggedInDetails";
 import { GlobalLoaderService } from "./shared/services/loaders/global-loader.service";
 import { SessionService } from "./shared/services/session/session.service";
@@ -28,6 +30,7 @@ export class AppComponent implements OnDestroy, OnInit {
   showLoader = false;
   sessionId: string;
   isEmbedModeEnable: boolean = false;
+  readonly sessionState$ = this.authService.sessionState$;
   constructor(
     public globalLoader: GlobalLoaderService,
     private sessionService: SessionService,
@@ -36,7 +39,9 @@ export class AppComponent implements OnDestroy, OnInit {
     private commonService: CommonService,
     private matSnackBar: MatSnackBar,
     private versionService: VersionCheckService,
-    private gaService: GoogleAnalyticsService
+    private gaService: GoogleAnalyticsService,
+    public authService: AuthService,
+    private router: Router
   ) {
 
     this.versionCheck()
@@ -63,16 +68,6 @@ export class AppComponent implements OnDestroy, OnInit {
     //     });
     //   }
     // })
-    let userData: any = localStorage.getItem("userData");
-    if (!userData) return;
-    try {
-      userData = JSON.parse(userData) as IUserLoggedInDetails;
-      this.profileService.getUserProfile({}).subscribe((response) => {
-        const name = response["data"]["name"];
-        userData["name"] = name;
-        new UserUtility().updateUserDataInRealTime(userData);
-      });
-    } catch (error) { }
   }
 
 
@@ -90,6 +85,9 @@ export class AppComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
+    this.authService.initializeSession().subscribe(() => {
+      this.refreshLoggedInUserProfile();
+    });
     //  this.callGenralAert();
     this.commonService.isEmbedModeEnable.subscribe(data => {
       console.log('isEmbedModeEnable', data)
@@ -127,6 +125,33 @@ export class AppComponent implements OnDestroy, OnInit {
   }
   ngOnDestroy(): void {
     this.sessionService.endSession(this.sessionId).subscribe((res) => { });
+  }
+
+  goToLogin() {
+    this.router.navigate(["/login"]);
+  }
+
+  logout() {
+    this.authService.logout().subscribe(() => {
+      this.router.navigate(["/login"]);
+    });
+  }
+
+  private refreshLoggedInUserProfile() {
+    let userData = this.authService.getCurrentUserSnapshot();
+    if (!userData || !this.authService.loggedIn()) {
+      return;
+    }
+
+    try {
+      userData = { ...userData } as IUserLoggedInDetails;
+      this.profileService.getUserProfile({}).subscribe((response) => {
+        const name = response["data"]["name"];
+        userData["name"] = name;
+        this.authService.setCurrentUser(userData);
+        new UserUtility().updateUserDataInRealTime(userData);
+      });
+    } catch (error) {}
   }
 
   // callGenralAert(){

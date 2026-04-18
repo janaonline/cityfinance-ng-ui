@@ -17,9 +17,9 @@ export class CreditRatingComponent implements OnInit {
   }
 
   logout() {
-    // localStorage.clear();
-    this.authService.clearLocalStorage();
-    this.router.navigate(['/']);
+    this.authService.logout().subscribe(() => {
+      this.router.navigate(['/']);
+    });
   }
 
 }

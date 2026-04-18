@@ -43,7 +43,9 @@
                                             {{qusItem?.question}}
                                         </div>
                                          <div class="col-sm-12 ms-4 mt-2 ans-h" *ngIf="data[0]?.yearCode === '2024-25'|| data[0]?.yearCode === '2025-26'">
-                                            <span *ngIf="qusItem?.file?.name"><a href="{{ qusItem?.file?.url | toStorageUrl}}">{{qusItem?.file?.name}}</a></span>
+                                            <!-- <span *ngIf="qusItem?.file?.name"><a href="{{ qusItem?.file?.url | toStorageUrl}}">{{qusItem?.file?.name}}</a></span> -->
+                                            <span *ngIf="qusItem?.file?.name"><a [appSignedUrl]="qusItem?.file?.url"
+                                                    rel="noopener noreferrer">{{qusItem?.file?.name}}</a></span>
                                             <!-- <span *ngIf="qusItem?.fileName == ''">N/A</span> -->
                                         </div>
                                         <!-- <div class="col-sm-12 ms-4 mt-2 ans-h" *ngIf="data[0]?.yearCode == '2022-23'">

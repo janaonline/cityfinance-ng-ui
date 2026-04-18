@@ -7,6 +7,7 @@ import { UtilityService } from '../../services/utility.service';
 import { EmailVerification } from '../user-info-dialog/user-info-dialog.component';
 
 const TIMER = 60;
+const OTP_LENGTH = 6;
 
 @Component({
   selector: 'app-otp-dialog',
@@ -14,15 +15,16 @@ const TIMER = 60;
   styleUrls: ['./otp-dialog.component.scss']
 })
 export class OtpDialogComponent implements OnInit {
+  otpLength: number = OTP_LENGTH;
   readonly: boolean = false;
   showResendOtp: boolean = false;
   counter: number = TIMER;
   countdownSub?: Subscription;
   otp: FormControl = new FormControl('', [
     Validators.required,
-    Validators.minLength(6),
-    Validators.maxLength(6),
-    Validators.pattern(/^\d+$/)
+    Validators.minLength(OTP_LENGTH),
+    Validators.maxLength(OTP_LENGTH),
+    Validators.pattern(new RegExp(`^\\d{${OTP_LENGTH}}$`))
   ]);
   email: string = '';
 

@@ -118,7 +118,10 @@
                                                         </div>
                                                         <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
                                                             <ng-container *ngIf="millionTiedFileUrl_2021">
-                                                                <a href="{{ millionTiedFileUrl_2021 | toStorageUrl}}" target="_blank">
+                                                                <!-- <a href="{{ millionTiedFileUrl_2021 | toStorageUrl}}" target="_blank">
+                                                                    <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="height: 19px;">
+                                                                </a> -->
+                                                                <a [appSignedUrl]="millionTiedFileUrl_2021" target="_blank" rel="noopener noreferrer">
                                                                     <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="height: 19px;">
                                                                 </a>
                                                                 <span style="cursor:not-allowed;">
@@ -225,9 +228,12 @@
 
                                                         <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
                                                             <ng-container *ngIf="nonMillionTiedFileUrl_2021">
-                                                                <a href="{{ nonMillionTiedFileUrl_2021 | toStorageUrl }}" target="_blank">
+                                                                <!-- <a href="{{ nonMillionTiedFileUrl_2021 | toStorageUrl }}" target="_blank">
                                                                     <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
+                                                                </a> -->
+                                                                <a [appSignedUrl]="nonMillionTiedFileUrl_2021" target="_blank" rel="noopener noreferrer">
+                                                                    <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
                                                                 </a>
                                                                 <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_nonMillionTied_2021')" style="margin-left: 3px;"
@@ -328,9 +334,12 @@
 
                                                         <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
                                                             <ng-container *ngIf="nonMillionUntiedFileUrl_2021">
-                                                                <a href="{{ nonMillionUntiedFileUrl_2021 | toStorageUrl }}" target="_blank">
+                                                                <!-- <a href="{{ nonMillionUntiedFileUrl_2021 | toStorageUrl }}" target="_blank">
                                                                     <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
+                                                                </a> -->
+                                                                <a [appSignedUrl]="nonMillionUntiedFileUrl_2021" target="_blank" rel="noopener noreferrer">
+                                                                    <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
                                                                 </a>
                                                                 <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_nonMillionUntied_2021')"
@@ -504,9 +513,13 @@
                                                         </div>
                                                         <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
                                                             <ng-container *ngIf="millionTiedFileUrl">
-                                                                <a href="{{ millionTiedFileUrl | toStorageUrl }}" target="_blank">
+                                                                <!-- <a href="{{ millionTiedFileUrl | toStorageUrl }}" target="_blank">
                                                                     <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="height: 19px;">
+                                                                </a> -->
+                                                                <a [appSignedUrl]="millionTiedFileUrl" target="_blank" rel="noopener noreferrer">
+                                                                    <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
                                                                 </a>
+
                                                                 <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_millionTied')"
                                                 [ngClass]="{'abDisable': millionTiedDisable }" style="margin-left: 4px;">
@@ -595,9 +608,12 @@
 
                                                         <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
                                                             <ng-container *ngIf="nonMillionTiedFileUrl">
-                                                                <a href="{{ nonMillionTiedFileUrl | toStorageUrl }}" target="_blank">
+                                                                <!-- <a href="{{ nonMillionTiedFileUrl | toStorageUrl }}" target="_blank">
                                                                     <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
+                                                                </a> -->
+                                                                <a [appSignedUrl]="nonMillionTiedFileUrl" target="_blank" rel="noopener noreferrer">
+                                                                    <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
                                                                 </a>
                                                                 <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_nonMillionTied')" style="margin-left: 3px;"
@@ -685,9 +701,12 @@
 
                                                         <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
                                                             <ng-container *ngIf="nonMillionUntiedFileUrl">
-                                                                <a href="{{ nonMillionUntiedFileUrl | toStorageUrl}}" target="_blank">
+                                                                <!-- <a href="{{ nonMillionUntiedFileUrl | toStorageUrl}}" target="_blank">
                                                                     <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
+                                                                </a> -->
+                                                                <a [appSignedUrl]="nonMillionUntiedFileUrl" target="_blank" rel="noopener noreferrer">
+                                                                    <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
                                                                 </a>
                                                                 <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_nonMillionUntied')"
@@ -865,8 +884,11 @@
                                                         </div>
                                                         <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
                                                             <ng-container *ngIf="millionTiedFileUrl_2122">
-                                                                <a href="{{ millionTiedFileUrl_2122 | toStorageUrl }}" target="_blank">
+                                                                <!-- <a href="{{ millionTiedFileUrl_2122 | toStorageUrl }}" target="_blank">
                                                                     <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="height: 19px;">
+                                                                </a> -->
+                                                                <a [appSignedUrl]="millionTiedFileUrl_2122" target="_blank" rel="noopener noreferrer">
+                                                                    <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
                                                                 </a>
                                                                 <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_millionTied_2122')"
@@ -969,9 +991,12 @@
 
                                                         <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
                                                             <ng-container *ngIf="nonMillionTiedFileUrl_2122">
-                                                                <a href="{{ nonMillionTiedFileUrl_2122 | toStorageUrl}}" target="_blank">
+                                                                <!-- <a href="{{ nonMillionTiedFileUrl_2122 | toStorageUrl}}" target="_blank">
                                                                     <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
+                                                                </a> -->
+                                                                <a [appSignedUrl]="nonMillionTiedFileUrl_2122" target="_blank" rel="noopener noreferrer">
+                                                                    <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
                                                                 </a>
                                                                 <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_nonMillionTied_2122')" style="margin-left: 3px;"
@@ -1072,9 +1097,12 @@
 
                                                         <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
                                                             <ng-container *ngIf="nonMillionUntiedFileUrl_2122">
-                                                                <a href="{{ nonMillionUntiedFileUrl_2122 | toStorageUrl}}" target="_blank">
+                                                                <!-- <a href="{{ nonMillionUntiedFileUrl_2122 | toStorageUrl}}" target="_blank">
                                                                     <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
+                                                                </a> -->
+                                                                <a [appSignedUrl]="nonMillionUntiedFileUrl_2122" target="_blank" rel="noopener noreferrer">
+                                                                    <img src="./assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
                                                                 </a>
                                                                 <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_nonMillionUntied_2122')"

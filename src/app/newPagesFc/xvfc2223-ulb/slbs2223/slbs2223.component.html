@@ -538,7 +538,11 @@
                 <div class="card">
                     <div class="card-body">
                         <span class=""><b>MoU</b>-</span>
-                        <span class="ms-3"><a href="{{ mouFileUrl | toStorageUrl}}" target="_blank">{{mouFileName}}</a> </span>
+                        <span class="ms-3">
+                          <!-- <a href="{{ mouFileUrl | toStorageUrl}}" target="_blank">{{mouFileName}}</a> -->
+                          <a [appSignedUrl]="mouFileUrl" target="_blank" rel="noopener noreferrer">{{mouFileName}}</a>
+
+                        </span>
                     </div>
                 </div>
 

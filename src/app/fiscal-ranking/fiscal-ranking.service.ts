@@ -11,6 +11,7 @@ import { TableResponse } from "./common-table/common-table.component";
 import { map } from "rxjs/operators";
 import { UserUtility } from "../util/user/user";
 import { USER_TYPE } from "../models/user/userType";
+import { AuthService } from "../auth/auth.service";
 
 export enum StatusType {
   "notStarted" = 1,
@@ -117,7 +118,7 @@ export class FiscalRankingService {
   public badCredentials: Subject<boolean> = new Subject<boolean>();
   public helper = new JwtHelperService();
   loginLogoutCheck = new Subject<any>();
-  constructor(private http: HttpClient,) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
   getfiscalUlbForm(dYr, id) {
     return this.http.get(
       `${environment.api.url}fiscal-ranking/view?design_year=${dYr}&ulb=${id}`
@@ -141,14 +142,9 @@ export class FiscalRankingService {
   }
 
   signin(user) {
-    return this.http.post(environment.api.url + "login", user);
+    return this.authService.login(user);
   }
 
-  verifyCaptcha(recaptcha: string) {
-    return this.http.post(`${environment.api.url}captcha_validate`, {
-      recaptcha,
-    });
-  }
   postFiscalRankingData(body) {
     return this.http.post(`${environment.api.url}fiscal-ranking/create-form`, body);
   }
@@ -158,11 +154,11 @@ export class FiscalRankingService {
   }
 
   getToken() {
-    return localStorage.getItem("id_token");
+    return this.authService.getAccessToken();
   }
 
   loggedIn() {
-    return !this.helper.isTokenExpired(this.getToken());
+    return this.authService.loggedIn();
   }
 
   downloadFile(blob: any, type: string, filename: string): string {
@@ -181,7 +177,7 @@ export class FiscalRankingService {
   }
 
   getTableResponse(endpoint: string, queryParams: string, columns, tablePath: string = '', params = {}) {
-    return this.http.get(`${environment.api.url}/${endpoint}?${queryParams}`,  { params }).pipe(tableMapperPipe(columns, tablePath));
+    return this.http.get(`${environment.api.url}/${endpoint}?${queryParams}`, { params }).pipe(tableMapperPipe(columns, tablePath));
   }
 
 

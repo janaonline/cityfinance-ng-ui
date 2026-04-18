@@ -55,7 +55,10 @@ import { ScrollTableDirective } from './directive-and-pipes/scroll-table.directi
 import { ScrollTablePipe } from './directive-and-pipes/scroll-table.pipe';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { GlobalPartModule } from 'src/app/global-part/global-part.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
+const googleMapsApiKey =
+  ((window as any).__env && (window as any).__env.googleMapsApiKey) || '';
 
 @NgModule({
   declarations: [
@@ -116,7 +119,7 @@ import { GlobalPartModule } from 'src/app/global-part/global-part.module';
     MatSnackBarModule,
     GooglePlaceModule,
     AgmCoreModule.forRoot({
-      apiKey: "AIzaSyBum81Liii93xQ3JerXGozwDmNSutlZHro&libraries",
+      apiKey: googleMapsApiKey,
       libraries: ["places"],
     }),
     ButtonsModule.forRoot(),
@@ -124,7 +127,8 @@ import { GlobalPartModule } from 'src/app/global-part/global-part.module';
     FormsModule,
     ScrollingModule,
     MatPaginatorModule,
-    GlobalPartModule
+    GlobalPartModule,
+    SharedModule,
   ],
   exports: [
     MyFilterPipe,

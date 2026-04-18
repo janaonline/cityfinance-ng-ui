@@ -72,8 +72,11 @@
               [disabled]="actBtnDis">Upload PDF</button>
             </div>
             <div class="mt-3" *ngIf="activeTab?.responseFile?.url && userData?.role == 'STATE'">
-            <a href="{{activeTab?.responseFile?.url | toStorageUrl}}" target="_blank">
+            <!-- <a href="{{activeTab?.responseFile?.url | toStorageUrl}}" target="_blank">
                 {{activeTab?.responseFile?.name}}
+            </a> -->
+            <a [appSignedUrl]="activeTab?.responseFile?.url" target="_blank" rel="noopener noreferrer">
+              {{activeTab?.responseFile?.name}}
             </a>
             <span class="ms-3">
               <span class="material-icons file-icon-cross pointer-hand"
@@ -82,8 +85,11 @@
               </span>
             </div>
             <div class="mt-3" *ngIf="activeTab?.responseFile_mohua?.url && userData?.role == 'MoHUA'">
-              <a href="{{activeTab?.responseFile_mohua?.url | toStorageUrl}}" target="_blank">
+              <!-- <a href="{{activeTab?.responseFile_mohua?.url | toStorageUrl}}" target="_blank">
                   {{activeTab?.responseFile_mohua?.name}}
+              </a> -->
+              <a [appSignedUrl]="activeTab?.responseFile_mohua?.url" target="_blank" rel="noopener noreferrer">
+                {{activeTab?.responseFile_mohua?.name}}
               </a>
               <span class="ms-3">
                 <span class="material-icons file-icon-cross pointer-hand"
@@ -101,11 +107,17 @@
       <div class="row" >
         <div class="col-sm-6" *ngIf="activeTab?.responseFile?.url">State Supporting Document: </div>
         <div class="col-sm-6" *ngIf="activeTab?.responseFile?.url">
-          <a href="{{activeTab?.responseFile?.url | toStorageUrl}}" target="_blank">{{activeTab?.responseFile?.name}}</a>
+          <!-- <a href="{{activeTab?.responseFile?.url | toStorageUrl}}" target="_blank">{{activeTab?.responseFile?.name}}</a> -->
+          <a [appSignedUrl]="activeTab?.responseFile?.url" target="_blank" rel="noopener noreferrer">
+            {{activeTab?.responseFile?.name}}
+          </a>
         </div>
         <div class="col-sm-6" *ngIf="activeTab?.responseFile_mohua?.url">MoHUA Supporting Document: </div>
         <div class="col-sm-6" *ngIf="activeTab?.responseFile_mohua?.url">
-          <a href="{{activeTab?.responseFile_mohua?.url | toStorageUrl}}" target="_blank">{{activeTab?.responseFile_mohua?.name}}</a>
+          <!-- <a href="{{activeTab?.responseFile_mohua?.url | toStorageUrl}}" target="_blank">{{activeTab?.responseFile_mohua?.name}}</a> -->
+          <a [appSignedUrl]="activeTab?.responseFile_mohua?.url" target="_blank" rel="noopener noreferrer">
+            {{activeTab?.responseFile_mohua?.name}}
+          </a>
         </div>
       </div>
     </div>
@@ -275,10 +287,16 @@
                     </div>
                     <div *ngFor="let file of question?.selectedValue" class="d-block mb-2 mt-2">
                       <ng-container *ngIf="file?.value">
-                        <a target="_blank" href="{{file?.value | toStorageUrl}}">
+                        <!-- <a target="_blank" href="{{file?.value | toStorageUrl}}">
                           <span class="file-icon position-relative pointer-hand material-icons {{ file?.value | fileIcon }}"
                           matTooltip="Click to view the file, Name: {{file?.label}}" matTooltipClass="tooltip-red">
                           cloud_download
+                          </span>
+                        </a> -->
+                        <a target="_blank" [appSignedUrl]="file?.value" rel="noopener noreferrer">
+                          <span class="file-icon position-relative pointer-hand material-icons {{ file?.value | fileIcon }}"
+                            matTooltip="Click to view the file, Name: {{file?.label}}" matTooltipClass="tooltip-red">
+                            cloud_download
                           </span>
                         </a>
 
