@@ -339,11 +339,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   otpLoginSubmit() {
     this.loginError = null;
     this.enableOtpMode();
-    if (!this.reCaptcha.userGeneratedKey) {
-      this.loginError = "Login Failed. You must validate that you are human.";
-      this.loginForm.controls.captcha.markAsTouched();
-      return;
-    }
     const body = { ...this.loginForm.value };
     this.otpCreads.otp = body["otp"];
     this.authService.otpVerify(this.otpCreads).subscribe(
