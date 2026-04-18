@@ -50,7 +50,7 @@ export class AuthService {
   getLastUpdated(params?) {
     return this.http.get(
       environment.api.url +
-        `ledger/lastUpdated?ulb=${params?.ulb ?? ""}&state=${params?.state ?? ""}`
+      `ledger/lastUpdated?ulb=${params?.ulb ?? ""}&state=${params?.state ?? ""}`
     );
   }
 
@@ -231,8 +231,8 @@ export class AuthService {
     );
   }
 
-  verifyCaptcha(recaptcha: string) {
-    return this.http.post(`${environment.api.url}captcha_validate`, {
+  verifyCaptcha(recaptcha: string): Observable<{ success: boolean, message: string }> {
+    return this.http.post<{ success: boolean, message: string }>(`${environment.api.url}captcha_validate`, {
       recaptcha,
     });
   }
@@ -243,8 +243,8 @@ export class AuthService {
       .pipe(catchError(() => of(null)), shareReplay(1));
 
     request$.subscribe({
-      next: () => {},
-      error: () => {},
+      next: () => { },
+      error: () => { },
     });
 
     this.clearLocalStorage();

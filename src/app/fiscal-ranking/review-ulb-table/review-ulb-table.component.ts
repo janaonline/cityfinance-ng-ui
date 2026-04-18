@@ -10,7 +10,6 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { FiscalRankingService, FormWiseData, MapData, removeFalsy, Table } from '../fiscal-ranking.service';
 import { TrackingHistoryTableComponent } from './tracking-history-table/tracking-history-table.component';
-import { AuthService } from 'src/app/auth/auth.service';
 
 const tables: Table[] = [
   {
