@@ -154,13 +154,11 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
       this._router.navigateByUrl("/rankings/login");
     } else if (type == 'logout') {
       this.authService.loginLogoutCheck.next(false);
-      // this.newCommonService.setFormStatus2223.next(false);
-      // localStorage.clear();
-      this.authService.clearLocalStorage();
-      this.removeSessionItem();
-      this.isLoggedIn = false;
-      // this._router.navigateByUrl("rankings/home");
-      window.location.href = '/home';
+      this.authService.logout().subscribe(() => {
+        this.removeSessionItem();
+        this.isLoggedIn = false;
+        window.location.href = '/home';
+      });
     } else {
 
     }

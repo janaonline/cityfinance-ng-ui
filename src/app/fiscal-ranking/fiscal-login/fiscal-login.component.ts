@@ -185,10 +185,10 @@ export class FiscalLoginComponent implements OnInit {
   }
 
   private onSuccessfullLogin(res) {
-    const gData = { 
+    const gData = {
       user_role: res?.user?.role,
-      user_id: res?.user?._id, 
-      ...res?.user 
+      user_id: res?.user?._id,
+      ...res?.user
     };
     this.gaService.set(gData);
     this.gaService.gtag('event', 'login', gData);
@@ -275,21 +275,22 @@ export class FiscalLoginComponent implements OnInit {
 
     this.loginError = null;
     this.reCaptcha.userGeneratedKey = keyGenerated;
-    this.authService.verifyCaptcha(keyGenerated).subscribe({
-      next: (res) => {
-        if (!res["success"]) {
-          this.loginError = "Captcha verification failed. Please try again.";
-          this.resetCaptcha();
-          return;
-        }
+    this.loginForm.controls.captcha.setValue(keyGenerated);
+    // this.authService.verifyCaptcha(keyGenerated).subscribe({
+    //   next: (res) => {
+    //     if (!res["success"]) {
+    //       this.loginError = "Captcha verification failed. Please try again.";
+    //       this.resetCaptcha();
+    //       return;
+    //     }
 
-        this.loginForm.controls.captcha.setValue(keyGenerated);
-      },
-      error: () => {
-        this.loginError = "Captcha verification failed. Please try again.";
-        this.resetCaptcha();
-      },
-    });
+    //     this.loginForm.controls.captcha.setValue(keyGenerated);
+    //   },
+    //   error: () => {
+    //     this.loginError = "Captcha verification failed. Please try again.";
+    //     this.resetCaptcha();
+    //   },
+    // });
   }
 
   ngOnDestroy() {
