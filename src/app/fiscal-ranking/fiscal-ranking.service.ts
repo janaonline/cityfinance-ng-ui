@@ -145,11 +145,6 @@ export class FiscalRankingService {
     return this.authService.login(user);
   }
 
-  verifyCaptcha(recaptcha: string) {
-    return this.http.post(`${environment.api.url}captcha_validate`, {
-      recaptcha,
-    });
-  }
   postFiscalRankingData(body) {
     return this.http.post(`${environment.api.url}fiscal-ranking/create-form`, body);
   }
@@ -182,7 +177,7 @@ export class FiscalRankingService {
   }
 
   getTableResponse(endpoint: string, queryParams: string, columns, tablePath: string = '', params = {}) {
-    return this.http.get(`${environment.api.url}/${endpoint}?${queryParams}`,  { params }).pipe(tableMapperPipe(columns, tablePath));
+    return this.http.get(`${environment.api.url}/${endpoint}?${queryParams}`, { params }).pipe(tableMapperPipe(columns, tablePath));
   }
 
 
