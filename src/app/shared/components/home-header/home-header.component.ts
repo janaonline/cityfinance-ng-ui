@@ -183,13 +183,23 @@ export class HomeHeaderComponent extends BaseComponent implements OnInit {
     this.setTopRowSticky();
     Login_Logout.getListenToLogoutEvent().subscribe((res) => {
       console.log("res", res);
-      // localStorage.clear();
-      this.authService.clearLocalStorage();
-      this.removeSessionItem()
-      this.isLoggedIn = false;
-      if (res && res.redirectLink) {
-        this.router.navigate([`${res.redirectLink || "/"}`]);
+      const completeLogout = () => {
+        this.removeSessionItem();
+        this.isLoggedIn = false;
+        if (res && res.redirectLink) {
+          this.router.navigate([`${res.redirectLink || "/"}`]);
+        }
+      };
+
+      if (res?.callApi) {
+        this.authService.logout().subscribe(() => {
+          completeLogout();
+        });
+        return;
       }
+
+      this.authService.clearLocalStorage();
+      completeLogout();
     });
   }
 
@@ -301,7 +311,7 @@ export class HomeHeaderComponent extends BaseComponent implements OnInit {
   }
 
   logout() {
-    Login_Logout.logout({ redirectLink: "/" });
+    Login_Logout.logout({ redirectLink: "/", callApi: true });
   }
 
   /**

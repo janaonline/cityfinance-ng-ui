@@ -135,22 +135,23 @@ export class PasswordComponent implements OnInit {
 
     this.errorMessage = '';
 
-    this.authService.verifyCaptcha(keyGenerated).subscribe({
-      next: (res) => {
-        if (!res.success) {
-          this.errorMessage = "Captcha verification failed. Please try again.";
-          this.resetCaptcha();
-          return;
-        }
+    this.passwordRequestForm.controls.captcha.setValue(keyGenerated);
+    // this.authService.verifyCaptcha(keyGenerated).subscribe({
+    //   next: (res) => {
+    //     if (!res.success) {
+    //       this.errorMessage = "Captcha verification failed. Please try again.";
+    //       this.resetCaptcha();
+    //       return;
+    //     }
 
-        this.passwordRequestForm.controls.captcha.setValue(keyGenerated);
-      },
-      error: (error) => {
-        console.error("Captcha verification failed", error);
-        this.errorMessage = "Captcha verification failed. Please try again.";
-        this.resetCaptcha();
-      }
-    });
+    //     this.passwordRequestForm.controls.captcha.setValue(keyGenerated);
+    //   },
+    //   error: (error) => {
+    //     console.error("Captcha verification failed", error);
+    //     this.errorMessage = "Captcha verification failed. Please try again.";
+    //     this.resetCaptcha();
+    //   }
+    // });
   }
 
   submitPasswordResetRequest(form: FormGroup) {

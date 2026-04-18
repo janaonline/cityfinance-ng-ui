@@ -132,8 +132,9 @@ export class AppComponent implements OnDestroy, OnInit {
   }
 
   logout() {
-    this.authService.logout();
-    this.router.navigate(["/login"]);
+    this.authService.logout().subscribe(() => {
+      this.router.navigate(["/login"]);
+    });
   }
 
   private refreshLoggedInUserProfile() {

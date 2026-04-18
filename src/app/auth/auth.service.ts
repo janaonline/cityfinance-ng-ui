@@ -231,24 +231,22 @@ export class AuthService {
     );
   }
 
-  verifyCaptcha(recaptcha: string) {
-    return this.http.post(`${environment.api.url}captcha_validate`, {
+  verifyCaptcha(recaptcha: string): Observable<{ success: boolean, message: string }> {
+    return this.http.post<{ success: boolean, message: string }>(`${environment.api.url}captcha_validate`, {
       recaptcha,
     });
   }
 
   logout() {
-    const request$ = this.http
+    return this.http
       .post(this.logoutUrl, {}, { withCredentials: true })
-      .pipe(catchError(() => of(null)), shareReplay(1));
-
-    request$.subscribe({
-      next: () => { },
-      error: () => { },
-    });
-
-    this.clearLocalStorage();
-    return request$;
+      .pipe(
+        catchError(() => of(null)),
+        finalize(() => {
+          this.clearLocalStorage();
+        }),
+        shareReplay(1)
+      );
   }
 
   otpSignIn(body) {

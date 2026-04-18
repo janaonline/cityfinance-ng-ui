@@ -266,21 +266,22 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.loginError = null;
     this.reCaptcha.userGeneratedKey = keyGenerated;
-    this.authService.verifyCaptcha(keyGenerated).subscribe({
-      next: (res) => {
-        if (!res["success"]) {
-          this.loginError = "Captcha verification failed. Please try again.";
-          this.resetCaptcha();
-          return;
-        }
+    this.loginForm.controls.captcha.setValue(keyGenerated);
+    // this.authService.verifyCaptcha(keyGenerated).subscribe({
+    //   next: (res) => {
+    //     if (!res["success"]) {
+    //       this.loginError = "Captcha verification failed. Please try again.";
+    //       this.resetCaptcha();
+    //       return;
+    //     }
 
-        this.loginForm.controls.captcha.setValue(keyGenerated);
-      },
-      error: () => {
-        this.loginError = "Captcha verification failed. Please try again.";
-        this.resetCaptcha();
-      },
-    });
+    //     this.loginForm.controls.captcha.setValue(keyGenerated);
+    //   },
+    //   error: () => {
+    //     this.loginError = "Captcha verification failed. Please try again.";
+    //     this.resetCaptcha();
+    //   },
+    // });
   }
 
   ngOnDestroy() {
