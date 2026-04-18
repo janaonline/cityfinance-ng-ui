@@ -1,12 +1,13 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { AuthService } from "src/app/auth/auth.service";
 import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class AnnualAccountsService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   createAnnualAccounts = (body: {}) => {
     return this.http.post(`${environment.api.url}dataCollectionForm`, body);
@@ -32,10 +33,7 @@ export class AnnualAccountsService {
   };
 
   getAnnualAccountsApi(body = {}) {
-    body["token"] = localStorage
-      .getItem("id_token")
-      .replace('"', "")
-      .replace('"', "");
+    body["token"] = this.authService.getAccessToken() || "";
     body["csv"] = true;
     let params = new HttpParams();
     Object.keys(body).forEach((key) => {

@@ -16,6 +16,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { JSONUtility } from 'src/app/util/jsonUtil';
 import { atLeast1AplhabetRequired, nonEmptyValidator } from 'src/app/util/reactiveFormValidators';
+import { AuthService } from 'src/app/auth/auth.service';
 
 import { DataEntryService } from '../../dashboard/data-entry/data-entry.service';
 import { USER_TYPE } from '../../models/user/userType';
@@ -59,7 +60,8 @@ export class DataUploadComponent extends UploadDataUtility
     public fileUpload: FileUpload,
     private _snackBar: MatSnackBar,
     public _matDialog: MatDialog,
-    private _commonService: CommonService
+    private _commonService: CommonService,
+    private authService: AuthService
   ) {
     super();
     SidebarUtil.hideSidebar();
@@ -1897,10 +1899,7 @@ export class DataUploadComponent extends UploadDataUtility
 
   downloadFilesUploadedByStatesList() {
     const body = {};
-    body["token"] = localStorage
-      .getItem("id_token")
-      .replace('"', "")
-      .replace('"', "");
+    body["token"] = this.authService.getAccessToken() || "";
     body["csv"] = true;
     const url = this.financialDataService.getStateFCDocumentApi(body);
     return window.open(url);

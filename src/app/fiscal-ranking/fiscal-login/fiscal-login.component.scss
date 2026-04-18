@@ -433,6 +433,18 @@ li>a.active {
     .mat-form-field {
         width: 100%;
     }
+
+    .captcha-block {
+        margin-top: 1rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .captcha-error {
+        color: #f44336;
+        font-size: $font-size-base * 0.75;
+        margin-top: 0.5rem;
+        text-align: left;
+    }
 }
 
 @media only screen and (min-width: 300px) and (max-width: 1024px) {

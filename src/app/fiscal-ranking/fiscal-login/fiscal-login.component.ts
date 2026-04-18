@@ -1,7 +1,7 @@
 
 
 ///////-----------------------
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
 import { AuthService } from "src/app/auth/auth.service";
@@ -15,6 +15,7 @@ import { CommonService } from "src/app/shared/services/common.service";
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 import { SweetAlert } from "sweetalert/typings/core";
 import { GoogleAnalyticsService } from "ngx-google-analytics";
+import { RecaptchaComponent } from "ng-recaptcha";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -23,6 +24,13 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ['./fiscal-login.component.scss']
 })
 export class FiscalLoginComponent implements OnInit {
+  private readonly otpLength = 4;
+  private readonly otpValidators = [
+    Validators.required,
+    Validators.minLength(this.otpLength),
+    Validators.maxLength(this.otpLength),
+    Validators.pattern(new RegExp(`^\\d{${this.otpLength}}$`)),
+  ];
   loginDetails = [
     {
       role: "ULB",
@@ -90,13 +98,15 @@ export class FiscalLoginComponent implements OnInit {
   public emailVerificationMessage: string;
   otpVerificationMessage: boolean = false;
   public reCaptcha = {
-    show: false,
+    show: true,
     siteKey: environment.reCaptcha.siteKey,
     userGeneratedKey: null,
   };
   public hide = true;
   directLogin = false;
   loginInfo: string = 'Please use the same login details as used for 15th FC Grants Module.'
+
+  @ViewChild(RecaptchaComponent) captchaRef!: RecaptchaComponent;
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -128,9 +138,11 @@ export class FiscalLoginComponent implements OnInit {
   ngOnInit() {
     this.loginForm = this.fb.group({
       email: ["", Validators.required],
-      password: ["", Validators.required],
+      password: [""],
       otp: [""],
+      captcha: ["", Validators.required],
     });
+    this.enablePasswordMode();
     this.authService.badCredentials.subscribe((res) => {
       this.badCredentials = res;
     });
@@ -149,8 +161,10 @@ export class FiscalLoginComponent implements OnInit {
   login() {
     this.loginError = null;
     this.submitted = true;
-    if (this.reCaptcha.show && !this.reCaptcha.userGeneratedKey) {
+    this.enablePasswordMode();
+    if (!this.reCaptcha.userGeneratedKey) {
       this.loginError = "Login Failed. You must validate that you are human.";
+      this.loginForm.controls.captcha.markAsTouched();
       return;
     }
     console.log('login form....', this.loginForm);
@@ -159,7 +173,7 @@ export class FiscalLoginComponent implements OnInit {
       const body = { ...this.loginForm.value, type: 'fiscalRankings' };
       body["email"] = body["email"].trim();
       this.loginForm.disable();
-      this.authService.signin(body).subscribe(
+      this.authService.login(body).subscribe(
         (res) => this.onSuccessfullLogin(res),
         (error) => {
           this.onLoginError(error);
@@ -180,7 +194,8 @@ export class FiscalLoginComponent implements OnInit {
     this.gaService.gtag('event', 'login', gData);
     this.authService.loginLogoutCheck.next(true);
     if (res && res["token"]) {
-      localStorage.setItem("id_token", JSON.stringify(res["token"]));
+      this.authService.storeTokens(res);
+      this.authService.setCurrentUser(res["user"] || null);
       localStorage.setItem("Years", JSON.stringify(res["allYears"]));
 
       if (res["user"]?.role == "STATE") {
@@ -196,7 +211,7 @@ export class FiscalLoginComponent implements OnInit {
 
       this.routeToProperLocation();
     } else {
-      localStorage.removeItem("id_token");
+      this.authService.clearLocalStorage();
     }
   }
 
@@ -249,21 +264,31 @@ export class FiscalLoginComponent implements OnInit {
   private onLoginError(error) {
     this.loginForm.enable();
     this.loginError = error.error["message"] || "Server Error";
-    if (error.error.errors && error.error.errors.loginAttempts >= 3) {
-      this.reCaptcha.show = true;
-    }
+    this.resetCaptcha();
   }
 
-  resolveCaptcha(keyGenerated: string) {
+  resolveCaptcha(keyGenerated: string | null) {
+    if (!keyGenerated) {
+      this.resetCaptcha();
+      return;
+    }
+
+    this.loginError = null;
     this.reCaptcha.userGeneratedKey = keyGenerated;
-    this.authService.verifyCaptcha(keyGenerated).subscribe((res) => {
-      if (!res["success"]) {
-        this.reCaptcha.show = false;
-        this.reCaptcha.userGeneratedKey = null;
-        setTimeout(() => {
-          this.reCaptcha.show = true;
-        }, 500);
-      }
+    this.authService.verifyCaptcha(keyGenerated).subscribe({
+      next: (res) => {
+        if (!res["success"]) {
+          this.loginError = "Captcha verification failed. Please try again.";
+          this.resetCaptcha();
+          return;
+        }
+
+        this.loginForm.controls.captcha.setValue(keyGenerated);
+      },
+      error: () => {
+        this.loginError = "Captcha verification failed. Please try again.";
+        this.resetCaptcha();
+      },
     });
   }
 
@@ -293,11 +318,13 @@ export class FiscalLoginComponent implements OnInit {
         ]);
         break;
     }
+    this.loginForm.controls["email"].updateValueAndValidity();
   }
 
   otpLogin() {
     this.loginError = null;
     this.submitted = true;
+    this.enableOtpMode();
     const body = { ...this.loginForm.value };
     body["email"] = body["email"] ? body["email"].trim() : null;
     this.ulbCode = body["email"];
@@ -315,8 +342,10 @@ export class FiscalLoginComponent implements OnInit {
 
   otpLoginSubmit() {
     this.loginError = null;
-    if (this.reCaptcha.show && !this.reCaptcha.userGeneratedKey) {
+    this.enableOtpMode();
+    if (!this.reCaptcha.userGeneratedKey) {
       this.loginError = "Login Failed. You must validate that you are human.";
+      this.loginForm.controls.captcha.markAsTouched();
       return;
     }
     const body = { ...this.loginForm.value };
@@ -330,6 +359,7 @@ export class FiscalLoginComponent implements OnInit {
   change() {
     this.isOtpLogin = false;
     this.countDown = null;
+    this.enablePasswordMode();
   }
 
   startCountDown(form = null) {
@@ -344,6 +374,12 @@ export class FiscalLoginComponent implements OnInit {
         this.noCodeError = false;
       }, 1500);
 
+      return true;
+    }
+
+    if (!this.reCaptcha.userGeneratedKey) {
+      this.loginError = "Please complete the captcha verification first.";
+      this.loginForm.controls.captcha.markAsTouched();
       return true;
     }
 
@@ -419,10 +455,35 @@ export class FiscalLoginComponent implements OnInit {
     item.selected = true;
     this.onSelectingUserType(item);
     this.loginError = null;
+    this.enablePasswordMode();
   }
   // alertForload() {
   //   swal("IMPORTANT", `Due to the sudden surge in usage, users can experience portal access issues. We are working to resolve this issue and appreciate your cooperation in this regard. For any queries related to CFR reach out to rankings@cityfinance.in.`, 'warning')
   // }
+
+  private enablePasswordMode() {
+    this.loginForm.controls["password"].setValidators([Validators.required]);
+    this.loginForm.controls["otp"].clearValidators();
+    this.loginForm.controls["otp"].setValue("", { emitEvent: false });
+    this.loginForm.controls["password"].updateValueAndValidity();
+    this.loginForm.controls["otp"].updateValueAndValidity();
+  }
+
+  private enableOtpMode() {
+    this.loginForm.controls["password"].clearValidators();
+    this.loginForm.controls["otp"].setValidators(this.otpValidators);
+    this.loginForm.controls["password"].updateValueAndValidity();
+    this.loginForm.controls["otp"].updateValueAndValidity();
+  }
+
+  private resetCaptcha() {
+    this.reCaptcha.userGeneratedKey = null;
+    this.loginForm?.controls?.captcha.reset();
+
+    if (this.captchaRef) {
+      this.captchaRef.reset();
+    }
+  }
 }
 
 @Pipe({

@@ -1,8 +1,8 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NavigationEnd, ResolveEnd, Router } from '@angular/router';
-import { Observable, Subject, throwError } from 'rxjs';
-import { catchError, filter } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
+import { catchError, filter, finalize, switchMap, take } from 'rxjs/operators';
 
 import { Login_Logout } from '../util/logout.util';
 import { SweetAlert } from "sweetalert/typings/core";
@@ -12,6 +12,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 const swal: SweetAlert = require("sweetalert");
 @Injectable()
 export class CustomHttpInterceptor implements HttpInterceptor {
+  private readonly retryHeader = 'x-auth-retry';
+  private isRefreshing = false;
+  private readonly refreshedAccessToken$ = new BehaviorSubject<string | null>(null);
   routerNavigationSuccess = new Subject<any>();
 
   constructor(private router: Router, private _router: Router, private authService: AuthService,
@@ -35,28 +38,107 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (req.body instanceof File && req.method === "PUT") {
+    if ((req.body instanceof File || req.body instanceof FormData) && req.method === "PUT") {
       return next.handle(req);
     }
 
-    const token = JSON.parse(localStorage.getItem("id_token"));
+    const authReq = this.addDefaultHeaders(req);
+    return next.handle(authReq).pipe(
+      // takeUntil(this.routerNavigationSuccess),
+      catchError((err: HttpErrorResponse) =>
+        this.handleAuthError(err, authReq, next)
+      )
+    );
+  }
+
+  private addDefaultHeaders(req: HttpRequest<any>, token?: string) {
     const sessionID = sessionStorage.getItem("sessionID");
+    const accessToken = token ?? this.authService.getAccessToken();
     let headers = req.headers;
+
     if (!req.headers.has("Accept")) {
-      headers = req.headers.set("Content-Type", "application/json");
+      headers = headers.set("Accept", "application/json");
+    }
+    if (!req.headers.has("Content-Type") && !(req.body instanceof FormData) && !(req.body instanceof File)) {
+      headers = headers.set("Content-Type", "application/json");
     }
     if (sessionID) {
       headers = headers.set("sessionId", sessionID);
     }
-    if (token) {
-      headers = headers.set("x-access-token", token);
+    if (accessToken && !this.authService.isAuthRequest(req.url)) {
+      headers = headers.set("x-access-token", accessToken);
+      headers = headers.set("Authorization", `Bearer ${accessToken}`);
     }
-    //headers =  headers.set("x-ms-blob-type", "BlockBlob")
-    const authReq = req.clone({ headers });
-    return next.handle(authReq).pipe(
-      // takeUntil(this.routerNavigationSuccess),
-      catchError(this.handleError)
+
+    return req.clone({ headers });
+  }
+
+  private handleAuthError(
+    err: HttpErrorResponse,
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    if (
+      err.status === 401 &&
+      !req.headers.has(this.retryHeader) &&
+      !this.authService.isAuthRequest(req.url) &&
+      this.authService.canAttemptSilentRefresh()
+    ) {
+      return this.handle401Error(req, next);
+    }
+
+    return this.handleError(err);
+  }
+
+  private handle401Error(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    if (!this.isRefreshing) {
+      this.isRefreshing = true;
+      this.refreshedAccessToken$.next(null);
+
+      return this.authService.refreshToken().pipe(
+        switchMap((response: any) => {
+          const accessToken =
+            this.authService.extractAccessToken(response) ??
+            this.authService.getAccessToken();
+
+          if (!accessToken) {
+            return this.handleError(
+              new HttpErrorResponse({
+                status: 401,
+                error: { message: "Session Expired. Kindly login again." },
+              })
+            );
+          }
+
+          this.authService.storeTokens(response);
+          this.refreshedAccessToken$.next(accessToken);
+          return next.handle(
+            this.markRetriedRequest(this.addDefaultHeaders(req, accessToken))
+          );
+        }),
+        catchError((refreshError: HttpErrorResponse) => this.handleError(refreshError)),
+        finalize(() => {
+          this.isRefreshing = false;
+        })
+      );
+    }
+
+    return this.refreshedAccessToken$.pipe(
+      filter((token) => !!token),
+      take(1),
+      switchMap((token) =>
+        next.handle(this.markRetriedRequest(this.addDefaultHeaders(req, token)))
+      )
     );
+  }
+
+  private markRetriedRequest(req: HttpRequest<any>) {
+    return req.clone({
+      headers: req.headers.set(this.retryHeader, "true"),
+    });
   }
 
   initializeRequestCancelProccess() {

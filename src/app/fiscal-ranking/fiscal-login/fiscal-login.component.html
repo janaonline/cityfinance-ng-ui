@@ -105,8 +105,13 @@
                                     </div>
                                 </div>
 
-                                <re-captcha *ngIf="reCaptcha.show" (resolved)="resolveCaptcha($event)" [siteKey]="reCaptcha.siteKey">
-                                </re-captcha>
+                                <div class="captcha-block">
+                                    <re-captcha *ngIf="reCaptcha.show" (resolved)="resolveCaptcha($event)" [siteKey]="reCaptcha.siteKey">
+                                    </re-captcha>
+                                    <div class="captcha-error" *ngIf="submitted && loginForm.controls.captcha.invalid && !loginError">
+                                        Please complete the captcha verification.
+                                    </div>
+                                </div>
                                 <span *ngIf="noCodeError" class="text-danger pull-left">{{loginSet.loginName }} is requried.</span>
                                 <span *ngIf="otpVerificationMessage" class="text-primary pull-left">{{emailVerificationMessage }}</span>
                                 <p *ngIf="loginError" class="error-message mt-1 text-left">
@@ -175,7 +180,10 @@
                                     </a>
                                     <mat-form-field appearance="outline">
                                         <mat-label>Enter OTP</mat-label>
-                                        <input matInput type="text" formControlName="otp" placeholder="Enter OTP" />
+                                        <input matInput type="text" formControlName="otp" placeholder="Enter 4-digit OTP" maxlength="4" inputmode="numeric" />
+                                        <mat-error *ngIf="lf.otp.invalid && (lf.otp.dirty || lf.otp.touched)">
+                                            Enter a valid 4-digit OTP.
+                                        </mat-error>
                                     </mat-form-field>
                                 </div>
 
@@ -184,7 +192,7 @@
                                 </p>
 
                                 <div class="signbtn-wrapper">
-                                    <button type="submit" class="btn btn-block login-btn btn-col">
+                                    <button type="submit" class="btn btn-block login-btn btn-col" [disabled]="lf.otp.invalid">
                     Sign In
                   </button>
                                 </div>

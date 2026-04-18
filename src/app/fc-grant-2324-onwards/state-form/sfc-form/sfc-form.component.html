@@ -83,9 +83,14 @@
                         type="file" [accept]="yearItem?.controls?.allowedFileTypes?.value | allowedFileTypes" #file>
                 </div>
                 <div class="col-sm-12 com-style f-w mt-1" *ngIf="yearItem?.value?.file?.url">
-                    <a class="w-90" style="word-break: break-all;" href="{{yearItem?.value?.file?.url | toStorageUrl }}"
+                    <!-- <a class="w-90" style="word-break: break-all;" href="{{yearItem?.value?.file?.url | toStorageUrl }}"
                         target="_blank">{{yearItem?.value?.file?.name}} <mat-icon>cloud_download
-                        </mat-icon></a>
+                        </mat-icon></a> -->
+                        <a class="w-90" style="word-break: break-all;" [appSignedUrl]="yearItem?.value?.file?.url" target="_blank"
+                            rel="noopener noreferrer">
+                            {{ yearItem?.value?.file?.name }}
+                            <mat-icon>cloud_download</mat-icon>
+                        </a>
                     <a *ngIf="!yearItem?.controls?.readonly?.value"
                         (click)="uploadFile($event, yearItem?.controls?.file, true)" class="w-10"
                         [ngClass]="{'pe-none': isDisabled}">
@@ -165,13 +170,19 @@
                                     item?.value?.controls?.child |
                                     formError }}</small>
 
-                                <p *ngIf="item?.value?.controls?.downloadLink?.value">(Please download sample format)/<a
+                                <p *ngIf="item?.value?.controls?.downloadLink?.value">(Please download sample format)/
+                                    <!-- <a
                                         class="mb-0 text-small fst-italic" style="word-break: break-all;"
                                         [href]="item?.value?.controls?.downloadLink?.value | toStorageUrl"
                                         target="_blank">
                                         <mat-icon>cloud_download
                                         </mat-icon>
-                                    </a></p>
+                                    </a> -->
+                                    <a class="mb-0 text-small fst-italic" style="word-break: break-all;"
+                                        [appSignedUrl]="item?.value?.controls?.downloadLink?.value" target="_blank" rel="noopener noreferrer">
+                                        <mat-icon>cloud_download</mat-icon>
+                                    </a>
+                                </p>
                             </th>
                             <td style="width: 20%;"
                                 *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">

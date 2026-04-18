@@ -136,8 +136,12 @@
                     </div>
                 </div>
                 <div class="actions">
-                    <a class="btn btn-outline-primary" target="_blank" href="{{ file.url | toStorageUrl }}"
-                        *ngIf="mode == 'edit'">View</a>
+                    <!-- <a class="btn btn-outline-primary" target="_blank" href="{{ file.url | toStorageUrl }}"
+                        *ngIf="mode == 'edit'">View</a> -->
+                        <a class="btn btn-outline-primary" *ngIf="mode == 'edit'" [appSignedUrl]="file.url" target="_blank"
+                            rel="noopener noreferrer">
+                            View
+                        </a>
                     <button type="button" class="btn btn-outline-danger ms-2" (click)="deleteFiles([file._id])" [disabled]="isDisabled">
                         Delete
                     </button>

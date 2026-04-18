@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from "@angular/common/http";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 // import { e } from "@angular/core/src/render3";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -11,6 +11,13 @@ import { timer, Subscription } from "rxjs";
 import { PasswordService } from "./service/password.service";
 import { Pipe, PipeTransform } from "@angular/core";
 import { CommonService } from "src/app/shared/services/common.service";
+import { RecaptchaComponent } from 'ng-recaptcha';
+
+interface CaptchaObj {
+  show: boolean,
+  siteKey: string,
+  userGeneratedKey: null | string,
+}
 
 @Component({
   selector: "app-password",
@@ -18,6 +25,7 @@ import { CommonService } from "src/app/shared/services/common.service";
   styleUrls: ["./password.component.scss"],
 })
 export class PasswordComponent implements OnInit {
+  private readonly otpLength = 4;
   public passwordRequestForm: FormGroup;
   public otpPasswordRequestForm: FormGroup;
   public passwordResetForm: FormGroup;
@@ -38,7 +46,7 @@ export class PasswordComponent implements OnInit {
   public token: string;
   public ulrMessage: string;
   public isApiInProcess = false;
-  public reCaptcha = {
+  public reCaptcha: CaptchaObj = {
     show: true,
     siteKey: environment.reCaptcha.siteKey,
     userGeneratedKey: null,
@@ -100,23 +108,48 @@ export class PasswordComponent implements OnInit {
     }
   }
 
-  private resetCaptcha() {
-    this.reCaptcha.show = false;
+  // private resetCaptcha() {
+  //   this.reCaptcha.show = false;
+  //   this.reCaptcha.userGeneratedKey = null;
+  //   this.passwordRequestForm.controls.captcha.reset();
+  //   setTimeout(() => {
+  //     this.reCaptcha.show = true;
+  //   }, 500);
+  // }
+
+  @ViewChild(RecaptchaComponent) captchaRef!: RecaptchaComponent;
+
+  resetCaptcha() {
     this.reCaptcha.userGeneratedKey = null;
     this.passwordRequestForm.controls.captcha.reset();
-    setTimeout(() => {
-      this.reCaptcha.show = true;
-    }, 500);
+
+    if (this.captchaRef) {
+      this.captchaRef.reset();
+    }
   }
 
   resolveCaptcha(keyGenerated: string) {
-    this.reCaptcha.userGeneratedKey = keyGenerated;
-    this.authService.verifyCaptcha(keyGenerated).subscribe((res) => {
-      if (!res["success"]) {
+    if (!keyGenerated) {
+      return;
+    }
+
+    this.errorMessage = '';
+
+    this.authService.verifyCaptcha(keyGenerated).subscribe({
+      next: (res) => {
+        if (!res.success) {
+          this.errorMessage = "Captcha verification failed. Please try again.";
+          this.resetCaptcha();
+          return;
+        }
+
+        this.passwordRequestForm.controls.captcha.setValue(keyGenerated);
+      },
+      error: (error) => {
+        console.error("Captcha verification failed", error);
+        this.errorMessage = "Captcha verification failed. Please try again.";
         this.resetCaptcha();
       }
-
-      this.passwordRequestForm.controls.captcha.setValue(keyGenerated);
     });
   }
 
@@ -244,7 +277,12 @@ export class PasswordComponent implements OnInit {
     });
 
     this.otpPasswordRequestForm = this.fb.group({
-      otp: ["", Validators.required],
+      otp: ["", [
+        Validators.required,
+        Validators.minLength(this.otpLength),
+        Validators.maxLength(this.otpLength),
+        Validators.pattern(new RegExp(`^\\d{${this.otpLength}}$`)),
+      ]],
       password: [
         "",
         [

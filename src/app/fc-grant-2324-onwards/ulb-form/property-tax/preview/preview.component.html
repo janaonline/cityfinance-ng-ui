@@ -63,9 +63,12 @@
                                         <span *ngIf="elem.notApplicable; else applicable;">N/A</span>
                                         <ng-template #applicable>
                                             <span *ngIf="elem?.date">{{ elem?.date | date: 'dd/MM/yyyy' }}</span>
-                                            <span class="file-link" *ngIf="elem?.file"><a
+                                            <span class="file-link" *ngIf="elem?.file">
+                                                <!-- <a
                                                     href="{{elem?.file?.url | toStorageUrl }}"
-                                                    target="_blank">{{elem?.file?.name}}</a></span>
+                                                    target="_blank">{{elem?.file?.name}}</a> -->
+                                                    <a [appSignedUrl]="elem?.file?.url" target="_blank" rel="noopener noreferrer">{{elem?.file?.name}}</a>
+                                                </span>
                                             
                                             <span *ngIf="elem?.value">{{
                                                 elem?.isRupee
@@ -88,8 +91,10 @@
                                         <span *ngIf="elem.notApplicable; else applicable;">N/A</span>
                                         <ng-template #applicable>
                                             <span *ngIf="elem?.date">{{ elem?.date | date: 'dd/MM/yyyy' }}</span>
-                                            <span *ngIf="elem?.file"><a href="{{elem?.file?.url | toStorageUrl}}"
-                                                    target="_blank">{{elem?.file?.name}}</a></span>
+                                            <span *ngIf="elem?.file">
+                                                <!-- <a href="{{elem?.file?.url | toStorageUrl}}" target="_blank">{{elem?.file?.name}}</a> -->
+                                                <a [appSignedUrl]="elem?.file?.url" target="_blank" rel="noopener noreferrer">{{elem?.file?.name}}</a>
+                                            </span>
                                             <span>{{
                                                 elem?.isRupee
                                                 ? '₹' + elem?.value

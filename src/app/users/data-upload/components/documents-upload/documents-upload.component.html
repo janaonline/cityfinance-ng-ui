@@ -74,7 +74,7 @@
                     %
                   </div>
                 </div>
-                <a
+                <!-- <a
                   *ngIf="
                     (file.name &&
                       documents &&
@@ -96,7 +96,31 @@
                     class="fa fa-cloud-download"
                     aria-hidden="true"
                   ></i>
-                </a>
+                </a> -->
+                <a
+                *ngIf="
+                  (file.name &&
+                    documents &&
+                    documents[question.key] &&
+                    documents[question.key][i]?.url) ||
+                  (fileUploadTracker &&
+                    fileUploadTracker[question.key] &&
+                    fileUploadTracker[question.key][file.name].percentage ===
+                      100 &&
+                    fileUploadTracker[question.key][file.name]
+                      ?.url) as downloadurl
+                "
+                [appSignedUrl]="downloadurl"
+                class="download-link-icon"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i
+                  title="Download"
+                  class="fa fa-cloud-download"
+                  aria-hidden="true"
+                ></i>
+              </a>
 
                 <span
                   style="float: right; margin-left: 2%"
@@ -130,7 +154,7 @@
                   {{ doc.name }}
                 </span>
 
-                <a
+                <!-- <a
                   *ngIf="doc?.name"
                   [ngClass]="{
                     invisible:
@@ -145,7 +169,13 @@
                     class="fa fa-cloud-download"
                     aria-hidden="true"
                   ></i>
-                </a>
+                </a> -->
+                <a *ngIf="doc?.name" [ngClass]="{
+                invisible:
+                canUploadFile && form.controls[question.key].enabled
+                }" [appSignedUrl]="doc.url" class="download-link-icon" target="_blank" rel="noopener noreferrer"> <i
+                    title="Download bbb " class="fa fa-cloud-download" aria-hidden="true"></i> </a>
+
 
                 <div
                   class="actionsContainer"
