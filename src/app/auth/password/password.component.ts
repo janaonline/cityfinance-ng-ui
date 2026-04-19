@@ -1,7 +1,13 @@
 import { HttpErrorResponse } from "@angular/common/http";
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 // import { e } from "@angular/core/src/render3";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "src/app/auth/auth.service";
 import { USER_TYPE } from "src/app/models/user/userType";
@@ -24,8 +30,10 @@ interface CaptchaObj {
   templateUrl: "./password.component.html",
   styleUrls: ["./password.component.scss"],
 })
-export class PasswordComponent implements OnInit {
+export class PasswordComponent implements OnInit, OnDestroy {
   private readonly otpLength = 4;
+  private readonly passwordPattern =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}$/;
   public passwordRequestForm: FormGroup;
   public otpPasswordRequestForm: FormGroup;
   public passwordResetForm: FormGroup;
@@ -83,6 +91,10 @@ export class PasswordComponent implements OnInit {
     if (this.inComingUser !== null && this.inComingUser !== undefined) {
       this.onSelectingUserType(this.inComingUser);
     }
+  }
+
+  ngOnDestroy() {
+    this.clearCountDown();
   }
 
   get lf() {
@@ -157,6 +169,10 @@ export class PasswordComponent implements OnInit {
   submitPasswordResetRequest(form: FormGroup) {
     this.errorMessage = null;
     this.successMessage = null;
+    if (form.hasError("passwordMismatch")) {
+      this.errorMessage = "New Password and Confirm Password must match.";
+      return;
+    }
     if (
       !form["controls"]["password"]["valid"] ||
       !form["controls"]["confirmPassword"]["valid"]
@@ -166,9 +182,7 @@ export class PasswordComponent implements OnInit {
       return;
     }
     if (!form.valid) {
-      this.errorMessage = form.controls.email.value
-        ? "Email ID is incorrect."
-        : "Please enter an email.";
+      this.errorMessage = "Please enter a valid OTP and password.";
       return;
     }
     form.disable();
@@ -272,41 +286,46 @@ export class PasswordComponent implements OnInit {
       captcha: ["", [Validators.required]],
     });
 
-    this.passwordResetForm = this.fb.group({
-      password: ["", Validators.required],
-      confirmPassword: ["", Validators.required],
-    });
+    this.passwordResetForm = this.fb.group(
+      {
+        password: ["", Validators.required],
+        confirmPassword: ["", Validators.required],
+      },
+      { validators: this.passwordMatchValidator }
+    );
 
-    this.otpPasswordRequestForm = this.fb.group({
-      otp: ["", [
-        Validators.required,
-        Validators.minLength(this.otpLength),
-        Validators.maxLength(this.otpLength),
-        Validators.pattern(new RegExp(`^\\d{${this.otpLength}}$`)),
-      ]],
-      password: [
-        "",
-        [
-          Validators.required,
-          Validators.pattern(
-            "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}"
-          ),
-          Validators.minLength(8),
+    this.otpPasswordRequestForm = this.fb.group(
+      {
+        otp: [
+          "",
+          [
+            Validators.required,
+            Validators.minLength(this.otpLength),
+            Validators.maxLength(this.otpLength),
+            Validators.pattern(new RegExp(`^\\d{${this.otpLength}}$`)),
+          ],
         ],
-      ],
-      confirmPassword: [
-        "",
-        [
-          Validators.required,
-          Validators.pattern(
-            "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}"
-          ),
-          Validators.minLength(8),
+        password: [
+          "",
+          [
+            Validators.required,
+            Validators.pattern(this.passwordPattern),
+            Validators.minLength(8),
+          ],
         ],
-      ],
-      token: [""],
-      requestId: [""],
-    });
+        confirmPassword: [
+          "",
+          [
+            Validators.required,
+            Validators.pattern(this.passwordPattern),
+            Validators.minLength(8),
+          ],
+        ],
+        token: [""],
+        requestId: [""],
+      },
+      { validators: this.passwordMatchValidator }
+    );
   }
 
   resetPass(form) {
@@ -344,9 +363,7 @@ export class PasswordComponent implements OnInit {
           if (this.counter != 0 && this.counterTimer) {
             --this.counter;
           } else {
-            this.countDown = null;
-            this.counterTimer = false;
-            this.counter = 60;
+            this.clearCountDown();
           }
         });
         this.uiType = "forgot";
@@ -366,10 +383,7 @@ export class PasswordComponent implements OnInit {
     this.errorMessage = "";
     this.successMessage = "";
     this.uiType = "request";
-    this.countDown.unsubscribe();
-    this.countDown = null;
-    this.counter = 60;
-    this.counterTimer = false;
+    this.clearCountDown();
   }
 
   onChangeNumber() {
@@ -378,6 +392,45 @@ export class PasswordComponent implements OnInit {
 
   redirectLoginUser(user) {
     this.commonService.setUser(false, user);
+  }
+
+  private passwordMatchValidator(
+    control: AbstractControl
+  ): ValidationErrors | null {
+    const password = control.get("password")?.value;
+    const confirmPasswordControl = control.get("confirmPassword");
+    const confirmPassword = confirmPasswordControl?.value;
+
+    if (!password || !confirmPassword) {
+      if (confirmPasswordControl?.hasError("passwordMismatch")) {
+        const errors = { ...confirmPasswordControl.errors };
+        delete errors.passwordMismatch;
+        confirmPasswordControl.setErrors(Object.keys(errors).length ? errors : null);
+      }
+      return null;
+    }
+
+    if (password === confirmPassword) {
+      if (confirmPasswordControl?.hasError("passwordMismatch")) {
+        const errors = { ...confirmPasswordControl.errors };
+        delete errors.passwordMismatch;
+        confirmPasswordControl.setErrors(Object.keys(errors).length ? errors : null);
+      }
+      return null;
+    }
+
+    confirmPasswordControl?.setErrors({
+      ...(confirmPasswordControl.errors || {}),
+      passwordMismatch: true,
+    });
+    return { passwordMismatch: true };
+  }
+
+  private clearCountDown() {
+    this.countDown?.unsubscribe();
+    this.countDown = null;
+    this.counter = 60;
+    this.counterTimer = false;
   }
 }
 @Pipe({
