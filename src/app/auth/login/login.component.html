@@ -123,13 +123,15 @@
                             <br />
                             <form [formGroup]="loginForm" (ngSubmit)="otpLoginSubmit()">
                                 <div class="forget-password">
-                                    <a class="pull-right" (click)="startCountDown()">Resend OTP?
-                                        <a *ngIf="counterTimer">{{ counter }} Sec</a>
-                                    </a>
+                                    <span class="pull-right">
+                                        <a *ngIf="!counterTimer" (click)="change()">Resend OTP?</a>
+                                        <span *ngIf="counterTimer">Resend OTP in {{ counter }} Sec</span>
+                                    </span>
                                     <mat-form-field appearance="outline">
                                         <mat-label>Enter OTP</mat-label>
                                         <input matInput type="text" formControlName="otp"
-                                            [placeholder]="'Enter ' + otpLength + '-digit OTP'" [attr.maxlength]="otpLength" inputmode="numeric" />
+                                            [placeholder]="'Enter ' + otpLength + '-digit OTP'"
+                                            [attr.maxlength]="otpLength" inputmode="numeric" />
                                     </mat-form-field>
                                     <div class="otp-error text-danger"
                                         *ngIf="lf.otp.invalid && (lf.otp.dirty || lf.otp.touched)">
