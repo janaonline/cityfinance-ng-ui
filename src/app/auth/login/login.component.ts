@@ -283,6 +283,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.clearCountDown();
     sessionStorage.removeItem("postLoginNavigation");
   }
 
@@ -331,7 +332,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       },
       (error) => {
         this.onLoginError(error);
-        this.countDown = null;
+        this.clearCountDown();
       }
     );
   }
@@ -339,11 +340,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   otpLoginSubmit() {
     this.loginError = null;
     this.enableOtpMode();
-    if (!this.reCaptcha.userGeneratedKey) {
-      this.loginError = "Login Failed. You must validate that you are human.";
-      this.loginForm.controls.captcha.markAsTouched();
-      return;
-    }
     const body = { ...this.loginForm.value };
     this.otpCreads.otp = body["otp"];
     this.authService.otpVerify(this.otpCreads).subscribe(
@@ -354,7 +350,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   change() {
     this.isOtpLogin = false;
-    this.countDown = null;
+    this.clearCountDown();
     this.enablePasswordMode();
   }
 
@@ -384,9 +380,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       if (this.counter != 0) {
         --this.counter;
       } else {
-        this.countDown = null;
-        this.counterTimer = false;
-        this.counter = 60;
+        this.clearCountDown();
       }
     });
     this.otpLogin();
@@ -468,6 +462,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.reCaptcha.show = true;
     }, 500);
+  }
+
+  private clearCountDown() {
+    this.countDown?.unsubscribe();
+    this.countDown = null;
+    this.counterTimer = false;
+    this.counter = 60;
   }
 }
 
