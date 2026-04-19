@@ -173,10 +173,16 @@ export class AuthService {
     const token = this.getToken();
 
     if (!token) {
+      this.clearUserDataForInvalidSession();
       return false;
     }
 
-    return !this.helper.isTokenExpired(token);
+    if (this.helper.isTokenExpired(token)) {
+      this.clearUserDataForInvalidSession();
+      return false;
+    }
+
+    return true;
   }
 
   canAttemptSilentRefresh() {
@@ -336,6 +342,19 @@ export class AuthService {
 
   private publishSessionState(isRefreshing = false) {
     this.sessionStateSubject.next(this.buildSessionState(isRefreshing));
+  }
+
+  private clearUserDataForInvalidSession() {
+    this.accessToken = null;
+    this.removeLegacyTokenStorage();
+
+    if (localStorage.getItem("userData")) {
+      localStorage.removeItem("userData");
+    }
+
+    if (this.currentUserSubject.getValue()) {
+      this.currentUserSubject.next(null);
+    }
   }
 
   private clearAccessToken() {
