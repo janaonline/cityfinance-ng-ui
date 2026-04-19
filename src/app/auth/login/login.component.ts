@@ -283,6 +283,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.clearCountDown();
     sessionStorage.removeItem("postLoginNavigation");
   }
 
@@ -331,7 +332,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       },
       (error) => {
         this.onLoginError(error);
-        this.countDown = null;
+        this.clearCountDown();
       }
     );
   }
@@ -349,7 +350,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   change() {
     this.isOtpLogin = false;
-    this.countDown = null;
+    this.clearCountDown();
     this.enablePasswordMode();
   }
 
@@ -379,9 +380,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       if (this.counter != 0) {
         --this.counter;
       } else {
-        this.countDown = null;
-        this.counterTimer = false;
-        this.counter = 60;
+        this.clearCountDown();
       }
     });
     this.otpLogin();
@@ -463,6 +462,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.reCaptcha.show = true;
     }, 500);
+  }
+
+  private clearCountDown() {
+    this.countDown?.unsubscribe();
+    this.countDown = null;
+    this.counterTimer = false;
+    this.counter = 60;
   }
 }
 
