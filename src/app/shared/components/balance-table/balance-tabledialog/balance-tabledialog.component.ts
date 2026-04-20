@@ -45,7 +45,7 @@ export class BalanceTabledialogComponent implements OnInit {
   public openFile(fileInfo: any): void {
     let target_file_url = environment.STORAGE_BASEURL + fileInfo["url"];
 
-    if (fileInfo["url"] && fileInfo["url"].toLowerCase().startsWith('https://')) {
+    if (fileInfo["url"] && (fileInfo["url"].toLowerCase().startsWith('https://') || fileInfo["url"].toLowerCase().startsWith('http://'))) {
       target_file_url = fileInfo["url"];
     }
     // User info popup.
@@ -61,6 +61,7 @@ export class BalanceTabledialogComponent implements OnInit {
               this.utilityService.fetchAndSaveFile(
                 target_file_url,
                 fileInfo["name"],
+                this.fileType === "excel" ? "xlsx" : 'pdf'
               );
           }
           return;
@@ -68,7 +69,7 @@ export class BalanceTabledialogComponent implements OnInit {
     } else {
       if (this.fileType === "pdf") window.open(target_file_url, "_blank");
       if (this.fileType === "excel")
-        this.utilityService.fetchAndSaveFile(target_file_url, fileInfo["name"]);
+        this.utilityService.fetchAndSaveFile(target_file_url, fileInfo["name"], this.fileType === "excel" ? "xlsx" : 'pdf');
     }
 
     return;
