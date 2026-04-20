@@ -38,7 +38,7 @@ export class CfAnnualAccountComponent
     public commonServicesCf: CommonServicesService,
     protected dataEntryService: DataEntryService,
     private utilityService: UtilityService,
-    
+
   ) {
     super(commonService, snackBar, matDialog, route, commonServicesCf, dataEntryService);
     this.Years = JSON.parse(localStorage.getItem("Years"));
@@ -450,15 +450,15 @@ export class CfAnnualAccountComponent
   public downloadExcel(): void {
     const fileName = `Annual_Account_${this.selectedYear}`;
     const url = environment.STORAGE_BASEURL + this.standardized_dataFile;
-    this.utilityService.fetchAndSaveFile(url, fileName);
+    this.utilityService.fetchAndSaveFile(url, fileName, 'xlsx');
   }
 
   getQueryParams() {
-      const yearId = this.route.parent.snapshot.paramMap.get('yearId');
-      this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
-      this.selectedYear = this.commonServicesCf.getYearName(this.selectedYearId);
-      this.actionfolderName = `${this.userData?.role}/${this.selectedYear}/supporting_douments/annual_accounts/${this.ulbId}`
-      if (this.selectedYear) this.getTabs();   
+    const yearId = this.route.parent.snapshot.paramMap.get('yearId');
+    this.selectedYearId = yearId ? yearId : sessionStorage.getItem("selectedYearId");
+    this.selectedYear = this.commonServicesCf.getYearName(this.selectedYearId);
+    this.actionfolderName = `${this.userData?.role}/${this.selectedYear}/supporting_douments/annual_accounts/${this.ulbId}`
+    if (this.selectedYear) this.getTabs();
   }
 
   getTabs() {

@@ -66,13 +66,11 @@ export class UtilityService {
     });
   }
 
-  public fetchAndSaveFile(target_file_url: string, fileName: string): void {
+  public fetchAndSaveFile(target_file_url: string, fileName: string, ext: string = 'pdf'): void {
     // Show a popup to indicate that the file is being downloaded
     const swalInstance = this.swalLoader();
-
-    // Extract extension safely (handles query params)
-    const cleanUrl = target_file_url.split('?')[0];
-    const extension = cleanUrl.substring(cleanUrl.lastIndexOf('.')) || '';
+    const extension = this.getDownloadExtension(target_file_url, ext);
+    console.log("Target file URL: ", target_file_url, "File Name: ", fileName, "ext: ", ext, extension);
 
     fetch(target_file_url)
       .then((response) => {
@@ -91,72 +89,57 @@ export class UtilityService {
       });
   }
 
-  downloadFileFromResponse(
-    response: HttpResponse<Blob>,
-    fallbackFileName = 'download'
-  ): void {
-    const blob = response.body;
-    if (!blob) {
-      console.error('No file content received');
-      return;
+  private getDownloadExtension(targetFileUrl: string, ext?: string): string {
+    const normalizedExtension = this.normalizeExtension(ext);
+    if (normalizedExtension) {
+      return normalizedExtension;
     }
 
-    const contentDisposition = response.headers.get('content-disposition');
-    const contentType = response.headers.get('content-type');
-
-    let fileName =
-      this.getFileNameFromDisposition(contentDisposition) || fallbackFileName;
-
-    if (!this.hasExtension(fileName)) {
-      const derivedExtension = this.getExtensionFromContentType(contentType);
-      if (derivedExtension) {
-        fileName = `${fileName}.${derivedExtension}`;
+    try {
+      const url = new URL(targetFileUrl);
+      const fileType = url.searchParams.get('file_type');
+      const queryParamExtension = this.normalizeExtension(fileType);
+      if (queryParamExtension) {
+        return queryParamExtension;
       }
+    } catch (error) {
+      console.warn('Unable to parse download URL for file_type:', error);
     }
 
-    const blobUrl = window.URL.createObjectURL(blob);
-    const anchor = document.createElement('a');
-    anchor.href = blobUrl;
-    anchor.download = fileName;
-    anchor.style.display = 'none';
-
-    document.body.appendChild(anchor);
-    anchor.click();
-    anchor.remove();
-
-    window.URL.revokeObjectURL(blobUrl);
+    const cleanUrl = targetFileUrl.split('?')[0];
+    const fileName = cleanUrl.substring(cleanUrl.lastIndexOf('/') + 1);
+    return this.normalizeExtension(fileName) || '';
   }
 
-  private getFileNameFromDisposition(contentDisposition: string | null): string | null {
-    if (!contentDisposition) return null;
+  private normalizeExtension(value?: string): string {
+    if (!value) {
+      return '';
+    }
 
-    const match =
-      /filename\*=UTF-8''([^;]+)|filename="?([^"]+)"?/i.exec(contentDisposition);
+    const sanitizedValue = value.trim().toLowerCase();
+    if (!sanitizedValue) {
+      return '';
+    }
 
-    const fileName = match?.[1] || match?.[2];
-    return fileName ? decodeURIComponent(fileName) : null;
-  }
+    if (sanitizedValue === 'pdf' || sanitizedValue === '.pdf') {
+      return '.pdf';
+    }
 
-  private hasExtension(fileName: string): boolean {
-    return /\.[a-z0-9]+$/i.test(fileName);
-  }
+    if (
+      sanitizedValue === 'excel' ||
+      sanitizedValue === 'xlsx' ||
+      sanitizedValue === '.xlsx' ||
+      sanitizedValue === 'xls' ||
+      sanitizedValue === '.xls'
+    ) {
+      return '.xlsx';
+    }
 
-  private getExtensionFromContentType(contentType: string | null): string {
-    if (!contentType) return 'xlsx';
+    if (sanitizedValue.includes('.')) {
+      return sanitizedValue.substring(sanitizedValue.lastIndexOf('.'));
+    }
 
-    const normalizedType = contentType.split(';')[0].trim().toLowerCase();
-
-    const mimeToExtensionMap: Record<string, string> = {
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'xlsx',
-      'application/vnd.ms-excel': 'xls',
-      'text/csv': 'csv',
-      'application/pdf': 'pdf',
-      'application/json': 'json',
-      'text/plain': 'txt',
-      'application/zip': 'zip',
-    };
-
-    return mimeToExtensionMap[normalizedType] || 'xlsx';
+    return `.${sanitizedValue}`;
   }
 
   public swalLoader(): any {
