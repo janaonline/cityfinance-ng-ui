@@ -66,13 +66,13 @@ export class UtilityService {
     });
   }
 
-  public fetchAndSaveFile(target_file_url: string, fileName: string): void {
+  public fetchAndSaveFile(target_file_url: string, fileName: string, ext: string = 'pdf'): void {
     // Show a popup to indicate that the file is being downloaded
     const swalInstance = this.swalLoader();
-
     // Extract extension safely (handles query params)
     const cleanUrl = target_file_url.split('?')[0];
-    const extension = cleanUrl.substring(cleanUrl.lastIndexOf('.')) || '';
+    const extension = ext || cleanUrl.substring(cleanUrl.lastIndexOf('.')) || '';
+    console.log("Target file URL: ", target_file_url, "File Name: ", fileName, "ext: ", ext, extension);
 
     fetch(target_file_url)
       .then((response) => {
