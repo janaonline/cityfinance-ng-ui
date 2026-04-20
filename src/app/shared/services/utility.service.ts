@@ -1,3 +1,4 @@
+import { HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as FileSaver from "file-saver";
@@ -89,6 +90,47 @@ export class UtilityService {
         swalInstance.close(); // Close the "Downloading..." popup
         this.swalPopup('Validation Failed!', 'Failed to download file!', 'error');
       });
+  }
+
+  public downloadFileFromResponse(
+    response: HttpResponse<Blob>,
+    fallbackFileName = 'download.csv'
+  ): void {
+    const blob = response.body;
+    if (!blob) {
+      console.error('No file content received');
+      return;
+    }
+
+    const contentDisposition = response.headers.get('content-disposition');
+    const fileName =
+      this.getFileNameFromDisposition(contentDisposition) || fallbackFileName;
+
+    const blobUrl = window.URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+
+    anchor.href = blobUrl;
+    anchor.download = fileName;
+    anchor.style.display = 'none';
+
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+
+    window.URL.revokeObjectURL(blobUrl);
+  }
+
+  private getFileNameFromDisposition(
+    contentDisposition: string | null
+  ): string | null {
+    if (!contentDisposition) return null;
+
+    const match =
+      /filename\*=UTF-8''([^;]+)|filename="?([^"]+)"?/i.exec(contentDisposition);
+      console.log('matchtttttttttt', match)
+
+    const fileName = match?.[1] || match?.[2];
+    return fileName ? decodeURIComponent(fileName) : null;
   }
 
   public swalLoader(): any {
