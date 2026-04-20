@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { IUserLoggedInDetails } from 'src/app/models/login/userLoggedInDetails';
@@ -10,6 +10,7 @@ import { IFullULBProfileRequest, IULBProfileRequestResponse } from '../../../mod
 import { USER_TYPE } from '../../../models/user/userType';
 import { HttpUtility } from '../../../util/httpUtil';
 import { IULBProfileData } from '../model/ulb-profile';
+import { Observable } from 'rxjs-compat';
 
 @Injectable({
   providedIn: "root",
@@ -148,30 +149,67 @@ export class ProfileService {
     );
   }
 
-  public getURLForUlbUpdateRequestList(body: any) {
-    if (!body.filter) {
-      body.filter = {};
-    }
-    if (!body.sort) {
-      body.sort = {};
-    }
-    delete body["skip"];
+  // public getURLForUlbUpdateRequestList(body: any) {
+  //   if (!body.filter) {
+  //     body.filter = {};
+  //   }
+  //   if (!body.sort) {
+  //     body.sort = {};
+  //   }
+  //   delete body["skip"];
 
-    body["token"] = this.authService.getAccessToken() || "";
-    body["csv"] = true;
+  //   body["token"] = this.authService.getAccessToken() || "";
+  //   body["csv"] = true;
+  //   let params = new HttpParams();
+
+  //   Object.keys(body).forEach((key) => {
+  //     if (typeof body[key] === "object") {
+  //       const value = JSON.stringify(body[key]);
+
+  //       params = params.append(key, value);
+  //     } else {
+  //       params = params.append(key, body[key]);
+  //     }
+  //   });
+
+  //   return `${environment.api.url}ulb-update-request/all?${params}`;
+  // }
+  public downloadUlbUpdateRequestList(body: any = {}): Observable<HttpResponse<Blob>> {
+    const payload = { ...body };
+  
+    if (!payload.filter) {
+      payload.filter = {};
+    }
+  
+    if (!payload.sort) {
+      payload.sort = {};
+    }
+  
+    delete payload.skip;
+  
     let params = new HttpParams();
-
-    Object.keys(body).forEach((key) => {
-      if (typeof body[key] === "object") {
-        const value = JSON.stringify(body[key]);
-
-        params = params.append(key, value);
+  
+    Object.keys(payload).forEach((key) => {
+      const value = payload[key];
+  
+      if (value === undefined || value === null || value === '') {
+        return;
+      }
+  
+      if (typeof value === 'object') {
+        params = params.append(key, JSON.stringify(value));
       } else {
-        params = params.append(key, body[key]);
+        params = params.append(key, String(value));
       }
     });
-
-    return `${environment.api.url}ulb-update-request/all?${params}`;
+  
+    params = params.append('csv', 'true');
+  
+    return this._htttp.get(`${environment.api.url}ulb-update-request/all`, {
+      params,
+      observe: 'response',
+      responseType: 'blob',
+    });
   }
 
   createULBUpdateRequest(body: {}) {

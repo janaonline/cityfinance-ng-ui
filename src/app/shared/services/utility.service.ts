@@ -92,9 +92,9 @@ export class UtilityService {
       });
   }
 
-  public downloadFileFromResponse(
+  downloadFileFromResponse(
     response: HttpResponse<Blob>,
-    fallbackFileName = 'download.csv'
+    fallbackFileName = 'download'
   ): void {
     const blob = response.body;
     if (!blob) {
@@ -103,12 +103,20 @@ export class UtilityService {
     }
 
     const contentDisposition = response.headers.get('content-disposition');
-    const fileName =
+    const contentType = response.headers.get('content-type');
+
+    let fileName =
       this.getFileNameFromDisposition(contentDisposition) || fallbackFileName;
+
+    if (!this.hasExtension(fileName)) {
+      const derivedExtension = this.getExtensionFromContentType(contentType);
+      if (derivedExtension) {
+        fileName = `${fileName}.${derivedExtension}`;
+      }
+    }
 
     const blobUrl = window.URL.createObjectURL(blob);
     const anchor = document.createElement('a');
-
     anchor.href = blobUrl;
     anchor.download = fileName;
     anchor.style.display = 'none';
@@ -120,17 +128,36 @@ export class UtilityService {
     window.URL.revokeObjectURL(blobUrl);
   }
 
-  private getFileNameFromDisposition(
-    contentDisposition: string | null
-  ): string | null {
+  private getFileNameFromDisposition(contentDisposition: string | null): string | null {
     if (!contentDisposition) return null;
 
     const match =
       /filename\*=UTF-8''([^;]+)|filename="?([^"]+)"?/i.exec(contentDisposition);
-      console.log('matchtttttttttt', match)
 
     const fileName = match?.[1] || match?.[2];
     return fileName ? decodeURIComponent(fileName) : null;
+  }
+
+  private hasExtension(fileName: string): boolean {
+    return /\.[a-z0-9]+$/i.test(fileName);
+  }
+
+  private getExtensionFromContentType(contentType: string | null): string {
+    if (!contentType) return 'xlsx';
+
+    const normalizedType = contentType.split(';')[0].trim().toLowerCase();
+
+    const mimeToExtensionMap: Record<string, string> = {
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'xlsx',
+      'application/vnd.ms-excel': 'xls',
+      'text/csv': 'csv',
+      'application/pdf': 'pdf',
+      'application/json': 'json',
+      'text/plain': 'txt',
+      'application/zip': 'zip',
+    };
+
+    return mimeToExtensionMap[normalizedType] || 'xlsx';
   }
 
   public swalLoader(): any {
