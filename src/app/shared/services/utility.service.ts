@@ -89,57 +89,72 @@ export class UtilityService {
       });
   }
 
-  private getDownloadExtension(targetFileUrl: string, ext?: string): string {
-    const normalizedExtension = this.normalizeExtension(ext);
-    if (normalizedExtension) {
-      return normalizedExtension;
+  downloadFileFromResponse(
+    response: HttpResponse<Blob>,
+    fallbackFileName = 'download'
+  ): void {
+    const blob = response.body;
+    if (!blob) {
+      console.error('No file content received');
+      return;
     }
 
-    try {
-      const url = new URL(targetFileUrl);
-      const fileType = url.searchParams.get('file_type');
-      const queryParamExtension = this.normalizeExtension(fileType);
-      if (queryParamExtension) {
-        return queryParamExtension;
+    const contentDisposition = response.headers.get('content-disposition');
+    const contentType = response.headers.get('content-type');
+
+    let fileName =
+      this.getFileNameFromDisposition(contentDisposition) || fallbackFileName;
+
+    if (!this.hasExtension(fileName)) {
+      const derivedExtension = this.getExtensionFromContentType(contentType);
+      if (derivedExtension) {
+        fileName = `${fileName}.${derivedExtension}`;
       }
-    } catch (error) {
-      console.warn('Unable to parse download URL for file_type:', error);
     }
 
-    const cleanUrl = targetFileUrl.split('?')[0];
-    const fileName = cleanUrl.substring(cleanUrl.lastIndexOf('/') + 1);
-    return this.normalizeExtension(fileName) || '';
+    const blobUrl = window.URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = blobUrl;
+    anchor.download = fileName;
+    anchor.style.display = 'none';
+
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+
+    window.URL.revokeObjectURL(blobUrl);
   }
 
-  private normalizeExtension(value?: string): string {
-    if (!value) {
-      return '';
-    }
+  private getFileNameFromDisposition(contentDisposition: string | null): string | null {
+    if (!contentDisposition) return null;
 
-    const sanitizedValue = value.trim().toLowerCase();
-    if (!sanitizedValue) {
-      return '';
-    }
+    const match =
+      /filename\*=UTF-8''([^;]+)|filename="?([^"]+)"?/i.exec(contentDisposition);
 
-    if (sanitizedValue === 'pdf' || sanitizedValue === '.pdf') {
-      return '.pdf';
-    }
+    const fileName = match?.[1] || match?.[2];
+    return fileName ? decodeURIComponent(fileName) : null;
+  }
 
-    if (
-      sanitizedValue === 'excel' ||
-      sanitizedValue === 'xlsx' ||
-      sanitizedValue === '.xlsx' ||
-      sanitizedValue === 'xls' ||
-      sanitizedValue === '.xls'
-    ) {
-      return '.xlsx';
-    }
+  private hasExtension(fileName: string): boolean {
+    return /\.[a-z0-9]+$/i.test(fileName);
+  }
 
-    if (sanitizedValue.includes('.')) {
-      return sanitizedValue.substring(sanitizedValue.lastIndexOf('.'));
-    }
+  private getExtensionFromContentType(contentType: string | null): string {
+    if (!contentType) return 'xlsx';
 
-    return `.${sanitizedValue}`;
+    const normalizedType = contentType.split(';')[0].trim().toLowerCase();
+
+    const mimeToExtensionMap: Record<string, string> = {
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'xlsx',
+      'application/vnd.ms-excel': 'xls',
+      'text/csv': 'csv',
+      'application/pdf': 'pdf',
+      'application/json': 'json',
+      'text/plain': 'txt',
+      'application/zip': 'zip',
+    };
+
+    return mimeToExtensionMap[normalizedType] || 'xlsx';
   }
 
   private getDownloadExtension(targetFileUrl: string, ext?: string): string {
