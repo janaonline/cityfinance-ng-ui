@@ -1,10 +1,11 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { HttpUtility } from 'src/app/util/httpUtil';
 import { JSONUtility } from 'src/app/util/jsonUtil';
 
 import { environment } from '../../../environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: "root",
@@ -97,35 +98,96 @@ export class FinancialDataService {
     );
   }
 
-  getFinancialDataListApi(body = {}) {
-    body["token"] = this.authService.getAccessToken() || "";
-    body["csv"] = true;
+  // getFinancialDataListApi(body = {}) {
+  //   body["token"] = this.authService.getAccessToken() || "";
+  //   body["csv"] = true;
+  //   let params = new HttpParams();
+  //   Object.keys(body).forEach((key) => {
+  //     if (typeof body[key] === "object") {
+  //       const value = JSON.stringify(body[key]);
+  //       params = params.append(key, value);
+  //     } else {
+  //       params = params.append(key, body[key]);
+  //     }
+  //   });
+  //   return `${environment.api.url}ulb-financial-data/all?${params}`;
+  // }
+
+  downloadFinancialDataList(body: any = {}): Observable<HttpResponse<Blob>> {
+    const payload = {
+      ...body,
+      csv: true,
+    };
+
     let params = new HttpParams();
-    Object.keys(body).forEach((key) => {
-      if (typeof body[key] === "object") {
-        const value = JSON.stringify(body[key]);
-        params = params.append(key, value);
+
+    Object.keys(payload).forEach((key) => {
+      const value = payload[key];
+
+      if (value === undefined || value === null || value === '') {
+        return;
+      }
+
+      if (typeof value === 'object') {
+        params = params.append(key, JSON.stringify(value));
       } else {
-        params = params.append(key, body[key]);
+        params = params.append(key, String(value));
       }
     });
-    return `${environment.api.url}ulb-financial-data/all?${params}`;
+
+    return this.httpClient.get(`${environment.api.url}ulb-financial-data/all`, {
+      params,
+      observe: 'response',
+      responseType: 'blob',
+    });
   }
 
-  getXVFcFormDataListApi(body = {}) {
-    body["token"] = this.authService.getAccessToken() || "";
-    body["csv"] = true;
+  // getXVFcFormDataListApi(body = {}) {
+  //   body["token"] = this.authService.getAccessToken() || "";
+  //   body["csv"] = true;
+  //   let params = new HttpParams();
+  //   Object.keys(body).forEach((key) => {
+  //     if (typeof body[key] === "object") {
+  //       const value = JSON.stringify(body[key]);
+  //       params = params.append(key, value);
+  //     } else {
+  //       params = params.append(key, body[key]);
+  //     }
+  //   });
+
+  //   return `${environment.api.url}/xv-fc-form/all/606aadac4dff55e6c075c507?${params}`;
+  // }
+
+  downloadXVFcFormDataList(body: any = {}): Observable<HttpResponse<Blob>> {
+    const payload = {
+      ...body,
+      csv: true,
+    };
+
     let params = new HttpParams();
-    Object.keys(body).forEach((key) => {
-      if (typeof body[key] === "object") {
-        const value = JSON.stringify(body[key]);
-        params = params.append(key, value);
+
+    Object.keys(payload).forEach((key) => {
+      const value = payload[key];
+
+      if (value === undefined || value === null || value === '') {
+        return;
+      }
+
+      if (typeof value === 'object') {
+        params = params.append(key, JSON.stringify(value));
       } else {
-        params = params.append(key, body[key]);
+        params = params.append(key, String(value));
       }
     });
 
-    return `${environment.api.url}/xv-fc-form/all/606aadac4dff55e6c075c507?${params}`;
+    return this.httpClient.get(
+      `${environment.api.url}/xv-fc-form/all/606aadac4dff55e6c075c507`,
+      {
+        params,
+        observe: 'response',
+        responseType: 'blob',
+      }
+    );
   }
 
   updateActionOnFinancialData(data: { [key: string]: any }, requestId: string) {
@@ -164,6 +226,7 @@ export class FinancialDataService {
     return this.httpClient.get(this.getStateFCDocumentApi(params));
   }
 
+  // TODO: replace getStateFCDocumentApi() with downloadStateFCDocumentList()
   getStateFCDocumentApi(queryParams: { [key: string]: any } = {}) {
     let params = new HttpParams();
     Object.keys(queryParams).forEach((key) => {
@@ -175,6 +238,40 @@ export class FinancialDataService {
       }
     });
     return `${environment.api.url}xv-fc-form/fc-grant/stateForm?${params}`;
+  }
+
+  downloadStateFCDocumentList(
+    queryParams: { [key: string]: any } = {}
+  ): Observable<HttpResponse<Blob>> {
+    let params = new HttpParams();
+
+    const payload = {
+      ...queryParams,
+      csv: true,
+    };
+
+    Object.keys(payload).forEach((key) => {
+      const value = payload[key];
+
+      if (value === undefined || value === null || value === '') {
+        return;
+      }
+
+      if (typeof value === 'object') {
+        params = params.append(key, JSON.stringify(value));
+      } else {
+        params = params.append(key, String(value));
+      }
+    });
+
+    return this.httpClient.get(
+      `${environment.api.url}xv-fc-form/fc-grant/stateForm`,
+      {
+        params,
+        observe: 'response',
+        responseType: 'blob',
+      }
+    );
   }
 
   fetchXVFcFormDataHistory(id) {

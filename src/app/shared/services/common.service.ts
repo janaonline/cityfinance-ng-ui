@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, of, Subject } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
@@ -368,26 +368,62 @@ export class CommonService {
     });
   }
 
-  getULBListApi(body) {
-    body["token"] = this.authService.getAccessToken() || "";
-    body["csv"] = true;
-    let params = new HttpParams();
-    if (body.registration === "Yes") {
-      body.role = USER_TYPE.ULB;
+  // getULBListApi(body) {
+  //   body["token"] = this.authService.getAccessToken() || "";
+  //   body["csv"] = true;
+  //   let params = new HttpParams();
+  //   if (body.registration === "Yes") {
+  //     body.role = USER_TYPE.ULB;
+  //   }
+  //   const skip = body.skip;
+  //   const limit = body.limit;
+  //   delete body.skip;
+  //   delete body.limit;
+  //   Object.keys(body).forEach((key) => {
+  //     if (typeof body[key] === "object") {
+  //       const value = JSON.stringify(body[key]);
+  //       params = params.append(key, value);
+  //     } else {
+  //       params = params.append(key, body[key]);
+  //     }
+  //   });
+  //   return `${environment.api.url}xv-fc-form/fc-grant/ulbList?${params}`;
+  // }
+  downloadULBList(body: any = {}): Observable<HttpResponse<Blob>> {
+    const payload = {
+      ...body,
+      csv: true,
+    };
+  
+    if (payload.registration === 'Yes') {
+      payload.role = USER_TYPE.ULB;
     }
-    const skip = body.skip;
-    const limit = body.limit;
-    delete body.skip;
-    delete body.limit;
-    Object.keys(body).forEach((key) => {
-      if (typeof body[key] === "object") {
-        const value = JSON.stringify(body[key]);
-        params = params.append(key, value);
+  
+    delete payload.skip;
+    delete payload.limit;
+    delete payload.token;
+  
+    let params = new HttpParams();
+  
+    Object.keys(payload).forEach((key) => {
+      const value = payload[key];
+  
+      if (value === undefined || value === null || value === '') {
+        return;
+      }
+  
+      if (typeof value === 'object') {
+        params = params.append(key, JSON.stringify(value));
       } else {
-        params = params.append(key, body[key]);
+        params = params.append(key, String(value));
       }
     });
-    return `${environment.api.url}xv-fc-form/fc-grant/ulbList?${params}`;
+  
+    return this.http.get(`${environment.api.url}xv-fc-form/fc-grant/ulbList`, {
+      params,
+      observe: 'response',
+      responseType: 'blob',
+    });
   }
 
   fetchDashboardCardData() {
@@ -709,52 +745,115 @@ export class CommonService {
     return paramObject;
   }
 
-  openWindowToDownloadCsv(
+  // TODO: remove openWindowToDownloadCsv() - use downloadCsv() instead.
+  // openWindowToDownloadCsv(
+  //   paramContent: any,
+  //   apiEndPoint: any,
+  //   stateServiceLabel: boolean = false
+  // ) {
+  //   // console.log(
+  //   //   "openWindowToDownloadCsv",
+  //   //   paramContent,
+  //   //   apiEndPoint,
+  //   //   stateServiceLabel
+  //   // );
+  //   let queryString = new URLSearchParams(paramContent).toString();
+  //   if (!stateServiceLabel) {
+  //     // console.log("queryString", queryString);
+
+  //     let prepareDownloadURL = `${environment.api.url}${apiEndPoint}?csv=true&${queryString}`;
+
+  //     // console.log("1-->",environment.api.url);
+  //     // console.log("2-->",apiEndPoint);
+  //     // console.log("3-->",queryString);
+  //     // console.log("3-->", paramContent);
+
+  //     let pTaxApi = "";
+  //     if (prepareDownloadURL) {
+  //       if (paramContent?.formId === '3') {
+  //         pTaxApi = paramContent.state ?
+  //           `${environment.api.url}ptax-dump?design_year=${paramContent.design_year}&state=${paramContent.state}&token=${paramContent.token}` :
+  //           `${environment.api.url}ptax-dump?design_year=${paramContent.design_year}&token=${paramContent.token}`
+  //         window.open(pTaxApi);
+  //       } else window.open(prepareDownloadURL);
+  //     }
+  //   }
+  //   if (stateServiceLabel) {
+  //     paramContent["csv"] = true;
+  //     this.http
+  //       .post(`${environment.api.url}${apiEndPoint}`, paramContent, {
+  //         responseType: "blob",
+  //       })
+  //       .subscribe((res) => {
+  //         let blob: any = new Blob([res], {
+  //           type: "text/json; charset=utf-8",
+  //         });
+  //         const url = window.URL.createObjectURL(blob);
+  //         fileSaver.saveAs(blob, `Service-Level-Benchmark-Data.xlsx`);
+  //       });
+  //   }
+  // }
+
+  downloadCsv(
     paramContent: any,
-    apiEndPoint: any,
+    apiEndPoint: string,
     stateServiceLabel: boolean = false
-  ) {
-    // console.log(
-    //   "openWindowToDownloadCsv",
-    //   paramContent,
-    //   apiEndPoint,
-    //   stateServiceLabel
-    // );
-    let queryString = new URLSearchParams(paramContent).toString();
-    if (!stateServiceLabel) {
-      // console.log("queryString", queryString);
+  ): Observable<HttpResponse<Blob>> {
+    const payload = { ...paramContent };
+    delete payload.token;
 
-      let prepareDownloadURL = `${environment.api.url}${apiEndPoint}?csv=true&${queryString}`;
-
-      // console.log("1-->",environment.api.url);
-      // console.log("2-->",apiEndPoint);
-      // console.log("3-->",queryString);
-      // console.log("3-->", paramContent);
-
-      let pTaxApi = "";
-      if (prepareDownloadURL) {
-        if (paramContent?.formId === '3') {
-          pTaxApi = paramContent.state ?
-            `${environment.api.url}ptax-dump?design_year=${paramContent.design_year}&state=${paramContent.state}&token=${paramContent.token}` :
-            `${environment.api.url}ptax-dump?design_year=${paramContent.design_year}&token=${paramContent.token}`
-          window.open(pTaxApi);
-        } else window.open(prepareDownloadURL);
-      }
-    }
     if (stateServiceLabel) {
-      paramContent["csv"] = true;
-      this.http
-        .post(`${environment.api.url}${apiEndPoint}`, paramContent, {
-          responseType: "blob",
-        })
-        .subscribe((res) => {
-          let blob: any = new Blob([res], {
-            type: "text/json; charset=utf-8",
-          });
-          const url = window.URL.createObjectURL(blob);
-          fileSaver.saveAs(blob, `Service-Level-Benchmark-Data.xlsx`);
-        });
+      return this.http.post(
+        `${environment.api.url}${apiEndPoint}`,
+        {
+          ...payload,
+          csv: true,
+        },
+        {
+          observe: 'response',
+          responseType: 'blob',
+        }
+      );
     }
+
+    if (payload?.formId === '3') {
+      let ptaxParams = new HttpParams().set(
+        'design_year',
+        String(payload.design_year)
+      );
+
+      if (payload.state) {
+        ptaxParams = ptaxParams.set('state', String(payload.state));
+      }
+
+      return this.http.get(`${environment.api.url}ptax-dump`, {
+        params: ptaxParams,
+        observe: 'response',
+        responseType: 'blob',
+      });
+    }
+
+    let params = new HttpParams().set('csv', 'true');
+
+    Object.keys(payload).forEach((key) => {
+      const value = payload[key];
+
+      if (value === undefined || value === null || value === '') {
+        return;
+      }
+
+      if (typeof value === 'object') {
+        params = params.append(key, JSON.stringify(value));
+      } else {
+        params = params.append(key, String(value));
+      }
+    });
+
+    return this.http.get(`${environment.api.url}${apiEndPoint}`, {
+      params,
+      observe: 'response',
+      responseType: 'blob',
+    });
   }
 
   downloadCsvApi(csvType,payload) {

@@ -15,6 +15,8 @@ import { JSONUtility } from 'src/app/util/jsonUtil';
 import { IFullULBProfileRequest, IULBProfileRequest } from '../../../../models/ulbs/ulb-request-update';
 import { REQUEST_STATUS } from '../../../../util/enums';
 import { ProfileService } from '../../service/profile.service';
+import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
+import { UtilityService } from 'src/app/shared/services/utility.service';
 
 @Component({
   selector: "app-profile-request",
@@ -27,7 +29,9 @@ export class ProfileRequestComponent extends BaseComponent implements OnInit {
     private _profileService: ProfileService,
     public matDialog: MatDialog,
     public _fb: FormBuilder,
-    private _commonService: CommonService
+    private _commonService: CommonService,
+    private globalLoaderService: GlobalLoaderService,
+    private utilityService: UtilityService,
   ) {
     super();
     this.initializeAccessCheck();
@@ -255,11 +259,37 @@ export class ProfileRequestComponent extends BaseComponent implements OnInit {
     }));
   }
 
-  public downloadList() {
-    const params = { ...this.listFetchOption, limit: null };
-    delete params["skip"];
+  // public downloadList() {
+  //   const params = { ...this.listFetchOption, limit: null };
+  //   delete params["skip"];
 
-    const url = this._profileService.getURLForUlbUpdateRequestList(params);
-    return window.open(url);
+  //   const url = this._profileService.getURLForUlbUpdateRequestList(params);
+  //   return window.open(url);
+  // }
+  // component.ts
+  public downloadList(): void {
+    const params = { ...this.listFetchOption, limit: null };
+    delete params['skip'];
+
+    this.globalLoaderService.showLoader();
+
+    this._profileService.downloadUlbUpdateRequestList(params).subscribe({
+      next: (response) => {
+        this.utilityService.downloadFileFromResponse(
+          response,
+          'ulb-update-request-list.xlsx'
+        );
+        this.globalLoaderService.stopLoader();
+      },
+      error: (error) => {
+        console.error('ULB update request list download failed', error);
+        this.globalLoaderService.stopLoader();
+        this.utilityService.swalPopup(
+          'Error',
+          'Failed to download ULB update request list. Please try again later.',
+          'error'
+        );
+      },
+    });
   }
 }

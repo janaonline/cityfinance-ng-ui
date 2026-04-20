@@ -1,3 +1,4 @@
+import { HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as FileSaver from "file-saver";
@@ -88,6 +89,74 @@ export class UtilityService {
         swalInstance.close(); // Close the "Downloading..." popup
         this.swalPopup('Validation Failed!', 'Failed to download file!', 'error');
       });
+  }
+
+  downloadFileFromResponse(
+    response: HttpResponse<Blob>,
+    fallbackFileName = 'download'
+  ): void {
+    const blob = response.body;
+    if (!blob) {
+      console.error('No file content received');
+      return;
+    }
+
+    const contentDisposition = response.headers.get('content-disposition');
+    const contentType = response.headers.get('content-type');
+
+    let fileName =
+      this.getFileNameFromDisposition(contentDisposition) || fallbackFileName;
+
+    if (!this.hasExtension(fileName)) {
+      const derivedExtension = this.getExtensionFromContentType(contentType);
+      if (derivedExtension) {
+        fileName = `${fileName}.${derivedExtension}`;
+      }
+    }
+
+    const blobUrl = window.URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = blobUrl;
+    anchor.download = fileName;
+    anchor.style.display = 'none';
+
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+
+    window.URL.revokeObjectURL(blobUrl);
+  }
+
+  private getFileNameFromDisposition(contentDisposition: string | null): string | null {
+    if (!contentDisposition) return null;
+
+    const match =
+      /filename\*=UTF-8''([^;]+)|filename="?([^"]+)"?/i.exec(contentDisposition);
+
+    const fileName = match?.[1] || match?.[2];
+    return fileName ? decodeURIComponent(fileName) : null;
+  }
+
+  private hasExtension(fileName: string): boolean {
+    return /\.[a-z0-9]+$/i.test(fileName);
+  }
+
+  private getExtensionFromContentType(contentType: string | null): string {
+    if (!contentType) return 'xlsx';
+
+    const normalizedType = contentType.split(';')[0].trim().toLowerCase();
+
+    const mimeToExtensionMap: Record<string, string> = {
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'xlsx',
+      'application/vnd.ms-excel': 'xls',
+      'text/csv': 'csv',
+      'application/pdf': 'pdf',
+      'application/json': 'json',
+      'text/plain': 'txt',
+      'application/zip': 'zip',
+    };
+
+    return mimeToExtensionMap[normalizedType] || 'xlsx';
   }
 
   public swalLoader(): any {
