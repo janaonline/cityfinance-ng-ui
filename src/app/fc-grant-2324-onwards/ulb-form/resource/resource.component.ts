@@ -15,46 +15,46 @@ export class ResourceComponent implements OnInit {
   }
   resoucesData = [
     {
-      imgurl: "./assets/ulbform/overview/ULBs-Financial-Diagosis.jpg",
-      link: "./assets/files/ULBs%20Financial%20Diagosis.xlsx",
+      imgurl: "assets/ulbform/overview/ULBs-Financial-Diagosis.jpg",
+      link: "assets/files/ULBs%20Financial%20Diagosis.xlsx",
       fileName: `ULBs Financial Diagosis`,
       icon: "",
     },
     {
-      imgurl: "./assets/ulbform/overview/Picture3.png",
-      link: "./assets/files/ULB%20Nodal%20Officers%20Manual%20for%20Claiming%20XV%20FC%20ULB%20Grants%20Oct%202021.pdf",
+      imgurl: "assets/ulbform/overview/Picture3.png",
+      link: "assets/files/ULB%20Nodal%20Officers%20Manual%20for%20Claiming%20XV%20FC%20ULB%20Grants%20Oct%202021.pdf",
       fileName: `ULB Nodal Officers Manual for Claiming XV FC ULB Grants for 2021-22`,
       icon: "",
     },
     {
-      imgurl: "./assets/ulbform/overview/Picture3.png",
-      link: "./assets/files/State%20Nodal%20Officers%20Manual%20for%20Claiming%20XV%20FC%20ULB%20Grants%20Oct%202021.pdf",
+      imgurl: "assets/ulbform/overview/Picture3.png",
+      link: "assets/files/State%20Nodal%20Officers%20Manual%20for%20Claiming%20XV%20FC%20ULB%20Grants%20Oct%202021.pdf",
       fileName:
         "State Nodal Officers Manual for Claiming XV FC ULB Grants for 2021-22",
       icon: "",
     },
     {
-      imgurl: "./assets/ulbform/overview/Picture1.png",
-      link: "./assets/files/XVFC%20VOL%20I%20Main%20Report%202021-26.pdf",
+      imgurl: "assets/ulbform/overview/Picture1.png",
+      link: "assets/files/XVFC%20VOL%20I%20Main%20Report%202021-26.pdf",
       fileName: "XV-FC VOL I Main Report 2021-26",
       icon: "",
     },
     {
-      imgurl: "./assets/ulbform/overview/Picture1.png",
-      link: "./assets/files/XV-FC%20-VOL%20II%20Annexes.pdf",
+      imgurl: "assets/ulbform/overview/Picture1.png",
+      link: "assets/files/XV-FC%20-VOL%20II%20Annexes.pdf",
       fileName: "XV-FC -VOL II Annexes 2021-26",
       icon: "",
     },
     {
-      imgurl: "./assets/ulbform/overview/Picture2.png",
-      link: "./assets/files/FC-XV%20recommended%20Urban%20Local%20Body%20Final%20Operational%20Guidelines%20for%202021-26.pdf",
+      imgurl: "assets/ulbform/overview/Picture2.png",
+      link: "assets/files/FC-XV%20recommended%20Urban%20Local%20Body%20Final%20Operational%20Guidelines%20for%202021-26.pdf",
       fileName:
         "XV-FC recommended Urban Local Body Final Operational Guidelines for 2021-26XV-FC recommended Urban Local Body Final Operational Guidelines for 2021-26",
       icon: "",
     },
     {
-      imgurl: "./assets/ulbform/overview/Picture4.png",
-      link: "./assets/files/13thFC-ManualGOIULB.pdf",
+      imgurl: "assets/ulbform/overview/Picture4.png",
+      link: "assets/files/13thFC-ManualGOIULB.pdf",
       fileName: "National Municipal Accounting Manual",
       icon: "",
     },
