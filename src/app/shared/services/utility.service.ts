@@ -89,6 +89,59 @@ export class UtilityService {
       });
   }
 
+  private getDownloadExtension(targetFileUrl: string, ext?: string): string {
+    const normalizedExtension = this.normalizeExtension(ext);
+    if (normalizedExtension) {
+      return normalizedExtension;
+    }
+
+    try {
+      const url = new URL(targetFileUrl);
+      const fileType = url.searchParams.get('file_type');
+      const queryParamExtension = this.normalizeExtension(fileType);
+      if (queryParamExtension) {
+        return queryParamExtension;
+      }
+    } catch (error) {
+      console.warn('Unable to parse download URL for file_type:', error);
+    }
+
+    const cleanUrl = targetFileUrl.split('?')[0];
+    const fileName = cleanUrl.substring(cleanUrl.lastIndexOf('/') + 1);
+    return this.normalizeExtension(fileName) || '';
+  }
+
+  private normalizeExtension(value?: string): string {
+    if (!value) {
+      return '';
+    }
+
+    const sanitizedValue = value.trim().toLowerCase();
+    if (!sanitizedValue) {
+      return '';
+    }
+
+    if (sanitizedValue === 'pdf' || sanitizedValue === '.pdf') {
+      return '.pdf';
+    }
+
+    if (
+      sanitizedValue === 'excel' ||
+      sanitizedValue === 'xlsx' ||
+      sanitizedValue === '.xlsx' ||
+      sanitizedValue === 'xls' ||
+      sanitizedValue === '.xls'
+    ) {
+      return '.xlsx';
+    }
+
+    if (sanitizedValue.includes('.')) {
+      return sanitizedValue.substring(sanitizedValue.lastIndexOf('.'));
+    }
+
+    return `.${sanitizedValue}`;
+  }
+
   downloadFileFromResponse(
     response: HttpResponse<Blob>,
     fallbackFileName = 'download'
