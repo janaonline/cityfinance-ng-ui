@@ -40,6 +40,8 @@ import {
 } from './util/request-status';
 import { UploadDataUtility } from './util/upload-data.util';
 import { SweetAlert } from 'sweetalert/typings/core';
+import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
+import { UtilityService } from 'src/app/shared/services/utility.service';
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-data-upload",
@@ -61,7 +63,9 @@ export class DataUploadComponent extends UploadDataUtility
     private _snackBar: MatSnackBar,
     public _matDialog: MatDialog,
     private _commonService: CommonService,
-    private authService: AuthService
+    private authService: AuthService,
+    private globalLoaderService: GlobalLoaderService,
+    private utilityService: UtilityService,
   ) {
     super();
     SidebarUtil.hideSidebar();
@@ -1885,24 +1889,100 @@ export class DataUploadComponent extends UploadDataUtility
     this._snackBar.open(string, null, { duration: 6600 });
   }
 
-  downloadList() {
-    const filterOptions = this.setLIstFetchOptions({ download: true });
-    const url = this.financialDataService.getXVFcFormDataListApi(filterOptions);
-    return window.open(url);
+  // downloadList() {
+  //   const filterOptions = this.setLIstFetchOptions({ download: true });
+  //   const url = this.financialDataService.getXVFcFormDataListApi(filterOptions);
+  //   return window.open(url);
+  // }
+
+  // downloadULBList() {
+  //   const filterOptions = { filter: { ...this.ulbFilter.value }, csv: true };
+  //   const url = this._commonService.getULBListApi(filterOptions);
+  //   return window.open(url);
+  // }
+  
+  downloadList(): void {
+    const params = this.setLIstFetchOptions({ download: true });
+
+    this.globalLoaderService.showLoader();
+
+    this.financialDataService.downloadXVFcFormDataList(params).subscribe({
+      next: (response) => {
+        this.utilityService.downloadFileFromResponse(
+          response,
+          'xv-fc-form-data-list.xlsx'
+        );
+        this.globalLoaderService.stopLoader();
+      },
+      error: (error) => {
+        console.error('XV FC form data list download failed', error);
+        this.globalLoaderService.stopLoader();
+        this.utilityService.swalPopup(
+          'Error',
+          'Failed to download XV FC form data list. Please try again later.',
+          'error'
+        );
+      },
+    });
   }
 
-  downloadULBList() {
-    const filterOptions = { filter: { ...this.ulbFilter.value }, csv: true };
-    const url = this._commonService.getULBListApi(filterOptions);
-    return window.open(url);
+  downloadULBList(): void {
+    const params = {
+      filter: { ...this.ulbFilter.value },
+    };
+
+    delete params['skip'];
+
+    this.globalLoaderService.showLoader();
+
+    this._commonService.downloadULBList(params).subscribe({
+      next: (response) => {
+        this.utilityService.downloadFileFromResponse(response, 'ulb-list.xlsx');
+        this.globalLoaderService.stopLoader();
+      },
+      error: (error) => {
+        console.error('ULB list download failed', error);
+        this.globalLoaderService.stopLoader();
+        this.utilityService.swalPopup(
+          'Error',
+          'Failed to download ULB list. Please try again later.',
+          'error'
+        );
+      },
+    });
   }
 
-  downloadFilesUploadedByStatesList() {
-    const body = {};
-    body["token"] = this.authService.getAccessToken() || "";
-    body["csv"] = true;
-    const url = this.financialDataService.getStateFCDocumentApi(body);
-    return window.open(url);
+  // downloadFilesUploadedByStatesList() {
+  //   const body = {};
+  //   body["token"] = this.authService.getAccessToken() || "";
+  //   body["csv"] = true;
+  //   const url = this.financialDataService.getStateFCDocumentApi(body);
+  //   return window.open(url);
+  // }
+  
+  downloadFilesUploadedByStatesList(): void {
+    const params = {};
+
+    this.globalLoaderService.showLoader();
+
+    this.financialDataService.downloadStateFCDocumentList(params).subscribe({
+      next: (response) => {
+        this.utilityService.downloadFileFromResponse(
+          response,
+          'state-files-uploaded-list.xlsx'
+        );
+        this.globalLoaderService.stopLoader();
+      },
+      error: (error) => {
+        console.error('State files uploaded list download failed', error);
+        this.globalLoaderService.stopLoader();
+        this.utilityService.swalPopup(
+          'Error',
+          'Failed to download state files uploaded list. Please try again later.',
+          'error'
+        );
+      },
+    });
   }
 
   auditStatusDropdownHandler() {

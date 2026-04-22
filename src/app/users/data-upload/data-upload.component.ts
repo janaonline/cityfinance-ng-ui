@@ -18,6 +18,8 @@ import { UPLOAD_STATUS } from '../../util/enums';
 import { FileUpload } from '../../util/fileUpload';
 import { UserUtility } from '../../util/user/user';
 import { FinancialDataService } from '../services/financial-data.service';
+import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
+import { UtilityService } from 'src/app/shared/services/utility.service';
 
 const swal: SweetAlert = require("sweetalert");
 @Component({
@@ -37,7 +39,9 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     public userUtil: UserUtility,
     public fileUpload: FileUpload,
     private _snackBar: MatSnackBar,
-    public _matDialog: MatDialog
+    public _matDialog: MatDialog,
+    private globalLoaderService: GlobalLoaderService,
+    private utilityService: UtilityService,
   ) {
     this.isAccessible = accessUtil.hasAccess({
       moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
@@ -785,12 +789,37 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     this._snackBar.open(string, null, { duration: 6600 });
   }
 
-  downloadList() {
-    const filterOptions = this.setLIstFetchOptions({ download: true });
-    const url = this.financialDataService.getFinancialDataListApi(
-      filterOptions
-    );
-    return window.open(url);
+  // downloadList() {
+  //   const filterOptions = this.setLIstFetchOptions({ download: true });
+  //   const url = this.financialDataService.getFinancialDataListApi(
+  //     filterOptions
+  //   );
+  //   return window.open(url);
+  // }
+
+  downloadList(): void {
+    const params = this.setLIstFetchOptions({ download: true });
+
+    this.globalLoaderService.showLoader();
+
+    this.financialDataService.downloadFinancialDataList(params).subscribe({
+      next: (response) => {
+        this.utilityService.downloadFileFromResponse(
+          response,
+          'financial-data-list.xlsx'
+        );
+        this.globalLoaderService.stopLoader();
+      },
+      error: (error) => {
+        console.error('Financial data list download failed', error);
+        this.globalLoaderService.stopLoader();
+        this.utilityService.swalPopup(
+          'Error',
+          'Failed to download financial data list. Please try again later.',
+          'error'
+        );
+      },
+    });
   }
 
   auditStatusDropdownHandler() {
