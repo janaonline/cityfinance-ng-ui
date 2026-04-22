@@ -11,6 +11,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { stateDashboardSubTabsList } from "./constant";
 import Chart from "chart.js";
 import { element } from "protractor";
+import { UtilityService } from "../../services/utility.service";
 @Component({
   selector: "app-state-filter-data",
   templateUrl: "./state-filter-data.component.html",
@@ -340,7 +341,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     public _loaderService: GlobalLoaderService,
     private ownRevenueService: OwnRevenueService,
     private snackbar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private globalLoaderService: GlobalLoaderService,
+    private utilityService: UtilityService,
   ) {
     super();
      //Todo After Testing Will reomve Commneted Code
@@ -1846,15 +1849,46 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       );
   }
 
-  downloadCsvFile() {
-    console.log("downloadCsvFile", this.barChartPayload);
-    // let prepareParam = new URLSearchParams(this.barChartPayload).toString();
-    // console.log('prepareParam', prepareParam);
-    this._commonServices.openWindowToDownloadCsv(
-      this.barChartPayload,
-      this.barChartPayload?.apiEndPoint,
-      this.stateServiceLabel
-    );
+  // downloadCsvFile() {
+  //   console.log("downloadCsvFile", this.barChartPayload);
+  //   // let prepareParam = new URLSearchParams(this.barChartPayload).toString();
+  //   // console.log('prepareParam', prepareParam);
+  //   this._commonServices.openWindowToDownloadCsv(
+  //     this.barChartPayload,
+  //     this.barChartPayload?.apiEndPoint,
+  //     this.stateServiceLabel
+  //   );
+  // }
+  downloadCsvFile(): void {
+    const params: any = { ...this.barChartPayload };
+    delete params.limit;
+    delete params.skip;
+    delete params.csv;
+    delete params.token;
+    delete params.apiEndPoint;
+  
+    const endPoint = this.barChartPayload?.apiEndPoint;
+  
+    this.globalLoaderService.showLoader();
+  
+    this._commonServices.downloadCsv(params, endPoint, this.stateServiceLabel).subscribe({
+      next: (response) => {
+        this.utilityService.downloadFileFromResponse(
+          response,
+          this.stateServiceLabel ? 'Service-Level-Benchmark-Data.xlsx' : 'data.csv'
+        );
+        this.globalLoaderService.stopLoader();
+      },
+      error: (error) => {
+        console.error('CSV download failed', error);
+        this.globalLoaderService.stopLoader();
+        this.utilityService.swalPopup(
+          'Error',
+          'Failed to download file. Please try again later.',
+          'error'
+        );
+      },
+    });
   }
 
   callStandaLoneSlbDashboardApis() {

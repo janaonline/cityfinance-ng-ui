@@ -22,6 +22,8 @@ import { environment } from "src/environments/environment";
 import { Subscription } from "rxjs";
 import { CommonServicesService } from "src/app/fc-grant-2324-onwards/fc-shared/service/common-services.service";
 import { AuthService } from "src/app/auth/auth.service";
+import { UtilityService } from "src/app/shared/services/utility.service";
+import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 
 const swal: SweetAlert = require("sweetalert");
 
@@ -38,7 +40,9 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     private _fb: FormBuilder,
     public dialog: MatDialog,
     private stateServices: State2223Service,
-    private authService: AuthService
+    private authService: AuthService,
+    private globalLoaderService: GlobalLoaderService,
+    private utilityService: UtilityService,
   ) {
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.initializeFilterForm();
@@ -463,25 +467,62 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
    
   }
 
-  download() {
-    let csvParams: any = { ...this.params }
-    delete csvParams?.limit;
-    delete csvParams?.skip;
-    delete csvParams?.csv;
-    const params = {
-      ...csvParams,
-      token: this.getToken(),
-    };
+  // download() {
+  //   let csvParams: any = { ...this.params }
+  //   delete csvParams?.limit;
+  //   delete csvParams?.skip;
+  //   delete csvParams?.csv;
+  //   const params = {
+  //     ...csvParams,
+  //     token: this.getToken(),
+  //   };
 
     
-    // const endPoint = this.designYear == this.years["2023-24"] ? this.endPoint : "review" ;
+  //   // const endPoint = this.designYear == this.years["2023-24"] ? this.endPoint : "review" ;
+  //   const year = this._commonService2324.getYearName(this.designYear);
+  //   const yearSplit = Number(year.split('-')[0]);
+  //   let endPoint = yearSplit >= 2023 ? this.endPoint : "review";
+  //   if ((params.formId == '7' && this.designYear != '606aafc14dff55e6c075d3ec') || params.formId == '15.1') endPoint = "review";
+  //   this._commonService.openWindowToDownloadCsv(params, endPoint);
+  // }
+  
+  
+  download(): void {
+    const params: any = { ...this.params };
+    delete params.limit;
+    delete params.skip;
+    delete params.csv;
+
     const year = this._commonService2324.getYearName(this.designYear);
     const yearSplit = Number(year.split('-')[0]);
-    let endPoint = yearSplit >= 2023 ? this.endPoint : "review";
-    if ((params.formId == '7' && this.designYear != '606aafc14dff55e6c075d3ec') || params.formId == '15.1') endPoint = "review";
-    this._commonService.openWindowToDownloadCsv(params, endPoint);
+
+    let endPoint = yearSplit >= 2023 ? this.endPoint : 'review';
+    if (
+      (params.formId == '7' && this.designYear != '606aafc14dff55e6c075d3ec') ||
+      params.formId == '15.1'
+    ) {
+      endPoint = 'review';
+    }
+
+    this.globalLoaderService.showLoader();
+
+    this._commonService.downloadCsv(params, endPoint).subscribe({
+      next: (response) => {
+        this.utilityService.downloadFileFromResponse(response, 'data.xlsx');
+        this.globalLoaderService.stopLoader();
+      },
+      error: (error) => {
+        console.error('Download failed', error);
+        this.globalLoaderService.stopLoader();
+        this.utilityService.swalPopup(
+          'Error',
+          'Failed to download file. Please try again later.',
+          'error'
+        );
+      },
+    });
   }
-  
+
   getDesignYear() {
     let design_year = JSON.parse(localStorage.getItem("Years"));
     return design_year["2022-23"];

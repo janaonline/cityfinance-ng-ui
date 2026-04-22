@@ -4,6 +4,8 @@ import { CommonService } from 'src/app/shared/services/common.service';
 import { JSONUtility } from 'src/app/util/jsonUtil';
 
 import { AnnualAccountsService } from '../annual-accounts.service';
+import { UtilityService } from 'src/app/shared/services/utility.service';
+import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 
 @Component({
   selector: "app-annual-accounts-view",
@@ -13,7 +15,9 @@ import { AnnualAccountsService } from '../annual-accounts.service';
 export class AnnualAccountsViewComponent implements OnInit {
   constructor(
     private annualAccountsService: AnnualAccountsService,
-    private _commonService: CommonService
+    private _commonService: CommonService,
+    private utilityService: UtilityService,
+    private globalLoaderService: GlobalLoaderService,
   ) {}
   dataSource;
   tableDefaultOptions = {
@@ -113,8 +117,24 @@ export class AnnualAccountsViewComponent implements OnInit {
   }
 
   downloadList() {
-    const filterOptions = { ...this.listFetchOption, download: true };
-    const url = this.annualAccountsService.getAnnualAccountsApi(filterOptions);
-    return window.open(url);
+    // const filterOptions = { ...this.listFetchOption, download: true };
+    // const url = this.annualAccountsService.getAnnualAccountsApi(filterOptions);
+    // return window.open(url);
+
+    const filterOptions = { ...this.listFetchOption };
+    this.globalLoaderService.showLoader();
+    this.annualAccountsService.downloadAnnualAccounts(filterOptions).subscribe({
+      next: (response) => {
+        this.utilityService.downloadFileFromResponse(
+          response,
+          'financial-data.xlsx'
+        );
+        this.globalLoaderService.stopLoader();
+      },
+      error: (error) => {
+        console.error('Download failed', error);
+        this.globalLoaderService.stopLoader();
+      },
+    });
   }
 }
