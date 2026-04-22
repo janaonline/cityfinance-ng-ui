@@ -21,6 +21,8 @@ import { UserProfile } from '../../profile/model/user-profile';
 import { ProfileService } from '../../profile/service/profile.service';
 import { SidebarUtil } from '../../utils/sidebar.util';
 import { SweetAlert } from "sweetalert/typings/core";
+import { UtilityService } from 'src/app/shared/services/utility.service';
+import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -36,7 +38,9 @@ export class UserListComponent extends BaseComponent implements OnInit {
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
     private _commonService: CommonService,
-    public _dialog: MatDialog
+    public _dialog: MatDialog,
+    private utilityService: UtilityService,
+    private globalLoderService: GlobalLoaderService,
   ) {
     super();
     SidebarUtil.showSidebar();
@@ -165,12 +169,29 @@ export class UserListComponent extends BaseComponent implements OnInit {
       })
 
   }
-  downloadList() {
-    const params = { ...this.listFetchOption };
-    delete params["skip"];
+  // downloadList() {
+  //   const params = { ...this.listFetchOption };
+  //   delete params["skip"];
 
-    const url = this._userService.getURLForUserList(params);
-    return window.open(url);
+    // const url = this._userService.getURLForUserList(params);
+  //   return window.open(url);
+  // }
+  downloadList(): void {
+    const params = { ...this.listFetchOption };
+    delete params['skip'];
+    this.globalLoderService.showLoader();
+  
+    this._userService.downloadUserList(params).subscribe({
+      next: (response) => {
+        this.utilityService.downloadFileFromResponse(response, 'users.xlsx');
+        this.globalLoderService.stopLoader();
+      },
+      error: (error) => {
+        console.error('User list download failed', error);
+        this.globalLoderService.stopLoader();
+        this.utilityService.swalPopup('Error', 'Failed to download user list. Please try again later.', 'error');
+      },
+    });
   }
 
   deleteUser(userId: string) {

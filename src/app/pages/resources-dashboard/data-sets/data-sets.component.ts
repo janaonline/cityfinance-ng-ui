@@ -214,23 +214,23 @@ export class DataSetsComponent implements OnInit {
   private getUlbListSubscription(globalName = ''): Observable<any> {
     return this.type === this.DIGITIZED_EXCEL_TYPE
       ? this._resourcesDashboardService.getDigitizedExcelList(
-          this.year,
-          this.type,
-          this.state,
-          this.ulbId,
-          this.skip,
+        this.year,
+        this.type,
+        this.state,
+        this.ulbId,
+        this.skip,
       )
       : this._resourcesDashboardService.getDataSets(
-          this.year,
-          this.type,
-          this.category,
-          this.state,
-          this.ulb,
-          this.ulbId,
-          globalName,
-          this.skip,
-          this.auditType,
-        );
+        this.year,
+        this.type,
+        this.category,
+        this.state,
+        this.ulb,
+        this.ulbId,
+        globalName,
+        this.skip,
+        this.auditType,
+      );
   }
 
   // Decide which API to call based on 'type'.
@@ -239,6 +239,13 @@ export class DataSetsComponent implements OnInit {
     return this.type === this.DIGITIZED_EXCEL_TYPE
       ? this.reportService.getDigitizedExcelReports(item._id, item.year, item.auditType, item.fileType)
       : this.reportService.getReports(item._id, item.year, item.auditType);
+  }
+
+  checkFileUrl(fileUrl: string): string {
+    if (fileUrl && (fileUrl.toLowerCase().startsWith('https://') || fileUrl.toLowerCase().startsWith('http://'))) {
+      return fileUrl;
+    }
+    return environment.STORAGE_BASEURL + fileUrl;
   }
 
   // Display the files.
@@ -260,7 +267,7 @@ export class DataSetsComponent implements OnInit {
     // 2015-16 to 2018-19.
     if (yearSplit < 2019 || item.section === "budgetPdf") {
       if (item['fileUrl']) {
-        let target_file_url = environment.STORAGE_BASEURL + item['fileUrl'];
+        let target_file_url = this.checkFileUrl(item['fileUrl']);
 
         if (item.type === "pdf") {
           // User info popup.
@@ -327,7 +334,7 @@ export class DataSetsComponent implements OnInit {
     this.userInfoService.openUserInfoDialog([{ fileName: `${fileName}_${this.type}` }], this.module)
       .then((isDialogConfirmed) => {
         if (isDialogConfirmed) {
-          this.utilityService.fetchAndSaveFile(target_file_url, fileName);
+          this.utilityService.fetchAndSaveFile(target_file_url, fileName, this.type === "excel" ? "xlsx" : 'pdf');
         }
       });
   }
@@ -460,10 +467,9 @@ export class DataSetsComponent implements OnInit {
 
               for (let data of this.selectedUsersList) {
                 if (data['fileUrl']) {
-                  let target_file_url = environment.STORAGE_BASEURL + data['fileUrl'];
-
+                  let target_file_url = this.checkFileUrl(data['fileUrl']);
                   // Fetch the file from URL.
-                  this.utilityService.fetchAndSaveFile(target_file_url, data.fileName);
+                  this.utilityService.fetchAndSaveFile(target_file_url, data.fileName, this.type === "excel" ? "xlsx" : 'pdf');
                   data.isSelected = false;
                   this.isChecked = false;
                 }
@@ -488,7 +494,7 @@ export class DataSetsComponent implements OnInit {
                 .subscribe(result => {
                   result.forEach((res, i) => {
                     const currentData: any = this.selectedUsersList[i];
-                    const files = res['data'][currentData['type']].map((e: any) => { return { name: e.name, url: environment.STORAGE_BASEURL + e.url } });
+                    const files = res['data'][currentData['type']].map((e: any) => { return { name: e.name, url: this.checkFileUrl(e.url) } });
 
                     this.createZipAndSave(userInfoFiles[i].fileName + '.zip', files);
                   });

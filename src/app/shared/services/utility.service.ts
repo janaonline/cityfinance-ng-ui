@@ -1,3 +1,4 @@
+import { HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as FileSaver from "file-saver";
@@ -66,13 +67,11 @@ export class UtilityService {
     });
   }
 
-  public fetchAndSaveFile(target_file_url: string, fileName: string): void {
+  public fetchAndSaveFile(target_file_url: string, fileName: string, ext: string = 'pdf'): void {
     // Show a popup to indicate that the file is being downloaded
     const swalInstance = this.swalLoader();
-
-    // Extract extension safely (handles query params)
-    const cleanUrl = target_file_url.split('?')[0];
-    const extension = cleanUrl.substring(cleanUrl.lastIndexOf('.')) || '';
+    const extension = this.getDownloadExtension(target_file_url, ext);
+    console.log("Target file URL: ", target_file_url, "File Name: ", fileName, "ext: ", ext, extension);
 
     fetch(target_file_url)
       .then((response) => {
@@ -89,6 +88,127 @@ export class UtilityService {
         swalInstance.close(); // Close the "Downloading..." popup
         this.swalPopup('Validation Failed!', 'Failed to download file!', 'error');
       });
+  }
+
+  private getDownloadExtension(targetFileUrl: string, ext?: string): string {
+    const normalizedExtension = this.normalizeExtension(ext);
+    if (normalizedExtension) {
+      return normalizedExtension;
+    }
+
+    try {
+      const url = new URL(targetFileUrl);
+      const fileType = url.searchParams.get('file_type');
+      const queryParamExtension = this.normalizeExtension(fileType);
+      if (queryParamExtension) {
+        return queryParamExtension;
+      }
+    } catch (error) {
+      console.warn('Unable to parse download URL for file_type:', error);
+    }
+
+    const cleanUrl = targetFileUrl.split('?')[0];
+    const fileName = cleanUrl.substring(cleanUrl.lastIndexOf('/') + 1);
+    return this.normalizeExtension(fileName) || '';
+  }
+
+  private normalizeExtension(value?: string): string {
+    if (!value) {
+      return '';
+    }
+
+    const sanitizedValue = value.trim().toLowerCase();
+    if (!sanitizedValue) {
+      return '';
+    }
+
+    if (sanitizedValue === 'pdf' || sanitizedValue === '.pdf') {
+      return '.pdf';
+    }
+
+    if (
+      sanitizedValue === 'excel' ||
+      sanitizedValue === 'xlsx' ||
+      sanitizedValue === '.xlsx' ||
+      sanitizedValue === 'xls' ||
+      sanitizedValue === '.xls'
+    ) {
+      return '.xlsx';
+    }
+
+    if (sanitizedValue.includes('.')) {
+      return sanitizedValue.substring(sanitizedValue.lastIndexOf('.'));
+    }
+
+    return `.${sanitizedValue}`;
+  }
+
+  downloadFileFromResponse(
+    response: HttpResponse<Blob>,
+    fallbackFileName = 'download'
+  ): void {
+    const blob = response.body;
+    if (!blob) {
+      console.error('No file content received');
+      return;
+    }
+
+    const contentDisposition = response.headers.get('content-disposition');
+    const contentType = response.headers.get('content-type');
+
+    let fileName =
+      this.getFileNameFromDisposition(contentDisposition) || fallbackFileName;
+
+    if (!this.hasExtension(fileName)) {
+      const derivedExtension = this.getExtensionFromContentType(contentType);
+      if (derivedExtension) {
+        fileName = `${fileName}.${derivedExtension}`;
+      }
+    }
+
+    const blobUrl = window.URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = blobUrl;
+    anchor.download = fileName;
+    anchor.style.display = 'none';
+
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+
+    window.URL.revokeObjectURL(blobUrl);
+  }
+
+  private getFileNameFromDisposition(contentDisposition: string | null): string | null {
+    if (!contentDisposition) return null;
+
+    const match =
+      /filename\*=UTF-8''([^;]+)|filename="?([^"]+)"?/i.exec(contentDisposition);
+
+    const fileName = match?.[1] || match?.[2];
+    return fileName ? decodeURIComponent(fileName) : null;
+  }
+
+  private hasExtension(fileName: string): boolean {
+    return /\.[a-z0-9]+$/i.test(fileName);
+  }
+
+  private getExtensionFromContentType(contentType: string | null): string {
+    if (!contentType) return 'xlsx';
+
+    const normalizedType = contentType.split(';')[0].trim().toLowerCase();
+
+    const mimeToExtensionMap: Record<string, string> = {
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'xlsx',
+      'application/vnd.ms-excel': 'xls',
+      'text/csv': 'csv',
+      'application/pdf': 'pdf',
+      'application/json': 'json',
+      'text/plain': 'txt',
+      'application/zip': 'zip',
+    };
+
+    return mimeToExtensionMap[normalizedType] || 'xlsx';
   }
 
   public swalLoader(): any {

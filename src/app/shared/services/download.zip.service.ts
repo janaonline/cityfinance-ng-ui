@@ -279,6 +279,17 @@ export class DownloadService {
         }
 
         if (url) {
+            try {
+                const parsedUrl = new URL(url);
+                const fileType = parsedUrl.searchParams.get('file_type');
+                const mappedExtension = this.mapFileTypeToExtension(fileType);
+                if (mappedExtension) {
+                    return mappedExtension;
+                }
+            } catch (error) {
+                console.warn('Unable to parse download URL for file_type:', error);
+            }
+
             const cleanUrl = url.split('?')[0];
             const index = cleanUrl.lastIndexOf('.');
             if (index !== -1) {
@@ -287,5 +298,19 @@ export class DownloadService {
         }
 
         return ''; // fallback (no extension)
+    }
+
+    private mapFileTypeToExtension(fileType?: string | null): string {
+        const normalizedFileType = fileType?.trim().toLowerCase();
+
+        if (normalizedFileType === 'pdf') {
+            return '.pdf';
+        }
+
+        if (normalizedFileType === 'excel' || normalizedFileType === 'xlsx' || normalizedFileType === 'xls') {
+            return '.xlsx';
+        }
+
+        return '';
     }
 }
