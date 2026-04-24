@@ -173,7 +173,7 @@
     </div>
   </form>
   <!-- Data Availability section starts -->
-  <div [ngClass]="{ gap: !availValue }" class="container data-availability rounded">
+  <!-- <div [ngClass]="{ gap: !availValue }" class="container data-availability rounded">
     <div class="row">
       <div class="col-md-7">
         <h3 class="heading" style="font-size: 1.5rem">Data Availability</h3>
@@ -226,7 +226,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <div *ngIf="availValue > 0">
     <!-- Full doughnut chart section -->
     <div class="container total-revenue-doughnut" *ngIf="displayDoughnut">
