@@ -34,12 +34,12 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
     private _profileService: ProfileService
   ) {
     super();
-      // if(this.loggedInUserType){
-      //   this._router.navigate(["/fc-home-page"]);
-      // }
+    // if(this.loggedInUserType){
+    //   this._router.navigate(["/fc-home-page"]);
+    // }
     switch (this.loggedInUserType) {
       case USER_TYPE.ULB:
-         this.checkULBProfileCompleteStatus();
+        this.checkULBProfileCompleteStatus();
 
         break;
       case USER_TYPE.STATE:
@@ -70,18 +70,18 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
   millionPlusCitiesCompleted = 0;
   evidencePercentageCompleted = 0;
   inProgress = true;
-  
+
 
   isULBMillionPlus: boolean;
   years = JSON.parse(localStorage.getItem("Years"))
   modalRef: BsModalRef;
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   onClickingLoginButton() {
-   let routerUrl = '/fc-home-page'
+    let routerUrl = '/fc-home-page'
     sessionStorage.setItem("postLoginNavigation", routerUrl);
-  //  this._router.navigate(["/fc-home-page"]);
+    //  this._router.navigate(["/fc-home-page"]);
     this._router.navigate(["/login"]);
   }
 
@@ -101,7 +101,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
   }
 
   fetchFinancialDataUpload() {
-    this._financialService.fetchXVFormDataList({design_year:this.years["2020-21"]}).subscribe((res) => {
+    this._financialService.fetchXVFormDataList({ design_year: this.years["2020-21"] }).subscribe((res) => {
       try {
         this.financialData = res["data"][0] || null;
         if (!this.financialData) {
@@ -163,7 +163,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
           (this.millionPlusCitiesCompleted /
             Object.keys(this.financialData.millionPlusCities.documents)
               .length) *
-            100
+          100
         );
       }
     }
@@ -195,7 +195,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
           (this.solidWastePercentageCompleted /
             Object.keys(this.financialData.solidWasteManagement.documents)
               .length) *
-            100
+          100
         );
       }
     }
@@ -269,7 +269,8 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
       },
       (error) => {
         this.inProgress = false
-        this.handlerError(error)}
+        this.handlerError(error)
+      }
     );
   }
 
