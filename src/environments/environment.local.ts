@@ -4,7 +4,8 @@
 let url;
 let GoogleTagID: string;
 let isProduction: boolean = false;
-let versionCheckURL = window.location.origin + "/version.json";
+const baseUrl = window.location.origin;
+let versionCheckURL = baseUrl + "/version.json";
 let STORAGE_BASEURL = 'https://jana-cityfinance-stg.s3.ap-south-1.amazonaws.com';
 //https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com - s3 storage url prod
 //https://janaagrahstorage.blob.core.windows.net/jana-cityfinance-stg -- auzur storage url -stg
@@ -47,6 +48,7 @@ export const environment = {
     url: url,
     urlV2: 'http://localhost:3000/api/v2/',
   },
+  ui: { urlV1: baseUrl + '/v1/', urlV2: baseUrl + '/fc/' },
   reCaptcha: {
     siteKey: "6LcT9_gUAAAAANrZM5TNnE4OEEC46iFDfcAHZ8lD",
   },
