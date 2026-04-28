@@ -47,7 +47,7 @@ export const environment = {
     url: url,
     urlV2: 'http://localhost:3000/api/v2/',
   },
-  ui: { urlV1: baseUrl + '/v1/', urlV2: baseUrl + '/fc/' },
+  ui: { urlV1: 'http://localhost:4200/', urlV2: 'http://localhost:4300/' },
   reCaptcha: {
     siteKey: "6LcT9_gUAAAAANrZM5TNnE4OEEC46iFDfcAHZ8lD",
   },
