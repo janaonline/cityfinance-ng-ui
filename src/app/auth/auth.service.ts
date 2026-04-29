@@ -231,8 +231,8 @@ export class AuthService {
   isAuthRequest(url: string) {
     return (
       this.isLoginRequest(url) ||
-      this.isRefreshRequest(url) ||
-      this.isLogoutRequest(url)
+      this.isRefreshRequest(url)
+      // || this.isLogoutRequest(url)
     );
   }
 
