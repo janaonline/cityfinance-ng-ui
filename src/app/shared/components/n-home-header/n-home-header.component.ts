@@ -15,6 +15,7 @@ import { GlobalLoaderService } from "../../services/loaders/global-loader.servic
 import { UtilityService } from "../../services/utility.service";
 import { UserInfoDialogComponent } from "../user-info-dialog/user-info-dialog.component";
 import { HomeHeaderService } from "./home-header.service";
+import { ROUTE_PAGES } from "./login-menu.constant";
 
 @Component({
   selector: "app-n-home-header",
@@ -36,6 +37,12 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
   canViewUserList = false;
   canViewULBSingUpListing = false;
   private destroy$ = new Subject<void>();
+  routePages = ROUTE_PAGES.filter(page => page.isMenu).map(page => {
+    return {
+      ...page,
+      href: `${environment.ui.urlV2}auth/login/${page.type}`
+    }
+  });
 
   constructor(
     public _router: Router,
