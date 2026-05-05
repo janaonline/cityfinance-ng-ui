@@ -221,7 +221,7 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
     });
   }
 
-  readonly readonlyEmails = ['doe@cityfinance.in', 'cca-mohua@gov.in'];
+  readonly readonlyEmails = ['doe@cityfinance.in', 'cca-mohua@gov.in', 'cag@cityfinance.in'];
   isReadonlyUser(): boolean {
     return !this.readonlyEmails.includes(this.user?.email);
   }
