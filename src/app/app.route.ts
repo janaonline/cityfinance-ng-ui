@@ -261,6 +261,7 @@ export const appRouter: Routes = [
     component: MunicipalityBudgetComponent,
   },
 
+  { path: "v1/fc_grant", redirectTo: "home", pathMatch: "full" },
   { path: "**", redirectTo: "home" },
 ];
 @NgModule({
