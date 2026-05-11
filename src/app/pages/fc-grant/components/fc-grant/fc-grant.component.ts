@@ -76,7 +76,9 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
   years = JSON.parse(localStorage.getItem("Years"))
   modalRef: BsModalRef;
 
-  ngOnInit() { }
+  ngOnInit(): void {
+    window.location.replace("/fc/auth/login/15thFC");
+  }
 
   onClickingLoginButton() {
     let routerUrl = '/fc-home-page'
