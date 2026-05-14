@@ -64,10 +64,10 @@ export class OtpDialogComponent implements OnInit {
     }
 
     this.authService.verifyOtp(this.email, this.otp.value).subscribe({
-      next: (res: EmailVerification) => {
-        // console.log({ res })
-        this.dialogRef.close(res)
-        this.utilityService.swalPopup('Success!', res.message, 'success');
+      next: (res: any) => {
+        const data: EmailVerification = res.data;
+        this.dialogRef.close(data);
+        this.utilityService.swalPopup('Success!', data.message, 'success');
       },
       error: (error: any) => {
         // console.error('error', error)
