@@ -91,9 +91,10 @@ export class UserInfoDialogComponent implements OnInit {
       let payload = { ...this.userInfo.value };
 
       this.authService.sendOtp(payload.email).subscribe({
-        next: (res: EmailVerification) => {
-          if (res.isEmailVerified) {
-            this.submitUserInfo(res.isEmailVerified);
+        next: (res: any) => {
+          const emailVerification: EmailVerification = res.data;
+          if (emailVerification.isEmailVerified) {
+            this.submitUserInfo(emailVerification.isEmailVerified);
           } else {
             const data = { email: payload.email };
             const otpDialog = this.dialog.open(OtpDialogComponent, { data, minWidth: 500 });
