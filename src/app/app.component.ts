@@ -44,11 +44,11 @@ export class AppComponent implements OnDestroy, OnInit {
     private router: Router
   ) {
 
-    this.versionCheck()
+    // this.versionCheck()
 
-    setInterval(() => {
-      this.versionCheck()
-    }, 8000);
+    // setInterval(() => {
+    //   this.versionCheck()
+    // }, 8000);
 
     this.startSession();
     this.globalLoader
@@ -72,7 +72,7 @@ export class AppComponent implements OnDestroy, OnInit {
 
 
   versionCheck() {
-    if(environment.isProduction) {
+    if (environment.isProduction) {
       this.versionService.initVersionCheck(environment.versionCheckURL);
     }
   }
@@ -151,7 +151,7 @@ export class AppComponent implements OnDestroy, OnInit {
         this.authService.setCurrentUser(userData);
         new UserUtility().updateUserDataInRealTime(userData);
       });
-    } catch (error) {}
+    } catch (error) { }
   }
 
   // callGenralAert(){
