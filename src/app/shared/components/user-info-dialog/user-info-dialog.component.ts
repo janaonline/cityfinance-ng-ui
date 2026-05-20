@@ -92,7 +92,7 @@ export class UserInfoDialogComponent implements OnInit {
 
       this.authService.sendOtp(payload.email).subscribe({
         next: (res: any) => {
-          const emailVerification: EmailVerification = res.data;
+          const emailVerification: EmailVerification = res;
           if (emailVerification.isEmailVerified) {
             this.submitUserInfo(emailVerification.isEmailVerified);
           } else {
