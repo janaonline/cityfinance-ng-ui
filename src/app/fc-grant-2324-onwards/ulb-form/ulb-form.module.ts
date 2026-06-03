@@ -37,6 +37,7 @@ import { FeedbackFormComponent } from './feedback-form/feedback-form.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BudgetUploadComponent } from './budget-upload/budget-upload.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { DalgoComponent } from 'src/app/shared/components/dalgo/dalgo.component';
 
 
 
@@ -71,6 +72,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     MatDialogModule,
     MatProgressSpinnerModule,
     SharedModule,
+    DalgoComponent
   ]
 })
 export class UlbFormModule { }

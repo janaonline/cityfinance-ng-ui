@@ -44,6 +44,7 @@ import { StateActionUlbComponent } from '../stateUlbAction/state-action/state-ac
 import { CommFileUploadComponent } from 'src/app/shared/components/comm-file-upload/comm-file-upload.component';
 import { UtiNewPreComponent } from './utilisation-report/uti-new-pre/uti-new-pre.component';
 import { GlobalPartModule } from 'src/app/global-part/global-part.module';
+import { DalgoComponent } from 'src/app/shared/components/dalgo/dalgo.component';
 
 @NgModule({
     declarations: [
@@ -88,7 +89,8 @@ import { GlobalPartModule } from 'src/app/global-part/global-part.module';
         ModalModule.forRoot(),
         TooltipModule.forRoot(),
         PdfViewerModule,
-        GlobalPartModule
+        GlobalPartModule,
+        DalgoComponent
     ],
     // exports: [
     //   TwoDigitDecimaNumberDirective,
