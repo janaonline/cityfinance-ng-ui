@@ -33,6 +33,7 @@ export class DalgoComponent implements OnInit, AfterViewInit {
 
   stateFilterId: string;
   yearFilterId: string;
+  ulbFilterId: string;
   loggedInUserDetails: IUserLoggedInDetails = UserUtility.getUserLoggedInData().value;
 
   constructor(private supersetService: SupersetService,
@@ -54,6 +55,12 @@ export class DalgoComponent implements OnInit, AfterViewInit {
       // this.dashboardId = '6476518a-7dfd-4614-87c2-8a315c9ece25';
       // this.yearFilterId = 'NATIVE_FILTER-D9A7GYA-VYN-Rb_tj66U9';
       this.dashboardId = 'a154d39e-1048-4bfe-98cb-8177b32a5086';
+    } else if (this.dashboardType === USER_TYPE.ULB) {
+      // this.yearFilterId = 'NATIVE_FILTER-MgsHyuye2m';
+      // this.dashboardId = '6476518a-7dfd-4614-87c2-8a315c9ece25';
+      this.ulbFilterId = 'NATIVE_FILTER-DIu9L6tqYvHS0ScX0jIVs';
+      this.dashboardId = '80d85514-340a-4811-b64e-6ffeacdf4486';
+      this.getUlbName();
     }
 
     this.getSelectedYear();
@@ -68,6 +75,15 @@ export class DalgoComponent implements OnInit, AfterViewInit {
     const selectedYearId = sessionStorage.getItem("selectedYearId");
     const selectedYear = this.commonServices.getYearName(selectedYearId);
     this.filters.push({ id: this.yearFilterId, column: 'Year', value: selectedYear });
+  }
+
+  getUlbName() {
+
+    let ulbName = (this.loggedInUserDetails as any)?.name;
+    if ((!ulbName || ulbName === 'undefined')) {
+      ulbName = sessionStorage.getItem('name') || ulbName;
+    }
+    this.filters.push({ id: this.ulbFilterId, column: 'ulb_name', value: ulbName || '' });
   }
 
   getStateName() {
