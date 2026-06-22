@@ -261,6 +261,13 @@ export const appRouter: Routes = [
     path: "municipal-budgets",
     component: MunicipalityBudgetComponent,
   },
+  {
+    path: "dalgo/citybrief-dashboard",
+    loadComponent: () =>
+      import("./pages/dalgo-city-brief/dalgo-city-brief.component").then(
+        (m) => m.DalgoCityBriefComponent
+      ),
+  },
 
   // { path: "v1/fc_grant", redirectTo: "home", pathMatch: "full" },
   { path: "**", redirectTo: "home" },
