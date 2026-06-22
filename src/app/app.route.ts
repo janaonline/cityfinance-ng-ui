@@ -263,6 +263,7 @@ export const appRouter: Routes = [
   },
   {
     path: "dalgo/citybrief-dashboard",
+    canActivate: [AuthGuard],
     loadComponent: () =>
       import("./pages/dalgo-city-brief/dalgo-city-brief.component").then(
         (m) => m.DalgoCityBriefComponent
