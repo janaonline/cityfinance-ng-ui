@@ -24,6 +24,7 @@ export class DalgoComponent implements OnInit, AfterViewInit {
   @Input() dashboardId = 'a154d39e-1048-4bfe-98cb-8177b32a5086';
 
   @Input() isToExpandFilters = true
+  @Input() isToShowFilters = true
 
   // Dynamically pass the state name from the logged in user profile
   @Input() filters: { id: string; column: string; value: string; }[] = [
@@ -151,7 +152,8 @@ export class DalgoComponent implements OnInit, AfterViewInit {
       dashboardUiConfig: {
         hideTitle: true,     // Hide the dashboard title
         filters: {
-          expanded: this.isToExpandFilters     // Expand filters by default
+          expanded: this.isToExpandFilters, // Expand filters by default 
+          visible: this.isToShowFilters // Show or hide filters based on input  
         },
         urlParams: { native_filters: nativeFilters } // Dynamic filters passed to Superset dashboard
       },
