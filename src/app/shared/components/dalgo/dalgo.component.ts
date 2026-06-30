@@ -84,7 +84,7 @@ export class DalgoComponent implements OnInit, AfterViewInit {
     if ((!ulbName || ulbName === 'undefined')) {
       ulbName = sessionStorage.getItem('name') || ulbName;
     }
-    this.filters.push({ id: this.ulbFilterId, column: 'ulb_name', value: ulbName || '' });
+    this.filters.push({ id: this.ulbFilterId, column: 'ulb_name', value: ulbName || 'Bruhat Bengaluru Mahanagara Palike' });
   }
 
   getStateName() {
