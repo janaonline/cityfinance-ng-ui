@@ -274,6 +274,7 @@ export const appRouter: Routes = [
     data: { isPublic: true }
   },
 
+  // { path: "v1/fc_grant", redirectTo: "home", pathMatch: "full" },
   { path: "**", redirectTo: "home" },
 ];
 @NgModule({

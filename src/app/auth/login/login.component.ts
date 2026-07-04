@@ -110,28 +110,29 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.loginForm = this.fb.group({
-      email: ["", Validators.required],
-      password: [""],
-      otp: [""],
-      captcha: ["", Validators.required],
-    });
-    this.enablePasswordMode();
-    this.authService.badCredentials.subscribe((res) => {
-      this.badCredentials = res;
-    });
-    this.perFillUser = this.commonService.setUser(true);
-    if (this.perFillUser !== null) {
-      this.onSelectingUserType(this.perFillUser);
-    }
+    window.location.replace("/fc/auth/login/15thFC");
+    // this.loginForm = this.fb.group({
+    //   email: ["", Validators.required],
+    //   password: [""],
+    //   otp: [""],
+    //   captcha: ["", Validators.required],
+    // });
+    // this.enablePasswordMode();
+    // this.authService.badCredentials.subscribe((res) => {
+    //   this.badCredentials = res;
+    // });
+    // this.perFillUser = this.commonService.setUser(true);
+    // if (this.perFillUser !== null) {
+    //   this.onSelectingUserType(this.perFillUser);
+    // }
 
-    this.loginType = localStorage.getItem('loginType') || '15thFC';
-    this.fcEmail = '15fcgrant@cityfinance.in';
-    if (['XVIFC', 'state-dashboard'].includes(this.loginType)) {
-      if (this.loginType === 'XVIFC') this.fcEmail = '16fcgrant@cityfinance.in';
-      // this.onSelectingUserType(USER_TYPE.ULB);
-      this.onSelectingUserType('ALL');
-    }
+    // this.loginType = localStorage.getItem('loginType') || '15thFC';
+    // this.fcEmail = '15fcgrant@cityfinance.in';
+    // if (['XVIFC', 'state-dashboard'].includes(this.loginType)) {
+    //   if (this.loginType === 'XVIFC') this.fcEmail = '16fcgrant@cityfinance.in';
+    //   // this.onSelectingUserType(USER_TYPE.ULB);
+    //   this.onSelectingUserType('ALL');
+    // }
   }
 
   get lf() {

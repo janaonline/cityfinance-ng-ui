@@ -177,7 +177,14 @@
                         Login
                     </button>
                     <ul class="dropdown-menu dropdown-menu-login" aria-labelledby="loginDrp">
-                        <li><a class="dropdown-item" (click)="loginLogout('15thFC')">
+                        <li *ngFor="let page of routePages" class="border-bottom">
+                            <a class="dropdown-item" [href]="page.href">
+                                <span class="material-icons">
+                                    login
+                                </span> {{ page.label }}
+                            </a>
+                        </li>
+                        <!-- <li><a class="dropdown-item" (click)="loginLogout('15thFC')">
                                 <span class="material-icons">
                                     login
                                 </span> XV FC Grant
@@ -202,7 +209,7 @@
                                 <span class="material-icons">
                                     login
                                 </span> Rankings 2022
-                            </a></li>
+                            </a></li> -->
                     </ul>
                 </div>
                 <div class="btn-group ms-2" dropdown *ngIf="isLoggedIn">

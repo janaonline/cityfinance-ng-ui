@@ -19,8 +19,8 @@ export class AuthService {
   private readonly accessTokenStorageKey = "id_token";
   private readonly refreshTokenStorageKey = "refresh_token";
   private readonly loginUrl = `${environment.api.url}login`;
-  private readonly logoutUrl = `${environment.api.url}logout`;
-  private readonly refreshTokenUrl = `${environment.api.url}refresh`;
+  private readonly logoutUrl = `${environment.api.urlV2}auth/logout`;
+  private readonly refreshTokenUrl = `${environment.api.urlV2}auth/refresh`;
 
   private accessToken: string | null = null;
   private refreshRequest$: Observable<any> | null = null;
@@ -231,8 +231,8 @@ export class AuthService {
   isAuthRequest(url: string) {
     return (
       this.isLoginRequest(url) ||
-      this.isRefreshRequest(url) ||
-      this.isLogoutRequest(url)
+      this.isRefreshRequest(url)
+      // || this.isLogoutRequest(url)
     );
   }
 
