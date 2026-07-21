@@ -1,25 +1,30 @@
 <span class="row my-4" style="color:#337ab7"> <b>Users</b></span>
 <div style="margin-bottom: 2pc;">
     <div class="container">
-        <div class="row" style="width: 100%">
-            <div class="col-sm-3">
+        <div class="d-flex justify-content-evenly" style="width: 100%">
+            <div class="col-sm-2">
                 <div class="user" id="ulb" (click)="userTypeSelected.emit(USER_TYPE.ULB)">
                     <i class="fa fa-user" aria-hidden="true"></i> ULB
                 </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <div class="user" id="state" (click)="userTypeSelected.emit(USER_TYPE.USER)">
                     <i class="fa fa-user" aria-hidden="true"></i> STATE
                 </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <div class="user" id="mohua" (click)="userTypeSelected.emit(USER_TYPE.USER)">
                     <i class="fa fa-user" aria-hidden="true"></i> MoHUA
                 </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <div class="user" id="doe" (click)="userTypeSelected.emit(USER_TYPE.USER)">
                     <i class="fa fa-user" aria-hidden="true"></i> DoE
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="user" id="institutional" (click)="userTypeSelected.emit(USER_TYPE.USER)">
+                    <i class="fa fa-user" aria-hidden="true"></i> Institutional
                 </div>
             </div>
         </div>
