@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { embedDashboard } from '@superset-ui/embedded-sdk';
 import { CommonServicesService } from 'src/app/fc-grant-2324-onwards/fc-shared/service/common-services.service';
 import { USER_TYPE } from 'src/app/models/user/userType';
@@ -11,10 +12,13 @@ import { IUserLoggedInDetails } from 'src/app/models/login/userLoggedInDetails';
   selector: 'app-dalgo',
   templateUrl: './dalgo.component.html',
   styleUrls: ['./dalgo.component.scss'],
-  standalone: true
+  standalone: true,
+  imports: [CommonModule]
 })
 
 export class DalgoComponent implements OnInit, AfterViewInit {
+
+  readonly USER_TYPE = USER_TYPE;
 
   private readonly htmlElementId = 'mohua-superset-container';  // Element ID as a constant
   private readonly supersetDomainUrl = 'https://janaagraha.dalgo.org/';
@@ -85,6 +89,10 @@ export class DalgoComponent implements OnInit, AfterViewInit {
       ulbName = sessionStorage.getItem('name') || ulbName;
     }
     this.filters.push({ id: this.ulbFilterId, column: 'ulb_name', value: ulbName || 'Bruhat Bengaluru Mahanagara Palike' });
+  }
+
+  goToXvFcReview(): void {
+    window.location.href = window.location.origin + '/fc/xv-fc-review';
   }
 
   getStateName() {
