@@ -1,1 +1,6 @@
 <div id="mohua-superset-container" class="container" style="height: 100vh;"></div>
+<div class="text-start xv-fc-review-container" *ngIf="dashboardType === USER_TYPE.ULB">
+    <button type="button" class="btn xv-fc-review-btn" (click)="goToXvFcReview()">
+        XV-FC-REVIEW
+    </button>
+</div>

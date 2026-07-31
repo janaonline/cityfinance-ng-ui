@@ -1,25 +1,15 @@
 #dalgo-city-brief {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   padding: 0 !important;
   margin: 0 auto !important;
   max-width: 96% !important;
   display: block;
 }
 
-#dalgo-city-brief app-dalgo,
-#dalgo-city-brief app-dalgo > * {
+#dalgo-city-brief app-dalgo {
   display: block;
   width: 100%;
-  height: 100%;
-}
-
-#dalgo-city-brief #mohua-superset-container {
-  width: 100% !important;
-  height: 100% !important;
-  padding: 0 !important;
-  margin: 0 auto !important;
-  max-width: 96% !important;
 }
 
 #dalgo-city-brief #mohua-superset-container iframe {
