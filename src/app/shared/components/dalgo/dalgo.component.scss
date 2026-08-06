@@ -12,23 +12,33 @@ max-width: 96% !important;
     padding-left: 1.5rem;
 }
 
-.xv-fc-review-btn {
-    background-color: rgb(252, 195, 8);
-    padding: 5px 5px;
-    color: #FFFFFF;
-    height: 36px;
-    width: auto;
-    min-width: 160px;
-    white-space: nowrap;
-    padding-left: 12px;
-    padding-right: 12px;
-    font-weight: 700;
-    font-size: 1rem;
-    border: none;
+.xv-fc-review-footnote {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    width: 100%;
+    margin: 0;
+    color: #343a40;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 20px;
 }
 
-.xv-fc-review-btn:hover {
-    background-color: #f1ba02;
-    color: #FFFFFF;
-    font-weight: 600;
+.xv-fc-review-footnote-icon {
+    font-size: 18px;
+    line-height: 20px;
+    color: #193369;
+    flex-shrink: 0;
+}
+
+.xv-fc-review-link {
+    color: #193369;
+    font-weight: 700;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.xv-fc-review-link:hover {
+    color: #12244d;
+    text-decoration: underline;
 }
