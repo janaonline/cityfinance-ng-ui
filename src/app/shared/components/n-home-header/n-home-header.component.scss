@@ -1,6 +1,9 @@
 @import "./src/scss/functions";
 @import "./src/scss/variables";
 @import "./src/scss/mixins";
+
+$new-badge-color: hsla(30, 83%, 49%, 1);
+
 .text-10px {
     font-size: $font-size-base*.625;
 }
@@ -206,6 +209,24 @@ padding: .5rem 1rem;
     font-size: 22px;
     position: relative;
     top: 4px;
+}
+
+.text-new-badge {
+    color: $new-badge-color;
+}
+
+.new-badge-pill {
+    display: inline-block;
+    margin-left: 0.4rem;
+    padding: 0.15rem 0.55rem;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: $white;
+    background: $new-badge-color;
+    border-radius: 999px;
+    text-transform: uppercase;
+    vertical-align: middle;
 }
 
 .demo-btn {
