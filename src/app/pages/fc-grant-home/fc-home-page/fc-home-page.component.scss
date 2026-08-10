@@ -1,3 +1,31 @@
+.marquee-wrapper {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.marquee-text {
+    display: inline-block;
+    padding-left: 100%;
+    animation: marquee 20s linear infinite;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .marquee-text {
+        animation: none;
+        padding-left: 0;
+    }
+}
+
 .btn {
     background-color: rgb(252, 195, 8);
     padding: 5px 5px;
