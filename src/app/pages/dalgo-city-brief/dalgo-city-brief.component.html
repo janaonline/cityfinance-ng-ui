@@ -1,0 +1,13 @@
+<div id="dalgo-city-brief" class="container mb-5" style="min-height:100vh;">
+    <h5 class="text-center"></h5>
+    
+    <!-- Render this tag ONLY for the public route -->
+    <ng-container *ngIf="isPublicRoute">
+        <app-dalgo [dashboardType]="'ULB'"></app-dalgo>
+    </ng-container>
+
+    <!-- Render this tag ONLY for the authenticated/original route -->
+    <ng-container *ngIf="!isPublicRoute">
+        <app-dalgo [dashboardType]="'ULB'" [isToShowFilters]="false"></app-dalgo>
+    </ng-container>
+</div>

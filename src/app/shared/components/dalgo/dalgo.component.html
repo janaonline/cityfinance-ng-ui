@@ -1,1 +1,10 @@
 <div id="mohua-superset-container" class="container" style="height: 100vh;"></div>
+<div class="text-start xv-fc-review-container" *ngIf="dashboardType === USER_TYPE.ULB">
+    <p class="xv-fc-review-footnote">
+        <span class="material-icons xv-fc-review-footnote-icon">info</span>
+        <span>
+            <a href="javascript:void(0)" class="xv-fc-review-link" (click)="goToXvFcReview()">Click here</a>
+            to review your digitized data. You can edit it if any discrepancies are found. Once reviewed, you must accept the reported data, even if no changes are required.
+        </span>
+    </p>
+</div>

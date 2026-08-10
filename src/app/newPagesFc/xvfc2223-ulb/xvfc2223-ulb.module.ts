@@ -34,6 +34,7 @@ import { Slbs28FormPreviewComponent } from './slbs28-form/slbs28-form-preview/sl
 import { PropertyTaxOperationalisationPreviewComponent } from './property-tax-operationalisation/property-tax-operationalisation-preview/property-tax-operationalisation-preview.component';
 import { Slbs2223PreviewComponent } from './slbs2223/slbs2223-preview/slbs2223-preview.component';
 import { GlobalPartModule } from "src/app/global-part/global-part.module";
+import { DalgoComponent } from "src/app/shared/components/dalgo/dalgo.component";
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { GlobalPartModule } from "src/app/global-part/global-part.module";
     CarouselModule.forRoot(),
     SharedModule,
     PdfViewerModule,
-    GlobalPartModule
+    GlobalPartModule,
+    DalgoComponent
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

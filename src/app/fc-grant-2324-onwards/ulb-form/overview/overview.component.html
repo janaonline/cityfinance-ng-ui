@@ -1,5 +1,6 @@
 <div class="container-fluid" *ngIf="isApiComplete">
-    <div *ngIf="['2024-25', '2025-26'].includes(selectedYear) && this.userData?.role=='ULB'"
+
+    <!-- <div *ngIf="['2024-25', '2025-26'].includes(selectedYear) && this.userData?.role=='ULB'"
         class="d-flex flex-wrap gap-2 justify-content-evenly my-4">
         <div *ngIf="isWebinarAlert" class="webinar-alert lh-sm" style="max-width: 400px;">
             <img [src]="webinarAlert.imgUrl[0]" width="80" height="80" />
@@ -18,7 +19,7 @@
                 <div role="button" class="webinar-span" (click)="joinWaitlist()">Join the waitlist.</div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div class="row header mt-2">
         <div class="col-sm-12 col-lg-12 col-md-12 header2">
@@ -29,6 +30,12 @@
             </div>
         </div>
     </div>
+
+    <div class="container mb-5">
+        <h5 class="text-center"></h5>
+        <app-dalgo [dashboardType]="'ULB'" [isToShowFilters]="false"></app-dalgo>
+    </div>
+
     <div class="row mb-3 mt-3">
         <div class="col-sm-12">
             <div class="card">
