@@ -159,8 +159,8 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
         this.isLoggedIn = false;
         window.location.href = '/home';
       });
-    } else {
-
+    } else if (type == 'XVIFC_coming_soon') {
+      window.location.href = '/auth/login/16thFC';
     }
     // if (this.btnName == "Login for 15th FC Grants") {
     //   this._router.navigateByUrl("/fc_grant");
