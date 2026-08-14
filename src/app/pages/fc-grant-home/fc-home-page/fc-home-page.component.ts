@@ -96,6 +96,10 @@ export class FcHomePageComponent extends BaseComponent implements OnInit {
     sessionStorage.setItem("selectedYearId", yearId);
   }
 
+  goToXvFcReview(): void {
+    window.location.href = window.location.origin + '/fc/xv-fc-review';
+  }
+
   onYearSelect(item: any): void {
 
     const userDataStr = localStorage.getItem('userData');
