@@ -1,6 +1,8 @@
 #mohua-superset-container {
 width: 100% !important;
-height: 100vh !important;
+/* Leave room below the dashboard for the XV-FC-REVIEW notice so it lands
+   within the initial viewport instead of requiring a scroll to reach it. */
+height: max(400px, calc(100vh - 210px)) !important;
 padding: 0 !important;
 margin: 0 auto !important;
 max-width: 96% !important;
