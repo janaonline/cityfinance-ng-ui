@@ -1,3 +1,8 @@
+<div class="alert alert-danger fw-bold m-0 rounded-0 marquee-wrapper" role="alert">
+    <span class="marquee-text">
+        The deadline for submissions to the XV-FC has closed. Forms for XVI-FC will open on September 1, 2026.
+    </span>
+</div>
 <div class="bg-img" *ngIf="loggedInUserType;" style="padding: 0;">
     <div class="container-fluid" style="margin-top: 0;">
         <div class="row bg">
@@ -9,7 +14,7 @@
                 </h3>
                 <h3 *ngIf="loggedInUserType == USER_TYPE.ADMIN
                     || loggedInUserType == USER_TYPE.MoHUA
-                    || loggedInUserType == USER_TYPE.PATNER" style="opacity: 100%; font-size: 35px;">{{ulbName}}</h3>
+                    || loggedInUserType == USER_TYPE.PARTNER" style="opacity: 100%; font-size: 35px;">{{ulbName}}</h3>
 
             </div>
             <div class="col-sm-12 col-md-12 col-lg-12 text-center">

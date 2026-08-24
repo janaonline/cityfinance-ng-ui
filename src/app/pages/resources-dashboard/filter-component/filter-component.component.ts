@@ -400,9 +400,9 @@ export class FilterComponentComponent implements OnInit, OnDestroy {
                 this.email,
                 userName
               ).subscribe({
-                next: (res: { message: string }) => {
+                next: (res: any) => {
                   const message = 'A download link will be sent to your email shortly!';
-                  this.handleSuccess(res.message || message);
+                  this.handleSuccess(res?.data?.message || message);
                 },
                 error: (error) => this.handleError(error)
               })
