@@ -15,7 +15,7 @@ import { GlobalLoaderService } from "../../services/loaders/global-loader.servic
 import { UtilityService } from "../../services/utility.service";
 import { UserInfoDialogComponent } from "../user-info-dialog/user-info-dialog.component";
 import { HomeHeaderService } from "./home-header.service";
-import { NAV_MENU_ITEMS, NavMenuItem, resolveMenus } from "./nav-menu.config";
+import { NAV_MENU_ITEMS, NavMenuItem, matchesAnyRoutePrefix, resolveMenus } from "./nav-menu.config";
 
 @Component({
   selector: "app-n-home-header",
@@ -248,8 +248,27 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
    * only exist for the mobile drawer, appear/disappear as it toggles).
    */
   private refreshMenus(): void {
-    const resolved = resolveMenus(NAV_MENU_ITEMS, (item) => this.isMenuItemVisible(item));
+    const resolved = resolveMenus(
+      NAV_MENU_ITEMS,
+      (item) => this.isMenuItemVisible(item),
+      (item) => this.isActiveGroupChild(item),
+    );
     this.menus = resolved.map((item) => this.resolveLinks(item));
+  }
+
+  /**
+   * True when `item` is this app's own route AND the current URL is either
+   * exactly its match path or a descendant of it (boundary-safe: a prefix of
+   * '/fc-home-page' matches every page inside that lazy-loaded module, but
+   * never a route that merely shares the string without a '/' boundary).
+   * `activePathPrefix` overrides `path` for items whose real flow lives under
+   * a broader/different url root than their own link target — see nav-menu.config.ts.
+   */
+  private isActiveGroupChild(item: NavMenuItem): boolean {
+    if (item.hostApp !== 'ui') return false;
+    const prefix = item.activePathPrefix ?? item.path;
+    if (!prefix) return false;
+    return matchesAnyRoutePrefix(this._router.url, [prefix]);
   }
 
   private inRole(roles: string[]): boolean {
@@ -270,8 +289,18 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
     if (v.loggedOutOnly && this.isLoggedIn) return false;
     if (v.roles && !this.inRole(v.roles)) return false;
     if (v.excludeRoles && !this.notInRole(v.excludeRoles)) return false;
-    if (v.nonProdOnly && this.isProd) return false;
+    if (v.isHiddenInProd && this.isProd) return false;
     if (v.readonlyGated && !this.isReadonlyUser()) return false;
+    // Second, independent gating dimension: which page the user is on right
+    // now (AND'd with the role checks above). Recomputed on every route
+    // change, so this updates live as the user navigates, same as the role
+    // checks do on login/logout.
+    if (v.showOnlyOnRoutePrefixes && !matchesAnyRoutePrefix(this._router.url, v.showOnlyOnRoutePrefixes)) {
+      return false;
+    }
+    if (v.hideOnRoutePrefixes && matchesAnyRoutePrefix(this._router.url, v.hideOnRoutePrefixes)) {
+      return false;
+    }
     if (
       v.moduleAccess &&
       !v.moduleAccess.some((ma) =>

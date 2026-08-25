@@ -66,14 +66,15 @@
                         <!-- Dropdown branch (menu.children present) -->
                         <li class="nav-item dropdown" *ngIf="menu.children?.length">
                             <a class="nav-link dropdown-toggle" href="#" [attr.id]="'navbarDropdown-' + menu.id"
-                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                role="button" data-bs-toggle="dropdown" aria-expanded="false"
+                                [class.active]="menu.isActiveRoute">
                                 <i *ngIf="menu.icon" [class]="menu.icon"></i>
                                 <span [innerHTML]="menu.label"></span>
                             </a>
                             <ul class="dropdown-menu" [attr.aria-labelledby]="'navbarDropdown-' + menu.id">
                                 <li *ngFor="let child of menu.children">
                                     <a class="dropdown-item" *ngIf="child.resolvedLink" [routerLink]="child.resolvedLink"
-                                        routerLinkActive="active" (click)="closeMobileNav()">
+                                        [class.active]="child.isActiveRoute" (click)="closeMobileNav()">
                                         <i *ngIf="child.icon" [class]="child.icon"></i>
                                         <span [innerHTML]="child.label"></span>
                                     </a>
@@ -111,7 +112,7 @@
                         <!-- Plain link branch (default) -->
                         <li class="nav-item" *ngIf="!menu.children?.length && menu.renderAs !== 'button' && !menu.imageUrl">
                             <a class="nav-link" *ngIf="menu.resolvedLink" [routerLink]="menu.resolvedLink"
-                                routerLinkActive="active" (click)="closeMobileNav()">
+                                [class.active]="menu.isActiveRoute" (click)="closeMobileNav()">
                                 <i *ngIf="menu.icon" [class]="menu.icon"></i>
                                 <span [innerHTML]="menu.label"></span>
                             </a>
