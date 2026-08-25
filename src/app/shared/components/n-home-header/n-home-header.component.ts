@@ -15,6 +15,7 @@ import { GlobalLoaderService } from "../../services/loaders/global-loader.servic
 import { UtilityService } from "../../services/utility.service";
 import { UserInfoDialogComponent } from "../user-info-dialog/user-info-dialog.component";
 import { HomeHeaderService } from "./home-header.service";
+import { NAV_MENU_ITEMS, NavMenuItem, resolveMenus } from "./nav-menu.config";
 
 @Component({
   selector: "app-n-home-header",
@@ -35,6 +36,14 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
   currentTextSize: any;
   canViewUserList = false;
   canViewULBSingUpListing = false;
+  menus: NavMenuItem[] = [];
+  showMobileNav = false;
+  // Note: this branch predates the ROUTE_PAGES/login-menu.constant.ts array-driven
+  // Login dropdown that exists on `development` — that file doesn't exist here, so
+  // the Login dropdown below stays on its own pre-existing hardcoded markup/handlers
+  // (loginLogout(...)), untouched, same as before this nav-bar-unification pass.
+  /** UI's existing blog URL (previously only inline in blogsPage()/footer). No environment.blogUrl exists today. */
+  private readonly blogUrl = 'https://blog.cityfinance.in/';
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -53,6 +62,7 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
     ).subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.initializeAccessChecking();
+        this.refreshMenus();
       }
     });
 
@@ -68,6 +78,8 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
       } else {
         this.btnName = "Login for 15th FC Grants";
       }
+
+      this.refreshMenus();
     });
   }
   private accessChecker = new AccessChecker();
@@ -86,6 +98,8 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
 
     let getTextSize = JSON.parse(localStorage.getItem("myLSkey"));
     if (getTextSize) this.setFontSize(getTextSize.currentTextSize);
+
+    this.refreshMenus();
   }
   initializeAccessChecking() {
     this.canViewUserList = this.accessChecker.hasAccess({
@@ -98,9 +112,6 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
     });
   }
 
-  blogsPage() {
-    window.open('https://blog.cityfinance.in/', '_blank');
-  }
   setFontSize(size) {
     console.log('setFontSize', size)
     // this.size= size;
@@ -230,8 +241,112 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
 
   }
 
-  getNationalPageUrl() {
-    this.commonService.getNationalPageUrl();
+  /**
+   * Rebuilds `menus` from the shared NAV_MENU_ITEMS config. Called on
+   * ngOnInit, on auth-state change, on router NavigationEnd, and whenever
+   * the mobile drawer is opened/closed (so `showOnMobileOnly` items, which
+   * only exist for the mobile drawer, appear/disappear as it toggles).
+   */
+  private refreshMenus(): void {
+    const resolved = resolveMenus(NAV_MENU_ITEMS, (item) => this.isMenuItemVisible(item));
+    this.menus = resolved.map((item) => this.resolveLinks(item));
+  }
+
+  private inRole(roles: string[]): boolean {
+    return roles.includes(this.user?.role ?? '');
+  }
+
+  private notInRole(roles: string[]): boolean {
+    return !this.inRole(roles);
+  }
+
+  private isMenuItemVisible(item: NavMenuItem): boolean {
+    if (!item.apps.includes('ui')) return false;
+
+    const v = item.visibility;
+    if (!v) return true;
+
+    if (v.requiresAuth && !this.isLoggedIn) return false;
+    if (v.loggedOutOnly && this.isLoggedIn) return false;
+    if (v.roles && !this.inRole(v.roles)) return false;
+    if (v.excludeRoles && !this.notInRole(v.excludeRoles)) return false;
+    if (v.nonProdOnly && this.isProd) return false;
+    if (v.readonlyGated && !this.isReadonlyUser()) return false;
+    if (
+      v.moduleAccess &&
+      !v.moduleAccess.some((ma) =>
+        this.accessChecker.hasAccess({
+          moduleName: ma.moduleName as MODULES_NAME,
+          action: ma.action as ACTIONS,
+        }),
+      )
+    ) {
+      return false;
+    }
+    // showOnMobileOnly: UI's only mobile-only slot today is the "Home" item,
+    // reachable only from the sliding drawer — `showMobileNav` is the same
+    // state that opens/closes that drawer (the hamburger that sets it is
+    // itself only visible below the drawer's CSS breakpoint), so it doubles
+    // as the "am I looking at the mobile nav" signal.
+    if (v.showOnMobileOnly && !this.showMobileNav) return false;
+    // ocrRouteOnly: not applicable to UI — no item with this flag has 'ui' in `apps`.
+
+    return true;
+  }
+
+  /** Turns hostApp/path into a concrete routerLink or href for THIS app (UI). */
+  private resolveLinks(item: NavMenuItem): NavMenuItem {
+    const resolved: NavMenuItem = { ...item };
+
+    if (item.children?.length) {
+      resolved.children = item.children.map((child) => this.resolveLinks(child));
+    }
+
+    switch (item.hostApp) {
+      case 'ui':
+        resolved.resolvedLink = item.path;
+        break;
+      case 'ssr':
+        // SSR occupies the site root, so a plain relative path resolves
+        // there via the shared-domain setup — same as today's
+        // CommonService.getNationalPageUrl() (window.location.href = '/municipal-data/national').
+        resolved.resolvedHref = item.path;
+        break;
+      case 'v2': {
+        // This branch's environment.ts predates the `ui: { urlV1, urlV2 }`
+        // structure that exists on `development` — fall back to the same
+        // relative '/fc' prefix this app already hardcoded for V2 links
+        // (e.g. the old literal href="/fc/xvifc-form") when it's absent.
+        const v2Base = (environment as any)?.ui?.urlV2 as string | undefined;
+        resolved.resolvedHref = item.path
+          ? (v2Base ?? '/fc/').replace(/\/$/, '') + item.path
+          : undefined;
+        break;
+      }
+      case 'external':
+        resolved.resolvedHref = item.id === 'blog' ? this.blogUrl : item.absoluteHref;
+        break;
+      default:
+        break;
+    }
+
+    return resolved;
+  }
+
+  trackByMenuId(_index: number, menu: NavMenuItem): string {
+    return menu.id;
+  }
+
+  toggleMobileNav(): void {
+    this.showMobileNav = !this.showMobileNav;
+    this.refreshMenus();
+  }
+
+  closeMobileNav(): void {
+    if (this.showMobileNav) {
+      this.showMobileNav = false;
+      this.refreshMenus();
+    }
   }
 
   ngOnDestroy(): void {

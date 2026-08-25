@@ -40,289 +40,169 @@
     </section>
     <nav class="navbar navbar-expand-lg navbar-light bg-white py-0" #stickyMenu [ngClass]="{'stiky-tp': isSticky}">
         <div class="container" style="max-width: 92%">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+            <!-- Hamburger toggle for the shared off-canvas drawer (same mechanism as V2/SSR) -->
+            <button type="button" class="mobile-nav-ham" aria-controls="primary-navigation"
+                [attr.aria-expanded]="showMobileNav" aria-label="Toggle navigation" (click)="toggleMobileNav()">
+                <i class="fs-4 bi bi-list"></i>
             </button>
-            <!-- <a class="navbar-brand" href="#" [ngClass]="sticky ? 'show' : ''">
-              <span class="city">city</span>
-              <span class="fy">finance.in</span>
-          </a> -->
             <a class="navbar-brand" href="/" [ngClass]="sticky ? 'show' : ''">
-                <!-- <img src="./assets/M FIGMA/city-finance-ranking.png" alt=""> -->
                 <span class="city" style="font-size: 2rem;">city</span>
                 <span class="fy" style="font-size: 2rem; color: #1D5290; font-weight: bold;">finance</span>
             </a>
-            <div class="collapse navbar-collapse me-3" id="">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="navbar-brand cityLogo" aria-current="page" routerLinkActive="active"
-                            routerLink="/rankings/home">
-                            <img style="height: 28px;" src="./assets/M FIGMA/city-finance-ranking.png" alt="">
-                            <!-- <span class="city">city</span>
-                            <span class="fy">finance.in</span> -->
-                        </a>
-                    </li>
-                    <!-- <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdown-ranking" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          Ranking
-                      </a>
-                        <ul class="dropdown-menu" aria-labelledby="dropdown-ranking">
-                            <li>
-                                <a class="dropdown-item" routerLink="/rankings/participated-states-ut">
-                                    Participation 
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" routerLink="/rankings/top-rankings">
-                                    Scores & Ranks 
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" routerLink="/rankings/annual-financial-statements">
-                                    Financial Statements 
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" routerLink="/rankings/home">
-                                    About CF Rankings 
-                                </a>
-                            </li>
-                        </ul>
-                    </li> -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Dashboard
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li>
-                                <!-- <a class="dropdown-item"
-                                    routerLink="municipal-data/national">National
-                                    Performance</a> -->
-                                <a class="dropdown-item" (click)="getNationalPageUrl()">National
-                                    Performance</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" routerLink="/own-revenue-dashboard">Own
-                                    Revenue Performance</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" routerLink="/dashboard/slb">Service
-                                    Level Benchmarks Performance</a>
-                            </li>
-                            <!-- for municipal-bonds only for stg now -->
-                            <li *ngIf="isProd == false">
-                                <a class="dropdown-item" routerLink="/municipal-bonds">Municipal Bonds</a>
-                            </li>
-                            <li *ngIf="isProd == false">
-                                <a class="dropdown-item" routerLink="/municipal-budgets">Municipal Budgets</a>
-                            </li>
-                            <!-- <li><a class="dropdown-item" href="#">Infrastructure Borrowings</a></li> -->
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLinkActive="active"
-                            routerLink="/resources-dashboard/data-sets/income_statement">Resources</a>
-                    </li>
-                    <li class="nav-item">
-                        <!-- <a class="nav-link" href="https://blog.cityfinance.in/">Blog</a> -->
-                        <a class="nav-link" (click)="blogsPage()">Blog</a>
-                    </li>
-                    <!-- <li class="nav-item" *ngIf="isLoggedIn && user?.role == 'PMU'"> 
-                        <a class="nav-link" [routerLinkActive]="'active'" routerLink="/mohua-form/state-resource-manager">State resources</a>
-                    </li> -->
-                    <li class="nav-item" *ngIf="isLoggedIn && user?.role !== 'PMU' && user?.role !== 'STATE_DASHBOARD'">
-                        <a class="nav-link" [routerLinkActive]="'active'" routerLink="/fc-home-page">15<sup>th</sup> FC
-                            Grants</a>
-                    </li>
-                    <li class="nav-item" *ngIf="isLoggedIn && user?.role === 'ULB'">
-                        <a class="nav-link" href="/fc/xvifc-form">XVI FC Data Collection</a>
-                    </li>
-                    <li class="nav-item"
-                        *ngIf="isLoggedIn && user?.role === 'STATE_DASHBOARD' || user?.role === 'STATE'">
-                        <a class="nav-link" routerLinkActive="active" [routerLink]="'/state-dashboard'">State
-                            Dashboard</a>
-                    </li>
-                    <li class="nav-item" *ngIf="isLoggedIn && isReadonlyUser() && user?.role !== 'STATE_DASHBOARD'">
-                        <a *ngIf="user?.role == 'ULB' else rankingDashboard" class="nav-link" routerLinkActive="active"
-                            [routerLink]="'/rankings/ulb-form'">{{"Rankings'22 Form"}}</a>
-                        <ng-template #rankingDashboard>
-                            <a class="nav-link" routerLinkActive="active"
-                                [routerLink]="'/rankings/review-rankings-ulbform'">{{"Rankings'22 Dashboard"}}</a>
-                        </ng-template>
-                    </li>
-                    <li class="nav-item" *ngIf="user?.role !== 'PMU' && isReadonlyUser()">
-                        <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/list/ULB']" *ngIf="isLoggedIn
-                          &&
-                          (canViewUserList || canViewULBSingUpListing)">Users</a>
-                    </li>
-                    <li *ngIf="!isLoggedIn" class="nav-item">
-                        <button class='demo-btn' (click)="showRequestDemoPopup()">Request a Demo</button>
-                    </li>
-                    <!-- <li class="nav-item me-2 ms-2" *ngIf="isLoggedIn == false">
-                      <button type="button" class="btn btn-login fw-bold" (click)="loginLogout('ranking')">Login for Rankings 2022</button>
-                    </li> -->
-                    <!-- <li class="nav-item ms-1" *ngIf="isLoggedIn == false">
-                      <button type="button" class="btn btn-login fw-bold btn-l-fc" (click)="loginLogout('15thFC')">Login for 15th FC Grant</button>
-                    </li> -->
-                </ul>
-            </div>
-            <div class="ms-auto">
-                <!-- <a *ngIf="isLoggedIn == false" routerLinkActive="active" (click)="loginLogout()" class="btn btn-login">{{ btnName }}</a> -->
-                <div class="dropdown" *ngIf="isLoggedIn == false">
-                    <button class="btn btn-login dropdown-toggle fw-bold" type="button" id="loginDrp"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Login
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-login" aria-labelledby="loginDrp">
-                        <li>
-                            <a class="dropdown-item" (click)="loginLogout('XVIFC_coming_soon')">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-rocket-takeoff-fill text-new-badge" viewBox="0 0 16 16">
-                                    <path d="M12.17 9.53c2.307-2.592 3.278-4.684 3.641-6.218.21-.887.214-1.58.16-2.065a3.6 3.6 0 0 0-.108-.563 2 2 0 0 0-.078-.23V.453c-.073-.164-.168-.234-.352-.295a2 2 0 0 0-.16-.045 4 4 0 0 0-.57-.093c-.49-.044-1.19-.03-2.08.188-1.536.374-3.618 1.343-6.161 3.604l-2.4.238h-.006a2.55 2.55 0 0 0-1.524.734L.15 7.17a.512.512 0 0 0 .433.868l1.896-.271c.28-.04.592.013.955.132.232.076.437.16.655.248l.203.083c.196.816.66 1.58 1.275 2.195.613.614 1.376 1.08 2.191 1.277l.082.202c.089.218.173.424.249.657.118.363.172.676.132.956l-.271 1.9a.512.512 0 0 0 .867.433l2.382-2.386c.41-.41.668-.949.732-1.526zm.11-3.699c-.797.8-1.93.961-2.528.362-.598-.6-.436-1.733.361-2.532.798-.799 1.93-.96 2.528-.361s.437 1.732-.36 2.531Z"/>
-                                    <path d="M5.205 10.787a7.6 7.6 0 0 0 1.804 1.352c-1.118 1.007-4.929 2.028-5.054 1.903-.126-.127.737-4.189 1.839-5.18.346.69.837 1.35 1.411 1.925"/>
-                                  </svg>
-                                <span class="fw-bold"> XVI FC Grant</span>
-                                <span class="new-badge-pill">New</span>
-                            </a>
-                        </li>
-                        <hr class="m-0">
-                        <li><a class="dropdown-item" (click)="loginLogout('15thFC')">
-                                <span class="material-icons">
-                                    login
-                                </span> XV FC Grant
-                            </a>
-                        </li>
-                        <hr class="m-0">
-                        <li><a class="dropdown-item" (click)="loginLogout('state-dashboard')">
-                                <span class="material-icons">
-                                    login
-                                </span> State Dashboard
-                            </a>
-                        </li>
-                        <hr class="m-0">
-                        <li><a class="dropdown-item" (click)="loginLogout('XVIFC')">
-                                <span class="material-icons">
-                                    login
-                                </span> XVI FC Data Collection
-                            </a>
-                        </li>
-                        <hr class="m-0">
-                        <li><a class="dropdown-item" (click)="loginLogout('ranking')">
-                                <span class="material-icons">
-                                    login
-                                </span> Rankings 2022
-                            </a></li>
-                    </ul>
-                </div>
-                <div class="btn-group ms-2" dropdown *ngIf="isLoggedIn">
-                    <button id="button-disabled-menu" dropdownToggle type="button"
-                        class="btn btn-login-icon dropdown-toggle" aria-controls="dropdown-disabled-menu">
-                        <span class="material-icons">
-                            account_circle
-                        </span>
-                        <span class="caret"></span>
+            <div class="d-flex flex-grow-1 align-items-center justify-content-end">
+                <!-- Single array-driven nav list: renders as the desktop horizontal bar at
+                     wide viewports and as the sliding drawer at narrow ones (CSS-only switch,
+                     see .primary-navigation in the scss) -->
+                <ul id="primary-navigation" class="primary-navigation navbar-nav ms-auto mb-2 mb-lg-0"
+                    [ngClass]="showMobileNav ? 'primary-navigation-data-visible' : ''">
+
+                    <button *ngIf="showMobileNav" type="button" class="mobile-nav-cancel"
+                        aria-controls="primary-navigation" [attr.aria-expanded]="showMobileNav"
+                        aria-label="Close navigation" (click)="toggleMobileNav()">
+                        <i class="fs-4 bi bi-x-lg"></i>
                     </button>
 
-                    <ul id="dropdown-disabled-menu" *dropdownMenu class="dropdown-menu" role="menu"
-                        aria-labelledby="button-disabled-menu" style="margin-left: -7rem">
-                        <li role="menuitem" style="padding: 0 1rem;" class="mb-3">
-                            <div class="user-avt text-center" style="font-size:
-                              2.5rem">
-                                <i class="fa fa-user-circle"></i>
-                            </div>
-                            <div class="text-center">{{ user?.name }}</div>
-                            <div class="mat-card-subtitle text-center" style="font-size:
-                              0.9rem">
-                                {{ user?.email }}
-                            </div>
-                        </li>
-                        <li class="divider dropdown-divider"></li>
-                        <li role="menuitem" *ngIf="user?.role !== 'PMU'">
-                            <a class="dropdown-item text-center" routerLink="/user/profile/view">Profile</a>
-                        </li>
-                        <li class="divider dropdown-divider"></li>
-                        <li role="menuitem"><a class="dropdown-item text-center"
-                                (click)="loginLogout('logout')">Logout</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <!--  nav in mobile -->
-            <div class="collapse navbar-collapse mobile-nav" id="navbarSupportedContent">
-                <div class="container py-3">
-                    <button class="navbar-toggler close" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" routerLinkActive="active" routerLink="/home"
-                                data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">Home</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" data-bs-target="#navbarSupportedContent"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Dashboard
+                    <ng-container *ngFor="let menu of menus; trackBy: trackByMenuId">
+                        <!-- Dropdown branch (menu.children present) -->
+                        <li class="nav-item dropdown" *ngIf="menu.children?.length">
+                            <a class="nav-link dropdown-toggle" href="#" [attr.id]="'navbarDropdown-' + menu.id"
+                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i *ngIf="menu.icon" [class]="menu.icon"></i>
+                                <span [innerHTML]="menu.label"></span>
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li>
-                                    <a class="dropdown-item" routerLink="/dashboard/national" data-bs-toggle="collapse"
-                                        data-bs-target="#navbarSupportedContent">National
-                                        Financial
-                                        Dashboard</a>
+                            <ul class="dropdown-menu" [attr.aria-labelledby]="'navbarDropdown-' + menu.id">
+                                <li *ngFor="let child of menu.children">
+                                    <a class="dropdown-item" *ngIf="child.resolvedLink" [routerLink]="child.resolvedLink"
+                                        routerLinkActive="active" (click)="closeMobileNav()">
+                                        <i *ngIf="child.icon" [class]="child.icon"></i>
+                                        <span [innerHTML]="child.label"></span>
+                                    </a>
+                                    <a class="dropdown-item" *ngIf="!child.resolvedLink" [attr.href]="child.resolvedHref"
+                                        [attr.target]="child.target || '_self'" (click)="closeMobileNav()">
+                                        <i *ngIf="child.icon" [class]="child.icon"></i>
+                                        <span [innerHTML]="child.label"></span>
+                                    </a>
                                 </li>
-                                <li>
-                                    <a class="dropdown-item" routerLink="/own-revenue-dashboard"
-                                        data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">Own
-                                        Revenue
-                                        Dashboard</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" routerLink="/dashboard/slb" data-bs-toggle="collapse"
-                                        data-bs-target="#navbarSupportedContent">Service
-                                        Level
-                                        Benchmarks</a>
-                                </li>
-                                <!-- <li><a class="dropdown-item" href="#">Infrastructure Borrowings</a></li> -->
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" routerLinkActive="active"
-                                routerLink="/resources-dashboard/learning-center/toolkits" data-bs-toggle="collapse"
-                                data-bs-target="#navbarSupportedContent">Resources</a>
+
+                        <!-- Button branch (menu.renderAs === 'button') -->
+                        <li class="nav-item" *ngIf="!menu.children?.length && menu.renderAs === 'button'">
+                            <button type="button" class="btn" [ngClass]="menu.buttonClass || 'btn-cfPrimary fw-bold'"
+                                [routerLink]="menu.resolvedLink" (click)="closeMobileNav()">
+                                <i *ngIf="menu.icon" [class]="menu.icon"></i>
+                                <span [innerHTML]="menu.label"></span>
+                            </button>
                         </li>
-                        <li class="nav-item" *ngIf="isLoggedIn && user?.role !== 'PMU'">
-                            <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                                [routerLinkActive]="'active'" routerLink="/fc-home-page">15<sup>TH</sup>
-                                FC Grants</a>
+
+                        <!-- Image branch (menu.imageUrl) — this is UI's existing cityLogo item,
+                             now sourced from the brand-cfr-image config entry -->
+                        <li class="nav-item" *ngIf="!menu.children?.length && menu.renderAs !== 'button' && menu.imageUrl">
+                            <a class="navbar-brand cityLogo" *ngIf="menu.resolvedLink" [routerLink]="menu.resolvedLink"
+                                (click)="closeMobileNav()">
+                                <img style="height: 28px;" [src]="menu.imageUrl" [alt]="menu.imageAlt" />
+                            </a>
+                            <a class="navbar-brand cityLogo" *ngIf="!menu.resolvedLink" [attr.href]="menu.resolvedHref"
+                                [attr.target]="menu.target || '_self'" (click)="closeMobileNav()">
+                                <img style="height: 28px;" [src]="menu.imageUrl" [alt]="menu.imageAlt" />
+                            </a>
                         </li>
-                        <li class="nav-item" *ngIf="user?.role !== 'PMU'">
-                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/list/ULB']"
-                                data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" *ngIf="
-                              isLoggedIn && (canViewUserList ||
-                              canViewULBSingUpListing)
-                              ">Users</a>
+
+                        <!-- Plain link branch (default) -->
+                        <li class="nav-item" *ngIf="!menu.children?.length && menu.renderAs !== 'button' && !menu.imageUrl">
+                            <a class="nav-link" *ngIf="menu.resolvedLink" [routerLink]="menu.resolvedLink"
+                                routerLinkActive="active" (click)="closeMobileNav()">
+                                <i *ngIf="menu.icon" [class]="menu.icon"></i>
+                                <span [innerHTML]="menu.label"></span>
+                            </a>
+                            <a class="nav-link" *ngIf="!menu.resolvedLink" [attr.href]="menu.resolvedHref"
+                                [attr.target]="menu.target || '_self'" [innerHTML]="menu.label"
+                                (click)="closeMobileNav()"></a>
                         </li>
-                        <li *ngIf="!isLoggedIn" class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" (click)="showRequestDemoPopup()">Request a
-                                Demo</a>
-                        </li>
-                    </ul>
-                    <div class="row align-items-center fixed-bottom mx-3 mb-5">
-                        <div class="col-auto">
-                            <img src="/assets/images/emblem-of-india.svg" width="16" alt="Emblem of India" srcset=""
-                                class="" />
+                    </ng-container>
+                </ul>
+            </div>
+        </div>
+        <!-- Persistent top bar: Request a Demo / Login / account controls — NEVER inside the drawer -->
+        <div class="ms-auto">
+            <button *ngIf="!isLoggedIn" type="button" class="demo-btn me-2" (click)="showRequestDemoPopup()">Request a
+                Demo</button>
+            <div class="dropdown" *ngIf="isLoggedIn == false">
+                <button class="btn btn-login dropdown-toggle fw-bold" type="button" id="loginDrp"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Login
+                </button>
+                <ul class="dropdown-menu dropdown-menu-login" aria-labelledby="loginDrp">
+                    <li>
+                        <a class="dropdown-item" (click)="loginLogout('XVIFC_coming_soon')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-rocket-takeoff-fill text-new-badge" viewBox="0 0 16 16">
+                                <path d="M12.17 9.53c2.307-2.592 3.278-4.684 3.641-6.218.21-.887.214-1.58.16-2.065a3.6 3.6 0 0 0-.108-.563 2 2 0 0 0-.078-.23V.453c-.073-.164-.168-.234-.352-.295a2 2 0 0 0-.16-.045 4 4 0 0 0-.57-.093c-.49-.044-1.19-.03-2.08.188-1.536.374-3.618 1.343-6.161 3.604l-2.4.238h-.006a2.55 2.55 0 0 0-1.524.734L.15 7.17a.512.512 0 0 0 .433.868l1.896-.271c.28-.04.592.013.955.132.232.076.437.16.655.248l.203.083c.196.816.66 1.58 1.275 2.195.613.614 1.376 1.08 2.191 1.277l.082.202c.089.218.173.424.249.657.118.363.172.676.132.956l-.271 1.9a.512.512 0 0 0 .867.433l2.382-2.386c.41-.41.668-.949.732-1.526zm.11-3.699c-.797.8-1.93.961-2.528.362-.598-.6-.436-1.733.361-2.532.798-.799 1.93-.96 2.528-.361s.437 1.732-.36 2.531Z"/>
+                                <path d="M5.205 10.787a7.6 7.6 0 0 0 1.804 1.352c-1.118 1.007-4.929 2.028-5.054 1.903-.126-.127.737-4.189 1.839-5.18.346.69.837 1.35 1.411 1.925"/>
+                              </svg>
+                        <span class="fw-bold"> XVI FC Grant</span>
+                        <span class="new-badge-pill">New</span>
+                    </a>
+                    </li>
+                    <hr class="m-0">
+                    <li><a class="dropdown-item" (click)="loginLogout('15thFC')">
+                            <span class="material-icons">
+                                login
+                            </span> XV FC Grant
+                        </a>
+                    </li>
+                    <hr class="m-0">
+                    <li><a class="dropdown-item" (click)="loginLogout('state-dashboard')">
+                            <span class="material-icons">
+                                login
+                            </span> State Dashboard
+                        </a>
+                    </li>
+                    <hr class="m-0">
+                    <li><a class="dropdown-item" (click)="loginLogout('XVIFC')">
+                            <span class="material-icons">
+                                login
+                            </span> XVI FC Data Collection
+                        </a>
+                    </li>
+                    <hr class="m-0">
+                    <li><a class="dropdown-item" (click)="loginLogout('ranking')">
+                            <span class="material-icons">
+                                login
+                            </span> Rankings 2022
+                        </a></li>
+                </ul>
+            </div>
+            <div class="btn-group ms-2" dropdown *ngIf="isLoggedIn">
+                <button id="button-disabled-menu" dropdownToggle type="button"
+                    class="btn btn-login-icon dropdown-toggle" aria-controls="dropdown-disabled-menu">
+                    <span class="material-icons">
+                        account_circle
+                    </span>
+                    <span class="caret"></span>
+                </button>
+
+                <ul id="dropdown-disabled-menu" *dropdownMenu class="dropdown-menu" role="menu"
+                    aria-labelledby="button-disabled-menu" style="margin-left: -7rem">
+                    <li role="menuitem" style="padding: 0 1rem;" class="mb-3">
+                        <div class="user-avt text-center" style="font-size:
+                          2.5rem">
+                            <i class="fa fa-user-circle"></i>
                         </div>
-                        <div class="col">
-                            <span class="text-10px">MINISTRY OF HOUSING AND
-                                URBAN AFFAIRS <br />
-                                | GOVERNMENT OF INDIA</span>
+                        <div class="text-center">{{ user?.name }}</div>
+                        <div class="mat-card-subtitle text-center" style="font-size:
+                          0.9rem">
+                            {{ user?.email }}
                         </div>
-                    </div>
-                </div>
+                    </li>
+                    <li class="divider dropdown-divider"></li>
+                    <li role="menuitem" *ngIf="user?.role !== 'PMU'">
+                        <a class="dropdown-item text-center" routerLink="/user/profile/view">Profile</a>
+                    </li>
+                    <li class="divider dropdown-divider"></li>
+                    <li role="menuitem"><a class="dropdown-item text-center"
+                            (click)="loginLogout('logout')">Logout</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>

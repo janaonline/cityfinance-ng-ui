@@ -112,52 +112,89 @@ a.disabled {
     visibility: hidden;
 }
 
-.mobile-nav {
-    @include media-breakpoint-up(sm) {
-        display: none !important;
-    }
-    position: fixed;
-    z-index: 100;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba($color: $white, $alpha: .9);
-    backdrop-filter: blur(40px);
-    &.show .navbar-toggler[aria-expanded="true"] {
-        visibility: visible;
-        & .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3Csvg viewPort='0 0 32 32' version='1.1' xmlns='http://www.w3.org/2000/svg'%3E%3Cline x1='1' y1='25' x2='25' y2='1' stroke='%23939393' stroke-width='2'/%3E%3Cline x1='1' y1='1' x2='25' y2='25' stroke='%23939393' stroke-width='2'/%3E%3C/svg%3E");
-        }
-    }
-    & .navbar-nav {
-        margin-top: $spacer*3;
-        & .nav-item {
-            & .nav-link {
-                padding: $spacer*.5 $spacer;
+// ── Off-canvas sliding drawer for the unified primary nav ──────────────────
+// Same mechanism as the shared V2/SSR navbar pattern (a #primary-navigation
+// list toggled by a hamburger button, transform: translateX(...) sliding it
+// in at narrow viewports, plus a cancel button shown only while open) —
+// colors/classes adapted to UI's own existing look (#1D5290 / #E87A1C,
+// matching .nav-item .nav-link above) instead of V2's CSS custom properties.
+.mobile-nav-ham,
+.mobile-nav-cancel {
+    display: none;
+    border: 0;
+    background: transparent;
+    color: #1D5290;
+    padding: 0;
+}
+
+.primary-navigation {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    align-items: center;
+    background: $white;
+}
+
+@include media-breakpoint-down(lg) {
+    .primary-navigation {
+        position: fixed;
+        z-index: 1050;
+        inset: 0 20% 0 0;
+
+        flex-direction: column;
+        align-items: start;
+        overflow-y: auto;
+        padding: min(15vh, 10rem) 2em 2em;
+
+        background: rgba($color: $white, $alpha: .97);
+        backdrop-filter: blur(40px);
+
+        transform: translateX(-100%);
+        transition: transform 350ms ease-in;
+
+        & .nav-item .nav-link {
+            padding: $spacer*.5 0;
+            border-bottom: none;
+            &.active {
                 border-bottom: none;
-                &.active {
-                    border-bottom: none;
-                }
             }
-            & .dropdown-menu {
-                border: none;
-                background: transparent;
-                padding: 0;
-                margin-left: $spacer*2;
-                & li {
-                    border-bottom: 1px solid $gray-300;
-                    &:last-child {
-                        border: none;
-                    }
-                    & .dropdown-item {
-                        font-size: $font-size-base*.8125;
-                        color: $gray-600;
-                        padding: $spacer 0;
-                    }
+        }
+        & .dropdown-menu {
+            position: static !important;
+            float: none;
+            border: none;
+            background: transparent;
+            padding: 0;
+            margin-left: $spacer*1.5;
+            transform: none !important;
+            & li {
+                border-bottom: 1px solid $gray-300;
+                &:last-child {
+                    border: none;
+                }
+                & .dropdown-item {
+                    font-size: $font-size-base*.8125;
+                    color: $gray-600;
+                    padding: $spacer*.5 0;
                 }
             }
         }
+    }
+
+    .primary-navigation-data-visible {
+        transform: translateX(0%);
+    }
+
+    .mobile-nav-ham {
+        display: block;
+    }
+
+    .mobile-nav-cancel {
+        display: block;
+        position: fixed;
+        z-index: 1060;
+        top: 0.75rem;
+        right: 0.75rem;
     }
 }
 
