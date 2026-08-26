@@ -50,9 +50,7 @@
                 <span class="fy" style="font-size: 2rem; color: #1D5290; font-weight: bold;">finance</span>
             </a>
             <div class="d-flex flex-grow-1 align-items-center justify-content-end">
-                <!-- Single array-driven nav list: renders as the desktop horizontal bar at
-                     wide viewports and as the sliding drawer at narrow ones (CSS-only switch,
-                     see .primary-navigation in the scss) -->
+                <!-- Renders as the desktop bar or the sliding drawer, CSS-only switch. -->
                 <ul id="primary-navigation" class="primary-navigation navbar-nav ms-auto mb-2 mb-lg-0"
                     [ngClass]="showMobileNav ? 'primary-navigation-data-visible' : ''">
 
@@ -96,8 +94,7 @@
                             </button>
                         </li>
 
-                        <!-- Image branch (menu.imageUrl) — this is UI's existing cityLogo item,
-                             now sourced from the brand-cfr-image config entry -->
+                        <!-- Image branch (menu.imageUrl) — UI's existing cityLogo item -->
                         <li class="nav-item" *ngIf="!menu.children?.length && menu.renderAs !== 'button' && menu.imageUrl">
                             <a class="navbar-brand cityLogo" *ngIf="menu.resolvedLink" [routerLink]="menu.resolvedLink"
                                 (click)="closeMobileNav()">

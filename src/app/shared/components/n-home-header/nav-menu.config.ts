@@ -1,20 +1,11 @@
 /**
- * SOURCE OF TRUTH for the CityFinance top nav bar, shared across the UI, SSR,
- * and V2 apps. Edit only here (cityfinance-ng-ui-v2), then copy this file
- * verbatim to:
+ * SOURCE OF TRUTH for the CityFinance top nav bar, shared across UI, SSR, and
+ * V2. Edit only here, then copy verbatim to:
  *   - cityfinance-ng-ui/src/app/shared/components/n-home-header/nav-menu.config.ts
  *   - cf-ui-ssr/src/app/shared/components/template/navbar/nav-menu.config.ts
  *
- * This file has NO imports from app-specific code (no USER_TYPE enum, no
- * Angular, no environment) so it is byte-for-byte copyable into all three
- * repos. Each repo's own navbar component supplies:
- *   - which app it is ('ui' | 'ssr' | 'v2'), to filter `apps`
- *   - its own visibility checks (roles, env, AccessChecker, readonly-allowlist, etc.)
- *   - its own resolveLinks(), turning hostApp/path into a concrete
- *     routerLink or href using THAT repo's own environment base-urls
- *     (e.g. environment.ui.urlV1/urlV2 in UI/V2, environment.v1Url/v2Url in SSR)
- *
- * Last synced: 2026-08-25
+ * No app-specific imports (Angular, environment, USER_TYPE) — keeps this file
+ * copy-paste safe. Full schema reference and worked examples: ./CLAUDE.md.
  */
 
 export type NavRoleName =
@@ -38,36 +29,25 @@ export interface NavMenuVisibility {
   roles?: NavRoleName[]; // allow-list
   excludeRoles?: NavRoleName[]; // deny-list
   isHiddenInProd?: boolean;
-  readonlyGated?: boolean; // additionally subject to each repo's own isReadonlyUser()
-  moduleAccess?: { moduleName: string; action: string }[]; // UI only today
+  readonlyGated?: boolean; // + each repo's own isReadonlyUser()
+  moduleAccess?: { moduleName: string; action: string }[]; // UI only
   ocrRouteOnly?: boolean; // V2 only
   showOnMobileOnly?: boolean; // UI only
 
-  // Second, independent gating dimension: WHICH PAGE the user is currently
-  // on, orthogonal to role/auth (both dimensions must pass — AND logic).
-  // Route matching is boundary-safe via matchesAnyRoutePrefix() below, same
-  // rule as activePathPrefix: a prefix of '/xvifc' matches '/xvifc/year' and
-  // '/xvifc/2024-25/...', but never '/xvifc-form'.
-  showOnlyOnRoutePrefixes?: string[]; // allow-list: visible ONLY while on one of these routes (or a descendant)
-  hideOnRoutePrefixes?: string[]; // deny-list: hidden while on one of these routes (or a descendant); visible elsewhere
-
-  // Third gating dimension, distinct from the two above: those are each
-  // independently OR'd into "hide if ANY one condition fires". This one is a
-  // single AND of role + route together — hidden only when BOTH the current
-  // role is in `roles` AND the current route matches one of `routePrefixes`;
-  // visible on every other route even to those same roles, and visible on
-  // these routes to every other role. E.g. Resources/Blog hidden for
-  // ULB/STATE/MoHUA/ADMIN/XVIFC_STATE/XVIFC only while inside the XVI FC
-  // flow ('/xvifc', '/xvifc-form'), visible to those same roles everywhere
-  // else and to every other role even on those routes.
-  hideWhenRoleOnRoute?: { roles: NavRoleName[]; routePrefixes: string[] };
+  // Route-based gating, independent of role/auth. Before combining more than
+  // one of these three fields on one item, see CLAUDE.md ("How the three
+  // role/route dimensions actually combine") — they don't compose the way
+  // you'd expect.
+  showOnlyOnRoutePrefixes?: string[]; // allow-list
+  hideOnRoutePrefixes?: string[]; // deny-list
+  hideWhenRoleOnRoute?: { roles: NavRoleName[]; routePrefixes: string[] }; // AND of role + route
 }
 
 export interface NavMenuItem {
   id: string;
-  order: number; // sparse (10, 20, 30…); sorts BOTH top-level and each dropdown's children
+  order: number; // sparse (10, 20, 30…); sorts siblings, top-level or within a dropdown
   label?: string; // may contain inline HTML, e.g. '15<sup>th</sup> FC Grants'
-  icon?: string; // e.g. 'bi bi-rocket-takeoff-fill' or 'material-icons:login'
+  icon?: string; // Bootstrap Icons class or Material icon name
   imageUrl?: string; // renders an <img> in place of the label
   imageAlt?: string;
 
@@ -81,38 +61,20 @@ export interface NavMenuItem {
   buttonClass?: string;
   size?: 'sm' | 'md' | 'lg';
 
-  // Populated by each repo's own resolveLinks(), NOT authored here: hostApp/path
-  // is the portable source data, resolvedLink/resolvedHref is what a given repo's
-  // template actually binds to ([routerLink] vs [attr.href]).
-  resolvedLink?: string;
+  resolvedLink?: string; // computed per-repo in resolveLinks() — not authored here
   resolvedHref?: string;
 
-  children?: NavMenuItem[]; // presence = render as a dropdown
+  children?: NavMenuItem[]; // presence = renders as a dropdown
 
-  groupId?: string; // items sharing a groupId collapse into one dropdown when 2+ are visible
-  groupDefaultLabel?: string; // dropdown trigger label when no visible item is the "primary"
-  isGroupPrimaryLabel?: boolean; // this item's own label becomes the trigger label when visible
+  groupId?: string; // shared groupId collapses into one dropdown once 2+ members are visible
+  groupDefaultLabel?: string; // dropdown trigger label when no member is the "primary"
+  isGroupPrimaryLabel?: boolean;
 
-  // For active-route matching only (which group member "you're on" right now).
-  // Defaults to `path` — fine for a flat page, but some items are really an
-  // entry point into a whole subtree that lives under a DIFFERENT url root
-  // (e.g. '/xvifc/year' is the entry, but the real flow continues at
-  // '/xvifc/:yearId/...', a sibling, not a child, of '/xvifc/year'). Set this
-  // to that broader root so the whole subtree still counts as "here".
+  // Active-route match root, if different from `path` — see CLAUDE.md, "activePathPrefix — why it exists".
   activePathPrefix?: string;
 
-  // Computed by resolveMenus() from the caller's active-route callback (the
-  // same one used to pick a group's dynamic trigger label) — NOT authored in
-  // NAV_MENU_ITEMS. Bind the "active" CSS class to THIS field directly
-  // instead of Angular's routerLinkActive directive: that directive only
-  // sees a RouterLink physically nested inside the same host element (never
-  // true for a mat-menu/Bootstrap-dropdown trigger, whose menu content lives
-  // in a separate template or is portaled elsewhere), can't express
-  // activePathPrefix's sibling-route case, and never applies to an
-  // href-rendered cross-app item at all — which is why, before this field
-  // existed, only an item with a plain single-page path (e.g. XVI FC Data
-  // Collection) ever appeared "active" and every other 'ulb-forms' sibling
-  // didn't.
+  // Computed by resolveMenus() — not authored here. Bind template "active"
+  // state to this, not routerLinkActive — see CLAUDE.md, "Active-route highlighting".
   isActiveRoute?: boolean;
 
   apps: NavAppKey[]; // which repo(s) even consider this item
@@ -136,11 +98,7 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
     imageAlt: 'City Finance Ranking',
     hostApp: 'ui',
     path: '/rankings/home',
-    // UI-only for now: this is UI's existing image-nav-item today; folding a
-    // brand-new visual element into SSR/V2 (which only have the plain text
-    // "city finance" logo outside the menu array) wasn't asked for — this
-    // item exists here to demonstrate/reuse the imageUrl capability.
-    apps: ['ui'],
+    apps: ['ui'], // UI-only existing image nav item; demonstrates imageUrl
   },
   {
     id: 'dashboard',
@@ -207,9 +165,7 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
     hostApp: 'ui',
     path: '/resources-dashboard/data-sets/income_statement',
     apps: ['ui', 'ssr', 'v2'],
-    // Hidden for these roles ONLY while inside the XVI FC flow ('/xvifc',
-    // '/xvifc-form') — visible to them everywhere else, and visible on those
-    // same routes to every other role (incl. logged-out, role === '').
+    // Hidden for these roles only inside the XVI FC flow — see CLAUDE.md, "NavMenuVisibility — every field, with a real example".
     visibility: {
       hideWhenRoleOnRoute: {
         roles: ['ULB', 'STATE', 'MoHUA', 'ADMIN', 'XVIFC_STATE', 'XVIFC'],
@@ -223,11 +179,9 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
     label: 'Blog',
     hostApp: 'external',
     target: '_blank',
-    apps: ['ui', 'ssr', 'v2'],
-    // absoluteHref intentionally omitted — each repo resolves this from its
-    // own `environment.blogUrl`, same as SSR already does today.
-    // Same rule as Resources above — see comment there.
+    apps: ['ui', 'ssr', 'v2'], // absoluteHref omitted — each repo resolves from its own environment.blogUrl
     visibility: {
+      // Same rule as Resources above.
       hideWhenRoleOnRoute: {
         roles: ['ULB', 'STATE', 'MoHUA', 'ADMIN', 'XVIFC_STATE', 'XVIFC'],
         routePrefixes: ['/xvifc', '/xvifc-form'],
@@ -250,26 +204,14 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
   },
   {
     id: 'fc-16th-grant',
-    // Lower than its 'ulb-forms' siblings (15th FC Grants: 40, XVI FC Data
-    // Collection: 50, Rankings'22 Form: 80) so it sorts FIRST among the
-    // children listed inside the collapsed "My Forms" dropdown. Deliberately
-    // NOT lower than 30 (Blog) — the group's own top-level position is
-    // Math.min() of its members' orders (see groupAndSort() below), so
-    // dropping below 30 would also drag the whole group earlier in the nav,
-    // which isn't the ask here: only the dropdown's internal order changes.
-    order: 35,
+    order: 35, // lowest among 'ulb-forms' siblings, sorts first — see CLAUDE.md, "Grouping — the My Forms dropdown"
     label: '16<sup>th</sup> FC Grants',
     hostApp: 'v2',
     path: '/xvifc/year',
     apps: ['ui', 'ssr', 'v2'],
     groupId: 'ulb-forms',
     groupDefaultLabel: 'My Forms',
-    // '/xvifc/year' is just the entry point — once a year is picked, the real
-    // flow moves to '/xvifc/:yearId/...' (a sibling route, not a child of
-    // '/xvifc/year'), so match the whole module root to stay "active" there too.
-    activePathPrefix: '/xvifc',
-    // matches /xvifc/year's own canMatch guards (ulb/state/mohua/admin), and
-    // the roles already on this same type in ROUTE_PAGES (login-menu.constant.ts)
+    activePathPrefix: '/xvifc', // '/xvifc/year' is just the entry point into the whole module
     visibility: { requiresAuth: true, roles: ['ULB', 'STATE', 'MoHUA', 'ADMIN'] },
   },
   {
@@ -319,9 +261,6 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
     hostApp: 'ui',
     path: '/rankings/review-rankings-ulbform',
     apps: ['ui'],
-    // excludeRoles carries BOTH exclusions from UI's original nested guard
-    // (outer: `role !== STATE_DASHBOARD`, inner else-branch: ULB gets the
-    // Form variant instead) — STATE_DASHBOARD must see neither Rankings item.
     visibility: { requiresAuth: true, readonlyGated: true, excludeRoles: ['ULB', 'STATE_DASHBOARD'] },
   },
   {
@@ -392,38 +331,17 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
   },
 ];
 
-/**
- * Boundary-safe "is the current url on/under one of these routes" check —
- * shared by isActiveGroupChild() (which member of a group are we "on") and by
- * showOnlyOnRoutePrefixes/hideOnRoutePrefixes visibility gating in each
- * repo's isMenuItemVisible(). A prefix of '/xvifc' matches '/xvifc/year' and
- * '/xvifc/2024-25/...', but never '/xvifc-form' — a bare startsWith() would
- * false-positive on that last case.
- */
+/** Boundary-safe route-prefix match (`/xvifc` matches `/xvifc/year`, never `/xvifc-form`). See CLAUDE.md, "Boundary-safe route matching". */
 export function matchesAnyRoutePrefix(url: string, prefixes: string[]): boolean {
   return prefixes.some((prefix) => url === prefix || url.startsWith(prefix + '/'));
 }
 
 /**
- * Pure, repo-agnostic resolution: recursively drops items `isVisible` rejects
- * (including nested children, e.g. a prod-gated Dashboard child, without
- * dropping the Dashboard parent itself if other children remain), then sorts
- * by `order` and collapses any `groupId` cluster into ONE dropdown when 2+ of
- * its items are visible (a lone visible item in a group renders flat).
- *
- * `isVisible` should already capture BOTH which app you are (item.apps.includes(self))
- * AND your repo's own role/env/access checks — this function knows about neither.
- * Link resolution (routerLink vs href) is NOT done here — that stays per-repo.
- *
- * `isActiveGroupChild`, if passed, marks whichever group member matches the
- * CURRENT route — e.g. `(item) => item.hostApp === 'v2' && this._router.url === item.path`.
- * When one matches, the collapsed dropdown's trigger label becomes that
- * item's own label (e.g. "XVI FC Data Collection ▾") instead of the generic
- * `groupDefaultLabel` ("My Forms ▾") — so the trigger itself always names
- * where you are, not just a highlighted row once you open it. The same
- * callback is also reused to stamp `isActiveRoute` on every returned item
- * (see stampActive() below) for template active-highlighting. Recompute on
- * every route change (the same NavigationEnd hook that already calls this).
+ * Pure, repo-agnostic resolution: filter → sort/group → stamp active state.
+ * `isVisible` must already capture app + role/env/access; `isActiveGroupChild`
+ * (optional) marks the current route's group member, driving both a group's
+ * trigger label and every item's `isActiveRoute`. Link resolution stays
+ * per-repo. Full pipeline: CLAUDE.md, "Resolution pipeline".
  */
 export function resolveMenus(
   items: NavMenuItem[],
@@ -434,14 +352,7 @@ export function resolveMenus(
   return isActiveGroupChild ? resolved.map((item) => stampActive(item, isActiveGroupChild)) : resolved;
 }
 
-/**
- * Stamps `isActiveRoute` on `item` and, recursively, every descendant,
- * reusing the exact same per-item check groupAndSort() uses to pick a
- * group's active child. An item with children (a real dropdown like
- * Dashboard, or a synthetic 'ulb-forms' group) has no route of its own, so
- * it's active whenever any child is — the trigger then gets the same
- * highlighted treatment a flat nav-link gets on its own page.
- */
+/** Stamps `isActiveRoute` on `item` and every descendant; a parent is active if any child is. */
 function stampActive(
   item: NavMenuItem,
   isActiveRoute: (item: NavMenuItem) => boolean,
@@ -495,8 +406,7 @@ function groupAndSort(
       continue;
     }
 
-    // Active route wins over a static "primary" flag, which wins over the
-    // generic default — the trigger should name where you are first.
+    // Trigger label priority: active member > primary member > groupDefaultLabel > 'More'.
     const activeChild = isActiveGroupChild ? groupItems.find(isActiveGroupChild) : undefined;
     const primary = groupItems.find((g) => g.isGroupPrimaryLabel);
     result.push({

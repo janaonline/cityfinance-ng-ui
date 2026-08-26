@@ -241,12 +241,7 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
 
   }
 
-  /**
-   * Rebuilds `menus` from the shared NAV_MENU_ITEMS config. Called on
-   * ngOnInit, on auth-state change, on router NavigationEnd, and whenever
-   * the mobile drawer is opened/closed (so `showOnMobileOnly` items, which
-   * only exist for the mobile drawer, appear/disappear as it toggles).
-   */
+  /** Rebuilds `menus` from the shared NAV_MENU_ITEMS config — see ./CLAUDE.md, "Resolution pipeline". */
   private refreshMenus(): void {
     const resolved = resolveMenus(
       NAV_MENU_ITEMS,
@@ -256,14 +251,7 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
     this.menus = resolved.map((item) => this.resolveLinks(item));
   }
 
-  /**
-   * True when `item` is this app's own route AND the current URL is either
-   * exactly its match path or a descendant of it (boundary-safe: a prefix of
-   * '/fc-home-page' matches every page inside that lazy-loaded module, but
-   * never a route that merely shares the string without a '/' boundary).
-   * `activePathPrefix` overrides `path` for items whose real flow lives under
-   * a broader/different url root than their own link target — see nav-menu.config.ts.
-   */
+  /** True when `item` is this app's own route and the current URL is on/under it — see ./CLAUDE.md, "Active-route highlighting". */
   private isActiveGroupChild(item: NavMenuItem): boolean {
     if (item.hostApp !== 'ui') return false;
     const prefix = item.activePathPrefix ?? item.path;
@@ -291,20 +279,13 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
     if (v.excludeRoles && !this.notInRole(v.excludeRoles)) return false;
     if (v.isHiddenInProd && this.isProd) return false;
     if (v.readonlyGated && !this.isReadonlyUser()) return false;
-    // Second, independent gating dimension: which page the user is on right
-    // now (AND'd with the role checks above). Recomputed on every route
-    // change, so this updates live as the user navigates, same as the role
-    // checks do on login/logout.
+    // Route-based gating — see ./CLAUDE.md, "How the three role/route dimensions actually combine".
     if (v.showOnlyOnRoutePrefixes && !matchesAnyRoutePrefix(this._router.url, v.showOnlyOnRoutePrefixes)) {
       return false;
     }
     if (v.hideOnRoutePrefixes && matchesAnyRoutePrefix(this._router.url, v.hideOnRoutePrefixes)) {
       return false;
     }
-    // Third gating dimension: unlike the two above (each independently OR'd
-    // into "hide if any one fires"), this is a single AND of role + route —
-    // hidden only when BOTH match together (e.g. Resources/Blog hidden for
-    // ULB while inside the XVI FC flow, but still visible to ULB elsewhere).
     if (
       v.hideWhenRoleOnRoute &&
       this.inRole(v.hideWhenRoleOnRoute.roles) &&
@@ -323,13 +304,8 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
     ) {
       return false;
     }
-    // showOnMobileOnly: UI's only mobile-only slot today is the "Home" item,
-    // reachable only from the sliding drawer — `showMobileNav` is the same
-    // state that opens/closes that drawer (the hamburger that sets it is
-    // itself only visible below the drawer's CSS breakpoint), so it doubles
-    // as the "am I looking at the mobile nav" signal.
+    // `showMobileNav` doubles as "is the drawer open right now".
     if (v.showOnMobileOnly && !this.showMobileNav) return false;
-    // ocrRouteOnly: not applicable to UI — no item with this flag has 'ui' in `apps`.
 
     return true;
   }
