@@ -100,6 +100,7 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
     hostApp: 'ui',
     path: '/rankings/home',
     apps: ['ui'], // UI-only existing image nav item; demonstrates imageUrl
+    isDisabled: true,
   },
   {
     id: 'dashboard',
@@ -216,6 +217,17 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
     visibility: { requiresAuth: true, roles: ['ULB', 'STATE', 'MoHUA', 'ADMIN'] },
   },
   {
+    id: 'rankings-22-dashboard',
+    order: 45, // sorts 3rd among 'ulb-forms' siblings, between fc-16th-grant (35) and xvi-fc-data-collection (50)
+    label: "Rankings'22",
+    hostApp: 'ui',
+    path: '/rankings/review-rankings-ulbform',
+    apps: ['ui', 'ssr', 'v2'],
+    groupId: 'ulb-forms',
+    groupDefaultLabel: 'My Forms',
+    visibility: { requiresAuth: true, readonlyGated: true, excludeRoles: ['ULB', 'STATE_DASHBOARD'] },
+  },
+  {
     id: 'xvi-fc-data-collection',
     order: 50,
     label: 'XVI FC Data Collection',
@@ -254,15 +266,6 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
     groupId: 'ulb-forms',
     groupDefaultLabel: 'My Forms',
     visibility: { requiresAuth: true, readonlyGated: true, roles: ['ULB'] },
-  },
-  {
-    id: 'rankings-22-dashboard',
-    order: 81,
-    label: "Rankings'22 Dashboard",
-    hostApp: 'ui',
-    path: '/rankings/review-rankings-ulbform',
-    apps: ['ui'],
-    visibility: { requiresAuth: true, readonlyGated: true, excludeRoles: ['ULB', 'STATE_DASHBOARD'] },
   },
   {
     id: 'users',
