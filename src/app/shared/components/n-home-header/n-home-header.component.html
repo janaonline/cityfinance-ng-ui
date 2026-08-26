@@ -157,13 +157,6 @@
                             </a>
                         </li>
                         <hr class="m-0">
-                        <li><a class="dropdown-item" (click)="loginLogout('state-dashboard')">
-                                <span class="material-icons">
-                                    login
-                                </span> State Dashboard
-                            </a>
-                        </li>
-                        <hr class="m-0">
                         <li><a class="dropdown-item" (click)="loginLogout('XVIFC')">
                                 <span class="material-icons">
                                     login
@@ -175,7 +168,17 @@
                                 <span class="material-icons">
                                     login
                                 </span> Rankings 2022
-                            </a></li>
+                            </a>
+                        </li>
+                        <hr class="m-0">
+                        <!-- Reordered to match SSR/V2's ROUTE_PAGES order — was 4th, now last, so
+                             all three repos' login dropdowns render in the same sequence. -->
+                        <li><a class="dropdown-item" (click)="loginLogout('state-dashboard')">
+                                <span class="material-icons">
+                                    login
+                                </span> State Dashboard
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <div class="btn-group ms-2" dropdown *ngIf="isLoggedIn">
