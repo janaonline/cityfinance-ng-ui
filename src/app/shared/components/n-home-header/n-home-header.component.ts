@@ -16,6 +16,7 @@ import { UtilityService } from "../../services/utility.service";
 import { UserInfoDialogComponent } from "../user-info-dialog/user-info-dialog.component";
 import { HomeHeaderService } from "./home-header.service";
 import { ROUTE_PAGES } from "./login-menu.constant";
+import { NAV_MENU_ITEMS, NavMenuItem, matchesAnyRoutePrefix, resolveMenus } from "./nav-menu.config";
 
 @Component({
   selector: "app-n-home-header",
@@ -36,6 +37,14 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
   currentTextSize: any;
   canViewUserList = false;
   canViewULBSingUpListing = false;
+  menus: NavMenuItem[] = [];
+  showMobileNav = false;
+  // Note: this branch predates the ROUTE_PAGES/login-menu.constant.ts array-driven
+  // Login dropdown that exists on `development` — that file doesn't exist here, so
+  // the Login dropdown below stays on its own pre-existing hardcoded markup/handlers
+  // (loginLogout(...)), untouched, same as before this nav-bar-unification pass.
+  /** UI's existing blog URL (previously only inline in blogsPage()/footer). No environment.blogUrl exists today. */
+  private readonly blogUrl = 'https://blog.cityfinance.in/';
   private destroy$ = new Subject<void>();
   routePages = ROUTE_PAGES.filter(page => page.isMenu).map(page => {
     return {
@@ -60,6 +69,7 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
     ).subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.initializeAccessChecking();
+        this.refreshMenus();
       }
     });
 
@@ -75,6 +85,8 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
       } else {
         this.btnName = "Login for 15th FC Grants";
       }
+
+      this.refreshMenus();
     });
   }
   private accessChecker = new AccessChecker();
@@ -93,6 +105,8 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
 
     let getTextSize = JSON.parse(localStorage.getItem("myLSkey"));
     if (getTextSize) this.setFontSize(getTextSize.currentTextSize);
+
+    this.refreshMenus();
   }
   initializeAccessChecking() {
     this.canViewUserList = this.accessChecker.hasAccess({
@@ -105,9 +119,6 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
     });
   }
 
-  blogsPage() {
-    window.open('https://blog.cityfinance.in/', '_blank');
-  }
   setFontSize(size) {
     console.log('setFontSize', size)
     // this.size= size;
@@ -159,7 +170,7 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
         window.location.href = '/home';
       });
     } else if (type == 'XVIFC_coming_soon') {
-      window.location.href = '/auth/login/16thFC';
+      window.location.href = '/auth/login/16thfc';
     } else {
       window.location.href = environment.ui.urlV2 + "auth/login/" + type;
     }
@@ -247,8 +258,129 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
 
   }
 
-  getNationalPageUrl() {
-    this.commonService.getNationalPageUrl();
+  /** Rebuilds `menus` from the shared NAV_MENU_ITEMS config — see ./CLAUDE.md, "Resolution pipeline". */
+  private refreshMenus(): void {
+    const resolved = resolveMenus(
+      NAV_MENU_ITEMS,
+      (item) => this.isMenuItemVisible(item),
+      (item) => this.isActiveGroupChild(item),
+    );
+    this.menus = resolved.map((item) => this.resolveLinks(item));
+  }
+
+  /** True when `item` is this app's own route and the current URL is on/under it — see ./CLAUDE.md, "Active-route highlighting". */
+  private isActiveGroupChild(item: NavMenuItem): boolean {
+    if (item.hostApp !== 'ui') return false;
+    const prefix = item.activePathPrefix ?? item.path;
+    if (!prefix) return false;
+    return matchesAnyRoutePrefix(this._router.url, [prefix]);
+  }
+
+  private inRole(roles: string[]): boolean {
+    return roles.includes(this.user?.role ?? '');
+  }
+
+  private notInRole(roles: string[]): boolean {
+    return !this.inRole(roles);
+  }
+
+  private isMenuItemVisible(item: NavMenuItem): boolean {
+    if (item.isDisabled) return false;
+    if (!item.apps.includes('ui')) return false;
+
+    const v = item.visibility;
+    if (!v) return true;
+
+    if (v.requiresAuth && !this.isLoggedIn) return false;
+    if (v.loggedOutOnly && this.isLoggedIn) return false;
+    if (v.roles && !this.inRole(v.roles)) return false;
+    if (v.excludeRoles && !this.notInRole(v.excludeRoles)) return false;
+    if (v.isHiddenInProd && this.isProd) return false;
+    if (v.readonlyGated && !this.isReadonlyUser()) return false;
+    // Route-based gating — see ./CLAUDE.md, "How the three role/route dimensions actually combine".
+    if (v.showOnlyOnRoutePrefixes && !matchesAnyRoutePrefix(this._router.url, v.showOnlyOnRoutePrefixes)) {
+      return false;
+    }
+    if (v.hideOnRoutePrefixes && matchesAnyRoutePrefix(this._router.url, v.hideOnRoutePrefixes)) {
+      return false;
+    }
+    if (
+      v.hideWhenRoleOnRoute &&
+      this.inRole(v.hideWhenRoleOnRoute.roles) &&
+      matchesAnyRoutePrefix(this._router.url, v.hideWhenRoleOnRoute.routePrefixes)
+    ) {
+      return false;
+    }
+    if (
+      v.moduleAccess &&
+      !v.moduleAccess.some((ma) =>
+        this.accessChecker.hasAccess({
+          moduleName: ma.moduleName as MODULES_NAME,
+          action: ma.action as ACTIONS,
+        }),
+      )
+    ) {
+      return false;
+    }
+    // `showMobileNav` doubles as "is the drawer open right now".
+    if (v.showOnMobileOnly && !this.showMobileNav) return false;
+
+    return true;
+  }
+
+  /** Turns hostApp/path into a concrete routerLink or href for THIS app (UI). */
+  private resolveLinks(item: NavMenuItem): NavMenuItem {
+    const resolved: NavMenuItem = { ...item };
+
+    if (item.children?.length) {
+      resolved.children = item.children.map((child) => this.resolveLinks(child));
+    }
+
+    switch (item.hostApp) {
+      case 'ui':
+        resolved.resolvedLink = item.path;
+        break;
+      case 'ssr':
+        // SSR occupies the site root, so a plain relative path resolves
+        // there via the shared-domain setup — same as today's
+        // CommonService.getNationalPageUrl() (window.location.href = '/municipal-data/national').
+        resolved.resolvedHref = item.path;
+        break;
+      case 'v2': {
+        // This branch's environment.ts predates the `ui: { urlV1, urlV2 }`
+        // structure that exists on `development` — fall back to the same
+        // relative '/fc' prefix this app already hardcoded for V2 links
+        // (e.g. the old literal href="/fc/xvifc-form") when it's absent.
+        const v2Base = (environment as any)?.ui?.urlV2 as string | undefined;
+        resolved.resolvedHref = item.path
+          ? (v2Base ?? '/fc/').replace(/\/$/, '') + item.path
+          : undefined;
+        break;
+      }
+      case 'external':
+        resolved.resolvedHref = item.id === 'blog' ? this.blogUrl : item.absoluteHref;
+        break;
+      default:
+        break;
+    }
+
+    return resolved;
+  }
+
+  trackByMenuId(_index: number, menu: NavMenuItem): string {
+    return menu.id;
+  }
+
+  toggleMobileNav(): void {
+    this.showMobileNav = !this.showMobileNav;
+    this.refreshMenus();
+  }
+
+  closeMobileNav(): void {
+    if (this.showMobileNav) {
+      this.showMobileNav = false;
+      this.refreshMenus();
+    }
   }
 
   ngOnDestroy(): void {
