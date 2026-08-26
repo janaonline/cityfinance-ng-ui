@@ -50,6 +50,17 @@ export interface NavMenuVisibility {
   // '/xvifc/2024-25/...', but never '/xvifc-form'.
   showOnlyOnRoutePrefixes?: string[]; // allow-list: visible ONLY while on one of these routes (or a descendant)
   hideOnRoutePrefixes?: string[]; // deny-list: hidden while on one of these routes (or a descendant); visible elsewhere
+
+  // Third gating dimension, distinct from the two above: those are each
+  // independently OR'd into "hide if ANY one condition fires". This one is a
+  // single AND of role + route together — hidden only when BOTH the current
+  // role is in `roles` AND the current route matches one of `routePrefixes`;
+  // visible on every other route even to those same roles, and visible on
+  // these routes to every other role. E.g. Resources/Blog hidden for
+  // ULB/STATE/MoHUA/ADMIN/XVIFC_STATE/XVIFC only while inside the XVI FC
+  // flow ('/xvifc', '/xvifc-form'), visible to those same roles everywhere
+  // else and to every other role even on those routes.
+  hideWhenRoleOnRoute?: { roles: NavRoleName[]; routePrefixes: string[] };
 }
 
 export interface NavMenuItem {
@@ -196,11 +207,15 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
     hostApp: 'ui',
     path: '/resources-dashboard/data-sets/income_statement',
     apps: ['ui', 'ssr', 'v2'],
-    // Concrete example of role-gated visibility: hidden once logged in as
-    // ULB, visible to logged-out visitors and every other role. Works because
-    // every repo resolves a logged-out user's role to '' (never a real
-    // NavRoleName) — see isMenuItemVisible() in each repo's navbar component.
-    visibility: { excludeRoles: ['ULB'] },
+    // Hidden for these roles ONLY while inside the XVI FC flow ('/xvifc',
+    // '/xvifc-form') — visible to them everywhere else, and visible on those
+    // same routes to every other role (incl. logged-out, role === '').
+    visibility: {
+      hideWhenRoleOnRoute: {
+        roles: ['ULB', 'STATE', 'MoHUA', 'ADMIN', 'XVIFC_STATE', 'XVIFC'],
+        routePrefixes: ['/xvifc', '/xvifc-form'],
+      },
+    },
   },
   {
     id: 'blog',
@@ -211,7 +226,13 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
     apps: ['ui', 'ssr', 'v2'],
     // absoluteHref intentionally omitted — each repo resolves this from its
     // own `environment.blogUrl`, same as SSR already does today.
-    visibility: { excludeRoles: ['ULB'] },
+    // Same rule as Resources above — see comment there.
+    visibility: {
+      hideWhenRoleOnRoute: {
+        roles: ['ULB', 'STATE', 'MoHUA', 'ADMIN', 'XVIFC_STATE', 'XVIFC'],
+        routePrefixes: ['/xvifc', '/xvifc-form'],
+      },
+    },
   },
   {
     id: 'fc-15th-grants',
