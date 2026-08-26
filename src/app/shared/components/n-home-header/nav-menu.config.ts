@@ -78,6 +78,7 @@ export interface NavMenuItem {
   isActiveRoute?: boolean;
 
   apps: NavAppKey[]; // which repo(s) even consider this item
+  isDisabled?: boolean; // true = off in every repo regardless of apps/visibility — see CLAUDE.md, "Adding or removing an item"
   visibility?: NavMenuVisibility; // omitted/empty = always visible (subject to `apps`)
 }
 

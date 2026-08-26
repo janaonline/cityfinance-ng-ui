@@ -268,6 +268,7 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
   }
 
   private isMenuItemVisible(item: NavMenuItem): boolean {
+    if (item.isDisabled) return false;
     if (!item.apps.includes('ui')) return false;
 
     const v = item.visibility;

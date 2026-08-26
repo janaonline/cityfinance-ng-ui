@@ -64,6 +64,7 @@ interface NavMenuItem {
   activePathPrefix?: string;      // see "Active-route highlighting" below
 
   apps: Array<'ui' | 'ssr' | 'v2'>;  // which repo(s) even consider this item
+  isDisabled?: boolean;               // true = off in every repo regardless of apps/visibility
   visibility?: NavMenuVisibility;     // omitted = always visible (subject to `apps`)
 
   // Computed at render time — never author these two in NAV_MENU_ITEMS:
@@ -198,6 +199,22 @@ Recomputed on every login/logout (`sessionState$` subscription) **and** every ro
 - Only repo with `showOnMobileOnly` (the `home` item) and `moduleAccess` (the `users` item, via `AccessChecker`).
 - Only repo with a second, standalone `imageUrl` nav item (the CFR ranking logo) rendered outside the menu's link/button branches.
 - This repo's `environment.ts` predates the `ui: { urlV1, urlV2 }` base-URL structure the other two repos have; `resolveLinks()`'s `case 'v2'` here falls back to a hardcoded `/fc/` prefix instead.
+
+## Adding or removing an item
+
+**Adding**: pick a unique `id`; a sparse `order` among its intended siblings — top-level, or, if `groupId` is set, within that group's existing numeric gap (see "Grouping" above for why that matters). Set `apps` to every repo that actually has the destination page, and add only the `visibility` fields that actually restrict it. Edit the canonical V2 file, then sync per "Sync convention" above.
+
+**Removing**: delete the item's object from `NAV_MENU_ITEMS` outright. Don't "soft hide" it by emptying `apps` to `[]` — `apps` means "which repo(s) even consider this item," not "is this item active," and an emptied `apps` leaves a permanently-unrenderable object sitting in the array indefinitely, which reads as a bug once this data is a DB table, not an intentional deletion.
+
+Before deleting an item with a `groupId`, check:
+1. Does removing it drop the group to 1 remaining visible member? `groupAndSort()` auto-collapses a group to a flat link once only one member is visible — confirm that's what you want.
+2. Was this item the group's label source (`isGroupPrimaryLabel: true`, or the only member supplying `groupDefaultLabel`)? If so, make sure another sibling still carries it, or the dropdown falls back to the literal `'More'`.
+
+Then sync + verify per "Sync convention" and "Verification after any change" below.
+
+**Disabling without deleting**: set `isDisabled: true` directly on the item instead of removing it. It's checked first, before `apps` or `visibility`, in every repo's `isMenuItemVisible()`, so the item stops rendering everywhere while its object — `order`, `groupId`, `visibility` — stays untouched in `NAV_MENU_ITEMS`. Remove the flag later and it reappears exactly where it was, including its position inside a group. Not yet used by a live item — available whenever you need a temporary kill-switch instead of a real deletion.
+
+Not the same field as `isHiddenInProd` — the two solve different problems and shouldn't be confused: `isHiddenInProd` is environment-conditional (hidden only when `environment.isProduction` is true; still visible in dev/staging/local) and lives under `visibility`, alongside the other role/route rules. `isDisabled` is unconditional — hidden in every environment, on every route, for every role — and lives at the top level of the item, entirely outside `visibility`, because it's meant to override all of that rather than add one more condition to it.
 
 ## Verification after any change
 
