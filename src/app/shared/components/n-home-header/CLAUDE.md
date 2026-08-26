@@ -34,6 +34,8 @@ Each repo additionally owns:
 
 These sit in the *persistent top bar* (see "Mobile drawer" below), not the sliding drawer, and each repo currently points them at different destinations. Unifying them is a real, separate piece of work — deferred, not forgotten.
 
+**TODO**: move Login (and its dropdown) into `NAV_MENU_ITEMS` itself, so it's driven by the same shared, role/route-gated, per-repo-synced array as everything else instead of being hand-implemented three separate ways. Not started — SSR/V2's `ROUTE_PAGES`/`login-menu.constant.ts` and UI's fully-hardcoded dropdown would need to converge on one shape first.
+
 ## `NavMenuItem` fields
 
 ```ts
