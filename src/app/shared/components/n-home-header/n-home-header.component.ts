@@ -155,7 +155,12 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
   // routerLink="/fc-home-page";
   loginLogout(type) {
     localStorage.setItem('loginType', type);
-    if (type == '15thFC') {
+    if (type == '16thFC') {
+      // Real 16th FC login — cross-app into V2. environment.ts here predates `ui: { urlV2 }`
+      // (see resolveLinks()'s 'v2' case above), so fall back to the same '/fc/' prefix.
+      const v2Base = ((environment as any)?.ui?.urlV2 as string | undefined) ?? '/fc/';
+      window.location.href = v2Base.replace(/\/$/, '') + '/auth/login/' + type;
+    } else if (type == '15thFC') {
       this._router.navigateByUrl("/fc_grant");
     } else if (type == 'XVIFC') {
       this._router.navigateByUrl("/login/xvi-fc");
@@ -171,6 +176,8 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
         window.location.href = '/home';
       });
     } else if (type == 'XVIFC_coming_soon') {
+      // XVIFC_PROD_CUTOVER: delete this branch (and its row in the .html) once the real
+      // 16th FC login is ready for production.
       window.location.href = '/auth/login/16thfc';
     } else {
 
