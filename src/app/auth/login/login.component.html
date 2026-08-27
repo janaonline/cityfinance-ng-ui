@@ -40,7 +40,7 @@
                                     </div>
                                 </div>
 
-                                <div class="captcha-block">
+                                <div class="captcha-block" *ngIf="captchaEnabled">
                                     <re-captcha *ngIf="reCaptcha.show" (resolved)="resolveCaptcha($event)"
                                         [siteKey]="reCaptcha.siteKey">
                                     </re-captcha>

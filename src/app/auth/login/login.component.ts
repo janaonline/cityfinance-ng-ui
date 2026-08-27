@@ -70,6 +70,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public loginError: string;
   public emailVerificationMessage: string;
   otpVerificationMessage: boolean = false;
+  public captchaEnabled = false;
   public reCaptcha = {
     show: true,
     siteKey: environment.reCaptcha.siteKey,
@@ -111,14 +112,14 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     //if not localhost replace the url to fc login page
-    if (window.location.origin.indexOf("localhost") === -1) {
-      window.location.replace("/fc/auth/login/15thFC");
-    }
+    // if (window.location.origin.indexOf("localhost") === -1) {
+    //   window.location.replace("/fc/auth/login/15thFC");
+    // }
     this.loginForm = this.fb.group({
       email: ["", Validators.required],
       password: [""],
       otp: [""],
-      captcha: ["", Validators.required],
+      captcha: ["", this.captchaEnabled ? [Validators.required] : []],
     });
     this.enablePasswordMode();
     this.authService.badCredentials.subscribe((res) => {
@@ -146,7 +147,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loginError = null;
     this.submitted = true;
     this.enablePasswordMode();
-    if (!this.reCaptcha.userGeneratedKey) {
+    if (this.captchaEnabled && !this.reCaptcha.userGeneratedKey) {
       this.loginError = "Login Failed. You must validate that you are human.";
       this.loginForm.controls.captcha.markAsTouched();
       return;
@@ -373,7 +374,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       return true;
     }
 
-    if (!this.reCaptcha.userGeneratedKey) {
+    if (this.captchaEnabled && !this.reCaptcha.userGeneratedKey) {
       this.loginError = "Please complete the captcha verification first.";
       this.loginForm.controls.captcha.markAsTouched();
       return true;
