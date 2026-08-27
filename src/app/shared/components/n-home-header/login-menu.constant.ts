@@ -46,10 +46,11 @@ export const ROUTE_PAGES: IRoutePages[] = [{
     roles: [USER_TYPE.XVIFC_STATE, USER_TYPE.XVIFC]
 },
 {
+    // Rankings temporarily disabled for all users
     type: 'ranking',
     label: 'Rankings 2022',
     link: '/rankings/ulb-form',
-    isMenu: true,
+    isMenu: false,
     roles: [USER_TYPE.ULB, USER_TYPE.STATE, USER_TYPE.MoHUA, USER_TYPE.ADMIN]
 },
 {
