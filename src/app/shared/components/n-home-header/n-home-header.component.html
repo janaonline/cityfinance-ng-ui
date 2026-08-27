@@ -134,7 +134,7 @@
                         <li>
                             <a class="dropdown-item" (click)="loginLogout('XVIFC_coming_soon')">
                                 <i class="bi bi-rocket-takeoff-fill text-new-badge"></i>
-                                <span class="fw-bold"> XVI FC Grant</span>
+                                <span class="fw-bold">XVI FC Grant</span>
                                 <span class="new-badge-pill">New</span>
                             </a>
                         </li>
@@ -143,17 +143,16 @@
                         <hr class="m-0" *ngIf="!isProd">
                         <li *ngIf="!isProd">
                             <a class="dropdown-item" (click)="loginLogout('16thFC')">
-                                <span class="material-icons">
-                                    login
-                                </span> XVI FC Grant
+                                <i class="bi bi-box-arrow-in-right" style="margin-right: 8px"></i>
+                                <b>XVI FC Grant</b>
+                                <span class="new-badge-pill">New</span>
                             </a>
                         </li>
                         <hr class="m-0">
                         <li *ngFor="let page of routePages" class="border-bottom">
                             <a class="dropdown-item" [href]="page.href">
-                                <span class="material-icons">
-                                    login
-                                </span> {{ page.label }}
+                                <i class="bi bi-box-arrow-in-right" style="margin-right: 8px"></i>
+                                {{ page.label }}
                             </a>
                         </li>
                         <!-- <li><a class="dropdown-item" (click)="loginLogout('15thFC')">

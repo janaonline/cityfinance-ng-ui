@@ -229,6 +229,7 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
     hostApp: 'ui',
     path: '/rankings/review-rankings-ulbform',
     apps: ['ui', 'ssr', 'v2'],
+    isDisabled: true,
     groupId: 'ulb-forms',
     groupDefaultLabel: 'My Forms',
     // XVIFC: this was the only 'ulb-forms' member still visible to that role — excluding it here
@@ -276,6 +277,7 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
     hostApp: 'ui',
     path: '/rankings/ulb-form',
     apps: ['ui', 'ssr', 'v2'],
+    isDisabled: true, // Rankings temporarily disabled for all users — see CLAUDE.md, "Disabling without deleting"
     groupId: 'ulb-forms',
     groupDefaultLabel: 'My Forms',
     visibility: { requiresAuth: true, readonlyGated: true, roles: ['ULB'] },
