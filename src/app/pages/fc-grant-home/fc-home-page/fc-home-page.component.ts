@@ -53,6 +53,14 @@ export class FcHomePageComponent extends BaseComponent implements OnInit {
      this.yearList = res['data'];
     //  if (this.loggedInUserType === 'STATE') this.yearList = this.yearList.filter((item: any) => item.year != '2025-26');
     //  console.log('year list data', this.yearList);
+     // localStorage["Years"] (design-year label -> id map) is read directly by
+     // components across the app (e.g. TwentyEightSlbComponent, FcGrantComponent)
+     // with no fallback if it's missing.
+     const years = {};
+     (this.yearList || []).forEach((item: any) => {
+      if (item?.year && item?.id) years[item.year] = item.id;
+     });
+     localStorage.setItem("Years", JSON.stringify(years));
      },
      (err)=> {
       console.log(err.message)
