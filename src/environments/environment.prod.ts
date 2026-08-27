@@ -1,15 +1,16 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-let url = window.location.origin + "/api/v1/";
-let urlV2 = window.location.origin + "/api/v2/";
+const baseUrl = window.location.origin;
+let url = baseUrl + "/api/v1/";
+let urlV2 = baseUrl + "/api/v2/";
 let GoogleTagID: string = "G-803HPPLFMM";
 let isProduction: boolean = false;
-let versionCheckURL = window.location.origin + "/v1/version.json";
+let versionCheckURL = baseUrl + "/v1/version.json";
 let STORAGE_BASEURL: string = 'https://jana-cityfinance-stg.s3.ap-south-1.amazonaws.com';
 let storageType: string = 'S3Url'; // "S3Url" for S3 storage type, for azure change this to 'BlobUrl'
 
-if (window.location.origin === "https://cityfinance.in" || window.location.origin === "https://www.cityfinance.in") {
+if (baseUrl === "https://cityfinance.in" || baseUrl === "https://www.cityfinance.in") {
   isProduction = true;
   url = "https://www.cityfinance.in/api/v1/";
   GoogleTagID = "G-MDPDTZFW0N";
@@ -24,6 +25,7 @@ export const environment = {
     url,
     urlV2,
   },
+  ui: { urlV1: baseUrl + '/v1/', urlV2: baseUrl + '/fc/' },
   reCaptcha: {
     siteKey: "6LcT9_gUAAAAANrZM5TNnE4OEEC46iFDfcAHZ8lD",
   },
