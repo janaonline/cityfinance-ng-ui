@@ -77,7 +77,15 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
   modalRef: BsModalRef;
 
   ngOnInit(): void {
-    window.location.replace("/fc/auth/login/15thFC");
+    // Only bounce anonymous visitors to the v2 login page. Redirecting
+    // unconditionally here (regression introduced in master) also hijacked
+    // already-logged-in users (ULB/STATE/etc.) who land on /fc_grant through
+    // normal in-app navigation or the CustomHttpInterceptor's session-expiry
+    // fallback (see logoutRedirection() in custom-http.interceptor.ts),
+    // hard-exiting the SPA instead of showing the intended page.
+    if (this.loggedInUserType === undefined || this.loggedInUserType === null) {
+      window.location.replace("/fc/auth/login/15thFC");
+    }
   }
 
   onClickingLoginButton() {
