@@ -110,6 +110,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    //if not localhost replace the url to fc login page
+    if (window.location.origin.indexOf("localhost") === -1) {
+      window.location.replace("/fc/auth/login/15thFC");
+    }
     this.loginForm = this.fb.group({
       email: ["", Validators.required],
       password: [""],

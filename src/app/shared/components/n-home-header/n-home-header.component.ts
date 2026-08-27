@@ -15,6 +15,7 @@ import { GlobalLoaderService } from "../../services/loaders/global-loader.servic
 import { UtilityService } from "../../services/utility.service";
 import { UserInfoDialogComponent } from "../user-info-dialog/user-info-dialog.component";
 import { HomeHeaderService } from "./home-header.service";
+import { ROUTE_PAGES } from "./login-menu.constant";
 import { NAV_MENU_ITEMS, NavMenuItem, matchesAnyRoutePrefix, resolveMenus } from "./nav-menu.config";
 
 @Component({
@@ -45,6 +46,15 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
   /** UI's existing blog URL (previously only inline in blogsPage()/footer). No environment.blogUrl exists today. */
   private readonly blogUrl = 'https://blog.cityfinance.in/';
   private destroy$ = new Subject<void>();
+  routePages = ROUTE_PAGES.filter(page => page.isMenu).map(page => {
+    // environment.ts here predates `ui: { urlV2 }` (see loginLogout()'s '16thFC' branch and
+    // resolveLinks()'s 'v2' case below) — same '/fc/' fallback used everywhere else in this file.
+    const v2Base = ((environment as any)?.ui?.urlV2 as string | undefined) ?? '/fc/';
+    return {
+      ...page,
+      href: v2Base.replace(/\/$/, '') + '/auth/login/' + page.type
+    }
+  });
 
   constructor(
     public _router: Router,
@@ -157,7 +167,7 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
     localStorage.setItem('loginType', type);
     if (type == '16thFC') {
       // Real 16th FC login — cross-app into V2. environment.ts here predates `ui: { urlV2 }`
-      // (see resolveLinks()'s 'v2' case above), so fall back to the same '/fc/' prefix.
+      // (see routePages above / resolveLinks()'s 'v2' case below), so fall back to '/fc/'.
       const v2Base = ((environment as any)?.ui?.urlV2 as string | undefined) ?? '/fc/';
       window.location.href = v2Base.replace(/\/$/, '') + '/auth/login/' + type;
     } else if (type == '15thFC') {
@@ -180,8 +190,27 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
       // 16th FC login is ready for production.
       window.location.href = '/auth/login/16thfc';
     } else {
-
+      const v2Base = ((environment as any)?.ui?.urlV2 as string | undefined) ?? '/fc/';
+      window.location.href = v2Base.replace(/\/$/, '') + '/auth/login/' + type;
     }
+    // if (type == '15thFC') {
+    //   // this._router.navigateByUrl("/fc_grant");      
+    // } else if (type == 'XVIFC') {
+    //   this._router.navigateByUrl("/login/xvi-fc");
+    // } else if (type == 'state-dashboard') {
+    //   this._router.navigateByUrl("/login/state-dashboard");
+    // } else if (type == 'ranking') {
+    //   this._router.navigateByUrl("/rankings/login");
+    // } else if (type == 'logout') {
+    //   this.authService.loginLogoutCheck.next(false);
+    //   this.authService.logout().subscribe(() => {
+    //     this.removeSessionItem();
+    //     this.isLoggedIn = false;
+    //     window.location.href = '/home';
+    //   });
+    // } else {
+
+    // }
     // if (this.btnName == "Login for 15th FC Grants") {
     //   this._router.navigateByUrl("/fc_grant");
     // }

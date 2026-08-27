@@ -5,6 +5,7 @@ let urlV2 = "https://dev.cityfinance.in/api/v2/";
 // url = "https://cityfinance.in/api/v1/";
 let GoogleTagID: string = "G-803HPPLFMM";
 let isProduction: boolean = false;
+const baseUrl = window.location.origin;
 let versionCheckURL = window.location.origin + "/v1/version.json";
 let STORAGE_BASEURL = 'https://jana-cityfinance-stg.s3.ap-south-1.amazonaws.com';
 //https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com - s3 storage url prod
@@ -37,6 +38,7 @@ export const environment = {
     url: url,
     urlV2
   },
+  ui: { urlV1: baseUrl + '/v1/', urlV2: baseUrl + '/fc/' },
   reCaptcha: {
     siteKey: "6LcT9_gUAAAAANrZM5TNnE4OEEC46iFDfcAHZ8lD",
   },
