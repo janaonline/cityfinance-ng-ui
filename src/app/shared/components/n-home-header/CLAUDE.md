@@ -103,7 +103,7 @@ All set fields on one item are ANDed together (every one must pass for the item 
 | `ocrRouteOnly` | Visible only while the current URL is under `/ocr`. **V2 only** | `ocr`: `{ ocrRouteOnly: true }` |
 | `showOnMobileOnly` | Visible only inside the sliding mobile drawer. **UI only** | `home`: `{ showOnMobileOnly: true }` — the drawer covers the logo, so mobile users need an explicit way back |
 | `showOnlyOnRoutePrefixes` | **Route allow-list.** Visible only while the current URL is on/under one of these paths | not yet used by a live item — available for e.g. "only show this inside the XVI FC module" |
-| `hideOnRoutePrefixes` | **Route deny-list.** Hidden while on/under one of these paths, visible everywhere else | not yet used by a live item alone (see `hideWhenRoleOnRoute`, which combines this with a role check) |
+| `hideOnRoutePrefixes` | **Route deny-list.** Hidden while on/under one of these paths, visible everywhere else | `resources`, `blog`: `{ hideOnRoutePrefixes: ['/admin/xvi-fc-review'] }` — hidden for every role while on the XVI FC review page (deliberately scoped to that one page, not the whole `/admin` prefix). `dashboard` deliberately does NOT have this rule — it stays visible there. |
 | `hideWhenRoleOnRoute` | **Compound AND of role + route**, not an independent OR'd gate like the two above — see next section | `resources` and `blog`: hidden for ULB/STATE/MoHUA/ADMIN/XVIFC_STATE/XVIFC *only* while inside `/xvifc` or `/xvifc-form`; visible to those same roles everywhere else, and visible on those routes to every other role |
 
 ### How the three role/route dimensions actually combine

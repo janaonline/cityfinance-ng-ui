@@ -168,11 +168,14 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
     path: '/resources-dashboard/data-sets/income_statement',
     apps: ['ui', 'ssr', 'v2'],
     // Hidden for these roles only inside the XVI FC flow — see CLAUDE.md, "NavMenuVisibility — every field, with a real example".
+    // Also hidden for EVERYONE on the XVI FC review page specifically (not '/admin' — too broad,
+    // would hit every admin sub-page). Same rule on 'blog' below; Dashboard stays visible there.
     visibility: {
       hideWhenRoleOnRoute: {
         roles: ['ULB', 'STATE', 'MoHUA', 'ADMIN', 'XVIFC_STATE', 'XVIFC'],
         routePrefixes: ['/xvifc', '/xvifc-form'],
       },
+      hideOnRoutePrefixes: ['/admin/xvi-fc-review'],
     },
   },
   {
@@ -188,6 +191,7 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
         roles: ['ULB', 'STATE', 'MoHUA', 'ADMIN', 'XVIFC_STATE', 'XVIFC'],
         routePrefixes: ['/xvifc', '/xvifc-form'],
       },
+      hideOnRoutePrefixes: ['/admin/xvi-fc-review'],
     },
   },
   {
@@ -201,7 +205,9 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
     groupDefaultLabel: 'My Forms',
     visibility: {
       requiresAuth: true,
-      excludeRoles: ['PMU', 'STATE_DASHBOARD', 'XVIFC_STATE'],
+      // XVIFC added so this role has zero visible 'ulb-forms' members — see rankings-22-dashboard
+      // below; the whole "My Forms" group must disappear for XVIFC, not just this one entry.
+      excludeRoles: ['PMU', 'STATE_DASHBOARD', 'XVIFC_STATE', 'XVIFC'],
     },
   },
   {
@@ -225,7 +231,14 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
     apps: ['ui', 'ssr', 'v2'],
     groupId: 'ulb-forms',
     groupDefaultLabel: 'My Forms',
-    visibility: { requiresAuth: true, readonlyGated: true, excludeRoles: ['ULB', 'STATE_DASHBOARD'] },
+    // XVIFC: this was the only 'ulb-forms' member still visible to that role — excluding it here
+    // makes the whole "My Forms" group disappear for XVIFC (see fc-15th-grants above).
+    // XVIFC_STATE: same story — this was XVIFC_STATE's one remaining visible member.
+    visibility: {
+      requiresAuth: true,
+      readonlyGated: true,
+      excludeRoles: ['ULB', 'STATE_DASHBOARD', 'XVIFC', 'XVIFC_STATE'],
+    },
   },
   {
     id: 'xvi-fc-data-collection',
