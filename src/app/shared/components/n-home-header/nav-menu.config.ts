@@ -131,6 +131,7 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
         hostApp: 'ui',
         path: '/dashboard/slb',
         apps: ['ui', 'ssr', 'v2'],
+        isDisabled: true,
       },
       {
         id: 'dashboard.municipal-bonds',
