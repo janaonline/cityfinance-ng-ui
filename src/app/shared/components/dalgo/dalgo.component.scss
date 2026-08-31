@@ -1,7 +1,46 @@
 #mohua-superset-container {
 width: 100% !important;
-height: 100vh !important;
+/* Leave room below the dashboard for the XV-FC-REVIEW notice so it lands
+   within the initial viewport instead of requiring a scroll to reach it. */
+height: max(400px, calc(100vh - 210px)) !important;
 padding: 0 !important;
 margin: 0 auto !important;
 max-width: 96% !important;
+}
+
+.xv-fc-review-container {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+}
+
+.xv-fc-review-footnote {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    width: 100%;
+    margin: 0;
+    color: #343a40;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 20px;
+}
+
+.xv-fc-review-footnote-icon {
+    font-size: 18px;
+    line-height: 20px;
+    color: #193369;
+    flex-shrink: 0;
+}
+
+.xv-fc-review-link {
+    color: #193369;
+    font-weight: 700;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.xv-fc-review-link:hover {
+    color: #12244d;
+    text-decoration: underline;
 }

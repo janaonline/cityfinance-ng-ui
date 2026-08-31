@@ -13,10 +13,10 @@ import { FcHomePageService } from './fc-home-page.service';
 })
 export class FcHomePageComponent extends BaseComponent implements OnInit {
 
-  constructor(private _router: Router,private _profileService: ProfileService,
-    private location: Location,private fchomepageservice:FcHomePageService ) {
+  constructor(private _router: Router, private _profileService: ProfileService,
+    private location: Location, private fchomepageservice: FcHomePageService) {
     super();
-    if(!this.loggedInUserType){
+    if (!this.loggedInUserType) {
       this._router.navigate(["/fc_grant"]);
     }
     switch (this.loggedInUserType) {
@@ -27,40 +27,40 @@ export class FcHomePageComponent extends BaseComponent implements OnInit {
       case USER_TYPE.ADMIN:
         this._router.navigate(["/fc-home-page"]);
         break;
-        case undefined:
-          case null:
-            return;
-          default:
-            this._router.navigate(["/home"]);
-            break;
+      case undefined:
+      case null:
+        return;
+      default:
+        this._router.navigate(["/home"]);
+        break;
     }
-   // this.fetchProfileData({});
+    // this.fetchProfileData({});
   }
 
- ulbName ='';
- stateName=''
- isULBProfileCompleted: boolean;
- profileData;
- //routerlink2223;
- yearList
- yearList2: any[] = [];
+  ulbName = '';
+  stateName = ''
+  isULBProfileCompleted: boolean;
+  profileData;
+  //routerlink2223;
+  yearList
+  yearList2: any[] = [];
   ngOnInit(): void {
-     let ulbRecord = JSON.parse(localStorage.getItem('userData'));
-     this.ulbName = ulbRecord?.name;
-     this.stateName = ulbRecord?.stateName
-     console.log(ulbRecord)
-     this._profileService.getAccessYears().subscribe((res)=> {
-     this.yearList = res['data'];
-    //  if (this.loggedInUserType === 'STATE') this.yearList = this.yearList.filter((item: any) => item.year != '2025-26');
-    //  console.log('year list data', this.yearList);
-     },
-     (err)=> {
-      console.log(err.message)
-     })
-            const userDataStr = localStorage.getItem('userData');
-            const userData = userDataStr ? JSON.parse(userDataStr) : null;
-             const ulb = userData?.ulb;
-      this.fchomepageservice.getYearsData(ulb).subscribe({
+    let ulbRecord = JSON.parse(localStorage.getItem('userData'));
+    this.ulbName = ulbRecord?.name;
+    this.stateName = ulbRecord?.stateName
+    console.log(ulbRecord)
+    this._profileService.getAccessYears().subscribe((res) => {
+      this.yearList = res['data'];
+      //  if (this.loggedInUserType === 'STATE') this.yearList = this.yearList.filter((item: any) => item.year != '2025-26');
+      //  console.log('year list data', this.yearList);
+    },
+      (err) => {
+        console.log(err.message)
+      })
+    const userDataStr = localStorage.getItem('userData');
+    const userData = userDataStr ? JSON.parse(userDataStr) : null;
+    const ulb = userData?.ulb;
+    this.fchomepageservice.getYearsData(ulb).subscribe({
       next: (res: any) => {
         if (res.status && Array.isArray(res.data)) {
           this.yearList2 = res.data.map((item: any) => ({
@@ -95,17 +95,22 @@ export class FcHomePageComponent extends BaseComponent implements OnInit {
   setId(yearId) {
     sessionStorage.setItem("selectedYearId", yearId);
   }
+
+  goToXvFcReview(): void {
+    window.location.href = window.location.origin + '/fc/xv-fc-review';
+  }
+
   onYearSelect(item: any): void {
 
     const userDataStr = localStorage.getItem('userData');
-  const userData = userDataStr ? JSON.parse(userDataStr) : null;
-  const role = userData?.role;
+    const userData = userDataStr ? JSON.parse(userDataStr) : null;
+    const role = userData?.role;
     this.setId(item.id);
-if(role==="ULB"){
-const allHaveFiles = this.yearList2.every(
-  (y: any) => !!y.files && Array.isArray(y.files) && y.files.length > 0
-);
-    // if ((item.year === '2024-25' || item.year === '2025-26') && !allHaveFiles) {
+    if (role === "ULB") {
+      const allHaveFiles = this.yearList2.every(
+        (y: any) => !!y.files && Array.isArray(y.files) && y.files.length > 0
+      );
+      // if ((item.year === '2024-25' || item.year === '2025-26') && !allHaveFiles) {
       // const yearId = item.id;
       // Swal.fire({
       //   // title: 'Share your latest budget documents',
@@ -131,16 +136,16 @@ const allHaveFiles = this.yearList2.every(
       //     this._router.navigate([`/ulb-form/${yearId}/budget-documents`]);
       //   }
       // });
-    // } 
-    // else {
+      // } 
+      // else {
       // Regular navigation
       this.setId(item.id);
       this._router.navigate([item.url]);
-    // }
-}
+      // }
+    }
     // Trigger background navigation
     this._router.navigate([item.url]);
-   
+
   }
 
 }
