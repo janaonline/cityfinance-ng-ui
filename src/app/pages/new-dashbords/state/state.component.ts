@@ -128,6 +128,9 @@ export class StateComponent implements OnInit {
               case "Town_Panchayat":
                 item.value = res.data[0].Town_Panchayat || '0';
                 break;
+              case "Cantonment_Board":
+                item.value = res.data[0].Cantonment_Board || '0';
+                break;
               case "ulbs":
                 item.value = res.data[0].ulbs || '0';
                 break;
@@ -258,11 +261,17 @@ const data = {
       key: "Town_Panchayat",
       super: true,
     },
+    {
+      value: "0",
+      title: "Cantonment Board",
+      key: "Cantonment_Board",
+      super: true,
+    },
   ],
   footer: `Data shown is from audited/provisional financial statements for FY 20-21
   and data was last updated on 21st August 2021`,
   disclaimer:
-    "*To enable standardization of nomenclature across states, we have reclassified all ULBs into one of the three categories - Municipal Corporation, Municipality or Town Panchayat",
+    "*To enable standardization of nomenclature across states, we have reclassified all ULBs into one of the four categories - Municipal Corporation, Municipality, Town Panchayat or Cantonment Board",
 };
 const TaxRevenue = {
   type: 2,
