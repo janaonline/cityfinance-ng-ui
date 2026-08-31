@@ -734,6 +734,7 @@ export class ReportComponent implements OnInit, OnDestroy {
         "Municipal Corporation",
         "Municipality",
         "Town Panchayat",
+        "Cantonment Board",
         "All",
       ].indexOf(this.reportForm.value.ulb.value) > -1
     ) {
