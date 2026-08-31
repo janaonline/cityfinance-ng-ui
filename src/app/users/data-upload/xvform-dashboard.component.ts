@@ -696,34 +696,40 @@ export class DataUploadComponent extends UploadDataUtility
     this._commonService.fetchDashboardCardData().subscribe((res) => {
       this.cardData = res["data"];
       this.cardData.totalULB.sum =
-        this.cardData.totalULB["Municipal Corporation"] +
-        this.cardData.totalULB["Municipality"] +
-        this.cardData.totalULB["Town Panchayat"];
+        (this.cardData.totalULB["Municipal Corporation"] || 0) +
+        (this.cardData.totalULB["Municipality"] || 0) +
+        (this.cardData.totalULB["Town Panchayat"] || 0) +
+        (this.cardData.totalULB["Cantonment Board"] || 0);
 
       this.cardData.registeredMillionPlus.sum =
-        this.cardData.registeredMillionPlus["Municipal Corporation"] +
-        this.cardData.registeredMillionPlus["Municipality"] +
-        this.cardData.registeredMillionPlus["Town Panchayat"];
+        (this.cardData.registeredMillionPlus["Municipal Corporation"] || 0) +
+        (this.cardData.registeredMillionPlus["Municipality"] || 0) +
+        (this.cardData.registeredMillionPlus["Town Panchayat"] || 0) +
+        (this.cardData.registeredMillionPlus["Cantonment Board"] || 0);
 
       this.cardData.registeredNonMillionPlus.sum =
-        this.cardData.registeredNonMillionPlus["Municipal Corporation"] +
-        this.cardData.registeredNonMillionPlus["Municipality"] +
-        this.cardData.registeredNonMillionPlus["Town Panchayat"];
+        (this.cardData.registeredNonMillionPlus["Municipal Corporation"] || 0) +
+        (this.cardData.registeredNonMillionPlus["Municipality"] || 0) +
+        (this.cardData.registeredNonMillionPlus["Town Panchayat"] || 0) +
+        (this.cardData.registeredNonMillionPlus["Cantonment Board"] || 0);
 
       this.cardData.registeredUlb.sum =
-        this.cardData.registeredUlb["Municipal Corporation"] +
-        this.cardData.registeredUlb["Municipality"] +
-        this.cardData.registeredUlb["Town Panchayat"];
+        (this.cardData.registeredUlb["Municipal Corporation"] || 0) +
+        (this.cardData.registeredUlb["Municipality"] || 0) +
+        (this.cardData.registeredUlb["Town Panchayat"] || 0) +
+        (this.cardData.registeredUlb["Cantonment Board"] || 0);
 
       this.cardData.totalMillionPlus.sum =
-        this.cardData.totalMillionPlus["Municipal Corporation"] +
-        this.cardData.totalMillionPlus["Municipality"] +
-        this.cardData.totalMillionPlus["Town Panchayat"];
+        (this.cardData.totalMillionPlus["Municipal Corporation"] || 0) +
+        (this.cardData.totalMillionPlus["Municipality"] || 0) +
+        (this.cardData.totalMillionPlus["Town Panchayat"] || 0) +
+        (this.cardData.totalMillionPlus["Cantonment Board"] || 0);
 
       this.cardData.totalNonMillionPlus.sum =
-        this.cardData.totalNonMillionPlus["Municipal Corporation"] +
-        this.cardData.totalNonMillionPlus["Municipality"] +
-        this.cardData.totalNonMillionPlus["Town Panchayat"];
+        (this.cardData.totalNonMillionPlus["Municipal Corporation"] || 0) +
+        (this.cardData.totalNonMillionPlus["Municipality"] || 0) +
+        (this.cardData.totalNonMillionPlus["Town Panchayat"] || 0) +
+        (this.cardData.totalNonMillionPlus["Cantonment Board"] || 0);
     });
   }
 
