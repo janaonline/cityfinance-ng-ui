@@ -129,19 +129,7 @@
                         Login
                     </button>
                     <ul class="dropdown-menu dropdown-menu-login" aria-labelledby="loginDrp">
-                        <!-- XVIFC_PROD_CUTOVER: delete this row (and the 'XVIFC_coming_soon' branch of
-                             loginLogout() in the .ts) once the real 16th FC login is ready for production. -->
                         <li>
-                            <a class="dropdown-item" (click)="loginLogout('XVIFC_coming_soon')">
-                                <i class="bi bi-rocket-takeoff-fill text-new-badge"></i>
-                                <span class="fw-bold">XVI FC Grant</span>
-                                <span class="new-badge-pill">New</span>
-                            </a>
-                        </li>
-                        <!-- XVIFC_PROD_CUTOVER: remove *ngIf="!isProd" below (on this <hr> and the <li>) once
-                             the real 16th FC login is ready for production — see SSR/V2's isHiddenInProd. -->
-                        <hr class="m-0" *ngIf="!isProd">
-                        <li *ngIf="!isProd">
                             <a class="dropdown-item" (click)="loginLogout('16thFC')">
                                 <i class="bi bi-box-arrow-in-right" style="margin-right: 8px"></i>
                                 <b>XVI FC Grant</b>
