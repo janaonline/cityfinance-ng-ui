@@ -185,10 +185,6 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
         this.isLoggedIn = false;
         window.location.href = '/home';
       });
-    } else if (type == 'XVIFC_coming_soon') {
-      // XVIFC_PROD_CUTOVER: delete this branch (and its row in the .html) once the real
-      // 16th FC login is ready for production.
-      window.location.href = '/auth/login/16thfc';
     } else {
       const v2Base = ((environment as any)?.ui?.urlV2 as string | undefined) ?? '/fc/';
       window.location.href = v2Base.replace(/\/$/, '') + '/auth/login/' + type;
