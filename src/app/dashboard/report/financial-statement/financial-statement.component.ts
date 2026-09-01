@@ -107,6 +107,7 @@ export class FinancialStatementComponent extends ReportComponent
     ulbType.municipalCorporation,
     ulbType.municipality,
     ulbType.townPanchayat,
+    ulbType.cantonmentBoard,
   ];
 
   isULBSearchingInProgress = false;
