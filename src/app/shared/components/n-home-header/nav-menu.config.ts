@@ -221,7 +221,7 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
     groupId: 'ulb-forms',
     groupDefaultLabel: 'My Forms',
     activePathPrefix: '/xvifc', // '/xvifc/year' is just the entry point into the whole module
-    visibility: { requiresAuth: true, roles: ['ULB', 'STATE', 'MoHUA', 'ADMIN'], isHiddenInProd: true },
+    visibility: { requiresAuth: true, roles: ['ULB', 'STATE', 'MoHUA', 'ADMIN'] },
   },
   {
     id: 'rankings-22-dashboard',
