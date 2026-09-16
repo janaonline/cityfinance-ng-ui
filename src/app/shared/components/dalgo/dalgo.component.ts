@@ -84,7 +84,7 @@ export class DalgoComponent implements OnInit, AfterViewInit {
 
   getUlbName() {
 
-    let ulbName = (this.loggedInUserDetails as any)?.name;
+    let ulbName = (this.loggedInUserDetails as any)?.ulb?.name;
     if ((!ulbName || ulbName === 'undefined')) {
       ulbName = sessionStorage.getItem('name') || ulbName;
     }
