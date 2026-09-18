@@ -1,6 +1,3 @@
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
-
 /**
  * Renders an on-screen (or off-screen) DOM element to a paginated, printable
  * PDF and triggers a browser download.
@@ -9,6 +6,13 @@ import jsPDF from "jspdf";
  * and then sliced into as many A4 pages as required, so long reports such as
  * the Financial Diagnosis report are not squeezed onto - or cropped by - a
  * single page.
+ *
+ * jspdf/html2canvas are dynamically imported (not top-level) so their module
+ * code only loads/evaluates when a PDF is actually being generated, not just
+ * because this file was statically imported into DalgoComponent - jsPDF's
+ * own module init uses new Function()/eval-style patterns (font handling),
+ * which a strict CSP without 'unsafe-eval' blocks; eagerly importing it broke
+ * *navigating to* the dashboard, not just downloading the PDF.
  *
  * @param element   The element to capture. It should have a fixed, print-friendly
  *                  width (e.g. ~800px) so text/tables reflow the same way every time,
@@ -19,6 +23,11 @@ export async function exportElementToPdf(
   element: HTMLElement,
   fileName: string
 ): Promise<void> {
+  const [{ default: html2canvas }, { default: jsPDF }] = await Promise.all([
+    import("html2canvas"),
+    import("jspdf"),
+  ]);
+
   const canvas = await html2canvas(element, {
     scale: 2, // Render at 2x for crisp text/lines instead of a blurry screenshot.
     useCORS: true,
