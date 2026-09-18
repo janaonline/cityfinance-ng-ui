@@ -1,6 +1,5 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import * as ExcelJs from "exceljs";
 import { forkJoin, from, Observable, of, throwError } from "rxjs";
 import { catchError, map, shareReplay, switchMap } from "rxjs/operators";
 
@@ -177,6 +176,15 @@ export class FinancialDiagnosisReportService {
     blob: Blob,
     ulbName: string
   ): Promise<IAfsFinancialMetricsRow[]> {
+    // Dynamically imported (not top-level) so exceljs's module code only
+    // loads/evaluates when a PDF is actually being generated. This service
+    // is injected into DalgoComponent's constructor, so a static import here
+    // would bundle exceljs into DalgoComponent's own lazy chunk and evaluate
+    // it - and whatever eval()/new Function() it uses internally - on every
+    // navigation to the dashboard, not just when a report is requested. A
+    // strict CSP without 'unsafe-eval' blocks that, breaking navigation
+    // itself (confirmed via the live site's CSP violation report).
+    const ExcelJs = await import("exceljs");
     const arrayBuffer = await blob.arrayBuffer();
     const workbook = new ExcelJs.Workbook();
     // `Xlsx.load()` exists at runtime in the browser-targeted build this project
