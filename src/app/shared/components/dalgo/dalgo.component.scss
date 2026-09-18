@@ -44,3 +44,53 @@ max-width: 96% !important;
     color: #12244d;
     text-decoration: underline;
 }
+
+.fd-download-container {
+    margin: 0.5rem 0 1rem 1.5rem;
+}
+
+.fd-download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #095169;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+        background: #073e50;
+    }
+
+    &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+}
+
+.fd-download-icon {
+    font-size: 18px;
+    line-height: 18px;
+}
+
+.fd-download-error {
+    color: #b33a3a;
+    margin: 6px 0 0;
+    font-size: 0.875rem;
+}
+
+// The Financial Diagnosis report is rendered so it can be captured by
+// html2canvas, but it is never meant to be visible on the page itself.
+// NOTE: deliberately not `display: none` / zero-size + `overflow: hidden` -
+// html2canvas cannot rasterize an element with no layout box, and a hidden/
+// clipped ancestor would clip the captured content too. Pushing it far off
+// the visible canvas keeps it fully laid out while staying invisible.
+.fd-offscreen-container {
+    position: absolute;
+    top: 0;
+    left: -10000px;
+}

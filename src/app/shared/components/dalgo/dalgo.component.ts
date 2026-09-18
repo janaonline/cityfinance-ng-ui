@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { embedDashboard } from '@superset-ui/embedded-sdk';
 import { CommonServicesService } from 'src/app/fc-grant-2324-onwards/fc-shared/service/common-services.service';
@@ -6,6 +6,11 @@ import { USER_TYPE } from 'src/app/models/user/userType';
 import { SupersetService } from './superset.service';
 import { UserUtility } from 'src/app/util/user/user';
 import { IUserLoggedInDetails } from 'src/app/models/login/userLoggedInDetails';
+import { FinancialDiagnosisReportComponent } from '../financial-diagnosis-report/financial-diagnosis-report.component';
+import { FinancialDiagnosisReportService } from '../financial-diagnosis-report/financial-diagnosis-report.service';
+import { IFinancialDiagnosisReportData } from 'src/app/models/financial-diagnosis/afsFinancialMetrics';
+import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
+import { exportElementToPdf } from 'src/app/util/pdfExport.util';
 
 
 @Component({
@@ -13,7 +18,7 @@ import { IUserLoggedInDetails } from 'src/app/models/login/userLoggedInDetails';
   templateUrl: './dalgo.component.html',
   styleUrls: ['./dalgo.component.scss'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, FinancialDiagnosisReportComponent]
 })
 
 export class DalgoComponent implements OnInit, AfterViewInit {
@@ -29,6 +34,10 @@ export class DalgoComponent implements OnInit, AfterViewInit {
 
   @Input() isToExpandFilters = true
   @Input() isToShowFilters = true
+  // Whether this instance is embedded on the public (no-login) city-brief page.
+  // The "Download PDF" report needs the viewer's own ULB id, which we only
+  // have for a logged-in ULB user, so the button is hidden on the public route.
+  @Input() isPublicRoute = false;
 
   // Dynamically pass the state name from the logged in user profile
   @Input() filters: { id: string; column: string; value: string; }[] = [
@@ -41,8 +50,15 @@ export class DalgoComponent implements OnInit, AfterViewInit {
   ulbFilterId: string;
   loggedInUserDetails: IUserLoggedInDetails = UserUtility.getUserLoggedInData().value;
 
+  @ViewChild(FinancialDiagnosisReportComponent) private financialDiagnosisReport?: FinancialDiagnosisReportComponent;
+  financialDiagnosisData: IFinancialDiagnosisReportData | null = null;
+  isGeneratingPdf = false;
+  pdfGenerationError: string | null = null;
+
   constructor(private supersetService: SupersetService,
-    private commonServices: CommonServicesService,) { }
+    private commonServices: CommonServicesService,
+    private financialDiagnosisReportService: FinancialDiagnosisReportService,
+    private globalLoaderService: GlobalLoaderService,) { }
 
   ngOnInit(): void {
     if (this.dashboardType === USER_TYPE.STATE) {
@@ -239,6 +255,54 @@ export class DalgoComponent implements OnInit, AfterViewInit {
   */
   generateNativeFilters(filters: { id: string; column: string; value: string }[]): string {
     return filters.map(({ id, column, value }) => `${id}:(__cache:(label:'${value}',validateStatus:!f,value:!('${value}')),extraFormData:(filters:!((col:${column},op:IN,val:!('${value}')))),filterState:(label:'${value}',validateStatus:!f,value:!('${value}')),id:${id},ownState:())`).join(',');
+  }
+
+  /**
+   * Fetches the AFS financial-diagnosis figures for the logged-in ULB, renders
+   * them into the hidden `FinancialDiagnosisReportComponent` template, and
+   * exports that template to a downloadable PDF.
+   */
+  downloadFinancialDiagnosisPdf(): void {
+    this.pdfGenerationError = null;
+    this.isGeneratingPdf = true;
+    this.globalLoaderService.showLoader();
+
+    // The service reads the ULB's own name/state/area/type from `user/profile`
+    // (the logged-in user's session), so no params are needed here.
+    this.financialDiagnosisReportService.getReportData().subscribe({
+      next: (reportData) => {
+        this.financialDiagnosisData = reportData;
+
+        // Give Angular a tick to render the table rows, and Chart.js a moment
+        // to draw onto the canvases, before we snapshot the DOM to a PDF.
+        setTimeout(() => {
+          const reportElement = this.financialDiagnosisReport?.reportRoot?.nativeElement;
+          if (!reportElement) {
+            this.pdfGenerationError = 'Could not prepare the report for download.';
+            this.isGeneratingPdf = false;
+            this.globalLoaderService.stopLoader();
+            return;
+          }
+
+          const fileName = `${reportData.ulbName || 'ULB'}_Financial_Diagnosis`.replace(/\s+/g, '_');
+          exportElementToPdf(reportElement, fileName)
+            .catch((error) => {
+              console.error('Failed to export Financial Diagnosis PDF', error);
+              this.pdfGenerationError = 'Something went wrong while generating the PDF. Please try again.';
+            })
+            .finally(() => {
+              this.isGeneratingPdf = false;
+              this.globalLoaderService.stopLoader();
+            });
+        }, 300);
+      },
+      error: (error) => {
+        console.error('Failed to fetch Financial Diagnosis data', error);
+        this.pdfGenerationError = 'Could not fetch your financial data. Please try again later.';
+        this.isGeneratingPdf = false;
+        this.globalLoaderService.stopLoader();
+      },
+    });
   }
 
 }

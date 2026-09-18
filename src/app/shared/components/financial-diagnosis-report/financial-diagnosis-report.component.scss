@@ -1,0 +1,243 @@
+// Theme colors sourced from the app's own branding, not invented for this
+// report: #095169 -> #059b9a is the header gradient used across
+// `home-header.component.scss`, and #F5B742 is the amber already used for
+// the "State Average" series in `revenuechart.component.ts`.
+$fd-navy: #095169;
+$fd-teal: #059b9a;
+$fd-teal-tint: #eaf6f5;
+$fd-amber: #f5b742;
+$fd-border: #d5e2e5;
+$fd-text: #1f2d3d;
+
+.fd-report {
+  // Fixed print-friendly width so html2canvas captures the same layout
+  // regardless of the viewer's screen size.
+  width: 794px; // ~A4 width at 96dpi
+  padding: 32px 36px 24px;
+  background: #ffffff;
+  color: $fd-text;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 12px;
+  box-sizing: border-box;
+}
+
+.fd-topbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 2px solid $fd-navy;
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+
+  .fd-emblem {
+    height: 28px;
+  }
+
+  .fd-topbar-title {
+    flex: 1;
+    font-weight: 600;
+    font-size: 12px;
+    color: $fd-navy;
+  }
+
+  // Matches the app's own brand wordmark styling
+  // (see `shared/modules/app-common/footer/footer.component.scss` .city/.fy).
+  .fd-brand-logo {
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .fd-brand-city {
+    color: #38cdfa;
+  }
+
+  .fd-brand-finance {
+    color: #1d5290;
+  }
+}
+
+.fd-title {
+  text-align: center;
+  color: #ffffff;
+  background: linear-gradient(to right, $fd-navy, $fd-teal);
+  padding: 10px 12px;
+  margin: 0 0 14px;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 4px;
+}
+
+.fd-section-header {
+  background: $fd-navy;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 6px 10px;
+  margin: 16px 0 8px;
+  border-radius: 3px;
+}
+
+.fd-meta-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 6px;
+
+  td {
+    padding: 5px 8px;
+    border: 1px solid $fd-border;
+  }
+
+  .fd-label {
+    background: $fd-teal-tint;
+    font-weight: 600;
+    width: 22%;
+    color: $fd-navy;
+  }
+
+  .fd-value {
+    width: 28%;
+  }
+}
+
+.fd-availability-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.fd-avail-box {
+  flex: 1;
+  border: 1px solid $fd-border;
+  border-radius: 3px;
+  overflow: hidden;
+  text-align: center;
+
+  .fd-avail-year {
+    display: block;
+    background: $fd-navy;
+    color: #fff;
+    font-weight: 600;
+    padding: 4px;
+    font-size: 11px;
+  }
+
+  .fd-avail-value {
+    display: block;
+    padding: 4px;
+    font-weight: 700;
+
+    &.yes {
+      color: $fd-teal;
+    }
+
+    &.no {
+      color: #b33a3a;
+    }
+  }
+}
+
+.fd-flex-row {
+  display: flex;
+  // "stretch" (not flex-start): makes the chart box match the revenue
+  // table's actual rendered height instead of a guessed fixed pixel value,
+  // so the Property Tax chart is never taller/shorter than the table next to it.
+  align-items: stretch;
+  gap: 12px;
+}
+
+.fd-data-table {
+  flex: 1 1 auto;
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 11px;
+
+  th,
+  td {
+    border: 1px solid $fd-border;
+    padding: 4px 6px;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  th {
+    background: $fd-teal;
+    color: #fff;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .fd-row-label {
+    text-align: left;
+    font-weight: 600;
+    color: $fd-navy;
+    white-space: normal;
+  }
+
+  tbody tr:nth-child(even) {
+    background: $fd-teal-tint;
+  }
+
+  .fd-total-row {
+    background: #dcefee;
+    font-weight: 700;
+
+    td {
+      border-top: 2px solid $fd-navy;
+    }
+  }
+}
+
+.fd-chart-box {
+  flex: 0 0 260px;
+  // No fixed height: `align-items: stretch` on the parent `.fd-flex-row`
+  // makes this match the table's real height. Chart.js (maintainAspectRatio:
+  // false) then fills whatever height this box ends up with.
+  position: relative;
+  min-height: 160px;
+  border: 1px solid $fd-border;
+  border-radius: 3px;
+  padding: 6px;
+  box-sizing: border-box;
+}
+
+.fd-chart-box-wide {
+  width: 100%;
+  height: 260px;
+  margin-top: 10px;
+  box-sizing: border-box;
+}
+
+.fd-resource-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.fd-resource-box {
+  flex: 1 1 45%;
+  border: 1px solid $fd-border;
+  border-radius: 3px;
+  padding: 8px 10px;
+  box-sizing: border-box;
+
+  h4 {
+    margin: 0 0 4px;
+    font-size: 12px;
+    color: $fd-navy;
+  }
+
+  p {
+    margin: 0;
+    font-size: 11px;
+    line-height: 1.4;
+  }
+}
+
+.fd-footer {
+  margin-top: 18px;
+  padding-top: 8px;
+  border-top: 1px solid $fd-border;
+  font-size: 10px;
+  color: #6b7785;
+  text-align: center;
+}
