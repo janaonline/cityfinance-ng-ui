@@ -34,10 +34,6 @@ export class DalgoComponent implements OnInit, AfterViewInit {
 
   @Input() isToExpandFilters = true
   @Input() isToShowFilters = true
-  // Whether this instance is embedded on the public (no-login) city-brief page.
-  // The "Download PDF" report needs the viewer's own ULB id, which we only
-  // have for a logged-in ULB user, so the button is hidden on the public route.
-  @Input() isPublicRoute = false;
 
   // Dynamically pass the state name from the logged in user profile
   @Input() filters: { id: string; column: string; value: string; }[] = [

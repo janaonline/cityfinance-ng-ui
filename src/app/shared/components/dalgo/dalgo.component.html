@@ -1,8 +1,7 @@
-<!-- Financial Diagnosis PDF download - own-ULB city brief only; the public
-     page has no reliable way to know which ULB the visitor picked inside the
-     embedded Superset dashboard. Placed above the dashboard so it's visible
-     without scrolling past the (tall) embedded Superset iframe. -->
-<div class="fd-download-container" *ngIf="dashboardType === USER_TYPE.ULB && !isPublicRoute">
+<!-- Financial Diagnosis PDF download - ULB dashboards only. Placed above the
+     dashboard so it's visible without scrolling past the (tall) embedded
+     Superset iframe. -->
+<div class="fd-download-container" *ngIf="dashboardType === USER_TYPE.ULB">
     <button type="button" class="fd-download-btn" (click)="downloadFinancialDiagnosisPdf()" [disabled]="isGeneratingPdf">
         <span class="material-icons fd-download-icon">download</span>
         {{ isGeneratingPdf ? 'Preparing PDF…' : 'Download Financial Diagnosis (PDF)' }}
