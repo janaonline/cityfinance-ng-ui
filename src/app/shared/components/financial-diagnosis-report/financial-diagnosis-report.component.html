@@ -1,0 +1,258 @@
+<div #reportRoot class="fd-report" *ngIf="data">
+
+  <!-- Top bar -->
+  <div class="fd-topbar">
+    <img src="/assets/images/emblem-of-india.svg" alt="Emblem of India" class="fd-emblem" />
+    <span class="fd-topbar-title">Ministry of Housing and Urban Affairs</span>
+    <span class="fd-brand-logo"><span class="fd-brand-city">city</span><span class="fd-brand-finance">finance</span></span>
+  </div>
+
+  <h1 class="fd-title">Urban Local Body - Financial Diagnosis</h1>
+
+  <!-- ULB meta -->
+  <table class="fd-meta-table">
+    <tr>
+      <td class="fd-label">State</td>
+      <td class="fd-value">{{ data.stateName || '-' }}</td>
+      <td class="fd-label">ULB Name</td>
+      <td class="fd-value">{{ data.ulbName || '-' }}</td>
+    </tr>
+    <tr>
+      <td class="fd-label">Population as Per Census</td>
+      <td class="fd-value">{{ num(data.population) }}</td>
+      <td class="fd-label">ULB Type</td>
+      <td class="fd-value">{{ data.ulbType || '-' }}</td>
+    </tr>
+    <tr>
+      <td class="fd-label">Area (in Sq.km.)</td>
+      <td class="fd-value">{{ num(data.area) }}</td>
+      <td class="fd-label"></td>
+      <td class="fd-value"></td>
+    </tr>
+  </table>
+
+  <!-- AFS availability -->
+  <div class="fd-section-header">Availability of Annual Financial Statements</div>
+  <div class="fd-availability-row">
+    <div class="fd-avail-box" *ngFor="let year of years">
+      <span class="fd-avail-year">{{ year }}</span>
+      <span class="fd-avail-value" [class.yes]="isYearAvailable(year)" [class.no]="!isYearAvailable(year)">
+        {{ isYearAvailable(year) ? 'Yes' : 'No' }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Bonds / credit rating -->
+  <table class="fd-meta-table">
+    <tr>
+      <td class="fd-label">No. of Municipal Bonds Issued</td>
+      <td class="fd-value">{{ num(cagrRow().noOfBondsRaised ?? row(years[years.length - 1]).noOfBondsRaised) }}</td>
+      <td class="fd-label">Bond Size (Cr.)</td>
+      <td class="fd-value">{{ num(cagrRow().amountRaisedInCr ?? row(years[years.length - 1]).amountRaisedInCr) }}</td>
+      <td class="fd-label">Credit Rating</td>
+      <td class="fd-value">{{ data.creditRating || 'NA' }}</td>
+    </tr>
+  </table>
+
+  <!-- Total Revenue -->
+  <div class="fd-section-header">Total Revenue (INR Cr)</div>
+  <div class="fd-flex-row">
+    <table class="fd-data-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th *ngFor="let year of years">{{ year }}</th>
+          <th>CAGR</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fd-row-label">Own Source Revenue</td>
+          <td *ngFor="let year of years">{{ cr(row(year).totalOwnSourceRevenue) }}</td>
+          <td>{{ pct(cagrRow().totalOwnSourceRevenue) }}</td>
+        </tr>
+        <tr>
+          <td class="fd-row-label">Revenue Grants &amp; Subsidies</td>
+          <td *ngFor="let year of years">{{ cr(row(year).revenueGrants) }}</td>
+          <td>{{ pct(cagrRow().revenueGrants) }}</td>
+        </tr>
+        <tr>
+          <td class="fd-row-label">Assigned Revenue</td>
+          <td *ngFor="let year of years">{{ cr(row(year).assignedRevenue) }}</td>
+          <td>{{ pct(cagrRow().assignedRevenue) }}</td>
+        </tr>
+        <tr>
+          <td class="fd-row-label">Other Income</td>
+          <td *ngFor="let year of years">{{ cr(row(year).otherIncome) }}</td>
+          <td>{{ pct(cagrRow().otherIncome) }}</td>
+        </tr>
+        <tr class="fd-total-row">
+          <td class="fd-row-label">Total Revenue</td>
+          <td *ngFor="let year of years">{{ cr(row(year).totalRevenue) }}</td>
+          <td>{{ pct(cagrRow().totalRevenue) }}</td>
+        </tr>
+        <tr>
+          <td class="fd-row-label">Tax Revenue as % of OSR</td>
+          <td *ngFor="let year of years">{{ pct(row(year).taxRevenueAsPercentOfOsr, 0) }}</td>
+          <td>{{ pct(cagrRow().taxRevenueAsPercentOfOsr) }}</td>
+        </tr>
+        <tr>
+          <td class="fd-row-label">Non-Tax Revenue as % of OSR</td>
+          <td *ngFor="let year of years">{{ pct(row(year).nonTaxRevenueAsPercentOfOsr, 0) }}</td>
+          <td>{{ pct(cagrRow().nonTaxRevenueAsPercentOfOsr) }}</td>
+        </tr>
+        <tr>
+          <td class="fd-row-label">Property Tax as Per AFS</td>
+          <td *ngFor="let year of years">{{ cr(row(year).propertyTax) }}</td>
+          <td>{{ pct(cagrRow().propertyTax) }}</td>
+        </tr>
+        <tr>
+          <td class="fd-row-label">Property Tax as Per Form</td>
+          <td *ngFor="let year of years">{{ cr(row(year).totalPropertyTaxCollection) }}</td>
+          <td>{{ pct(cagrRow().totalPropertyTaxCollection) }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="fd-chart-box">
+      <canvas #propertyTaxCanvas></canvas>
+    </div>
+  </div>
+
+  <!-- Revenue Resources -->
+  <div class="fd-section-header">Revenue Resources</div>
+  <div class="fd-resource-grid">
+    <div class="fd-resource-box">
+      <h4>Tax Revenue</h4>
+      <p>Property Tax, Water Supply and Drainage Tax, and other taxes as reported in the Annual Financial Statement.</p>
+    </div>
+    <div class="fd-resource-box">
+      <h4>Non-Tax Revenue</h4>
+      <p>Rental income from municipal properties, fee &amp; user charges, sale &amp; hire charges, and other non-tax revenue.</p>
+    </div>
+    <div class="fd-resource-box">
+      <h4>Assigned Revenue</h4>
+      <p>Tax and duties collected by other authorities and assigned to the ULB.</p>
+    </div>
+    <div class="fd-resource-box">
+      <h4>Other Income</h4>
+      <p>Income from investments and interest earned from bank accounts.</p>
+    </div>
+  </div>
+
+  <!-- Debt -->
+  <div class="fd-section-header">Debt (INR Cr)</div>
+  <table class="fd-data-table">
+    <thead>
+      <tr>
+        <th></th>
+        <th *ngFor="let year of years">{{ year }}</th>
+        <th>CAGR</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fd-row-label">Secured Loans</td>
+        <td *ngFor="let year of years">{{ cr(row(year).securedLoans) }}</td>
+        <td>{{ pct(cagrRow().securedLoans) }}</td>
+      </tr>
+      <tr>
+        <td class="fd-row-label">Unsecured Loans</td>
+        <td *ngFor="let year of years">{{ cr(row(year).unsecuredLoans) }}</td>
+        <td>{{ pct(cagrRow().unsecuredLoans) }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Expenditure -->
+  <div class="fd-section-header">Expenditure (INR Cr)</div>
+  <table class="fd-data-table">
+    <thead>
+      <tr>
+        <th></th>
+        <th *ngFor="let year of years">{{ year }}</th>
+        <th>CAGR</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fd-row-label">Establishment Expenses</td>
+        <td *ngFor="let year of years">{{ cr(row(year).establishmentExpenditure) }}</td>
+        <td>{{ pct(cagrRow().establishmentExpenditure) }}</td>
+      </tr>
+      <tr>
+        <td class="fd-row-label">Administrative Expenses</td>
+        <td *ngFor="let year of years">{{ cr(row(year).administrativeExpenses) }}</td>
+        <td>{{ pct(cagrRow().administrativeExpenses) }}</td>
+      </tr>
+      <tr>
+        <td class="fd-row-label">Operation and Maintenance</td>
+        <td *ngFor="let year of years">{{ cr(row(year).operationAndMaintenance) }}</td>
+        <td>{{ pct(cagrRow().operationAndMaintenance) }}</td>
+      </tr>
+      <tr>
+        <td class="fd-row-label">Interest and Finance Charges</td>
+        <td *ngFor="let year of years">{{ cr(row(year).interestAndFinanceCharges) }}</td>
+        <td>{{ pct(cagrRow().interestAndFinanceCharges) }}</td>
+      </tr>
+      <tr>
+        <td class="fd-row-label">Programme Expenses</td>
+        <td *ngFor="let year of years">{{ cr(row(year).programmeExpenses) }}</td>
+        <td>{{ pct(cagrRow().programmeExpenses) }}</td>
+      </tr>
+      <tr>
+        <td class="fd-row-label">Revenue Grants, Contributions and Subsidies</td>
+        <td *ngFor="let year of years">{{ cr(row(year).revenueGrantsContributionsAndSubsidies) }}</td>
+        <td>{{ pct(cagrRow().revenueGrantsContributionsAndSubsidies) }}</td>
+      </tr>
+      <tr>
+        <td class="fd-row-label">Provisions and Write Off</td>
+        <td *ngFor="let year of years">{{ cr(row(year).provisionsAndWriteOff) }}</td>
+        <td>{{ pct(cagrRow().provisionsAndWriteOff) }}</td>
+      </tr>
+      <tr>
+        <td class="fd-row-label">Miscellaneous Expenses</td>
+        <td *ngFor="let year of years">{{ cr(row(year).miscellaneousExpenses) }}</td>
+        <td>{{ pct(cagrRow().miscellaneousExpenses) }}</td>
+      </tr>
+      <tr>
+        <td class="fd-row-label">Depreciation</td>
+        <td *ngFor="let year of years">{{ cr(row(year).depreciation) }}</td>
+        <td>{{ pct(cagrRow().depreciation) }}</td>
+      </tr>
+      <tr>
+        <td class="fd-row-label">Prior Period Items</td>
+        <td *ngFor="let year of years">{{ cr(row(year).priorPeriodItems) }}</td>
+        <td>{{ pct(cagrRow().priorPeriodItems) }}</td>
+      </tr>
+      <tr>
+        <td class="fd-row-label">Transfer to Reserve Funds</td>
+        <td *ngFor="let year of years">{{ cr(row(year).transferToReserveFunds) }}</td>
+        <td>{{ pct(cagrRow().transferToReserveFunds) }}</td>
+      </tr>
+      <tr>
+        <td class="fd-row-label">Others</td>
+        <td *ngFor="let year of years">{{ cr(row(year).other) }}</td>
+        <td>{{ pct(cagrRow().other) }}</td>
+      </tr>
+      <tr class="fd-total-row">
+        <td class="fd-row-label">Total Expenditure</td>
+        <td *ngFor="let year of years">{{ cr(row(year).totalExpenditure) }}</td>
+        <td>{{ pct(cagrRow().totalExpenditure) }}</td>
+      </tr>
+      <tr class="fd-total-row">
+        <td class="fd-row-label">Surplus/Deficit</td>
+        <td *ngFor="let year of years">{{ cr(surplusDeficit(year)) }}</td>
+        <td>{{ pct(surplusDeficitCagr()) }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="fd-chart-box fd-chart-box-wide">
+    <canvas #incomeExpenditureCanvas></canvas>
+  </div>
+
+  <div class="fd-footer">
+    Generated from cityfinance.in on {{ generatedOn | date: 'dd MMM yyyy' }}. Figures are based on Annual Financial Statements
+    submitted by the ULB and may be revised as fresher data becomes available.
+  </div>
+</div>
