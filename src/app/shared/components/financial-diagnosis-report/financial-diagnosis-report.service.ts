@@ -76,9 +76,9 @@ export class FinancialDiagnosisReportService {
    * (and without `ulbId`, which it does not recognize) - returns an Excel
    * workbook ("Ledger Dump" sheet) covering every ULB and every reported
    * financial year for that state. So the approach here is: download that
-   * state's dump as a blob, parse it with exceljs, keep only the rows for
-   * this ULB and the tracked years, and compute the AFS Analysis formulas
-   * (see the doc, section 5 "Key Formula Summary") ourselves.
+   * state's dump as a blob, parse it with xlsx (SheetJS), keep only the rows
+   * for this ULB and the tracked years, and compute the AFS Analysis
+   * formulas (see the doc, section 5 "Key Formula Summary") ourselves.
    *
    * The ULB's own name/state code/area/population/type come from
    * `GET user/profile` instead (`isULBProfileCompleted()` in
@@ -176,44 +176,49 @@ export class FinancialDiagnosisReportService {
     blob: Blob,
     ulbName: string
   ): Promise<IAfsFinancialMetricsRow[]> {
-    // Dynamically imported (not top-level) so exceljs's module code only
-    // loads/evaluates when a PDF is actually being generated. This service
-    // is injected into DalgoComponent's constructor, so a static import here
-    // would bundle exceljs into DalgoComponent's own lazy chunk and evaluate
-    // it - and whatever eval()/new Function() it uses internally - on every
-    // navigation to the dashboard, not just when a report is requested. A
-    // strict CSP without 'unsafe-eval' blocks that, breaking navigation
-    // itself (confirmed via the live site's CSP violation report).
-    const ExcelJs = await import("exceljs");
+    // Uses xlsx (SheetJS) rather than exceljs - exceljs's module init uses
+    // eval()/new Function() internally (font/number-format handling), which
+    // a strict CSP without 'unsafe-eval' blocks; this broke both navigating
+    // to the dashboard (when exceljs was statically imported) and, once that
+    // import was made dynamic, generating the report (the moment exceljs's
+    // code actually ran on click) - confirmed via the live site's CSP
+    // violation report pointing at exceljs's chunk both times. SheetJS's
+    // browser build does not eval, and is dynamically imported here anyway
+    // so its (much smaller) module cost is only paid when a report is
+    // actually requested.
+    const XLSX = await import("xlsx");
     const arrayBuffer = await blob.arrayBuffer();
-    const workbook = new ExcelJs.Workbook();
-    // `Xlsx.load()` exists at runtime in the browser-targeted build this project
-    // aliases exceljs to (see the "exceljs" path override in tsconfig.json), but
-    // the package's own (Node-oriented) .d.ts - which is what TS type-checks
-    // against - only declares readFile/read/write. Hence the `any` cast.
-    await (workbook.xlsx as any).load(arrayBuffer);
-    const worksheet = workbook.worksheets[0];
+    const workbook = XLSX.read(new Uint8Array(arrayBuffer), { type: "array" });
+    const sheetName = workbook.SheetNames[0];
+    const worksheet = sheetName ? workbook.Sheets[sheetName] : undefined;
     if (!worksheet) {
       throw new Error("The ledger dump did not contain any worksheet.");
     }
 
-    const headerRow = (worksheet.getRow(1).values as any[]) || [];
+    // Array-of-arrays, one per row, 0-indexed columns (raw: true keeps
+    // numeric cells as numbers instead of formatted strings).
+    const sheetRows: any[][] = XLSX.utils.sheet_to_json(worksheet, {
+      header: 1,
+      raw: true,
+      defval: null,
+    });
+
+    const headerRow = sheetRows[0] || [];
     const { codeIndex, namedIndex } = this.buildColumnIndex(headerRow);
 
     const targetName = this.normalizeUlbName(ulbName);
     const matchedRows: IAfsFinancialMetricsRow[] = [];
 
-    worksheet.eachRow((row, rowNumber) => {
-      if (rowNumber === 1) return; // header
-      const values = row.values as any[];
+    for (let i = 1; i < sheetRows.length; i++) {
+      const values = sheetRows[i];
       const rowUlbName = this.strAt(values, namedIndex.get("ULB Name"));
-      if (this.normalizeUlbName(rowUlbName) !== targetName) return;
+      if (this.normalizeUlbName(rowUlbName) !== targetName) continue;
 
       const financialYear = this.strAt(values, namedIndex.get("Financial Year"));
-      if (!REPORT_YEARS.includes(financialYear || "")) return;
+      if (!REPORT_YEARS.includes(financialYear || "")) continue;
 
       matchedRows.push(this.rowToMetrics(values, codeIndex, namedIndex));
-    });
+    }
 
     return matchedRows;
   }
@@ -476,9 +481,7 @@ export class FinancialDiagnosisReportService {
     if (index === undefined) return undefined;
     const raw = values[index];
     if (raw === undefined || raw === null || raw === "") return undefined;
-    // A formula cell comes back as { formula, result } from exceljs.
-    const resolved = typeof raw === "object" && raw !== null && "result" in raw ? raw.result : raw;
-    const parsed = typeof resolved === "string" ? parseFloat(resolved) : resolved;
+    const parsed = typeof raw === "string" ? parseFloat(raw) : raw;
     return typeof parsed === "number" && !Number.isNaN(parsed) ? parsed : undefined;
   }
 
