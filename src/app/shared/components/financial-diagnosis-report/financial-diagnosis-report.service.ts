@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import * as ExcelJs from "exceljs";
 import { forkJoin, from, Observable, of, throwError } from "rxjs";
-import { catchError, map, switchMap } from "rxjs/operators";
+import { catchError, map, shareReplay, switchMap } from "rxjs/operators";
 
 import { ICreditRatingData } from "src/app/models/creditRating/creditRatingResponse";
 import {
@@ -37,17 +37,6 @@ interface IProfileUlb {
  */
 const REPORT_YEARS = ["2019-20", "2020-21", "2021-22", "2022-23"];
 
-/**
- * TEMPORARY: `property-tax/:ulbId/collection-trend` (the new endpoint the
- * backend team added for "Property Tax as Per Form"/the collection-trend
- * chart) isn't deployed to the shared dev API yet, so this points directly
- * at a locally-run `cf-nest-api-v2` instead of `environment.api.urlV2`.
- * Switch this back to `environment.api.urlV2` once the endpoint ships to
- * dev/prod - and adjust the port here if your local server isn't on :3000
- * (its own default, per cf-nest-api-v2's .env `PORT=3000`).
- */
-const PROPERTY_TAX_API_BASE_URL = "http://localhost:3000/api/v2/";
-
 /** Matches the "(<code>)" suffix on a ledger dump column header, e.g. "Tax Revenue (110)" -> "110". */
 const CODE_COLUMN_PATTERN = /\((\d+)\)\s*$/;
 
@@ -67,6 +56,12 @@ const NAMED_COLUMNS = [
   providedIn: "root",
 })
 export class FinancialDiagnosisReportService {
+  // The state's ledger dump (4 requests, one per REPORT_YEARS) is
+  // expensive to download and parse, but is the same for every click within
+  // a session for the same logged-in ULB - so cache the built report and
+  // replay it instead of re-fetching on every "Download PDF" click.
+  private cachedReportData$: Observable<IFinancialDiagnosisReportData> | null = null;
+
   constructor(
     private http: HttpClient,
     private profileService: ProfileService,
@@ -98,50 +93,75 @@ export class FinancialDiagnosisReportService {
    * undefined ("-" in the report) until a source for them is found.
    */
   getReportData(): Observable<IFinancialDiagnosisReportData> {
-    return this.profileService.getUserProfile({}).pipe(
-      switchMap((res: any) => {
-        const ulb: IProfileUlb | undefined = res?.data?.ulb;
-        if (!ulb?.name || !ulb?.state?.code) {
-          return throwError(
-            () => new Error("Could not read your ULB's name/state from your profile.")
-          );
-        }
-        return this.fetchAndBuildReport(ulb);
-      })
-    );
+    if (!this.cachedReportData$) {
+      this.cachedReportData$ = this.profileService.getUserProfile({}).pipe(
+        switchMap((res: any) => {
+          const ulb: IProfileUlb | undefined = res?.data?.ulb;
+          if (!ulb?.name || !ulb?.state?.code) {
+            return throwError(
+              () => new Error("Could not read your ULB's name/state from your profile.")
+            );
+          }
+          return this.fetchAndBuildReport(ulb);
+        }),
+        catchError((error) => {
+          // Don't cache a failure - the next click should retry from scratch.
+          this.cachedReportData$ = null;
+          return throwError(() => error);
+        }),
+        shareReplay(1)
+      );
+    }
+    return this.cachedReportData$;
   }
 
   private fetchAndBuildReport(ulb: IProfileUlb): Observable<IFinancialDiagnosisReportData> {
-    const params = new HttpParams()
-      .set("financialData", true)
-      .set("isStandardizable", true)
-      .set("stateCode", ulb.state.code)
-      .set("module", "bulkDownload");
-
     return forkJoin({
-      blob: this.http.get(`${environment.api.url}ledger/getLedgerDump`, {
-        params,
-        responseType: "blob",
-      }),
+      rows: this.fetchAllYearsLedgerRows(ulb),
       creditRatings: this.assetsService
         .fetchCreditRatingReport()
         .pipe(catchError(() => of([] as ICreditRatingData[]))),
       propertyTaxTrend: this.fetchPropertyTaxTrend(ulb._id),
     }).pipe(
-      switchMap(({ blob, creditRatings, propertyTaxTrend }) =>
-        from(this.parseLedgerDump(blob, ulb.name)).pipe(
-          map((rows) => this.buildReportData(rows, ulb, creditRatings, propertyTaxTrend))
-        )
+      map(({ rows, creditRatings, propertyTaxTrend }) =>
+        this.buildReportData(rows, ulb, creditRatings, propertyTaxTrend)
       )
     );
   }
 
-  /** `GET property-tax/:ulbId/collection-trend` - see `PROPERTY_TAX_API_BASE_URL` above. */
+  /**
+   * `ledger/getLedgerDump` returns one financial year's workbook per call -
+   * see the existing `ResourcesDashboardService.getLedgerDump()`, which
+   * requires `year` and throws without it - it isn't a fixed multi-year
+   * range. So this ULB's rows across `REPORT_YEARS` have to be fetched one
+   * request per year and merged.
+   */
+  private fetchAllYearsLedgerRows(ulb: IProfileUlb): Observable<IAfsFinancialMetricsRow[]> {
+    const perYear = REPORT_YEARS.map((year) => {
+      const params = new HttpParams()
+        .set("financialData", true)
+        .set("isStandardizable", true)
+        .set("stateCode", ulb.state.code)
+        .set("year", year)
+        .set("module", "bulkDownload");
+
+      return this.http
+        .get(`${environment.api.url}ledger/getLedgerDump`, {
+          params,
+          responseType: "blob",
+        })
+        .pipe(switchMap((blob) => from(this.parseLedgerDump(blob, ulb.name))));
+    });
+
+    return forkJoin(perYear).pipe(map((rowsPerYear) => rowsPerYear.flat()));
+  }
+
+  /** `GET property-tax/:ulbId/collection-trend`. */
   private fetchPropertyTaxTrend(ulbId: string): Observable<IPropertyTaxTrendPoint[]> {
     if (!ulbId) return of([]);
     return this.http
       .get<{ success: boolean; data: IPropertyTaxTrendPoint[] }>(
-        `${PROPERTY_TAX_API_BASE_URL}property-tax/${ulbId}/collection-trend`
+        `${environment.api.urlV2}property-tax/${ulbId}/collection-trend`
       )
       .pipe(
         map((res) => res?.data || []),
@@ -237,10 +257,11 @@ export class FinancialDiagnosisReportService {
     const computedInitialOsr = this.sumIfAnyPresent(ownSourceComponents);
     const initialOsr = named("Total Own Revenue") ?? computedInitialOsr;
 
-    // No Property Tax OPM Collection source is available from this dump, so the
-    // "preferred" Property Tax always falls back to the AFS value (per the doc's
-    // own NULL rule), which means the Adjusted OSR/Total Revenue equal the
-    // Initial ones here - there's nothing to substitute.
+    // No Property Tax OPM Collection source is in this dump - it comes from
+    // the collection-trend endpoint and is applied afterward, per-year, in
+    // `applyPreferredPropertyTax()` once that data is available. Until then
+    // these default to the Initial (AFS-only) values, per the doc's own
+    // NULL rule.
     const totalOwnSourceRevenue = initialOsr;
     const initialTotalRevenue = named("Total Revenue");
     const totalRevenue = initialTotalRevenue;
@@ -319,7 +340,7 @@ export class FinancialDiagnosisReportService {
       // The ledger dump has no Property Tax Collection column at all (see the
       // service doc comment); backfill it from the trend endpoint's matching year.
       const collection = propertyTaxByYear.get(year);
-      yearlyData[year] = collection != null ? { ...match, totalPropertyTaxCollection: collection } : match;
+      yearlyData[year] = collection != null ? this.applyPreferredPropertyTax(match, collection) : match;
     }
 
     const anyRow = rows[0];
@@ -339,6 +360,28 @@ export class FinancialDiagnosisReportService {
       yearlyData,
       cagr,
       propertyTaxTrend,
+    };
+  }
+
+  /**
+   * Substitutes the "Property Tax as Per Form" (OPM collection) figure for
+   * the AFS ledger's own Property Tax value wherever OSR/Total Revenue are
+   * built from it, per the doc's "Adjusted OSR/Revenue = Initial - AFS
+   * Property Tax + Preferred Property Tax" formula (section 3.4/5).
+   */
+  private applyPreferredPropertyTax(
+    row: IAfsFinancialMetricsRow,
+    preferredPropertyTax: number
+  ): IAfsFinancialMetricsRow {
+    const adjustment =
+      row.propertyTax != null ? preferredPropertyTax - row.propertyTax : 0;
+
+    return {
+      ...row,
+      totalPropertyTaxCollection: preferredPropertyTax,
+      totalOwnSourceRevenue:
+        row.totalOwnSourceRevenue != null ? row.totalOwnSourceRevenue + adjustment : row.totalOwnSourceRevenue,
+      totalRevenue: row.totalRevenue != null ? row.totalRevenue + adjustment : row.totalRevenue,
     };
   }
 
@@ -376,6 +419,8 @@ export class FinancialDiagnosisReportService {
       "provisionsAndWriteOff",
       "miscellaneousExpenses",
       "depreciation",
+      "priorPeriodItems",
+      "transferToReserveFunds",
       "other",
       "totalExpenditure",
     ];

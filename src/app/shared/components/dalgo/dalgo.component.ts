@@ -263,6 +263,10 @@ export class DalgoComponent implements OnInit, AfterViewInit {
    * exports that template to a downloadable PDF.
    */
   downloadFinancialDiagnosisPdf(): void {
+    // Guard against a second click firing before Angular re-renders the
+    // button's [disabled] binding (e.g. a fast double-click).
+    if (this.isGeneratingPdf) return;
+
     this.pdfGenerationError = null;
     this.isGeneratingPdf = true;
     this.globalLoaderService.showLoader();
