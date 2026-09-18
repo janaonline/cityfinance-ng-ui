@@ -19,8 +19,13 @@ export class AuthService {
   private readonly accessTokenStorageKey = "id_token";
   private readonly refreshTokenStorageKey = "refresh_token";
   private readonly loginUrl = `${environment.api.url}login`;
-  private readonly logoutUrl = `${environment.api.urlV2}auth/logout`;
-  private readonly refreshTokenUrl = `${environment.api.urlV2}auth/refresh`;
+  // `login` sets its refresh cookie scoped to Path=/api/v1 (verified against
+  // the live API), so logout/refresh must stay on v1 too - a cookie scoped to
+  // /api/v1 is never sent on a /api/v2/... request, which made silent
+  // refresh always fail with 440 and made AuthGuard silently bounce users
+  // back to "/" on any session revalidation (e.g. a fresh page load).
+  private readonly logoutUrl = `${environment.api.url}logout`;
+  private readonly refreshTokenUrl = `${environment.api.url}refresh`;
 
   private accessToken: string | null = null;
   private refreshRequest$: Observable<any> | null = null;
