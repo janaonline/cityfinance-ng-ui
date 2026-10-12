@@ -18,7 +18,8 @@ export type NavRoleName =
   | 'STATE_DASHBOARD'
   | 'XVIFC'
   | 'PARTNER'
-  | 'PMU';
+  | 'PMU'
+  | 'XVIFC_PMU';
 
 export type NavAppKey = 'ui' | 'ssr' | 'v2';
 export type NavHostApp = NavAppKey | 'external';
@@ -173,7 +174,7 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
     // would hit every admin sub-page). Same rule on 'blog' below; Dashboard stays visible there.
     visibility: {
       hideWhenRoleOnRoute: {
-        roles: ['ULB', 'STATE', 'MoHUA', 'ADMIN', 'XVIFC_STATE', 'XVIFC'],
+        roles: ['ULB', 'STATE', 'MoHUA', 'ADMIN', 'XVIFC_STATE', 'XVIFC', 'XVIFC_PMU'],
         routePrefixes: ['/xvifc', '/xvifc-form'],
       },
       hideOnRoutePrefixes: ['/admin/xvi-fc-review'],
@@ -189,7 +190,7 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
     visibility: {
       // Same rule as Resources above.
       hideWhenRoleOnRoute: {
-        roles: ['ULB', 'STATE', 'MoHUA', 'ADMIN', 'XVIFC_STATE', 'XVIFC'],
+        roles: ['ULB', 'STATE', 'MoHUA', 'ADMIN', 'XVIFC_STATE', 'XVIFC', 'XVIFC_PMU'],
         routePrefixes: ['/xvifc', '/xvifc-form'],
       },
       hideOnRoutePrefixes: ['/admin/xvi-fc-review'],
@@ -208,7 +209,8 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
       requiresAuth: true,
       // XVIFC added so this role has zero visible 'ulb-forms' members — see rankings-22-dashboard
       // below; the whole "My Forms" group must disappear for XVIFC, not just this one entry.
-      excludeRoles: ['PMU', 'STATE_DASHBOARD', 'XVIFC_STATE', 'XVIFC'],
+      // XVIFC_PMU: same story — PMU is a state-level reviewer, not a ULB-forms participant.
+      excludeRoles: ['PMU', 'STATE_DASHBOARD', 'XVIFC_STATE', 'XVIFC', 'XVIFC_PMU'],
     },
   },
   {
@@ -236,10 +238,12 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
     // XVIFC: this was the only 'ulb-forms' member still visible to that role — excluding it here
     // makes the whole "My Forms" group disappear for XVIFC (see fc-15th-grants above).
     // XVIFC_STATE: same story — this was XVIFC_STATE's one remaining visible member.
+    // XVIFC_PMU: same story again — this was PMU's one remaining visible 'ulb-forms' member once
+    // fc-15th-grants excluded it above.
     visibility: {
       requiresAuth: true,
       readonlyGated: true,
-      excludeRoles: ['ULB', 'STATE_DASHBOARD', 'XVIFC', 'XVIFC_STATE'],
+      excludeRoles: ['ULB', 'STATE_DASHBOARD', 'XVIFC', 'XVIFC_STATE', 'XVIFC_PMU'],
     },
   },
   {
