@@ -94,6 +94,18 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
     visibility: { showOnMobileOnly: true },
   },
   {
+    // Shortcut to V2's unified module-picker landing page (TS-1262), for logged-in users. The CF
+    // logo deliberately stays on the public /home page, so this is the dedicated way back.
+    id: 'my-modules',
+    order: 2,
+    label: 'My Modules',
+    icon: 'bi bi-grid-fill',
+    hostApp: 'v2',
+    path: '/',
+    apps: ['ui', 'ssr'],
+    visibility: { requiresAuth: true },
+  },
+  {
     id: 'brand-cfr-image',
     order: 5,
     imageUrl: './assets/M FIGMA/city-finance-ranking.png',
