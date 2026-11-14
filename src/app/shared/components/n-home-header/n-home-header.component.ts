@@ -15,7 +15,8 @@ import { GlobalLoaderService } from "../../services/loaders/global-loader.servic
 import { UtilityService } from "../../services/utility.service";
 import { UserInfoDialogComponent } from "../user-info-dialog/user-info-dialog.component";
 import { HomeHeaderService } from "./home-header.service";
-import { ROUTE_PAGES } from "./login-menu.constant";
+// TS-1262: only used by the old Login dropdown, now commented out (see routePages below).
+// import { ROUTE_PAGES } from "./login-menu.constant";
 import { NAV_MENU_ITEMS, NavMenuItem, matchesAnyRoutePrefix, resolveMenus } from "./nav-menu.config";
 
 @Component({
@@ -46,15 +47,24 @@ export class NHomeHeaderComponent implements OnInit, OnDestroy {
   /** UI's existing blog URL (previously only inline in blogsPage()/footer). No environment.blogUrl exists today. */
   private readonly blogUrl = 'https://blog.cityfinance.in/';
   private destroy$ = new Subject<void>();
-  routePages = ROUTE_PAGES.filter(page => page.isMenu).map(page => {
-    // environment.ts here predates `ui: { urlV2 }` (see loginLogout()'s '16thFC' branch and
-    // resolveLinks()'s 'v2' case below) — same '/fc/' fallback used everywhere else in this file.
-    const v2Base = ((environment as any)?.ui?.urlV2 as string | undefined) ?? '/fc/';
-    return {
-      ...page,
-      href: v2Base.replace(/\/$/, '') + '/auth/login/' + page.type
-    }
-  });
+  /**
+   * TS-1262: the header's "Sign In" button goes to V2's unified sign-in page (role picker, then a
+   * home page of module cards) instead of the old per-portal Login dropdown. Same '/fc/' fallback
+   * as the other V2 links in this file, for any environment.ts without `ui.urlV2`.
+   */
+  readonly signInHref =
+    (((environment as any)?.ui?.urlV2 as string | undefined) ?? '/fc/').replace(/\/$/, '') + '/auth/login';
+
+  // TS-1262: fed the old per-portal Login dropdown, now commented out in the template.
+  // routePages = ROUTE_PAGES.filter(page => page.isMenu).map(page => {
+  //   // environment.ts here predates `ui: { urlV2 }` (see loginLogout()'s '16thFC' branch and
+  //   // resolveLinks()'s 'v2' case below) — same '/fc/' fallback used everywhere else in this file.
+  //   const v2Base = ((environment as any)?.ui?.urlV2 as string | undefined) ?? '/fc/';
+  //   return {
+  //     ...page,
+  //     href: v2Base.replace(/\/$/, '') + '/auth/login/' + page.type
+  //   }
+  // });
 
   constructor(
     public _router: Router,

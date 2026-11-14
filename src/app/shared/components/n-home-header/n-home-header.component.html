@@ -123,6 +123,11 @@
                 </ul>
             </div>
             <div class="ms-auto">
+                <!-- TS-1262: one unified sign-in page in V2 (role picker, then a home page of module
+                     cards), replacing the per-portal Login dropdown below. Matches V2's own navbar. -->
+                <a *ngIf="isLoggedIn == false" class="btn btn-login fw-bold" [href]="signInHref">Sign In</a>
+
+                <!-- TS-1262: old per-portal Login dropdown, kept commented out for reference.
                 <div class="dropdown" *ngIf="isLoggedIn == false">
                     <button class="btn btn-login dropdown-toggle fw-bold" type="button" id="loginDrp"
                         data-bs-toggle="dropdown" aria-expanded="false">
@@ -143,6 +148,7 @@
                                 {{ page.label }}
                             </a>
                         </li>
+                -->
                         <!-- <li><a class="dropdown-item" (click)="loginLogout('15thFC')">
                                 <span class="material-icons">
                                     login
@@ -162,8 +168,10 @@
                                     login
                                 </span> Rankings 2022
                             </a></li> -->
+                <!-- (end of the commented-out Login dropdown above)
                     </ul>
                 </div>
+                -->
                 <div class="btn-group ms-2" dropdown *ngIf="isLoggedIn">
                     <button id="button-disabled-menu" dropdownToggle type="button"
                         class="btn btn-login-icon dropdown-toggle" aria-controls="dropdown-disabled-menu">
