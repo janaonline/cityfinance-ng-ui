@@ -114,8 +114,10 @@
                                 <span [innerHTML]="menu.label"></span>
                             </a>
                             <a class="nav-link" *ngIf="!menu.resolvedLink" [attr.href]="menu.resolvedHref"
-                                [attr.target]="menu.target || '_self'" [innerHTML]="menu.label"
-                                (click)="closeMobileNav()"></a>
+                                [attr.target]="menu.target || '_self'" (click)="closeMobileNav()">
+                                <i *ngIf="menu.icon" [class]="menu.icon"></i>
+                                <span [innerHTML]="menu.label"></span>
+                            </a>
                         </li>
                     </ng-container>
                     <button *ngIf="!isLoggedIn" type="button" class="demo-btn me-2" (click)="showRequestDemoPopup()">Request a
