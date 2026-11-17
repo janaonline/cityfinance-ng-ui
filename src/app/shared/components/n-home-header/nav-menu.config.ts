@@ -19,7 +19,6 @@ export type NavRoleName =
   | 'XVIFC'
   | 'PARTNER'
   | 'PMU'
-  | 'XVIFC_PMU'
   | 'MOHUA_PMU'
   | 'XVIFC_DOE';
 
@@ -203,7 +202,7 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
     visibility: {
       // Same rule as Resources above.
       hideWhenRoleOnRoute: {
-        roles: ['ULB', 'STATE', 'MoHUA', 'ADMIN', 'XVIFC_STATE', 'XVIFC', 'XVIFC_PMU', 'MOHUA_PMU', 'XVIFC_DOE'],
+        roles: ['ULB', 'STATE', 'MoHUA', 'ADMIN', 'XVIFC_STATE', 'XVIFC', 'MOHUA_PMU', 'XVIFC_DOE'],
         routePrefixes: ['/xvifc', '/xvifc-form'],
       },
       hideOnRoutePrefixes: ['/admin/xvi-fc-review'],
